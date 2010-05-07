@@ -49,10 +49,9 @@ struct AchievementEntry
     //uint32 OrderInCategory;                               // 8
     uint32    flags;                                        // 9
     //uint32    icon;                                       // 10 icon (from SpellIcon.dbc)
-    //char *titleReward;                                    // 11
-    //uint32 titleReward_flags;                             // 12
-    uint32 count;                                           // 13 - need this count of completed criterias (own or referenced achievement criterias)
-    uint32 refAchievement;                                  // 14 - referenced achievement (counting of all completed criterias)
+    //char *titleReward;                                 // 11
+    uint32 count;                                           // 12 - need this count of completed criterias (own or referenced achievement criterias)
+    uint32 refAchievement;                                  // 13 - referenced achievement (counting of all completed criterias)
 };
 
 struct AchievementCategoryEntry
