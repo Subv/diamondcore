@@ -626,20 +626,18 @@ struct ChatChannelsEntry
 struct ChrClassesEntry
 {
     uint32  ClassID;                                        // 0
-    //uint32 flags;                                         // 1, unused
-    uint32  powerType;                                      // 2
-                                                            // 3-4, unused
-    //char*       name[16];                                 // 5-20 unused
-                                                            // 21 string flag, unused
-    //char*       nameFemale[16];                           // 21-36 unused, if different from base (male) case
-                                                            // 37 string flag, unused
-    //char*       nameNeutralGender[16];                    // 38-53 unused, if different from base (male) case
-                                                            // 54 string flag, unused
-                                                            // 55, unused capitalized name
-    uint32  spellfamily;                                    // 56
-    //uint32 flags2;                                        // 57, unused 0x08 HasRelicSlot
-    uint32  CinematicSequence;                              // 58 id from CinematicSequences.dbc
-    uint32  expansion;                                      // 59 (0 - original race, 1 - tbc addon, ...)
+	uint32  powerType;                                      // 1
+	                                                        // 2, unused
+	//char*       name[3];                                  // 3-5 unused
+	//char*       nameFemale[1];                            // 6, unused, if different from base (male) case
+	uint32  spellfamily;                                    // 7
+	//uint32 flags2;                                        // 8, unused 0x08 HasRelicSlot
+	uint32  CinematicSequence;                              // 9 id from CinematicSequences.dbc
+	uint32  expansion;                                      // 10 (0 - original race, 1 - tbc addon, ...)
+
+	// uint32 unk440                                        // 11
+	// uint32 unk440                                        // 12
+	// uint32 unk440                                        // 13
 };
 
 struct ChrRacesEntry
