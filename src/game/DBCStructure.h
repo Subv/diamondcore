@@ -608,11 +608,10 @@ struct CharTitlesEntry
 {
     uint32  ID;                                             // 0, title ids, for example in Quest::GetCharTitleId()
     //uint32      unk1;                                     // 1 flags?
-    char*   name[16];                                       // 2-17
-                                                            // 18 string flag, unused
-    //char*       name2[16];                                // 19-34, unused
-                                                            // 35 string flag, unused
-    uint32  bit_index;                                      // 36 used in PLAYER_CHOSEN_TITLE and 1<<index in PLAYER__FIELD_KNOWN_TITLES
+    char*   name[1];                                        // 2
+    //char*       name2[1];                                 // 3, unused
+    uint32  bit_index;                                      // 4 used in PLAYER_CHOSEN_TITLE and 1<<index in PLAYER__FIELD_KNOWN_TITLES
+	//                                                      // 5 unused
 };
 
 struct ChatChannelsEntry

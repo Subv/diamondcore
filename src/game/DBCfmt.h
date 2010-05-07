@@ -29,7 +29,7 @@ const char BankBagSlotPricesEntryfmt[]="ni";
 const char BarberShopStyleEntryfmt[]="nixxxiii";
 const char BattlemasterListEntryfmt[]="niiiiiiiiixsixii";
 const char CharStartOutfitEntryfmt[]="diiiiiiiiiiiiiiiiiiiiiiiiixxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-const char CharTitlesEntryfmt[]="nxssssssssssssssssxxxxxxxxxxxxxxxxxxi";
+const char CharTitlesEntryfmt[]="nxsxix";
 const char ChatChannelsEntryfmt[]="iixssssssssssssssssxxxxxxxxxxxxxxxxxx";
                                                             // ChatChannelsEntryfmt, index not used (more compact store)
 const char ChrClassesEntryfmt[]="nxixxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxixii";
