@@ -618,10 +618,9 @@ struct ChatChannelsEntry
 {
     uint32  ChannelID;                                      // 0
     uint32  flags;                                          // 1
-    char*   pattern[16];                                    // 3-18
-                                                            // 19 string flags, unused
-    //char*       name[16];                                 // 20-35 unused
-                                                            // 36 string flag, unused
+    char*   pattern[2];                                     // 2-3
+    //char*       name[1];                                  // 4 unused
+
 };
 
 struct ChrClassesEntry
