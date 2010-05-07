@@ -43,19 +43,16 @@ struct AchievementEntry
     uint32    factionFlag;                                  // 1 -1=all, 0=horde, 1=alliance
     uint32    mapID;                                        // 2 -1=none
     //uint32 parentAchievement;                             // 3 its Achievement parent (can`t start while parent uncomplete, use its Criteria if don`t have own, use its progress on begin)
-    char *name[16];                                         // 4-19
-    //uint32 name_flags;                                    // 20
-    //char *description[16];                                // 21-36
-    //uint32 desc_flags;                                    // 37
-    uint32    categoryId;                                   // 38
-    uint32    points;                                       // 39 reward points
-    //uint32 OrderInCategory;                               // 40
-    uint32    flags;                                        // 41
-    //uint32    icon;                                       // 42 icon (from SpellIcon.dbc)
-    //char *titleReward[16];                                // 43-58
-    //uint32 titleReward_flags;                             // 59
-    uint32 count;                                           // 60 - need this count of completed criterias (own or referenced achievement criterias)
-    uint32 refAchievement;                                  // 61 - referenced achievement (counting of all completed criterias)
+    char *name[2];                                          // 4-5
+    //char *description;                                    // 6
+    uint32    points;                                       // 7 reward points
+    //uint32 OrderInCategory;                               // 8
+    uint32    flags;                                        // 9
+    //uint32    icon;                                       // 10 icon (from SpellIcon.dbc)
+    //char *titleReward;                                    // 11
+    //uint32 titleReward_flags;                             // 12
+    uint32 count;                                           // 13 - need this count of completed criterias (own or referenced achievement criterias)
+    uint32 refAchievement;                                  // 14 - referenced achievement (counting of all completed criterias)
 };
 
 struct AchievementCategoryEntry
@@ -510,7 +507,7 @@ struct AreaTableEntry
                                                             // 5-9 unused
     int32   area_level;                                     // 10
     char*   area_name[16];                                  // 11-26
-                                                            // 27, string flags, unused
+	                                                        // 27, string flags, unused
     uint32  team;                                           // 28
 };
 

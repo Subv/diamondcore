@@ -19,7 +19,7 @@
 #ifndef DIAMOND_DBCSFRM_H
 #define DIAMOND_DBCSFRM_H
 
-const char Achievementfmt[]="niixssssssssssssssssxxxxxxxxxxxxxxxxxxiixixxxxxxxxxxxxxxxxxxii";
+const char Achievementfmt[]="niixsxixixxxii";
 const char AchievementCriteriafmt[]="niiiiiiiixxxxxxxxxxxxxxxxxiixix";
 const char AreaTableEntryfmt[]="iiinixxxxxissssssssssssssssxixxxxxxx";
 const char AreaGroupEntryfmt[]="niiiiiii";
