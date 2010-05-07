@@ -700,6 +700,7 @@ struct CreatureDisplayInfoEntry
                                                             // 13       m_particleColorID
                                                             // 14       m_creatureGeosetData
                                                             // 15       m_objectEffectPackageID
+	                                                        // 16       unk440, unused
 };
 
 struct CreatureFamilyEntry
