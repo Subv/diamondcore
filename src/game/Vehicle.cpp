@@ -18,7 +18,6 @@
 
 #include "Common.h"
 #include "Log.h"
-#include "ObjectMgr.h"
 #include "Vehicle.h"
 #include "Unit.h"
 #include "Util.h"
@@ -700,12 +699,32 @@ void Vehicle::BuildVehicleActionBar(Player *plr) const
 }
 void Vehicle::InstallAllAccessories()
 {
-    VehicleAccessoryList const* mVehicleList = sObjectMgr.GetVehicleAccessoryList(vehicle->GetEntry());
-    if (!mVehicleList)
-        return;
-
-	for (VehicleAccessoryList::const_iterator i = mVehicleList->begin(); i != mVehicleList->end(); ++i)
-		InstallAccessory(i->accessoryEntry, i->seatId, i->minion);
+    //TODO: Move this into DB!!!
+    switch(GetEntry())
+    {
+        //case 27850:InstallAccessory(27905,1);break;
+        case 28782:InstallAccessory(28768,1,true);break; // Acherus Deathcharger
+        case 28312:InstallAccessory(28319,7,true);break;
+        case 32627:InstallAccessory(32629,7,true);break;
+        case 32930:
+            InstallAccessory(32933,0);
+            InstallAccessory(32934,1);
+            break;
+        case 33109:InstallAccessory(33167,1, true);break;
+        case 33060:InstallAccessory(33067,7, true);break;
+        case 33113:
+            InstallAccessory(33114,0, true);
+            InstallAccessory(33114,1, true);
+            InstallAccessory(33114,2, true);
+            InstallAccessory(33114,3, true);
+            InstallAccessory(33139,7);
+            break;
+        case 33114:
+            InstallAccessory(33143,2); // Overload Control Device
+            InstallAccessory(33142,1); // Leviathan Defense Turret
+            break;
+        case 33214:InstallAccessory(33218,1,false,false);break; // Mechanolift 304-A
+    }
 }
 
 void Vehicle::InstallAccessory(uint32 entry, int8 seatId, bool isVehicle, bool minion)
@@ -754,20 +773,4 @@ void Vehicle::Die()
             if(((Creature*)passenger)->isVehicle())
                 ((Vehicle*)passenger)->Dismiss();
     RemoveAllPassengers();
-}
-
-void Vehicle::Reset()
-{
-    sLog.outDebug("Vehicle::Reset");
-    if (vehicle->GetTypeId() == TYPEID_PLAYER)
-    {
-        if (m_seatNum)
-            vehicle->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_PLAYER_VEHICLE);
-    }
-    else
-    {
-        InstallAllAccessories();
-        if (m_seatNum)
-            vehicle->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_SPELLCLICK);
-    }
 }

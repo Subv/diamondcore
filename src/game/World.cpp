@@ -994,9 +994,6 @@ void World::SetInitialWorldSettings()
     sLog.outString( "Loading Creature templates..." );
     sObjectMgr.LoadCreatureTemplates();
 
-	sLog.outString("Loading Vehicle Accessories...");
-    sObjectMgr.LoadVehicleAccessories();                          // must be after LoadCreatureTemplates()
-
     sLog.outString( "Loading SpellsScriptTarget...");
     sSpellMgr.LoadSpellScriptTarget();                       // must be after LoadCreatureTemplates and LoadGameobjectInfo
 
