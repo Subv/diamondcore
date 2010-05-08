@@ -43,7 +43,6 @@ sockets
 database
 auth
 config
-pathfinding
 vmaps
 g3dlite
 ${READLINE_LIBRARY}
