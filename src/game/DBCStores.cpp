@@ -335,14 +335,14 @@ void LoadDBCStores(const std::string& dataPath)
     uint32 build = ReadDBCBuild(dbcPath);
 
     // Check the expected DBC version
-    if (!IsAcceptableClientBuild(build))
+    /*if (!IsAcceptableClientBuild(build))
     {
         if (build)
             sLog.outError("Found DBC files for build %u but worldserver expected DBC for one from builds: %s Please extract correct DBC files.", build, AcceptableClientBuildsListStr().c_str());
         else
             sLog.outError("Incorrect DataDir value in worldserver.conf or not found build info (outdated DBC files). Required one from builds: %s Please extract correct DBC files.",AcceptableClientBuildsListStr().c_str());
         exit(1);
-    }
+    }*/
 
     const uint32 DBCFilesCount = 86;
 
@@ -649,7 +649,7 @@ void LoadDBCStores(const std::string& dataPath)
     }
 
     // Check loaded DBC files proper version
-    if( !sAreaStore.LookupEntry(5252)              ||       // last area (areaflag) added in 3.3.3a
+    /*if( !sAreaStore.LookupEntry(5252)              ||       // last area (areaflag) added in 3.3.3a
         !sCharTitlesStore.LookupEntry(187)         ||       // last char title added in 3.3.3a
         !sGemPropertiesStore.LookupEntry(1823)     ||       // last gem property added in 3.3.3a
         !sItemStore.LookupEntry(57407)             ||       // last client known item added in 3.3.3a
@@ -659,7 +659,7 @@ void LoadDBCStores(const std::string& dataPath)
     {
         sLog.outError("\nYou have mixed version DBC files. Please re-extract DBC files for one from client build: %s",AcceptableClientBuildsListStr().c_str());
         exit(1);
-    }
+    }*/
 
     sLog.outString();
     sLog.outString( ">> Initialized %d data stores", DBCFilesCount );

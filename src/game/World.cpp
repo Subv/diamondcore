@@ -911,7 +911,7 @@ void World::SetInitialWorldSettings()
     ///- Load the DBC files
     sLog.outString("Initialize data stores...");
     LoadDBCStores(m_dataPath);
-    DetectDBCLang();
+    //DetectDBCLang();
 
     sLog.outString( "Loading Script Names...");
     sObjectMgr.LoadScriptNames();
