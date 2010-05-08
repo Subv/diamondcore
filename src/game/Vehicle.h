@@ -24,17 +24,6 @@
 #include "Unit.h"
 #include "ObjectMgr.h"
 
-#define MAX_VEHICLE_SPELLS 10
-
-struct VehicleDataStructure
-{
-    uint32 v_flags;                                         // vehicle flags, see enum CustomVehicleFLags
-    uint32 v_spells[MAX_VEHICLE_SPELLS];                    // spells
-    uint32 req_aura;                                        // requieres aura on player to enter (eg. in wintergrasp)
-};
-
-typedef UNORDERED_MAP<uint32, VehicleDataStructure> VehicleDataMap;
-
 struct VehicleSeat
 {
     VehicleSeatEntry const *seatInfo;
@@ -58,17 +47,6 @@ enum PowerType
     POWER_TYPE_STEAM  = 61
 };
 
-struct VehicleAccessory
-{
-    explicit VehicleAccessory(uint32 _accessoryEntry, int8 _seatId, bool _minion) : accessoryEntry(_accessoryEntry), seatId(_seatId), minion(_minion) {}
-    uint32 accessoryEntry;
-    int8 seatId;
-    uint32 minion;
-};
-
-typedef std::vector<VehicleAccessory> VehicleAccessoryList;
-typedef std::map<uint32, VehicleAccessoryList> VehicleAccessoryMap;
-
 #define MAX_SEAT 8
 
 typedef std::map<int8, VehicleSeat> SeatMap;
@@ -83,7 +61,6 @@ class Vehicle : public Creature
         void RemoveFromWorld();
 
         void Die();
-		void Reset();
         bool Create (uint32 guidlow, Map *map, uint32 phaseMask, uint32 Entry, uint32 vehicleId, uint32 team, const CreatureData *data = NULL);
 
         void setDeathState(DeathState s);                   // overwrite virtual Creature::setDeathState and Unit::setDeathState
@@ -128,17 +105,14 @@ class Vehicle : public Creature
         void InstallAllAccessories();
         Unit *GetPassenger(int8 seatId) const;
     protected:
-		Unit *vehicle;
         uint32 m_vehicleId;
         VehicleEntry const *m_vehicleInfo;
         VehicleDataStructure const *m_VehicleData;
-		VehicleDataMap mVehicleData;
         uint32 m_creation_time;
         SeatMap m_Seats;
         bool despawn;
         int32 m_spawnduration;
         void InstallAccessory(uint32 entry, int8 seatId, bool isVehicle = false, bool minion = true);
-		uint32 m_seatNum;
     private:
         void SaveToDB(uint32, uint8)                        // overwrited of Creature::SaveToDB     - don't must be called
         {
