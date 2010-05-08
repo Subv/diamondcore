@@ -4589,9 +4589,6 @@ bool ChatHandler::HandleCharacterLevelCommand(const char* args)
     if(newlevel < 1)
         return false;                                       // invalid level
 
-    if(newlevel > STRONG_MAX_LEVEL)                         // hardcoded maximum level
-        newlevel = STRONG_MAX_LEVEL;
-
     HandleCharacterLevel(target,target_guid,oldlevel,newlevel);
 
     if(!m_session || m_session->GetPlayer() != target)      // including player==NULL
@@ -4628,9 +4625,6 @@ bool ChatHandler::HandleLevelUpCommand(const char* args)
 
     if(newlevel < 1)
         newlevel = 1;
-
-    if(newlevel > STRONG_MAX_LEVEL)                         // hardcoded maximum level
-        newlevel = STRONG_MAX_LEVEL;
 
     HandleCharacterLevel(target,target_guid,oldlevel,newlevel);
 

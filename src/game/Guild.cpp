@@ -152,7 +152,7 @@ bool Guild::AddMember(uint64 plGuid, uint32 plRank)
         newmember.Class  = fields[2].GetUInt8();
         newmember.ZoneId = fields[3].GetUInt32();
         delete result;
-        if (newmember.Level < 1 || newmember.Level > STRONG_MAX_LEVEL ||
+        if (newmember.Level < 1 || newmember.Level > 85 ||
             newmember.Class < CLASS_WARRIOR || newmember.Class >= MAX_CLASSES)
         {
             sLog.outError("Player (GUID: %u) has a broken data in field `characters` table, cannot add him to guild.",GUID_LOPART(plGuid));
@@ -384,7 +384,7 @@ bool Guild::LoadMembersFromDB(QueryResult *guildMembersResult)
         newmember.LogoutTime            = fields[23].GetUInt64();
 
         // this code will remove not existing character guids from guild
-        if (newmember.Level < 1 || newmember.Level > STRONG_MAX_LEVEL) // can be at broken `data` field
+        if (newmember.Level < 1 || newmember.Level > 85) // can be at broken `data` field
         {
             sLog.outError("Player (GUID: %u) has a broken data in field `characters`.`data`, deleting him from guild!",GUID_LOPART(guid));
             CharacterDatabase.PExecute("DELETE FROM guild_member WHERE guid = '%u'", GUID_LOPART(guid));

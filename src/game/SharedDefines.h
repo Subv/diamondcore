@@ -65,7 +65,7 @@ enum Races
     ((1 << (RACE_HUMAN - 1))   | (1 << (RACE_ORC - 1))           | (1 << (RACE_DWARF - 1))    | \
     (1 << (RACE_NIGHTELF - 1)) | (1 << (RACE_UNDEAD_PLAYER- 1 )) | (1 << (RACE_TAUREN - 1))   | \
     (1 << (RACE_GNOME-  1))    | (1 << (RACE_TROLL - 1))         | (1 << (RACE_BLOODELF - 1)) | \
-    (1 << (RACE_DRAENEI - 1))  | (1 << (RACE_GOBLIN - 1))        | (1 << (RACE_WORGEN - 1))
+    (1 << (RACE_DRAENEI - 1))  | (1 << (RACE_GOBLIN - 1))        | (1 << (RACE_WORGEN - 1)))
 
 // Class value is index in ChrClasses.dbc
 enum Classes
@@ -2204,7 +2204,6 @@ enum SkillType
     SKILL_PET_EXOTIC_RHINO         = 786,
     SKILL_PET_EXOTIC_CORE_HOUND    = 787,
     SKILL_PET_EXOTIC_SPIRIT_BEAST  = 788,
-	SKILL_PET_EXOTIC_SPIRIT_BEAST  = 788,
     SKILL_RACIAL_WORGEN            = 789,
     SKILL_RACIAL_GOBLIN            = 790,
     SKILL_LANG_WORGEN              = 791,

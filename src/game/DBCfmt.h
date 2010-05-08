@@ -32,7 +32,7 @@ const char CharStartOutfitEntryfmt[]="diiiiiiiiiiiiiiiiiiiiiiiiixxxxxxxxxxxxxxxx
 const char CharTitlesEntryfmt[]="nxsxix";
 const char ChatChannelsEntryfmt[]="iixsx";
                                                             // ChatChannelsEntryfmt, index not used (more compact store)
-const char ChrClassesEntryfmt[]="nixsxxxixiixxx";
+const char ChrClassesEntryfmt[]="nixxxxxixiixxx";
 const char ChrRacesEntryfmt[]="nxixiixixxxxixsxxxxxix";
 const char CinematicSequencesEntryfmt[]="nxxxxxxxxx";
 const char CreatureDisplayInfofmt[]="nxxxfxxxxxxxxxxxx";
@@ -89,9 +89,8 @@ const char SpellCastTimefmt[]="nixx";
 const char SpellDurationfmt[]="niii";
 const char SpellDifficultyfmt[]="niiii";
 const char SpellEntryfmt[]="niiiiiiiiiixxixixiiiiiiiiiiiiiiiiixixiiiiiiiiiiiifxiiiiiiiiiiiiiiiiiiiiiiiiiiiifffiiiiiiiiiiiiiiixxxiiiiiifffiiiiiiiiiiiiiiifffiiiiiiiiiiiiissxxiiiiiiiiiiixfffxxxiiiiixxxxxxixxxx";
-
 const char SpellFocusObjectfmt[]="nx";
-const char SpellItemEnchantmentfmt[]="nxiiiiiixxxiiisiiiixxxx";
+const char SpellItemEnchantmentfmt[]="nxiiiiiixxxiiisiiiiiiix";
 const char SpellItemEnchantmentConditionfmt[]="nbbbbbxxxxxbbbbbbbbbbiiiiiXXXXX";
 const char SpellRadiusfmt[]="nfxf";
 const char SpellRangefmt[]="nffffxxx";
