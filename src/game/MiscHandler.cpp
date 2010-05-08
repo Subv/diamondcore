@@ -131,7 +131,7 @@ void WorldSession::HandleWhoOpcode( WorldPacket & recv_data )
     // client send in case not set max level value 100 but DiamondCore support 255 max level,
     // update it to show GMs with characters after 100 level
     if(level_max >= MAX_LEVEL)
-        level_max = 85;
+        level_max = STRONG_MAX_LEVEL;
 
     uint32 team = _player->GetTeam();
     uint32 security = GetSecurity();

@@ -324,8 +324,8 @@ bool ChatHandler::HandleGPSCommand(const char* args)
 
     PSendSysMessage(LANG_MAP_POSITION,
         obj->GetMapId(), (mapEntry ? mapEntry->name : "<unknown>" ),
-		zone_id, (zoneEntry ? zoneEntry->area_name : "<unknown>" ),
-		area_id, (areaEntry ? areaEntry->area_name : "<unknown>" ),
+        zone_id, (zoneEntry ? zoneEntry->area_name : "<unknown>" ),
+        area_id, (areaEntry ? areaEntry->area_name : "<unknown>" ),
         obj->GetPhaseMask(),
         obj->GetPositionX(), obj->GetPositionY(), obj->GetPositionZ(), obj->GetOrientation(),
         cell.GridX(), cell.GridY(), cell.CellX(), cell.CellY(), obj->GetInstanceId(),

@@ -499,7 +499,6 @@ Player::Player (WorldSession *session): Unit(), m_achievementMgr(this), m_reputa
     m_summon_z = 0.0f;
 
     m_mover = this;
-    m_mover_in_queve = NULL;
 
     m_miniPet = 0;
     m_contestedPvPTimer = 0;
@@ -2216,7 +2215,7 @@ Creature* Player::GetNPCIfCanInteractWith(ObjectGuid guid, uint32 npcflagmask)
         return NULL;
 
     // exist (we need look pets also for some interaction (quest/etc)
-    Creature *unit = ObjectAccessor::GetCreatureOrPetOrVehicle(*this,guid);
+    Creature *unit = GetMap()->GetCreatureOrPetOrVehicle(guid);
     if (!unit)
         return NULL;
 
@@ -7689,26 +7688,26 @@ void Player::_ApplyAllLevelScaleItemMods(bool apply)
 
 void Player::_ApplyAmmoBonuses()
 {
-    // check ammo
-    /*uint32 ammo_id = GetUInt32Value(PLAYER_AMMO_ID);
-    if(!ammo_id)
-        //return;
+    //// check ammo
+    //uint32 ammo_id = GetUInt32Value(PLAYER_AMMO_ID);
+    //if(!ammo_id)
+    //    return;
 
-    float currentAmmoDPS;
+    //float currentAmmoDPS;
 
-    ItemPrototype const *ammo_proto = ObjectMgr::GetItemPrototype( ammo_id );
-    if( !ammo_proto || ammo_proto->Class!=ITEM_CLASS_PROJECTILE || !CheckAmmoCompatibility(ammo_proto))
-        currentAmmoDPS = 0.0f;
-    else
-        currentAmmoDPS = ammo_proto->Damage[0].DamageMin;
+    //ItemPrototype const *ammo_proto = ObjectMgr::GetItemPrototype( ammo_id );
+    //if( !ammo_proto || ammo_proto->Class!=ITEM_CLASS_PROJECTILE || !CheckAmmoCompatibility(ammo_proto))
+    //    currentAmmoDPS = 0.0f;
+    //else
+    //    currentAmmoDPS = ammo_proto->Damage[0].DamageMin;
 
-    if(currentAmmoDPS == GetAmmoDPS())
-        return;
+    //if(currentAmmoDPS == GetAmmoDPS())
+    //    return;
 
-    m_ammoDPS = currentAmmoDPS;
+    //m_ammoDPS = currentAmmoDPS;
 
-    if(CanModifyStats())
-        UpdateDamagePhysical(RANGED_ATTACK);*/
+    //if(CanModifyStats())
+    //    UpdateDamagePhysical(RANGED_ATTACK);
 }
 
 bool Player::CheckAmmoCompatibility(const ItemPrototype *ammo_proto) const
@@ -8147,9 +8146,6 @@ void Player::SendInitWorldStates(uint32 zoneid, uint32 areaid)
         case 3703:
             NumberOfFields = 11;
             break;
-        case 4384:
-            NumberOfFields = 30;
-            break;
         default:
             NumberOfFields = 12;
             break;
@@ -8467,41 +8463,6 @@ void Player::SendInitWorldStates(uint32 zoneid, uint32 areaid)
             }
             break;
         case 3703:                                          // Shattrath City
-            break;
-        case 4384:                                          // SA
-            /*if (bg && bg->GetTypeID() == BATTLEGROUND_SA)
-                bg->FillInitialWorldStates(data);
-            else
-            {*/
-                // 1-3 A defend, 4-6 H defend, 7-9 unk defend, 1 - ok, 2 - half destroyed, 3 - destroyed
-                data << uint32(0xf09) << uint32(0x4);       // 7  3849 Gate of Temple
-                data << uint32(0xe36) << uint32(0x4);       // 8  3638 Gate of Yellow Moon
-                data << uint32(0xe27) << uint32(0x4);       // 9  3623 Gate of Green Emerald
-                data << uint32(0xe24) << uint32(0x4);       // 10 3620 Gate of Blue Sapphire
-                data << uint32(0xe21) << uint32(0x4);       // 11 3617 Gate of Red Sun
-                data << uint32(0xe1e) << uint32(0x4);       // 12 3614 Gate of Purple Ametyst
-
-                data << uint32(0xdf3) << uint32(0x0);       // 13 3571 bonus timer (1 - on, 0 - off)
-                data << uint32(0xded) << uint32(0x0);       // 14 3565 Horde Attacker
-                data << uint32(0xdec) << uint32(0x1);       // 15 3564 Alliance Attacker
-                // End Round (timer), better explain this by example, eg. ends in 19:59 -> A:BC
-                data << uint32(0xde9) << uint32(0x9);       // 16 3561 C
-                data << uint32(0xde8) << uint32(0x5);       // 17 3560 B
-                data << uint32(0xde7) << uint32(0x19);      // 18 3559 A
-                data << uint32(0xe35) << uint32(0x1);       // 19 3637 East g - Horde control
-                data << uint32(0xe34) << uint32(0x1);       // 20 3636 West g - Horde control
-                data << uint32(0xe33) << uint32(0x1);       // 21 3635 South g - Horde control
-                data << uint32(0xe32) << uint32(0x0);       // 22 3634 East g - Alliance control
-                data << uint32(0xe31) << uint32(0x0);       // 23 3633 West g - Alliance control
-                data << uint32(0xe30) << uint32(0x0);       // 24 3632 South g - Alliance control
-                data << uint32(0xe2f) << uint32(0x1);       // 25 3631 Chamber of Ancients - Horde control
-                data << uint32(0xe2e) << uint32(0x0);       // 26 3630 Chamber of Ancients - Alliance control
-                data << uint32(0xe2d) << uint32(0x0);       // 27 3629 Beach1 - Horde control
-                data << uint32(0xe2c) << uint32(0x0);       // 28 3628 Beach2 - Horde control
-                data << uint32(0xe2b) << uint32(0x1);       // 29 3627 Beach1 - Alliance control
-                data << uint32(0xe2a) << uint32(0x1);       // 30 3626 Beach2 - Alliance control
-                // and many unks...
-            //}
             break;
         default:
             data << uint32(0x914) << uint32(0x0);           // 7
@@ -10804,37 +10765,37 @@ uint8 Player::CanUseAmmo( uint32 item ) const
 
 void Player::SetAmmo( uint32 item )
 {
-    /*if(!item)
-        return;
+    //if(!item)
+    //    return;
 
-    // already set
-    if( GetUInt32Value(PLAYER_AMMO_ID) == item )
-        return;
+    //// already set
+    //if( GetUInt32Value(PLAYER_AMMO_ID) == item )
+    //    return;
 
-    // check ammo
-    if (item)
-    {
-        uint8 msg = CanUseAmmo( item );
-        if (msg != EQUIP_ERR_OK)
-        {
-            SendEquipError(msg, NULL, NULL, item);
-            return;
-        }
-    }
+    //// check ammo
+    //if (item)
+    //{
+    //    uint8 msg = CanUseAmmo( item );
+    //    if (msg != EQUIP_ERR_OK)
+    //    {
+    //        SendEquipError(msg, NULL, NULL, item);
+    //        return;
+    //    }
+    //}
 
-    SetUInt32Value(PLAYER_AMMO_ID, item);
+    //SetUInt32Value(PLAYER_AMMO_ID, item);
 
-    _ApplyAmmoBonuses();*/
+    //_ApplyAmmoBonuses();
 }
 
 void Player::RemoveAmmo()
 {
-    /*'SetUInt32Value(PLAYER_AMMO_ID, 0);
+    //SetUInt32Value(PLAYER_AMMO_ID, 0);
 
-    m_ammoDPS = 0.0f;
+    //m_ammoDPS = 0.0f;
 
-    if (CanModifyStats())
-        UpdateDamagePhysical(RANGED_ATTACK);*/
+    //if (CanModifyStats())
+    //    UpdateDamagePhysical(RANGED_ATTACK);
 }
 
 // Return stored item (if stored to stack, it can diff. from pItem). And pItem ca be deleted in this case.
@@ -12314,15 +12275,6 @@ void Player::ApplyEnchantment(Item *item, EnchantmentSlot slot, bool apply, bool
 
     if (!ignore_condition && pEnchant->EnchantmentCondition && !((Player*)this)->EnchantmentFitsRequirements(pEnchant->EnchantmentCondition, -1))
         return;
-
-    if ((pEnchant->requiredLevel) > ((Player*)this)->getLevel())
-        return;
-
-    if ((pEnchant->requiredSkill) > 0)
-    {
-       if ((pEnchant->requiredSkillValue) > (((Player*)this)->GetSkillValue(pEnchant->requiredSkill)))
-        return;
-    }
 
     if (!item->IsBroken())
     {
@@ -14877,61 +14829,6 @@ void Player::SendQuestUpdateAddCreatureOrGo( Quest const* pQuest, ObjectGuid gui
 /***                   LOAD SYSTEM                     ***/
 /*********************************************************/
 
-bool Player::MinimalLoadFromDB( QueryResult *result, uint32 guid )
-{
-    bool delete_result = true;
-    if (!result)
-    {
-        //                                        0     1     2     3           4           5           6    7          8          9         10    11
-        result = CharacterDatabase.PQuery("SELECT guid, data, name, position_x, position_y, position_z, map, totaltime, leveltime, at_login, zone, level FROM characters WHERE guid = '%u'",guid);
-        if (!result)
-            return false;
-    }
-    else
-        delete_result = false;
-
-    Field *fields = result->Fetch();
-
-    if (!LoadValues( fields[1].GetString()))
-    {
-        sLog.outError("Player #%d have broken data in `data` field. Can't be loaded for character list.",GUID_LOPART(guid));
-        if (delete_result)
-            delete result;
-        return false;
-    }
-
-    // overwrite possible wrong/corrupted guid
-    SetUInt64Value(OBJECT_FIELD_GUID, MAKE_NEW_GUID(guid, 0, HIGHGUID_PLAYER));
-
-    m_name = fields[2].GetCppString();
-
-    Relocate(fields[3].GetFloat(),fields[4].GetFloat(),fields[5].GetFloat());
-    SetLocationMapId(fields[6].GetUInt32());
-
-    // the instance id is not needed at character enum
-
-    m_Played_time[PLAYED_TIME_TOTAL] = fields[7].GetUInt32();
-    m_Played_time[PLAYED_TIME_LEVEL] = fields[8].GetUInt32();
-
-    m_atLoginFlags = fields[9].GetUInt32();
-
-    // I don't see these used anywhere ..
-    /*_LoadGroup();
-
-    _LoadBoundInstances();*/
-
-    if (delete_result)
-        delete result;
-
-    for (int i = 0; i < PLAYER_SLOTS_COUNT; ++i)
-        m_items[i] = NULL;
-
-    if (HasFlag(PLAYER_FLAGS, PLAYER_FLAGS_GHOST))
-        m_deathState = DEAD;
-
-    return true;
-}
-
 void Player::_LoadDeclinedNames(QueryResult* result)
 {
     if(!result)
@@ -15086,8 +14983,8 @@ bool Player::LoadFromDB( uint32 guid, SqlQueryHolder *holder )
     //"resettalents_time, trans_x, trans_y, trans_z, trans_o, transguid, extra_flags, stable_slots, at_login, zone, online, death_expire_time, taxi_path, dungeon_difficulty,"
     // 39           40                41                42                    43          44          45              46           47               48              49
     //"arenaPoints, totalHonorPoints, todayHonorPoints, yesterdayHonorPoints, totalKills, todayKills, yesterdayKills, chosenTitle, knownCurrencies, watchedFaction, drunk,"
-    // 50      51      52      53      54      55      56      57      58         59          60             61              62      63           64
-    //"health, power1, power2, power3, power4, power5, power6, power7, specCount, activeSpec, exploredZones, equipmentCache, ammoId, knownTitles, actionBars  FROM characters WHERE guid = '%u'", GUID_LOPART(m_guid));
+    // 50      51      52      53      54      55      56      57      58      59      60         61          62             63              64      65           66
+    //"health, power1, power2, power3, power4, power5, power6, power7, power8, power9, specCount, activeSpec, exploredZones, equipmentCache, ammoId, knownTitles, actionBars  FROM characters WHERE guid = '%u'", GUID_LOPART(m_guid));
     QueryResult *result = holder->GetResult(PLAYER_LOGIN_QUERY_LOADFROM);
 
     if(!result)
@@ -15135,8 +15032,8 @@ bool Player::LoadFromDB( uint32 guid, SqlQueryHolder *holder )
     SetUInt32Value(UNIT_FIELD_LEVEL, fields[6].GetUInt8());
     SetUInt32Value(PLAYER_XP, fields[7].GetUInt32());
 
-    _LoadIntoDataField(fields[60].GetString(), PLAYER_EXPLORED_ZONES_1, PLAYER_EXPLORED_ZONES_SIZE);
-    _LoadIntoDataField(fields[63].GetString(), PLAYER__FIELD_KNOWN_TITLES, KNOWN_TITLES_SIZE*2);
+    _LoadIntoDataField(fields[62].GetString(), PLAYER_EXPLORED_ZONES_1, PLAYER_EXPLORED_ZONES_SIZE);
+    _LoadIntoDataField(fields[65].GetString(), PLAYER__FIELD_KNOWN_TITLES, KNOWN_TITLES_SIZE*2);
 
     SetFloatValue(UNIT_FIELD_BOUNDINGRADIUS, DEFAULT_WORLD_OBJECT_SIZE);
     SetFloatValue(UNIT_FIELD_COMBATREACH, 1.5f);
@@ -15155,8 +15052,8 @@ bool Player::LoadFromDB( uint32 guid, SqlQueryHolder *holder )
 
     //SetUInt64Value(PLAYER_FIELD_KNOWN_CURRENCIES, fields[47].GetUInt64());
 
-    //SetUInt32Value(PLAYER_AMMO_ID, fields[62].GetUInt32());
-    SetByteValue(PLAYER_FIELD_BYTES, 2, fields[64].GetUInt8());
+    //SetUInt32Value(PLAYER_AMMO_ID, fields[64].GetUInt32());
+    SetByteValue(PLAYER_FIELD_BYTES, 2, fields[66].GetUInt8());
 
     InitDisplayIds();
 
@@ -15452,7 +15349,7 @@ bool Player::LoadFromDB( uint32 guid, SqlQueryHolder *holder )
     SetUInt32Value(PLAYER_TRACK_CREATURES, 0 );
     SetUInt32Value(PLAYER_TRACK_RESOURCES, 0 );
 
-    // cleanup aura list explicitly before skill load wher some spells can be applied
+    // cleanup aura list explicitly before skill load where some spells can be applied
     RemoveAllAuras();
 
     // make sure the unit is considered out of combat for proper loading
@@ -15494,8 +15391,8 @@ bool Player::LoadFromDB( uint32 guid, SqlQueryHolder *holder )
     _LoadMailedItems(holder->GetResult(PLAYER_LOGIN_QUERY_LOADMAILEDITEMS));
     UpdateNextMailTimeAndUnreads();
 
-    m_specsCount = fields[58].GetUInt8();
-    m_activeSpec = fields[59].GetUInt8();
+    m_specsCount = fields[60].GetUInt8();
+    m_activeSpec = fields[61].GetUInt8();
 
     _LoadGlyphs(holder->GetResult(PLAYER_LOGIN_QUERY_LOADGLYPHS));
 
@@ -16778,7 +16675,7 @@ void Player::SaveToDB()
         "trans_x, trans_y, trans_z, trans_o, transguid, extra_flags, stable_slots, at_login, zone, "
         "death_expire_time, taxi_path, arenaPoints, totalHonorPoints, todayHonorPoints, yesterdayHonorPoints, totalKills, "
         "todayKills, yesterdayKills, chosenTitle, knownCurrencies, watchedFaction, drunk, health, power1, power2, power3, "
-        "power4, power5, power6, power7, specCount, activeSpec, exploredZones, equipmentCache, ammoId, knownTitles, actionBars) VALUES ("
+        "power4, power5, power6, power7, power8, power9, specCount, activeSpec, exploredZones, equipmentCache, ammoId, knownTitles, actionBars) VALUES ("
         << GetGUIDLow() << ", "
         << GetSession()->GetAccountId() << ", '"
         << sql_name << "', "
@@ -16866,7 +16763,7 @@ void Player::SaveToDB()
 
     ss << GetUInt32Value(PLAYER_CHOSEN_TITLE) << ", ";
 
-    //ss << uint32(0)/*GetUInt64Value(PLAYER_FIELD_KNOWN_CURRENCIES)*/ << ", ";
+    ss << uint64(0)/*GetUInt64Value(PLAYER_FIELD_KNOWN_CURRENCIES)*/ << ", ";
 
     // FIXME: at this moment send to DB as unsigned, including unit32(-1)
     ss << GetUInt32Value(PLAYER_FIELD_WATCHED_FACTION_INDEX) << ", ";
@@ -16893,8 +16790,7 @@ void Player::SaveToDB()
     }
 
     ss << "',";
-    //ss << uint32(0)/*GetUInt32Value(PLAYER_AMMO_ID)*/ << ", '";
-	ss << "'";
+    ss << uint32(0)/*GetUInt32Value(PLAYER_AMMO_ID)*/ << ", '";
     for(uint32 i = 0; i < KNOWN_TITLES_SIZE*2; ++i )
     {
         ss << GetUInt32Value(PLAYER__FIELD_KNOWN_TITLES + i) << " ";
@@ -17346,7 +17242,7 @@ void Player::_SaveStats()
 
     CharacterDatabase.PExecute("DELETE FROM character_stats WHERE guid = '%u'", GetGUIDLow());
     std::ostringstream ss;
-    ss << "INSERT INTO character_stats (guid, maxhealth, maxpower1, maxpower2, maxpower3, maxpower4, maxpower5, maxpower6, maxpower7, "
+    ss << "INSERT INTO character_stats (guid, maxhealth, maxpower1, maxpower2, maxpower3, maxpower4, maxpower5, maxpower6, maxpower7, maxpower8, maxpower9, "
         "strength, agility, stamina, intellect, spirit, armor, resHoly, resFire, resNature, resFrost, resShadow, resArcane, "
         "blockPct, dodgePct, parryPct, critPct, rangedCritPct, spellCritPct, attackPower, rangedAttackPower, spellPower) VALUES ("
         << GetGUIDLow() << ", "
@@ -19608,18 +19504,10 @@ void Player::SendInitialPacketsBeforeAddToMap()
         m_movementInfo.AddMovementFlag(MOVEFLAG_FLYING);
 
     m_mover = this;
-    m_mover_in_queve = NULL;
 }
 
 void Player::SendInitialPacketsAfterAddToMap()
 {
-    if(getClass() == CLASS_DEATH_KNIGHT)
-        ResyncRunes(MAX_RUNES);
-
-    WorldPacket data0(SMSG_SET_PHASE_SHIFT, 4);
-    data0 << uint32(GetPhaseMask());
-    GetSession()->SendPacket(&data0);
-
     // update zone
     uint32 newzone, newarea;
     GetZoneAndAreaId(newzone,newarea);
@@ -19656,14 +19544,6 @@ void Player::SendInitialPacketsAfterAddToMap()
         data2 << GetPackGUID();
         data2 << (uint32)2;
         SendMessageToSet(&data2,true);
-    }
-
-    if(GetVehicleGUID())
-    {
-        WorldPacket data3(SMSG_FORCE_MOVE_ROOT, 10);
-        data3 << GetPackGUID();
-        data3 << (uint32)((m_SeatData.s_flags & SF_CAN_CAST) ? 2 : 0);
-        SendMessageToSet(&data3,true);
     }
 
     SendAurasForTarget(this);
@@ -20131,7 +20011,7 @@ void Player::UpdateForQuestWorldObjects()
         }
         else if (itr->IsCreatureOrVehicle())
         {
-            Creature *obj = ObjectAccessor::GetCreatureOrPetOrVehicle(*this, *itr);
+            Creature *obj = GetMap()->GetCreatureOrPetOrVehicle(*itr);
             if(!obj)
                 continue;
 
@@ -20416,8 +20296,6 @@ bool Player::RewardPlayerAndGroupAtKill(Unit* pVictim)
         {
             /// not get Xp in PvP or no not gray players in group
             xp = (PvP || !not_gray_member_with_max_level) ? 0 : Diamond::XP::Gain(not_gray_member_with_max_level, pVictim);
-            if(GetVehicleGUID() && !(m_SeatData.v_flags & VF_GIVE_EXP))
-                xp = 0;
 
             /// skip in check PvP case (for speed, not used)
             bool is_raid = PvP ? false : sMapStore.LookupEntry(GetMapId())->IsRaid() && pGroup->isRaidGroup();
@@ -21623,13 +21501,13 @@ void Player::LearnPetTalent(uint64 petGuid, uint32 talentId, uint32 talentRank)
 
 void Player::UpdateKnownCurrencies(uint32 itemId, bool apply)
 {
-    /*if(CurrencyTypesEntry const* ctEntry = sCurrencyTypesStore.LookupEntry(itemId))
-    {
-        if(apply)
-            SetFlag64(PLAYER_FIELD_KNOWN_CURRENCIES, (UI64LIT(1) << (ctEntry->BitIndex - 1)));
-        else
-            RemoveFlag64(PLAYER_FIELD_KNOWN_CURRENCIES, (UI64LIT(1) << (ctEntry->BitIndex - 1)));
-    }*/
+    //if(CurrencyTypesEntry const* ctEntry = sCurrencyTypesStore.LookupEntry(itemId))
+    //{
+    //    if(apply)
+    //        SetFlag64(PLAYER_FIELD_KNOWN_CURRENCIES, (UI64LIT(1) << (ctEntry->BitIndex - 1)));
+    //    else
+    //        RemoveFlag64(PLAYER_FIELD_KNOWN_CURRENCIES, (UI64LIT(1) << (ctEntry->BitIndex - 1)));
+    //}
 }
 
 void Player::UpdateFallInformationIfNeed( MovementInfo const& minfo,uint16 opcode )

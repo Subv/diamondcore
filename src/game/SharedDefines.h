@@ -54,18 +54,18 @@ enum Races
     //RACE_FOREST_TROLL   = 18,
     //RACE_TAUNKA         = 19,
     //RACE_NORTHREND_SKELETON = 20,
-    //RACE_ICE_TROLL      = 21,
-	RACE_WORGEN         = 22
+    //RACE_ICE_TROLL      = 21
+    RACE_WORGEN         = 22
 };
 
 // max+1 for player race
-#define MAX_RACES         12
+#define MAX_RACES         23
 
 #define RACEMASK_ALL_PLAYABLE \
-    ((1 << (RACE_HUMAN - 1))   | (1 << (RACE_ORC - 1))           | (1 << (RACE_DWARF - 1))    | \
-    (1 << (RACE_NIGHTELF - 1)) | (1 << (RACE_UNDEAD_PLAYER- 1 )) | (1 << (RACE_TAUREN - 1))   | \
-    (1 << (RACE_GNOME-  1))    | (1 << (RACE_TROLL - 1))         | (1 << (RACE_BLOODELF - 1)) | \
-    (1 << (RACE_DRAENEI - 1))  | (1 << (RACE_GOBLIN - 1))        | (1 << (RACE_WORGEN - 1)))
+    ((1<<(RACE_HUMAN-1))  |(1<<(RACE_ORC-1))          |(1<<(RACE_DWARF-1))   | \
+    (1<<(RACE_NIGHTELF-1))|(1<<(RACE_UNDEAD_PLAYER-1))|(1<<(RACE_TAUREN-1))  | \
+    (1<<(RACE_GNOME-1))   |(1<<(RACE_TROLL-1))        |(1<<(RACE_BLOODELF-1))| \
+    (1<<(RACE_DRAENEI-1)) |(1<<(RACE_GOBLIN-1))       |(1<<(RACE_WORGEN-1)))
 
 // Class value is index in ChrClasses.dbc
 enum Classes
@@ -87,14 +87,14 @@ enum Classes
 #define MAX_CLASSES       12
 
 #define CLASSMASK_ALL_PLAYABLE \
-    ((1 << (CLASS_WARRIOR - 1))      | (1 << (CLASS_PALADIN - 1)) | (1 << (CLASS_HUNTER - 1))| \
-    (1 << (CLASS_ROGUE - 1))         | (1 << (CLASS_PRIEST - 1))  | (1 << (CLASS_SHAMAN - 1))| \
-    (1 << (CLASS_MAGE - 1))          | (1 << (CLASS_WARLOCK - 1)) | (1 << (CLASS_DRUID - 1)) | \
-    (1 << (CLASS_DEATH_KNIGHT - 1)))
+    ((1<<(CLASS_WARRIOR-1))|(1<<(CLASS_PALADIN-1))|(1<<(CLASS_HUNTER-1))| \
+    (1<<(CLASS_ROGUE-1))  |(1<<(CLASS_PRIEST-1)) |(1<<(CLASS_SHAMAN-1))| \
+    (1<<(CLASS_MAGE-1))   |(1<<(CLASS_WARLOCK-1))|(1<<(CLASS_DRUID-1)) | \
+    (1<<(CLASS_DEATH_KNIGHT-1)) )
 
-#define CLASSMASK_ALL_CREATURES ((1 << (CLASS_WARRIOR-  1)) | (1 << (CLASS_PALADIN - 1)) | (1 << (CLASS_ROGUE - 1)) | (1 << (CLASS_MAGE - 1)))
+#define CLASSMASK_ALL_CREATURES ((1<<(CLASS_WARRIOR-1)) | (1<<(CLASS_PALADIN-1)) | (1<<(CLASS_ROGUE-1)) | (1<<(CLASS_MAGE-1)) )
 
-#define CLASSMASK_WAND_USERS ((1 << (CLASS_PRIEST - 1)) | (1 << (CLASS_MAGE - 1)) | (1 <<( CLASS_WARLOCK - 1)))
+#define CLASSMASK_WAND_USERS ((1<<(CLASS_PRIEST-1))|(1<<(CLASS_MAGE-1))|(1<<(CLASS_WARLOCK-1)))
 
 #define PLAYER_MAX_BATTLEGROUND_QUEUES 2
 
@@ -140,8 +140,8 @@ enum Powers
     POWER_HAPPINESS                     = 4,
     POWER_RUNE                          = 5,
     POWER_RUNIC_POWER                   = 6,
-	POWER_SOUL_SHARDS                   = 7,
-	POWER_ECLIPSE                       = 8,
+    POWER_SOUL_SHARDS                   = 7,
+    POWER_ECLIPSE                       = 8,
     POWER_HEALTH                        = 0xFFFFFFFE    // (-2 as signed value)
 };
 
@@ -515,8 +515,8 @@ enum Language
     LANG_ZOMBIE         = 36,
     LANG_GNOMISH_BINARY = 37,
     LANG_GOBLIN_BINARY  = 38,
-	LANG_WORGEN         = 39,
-	LANG_GOBLIN         = 40,
+    LANG_WORGEN         = 39,
+    LANG_GOBLIN         = 40,
     LANG_ADDON          = 0xFFFFFFFF                        // used by addons, in 2.4.0 not exit, replaced by messagetype?
 };
 
@@ -2719,7 +2719,7 @@ enum TotemSlot
 
 // we need to stick to 1 version or half of the stuff will work for someone
 // others will not and opposite
-// will only support WoW, WoW:TBC and WoW:WotLK x.x.x client build 11927...
+// will only support WoW, WoW:TBC and WoW:WotLK 4.0.0 client build 11927...
 
 #define EXPECTED_DIAMOND_CLIENT_BUILD        {11927, 0}
 

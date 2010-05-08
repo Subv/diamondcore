@@ -100,8 +100,8 @@ LanguageDesc lang_description[LANGUAGES_COUNT] =
     { LANG_ZOMBIE,          0, 0                       },
     { LANG_GNOMISH_BINARY,  0, 0                       },
     { LANG_GOBLIN_BINARY,   0, 0                       },
-	{ LANG_WORGEN,      69270, SKILL_LANG_WORGEN       },
-	{ LANG_GOBLIN,      69269, SKILL_LANG_GOBLIN       }
+    { LANG_WORGEN,      69270, SKILL_LANG_WORGEN       },
+    { LANG_GOBLIN,      69269, SKILL_LANG_GOBLIN       }
 };
 
 LanguageDesc const* GetLanguageDescByID(uint32 lang)
@@ -2306,8 +2306,8 @@ void ObjectMgr::LoadPetLevelInfo()
             uint32 current_level = fields[1].GetUInt32();
             if(current_level > sWorld.getConfig(CONFIG_UINT32_MAX_PLAYER_LEVEL))
             {
-                if(current_level > 85)        // hardcoded level maximum
-                    sLog.outErrorDb("Wrong (> %u) level %u in `pet_levelstats` table, ignoring.",85,current_level);
+                if(current_level > STRONG_MAX_LEVEL)        // hardcoded level maximum
+                    sLog.outErrorDb("Wrong (> %u) level %u in `pet_levelstats` table, ignoring.",STRONG_MAX_LEVEL,current_level);
                 else
                 {
                     sLog.outDetail("Unused (> MaxPlayerLevel in worldserver.conf) level %u in `pet_levelstats` table, ignoring.",current_level);
@@ -2663,8 +2663,8 @@ void ObjectMgr::LoadPlayerInfo()
             }
             else if(current_level > sWorld.getConfig(CONFIG_UINT32_MAX_PLAYER_LEVEL))
             {
-                if(current_level > 85)        // hardcoded level maximum
-                    sLog.outErrorDb("Wrong (> %u) level %u in `player_classlevelstats` table, ignoring.",85,current_level);
+                if(current_level > STRONG_MAX_LEVEL)        // hardcoded level maximum
+                    sLog.outErrorDb("Wrong (> %u) level %u in `player_classlevelstats` table, ignoring.",STRONG_MAX_LEVEL,current_level);
                 else
                 {
                     sLog.outDetail("Unused (> MaxPlayerLevel in worldserver.conf) level %u in `player_classlevelstats` table, ignoring.",current_level);
@@ -2752,8 +2752,8 @@ void ObjectMgr::LoadPlayerInfo()
             uint32 current_level = fields[2].GetUInt32();
             if(current_level > sWorld.getConfig(CONFIG_UINT32_MAX_PLAYER_LEVEL))
             {
-                if(current_level > 85)        // hardcoded level maximum
-                    sLog.outErrorDb("Wrong (> %u) level %u in `player_levelstats` table, ignoring.",85,current_level);
+                if(current_level > STRONG_MAX_LEVEL)        // hardcoded level maximum
+                    sLog.outErrorDb("Wrong (> %u) level %u in `player_levelstats` table, ignoring.",STRONG_MAX_LEVEL,current_level);
                 else
                 {
                     sLog.outDetail("Unused (> MaxPlayerLevel in worldserver.conf) level %u in `player_levelstats` table, ignoring.",current_level);
@@ -2806,10 +2806,6 @@ void ObjectMgr::LoadPlayerInfo()
             if (sWorld.getConfig(CONFIG_UINT32_EXPANSION) < 1 && (race == RACE_BLOODELF || race == RACE_DRAENEI))
                 continue;
 
-			// skip expansion races if not playing with expansion
-			if (sWorld.getConfig(CONFIG_UINT32_EXPANSION) < 3 && (race == RACE_GOBLIN || race == RACE_WORGEN))
-				continue;
-
             // skip expansion classes if not playing with expansion
             if (sWorld.getConfig(CONFIG_UINT32_EXPANSION) < 2 && class_ == CLASS_DEATH_KNIGHT)
                 continue;
@@ -2858,8 +2854,8 @@ void ObjectMgr::LoadPlayerInfo()
 
             if(current_level >= sWorld.getConfig(CONFIG_UINT32_MAX_PLAYER_LEVEL))
             {
-                if(current_level > 85)        // hardcoded level maximum
-                    sLog.outErrorDb("Wrong (> %u) level %u in `player_xp_for_level` table, ignoring.", 85,current_level);
+                if(current_level > STRONG_MAX_LEVEL)        // hardcoded level maximum
+                    sLog.outErrorDb("Wrong (> %u) level %u in `player_xp_for_level` table, ignoring.", STRONG_MAX_LEVEL,current_level);
                 else
                 {
                     sLog.outDetail("Unused (> MaxPlayerLevel in worldserver.conf) level %u in `player_xp_for_levels` table, ignoring.",current_level);
