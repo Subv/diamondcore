@@ -794,6 +794,14 @@ void Spell::EffectDummy(SpellEffectIndex eff_idx)
 {
     if (!unitTarget && !gameObjTarget && !itemTarget)
         return;
+	
+	if(m_spellInfo->Id == 68996)    
+	{      
+		if(!m_caster->HasFlag(UNIT_FIELD_FLAGS_2,0x80000))
+			m_caster->CastSpell(m_caster, 69001, true);
+
+		m_caster->RemoveFlag(UNIT_FIELD_FLAGS_2,0x80000);
+	}
 
     // selection by spell family
     switch(m_spellInfo->SpellFamilyName)
@@ -2955,6 +2963,15 @@ void Spell::EffectApplyAura(SpellEffectIndex eff_idx)
         else
             return;
     }
+	
+	//Darkflight
+	if(m_spellInfo->Id == 68992)
+	{
+		if(unitTarget->HasFlag(UNIT_FIELD_FLAGS_2,0x80000))
+			return;
+		
+		unitTarget->CastSpell(unitTarget, 69001, true);
+	}
 
     sLog.outDebug("Spell: Aura is: %u", m_spellInfo->EffectApplyAuraName[eff_idx]);
 

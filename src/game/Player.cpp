@@ -19718,9 +19718,32 @@ void Player::resetSpells()
 
 void Player::learnDefaultSpells()
 {
+	std::vector<uint32> spellToLearn;
+	
+	if(getRace() == RACE_WORGEN)
+	{
+		spellToLearn.push_back(68996);
+		spellToLearn.push_back(72792);
+		spellToLearn.push_back(68992);
+		spellToLearn.push_back(69270);
+	}
+	
+	if(getRace() == RACE_GOBLIN)
+	{
+		spellToLearn.push_back(69044);
+		spellToLearn.push_back(69045);
+		spellToLearn.push_back(69046);
+		spellToLearn.push_back(69041);
+		spellToLearn.push_back(69070);
+		spellToLearn.push_back(69042);
+		spellToLearn.push_back(69269);
+       }
     // learn default race/class spells
     PlayerInfo const *info = sObjectMgr.GetPlayerInfo(getRace(),getClass());
-    for (PlayerCreateInfoSpells::const_iterator itr = info->spell.begin(); itr!=info->spell.end(); ++itr)
+	for (PlayerCreateInfoSpells::const_iterator itr = info->spell.begin(); itr!=info->spell.end(); ++itr)
+		spellToLearn.push_back(*itr);
+	
+	for (std::vector<uint32>::iterator itr = spellToLearn.begin(); itr != spellToLearn.end(); itr++)
     {
         uint32 tspell = *itr;
         sLog.outDebug("PLAYER (Class: %u Race: %u): Adding initial spell, id = %u",uint32(getClass()),uint32(getRace()), tspell);
