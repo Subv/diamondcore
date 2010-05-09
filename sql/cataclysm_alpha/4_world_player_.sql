@@ -1,14 +1,14 @@
 -- cordonnées de departs des worgens
 -- Alpha Cataclysm
 
-replace into playercreateinfo(race, class, map, zone, position_x, position_y, position_z) VALUE (22, 1, 654, 0, -1161.16, 1159.93, 24.28); 
-replace into playercreateinfo(race, class, map, zone, position_x, position_y, position_z) VALUE (22, 3, 654, 0, -1161.16, 1159.93, 24.28); 
-replace into playercreateinfo(race, class, map, zone, position_x, position_y, position_z) VALUE (22, 4, 654, 0, -1161.16, 1159.93, 24.28); 
-replace into playercreateinfo(race, class, map, zone, position_x, position_y, position_z) VALUE (22, 5, 654, 0, -1161.16, 1159.93, 24.28);
-replace into playercreateinfo(race, class, map, zone, position_x, position_y, position_z) VALUE (22, 8, 654, 0, -1161.16, 1159.93, 24.28);
+replace into playercreateinfo(race, class, map, zone, position_x, position_y, position_z) VALUE (22, 1, 654, 4714, -1161.16, 1159.93, 24.28); 
+replace into playercreateinfo(race, class, map, zone, position_x, position_y, position_z) VALUE (22, 3, 654, 4714, -1161.16, 1159.93, 24.28); 
+replace into playercreateinfo(race, class, map, zone, position_x, position_y, position_z) VALUE (22, 4, 654, 4714, -1161.16, 1159.93, 24.28); 
+replace into playercreateinfo(race, class, map, zone, position_x, position_y, position_z) VALUE (22, 5, 654, 4714, -1161.16, 1159.93, 24.28);
+replace into playercreateinfo(race, class, map, zone, position_x, position_y, position_z) VALUE (22, 8, 654, 4714, -1161.16, 1159.93, 24.28);
 replace into playercreateinfo(race, class, map, zone, position_x, position_y, position_z) VALUE (22, 6, 609, 4298, 2355.84, -5662.21, 426.028); 
-replace into playercreateinfo(race, class, map, zone, position_x, position_y, position_z) VALUE (22, 9, 654, 0, -1161.16, 1159.93, 24.28);
-replace into playercreateinfo(race, class, map, zone, position_x, position_y, position_z) VALUE (22, 11, 654, 0, -1161.16, 1159.93, 24.28);
+replace into playercreateinfo(race, class, map, zone, position_x, position_y, position_z) VALUE (22, 9, 654, 4714, -1161.16, 1159.93, 24.28);
+replace into playercreateinfo(race, class, map, zone, position_x, position_y, position_z) VALUE (22, 11, 654, 4714, -1161.16, 1159.93, 24.28);
 
 replace into `player_levelstats` (`race`, `class`, `level`, `str`, `agi`, `sta`, `inte`, `spi`) values('22','4','1','21','23','21','20','20');
 replace into `player_levelstats` (`race`, `class`, `level`, `str`, `agi`, `sta`, `inte`, `spi`) values('22','4','2','22','24','22','20','20');
@@ -1853,7 +1853,7 @@ replace into `playercreateinfo_spell` (`race`, `class`, `Spell`, `Note`) values(
 replace into `playercreateinfo_spell` (`race`, `class`, `Spell`, `Note`) values('9','3','266','Guns');
 replace into `playercreateinfo_spell` (`race`, `class`, `Spell`, `Note`) values('9','3','522','SPELLDEFENSE (DND)');
 replace into `playercreateinfo_spell` (`race`, `class`, `Spell`, `Note`) values('9','3','669','Language Orcish');
-replace into `playercreateinfo_spell` (`race`, `class`, `Spell`, `Note`) values('9','3','670','Language Taurahe');
+replace into `playercreateinfo_spell` (`race`, `class`, `Spell`, `Note`) values('9','3','670','69269','Language Goblin');
 replace into `playercreateinfo_spell` (`race`, `class`, `Spell`, `Note`) values('9','3','1843','Disarm');
 replace into `playercreateinfo_spell` (`race`, `class`, `Spell`, `Note`) values('9','3','2382','Generic');
 replace into `playercreateinfo_spell` (`race`, `class`, `Spell`, `Note`) values('9','3','2479','Honorless Target');
