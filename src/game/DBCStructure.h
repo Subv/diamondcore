@@ -43,7 +43,7 @@ struct AchievementEntry
     uint32    factionFlag;                                  // 1 -1=all, 0=horde, 1=alliance
     uint32    mapID;                                        // 2 -1=none
     //uint32 parentAchievement;                             // 3 its Achievement parent (can`t start while parent uncomplete, use its Criteria if don`t have own, use its progress on begin)
-    char *name;                                             // 4
+    char *name;                                         // 4
     //char *description;                                    // 5
     uint32    categoryId;                                   // 6
     uint32    points;                                       // 7 reward points
@@ -620,7 +620,7 @@ struct ChatChannelsEntry
     uint32  ChannelID;                                      // 0
     uint32  flags;                                          // 1
     //uint32                                                // 2
-	char*   pattern;                                        // 3
+	char*    pattern;                                       // 3
 	//char*       name;                                     // 4
 };
 
@@ -629,7 +629,7 @@ struct ChrClassesEntry
     uint32  ClassID;                                        // 0
     uint32  powerType;                                      // 1
 	
-	char const* name;                                       // 3 unused
+	char*     name;                                         // 3 unused
 	//char*       nameFemale;                               // 4 unused, if different from base (male) case
 	//char*       nameNeutralGender;                        // 5 unused, if different from base (male) case
 
@@ -656,7 +656,7 @@ struct ChrRacesEntry
                                                             // 8-11 unused
     uint32      CinematicSequence;                          // 12 id from CinematicSequences.dbc
     //uint32    unk_322;                                    // 13 faction (0 alliance, 1 horde, 2 not available?)
-    char*       name;                                       // 14 used for DBC language detection/selection
+    char*     name;                                         // 14 used for DBC language detection/selection
     //char*       nameFemale;                               // 15, if different from base (male) case
     //char*       nameNeutralGender;                        // 16, if different from base (male) case
                                                             // 17-19 unused
@@ -715,7 +715,7 @@ struct CreatureFamilyEntry
     uint32  petFoodMask;                                    // 7        m_petFoodMask
     int32   petTalentType;                                  // 8        m_petTalentType
                                                             // 9        m_categoryEnumID
-    char*   Name;                                           // 10       m_name_lang
+    char*     Name;                                         // 10       m_name_lang
                                                             // 11       m_iconFile
 };
 
@@ -799,7 +799,7 @@ struct FactionEntry
     //float     unk2;                                       // 20
     //uint32    unk3                                        // 21
     //uint32    unk4;                                       // 22
-    char*       name;                                       // 23       m_name_lang
+    char*     name;                                         // 23       m_name_lang
     //char*     description;                                // 24       m_description_lang
     //uint32                                                // 25
 };
@@ -1089,7 +1089,7 @@ struct MailTemplateEntry
 {
     uint32      ID;                                         // 0
     //char*       subject;                                  // 1
-    char*       content;                                    // 2
+    char*     content;                                      // 2
 };
 
 struct MapEntry
@@ -1099,7 +1099,7 @@ struct MapEntry
     uint32  map_type;                                       // 2
     //uint32 mapFlags;                                      // 3 some kind of flags (0x100 - CAN_CHANGE_PLAYER_DIFFICULTY)
     //uint32 isPvP;                                         // 4 0 or 1 for battlegrounds (not arenas)
-    char*   name;                                           // 5
+    char*     name;                                         // 5
     uint32  linked_zone;                                    // 6 common zone for instance and continent map
     //char*     hordeIntro;                                 // 7 text for PvP Zones
     //char*     allianceIntro;                              // 8 text for PvP Zones
@@ -1561,7 +1561,7 @@ struct SpellItemEnchantmentEntry
     uint32      amount[3];                                  // 5-7      m_effectPointsMin[3]
     //uint32      amount2[3]                                // 8-10     m_effectPointsMax[3]
     uint32      spellid[3];                                 // 11-13    m_effectArg[3]
-    char*       description;                                // 14       m_name_lang
+    char*     description;                                  // 14       m_name_lang
 	uint32      aura_id;                                    // 15       m_itemVisual
 	uint32      slot;                                       // 16       m_flags
 	uint32      GemID;                                      // 17       m_src_itemID
@@ -1697,9 +1697,9 @@ struct VehicleEntry
     float   m_msslTrgtArcRepeat;                            // 25
     float   m_msslTrgtArcWidth;                             // 26
     float   m_msslTrgtImpactRadius[2];                      // 27-28
-    char*   m_msslTrgtArcTexture;                           // 29
-    char*   m_msslTrgtImpactTexture;                        // 30
-    char*   m_msslTrgtImpactModel[2];                       // 31-32
+    char*   m_msslTrgtArcTexture;                         // 29
+    char*   m_msslTrgtImpactTexture;                      // 30
+    char*   m_msslTrgtImpactModel[2];                     // 31-32
     float   m_cameraYawOffset;                              // 33
     uint32  m_uiLocomotionType;                             // 34
     float   m_msslTrgtImpactTexRadius;                      // 35

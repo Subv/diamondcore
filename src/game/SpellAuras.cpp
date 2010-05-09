@@ -3476,6 +3476,15 @@ void Aura::HandleAuraTransform(bool apply, bool Real)
                         case 16126: m_target->SetDisplayId(17828); break;
                         // Dranei Male
                         case 16125: m_target->SetDisplayId(17827); break;
+						// Need Fix
+						// Worg Male
+						case 29422: m_target->SetDisplayId(29422); break;
+						// Worg Female
+						case 29423: m_target->SetDisplayId(29423); break;
+						// Goblin Male
+						case 6894: m_target->SetDisplayId(6894); break;
+						// Goblin Female
+						case 6895: m_target->SetDisplayId(6895); break;
                         default: break;
                     }
                     break;

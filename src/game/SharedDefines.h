@@ -64,8 +64,8 @@ enum Races
 #define RACEMASK_ALL_PLAYABLE \
     ((1<<(RACE_HUMAN-1))  |(1<<(RACE_ORC-1))          |(1<<(RACE_DWARF-1))   | \
     (1<<(RACE_NIGHTELF-1))|(1<<(RACE_UNDEAD_PLAYER-1))|(1<<(RACE_TAUREN-1))  | \
-    (1<<(RACE_GNOME-1))   |(1<<(RACE_TROLL-1))        |(1<<(RACE_BLOODELF-1))| \
-    (1<<(RACE_DRAENEI-1)) |(1<<(RACE_GOBLIN-1))       |(1<<(RACE_WORGEN-1)))
+    (1<<(RACE_GNOME-1))   |(1<<(RACE_TROLL-1))        |(1<<(RACE_GOBLIN-1))  | \
+    ((1<<(RACE_BLOODELF-1)) | 1<<(RACE_DRAENEI-1))    |(1<<(RACE_WORGEN-1)))
 
 // Class value is index in ChrClasses.dbc
 enum Classes
@@ -79,7 +79,6 @@ enum Classes
     CLASS_SHAMAN        = 7,
     CLASS_MAGE          = 8,
     CLASS_WARLOCK       = 9,
-    // CLASS_UNK2       = 10,unused
     CLASS_DRUID         = 11,
 };
 
