@@ -1235,3 +1235,6 @@ INSERT INTO `player_levelstats` VALUES (22, 9, 77, 57, 64, 93, 151, 162);
 INSERT INTO `player_levelstats` VALUES (22, 9, 78, 57, 65, 95, 153, 165);
 INSERT INTO `player_levelstats` VALUES (22, 9, 79, 58, 66, 96, 156, 168);
 INSERT INTO `player_levelstats` VALUES (22, 9, 80, 59, 67, 97, 159, 170);
+
+UPDATE `playercreateinfo` SET `zone` = 4714 WHERE `race` = 22;
+UPDATE `playercreateinfo` SET `zone` = 4737 WHERE `race` = 9;
