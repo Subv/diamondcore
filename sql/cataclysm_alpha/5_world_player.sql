@@ -145,7 +145,8 @@ REPLACE INTO `player_levelstats` VALUES (10, 1, 80, 184, 113, 168, 36, 60);
 REPLACE INTO `player_levelstats` VALUES (10, 1, 81, 186, 115, 170, 36, 61);
 REPLACE INTO `player_levelstats` VALUES (10, 1, 82, 188, 116, 172, 36, 62);
 REPLACE INTO `player_levelstats` VALUES (10, 1, 83, 190, 118, 175, 36, 63);
-REPLACE INTO `player_levelstats` VALUES (10, 1, 84, 192, 120, 1779, 36, 64);
+REPLACE INTO `player_levelstats` VALUES (10, 1, 84, 192, 120, 177, 36, 64);
+REPLACE INTO `player_levelstats` VALUES (10, 1, 85, 194, 122, 180, 36, 64);
 
 # Troll Druid
 
