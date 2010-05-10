@@ -3281,7 +3281,7 @@ bool ChatHandler::HandleLookupItemSetCommand(const char* args)
         if(set)
         {
             int loc = GetSessionDbcLocale();
-            std::string name = set->name;
+            std::string name = set->name[loc];
             if(name.empty())
                 continue;
 
@@ -3344,7 +3344,7 @@ bool ChatHandler::HandleLookupSkillCommand(const char* args)
         if(skillInfo)
         {
             int loc = GetSessionDbcLocale();
-            std::string name = skillInfo->name;
+            std::string name = skillInfo->name[loc];
             if(name.empty())
                 continue;
 
@@ -3469,7 +3469,7 @@ bool ChatHandler::HandleLookupSpellCommand(const char* args)
         if(spellInfo)
         {
             int loc = GetSessionDbcLocale();
-            std::string name = spellInfo->SpellName;
+            std::string name = spellInfo->SpellName[loc];
             if(name.empty())
                 continue;
 
@@ -3481,7 +3481,7 @@ bool ChatHandler::HandleLookupSpellCommand(const char* args)
                     if(loc==GetSessionDbcLocale())
                         continue;
 
-                    name = spellInfo->SpellName;
+                    name = spellInfo->SpellName[loc];
                     if(name.empty())
                         continue;
 
@@ -3757,7 +3757,7 @@ bool ChatHandler::HandleLookupTaxiNodeCommand(const char * args)
         if(nodeEntry)
         {
             int loc = GetSessionDbcLocale();
-            std::string name = nodeEntry->name;
+            std::string name = nodeEntry->name[loc];
             if(name.empty())
                 continue;
 
@@ -4831,7 +4831,7 @@ bool ChatHandler::HandleListAurasCommand (const char * /*args*/)
     {
         bool talent = GetTalentSpellCost(itr->second->GetId()) > 0;
 
-        char const* name = itr->second->GetSpellProto()->SpellName;
+        char const* name = itr->second->GetSpellProto()->SpellName[GetSessionDbcLocale()];
 
         if (m_session)
         {
@@ -4862,7 +4862,7 @@ bool ChatHandler::HandleListAurasCommand (const char * /*args*/)
         {
             bool talent = GetTalentSpellCost((*itr)->GetId()) > 0;
 
-            char const* name = (*itr)->GetSpellProto()->SpellName;
+            char const* name = (*itr)->GetSpellProto()->SpellName[GetSessionDbcLocale()];
 
             if (m_session)
             {

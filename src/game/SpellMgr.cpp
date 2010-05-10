@@ -1781,7 +1781,7 @@ bool SpellMgr::IsNoStackSpellDueToSpell(uint32 spellId_1, uint32 spellId_2) cons
         }
 
 		//check Spells with same Icons
-        if(spellInfo_1->Id != spellInfo_2->Id && strcmp(spellInfo_1->SpellName, spellInfo_2->SpellName) != 0)
+        if(spellInfo_1->Id != spellInfo_2->Id && strcmp(spellInfo_1->SpellName[sWorld.GetDefaultDbcLocale()], spellInfo_2->SpellName[sWorld.GetDefaultDbcLocale()]) != 0)
             isModifier = true;
 
         if (!isModifier)
@@ -2656,7 +2656,7 @@ bool SpellMgr::IsSpellValid(SpellEntry const* spellInfo, Player* pl, bool msg)
 
     if(need_check_reagents)
     {
-        for(int j = 0; j < 8; ++j)
+        for(int j = 0; j < MAX_REAGENTS; ++j)
         {
             if(spellInfo->Reagent[j] > 0 && !ObjectMgr::GetItemPrototype( spellInfo->Reagent[j] ))
             {

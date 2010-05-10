@@ -30,7 +30,7 @@
 
 // Server side limitation. Base at used code requirements.
 // also see MAX_LEVEL and GT_MAX_LEVEL define
-#define STRONG_MAX_LEVEL 255
+#define STRONG_MAX_LEVEL 100
 
 enum BattleGroundBracketId                                  // bracketId for level ranges
 {
@@ -407,5 +407,6 @@ enum SpellEffectIndex
 };
 
 #define MAX_EFFECT_INDEX 3
+#define MAX_REAGENTS 8
 
 #endif

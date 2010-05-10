@@ -667,18 +667,31 @@ bool Player::Create( uint32 guidlow, const std::string& name, uint8 race, uint8 
     // apply original stats mods before spell loading or item equipment that call before equip _RemoveStatsMods()
     UpdateMaxHealth();                                      // Update max Health (for add bonus from stamina)
     SetHealth(GetMaxHealth());
-    if (getPowerType()==POWER_MANA)
+
+    if (getPowerType() == POWER_MANA)
     {
         UpdateMaxPower(POWER_MANA);                         // Update max Mana (for add bonus from intellect)
-        SetPower(POWER_MANA,GetMaxPower(POWER_MANA));
+        SetPower(POWER_MANA, GetMaxPower(POWER_MANA));
     }
 
-    if(getPowerType() == POWER_RUNIC_POWER)
+    //if(getPowerType() == POWER_RUNIC_POWER)
+    //{
+    //    SetPower(POWER_RUNE, 8);
+    //    SetMaxPower(POWER_RUNE, 8);
+    //    SetPower(POWER_RUNIC_POWER, 0);
+    //    SetMaxPower(POWER_RUNIC_POWER, 1000);
+    //}
+
+    //if(getPowerType() == POWER_FOCUS)
+    //{
+    //    SetPower(POWER_FOCUS, 100);
+    //    SetMaxPower(POWER_FOCUS, 100);
+    //}
+
+    if(getPowerType() != POWER_MANA)                        // hide additional mana bar if we have no mana
     {
-        SetPower(POWER_RUNE, 8);
-        SetMaxPower(POWER_RUNE, 8);
-        SetPower(POWER_RUNIC_POWER, 0);
-        SetMaxPower(POWER_RUNIC_POWER, 1000);
+        SetPower(POWER_MANA, 0);
+        SetMaxPower(POWER_MANA, 0);
     }
 
     // original spells
@@ -2064,6 +2077,9 @@ void Player::RegenerateAll(uint32 diff)
     if (getClass() == CLASS_DEATH_KNIGHT)
         Regenerate(POWER_RUNE, diff);
 
+    if (getClass() == CLASS_HUNTER)
+        Regenerate(POWER_FOCUS, diff);
+
     m_regenTimer = REGEN_TIME_FULL;
 }
 
@@ -2096,6 +2112,9 @@ void Player::Regenerate(Powers power, uint32 diff)
             float RageDecreaseRate = sWorld.getConfig(CONFIG_FLOAT_RATE_POWER_RAGE_LOSS);
             addvalue = 20 * RageDecreaseRate;               // 2 rage by tick (= 2 seconds => 1 rage/sec)
         }   break;
+        case POWER_FOCUS:
+            addvalue = 12;
+            break;
         case POWER_ENERGY:                                  // Regenerate energy (rogue)
             addvalue = 20;
             break;
@@ -2123,7 +2142,6 @@ void Player::Regenerate(Powers power, uint32 diff)
                 }
             }
         }   break;
-        case POWER_FOCUS:
         case POWER_HAPPINESS:
         case POWER_HEALTH:
             break;
@@ -2696,7 +2714,7 @@ void Player::InitStatsForLevel(bool reapplyMods)
         SetUInt32Value(index, 0);
 
     SetUInt32Value(PLAYER_FIELD_MOD_HEALING_DONE_POS,0);
-    for (int i = 0; i < 7; ++i)
+    for (int i = 0; i < MAX_SPELL_SCHOOL; ++i)
     {
         SetUInt32Value(PLAYER_FIELD_MOD_DAMAGE_DONE_NEG+i, 0);
         SetUInt32Value(PLAYER_FIELD_MOD_DAMAGE_DONE_POS+i, 0);
@@ -2728,7 +2746,7 @@ void Player::InitStatsForLevel(bool reapplyMods)
     SetFloatValue(PLAYER_RANGED_CRIT_PERCENTAGE,0.0f);
 
     // Init spell schools (will be recalculated in UpdateAllStats() at loading and in _ApplyAllStatBonuses() at reset
-    for (uint8 i = 0; i < 7; ++i)
+    for (uint8 i = 0; i < MAX_SPELL_SCHOOL; ++i)
         SetFloatValue(PLAYER_SPELL_CRIT_PERCENTAGE1+i, 0.0f);
 
     SetFloatValue(PLAYER_PARRY_PERCENTAGE, 0.0f);
@@ -2765,7 +2783,7 @@ void Player::InitStatsForLevel(bool reapplyMods)
 
     // save new stats
     for (int i = POWER_MANA; i < MAX_POWERS; ++i)
-        SetMaxPower(Powers(i),  uint32(GetCreatePowers(Powers(i))));
+        SetMaxPower(Powers(i),  GetCreatePowers(Powers(i)));
 
     SetMaxHealth(classInfo.basehealth);                     // stamina bonus will applied later
 
@@ -3926,6 +3944,8 @@ void Player::InitVisibleBits()
     updateVisualBits.SetBit(UNIT_FIELD_POWER5);
     updateVisualBits.SetBit(UNIT_FIELD_POWER6);
     updateVisualBits.SetBit(UNIT_FIELD_POWER7);
+    updateVisualBits.SetBit(UNIT_FIELD_POWER8);
+    updateVisualBits.SetBit(UNIT_FIELD_POWER9);
     updateVisualBits.SetBit(UNIT_FIELD_MAXHEALTH);
     updateVisualBits.SetBit(UNIT_FIELD_MAXPOWER1);
     updateVisualBits.SetBit(UNIT_FIELD_MAXPOWER2);
@@ -3934,6 +3954,8 @@ void Player::InitVisibleBits()
     updateVisualBits.SetBit(UNIT_FIELD_MAXPOWER5);
     updateVisualBits.SetBit(UNIT_FIELD_MAXPOWER6);
     updateVisualBits.SetBit(UNIT_FIELD_MAXPOWER7);
+    updateVisualBits.SetBit(UNIT_FIELD_MAXPOWER8);
+    updateVisualBits.SetBit(UNIT_FIELD_MAXPOWER9);
     updateVisualBits.SetBit(UNIT_FIELD_LEVEL);
     updateVisualBits.SetBit(UNIT_FIELD_FACTIONTEMPLATE);
     updateVisualBits.SetBit(UNIT_VIRTUAL_ITEM_SLOT_ID + 0);
@@ -4914,7 +4936,7 @@ void Player::UpdateLocalChannels(uint32 newZone )
     if(!cMgr)
         return;
 
-    std::string current_zone_name = current_zone->area_name;
+    std::string current_zone_name = current_zone->area_name[GetSession()->GetSessionDbcLocale()];
 
     for(JoinedChannelsList::iterator i = m_channels.begin(), next; i != m_channels.end(); i = next)
     {
@@ -4933,7 +4955,7 @@ void Player::UpdateLocalChannels(uint32 newZone )
 
         //  new channel
         char new_channel_name_buf[100];
-        snprintf(new_channel_name_buf,100,ch->pattern,current_zone_name.c_str());
+        snprintf(new_channel_name_buf,100,ch->pattern[m_session->GetSessionDbcLocale()],current_zone_name.c_str());
         Channel* new_channel = cMgr->GetJoinChannel(new_channel_name_buf,ch->ChannelID);
 
         if((*i)!=new_channel)
@@ -17608,7 +17630,7 @@ void Player::RemovePet(Pet* pet, PetSaveMode mode, bool returnreagent)
 
         if(spellInfo)
         {
-            for(uint32 i = 0; i < 7; ++i)
+            for(uint32 i = 0; i < MAX_REAGENTS; ++i)
             {
                 if(spellInfo->Reagent[i] > 0)
                 {
