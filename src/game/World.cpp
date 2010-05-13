@@ -60,6 +60,7 @@
 #include "InstanceSaveMgr.h"
 #include "WaypointManager.h"
 #include "Util.h"
+#include "CharacterDatabaseCleaner.h"
 #include "AuctionHouseBot.h"
 
 INSTANTIATE_SINGLETON_1( World );
@@ -528,6 +529,7 @@ void World::LoadConfigSettings(bool reload)
 
     setConfigMinMax(CONFIG_UINT32_COMPRESSION, "Compression", 1, 1, 9);
     setConfig(CONFIG_BOOL_ADDON_CHANNEL, "AddonChannel", true);
+    setConfig(CONFIG_BOOL_CLEAN_CHARACTER_DB, "CleanCharacterDB", true);
     setConfig(CONFIG_BOOL_GRID_UNLOAD, "GridUnload", true);
     setConfigPos(CONFIG_UINT32_INTERVAL_SAVE, "PlayerSave.Interval", 15 * MINUTE * IN_MILLISECONDS);
     setConfigMinMax(CONFIG_UINT32_MIN_LEVEL_STAT_SAVE, "PlayerSave.Stats.MinLevel", 0, 0, MAX_LEVEL);
@@ -877,7 +879,7 @@ void World::SetInitialWorldSettings()
     sObjectMgr.SetHighestGuids();
 
     ///- Check the existence of the map files for all races' startup areas.
-    /*if(   !MapManager::ExistMapAndVMap(0,-6240.32f, 331.033f)
+    if(   !MapManager::ExistMapAndVMap(0,-6240.32f, 331.033f)
         ||!MapManager::ExistMapAndVMap(0,-8949.95f,-132.493f)
         ||!MapManager::ExistMapAndVMap(0,-8949.95f,-132.493f)
         ||!MapManager::ExistMapAndVMap(1,-618.518f,-4251.67f)
@@ -889,7 +891,7 @@ void World::SetInitialWorldSettings()
     {
         sLog.outError("Correct *.map files not found in path '%smaps' or *.vmap/*vmdir files in '%svmaps'. Please place *.map/*.vmap/*.vmdir files in appropriate directories or correct the DataDir value in the worldserver.conf file.",m_dataPath.c_str(),m_dataPath.c_str());
         //exit(1);
-    }*/
+    }
 
     ///- Loading strings. Getting no records means core load has to be canceled because no error message can be output.
     sLog.outString();
@@ -1092,6 +1094,8 @@ void World::SetInitialWorldSettings()
 
     sLog.outString( "Loading Pet Name Parts..." );
     sObjectMgr.LoadPetNames();
+
+    CharacterDatabaseCleaner::CleanDatabase();
 
     sLog.outString( "Loading the max pet number..." );
     sObjectMgr.LoadPetNumber();

@@ -25,13 +25,21 @@
 class Config;
 class ByteBuffer;
 
+enum LogLevel
+{
+    LOG_LVL_MINIMAL = 0,                                    // unconditional and errors
+    LOG_LVL_BASIC   = 1,
+    LOG_LVL_DETAIL  = 2,
+    LOG_LVL_DEBUG   = 3
+};
+
 // bitmask
 enum LogFilters
 {
-    LOG_FILTER_TRANSPORT_MOVES    = 1,
-    LOG_FILTER_CREATURE_MOVES     = 2,
-    LOG_FILTER_VISIBILITY_CHANGES = 4,
-    LOG_FILTER_ACHIEVEMENT_UPDATES= 8
+    LOG_FILTER_TRANSPORT_MOVES    = 0x01,
+    LOG_FILTER_CREATURE_MOVES     = 0x02,
+    LOG_FILTER_VISIBILITY_CHANGES = 0x04,
+    LOG_FILTER_ACHIEVEMENT_UPDATES= 0x08
 };
 
 enum Color
@@ -123,7 +131,7 @@ class Log : public Diamond::Singleton<Log, Diamond::ClassLevelLockable<Log, ACE_
         static void outTimestamp(FILE* file);
         static std::string GetTimestampStr();
         uint32 getLogFilter() const { return m_logFilter; }
-        bool IsOutDebug() const { return m_logLevel > 2 || (m_logFileLevel > 2 && logfile); }
+        bool HasLogLevelOrHigher(LogLevel loglvl) const { return m_logLevel >= loglvl || (m_logFileLevel >= loglvl && logfile); }
         bool IsOutCharDump() const { return m_charLog_Dump; }
         bool IsIncludeTime() const { return m_includeTime; }
     private:
@@ -138,8 +146,8 @@ class Log : public Diamond::Singleton<Log, Diamond::ClassLevelLockable<Log, ACE_
         FILE* worldLogfile;
 
         // log/console control
-        uint32 m_logLevel;
-        uint32 m_logFileLevel;
+        LogLevel m_logLevel;
+        LogLevel m_logFileLevel;
         bool m_colored;
         bool m_includeTime;
         Color m_colors[4];

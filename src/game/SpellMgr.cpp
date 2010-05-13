@@ -410,9 +410,9 @@ bool IsSingleFromSpellSpecificPerTarget(SpellSpecific spellSpec1,SpellSpecific s
 
 bool IsPositiveTarget(uint32 targetA, uint32 targetB)
 {
-    // non-positive targets
     switch(targetA)
     {
+        // non-positive targets
         case TARGET_CHAIN_DAMAGE:
         case TARGET_ALL_ENEMY_IN_AREA:
         case TARGET_ALL_ENEMY_IN_AREA_INSTANT:
@@ -422,6 +422,7 @@ bool IsPositiveTarget(uint32 targetA, uint32 targetB)
         case TARGET_SINGLE_ENEMY:
         case TARGET_IN_FRONT_OF_CASTER_30:
             return false;
+        // positive or dependent
         case TARGET_CASTER_COORDINATES:
             return (targetB == TARGET_ALL_PARTY || targetB == TARGET_ALL_FRIENDLY_UNITS_AROUND_CASTER);
         default:
@@ -2656,7 +2657,7 @@ bool SpellMgr::IsSpellValid(SpellEntry const* spellInfo, Player* pl, bool msg)
 
     if(need_check_reagents)
     {
-        for(int j = 0; j < MAX_REAGENTS; ++j)
+        for(int j = 0; j < MAX_SPELL_REAGENTS; ++j)
         {
             if(spellInfo->Reagent[j] > 0 && !ObjectMgr::GetItemPrototype( spellInfo->Reagent[j] ))
             {

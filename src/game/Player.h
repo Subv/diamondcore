@@ -1649,6 +1649,7 @@ class DIAMOND_DLL_SPEC Player : public Unit, public GridPlayer
         void _LoadSpellCooldowns(QueryResult *result);
         void _SaveSpellCooldowns();
         void SetLastPotionId(uint32 item_id) { m_lastPotionId = item_id; }
+        uint32 GetLastPotionId() { return m_lastPotionId; }
         void UpdatePotionCooldown(Spell* spell = NULL);
 
         void setResurrectRequestData(uint64 guid, uint32 mapId, float X, float Y, float Z, uint32 health, uint32 mana)
@@ -1996,6 +1997,7 @@ class DIAMOND_DLL_SPEC Player : public Unit, public GridPlayer
         void SendInitWorldStates(uint32 zone, uint32 area);
         void SendUpdateWorldState(uint32 Field, uint32 Value);
         void SendDirectMessage(WorldPacket *data);
+        void FillBGWeekendWorldStates(WorldPacket& data, uint32& count);
 
         void SendAurasForTarget(Unit *target);
 
@@ -2163,7 +2165,7 @@ class DIAMOND_DLL_SPEC Player : public Unit, public GridPlayer
         bool CanFly() const { return m_CanFly;  }
         void SetCanFly(bool CanFly) { m_CanFly=CanFly; }
         bool IsFlying() const { return m_movementInfo.HasMovementFlag(MOVEFLAG_FLYING); }
-        bool IsKnowHowFlyIn(uint32 mapid, uint32 zone) const;
+        bool IsKnowHowFlyIn(uint32 mapid, uint32 zone, uint32 area) const;
 
         void SetClientControl(Unit* target, uint8 allowMove);
         void SetMover(Unit* target) { m_mover = target ? target : this; }
@@ -2691,6 +2693,5 @@ bool Player::CheckAllControlledUnits(Func const& func, bool withTotems, bool wit
 
     return Unit::CheckAllControlledUnits(func,withTotems,withGuardians,withCharms);
 }
-
 
 #endif

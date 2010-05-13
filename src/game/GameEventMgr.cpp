@@ -24,6 +24,7 @@
 #include "Language.h"
 #include "Log.h"
 #include "MapManager.h"
+#include "BattleGroundMgr.h"
 #include "Policies/SingletonImp.h"
 
 INSTANTIATE_SINGLETON_1(GameEventMgr);
@@ -138,7 +139,7 @@ void GameEventMgr::LoadFromDB()
             pGameEvent.end          = time_t(endtime);
             pGameEvent.occurence    = fields[3].GetUInt32();
             pGameEvent.length       = fields[4].GetUInt32();
-            pGameEvent.holiday_id   = fields[5].GetUInt32();
+            pGameEvent.holiday_id   = HolidayIds(fields[5].GetUInt32());
 
 
             if(pGameEvent.length==0)                            // length>0 is validity check
@@ -147,12 +148,12 @@ void GameEventMgr::LoadFromDB()
                 continue;
             }
 
-            if(pGameEvent.holiday_id)
+            if(pGameEvent.holiday_id != HOLIDAY_NONE)
             {
                 if(!sHolidaysStore.LookupEntry(pGameEvent.holiday_id))
                 {
                     sLog.outErrorDb("`game_event` game event id (%i) have not existed holiday id %u.",event_id,pGameEvent.holiday_id);
-                    pGameEvent.holiday_id = 0;
+                    pGameEvent.holiday_id = HOLIDAY_NONE;
                 }
             }
 
@@ -406,6 +407,7 @@ uint32 GameEventMgr::Update()                               // return the next e
 
                     // disable any event specific quest (for cases where creature is spawned, but event not active).
                     UpdateEventQuests(itr, false);
+                    UpdateWorldStates(itr, false);
                 }
             }
         }
@@ -429,6 +431,7 @@ void GameEventMgr::UnApplyEvent(uint16 event_id)
     ChangeEquipOrModel(event_id, false);
     // Remove quests that are events only to non event npc
     UpdateEventQuests(event_id, false);
+    UpdateWorldStates(event_id, false);
 }
 
 void GameEventMgr::ApplyNewEvent(uint16 event_id)
@@ -446,6 +449,7 @@ void GameEventMgr::ApplyNewEvent(uint16 event_id)
     ChangeEquipOrModel(event_id, true);
     // Add quests that are events only to non event npc
     UpdateEventQuests(event_id, true);
+    UpdateWorldStates(event_id, true);
 }
 
 void GameEventMgr::GameEventSpawn(int16 event_id)
@@ -685,6 +689,25 @@ void GameEventMgr::UpdateEventQuests(uint16 event_id, bool Activate)
     }
 }
 
+void GameEventMgr::UpdateWorldStates(uint16 event_id, bool Activate)
+{
+    GameEventData const& event = mGameEvent[event_id];
+    if (event.holiday_id != HOLIDAY_NONE)
+    {
+        BattleGroundTypeId bgTypeId = BattleGroundMgr::WeekendHolidayIdToBGType(event.holiday_id);
+        if (bgTypeId != BATTLEGROUND_TYPE_NONE)
+        {
+            BattlemasterListEntry const * bl = sBattlemasterListStore.LookupEntry(bgTypeId);
+            if (bl && bl->HolidayWorldStateId)
+            {
+                WorldPacket data;
+                sBattleGroundMgr.BuildUpdateWorldStatePacket(&data, bl->HolidayWorldStateId, Activate ? 1 : 0);
+                sWorld.SendGlobalMessage(&data);
+            }
+        }
+    }
+}
+
 GameEventMgr::GameEventMgr()
 {
     m_IsGameEventsInit = false;
@@ -692,6 +715,9 @@ GameEventMgr::GameEventMgr()
 
 DIAMOND_DLL_SPEC bool IsHolidayActive( HolidayIds id )
 {
+    if (id == HOLIDAY_NONE)
+        return false;
+
     GameEventMgr::GameEventDataMap const& events = sGameEventMgr.GetEventMap();
     GameEventMgr::ActiveEvents const& ae = sGameEventMgr.GetActiveEventList();
 

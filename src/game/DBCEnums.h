@@ -22,7 +22,7 @@
 // Client expected level limitation, like as used in DBC item max levels for "until max player level"
 // use as default max player level, must be fit max level for used client
 // also see MAX_LEVEL and STRONG_MAX_LEVEL define
-#define DEFAULT_MAX_LEVEL 85
+#define DEFAULT_MAX_LEVEL 80
 
 // client supported max level for player/pets/etc. Avoid overflow or client stability affected.
 // also see GT_MAX_LEVEL define
@@ -30,7 +30,7 @@
 
 // Server side limitation. Base at used code requirements.
 // also see MAX_LEVEL and GT_MAX_LEVEL define
-#define STRONG_MAX_LEVEL 100
+#define STRONG_MAX_LEVEL 255
 
 enum BattleGroundBracketId                                  // bracketId for level ranges
 {
@@ -407,6 +407,5 @@ enum SpellEffectIndex
 };
 
 #define MAX_EFFECT_INDEX 3
-#define MAX_REAGENTS 8
 
 #endif
