@@ -4020,7 +4020,7 @@ void ObjectMgr::LoadScripts(ScriptMapMap& scripts, char const* tablename)
 
     scripts.clear();                                        // need for reload support
 
-    QueryResult *result = WorldDatabase.PQuery( "SELECT id,delay,command,datalong,datalong2,dataint, x, y, z, o FROM %s", tablename );
+    QueryResult *result = WorldDatabase.PQuery( "SELECT id, delay, command, datalong, datalong2, datalong3, datalong4, data_flags, dataint, x, y, z, o FROM %s", tablename );
 
     uint32 count = 0;
 
@@ -4033,35 +4033,48 @@ void ObjectMgr::LoadScripts(ScriptMapMap& scripts, char const* tablename)
     {
         Field *fields = result->Fetch();
         ScriptInfo tmp;
-        tmp.id        = fields[0].GetUInt32();
-        tmp.delay     = fields[1].GetUInt32();
-        tmp.command   = fields[2].GetUInt32();
-        tmp.datalong  = fields[3].GetUInt32();
-        tmp.datalong2 = fields[4].GetUInt32();
-        tmp.dataint   = fields[5].GetInt32();
-        tmp.x         = fields[6].GetFloat();
-        tmp.y         = fields[7].GetFloat();
-        tmp.z         = fields[8].GetFloat();
-        tmp.o         = fields[9].GetFloat();
+        tmp.id          = fields[0].GetUInt32();
+        tmp.delay       = fields[1].GetUInt32();
+        tmp.command     = fields[2].GetUInt32();
+        tmp.datalong    = fields[3].GetUInt32();
+        tmp.datalong2   = fields[4].GetUInt32();
+        tmp.datalong3   = fields[5].GetUInt32();
+        tmp.datalong4   = fields[6].GetUInt32();
+        tmp.data_flags  = fields[7].GetUInt32();
+        tmp.dataint     = fields[8].GetInt32();
+        tmp.x           = fields[9].GetFloat();
+        tmp.y           = fields[10].GetFloat();
+        tmp.z           = fields[11].GetFloat();
+        tmp.o           = fields[12].GetFloat();
 
         // generic command args check
         switch(tmp.command)
         {
             case SCRIPT_COMMAND_TALK:
             {
-                if(tmp.datalong > 3)
+                if (tmp.datalong > CHAT_TYPE_ZONE_YELL)
                 {
-                    sLog.outErrorDb("Table `%s` has invalid talk type (datalong = %u) in SCRIPT_COMMAND_TALK for script id %u",tablename,tmp.datalong,tmp.id);
+                    sLog.outErrorDb("Table `%s` has invalid CHAT_TYPE_ (datalong = %u) in SCRIPT_COMMAND_TALK for script id %u", tablename, tmp.datalong, tmp.id);
                     continue;
                 }
-                if(tmp.dataint==0)
+                if (tmp.datalong2 && !GetCreatureTemplate(tmp.datalong2))
                 {
-                    sLog.outErrorDb("Table `%s` has invalid talk text id (dataint = %i) in SCRIPT_COMMAND_TALK for script id %u",tablename,tmp.dataint,tmp.id);
+                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_TALK for script id %u, but this creature_template does not exist.", tablename, tmp.datalong2, tmp.id);
                     continue;
                 }
-                if(tmp.dataint < MIN_DB_SCRIPT_STRING_ID || tmp.dataint >= MAX_DB_SCRIPT_STRING_ID)
+                if (tmp.datalong2 && !tmp.datalong3)
                 {
-                    sLog.outErrorDb("Table `%s` has out of range text id (dataint = %i expected %u-%u) in SCRIPT_COMMAND_TALK for script id %u",tablename,tmp.dataint,MIN_DB_SCRIPT_STRING_ID,MAX_DB_SCRIPT_STRING_ID,tmp.id);
+                    sLog.outErrorDb("Table `%s` has datalong2 = %u in SCRIPT_COMMAND_TALK for script id %u, but search radius is too small (datalong3 = %u).", tablename, tmp.datalong2, tmp.id, tmp.datalong3);
+                    continue;
+                }
+                if (tmp.dataint == 0)
+                {
+                    sLog.outErrorDb("Table `%s` has invalid talk text id (dataint = %i) in SCRIPT_COMMAND_TALK for script id %u", tablename, tmp.dataint, tmp.id);
+                    continue;
+                }
+                if (tmp.dataint < MIN_DB_SCRIPT_STRING_ID || tmp.dataint >= MAX_DB_SCRIPT_STRING_ID)
+                {
+                    sLog.outErrorDb("Table `%s` has out of range text id (dataint = %i expected %u-%u) in SCRIPT_COMMAND_TALK for script id %u", tablename, tmp.dataint, MIN_DB_SCRIPT_STRING_ID, MAX_DB_SCRIPT_STRING_ID, tmp.id);
                     continue;
                 }
 
@@ -4362,30 +4375,13 @@ void ObjectMgr::LoadEventScripts()
     LoadScripts(sEventScripts, "event_scripts");
 
     std::set<uint32> evt_scripts;
+
     // Load all possible script entries from gameobjects
     for(uint32 i = 1; i < sGOStorage.MaxEntry; ++i)
-    {
-        GameObjectInfo const * goInfo = sGOStorage.LookupEntry<GameObjectInfo>(i);
-        if (goInfo)
-        {
-            switch(goInfo->type)
-            {
-                case GAMEOBJECT_TYPE_GOOBER:
-                    if (goInfo->goober.eventId)
-                        evt_scripts.insert(goInfo->goober.eventId);
-                    break;
-                case GAMEOBJECT_TYPE_CHEST:
-                    if (goInfo->chest.eventId)
-                        evt_scripts.insert(goInfo->chest.eventId);
-                    break;
-                case GAMEOBJECT_TYPE_CAMERA:
-                    if (goInfo->camera.eventID)
-                        evt_scripts.insert(goInfo->camera.eventID);
-                default:
-                    break;
-            }
-        }
-    }
+        if (GameObjectInfo const * goInfo = sGOStorage.LookupEntry<GameObjectInfo>(i))
+            if (uint32 eventId = goInfo->GetEventScriptId())
+                evt_scripts.insert(eventId);
+
     // Load all possible script entries from spells
     for(uint32 i = 1; i < sSpellStore.GetNumRows(); ++i)
     {
@@ -4402,12 +4398,27 @@ void ObjectMgr::LoadEventScripts()
             }
         }
     }
+
+    for(size_t path_idx = 0; path_idx < sTaxiPathNodesByPath.size(); ++path_idx)
+    {
+        for(size_t node_idx = 0; node_idx < sTaxiPathNodesByPath[path_idx].size(); ++node_idx)
+        {
+            TaxiPathNodeEntry const& node = sTaxiPathNodesByPath[path_idx][node_idx];
+
+            if (node.arrivalEventID)
+                evt_scripts.insert(node.arrivalEventID);
+
+            if (node.departureEventID)
+                evt_scripts.insert(node.departureEventID);
+        }
+    }
+
     // Then check if all scripts are in above list of possible script entries
     for(ScriptMapMap::const_iterator itr = sEventScripts.begin(); itr != sEventScripts.end(); ++itr)
     {
         std::set<uint32>::const_iterator itr2 = evt_scripts.find(itr->first);
         if (itr2 == evt_scripts.end())
-            sLog.outErrorDb("Table `event_scripts` has script (Id: %u) not referring to any gameobject_template type 10 data2 field, type 3 data6 field, type 13 data 2 field or any spell effect %u",
+            sLog.outErrorDb("Table `event_scripts` has script (Id: %u) not referring to any gameobject_template type 10 data2 field, type 3 data6 field, type 13 data 2 field or any spell effect %u or path taxi node data",
                 itr->first, SPELL_EFFECT_SEND_EVENT);
     }
 }

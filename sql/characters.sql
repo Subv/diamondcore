@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50141
 File Encoding         : 65001
 
-Date: 2010-04-17 18:42:39
+Date: 2010-05-13 17:34:54
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1408,11 +1408,12 @@ DROP TABLE IF EXISTS `saved_variables`;
 CREATE TABLE `saved_variables` (
   `NextArenaPointDistributionTime` bigint(40) unsigned NOT NULL DEFAULT '0',
   `NextDailyQuestResetTime` bigint(40) unsigned NOT NULL DEFAULT '0',
-  `NextWeeklyQuestResetTime` bigint(40) unsigned NOT NULL DEFAULT '0'
+  `NextWeeklyQuestResetTime` bigint(40) unsigned NOT NULL DEFAULT '0',
+  `cleaning_flags` int(11) unsigned NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='Variable Saves';
 
 -- ----------------------------
 -- Records of saved_variables
 -- ----------------------------
-INSERT INTO `saved_variables` VALUES ('0', '1271563200', '0');
-INSERT INTO `saved_variables` VALUES ('0', '0', '1271822400');
+INSERT INTO `saved_variables` VALUES ('0', '1271563200', '0', '15');
+INSERT INTO `saved_variables` VALUES ('0', '0', '1271822400', '15');

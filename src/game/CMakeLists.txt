@@ -61,6 +61,8 @@ SET(game_STAT_SRCS
 	ChannelMgr.cpp
 	ChannelMgr.h
 	CharacterHandler.cpp
+        CharacterDatabaseCleaner.cpp
+        CharacterDatabaseCleaner.h
 	Chat.cpp
 	Chat.h
 	ChatHandler.cpp
