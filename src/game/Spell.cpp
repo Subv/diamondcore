@@ -3505,7 +3505,7 @@ void Spell::WriteAmmoToPacket( WorldPacket * data )
                 ammoDisplayID = pItem->GetProto()->DisplayInfoID;
             else
             {
-                /*uint32 ammoID = ((Player*)m_caster)->GetUInt32Value(PLAYER_AMMO_ID);
+                uint32 ammoID = ((Player*)m_caster)->GetUInt32Value(PLAYER_AMMO_ID);
                 if(ammoID)
                 {
                     ItemPrototype const *pProto = ObjectMgr::GetItemPrototype( ammoID );
@@ -3515,7 +3515,7 @@ void Spell::WriteAmmoToPacket( WorldPacket * data )
                         ammoInventoryType = pProto->InventoryType;
                     }
                 }
-                else */if(m_caster->GetDummyAura(46699))      // Requires No Ammo
+                else if(m_caster->GetDummyAura(46699))      // Requires No Ammo
                 {
                     ammoDisplayID = 5996;                   // normal arrow
                     ammoInventoryType = INVTYPE_AMMO;
@@ -4031,7 +4031,7 @@ void Spell::TakeReagents()
     if (p_caster->CanNoReagentCast(m_spellInfo) )
         return;
 
-    for(uint32 x = 0; x < MAX_REAGENTS; ++x)
+    for(uint32 x = 0; x < 8; ++x)
     {
         if(m_spellInfo->Reagent[x] <= 0)
             continue;
@@ -5766,7 +5766,7 @@ SpellCastResult Spell::CheckItems()
     {
         if (!p_caster->CanNoReagentCast(m_spellInfo))
         {
-            for(uint32 i = 0; i < MAX_REAGENTS; ++i)
+            for(uint32 i = 0; i < 8; ++i)
             {
                 if(m_spellInfo->Reagent[i] <= 0)
                     continue;
@@ -6015,46 +6015,46 @@ SpellCastResult Spell::CheckItems()
                         if( !((Player*)m_caster)->HasItemCount( ammo, 1 ) )
                             return SPELL_FAILED_NO_AMMO;
                     };  break;
-                    //case ITEM_SUBCLASS_WEAPON_GUN:
-                    //case ITEM_SUBCLASS_WEAPON_BOW:
-                    //case ITEM_SUBCLASS_WEAPON_CROSSBOW:
-                    //{
-                    //    uint32 ammo = ((Player*)m_caster)->GetUInt32Value(PLAYER_AMMO_ID);
-                    //    if(!ammo)
-                    //    {
-                    //        // Requires No Ammo
-                    //        if(m_caster->GetDummyAura(46699))
-                    //            break;                      // skip other checks
+                    case ITEM_SUBCLASS_WEAPON_GUN:
+                    case ITEM_SUBCLASS_WEAPON_BOW:
+                    case ITEM_SUBCLASS_WEAPON_CROSSBOW:
+                    {
+                        uint32 ammo = ((Player*)m_caster)->GetUInt32Value(PLAYER_AMMO_ID);
+                        if(!ammo)
+                        {
+                            // Requires No Ammo
+                            if(m_caster->GetDummyAura(46699))
+                                break;                      // skip other checks
 
-                    //        return SPELL_FAILED_NO_AMMO;
-                    //    }
+                            return SPELL_FAILED_NO_AMMO;
+                        }
 
-                    //    ItemPrototype const *ammoProto = ObjectMgr::GetItemPrototype( ammo );
-                    //    if(!ammoProto)
-                    //        return SPELL_FAILED_NO_AMMO;
+                        ItemPrototype const *ammoProto = ObjectMgr::GetItemPrototype( ammo );
+                        if(!ammoProto)
+                            return SPELL_FAILED_NO_AMMO;
 
-                    //    if(ammoProto->Class != ITEM_CLASS_PROJECTILE)
-                    //        return SPELL_FAILED_NO_AMMO;
+                        if(ammoProto->Class != ITEM_CLASS_PROJECTILE)
+                            return SPELL_FAILED_NO_AMMO;
 
-                    //    // check ammo ws. weapon compatibility
-                    //    switch(pItem->GetProto()->SubClass)
-                    //    {
-                    //        case ITEM_SUBCLASS_WEAPON_BOW:
-                    //        case ITEM_SUBCLASS_WEAPON_CROSSBOW:
-                    //            if(ammoProto->SubClass != ITEM_SUBCLASS_ARROW)
-                    //                return SPELL_FAILED_NO_AMMO;
-                    //            break;
-                    //        case ITEM_SUBCLASS_WEAPON_GUN:
-                    //            if(ammoProto->SubClass != ITEM_SUBCLASS_BULLET)
-                    //                return SPELL_FAILED_NO_AMMO;
-                    //            break;
-                    //        default:
-                    //            return SPELL_FAILED_NO_AMMO;
-                    //    }
+                        // check ammo ws. weapon compatibility
+                        switch(pItem->GetProto()->SubClass)
+                        {
+                            case ITEM_SUBCLASS_WEAPON_BOW:
+                            case ITEM_SUBCLASS_WEAPON_CROSSBOW:
+                                if(ammoProto->SubClass != ITEM_SUBCLASS_ARROW)
+                                    return SPELL_FAILED_NO_AMMO;
+                                break;
+                            case ITEM_SUBCLASS_WEAPON_GUN:
+                                if(ammoProto->SubClass != ITEM_SUBCLASS_BULLET)
+                                    return SPELL_FAILED_NO_AMMO;
+                                break;
+                            default:
+                                return SPELL_FAILED_NO_AMMO;
+                        }
 
-                    //    if( !((Player*)m_caster)->HasItemCount( ammo, 1 ) )
-                    //        return SPELL_FAILED_NO_AMMO;
-                    //};  break;
+                        if( !((Player*)m_caster)->HasItemCount( ammo, 1 ) )
+                            return SPELL_FAILED_NO_AMMO;
+                    };  break;
                     case ITEM_SUBCLASS_WEAPON_WAND:
                         break;
                     default:
