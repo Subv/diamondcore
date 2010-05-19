@@ -240,8 +240,7 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
 	bool human_warrior     = sConfig.GetBoolDefault("Human.Warrior.Enable", true);
 	bool human_mage        = sConfig.GetBoolDefault("Human.Mage.Enable", true);
 	// Druid not aviable for this Race
-	/* Hunter will come in Cataclysm
-	bool human_hunter      = sConfig.GetBoolDefault("Human.Hunter.Enable", true);*/
+	bool human_hunter      = sConfig.GetBoolDefault("Human.Hunter.Enable", true);
 	bool human_warlock     = sConfig.GetBoolDefault("Human.Warlock.Enable", true);
 	// Shaman not aviable for this Race
 	bool human_paladin     = sConfig.GetBoolDefault("Human.Paladin.Enable", true);
@@ -251,13 +250,11 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
 	bool dwarf_priest      = sConfig.GetBoolDefault("Dwarf.Priest.Enable", true);
 	bool dwarf_rogue       = sConfig.GetBoolDefault("Dwarf.Rogue.Enable", true);
 	bool dwarf_warrior     = sConfig.GetBoolDefault("Dwarf.Warrior.Enable", true);
-	/* Mage will come in Cataclysm
-	bool dwarf_mage        = sConfig.GetBoolDefault("Dwarf.Mage.Enable", true);*/
+	bool dwarf_mage        = sConfig.GetBoolDefault("Dwarf.Mage.Enable", true);
 	// Druid not aviable for this Race
 	bool dwarf_hunter      = sConfig.GetBoolDefault("Dwarf.Hunter.Enable", true);
 	// Warlock not aviable for this Race
-	/* Shaman will come in Cataclysm
-	bool dwarf_shaman      = sConfig.GetBoolDefault("Dwarf.Shaman.Enable", true);*/
+	bool dwarf_shaman      = sConfig.GetBoolDefault("Dwarf.Shaman.Enable", true);
 	bool dwarf_paladin     = sConfig.GetBoolDefault("Dwarf.Paladin.Enable", true);
 	bool dwarf_deathknight = sConfig.GetBoolDefault("Dwarf.DeathKnight.Enable", true);
 
@@ -265,8 +262,7 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
 	bool nightelf_priest      = sConfig.GetBoolDefault("NightElf.Priest.Enable", true);
 	bool nightelf_rogue       = sConfig.GetBoolDefault("NightElf.Rogue.Enable", true);
 	bool nightelf_warrior     = sConfig.GetBoolDefault("NightElf.Warrior.Enable", true);
-	/* Mage will come in Cataclysm
-	bool nightelf_mage        = sConfig.GetBoolDefault("NightElf.Mage.Enable", true);*/
+	bool nightelf_mage        = sConfig.GetBoolDefault("NightElf.Mage.Enable", true);
 	bool nightelf_druid       = sConfig.GetBoolDefault("NightElf.Druid.Enable", true);
 	bool nightelf_hunter      = sConfig.GetBoolDefault("NightElf.Hunter.Enable", true);
 	// Warlock not aviable for this Race
@@ -275,8 +271,7 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
 	bool nightelf_deathknight = sConfig.GetBoolDefault("NightElf.DeathKnight.Enable", true);
 
 	// Gnome
-	/* Priest will come in Cataclysm
-	bool gnome_priest      = sConfig.GetBoolDefault("Gnome.Priest.Enable", true);*/
+	bool gnome_priest      = sConfig.GetBoolDefault("Gnome.Priest.Enable", true);
 	bool gnome_rogue       = sConfig.GetBoolDefault("Gnome.Rogue.Enable", true);
 	bool gnome_warrior     = sConfig.GetBoolDefault("Gnome.Warrior.Enable", true);
 	bool gnome_mage        = sConfig.GetBoolDefault("Gnome.Mage.Enable", true);
@@ -300,19 +295,27 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
 	bool draenei_deathknight = sConfig.GetBoolDefault("Draenei.DeathKnight.Enable", true);
 
 	// Worgen
-	// Will come in Cataclysm \\
+	bool worgen_priest       = sConfig.GetBoolDefault("Worgen.Priest.Enable", true);
+	bool worgen_rogue        = sConfig.GetBoolDefault("Worgen.Rogue.Enable", true);
+	bool worgen_warrior      = sConfig.GetBoolDefault("Worgen.Warrior.Enable", true);
+	bool worgen_mage         = sConfig.GetBoolDefault("Worgen.Mage.Enable", true);
+	bool worgen_druid        = sConfig.GetBoolDefault("Worgen.Druid.Enable", true);
+	bool worgen_hunter       = sConfig.GetBoolDefault("Worgen.Hunter.Enable", true);
+	bool worgen_warlock      = sConfig.GetBoolDefault("Worgen.Warlock.Enable", true);
+	// Shaman not aviable for this Race
+	// Paladin not aviable for this Race
+	bool worgen_deathknight  = sConfig.GetBoolDefault("Worgen.DeathKnight.Enable", true);
 
 	//####################################HORDE####################################\\
 	// Orc
 	// Priest not aviable for this Race
 	bool orc_rogue       = sConfig.GetBoolDefault("Orc.Rogue.Enable", true);
 	bool orc_warrior     = sConfig.GetBoolDefault("Orc.Warrior.Enable", true);
-	/* Mage will come in Cataclysm
-	bool orc_mage      = sConfig.GetBoolDefault("Orc.Mage.Enable", true);*/
+	bool orc_mage        = sConfig.GetBoolDefault("Orc.Mage.Enable", true);
 	// Druid not aviable for this Race
 	bool orc_hunter      = sConfig.GetBoolDefault("Orc.Hunter.Enable", true);
 	bool orc_warlock     = sConfig.GetBoolDefault("Orc.Warlock.Enable", true);
-	bool orc_shaman       = sConfig.GetBoolDefault("Orc.Shaman.Enable", true);
+	bool orc_shaman      = sConfig.GetBoolDefault("Orc.Shaman.Enable", true);
 	// Paladin not aviable for this Race
 	bool orc_deathknight = sConfig.GetBoolDefault("Orc.DeathKnight.Enable", true);
 
@@ -322,16 +325,14 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
 	bool forsaken_warrior     = sConfig.GetBoolDefault("Forsaken.Warrior.Enable", true);
 	bool forsaken_mage        = sConfig.GetBoolDefault("Forsaken.Mage.Enable", true);
 	// Druid not aviable for this Race
-	/* Hunter will come in Cataclysm
-	bool forsaken_hunter      = sConfig.GetBoolDefault("Forsaken.Hunter.Enable", true);*/
+	bool forsaken_hunter      = sConfig.GetBoolDefault("Forsaken.Hunter.Enable", true);
 	bool forsaken_warlock     = sConfig.GetBoolDefault("Forsaken.Warlock.Enable", true);
 	// Shaman not aviable for this Race
 	// Paladin not aviable for this Race
 	bool forsaken_deathknight = sConfig.GetBoolDefault("Forsaken.DeathKnight.Enable", true);
 
 	// Tauren
-	/* Priest will come in Cataclysm
-	bool tauren_priest      = sConfig.GetBoolDefault("Tauren.Priest.Enable", true);*/
+	bool tauren_priest      = sConfig.GetBoolDefault("Tauren.Priest.Enable", true);
 	// Rogue not aviable for this Race
 	bool tauren_warrior     = sConfig.GetBoolDefault("Tauren.Warrior.Enable", true);
 	// Mage not aviable for this Race
@@ -339,8 +340,7 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
 	bool tauren_hunter      = sConfig.GetBoolDefault("Tauren.Hunter.Enable", true);
 	// Warlock not aviable for this Race
 	bool tauren_shaman      = sConfig.GetBoolDefault("Tauren.Shaman.Enable", true);
-	/* Paladin will come in Cataclysm
-	bool tauren_paladin     = sConfig.GetBoolDefault("Tauren.Paladin.Enable", true);*/
+	bool tauren_paladin     = sConfig.GetBoolDefault("Tauren.Paladin.Enable", true);
 	bool tauren_deathknight = sConfig.GetBoolDefault("Tauren.DeathKnight.Enable", true);
 
 	// Troll
@@ -348,8 +348,7 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
 	bool troll_rogue       = sConfig.GetBoolDefault("Troll.Rogue.Enable", true);
 	bool troll_warrior     = sConfig.GetBoolDefault("Troll.Warrior.Enable", true);
 	bool troll_mage        = sConfig.GetBoolDefault("Troll.Mage.Enable", true);
-	/* Druid will come in Cataclysm
-	bool troll_druid       = sConfig.GetBoolDefault("Troll.Druid.Enable", true);*/
+	bool troll_druid       = sConfig.GetBoolDefault("Troll.Druid.Enable", true);
 	bool troll_hunter      = sConfig.GetBoolDefault("Troll.Hunter.Enable", true);
 	// Warlock not aviable for this Race
 	bool troll_shaman      = sConfig.GetBoolDefault("Troll.Shaman.Enable", true);
@@ -359,8 +358,7 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
 	// Blood elf
 	bool bloodelf_priest      = sConfig.GetBoolDefault("BloodElf.Priest.Enable", true);
 	bool bloodelf_rogue       = sConfig.GetBoolDefault("BloodElf.Rogue.Enable", true);
-	/* Warrior will come in Cataclysm
-	bool bloodelf_warrior     = sConfig.GetBoolDefault("BloodElf.Warrior.Enable", true);*/
+	bool bloodelf_warrior     = sConfig.GetBoolDefault("BloodElf.Warrior.Enable", true);
 	bool bloodelf_mage        = sConfig.GetBoolDefault("BloodElf.Mage.Enable", true);
 	// Druid not aviable for this Race
 	bool bloodelf_hunter      = sConfig.GetBoolDefault("BloodElf.Hunter.Enable", true);
@@ -370,15 +368,24 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
 	bool bloodelf_deathknight = sConfig.GetBoolDefault("BloodElf.DeathKnight.Enable", true);
 
 	// Goblin
-	// Will come in Cataclysm \\
+	bool goblin_priest       = sConfig.GetBoolDefault("Goblin.Priest.Enable", true);
+	bool goblin_rogue        = sConfig.GetBoolDefault("Goblin.Rogue.Enable", true);
+	bool goblin_warrior      = sConfig.GetBoolDefault("Goblin.Warrior.Enable", true);
+	bool goblin_mage         = sConfig.GetBoolDefault("Goblin.Mage.Enable", true);
+	// Druid not aviable for this class
+	bool goblin_hunter       = sConfig.GetBoolDefault("Goblin.Hunter.Enable", true);
+	bool goblin_warlock      = sConfig.GetBoolDefault("Goblin.Warlock.Enable", true);
+	bool goblin_shaman       = sConfig.GetBoolDefault("Goblin.Shaman.Enable", true);
+	// Paladin not aviable for this Race
+	bool goblin_deathknight  = sConfig.GetBoolDefault("Goblin.DeathKnight.Enable", true);
 
 	if(GetSecurity() <= block_gmlevel)
 	{
 		
 		// Function for Human
 		if (!human_priest && class_ == CLASS_PRIEST && race_ == RACE_HUMAN || !human_rogue && class_ == CLASS_ROGUE && race_ == RACE_HUMAN || !human_warrior && class_ == CLASS_WARRIOR && race_ == RACE_HUMAN
-			|| !human_mage && class_ == CLASS_MAGE && race_ == RACE_HUMAN || !human_warlock && class_ == CLASS_WARLOCK && race_ == RACE_HUMAN || !human_paladin && class_ == CLASS_PALADIN && race_ == RACE_HUMAN
-			|| !human_deathknight && class_ == CLASS_DEATH_KNIGHT && race_ == RACE_HUMAN)
+			|| !human_mage && class_ == CLASS_MAGE && race_ == RACE_HUMAN || !human_hunter && class_ == CLASS_HUMAN && race_ == RACE_HUMAN || !human_warlock && class_ == CLASS_WARLOCK && race_ == RACE_HUMAN 
+			|| !human_paladin && class_ == CLASS_PALADIN && race_ == RACE_HUMAN || !human_deathknight && class_ == CLASS_DEATH_KNIGHT && race_ == RACE_HUMAN)
 		{
 			data << uint8(CHAR_LOGIN_DISABLED);
 			SendPacket(&data);
@@ -386,7 +393,8 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
 		}
 		// Function for Dwarf
 		else if (!dwarf_priest && class_ == CLASS_PRIEST && race_ == RACE_DWARF || !dwarf_rogue && class_ == CLASS_ROGUE && race_ == RACE_DWARF || !dwarf_warrior && class_ == CLASS_WARRIOR && race_ == RACE_DWARF
-			|| !dwarf_hunter && class_ == CLASS_HUNTER && race_ == RACE_DWARF || !dwarf_paladin && class_ == CLASS_PALADIN && race_ == RACE_DWARF || !dwarf_deathknight && class_ == CLASS_DEATH_KNIGHT && race_ == RACE_DWARF)
+			    || !dwarf_mage && class_ == CLASS_MAGE && race_ == RACE_DWARF || !dwarf_hunter && class_ == CLASS_HUNTER && race_ == RACE_DWARF || !dwarf_shaman && class_ == CLASS_SHAMAN && race_ == RACE_DWARF
+				|| !dwarf_paladin && class_ == CLASS_PALADIN && race_ == RACE_DWARF || !dwarf_deathknight && class_ == CLASS_DEATH_KNIGHT && race_ == RACE_DWARF)
 		{
 			data << uint8(CHAR_LOGIN_DISABLED);
 			SendPacket(&data);
@@ -403,7 +411,7 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
 		}
 		// Function for Gnome
 		else if (!gnome_rogue && class_ == CLASS_ROGUE && race_ == RACE_GNOME || !gnome_warrior && class_ == CLASS_WARRIOR && race_ == RACE_GNOME || !gnome_mage && class_ == CLASS_MAGE && race_ == RACE_GNOME
-			|| !gnome_warlock && class_ == CLASS_WARLOCK && race_ == RACE_GNOME || !gnome_deathknight && class_ == CLASS_DEATH_KNIGHT && race_ == RACE_GNOME)
+			     || !gnome_warlock && class_ == CLASS_WARLOCK && race_ == RACE_GNOME || !gnome_deathknight && class_ == CLASS_DEATH_KNIGHT && race_ == RACE_GNOME)
 		{
 			data << uint8(CHAR_LOGIN_DISABLED);
 			SendPacket(&data);
@@ -411,8 +419,18 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
 		}
 		// Function for Draenei
 		else if (!draenei_priest && class_ == CLASS_PRIEST && race_ == RACE_DRAENEI|| !draenei_warrior && class_ == CLASS_WARRIOR && race_ == RACE_DRAENEI || !draenei_mage && class_ == CLASS_MAGE && race_ == RACE_DRAENEI
-			|| !draenei_hunter && class_ == CLASS_HUNTER && race_ == RACE_DRAENEI || !draenei_shaman && class_ == CLASS_SHAMAN && race_ == RACE_DRAENEI || !draenei_paladin && class_ == CLASS_PALADIN && race_ == RACE_DRAENEI
-			|| !draenei_deathknight && class_ == CLASS_DEATH_KNIGHT && race_ == RACE_DRAENEI)
+			     || !draenei_hunter && class_ == CLASS_HUNTER && race_ == RACE_DRAENEI || !draenei_shaman && class_ == CLASS_SHAMAN && race_ == RACE_DRAENEI || !draenei_paladin && class_ == CLASS_PALADIN && race_ == RACE_DRAENEI
+			     || !draenei_deathknight && class_ == CLASS_DEATH_KNIGHT && race_ == RACE_DRAENEI)
+		{
+			data << uint8(CHAR_LOGIN_DISABLED);
+			SendPacket(&data);
+			return;
+		}
+
+		// Function for Worgen
+		else if (!worgen_priest && class_ == CLASS_PRIEST && race_ == RACE_WORGEN || !worgen_rogue && class_ == CLASS_ROGUE && race_ == RACE_WORGEN || !worgen_warrior && class_ == CLASS_WARRIOR && race_ == RACE_WORGEN
+			    || !worgen_mage && class_ == CLASS_MAGE && race_ == RACE_WORGEN || !worgen_druid && class_ == CLASS_DRUID && race_ == RACE_WORGEN || !worgen_hunter && class_ == CLASS_HUNTER && race_ == RACE_WORGEN
+				|| !worgen_warlock && class_ == CLASS_WARLOCK && race_ == RACE_WORGEN || !worgen_deathknight && class_ == CLASS_DEATH_KNIGHT && race_ == RACE_WORGEN)
 		{
 			data << uint8(CHAR_LOGIN_DISABLED);
 			SendPacket(&data);
@@ -421,7 +439,7 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
 
 		// Function for Orc
 		else if (!orc_rogue && class_ == CLASS_ROGUE && race_ == RACE_ORC || !orc_warrior && class_ == CLASS_WARRIOR && race_ == RACE_ORC || !orc_hunter && class_ == CLASS_HUNTER && race_ == RACE_ORC
-			|| !orc_warlock && class_ == CLASS_WARLOCK && race_ == RACE_ORC || !orc_shaman && class_ == CLASS_SHAMAN && race_ == RACE_ORC || !orc_deathknight && class_ == CLASS_DEATH_KNIGHT && race_ == RACE_ORC)
+			     || !orc_warlock && class_ == CLASS_WARLOCK && race_ == RACE_ORC || !orc_shaman && class_ == CLASS_SHAMAN && race_ == RACE_ORC || !orc_deathknight && class_ == CLASS_DEATH_KNIGHT && race_ == RACE_ORC)
 		{
 			data << uint8(CHAR_LOGIN_DISABLED);
 			SendPacket(&data);
@@ -429,7 +447,7 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
 		}
 		// Function for Forsaken
 		else if (!forsaken_priest && class_ == CLASS_PRIEST && race_ == RACE_UNDEAD_PLAYER || !forsaken_rogue && class_ == CLASS_ROGUE && race_ == RACE_UNDEAD_PLAYER || !forsaken_mage && class_ == CLASS_MAGE && race_ == RACE_UNDEAD_PLAYER
-			|| !forsaken_warlock && class_ == CLASS_WARLOCK && race_ == RACE_UNDEAD_PLAYER || !forsaken_deathknight && class_ == CLASS_DEATH_KNIGHT && race_ == RACE_UNDEAD_PLAYER)
+			     || !forsaken_warlock && class_ == CLASS_WARLOCK && race_ == RACE_UNDEAD_PLAYER || !forsaken_deathknight && class_ == CLASS_DEATH_KNIGHT && race_ == RACE_UNDEAD_PLAYER)
 		{
 			data << uint8(CHAR_LOGIN_DISABLED);
 			SendPacket(&data);
