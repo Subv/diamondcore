@@ -670,7 +670,7 @@ void LoadDBCStores(const std::string& dataPath)
         !sSpellStore.LookupEntry(79118)            )        // last added spell in 4.0.0
     {
         sLog.outError("\nYou have mixed version DBC files. Please re-extract DBC files for one from client build: %s",AcceptableClientBuildsListStr().c_str());
-        exit(1);
+        //exit(1);
     }
 
     sLog.outString();
