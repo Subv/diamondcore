@@ -47,7 +47,7 @@
  *
  */
 
-/* @(#) $Id$ */
+/* @(#) $Id: deflate.c,v 1.1 2006/08/27 01:58:02 morgan3d Exp $ */
 
 #include "deflate.h"
 
