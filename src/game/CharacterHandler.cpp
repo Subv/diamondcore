@@ -384,7 +384,7 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
 		
 		// Function for Human
 		if (!human_priest && class_ == CLASS_PRIEST && race_ == RACE_HUMAN || !human_rogue && class_ == CLASS_ROGUE && race_ == RACE_HUMAN || !human_warrior && class_ == CLASS_WARRIOR && race_ == RACE_HUMAN
-			|| !human_mage && class_ == CLASS_MAGE && race_ == RACE_HUMAN || !human_hunter && class_ == CLASS_HUMAN && race_ == RACE_HUMAN || !human_warlock && class_ == CLASS_WARLOCK && race_ == RACE_HUMAN 
+			|| !human_mage && class_ == CLASS_MAGE && race_ == RACE_HUMAN || !human_hunter && class_ == CLASS_HUNTER && race_ == RACE_HUMAN || !human_warlock && class_ == CLASS_WARLOCK && race_ == RACE_HUMAN 
 			|| !human_paladin && class_ == CLASS_PALADIN && race_ == RACE_HUMAN || !human_deathknight && class_ == CLASS_DEATH_KNIGHT && race_ == RACE_HUMAN)
 		{
 			data << uint8(CHAR_LOGIN_DISABLED);
