@@ -226,6 +226,12 @@ bool WaypointMovementGenerator<Creature>::Update(Creature &creature, const uint3
             if (i_path->at(idx).orientation != 100)
                 creature.SetOrientation(i_path->at(idx).orientation);
 
+            if (i_path->at(idx).script_id)
+            {
+                sLog.outDebug("Creature movement start script %u at point %u for creature %u (entry %u).", i_path->at(idx).script_id, idx, creature.GetDBTableGUIDLow(), creature.GetEntry());
+                creature.GetMap()->ScriptsStart(sCreatureMovementScripts, i_path->at(idx).script_id, &creature, &creature);
+            }
+
             if (WaypointBehavior *behavior = i_path->at(idx).behavior)
             {
                 if (behavior->model2 != 0)
