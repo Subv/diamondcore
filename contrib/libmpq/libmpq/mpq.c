@@ -19,12 +19,7 @@
  */
 
 /* mpq-tools configuration includes. */
-#ifdef WIN32
-    #define VERSION "0.4.2"     // from configure.ac
-    #define fseeko _fseeki64
-#else
-    #include "config.h"
-#endif
+#include "config.h"
 
 /* libmpq main includes. */
 #include "mpq.h"
@@ -38,9 +33,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/stat.h>
+#if HAVE_UNISTD_H
+	#include <unistd.h>
+#endif
 
-#ifndef WIN32
-    #include <unistd.h>
+#ifdef _MSC_VER
+	#define fseeko _fseeki64
 #endif
 
 /* this function returns the library version information. */
