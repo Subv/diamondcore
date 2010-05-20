@@ -227,7 +227,7 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
         }
     }
 
-	// Disable Race/Class combinations \\
+// Disable Race/Class combinations \\
 	 //            by Fabian          \\
 
 	// Enable Race/Class Blocker for GameMaster/Admins ?!
