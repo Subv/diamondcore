@@ -57,6 +57,24 @@ namespace VMAP
             AreaInfo aInfo;
     };
 
+    class LocationInfoCallback
+    {
+        public:
+            LocationInfoCallback(ModelInstance *val, LocationInfo &info): prims(val), locInfo(info), result(false) {}
+            void operator()(const Vector3& point, uint32 entry)
+            {
+#ifdef VMAP_DEBUG
+                std::cout << "trying to intersect '" << prims[entry].name << "'\n";
+#endif
+                if (prims[entry].GetLocationInfo(point, locInfo))
+                    result = true;
+            }
+
+            ModelInstance *prims;
+            LocationInfo &locInfo;
+            bool result;
+    };
+
 
     //=========================================================
 
@@ -70,7 +88,7 @@ namespace VMAP
         return tilefilename.str();
     }
 
-    bool StaticMapTree::getAreaInfo(Vector3 pos, uint32 &flags, int32 &adtId, int32 &rootId, int32 &groupId) const
+    bool StaticMapTree::getAreaInfo(Vector3 &pos, uint32 &flags, int32 &adtId, int32 &rootId, int32 &groupId) const
     {
         AreaInfoCallback intersectionCallBack(iTreeValues);
         iTree.intersectPoint(pos, intersectionCallBack);
@@ -80,9 +98,17 @@ namespace VMAP
             adtId = intersectionCallBack.aInfo.adtId;
             rootId = intersectionCallBack.aInfo.rootId;
             groupId = intersectionCallBack.aInfo.groupId;
+            pos.z = intersectionCallBack.aInfo.ground_Z;
             return true;
         }
         return false;
+    }
+
+    bool StaticMapTree::GetLocationInfo(const Vector3 &pos, LocationInfo &info) const
+    {
+        LocationInfoCallback intersectionCallBack(iTreeValues, info);
+        iTree.intersectPoint(pos, intersectionCallBack);
+        return intersectionCallBack.result;
     }
 
     StaticMapTree::StaticMapTree(uint32 mapID, const std::string &basePath):

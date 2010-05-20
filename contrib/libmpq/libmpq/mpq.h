@@ -36,10 +36,6 @@ extern "C" {
 #include <stdint.h>
 #include <sys/types.h>
 
-#ifndef WIN32
-    #include <unistd.h>
-#endif
-
 #if defined(__GNUC__) && (__GNUC__ >= 4)
 # define LIBMPQ_API __attribute__((visibility("default")))
 #else

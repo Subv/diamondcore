@@ -27,7 +27,7 @@ namespace VMAP
 {
     ModelInstance::ModelInstance(const ModelSpawn &spawn, WorldModel *model): ModelSpawn(spawn), iModel(model)
     {
-        iInvRot = (G3D::Matrix3::fromEulerAnglesZYX(G3D::pi()*iRot.y/180.f, G3D::pi()*iRot.x/180.f, G3D::pi()*iRot.z/180.f)).inverse();
+        iInvRot = G3D::Matrix3::fromEulerAnglesZYX(G3D::pi()*iRot.y/180.f, G3D::pi()*iRot.x/180.f, G3D::pi()*iRot.z/180.f).inverse();
         iInvScale = 1.f/iScale;
     }
 
@@ -78,13 +78,75 @@ namespace VMAP
             return;
         // child bounds are defined in object space:
         Vector3 pModel = iInvRot * (p - iPos) * iInvScale;
-        if (iModel->IntersectPoint(pModel, info))
+        Vector3 zDirModel = iInvRot * Vector3(0.f, 0.f, -1.f);
+        float zDist;
+        if (iModel->IntersectPoint(pModel, zDirModel, zDist, info))
         {
-            info.adtId = adtId;
+            Vector3 modelGround = pModel + zDist * zDirModel;
+            // Transform back to world space. Note that:
+            // Mat * vec == vec * Mat.transpose()
+            // and for rotation matrices: Mat.inverse() == Mat.transpose()
+            float world_Z = ((modelGround * iInvRot) * iScale + iPos).z;
+            if (info.ground_Z < world_Z)
+            {
+                info.ground_Z = world_Z;
+                info.adtId = adtId;
+            }
         }
     }
 
-    // move to new file... (WorldModel.cpp?)
+    bool ModelInstance::GetLocationInfo(const G3D::Vector3& p, LocationInfo &info) const
+    {
+        if (!iModel)
+        {
+#ifdef VMAP_DEBUG
+            std::cout << "<object not loaded>\n";
+#endif
+            return false;
+        }
+
+        // M2 files don't contain area info, only WMO files
+        if (flags & MOD_M2)
+            return false;
+        if (!iBound.contains(p))
+            return false;
+        // child bounds are defined in object space:
+        Vector3 pModel = iInvRot * (p - iPos) * iInvScale;
+        Vector3 zDirModel = iInvRot * Vector3(0.f, 0.f, -1.f);
+        float zDist;
+        if (iModel->GetLocationInfo(pModel, zDirModel, zDist, info))
+        {
+            Vector3 modelGround = pModel + zDist * zDirModel;
+            // Transform back to world space. Note that:
+            // Mat * vec == vec * Mat.transpose()
+            // and for rotation matrices: Mat.inverse() == Mat.transpose()
+            float world_Z = ((modelGround * iInvRot) * iScale + iPos).z;
+            if (info.ground_Z < world_Z) // hm...could it be handled automatically with zDist at intersection?
+            {
+                info.ground_Z = world_Z;
+                info.hitInstance = this;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    bool ModelInstance::GetLiquidLevel(const G3D::Vector3& p, LocationInfo &info, float &liqHeight) const
+    {
+        // child bounds are defined in object space:
+        Vector3 pModel = iInvRot * (p - iPos) * iInvScale;
+        //Vector3 zDirModel = iInvRot * Vector3(0.f, 0.f, -1.f);
+        float zDist;
+        if (info.hitModel->GetLiquidLevel(pModel, zDist))
+        {
+            // calculate world height (zDist in model coords):
+            // assume WMO not tilted (wouldn't make much sense anyway)
+            liqHeight = zDist * iScale + iPos.z;
+            return true;
+        }
+        return false;
+    }
+
     bool ModelSpawn::readFromFile(FILE *rf, ModelSpawn &spawn)
     {
         uint32 check=0, nameLen;

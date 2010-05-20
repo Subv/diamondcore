@@ -227,7 +227,7 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
         }
     }
 
-	// Disable Race/Class combinations \\
+// Disable Race/Class combinations \\
 	 //            by Fabian          \\
 
 	// Enable Race/Class Blocker for GameMaster/Admins ?!
@@ -959,11 +959,8 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder *holder)
     pCurrChar->SetInGameTime( getMSTime() );
 
     // announce group about member online (must be after add to player list to receive announce to self)
-    if(Group *group = pCurrChar->GetGroup())
-    {
-        //pCurrChar->groupInfo.group->SendInit(this); // useless
+    if (Group *group = pCurrChar->GetGroup())
         group->SendUpdate();
-    }
 
     // friend status
     sSocialMgr.SendFriendStatus(pCurrChar, FRIEND_ONLINE, pCurrChar->GetGUIDLow(), true);

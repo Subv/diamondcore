@@ -21,7 +21,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #if _HAVE_ZIP
-    #include "zip.h"
+#include "zip.h"
 #endif
 
 #ifdef G3D_WIN32
@@ -146,7 +146,8 @@ void zipRead(const std::string& file,
              void*& data,
              size_t& length) {
     std::string zip, desiredFile;
-#if _HAVE_ZIP    
+    
+#if _HAVE_ZIP
     if (zipfileExists(file, zip, desiredFile)) {
         struct zip *z = zip_open( zip.c_str(), ZIP_CHECKCONS, NULL );
         {
@@ -170,7 +171,7 @@ void zipRead(const std::string& file,
         data = NULL;
     }
 #else
-    data = NULL;
+	data = NULL;
 #endif
 }
 
@@ -205,7 +206,7 @@ int64 fileLength(const std::string& filename) {
         return -1;
 		}
 #else
-        return -1;
+		return -1;
 #endif
     }
 
@@ -526,7 +527,6 @@ bool fileExists
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-
 #if _HAVE_ZIP
 /* Helper methods for zipfileExists()*/
 // Given a string (the drive) and an array (the path), computes the directory
@@ -567,6 +567,7 @@ static bool _zip_zipContains(const std::string& zipDir, const std::string& desir
 bool zipfileExists(const std::string& filename, std::string& outZipfile,
                    std::string& outInternalFile){
 #if _HAVE_ZIP
+   
     Array<std::string> path;
     std::string drive, base, ext, zipfile, infile;
     parseFilename(filename, drive, path, base, ext);

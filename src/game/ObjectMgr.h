@@ -93,6 +93,7 @@ extern ScriptMapMap sSpellScripts;
 extern ScriptMapMap sGameObjectScripts;
 extern ScriptMapMap sEventScripts;
 extern ScriptMapMap sGossipScripts;
+extern ScriptMapMap sCreatureMovementScripts;
 
 struct SpellClickInfo
 {
@@ -625,6 +626,7 @@ class ObjectMgr
         void LoadEventScripts();
         void LoadSpellScripts();
         void LoadGossipScripts();
+        void LoadCreatureMovementScripts();
 
         bool LoadStrings(DatabaseType& db, char const* table, int32 min_value, int32 max_value);
         bool LoadStrings() { return LoadStrings(WorldDatabase,"strings",MIN_DIAMOND_STRING_ID,MAX_DIAMOND_STRING_ID); }
@@ -1054,7 +1056,7 @@ class ObjectMgr
 
     private:
         void LoadScripts(ScriptMapMap& scripts, char const* tablename);
-        void CheckScripts(ScriptMapMap const& scripts,std::set<int32>& ids);
+        void CheckScriptTexts(ScriptMapMap const& scripts,std::set<int32>& ids);
         void LoadCreatureAddons(SQLStorage& creatureaddons, char const* entryName, char const* comment);
         void ConvertCreatureAddonAuras(CreatureDataAddon* addon, char const* table, char const* guidEntryStr);
         void ConvertCreatureAddonPassengers(CreatureDataAddon* addon, char const* table, char const* guidEntryStr);

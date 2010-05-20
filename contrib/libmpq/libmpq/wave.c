@@ -26,11 +26,7 @@
  */
 
 /* generic includes. */
-#ifdef WIN32
-#include "stdint.h"
-#else
 #include <stdint.h>
-#endif
 
 /* libmpq generic includes. */
 #include "wave.h"
