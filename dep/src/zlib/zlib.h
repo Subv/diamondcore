@@ -31,6 +31,9 @@
 #ifndef ZLIB_H
 #define ZLIB_H
 
+/* Corey - Added for static build */
+#define ZLIB_WINAPI
+
 #include "zconf.h"
 
 #ifdef __cplusplus

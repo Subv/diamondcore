@@ -42,7 +42,7 @@ void fixname2(char *name, size_t len)
     }
 }
 
-ADTFile::ADTFile(char* filename): ADT(filename), nWMO(0), nMDX(0)
+ADTFile::ADTFile(char* filename): ADT(filename)
 {
     Adtfilename.append(filename);
 }

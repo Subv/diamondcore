@@ -36,10 +36,6 @@
 #define LIBMPQ_PKZIP_CMP_BAD_DATA		3
 #define LIBMPQ_PKZIP_CMP_ABORT			4
 
-#ifdef WIN32
-#pragma pack(push,1)
-#endif
-
 #ifdef _MSC_VER
 #pragma pack(push,1)
 #endif
@@ -72,14 +68,11 @@ typedef struct {
 	uint8_t		slen_bits[0x10];	/* 30F4 - numbers of bits for skip copied block length. */
 	uint8_t		clen_bits[0x10];	/* 3104 - number of valid bits for copied block. */
 	uint16_t	len_base[0x10];		/* 3114 - buffer. */
-#ifdef WIN32
+#ifdef _MSC_VER
 } pkzip_cmp_s;
+#pragma pack(pop)
 #else
 } __attribute__ ((packed)) pkzip_cmp_s;
-#endif
-
-#ifdef WIN32
-#pragma pack(pop)
 #endif
 
 /* data structure. */

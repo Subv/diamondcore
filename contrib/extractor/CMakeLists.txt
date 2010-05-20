@@ -9,18 +9,17 @@
 # implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 cmake_minimum_required (VERSION 2.6)
-project (DIAMOND_MAP_EXTRACTOR)
+project (MANGOS_MAP_EXTRACTOR)
 
-add_subdirectory (libmpq)
 add_subdirectory (loadlib)
 
-include_directories (${DIAMOND_MAP_EXTRACTOR_SOURCE_DIR}/libmpq) 
-include_directories (${DIAMOND_MAP_EXTRACTOR_SOURCE_DIR}/loadlib) 
+include_directories (../libmpq/libmpq/) 
+include_directories (${MANGOS_MAP_EXTRACTOR_SOURCE_DIR}/loadlib) 
 
-link_directories (${DIAMOND_MAP_EXTRACTOR_SOURCE_DIR}/libmpq) 
-link_directories (${DIAMOND_MAP_EXTRACTOR_SOURCE_DIR}/loadlib) 
+link_directories (../libmpq/libmpq/.libs/) 
+link_directories (${MANGOS_MAP_EXTRACTOR_SOURCE_DIR}/loadlib) 
 
 add_executable (ad dbcfile.cpp mpq_libmpq.cpp System.cpp)
 
-target_link_libraries (ad libmpq)
+target_link_libraries (ad mpq)
 target_link_libraries (ad loadlib)

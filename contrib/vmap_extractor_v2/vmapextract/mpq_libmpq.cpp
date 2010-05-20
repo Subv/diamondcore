@@ -6,11 +6,10 @@ ArchiveSet gOpenArchives;
 
 MPQArchive::MPQArchive(const char* filename)
 {
-    m_filename = filename;
-    libmpq_error = libmpq__archive_open(&mpq_a, filename, -1);
+    int result = libmpq__archive_open(&mpq_a, filename, -1);
     printf("Opening %s\n", filename);
-    if(libmpq_error) {
-        switch(libmpq_error) {
+    if(result) {
+        switch(result) {
             case LIBMPQ_ERROR_OPEN :
                 printf("Error opening archive '%s': Does file really exist?\n", filename);
                 break;
@@ -56,19 +55,20 @@ MPQFile::MPQFile(const char* filename):
         libmpq__off_t transferred;
         libmpq__file_unpacked_size(mpq_a, filenum, &size);
 
-        // file should not be loaded
+        // HACK: in patch.mpq some files don't want to open and give 1 for filesize
         if (size<=1) {
+            printf("warning: file %s has size %d; cannot read.\n", filename, size);
             eof = true;
             buffer = 0;
             return;
         }
-        
         buffer = new char[size];
 
         //libmpq_file_getdata
         libmpq__file_read(mpq_a, filenum, (unsigned char*)buffer, size, &transferred);
         /*libmpq_file_getdata(&mpq_a, hash, fileno, (unsigned char*)buffer);*/
         return;
+
     }
     eof = true;
     buffer = 0;
