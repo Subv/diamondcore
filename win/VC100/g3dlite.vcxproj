@@ -223,7 +223,7 @@
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\dep\include\g3dlite;..\..\dep\include\zlib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\dep\include\g3dlite;..\..\dep\include\zlib;..\..\dep\include\zip;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -272,6 +272,7 @@
     <ClInclude Include="..\..\dep\include\g3dlite\G3D\Vector3.h" />
     <ClInclude Include="..\..\dep\include\g3dlite\G3D\Vector3int16.h" />
     <ClInclude Include="..\..\dep\include\g3dlite\G3D\Vector4.h" />
+    <ClInclude Include="..\..\dep\include\zip\zip.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\dep\src\g3dlite\AABox.cpp" />
