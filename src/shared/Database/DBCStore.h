@@ -34,22 +34,28 @@ class DBCStorage
         char const* GetFormat() const { return fmt; }
         uint32 GetFieldCount() const { return fieldCount; }
 
-        bool Load(char const* fn)
+        bool Load(char const* fn, LocaleConstant loc)
         {
             DBCFileLoader dbc;
             // Check if load was sucessful, only then continue
             if(!dbc.Load(fn, fmt))
                 return false;
 
+			// load raw non-string data
             fieldCount = dbc.GetCols();
             m_dataTable = (T*)dbc.AutoProduceData(fmt,nCount,(char**&)indexTable);
-            m_stringPoolList.push_back(dbc.AutoProduceStrings(fmt,(char*)m_dataTable));
+            // create string holders for loaded string fields
+
+            m_stringPoolList.push_back(dbc.AutoProduceStringsArrayHolders(fmt,(char*)m_dataTable));
+
+            // load strings from dbc data
+            m_stringPoolList.push_back(dbc.AutoProduceStrings(fmt,(char*)m_dataTable,loc));
 
             // error in dbc file at loading if NULL
             return indexTable!=NULL;
         }
 
-        bool LoadStringsFrom(char const* fn)
+        bool LoadStringsFrom(char const* fn, LocaleConstant loc)
         {
             // DBC must be already loaded using Load
             if(!indexTable)
@@ -60,7 +66,8 @@ class DBCStorage
             if(!dbc.Load(fn, fmt))
                 return false;
 
-            m_stringPoolList.push_back(dbc.AutoProduceStrings(fmt,(char*)m_dataTable));
+            // load strings from another locale dbc data
+            m_stringPoolList.push_back(dbc.AutoProduceStrings(fmt,(char*)m_dataTable,loc));
 
             return true;
         }
