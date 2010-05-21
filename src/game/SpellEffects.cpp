@@ -3937,18 +3937,19 @@ void Spell::EffectSummonType(SpellEffectIndex eff_idx)
         case SUMMON_PROP_GROUP_CONTROLLABLE:
         {
            switch(prop_id)
-            {
-                //SUMMON_TYPE_POSESSED   = 65
-                //SUMMON_TYPE_POSESSED2   = 428
-                case 65:
-                case 428:
-                    EffectSummonPossessed(eff_idx);
-                    break;
-            default: DoSummonGuardian(eff_idx, summon_prop->FactionId);
-            break;
-            }
-            break;
-        }
+           {
+			   //SUMMON_TYPE_POSESSED   = 65
+               //SUMMON_TYPE_POSESSED2   = 428
+               case 65:
+               case 428:
+                   EffectSummonPossessed(eff_idx);
+                   break;
+			   default:
+				   DoSummonGuardian(eff_idx, summon_prop->FactionId);
+				   break;
+		   }
+		   break;
+		}
         case SUMMON_PROP_GROUP_VEHICLE:
         {
             // TODO
@@ -3962,35 +3963,35 @@ void Spell::EffectSummonType(SpellEffectIndex eff_idx)
 }
 
 void Spell::EffectSummonPossessed(SpellEffectIndex eff_idx)
- {
-     uint32 creature_entry = m_spellInfo->EffectMiscValue[eff_idx];
-     if (!creature_entry)
-        return;
+{
+	uint32 creature_entry = m_spellInfo->EffectMiscValue[eff_idx];
+    if (!creature_entry)
+       return;
  
-     int32 duration = GetSpellDuration(m_spellInfo);
+	int32 duration = GetSpellDuration(m_spellInfo);
  
-     float px, py, pz;
-     // If dest location if present
-     if (m_targets.m_targetMask & TARGET_FLAG_DEST_LOCATION)
-     {
-         // Summon 1 unit in dest location
-         px = m_targets.m_destX;
-         py = m_targets.m_destY;
-         pz = m_targets.m_destZ;
-     }
-     // Summon if dest location not present near caster
-     else
-         m_caster->GetClosePoint(px, py, pz, 1.0f);
- 
-     TempSummonType summonType = (duration == 0) ? TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN : TEMPSUMMON_TIMED_DESPAWN;
-     Creature *spawnCreature = m_caster->SummonCreature(creature_entry, px, py, pz, m_caster->GetOrientation(), summonType, duration);
+	float px, py, pz;
+    // If dest location if present
+    if (m_targets.m_targetMask & TARGET_FLAG_DEST_LOCATION)
+    {
+        // Summon 1 unit in dest location
+        px = m_targets.m_destX;
+        py = m_targets.m_destY;
+        pz = m_targets.m_destZ;
+    }
+    // Summon if dest location not present near caster
+    else
+        m_caster->GetClosePoint(px, py, pz, 1.0f);
 
-     Unit* caster = GetAffectiveCaster();	 
-     Aura* aur = CreateAura(m_spellInfo, eff_idx, &m_currentBasePoints[eff_idx], spawnCreature, caster, m_CastItem);	 
-     Modifier* modifier=aur->GetModifier();
-     aur->SetModifier(SPELL_AURA_MOD_POSSESS,modifier->m_amount,modifier->periodictime,modifier->m_miscvalue);
-     spawnCreature->AddAura(aur);	 
- } 
+    TempSummonType summonType = (duration == 0) ? TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN : TEMPSUMMON_TIMED_DESPAWN;
+    Creature *spawnCreature = m_caster->SummonCreature(creature_entry, px, py, pz, m_caster->GetOrientation(), summonType, duration);
+
+	Unit* caster = GetAffectiveCaster();	 
+    Aura* aur = CreateAura(m_spellInfo, eff_idx, &m_currentBasePoints[eff_idx], spawnCreature, caster, m_CastItem);	 
+    Modifier* modifier=aur->GetModifier();
+    aur->SetModifier(SPELL_AURA_MOD_POSSESS,modifier->m_amount,modifier->periodictime,modifier->m_miscvalue);
+    spawnCreature->AddAura(aur);	 
+} 
  
 void Spell::DoSummon(SpellEffectIndex eff_idx)
 {
@@ -5966,15 +5967,17 @@ void Spell::EffectScriptEffect(SpellEffectIndex eff_idx)
                     caster->CastSpell(caster, damage, false);
                     break;
                 }
-				case 51904:                                 // Summon Ghouls Of Scarlet Crusade
+				// Summon Ghouls Of Scarlet Crusade
+				case 51904:
                 {
 					if(!unitTarget)
 						return;
 					
 					unitTarget->CastSpell(unitTarget, 54522, true);
 					break;
-				} 
-				case 52694:                                 // Recall Eye of Acherus
+				}
+				// Recall Eye of Acherus
+				case 52694:
 				{
 					if(!m_caster || m_caster->GetTypeId() != TYPEID_UNIT || !(m_caster->isCharmed()))
 						return;
@@ -5984,7 +5987,7 @@ void Spell::EffectScriptEffect(SpellEffectIndex eff_idx)
 						return;
 
 					Player *player = ((Player*)m_caster->GetCharmer());					 
-					
+
 					if(eye->isInCombat())
 						return;
 

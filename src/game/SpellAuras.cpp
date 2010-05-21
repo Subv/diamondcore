@@ -8591,10 +8591,12 @@ void Aura::HandlePhase(bool apply, bool Real)
             }
         }
           
-        if(m_target->GetCharm() && !apply)//remove other auras from charm on unapply
+        //remove other auras from charm on unapply
+        if(m_target->GetCharm() && !apply)
         {
-            Creature * creat=((Creature*)m_target->GetCharm());						
-            creat->RemoveAurasDueToSpellByCancel(GetId());			
+            Creature * creat=((Creature*)m_target->GetCharm());
+            creat->GetMap()->CreatureRelocation(creat,m_target->GetPositionX(),m_target->GetPositionY(),m_target->GetPositionZ(),m_target->GetOrientation());
+            creat->RemoveAurasDueToSpellByCancel(GetId());
         }
     }
     else

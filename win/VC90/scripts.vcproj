@@ -826,6 +826,10 @@
 						RelativePath="..\..\src\scripts\scripts\eastern_kingdoms\scarlet_enclave\ebon_hold.cpp"
 						>
 					</File>
+                                        <File
+						RelativePath="..\..\src\scripts\scripts\eastern_kingdoms\scarlet_enclave\quest_12641.cpp"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="scarlet_monastery"

@@ -86,6 +86,7 @@ extern void AddSC_boss_ragnaros();
 extern void AddSC_instance_molten_core();
 extern void AddSC_molten_core();
 extern void AddSC_ebon_hold();                              //scarlet_enclave
+extern void AddSC_quest_12641();
 extern void AddSC_boss_arcanist_doan();                     //scarlet_monastery
 extern void AddSC_boss_azshir_the_sleepless();
 extern void AddSC_boss_bloodmage_thalnos();
@@ -493,6 +494,7 @@ void AddScripts()
     AddSC_instance_molten_core();
     AddSC_molten_core();
     AddSC_ebon_hold();                                      //scarlet_enclave
+	AddSC_quest_12641();
     AddSC_boss_arcanist_doan();                             //scarlet_monastery
     AddSC_boss_azshir_the_sleepless();
     AddSC_boss_bloodmage_thalnos();
