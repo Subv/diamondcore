@@ -1,3 +1,7 @@
+#include "precompiled.h"
+#include "escort_ai.h"
+#include "WorldPacket.h"
+
 /*######
 ## npc_eye_of_acherus
 ######*/
