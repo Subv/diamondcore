@@ -1524,7 +1524,7 @@ void Spell::EffectDummy(SpellEffectIndex eff_idx)
                         }
                     }
 
-                    ((Creature*)unitTarget)->ForcedDespawn();
+                    ((Creature*)unitTarget)->ForcedDespawn(5000);
                     return;
                 }
                 case 51866:                                 // Kick Nass
@@ -2449,7 +2449,7 @@ void Spell::EffectDummy(SpellEffectIndex eff_idx)
             {
                 if (m_caster->IsFriendlyTo(unitTarget))
                 {
-                    if (unitTarget->GetCreatureType() != CREATURE_TYPE_UNDEAD)
+                    if (!unitTarget || unitTarget->GetCreatureType() != CREATURE_TYPE_UNDEAD)
                         return;
 
                     int32 bp = int32(damage * 1.5f);
@@ -2677,13 +2677,9 @@ void Spell::EffectTriggerSpell(SpellEffectIndex effIndex)
             Unit::AuraMap& Auras = unitTarget->GetAuras();
             for(Unit::AuraMap::iterator iter = Auras.begin(); iter != Auras.end(); ++iter)
             {
-                // remove all harmful spells on you...
-                if( // ignore positive and passive auras
-                    !iter->second->IsPositive() && !iter->second->IsPassive() &&
-                    // ignore physical auras
-                    (GetSpellSchoolMask(iter->second->GetSpellProto()) & SPELL_SCHOOL_MASK_NORMAL)==0 &&
-                    // ignore deserter
-                    iter->second->GetSpellProto()->Id != 26013 )
+                // Remove all harmful spells on you except positive/passive/physical auras
+                if (!iter->second->IsPositive() && !iter->second->IsPassive() && !iter->second->IsDeathPersistent()
+					&& (GetSpellSchoolMask(iter->second->GetSpellProto()) & SPELL_SCHOOL_MASK_NORMAL) == 0)
                 {
                     m_caster->RemoveAurasDueToSpell(iter->second->GetSpellProto()->Id);
                     iter = Auras.begin();
@@ -6134,6 +6130,31 @@ void Spell::EffectScriptEffect(SpellEffectIndex eff_idx)
                     unitTarget->RemoveAurasDueToSpell(m_spellInfo->CalculateSimpleValue(eff_idx));
                     break;
                 }
+                case 57337:                                 // Great Feast
+                {
+                    if (!unitTarget)
+                        return;
+
+                    unitTarget->CastSpell(unitTarget, 58067, true);
+                    break;
+                }
+                case 57397:                                 // Fish Feast
+                {
+                    if (!unitTarget)
+                        return;
+
+                    unitTarget->CastSpell(unitTarget, 57292, true);
+                    break;
+                }
+                case 58466:                                 // Gigantic Feast
+                case 58475:                                 // Small Feast
+                {
+                    if (!unitTarget)
+                        return;
+
+                    unitTarget->CastSpell(unitTarget, 57085, true);
+                    break;
+                }
                 case 58418:                                 // Portal to Orgrimmar
                 case 58420:                                 // Portal to Stormwind
                 {
@@ -6176,6 +6197,15 @@ void Spell::EffectScriptEffect(SpellEffectIndex eff_idx)
                         ((Player*)m_caster)->learnSpell(discoveredSpell, false);
 
                     return;
+                }
+                case 66477:                                 // Bountiful Feast
+                {
+                    if (!unitTarget)
+                        return;
+
+                    unitTarget->CastSpell(unitTarget, 65422, true);
+                    unitTarget->CastSpell(unitTarget, 66622, true);
+                    break;
                 }
                 case 69377:                                 // Fortitude
                 {

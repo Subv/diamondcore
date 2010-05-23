@@ -607,6 +607,21 @@ void Spell::FillTargetMap()
                         break;
                 }
                 break;
+            case TARGET_DUELVSPLAYER_COORDINATES:
+                switch(m_spellInfo->EffectImplicitTargetB[i])
+                {
+                    case 0:
+                    case TARGET_EFFECT_SELECT:
+                        SetTargetMap(SpellEffectIndex(i), m_spellInfo->EffectImplicitTargetA[i], tmpUnitMap);
+                        if (Unit* currentTarget = m_targets.getUnitTarget())
+                            tmpUnitMap.push_back(currentTarget);
+                        break;
+                    default:
+                        SetTargetMap(SpellEffectIndex(i), m_spellInfo->EffectImplicitTargetA[i], tmpUnitMap);
+                        SetTargetMap(SpellEffectIndex(i), m_spellInfo->EffectImplicitTargetB[i], tmpUnitMap);
+                        break;
+                }
+                break;
             default:
                 switch(m_spellInfo->EffectImplicitTargetB[i])
                 {
@@ -758,6 +773,14 @@ void Spell::prepareDataForTriggerSystem()
             }
             break;
     }
+
+	// some negative spells have positive effects to another or same targets
+    // avoid triggering negative hit for only positive targets
+    m_negativeEffectMask = 0x0;
+    for (int i = 0; i < MAX_EFFECT_INDEX; ++i)
+        if (!IsPositiveEffect(m_spellInfo->Id, SpellEffectIndex(i)))
+            m_negativeEffectMask |= (1 << i);
+
     // Hunter traps spells: Immolation Trap Effect, Frost Trap (triggering spell!!),
     // Freezing Trap Effect(+ Freezing Arrow Effect), Explosive Trap Effect, Snake Trap Effect
     if (m_spellInfo->SpellFamilyName == SPELLFAMILY_HUNTER && (m_spellInfo->SpellFamilyFlags & UI64LIT(0x0000200000002008) || m_spellInfo->SpellFamilyFlags2 & 0x00064000))
@@ -951,6 +974,14 @@ void Spell::DoAllEffectOnTarget(TargetInfo *target)
     uint32 procVictim   = m_procVictim;
     uint32 procEx       = PROC_EX_NONE;
 
+    // drop proc flags in case target not affected negative effects in negative spell
+    // for example caster bonus or animation
+    if (((procAttacker | procVictim) & NEGATIVE_TRIGGER_MASK) && !(target->effectMask & m_negativeEffectMask))
+    {
+        procAttacker = PROC_FLAG_NONE;
+        procVictim   = PROC_FLAG_NONE;
+    }
+
     if (m_spellInfo->speed > 0)
     {
         // mark effects that were already handled in Spell::HandleDelayedSpellLaunch on spell launch as processed
@@ -1054,8 +1085,8 @@ void Spell::DoAllEffectOnTarget(TargetInfo *target)
             }
         }
     }
-    // Passive spell hits/misses or active spells only misses (only triggers)
-    else
+    // Passive spell hits/misses or active spells only misses (only triggers if proc flags set)
+    else if (procAttacker || procVictim)
     {
         // Fill base damage struct (unitTarget - is real spell target)
         SpellNonMeleeDamage damageInfo(caster, unitTarget, m_spellInfo->Id, m_spellSchoolMask);
@@ -1824,10 +1855,7 @@ void Spell::SetTargetMap(SpellEffectIndex effIndex, uint32 targetMode, UnitList&
         case TARGET_DUELVSPLAYER_COORDINATES:
         {
             if(Unit* currentTarget = m_targets.getUnitTarget())
-            {
                 m_targets.setDestination(currentTarget->GetPositionX(), currentTarget->GetPositionY(), currentTarget->GetPositionZ());
-                targetUnitMap.push_back(currentTarget);
-            }
             break;
         }
         case TARGET_ALL_PARTY_AROUND_CASTER:
@@ -2834,7 +2862,15 @@ void Spell::cast(bool skipCheck)
                 AddPrecastSpell(25771);                     // Forbearance
                 AddPrecastSpell(61987);                     // Avenging Wrath Marker
             }
-            else if (m_spellInfo->SpellFamilyFlags & UI64LIT(0x200000000000))
+            // Lay on Hands
+            else if (m_spellInfo->SpellFamilyFlags & UI64LIT(0x0000000000008000))
+            {
+                // only for self cast
+                if (m_caster == m_targets.getUnitTarget())
+                    AddPrecastSpell(25771);                     // Forbearance
+            }
+            // Avenging Wrath
+            else if (m_spellInfo->SpellFamilyFlags & UI64LIT(0x0000200000000000))
                 AddPrecastSpell(61987);                     // Avenging Wrath Marker
             break;
         }
@@ -2849,6 +2885,7 @@ void Spell::cast(bool skipCheck)
             // Spirit Walk
             else if (m_spellInfo->Id == 58875)
                 AddPrecastSpell(58876);
+            // Totem of Wrath
             else if (m_spellInfo->Effect[EFFECT_INDEX_0]==SPELL_EFFECT_APPLY_AREA_AURA_RAID && m_spellInfo->SpellFamilyFlags & UI64LIT(0x0000000004000000))
                 // only for main totem spell cast
                 AddTriggeredSpell(30708);                   // Totem of Wrath
@@ -4371,6 +4408,16 @@ SpellCastResult Spell::CheckCast(bool strict)
             // Focus Magic (main spell)
             if (m_spellInfo->Id == 54646)
                 return SPELL_FAILED_BAD_TARGETS;
+
+            // Lay on Hands (self cast)
+            if (m_spellInfo->SpellFamilyName == SPELLFAMILY_PALADIN &&
+                m_spellInfo->SpellFamilyFlags & UI64LIT(0x0000000000008000))
+            {
+                if (target->HasAura(25771))                 // Forbearance
+                    return SPELL_FAILED_CASTER_AURASTATE;
+                if (target->HasAura(61987))                 // Avenging Wrath Marker
+                    return SPELL_FAILED_CASTER_AURASTATE;
+            }
         }
 
         // check pet presents
@@ -5049,7 +5096,7 @@ SpellCastResult Spell::CheckCast(bool strict)
 
                     if (m_caster->GetTypeId() == TYPEID_PLAYER && m_caster->getClass() == CLASS_WARLOCK)
                     {
-                        if (strict)                         //starting cast, trigger pet stun (cast by pet so it doesn't attack player)
+                        if (strict)                         //Summoning Disorientation, trigger pet stun (cast by pet so it doesn't attack player)
                             pet->CastSpell(pet, 32752, true, NULL, NULL, pet->GetGUID());
                     }
                     else
@@ -5134,7 +5181,7 @@ SpellCastResult Spell::CheckCast(bool strict)
                 //custom check
                 switch(m_spellInfo->Id)
                 {
-                    case 61336:
+                    case 61336:                             // Survival Instincts
                         if(m_caster->GetTypeId() != TYPEID_PLAYER || !((Player*)m_caster)->IsInFeralForm())
                             return SPELL_FAILED_ONLY_SHAPESHIFT;
                         break;
@@ -5374,7 +5421,9 @@ SpellCastResult Spell::CheckCasterAuras() const
     // Flag drop spells totally immuned to caster auras
     // FIXME: find more nice check for all totally immuned spells
     // AttributesEx3 & 0x10000000?
-    if(m_spellInfo->Id == 23336 || m_spellInfo->Id == 23334 || m_spellInfo->Id == 34991)
+    if (m_spellInfo->Id == 23336 ||                         // Alliance Flag Drop
+        m_spellInfo->Id == 23334 ||                         // Horde Flag Drop
+        m_spellInfo->Id == 34991)                           // Summon Netherstorm Flag
         return SPELL_CAST_OK;
 
     uint8 school_immune = 0;
@@ -5397,7 +5446,7 @@ SpellCastResult Spell::CheckCasterAuras() const
                 dispel_immune |= GetDispellMask(DispelType(m_spellInfo->EffectMiscValue[i]));
         }
         // immune movement impairment and loss of control
-        if (m_spellInfo->Id == 42292)
+        if (m_spellInfo->Id == 42292)                       // PvP Trinket
             mechanic_immune = IMMUNE_TO_MOVEMENT_IMPAIRMENT_AND_LOSS_CONTROL_MASK;
     }
 
@@ -6230,7 +6279,7 @@ bool Spell::CheckTargetCreatureType(Unit* target) const
 {
     uint32 spellCreatureTargetMask = m_spellInfo->TargetCreatureType;
 
-    // Curse of Doom & Exorcism: not find another way to fix spell target check :/
+    // Curse of Doom: not find another way to fix spell target check :/
     if (m_spellInfo->SpellFamilyName == SPELLFAMILY_WARLOCK && m_spellInfo->Category == 1179)
     {
         // not allow cast at player
