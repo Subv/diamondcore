@@ -39,7 +39,6 @@ game
 shared
 zlib
 framework
-sockets
 database
 auth
 config
