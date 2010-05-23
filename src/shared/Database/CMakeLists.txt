@@ -1,6 +1,3 @@
-
-
-
 SET(database_STAT_SRCS
    DBCFileLoader.cpp
    DBCFileLoader.h

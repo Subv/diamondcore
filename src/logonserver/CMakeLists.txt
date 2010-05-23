@@ -41,7 +41,6 @@ auth
 config
 zlib
 gomp
-${ACE_LIBRARY}
 ${SSLLIB}
 ${MYSQL_LIBRARIES}
 ${POSTGRESQL_LIBRARIES}
