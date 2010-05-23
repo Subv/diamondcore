@@ -22,13 +22,17 @@
 
 #include "Config/ConfigEnv.h"
 #include "Log.h"
-#include "sockets/ListenSocket.h"
 #include "AuthSocket.h"
 #include "SystemConfig.h"
 #include "revision_nr.h"
 #include "Util.h"
 #include <openssl/opensslv.h>
 #include <openssl/crypto.h>
+
+#include <ace/Dev_Poll_Reactor.h>
+#include <ace/ACE.h>
+#include <ace/Acceptor.h>
+#include <ace/SOCK_Acceptor.h>
 
 #ifdef WIN32
 #include "ServiceWin32.h"
@@ -167,7 +171,13 @@ extern int main(int argc, char **argv)
         sLog.outDetail("WARNING: Minimal required version [OpenSSL 0.9.8k]");
     }
 
-    /// realmd PID file creation
+#if defined (ACE_HAS_EVENT_POLL) || defined (ACE_HAS_DEV_POLL)
+    ACE_Reactor::instance(new ACE_Reactor(new ACE_Dev_Poll_Reactor(ACE::max_handles(), 1), 1), true);
+#endif
+
+    sLog.outBasic("Max allowed open files is %d", ACE::max_handles());
+
+    /// LogonServer PID file creation
     std::string pidfile = sConfig.GetStringDefault("PidFile", "");
     if (!pidfile.empty())
     {
@@ -193,24 +203,26 @@ extern int main(int argc, char **argv)
         return 1;
     }
 
+	// cleanup query
+
+    // set expired bans to inactive
+    loginDatabase.Execute("UPDATE account_banned SET active = 0 WHERE unbandate<=UNIX_TIMESTAMP() AND unbandate<>bandate");
+    loginDatabase.Execute("DELETE FROM ip_banned WHERE unbandate<=UNIX_TIMESTAMP() AND unbandate<>bandate");
+
     ///- Launch the listening network socket
-    port_t rmport = sConfig.GetIntDefault("RealmServerPort", DEFAULT_REALMSERVER_PORT);
+    ACE_Acceptor<AuthSocket, ACE_SOCK_Acceptor> acceptor;
+
+    uint16 rmport = sConfig.GetIntDefault("RealmServerPort", DEFAULT_REALMSERVER_PORT);
+
     std::string bind_ip = sConfig.GetStringDefault("BindIP", "0.0.0.0");
 
-    SocketHandler h;
-    ListenSocket<AuthSocket> authListenSocket(h);
-    if (authListenSocket.Bind(bind_ip.c_str(), rmport))
+    ACE_INET_Addr bind_addr(rmport, bind_ip.c_str());
+
+    if(acceptor.open(bind_addr, ACE_Reactor::instance(), ACE_NONBLOCK) == -1)
     {
         sLog.outError("LogonServer can not bind to %s:%d", bind_ip.c_str(), rmport);
         return 1;
     }
-
-    // cleanup query
-    //set expired bans to inactive
-    loginDatabase.Execute("UPDATE account_banned SET active = 0 WHERE unbandate <= UNIX_TIMESTAMP() AND unbandate <> bandate");
-    loginDatabase.Execute("DELETE FROM ip_banned WHERE unbandate <= UNIX_TIMESTAMP() AND unbandate <> bandate");
-
-    h.Add(&authListenSocket);
 
     ///- Catch termination signals
     HookSignals();
@@ -264,8 +276,11 @@ extern int main(int argc, char **argv)
     ///- Wait for termination signal
     while (!stopEvent)
     {
+        // dont move this outside the loop, the reactor will modify it
+        ACE_Time_Value interval(0, 100000);
 
-        h.Select(0, 100000);
+        if (ACE_Reactor::instance()->run_reactor_event_loop(interval) == -1)
+            break;
 
         if ((++loopCounter) == numLoops)
         {

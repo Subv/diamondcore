@@ -400,12 +400,16 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\logonserver\AuthCodes.h" />
     <ClInclude Include="..\..\src\logonserver\AuthSocket.h" />
+    <ClInclude Include="..\..\src\logonserver\BufferedSocket.h" />
+    <ClInclude Include="..\..\src\logonserver\PatchHandler.h" />
     <ClInclude Include="..\..\src\logonserver\RealmList.h" />
     <ClInclude Include="..\..\src\shared\WheatyExceptionReport.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\logonserver\AuthSocket.cpp" />
+    <ClCompile Include="..\..\src\logonserver\BufferedSocket.cpp" />
     <ClCompile Include="..\..\src\logonserver\Main.cpp" />
+    <ClCompile Include="..\..\src\logonserver\PatchHandler.cpp" />
     <ClCompile Include="..\..\src\logonserver\RealmList.cpp" />
     <ClCompile Include="..\..\src\shared\WheatyExceptionReport.cpp" />
   </ItemGroup>
@@ -415,10 +419,6 @@
   <ItemGroup>
     <ProjectReference Include="shared.vcxproj">
       <Project>{90297c34-f231-4df4-848e-a74bcc0e40ed}</Project>
-      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
-    </ProjectReference>
-    <ProjectReference Include="sockets.vcxproj">
-      <Project>{04baf755-0d67-46f8-b1c6-77ae5368f3cb}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

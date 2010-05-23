@@ -75,7 +75,7 @@ bool VendorItemData::RemoveItem( uint32 item_id )
     return found;
 }
 
-VendorItem const* VendorItemData::FindItemCostPair(uint32 item_id, uint32 extendedCost) const
+VendorItem const* VendorItemData::FindItemCostPair(uint32 item_id, int32 extendedCost) const
 {
     for(VendorItemList::const_iterator i = m_items.begin(); i != m_items.end(); ++i )
         if((*i)->item == item_id && (*i)->ExtendedCost == extendedCost)
@@ -111,7 +111,7 @@ bool ForcedDespawnDelayEvent::Execute(uint64 /*e_time*/, uint32 /*p_time*/)
 
 Creature::Creature(CreatureSubtype subtype) :
 Unit(), i_AI(NULL), GridCreature(this),
-lootForPickPocketed(false), lootForBody(false), m_groupLootTimer(0), m_groupLootId(0),
+lootForPickPocketed(false), lootForBody(false), lootForSkin(false), m_groupLootTimer(0), m_groupLootId(0),
 m_lootMoney(0), m_lootGroupRecipientId(0),
 m_deathTimer(0), m_respawnTime(0), m_respawnDelay(25), m_corpseDelay(60), m_respawnradius(5.0f),
 m_subtype(subtype), m_defaultMovementType(IDLE_MOTION_TYPE), m_DBTableGuid(0), m_equipmentId(0),
@@ -821,26 +821,26 @@ void Creature::PrepareBodyLootState()
     loot.clear();
 
     // if have normal loot then prepare it access
-    if (!isAlive() && GetCreatureInfo()->lootid && !lootForBody)
+    if (!isAlive() && !lootForBody)
     {
-        SetUInt32Value(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE);
-        return;
+        // have normal loot
+        if (GetCreatureInfo()->maxgold > 0 || GetCreatureInfo()->lootid ||
+            // ... or can have skinning after
+            GetCreatureInfo()->SkinLootId && sWorld.getConfig(CONFIG_BOOL_CORPSE_EMPTY_LOOT_SHOW))
+        {
+            SetUInt32Value(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE);
+            return;
+        }
     }
 
     // if not have normal loot allow skinning if need
-    if (!isAlive() && !lootForSkin)
+    if (!isAlive() && !lootForSkin && GetCreatureInfo()->SkinLootId)
     {
         lootForBody = true;                                 // pass this loot mode
 
-        if (GetCreatureInfo()->SkinLootId)
-        {
-            if (LootTemplates_Skinning.HaveLootFor(GetCreatureInfo()->SkinLootId))
-            {
-                RemoveFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE);
-                SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_SKINNABLE);
-                return;
-            }
-        }
+        RemoveFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE);
+        SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_SKINNABLE);
+        return;
     }
 
     RemoveFlag(UNIT_DYNAMIC_FLAGS, UNIT_DYNFLAG_LOOTABLE);
@@ -2088,16 +2088,16 @@ void Creature::GetRespawnCoord( float &x, float &y, float &z, float* ori, float*
 
 void Creature::AllLootRemovedFromCorpse()
 {
-    if (!HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_SKINNABLE))
+    if (lootForBody && !HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_SKINNABLE))
     {
         uint32 nDeathTimer;
 
         CreatureInfo const *cinfo = GetCreatureInfo();
 
-        // corpse was not skinnable -> apply corpse looted timer
-        if (!cinfo || !cinfo->SkinLootId)
+        // corpse was not skinned -> apply corpse looted timer
+        if (!lootForSkin)
             nDeathTimer = (uint32)((m_corpseDelay * IN_MILLISECONDS) * sWorld.getConfig(CONFIG_FLOAT_RATE_CORPSE_DECAY_LOOTED));
-        // corpse skinnable, but without skinning flag, and then skinned, corpse will despawn next update
+        // corpse was skinned, corpse will despawn next update
         else
             nDeathTimer = 0;
 
