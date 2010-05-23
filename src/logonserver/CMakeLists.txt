@@ -4,7 +4,11 @@ SET(logonserver_SRCS
 AuthCodes.h
 AuthSocket.cpp
 AuthSocket.h
+BufferedSocket.cpp
+BufferedSocket.h
 Main.cpp
+PatchHandler.cpp
+PatchHandler.h
 RealmList.cpp
 RealmList.h
 )
@@ -32,7 +36,6 @@ target_link_libraries(
 logonserver
 shared
 framework
-sockets
 database
 auth
 config
