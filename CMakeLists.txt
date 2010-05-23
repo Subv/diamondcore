@@ -164,7 +164,6 @@ add_definitions(--no-warnings) #to make build look nice, no gcc nazi warnings.
 INCLUDE_DIRECTORIES(
 dep/include 
 dep/include/g3dlite 
-dep/include/sockets
 src/shared 
 src/framework 
 src/shared/Database 

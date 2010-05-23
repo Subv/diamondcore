@@ -120,6 +120,7 @@ SET(SCRIPT_LIB_SRCS
    scripts/eastern_kingdoms/molten_core/molten_core.cpp
    scripts/eastern_kingdoms/molten_core/molten_core.h
    scripts/eastern_kingdoms/scarlet_enclave/ebon_hold.cpp
+   scripts/eastern_kingdoms/scarlet_enclave/quest_12641.cpp
    scripts/eastern_kingdoms/scarlet_monastery/boss_arcanist_doan.cpp
    scripts/eastern_kingdoms/scarlet_monastery/boss_azshir_the_sleepless.cpp
    scripts/eastern_kingdoms/scarlet_monastery/boss_bloodmage_thalnos.cpp
