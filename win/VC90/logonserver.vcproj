@@ -628,7 +628,23 @@
 			>
 		</File>
 		<File
+			RelativePath="..\..\src\logonserver\BufferedSocket.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\logonserver\BufferedSocket.h"
+			>
+		</File>
+		<File
 			RelativePath="..\..\src\logonserver\Main.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\logonserver\PatchHandler.cpp"
+			>
+		</File>
+		<File
+			RelativePath="..\..\src\logonserver\PatchHandler.h"
 			>
 		</File>
 		<File
