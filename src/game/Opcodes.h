@@ -264,7 +264,7 @@ enum Opcodes
     CMSG_FORCE_RUN_SPEED_CHANGE_ACK                 = 0x09E2,    // 2530  - 4.0.0.12065
     SMSG_FORCE_RUN_BACK_SPEED_CHANGE                = 0x4961,    // 18785 - 4.0.0.12065
     CMSG_FORCE_RUN_BACK_SPEED_CHANGE_ACK            = 0x0E5,
-    SMSG_FORCE_SWIM_SPEED_CHANGE                    = 0x0b60,    // 2912  - 4.0.0.12065
+    SMSG_FORCE_SWIM_SPEED_CHANGE                    = 0x0B60,    // 2912  - 4.0.0.12065
     CMSG_FORCE_SWIM_SPEED_CHANGE_ACK                = 0x0E7,
     SMSG_FORCE_MOVE_ROOT                            = 0xB964,    // 47460 - 4.0.0.12065
     CMSG_FORCE_MOVE_ROOT_ACK                        = 0x0E9,
