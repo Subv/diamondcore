@@ -1,1 +1,0 @@
-UPDATE `item_template` SET `AllowableRace` = -1 WHERE `AllowableRace` = 32767;

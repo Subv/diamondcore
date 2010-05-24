@@ -7,14 +7,14 @@ REPLACE INTO `playercreateinfo` (`race`, `class`, `map`, `zone`, `position_x`, `
 REPLACE INTO `playercreateinfo` (`race`, `class`, `map`, `zone`, `position_x`, `position_y`, `position_z`) VALUES ('22', '9', '654', '4714', '-1307.43', '1804.48', '11.94');
 REPLACE INTO `playercreateinfo` (`race`, `class`, `map`, `zone`, `position_x`, `position_y`, `position_z`) VALUES ('22', '10', '654', '4714', '-1307.43', '1804.48', '11.94');
 
-REPLACE INTO `playercreateinfo` (`race`, `class`, `map`, `zone`, `position_x`, `position_y`, `position_z`) VALUES ('9', '1', '648', '4737', '2299,97', '1970,99', '24,28');
-REPLACE INTO `playercreateinfo` (`race`, `class`, `map`, `zone`, `position_x`, `position_y`, `position_z`) VALUES ('9', '3', '648', '4737', '2299,97', '1970,99', '24,28');
-REPLACE INTO `playercreateinfo` (`race`, `class`, `map`, `zone`, `position_x`, `position_y`, `position_z`) VALUES ('9', '4', '648', '4737', '2299,97', '1970,99', '24,28');
-REPLACE INTO `playercreateinfo` (`race`, `class`, `map`, `zone`, `position_x`, `position_y`, `position_z`) VALUES ('9', '5', '648', '4737', '2299,97', '1970,99', '24,28');
+REPLACE INTO `playercreateinfo` (`race`, `class`, `map`, `zone`, `position_x`, `position_y`, `position_z`) VALUES ('9', '1', '648', '4737', '2299.97', '1970.99', '24.28');
+REPLACE INTO `playercreateinfo` (`race`, `class`, `map`, `zone`, `position_x`, `position_y`, `position_z`) VALUES ('9', '3', '648', '4737', '2299.97', '1970.99', '24.28');
+REPLACE INTO `playercreateinfo` (`race`, `class`, `map`, `zone`, `position_x`, `position_y`, `position_z`) VALUES ('9', '4', '648', '4737', '2299.97', '1970.99', '24.28');
+REPLACE INTO `playercreateinfo` (`race`, `class`, `map`, `zone`, `position_x`, `position_y`, `position_z`) VALUES ('9', '5', '648', '4737', '2299.97', '1970.99', '24.28');
 REPLACE INTO `playercreateinfo` (`race`, `class`, `map`, `zone`, `position_x`, `position_y`, `position_z`) VALUES ('9', '6', '609', '4298', '2355.84', '-5662.21', '426.028'); 
-REPLACE INTO `playercreateinfo` (`race`, `class`, `map`, `zone`, `position_x`, `position_y`, `position_z`) VALUES ('9', '7', '648', '4737', '2299,97', '1970,99', '24,28');
-REPLACE INTO `playercreateinfo` (`race`, `class`, `map`, `zone`, `position_x`, `position_y`, `position_z`) VALUES ('9', '8', '648', '4737', '2299,97', '1970,99', '24,28');
-REPLACE INTO `playercreateinfo` (`race`, `class`, `map`, `zone`, `position_x`, `position_y`, `position_z`) VALUES ('9', '9', '648', '4737', '2299,97', '1970,99', '24,28');
+REPLACE INTO `playercreateinfo` (`race`, `class`, `map`, `zone`, `position_x`, `position_y`, `position_z`) VALUES ('9', '7', '648', '4737', '2299.97', '1970.99', '24.28');
+REPLACE INTO `playercreateinfo` (`race`, `class`, `map`, `zone`, `position_x`, `position_y`, `position_z`) VALUES ('9', '8', '648', '4737', '2299.97', '1970.99', '24.28');
+REPLACE INTO `playercreateinfo` (`race`, `class`, `map`, `zone`, `position_x`, `position_y`, `position_z`) VALUES ('9', '9', '648', '4737', '2299.97', '1970.99', '24.28');
 
 REPLACE INTO `playercreateinfo_action` (`race`, `class`, `button`, `action`, `type`) values('22','4','0','6603','0');
 REPLACE INTO `playercreateinfo_action` (`race`, `class`, `button`, `action`, `type`) values('22','4','1','1752','0');
