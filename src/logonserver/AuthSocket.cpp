@@ -350,6 +350,7 @@ bool AuthSocket::_HandleLogonChallenge()
     ByteBuffer pkt;
 
     _login = (const char*)ch->I;
+	_build = ch->build;
 
     ///- Normalize account name
     //utf8ToUpperOnlyLatin(_login); -- client already send account in expected form
@@ -754,7 +755,6 @@ bool AuthSocket::_HandleReconnectChallenge()
     DEBUG_LOG("[ReconnectChallenge] name(%d): '%s'", ch->I_len, ch->I);
 
     _login = (const char*)ch->I;
-	_build = ch->build;
     _safelogin = _login;
     loginDatabase.escape_string(_safelogin);
 
