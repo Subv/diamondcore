@@ -120,7 +120,7 @@ enum Opcodes
     SMSG_PET_NAME_QUERY_RESPONSE                    = 0x7D6E,    // 32110 - 4.0.0.12065
     CMSG_GUILD_QUERY                                = 0xF9EF,    // 63983 - 4.0.0.12065
     SMSG_GUILD_QUERY_RESPONSE                       = 0xCD6E,    // 52590 - 4.0.0.12065
-    CMSG_ITEM_QUERY_SINGLE                          = 0xDD6E,    // 56686 - 4.0.0.12065
+    CMSG_ITEM_QUERY_SINGLE                          = 0x059,     // 89    - 4.0.0.12065
     CMSG_ITEM_QUERY_MULTIPLE                        = 0x2F6B,    // 12139 - 4.0.0.12065
     SMSG_ITEM_QUERY_SINGLE_RESPONSE                 = 0x6F6B,    // 28523 - 4.0.0.12065
     SMSG_ITEM_QUERY_MULTIPLE_RESPONSE               = 0xED6D,    // 60781 - 4.0.0.12065
@@ -1369,9 +1369,15 @@ enum Opcodes
     UMSG_UNKNOWN_1332                               = 0x534,     // not found
     UMSG_UNKNOWN_1333                               = 0x535,     // not found
     UMSG_UNKNOWN_1334                               = 0x536,     // not found
-	SMSG_UNKNOWN_XXX								= 0xD6D,     // 3437 - 4.0.0.12065
+	UMSG_UNKNOWN_1335                               = 0xEB64,    // 60260 - 4.0.0.12065 ,not found
+	UMSG_UNKNOWN_1336                               = 0x8DE6,    // 36326 - 4.0.0.12065 ,not found
+	UMSG_UNKNOWN_1337                               = 0xED63,    // 60771 - 4.0.0.12065 ,not found
+	UMSG_UNKNOWN_1338                               = 0xABE4,    // 44004 - 4.0.0.12065 ,not found
+	UMSG_UNKNOWN_1339								= 0xD6D,     // 3437  - 4.0.0.12065 ,not found
     NUM_MSG_TYPES                                   = 0xFFFF
 };
+
+extern void InitOpcodeTable();
 
 /// Player state
 enum SessionStatus
