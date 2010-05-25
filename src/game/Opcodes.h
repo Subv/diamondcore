@@ -120,7 +120,7 @@ enum Opcodes
     SMSG_PET_NAME_QUERY_RESPONSE                    = 0x7D6E,    // 32110 - 4.0.0.12065
     CMSG_GUILD_QUERY                                = 0xF9EF,    // 63983 - 4.0.0.12065
     SMSG_GUILD_QUERY_RESPONSE                       = 0xCD6E,    // 52590 - 4.0.0.12065
-    CMSG_ITEM_QUERY_SINGLE                          = 0x059,     // 89    - 4.0.0.12065
+    CMSG_ITEM_QUERY_SINGLE                          = 0xDD6E,    // 56686 - 4.0.0.12065
     CMSG_ITEM_QUERY_MULTIPLE                        = 0x2F6B,    // 12139 - 4.0.0.12065
     SMSG_ITEM_QUERY_SINGLE_RESPONSE                 = 0x6F6B,    // 28523 - 4.0.0.12065
     SMSG_ITEM_QUERY_MULTIPLE_RESPONSE               = 0xED6D,    // 60781 - 4.0.0.12065
