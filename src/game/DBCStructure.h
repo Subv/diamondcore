@@ -1353,6 +1353,7 @@ struct SoundEntriesEntry
                                                             // 27       m_distanceCutoff
                                                             // 28       m_EAXDef
                                                             // 29       new in 3.1
+	                                                        // 30-33    new in 4.0
 };
 
 #define MAX_SPELL_REAGENTS 8
@@ -1772,6 +1773,7 @@ struct VehicleSeatEntry
     uint32  m_flagsB;                                       // 45
                                                             // 46-57 added in 3.1, floats mostly
 	//uint32 unk[6];                                        // 58-63
+	                                                        // 64    new in 4.0
 
     bool IsUsable() const { return m_flags & 0x2000000; }
 };
