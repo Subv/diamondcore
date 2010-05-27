@@ -2722,9 +2722,9 @@ enum TotemSlot
 
 // we need to stick to 1 version or half of the stuff will work for someone
 // others will not and opposite
-// will only support WoW, WoW:TBC and WoW:WotLK 4.0.0 client build 12065...
+// will only support WoW, WoW:TBC and WoW:WotLK 0.0.4 client build 12122...
 
-#define EXPECTED_DIAMOND_CLIENT_BUILD        {12065, 0}
+#define EXPECTED_DIAMOND_CLIENT_BUILD        {12122, 0}
 
 // max supported expansion level in worldserver
 // NOTE: not set it more that supported by targeted client version with all expansions installed
