@@ -250,7 +250,7 @@ enum Opcodes
     MSG_MOVE_SET_SWIM_BACK_SPEED                    = 0xD464,    // 54372 - 4.0.0.12122
     MSG_MOVE_SET_ALL_SPEED_CHEAT                    = 0x0D6,
     MSG_MOVE_SET_TURN_RATE_CHEAT                    = 0x0D7,
-    MSG_MOVE_SET_TURN_RATE                          = 0x8D6C,    // 36204 - 4.0.0.12065
+    MSG_MOVE_SET_TURN_RATE                          = 0x444E,    // 17486 - 4.0.0.12122
     MSG_MOVE_TOGGLE_COLLISION_CHEAT                 = 0x214,     // 532   - 4.0.0.12122
     MSG_MOVE_SET_FACING                             = 0x902C,    // 36908 - 4.0.0.12122
     MSG_MOVE_SET_PITCH                              = 0x0006,    // 6     - 4.0.0.12122
@@ -270,8 +270,8 @@ enum Opcodes
     CMSG_FORCE_MOVE_ROOT_ACK                        = 0x0E9,
     SMSG_FORCE_MOVE_UNROOT                          = 0xDFE0,    // 57312 - 4.0.0.12065
     CMSG_FORCE_MOVE_UNROOT_ACK                      = 0x0EB,
-    MSG_MOVE_ROOT                                   = 0xDF67,    // 57191 - 4.0.0.12065
-    MSG_MOVE_UNROOT                                 = 0x2FEC,    // 12268 - 4.0.0.12065
+    MSG_MOVE_ROOT                                   = 0x501C,    // 20508 - 4.0.0.12122
+    MSG_MOVE_UNROOT                                 = 0x9644,    // 38468 - 4.0.0.12122
     MSG_MOVE_HEARTBEAT                              = 0xAD6E,    // 44398 - 4.0.0.12065
     SMSG_MOVE_KNOCK_BACK                            = 0x6B61,    // 27489 - 4.0.0.12065
     CMSG_MOVE_KNOCK_BACK_ACK                        = 0x0F0,
@@ -526,9 +526,9 @@ enum Opcodes
     MSG_GM_SUMMON                                   = 0x1E9,
     SMSG_ITEM_TIME_UPDATE                           = 0x9678,    // 38520 - 4.0.0.12122
     SMSG_ITEM_ENCHANT_TIME_UPDATE                   = 0x5668,    // 22120 - 4.0.0.12122
-    SMSG_AUTH_CHALLENGE                             = 0x1DE3,    // 7651  - 4.0.0.12065
-    CMSG_AUTH_SESSION                               = 0x99EC,    // 39404 - 4.0.0.12065
-    SMSG_AUTH_RESPONSE                              = 0x0442,    // 1090  - 4.0.0.12122
+    SMSG_AUTH_CHALLENGE                             = 0x442,     // 1090  - 4.0.0.12122
+    CMSG_AUTH_SESSION                               = 0x99EC,    //       - 4.0.0.12122
+    SMSG_AUTH_RESPONSE                              = 0xD074,    // 53364 - 4.0.0.12122
     MSG_GM_SHOWLABEL                                = 0x1EF,
     CMSG_PET_CAST_SPELL                             = 0x1F0,
     MSG_SAVE_GUILD_EMBLEM                           = 0x446,     // 1094  - 4.0.0.12122
@@ -930,7 +930,7 @@ enum Opcodes
     MSG_MOVE_SET_FLIGHT_SPEED_CHEAT                 = 0x37D,
     MSG_MOVE_SET_FLIGHT_SPEED                       = 0xC402,    // 50178 - 4.0.0.12122
     MSG_MOVE_SET_FLIGHT_BACK_SPEED_CHEAT            = 0x37F,
-    MSG_MOVE_SET_FLIGHT_BACK_SPEED                  = 0x4965,    // 18789 - 4.0.0.12065
+    MSG_MOVE_SET_FLIGHT_BACK_SPEED                  = 0x544C,    // 21580 - 4.0.0.12122
     SMSG_FORCE_FLIGHT_SPEED_CHANGE                  = 0x09E6,    // 2534  - 4.0.0.12065
     CMSG_FORCE_FLIGHT_SPEED_CHANGE_ACK              = 0x09E1,    // 2529  - 4.0.0.12065
     SMSG_FORCE_FLIGHT_BACK_SPEED_CHANGE             = 0xADE6,    // 44518 - 4.0.0.12065
@@ -1338,7 +1338,7 @@ enum Opcodes
     SMSG_LFG_OPEN_FROM_GOSSIP                       = 0x515,     // event EVENT_LFG_OPEN_FROM_GOSSIP (opens dungeon finder, probably for outdoor bosses)
     SMSG_UNKNOWN_1302                               = 0x596E,    // 22894 - 4.0.0.12065, something with player movement (move event 58?)
     CMSG_UNKNOWN_1303                               = 0x517,     // something with player movement (move event 58?)
-    SMSG_UNKNOWN_1304                               = 0x4FE0,    // 20448 - 4.0.0.12065, something with player movement (move event 58?), speed packet
+    SMSG_UNKNOWN_1304                               = 0xC474,    // 50292 - 4.0.0.12122, something with player movement (move event 58?), speed packet
     UMSG_UNKNOWN_1305                               = 0x519,     // not found
     UMSG_UNKNOWN_1306                               = 0x51A,     // not found
     CMSG_UNKNOWN_1307                               = 0x51B,     // Lua_CommentatorSetSkirmishMatchmakingMode and Lua_CommentatorRequestSkirmishQueueData
