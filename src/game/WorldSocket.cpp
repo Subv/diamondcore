@@ -244,9 +244,9 @@ int WorldSocket::open (void *a)
     m_Address = remote_addr.get_host_addr ();
 
     // Send startup packet.
-    WorldPacket packet (SMSG_AUTH_CHALLENGE, 24);
-    packet << uint32(1);                                    // 1...31
-    packet << m_Seed;
+     WorldPacket packet (SMSG_AUTH_CHALLENGE, 24);
+   // packet << uint32(1);                                    // 1...31
+    //packet << m_Seed;
 
     BigNumber seed1;
     seed1.SetRand(16 * 8);
@@ -255,6 +255,9 @@ int WorldSocket::open (void *a)
     BigNumber seed2;
     seed2.SetRand(16 * 8);
     packet.append(seed2.AsByteArray(16), 16);               // new encryption seeds
+
+	packet << uint8( 1 );
+	packet << m_Seed;
 
     if (SendPacket (packet) == -1)
         return -1;
