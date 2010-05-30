@@ -185,7 +185,7 @@ enum Opcodes
     UMSG_UPDATE_GUILD                               = 0x094,
     CMSG_MESSAGECHAT                                = 0x5644,    // 22084 - 4.0.0.12122
     SMSG_MESSAGECHAT                                = 0x161C,    // 5660  - 4.0.0.12122
-    CMSG_JOIN_CHANNEL                               = 0x920A     // 37386 - 4.0.0.12122
+    CMSG_JOIN_CHANNEL                               = 0x920A,    // 37386 - 4.0.0.12122
     CMSG_LEAVE_CHANNEL                              = 0x098,
     SMSG_CHANNEL_NOTIFY                             = 0x402C,    // 16428 - 4.0.0.12122
     CMSG_CHANNEL_LIST                               = 0x09A,
@@ -526,9 +526,9 @@ enum Opcodes
     MSG_GM_SUMMON                                   = 0x1E9,
     SMSG_ITEM_TIME_UPDATE                           = 0x9678,    // 38520 - 4.0.0.12122
     SMSG_ITEM_ENCHANT_TIME_UPDATE                   = 0x5668,    // 22120 - 4.0.0.12122
-    SMSG_AUTH_CHALLENGE                             = 0x442,     // 1090  - 4.0.0.12122
-    CMSG_AUTH_SESSION                               = 0x99EC,    //       - 4.0.0.12122
-    SMSG_AUTH_RESPONSE                              = 0xD074,    // 53364 - 4.0.0.12122
+    SMSG_AUTH_CHALLENGE                             = 0x8924,    // 35108 - 4.0.0.12122
+    CMSG_AUTH_SESSION                               = 0xA000,    // 40960 - 4.0.0.12122
+    SMSG_AUTH_RESPONSE                              = 0x442,     // 1090  - 4.0.0.12122
     MSG_GM_SHOWLABEL                                = 0x1EF,
     CMSG_PET_CAST_SPELL                             = 0x1F0,
     MSG_SAVE_GUILD_EMBLEM                           = 0x446,     // 1094  - 4.0.0.12122
