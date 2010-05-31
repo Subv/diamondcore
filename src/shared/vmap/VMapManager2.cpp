@@ -57,7 +57,7 @@ namespace VMAP
     {
         Vector3 pos;
 
-		const float mid = 0.5 * 64.0 * 533.33333333;
+		const float mid = 0.5 * 64.0 * 533.33333333f;
         pos.x = mid - x;
         pos.y = mid - y;
         pos.z = z;
@@ -71,7 +71,7 @@ namespace VMAP
     {
        Vector3 pos;
 
-	   const float mid = 0.5 * 64.0 * 533.33333333;
+	   const float mid = 0.5 * 64.0 * 533.33333333f;
 	   pos.x = mid - x;
 	   pos.y = mid - y;
 	   pos.z = z;
