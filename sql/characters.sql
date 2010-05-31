@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50141
 File Encoding         : 65001
 
-Date: 2010-05-13 17:34:54
+Date: 2010-05-13 18:25:54
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -675,6 +675,8 @@ CREATE TABLE `character_stats` (
   `maxpower5` int(10) unsigned NOT NULL DEFAULT '0',
   `maxpower6` int(10) unsigned NOT NULL DEFAULT '0',
   `maxpower7` int(10) unsigned NOT NULL DEFAULT '0',
+  `maxpower8` int(10) unsigned NOT NULL DEFAULT '0',
+  `maxpower9` int(10) unsigned NOT NULL DEFAULT '0',
   `strength` int(10) unsigned NOT NULL DEFAULT '0',
   `agility` int(10) unsigned NOT NULL DEFAULT '0',
   `stamina` int(10) unsigned NOT NULL DEFAULT '0',
@@ -808,6 +810,8 @@ CREATE TABLE `characters` (
   `power5` int(10) unsigned NOT NULL DEFAULT '0',
   `power6` int(10) unsigned NOT NULL DEFAULT '0',
   `power7` int(10) unsigned NOT NULL DEFAULT '0',
+  `power8` int(10) unsigned NOT NULL DEFAULT '0',
+  `power9` int(10) unsigned NOT NULL DEFAULT '0',
   `specCount` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `activeSpec` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `exploredZones` longtext,
