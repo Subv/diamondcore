@@ -2,6 +2,8 @@
 ########### next target ###############
 
 SET(vmaps_STAT_SRCS
+   BIH.cpp
+   BIH.h
    IVMapManager.h
    MapTree.cpp
    MapTree.h
