@@ -22,6 +22,7 @@
 */
 
 #include "WorldSocketMgr.h"
+#include "Opcodes.h"
 
 #include <ace/ACE.h>
 #include <ace/Log_Msg.h>
