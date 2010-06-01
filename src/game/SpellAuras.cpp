@@ -3691,8 +3691,8 @@ void Aura::HandleChannelDeathItem(bool apply, bool Real)
         if (spellInfo->EffectItemType[m_effIndex] == 6265)
         {
             // Only from non-grey units
-            if ((victim->getLevel() <= Diamond::XP::GetGrayLevel(caster->getLevel()) ||
-                victim->GetTypeId() == TYPEID_UNIT && !((Player*)caster)->isAllowedToLoot((Creature*)victim)))
+            if (!((Player*)caster)->isHonorOrXPTarget(victim) ||
+                victim->GetTypeId() == TYPEID_UNIT && !((Player*)caster)->isAllowedToLoot((Creature*)victim))
                 return;
         }
 
@@ -5236,6 +5236,15 @@ void Aura::HandlePeriodicDamage(bool apply, bool Real)
                     if (holy < 0)
                         holy = 0;
                     m_modifier.m_amount += int32(GetStackAmount()) * (int32(ap * 0.025f) + int32(holy * 13 / 1000));
+                }
+                break;
+            }
+            case SPELLFAMILY_DEATHKNIGHT:
+            {
+                //Frost Fever and Blood Plague AP scale
+                if (m_spellProto->SpellFamilyFlags & UI64LIT(0x400080000000000))
+                {
+                    m_modifier.m_amount += int32(caster->GetTotalAttackPowerValue(BASE_ATTACK) * 0.055f * 1.15f);
                 }
                 break;
             }
@@ -6803,14 +6812,6 @@ void Aura::HandleSpellSpecificBoosts(bool apply)
             // second part of spell apply
             switch (GetId())
             {
-                case 45524:                                 // Chains of Ice
-                {
-                    if (apply)
-                        spellId1 = 55095;                   // Frost Fever
-                    else
-                        return;
-                    break;
-                }
                 case 49039: spellId1 = 50397; break;        // Lichborne
 
                 case 48263:                                 // Frost Presence
@@ -7522,7 +7523,7 @@ void Aura::PeriodicTick()
             {
                 // Only from non-grey units
                 if (roll_chance_i(10) &&                    // 1-2 from drain with final and without glyph, 0-1 from damage
-                    m_target->getLevel() > Diamond::XP::GetGrayLevel(pCaster->getLevel()) &&
+                    ((Player*)pCaster)->isHonorOrXPTarget(m_target) &&
                     (m_target->GetTypeId() != TYPEID_UNIT || ((Player*)pCaster)->isAllowedToLoot((Creature*)m_target)))
                 {
                     pCaster->CastSpell(pCaster, 43836, true, NULL, this);

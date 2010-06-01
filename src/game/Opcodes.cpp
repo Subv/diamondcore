@@ -2625,7 +2625,7 @@ void InitOpcodeTable()
     /*0x503*/ { "UMSG_UNKNOWN_1283",                            STATUS_NEVER,    &WorldSession::Handle_NULL                     },
     /*0x504*/ { "UMSG_UNKNOWN_1284",                            STATUS_NEVER,    &WorldSession::Handle_NULL                     },
     /*0x505*/ { "UMSG_UNKNOWN_1285",                            STATUS_NEVER,    &WorldSession::Handle_NULL                     },
-    /*0x506*/ { "UMSG_UNKNOWN_1286",                            STATUS_NEVER,    &WorldSession::Handle_NULL                     },
+    /*0x506*/ { "SMSG_CORPSE_IS_NOT_IN_INSTANCE",               STATUS_NEVER,    &WorldSession::Handle_ServerSide               },
     /*0x507*/ { "UMSG_UNKNOWN_1287",                            STATUS_NEVER,    &WorldSession::Handle_NULL                     },
     /*0x508*/ { "CMSG_SET_ALLOW_LOW_LEVEL_RAID1",               STATUS_NEVER,    &WorldSession::Handle_NULL                     },
     /*0x509*/ { "CMSG_SET_ALLOW_LOW_LEVEL_RAID2",               STATUS_NEVER,    &WorldSession::Handle_NULL                     },
