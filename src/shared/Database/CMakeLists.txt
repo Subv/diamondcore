@@ -1,6 +1,3 @@
-
-
-
 SET(database_STAT_SRCS
    DBCFileLoader.cpp
    DBCFileLoader.h
@@ -28,6 +25,7 @@ SET(database_STAT_SRCS
    SqlDelayThread.h
    SqlOperations.cpp
    SqlOperations.h
+   ../Threading.cpp
 )
 
 add_library(database STATIC ${database_STAT_SRCS})
