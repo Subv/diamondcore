@@ -22,12 +22,7 @@
 #include "IVMapManager.h"
 #include "Utilities/UnorderedMap.h"
 #include "Platform/Define.h"
-#ifdef _VMAP_LOG_DEBUG
-    #include "DebugCmdLogger.h"
-#endif
-#include <G3D/Table.h>
-// temp
-#include "TileAssembler.h"
+#include <G3D/Vector3.h>
 
 //===========================================================
 
@@ -43,8 +38,6 @@ The loaded ModelContainers are included in one of these BSP-Trees.
 Additionally a table to match map ids and map names is used.
 */
 
-// Create a value describing the map tile
-#define MAP_TILE_IDENT(x,y) ((x<<8) + y)
 //===========================================================
 
 namespace VMAP
@@ -84,7 +77,7 @@ namespace VMAP
             // public for debug
             G3D::Vector3 convertPositionToInternalRep(float x, float y, float z) const;
             G3D::Vector3 convertPositionToRep(float x, float y, float z) const;
-            std::string getMapFileName(unsigned int pMapId) const;
+            static std::string getMapFileName(unsigned int pMapId);
 
             VMapManager2();
             ~VMapManager2(void);
@@ -101,7 +94,7 @@ namespace VMAP
             bool getObjectHitPos(unsigned int pMapId, float x1, float y1, float z1, float x2, float y2, float z2, float& rx, float &ry, float& rz, float pModifyDist);
             float getHeight(unsigned int pMapId, float x, float y, float z);
 
-            bool processCommand(char *pCommand);            // for debug and extensions
+            bool processCommand(char *pCommand) { return false; }      // for debug and extensions
 
             void preventMapsFromBeingUsed(const char* pMapIdString);
             bool getAreaInfo(unsigned int pMapId, float x, float y, float &z, uint32 &flags, int32 &adtId, int32 &rootId, int32 &groupId) const;
@@ -112,9 +105,10 @@ namespace VMAP
 
             // what's the use of this? o.O
             virtual std::string getDirFileName(unsigned int pMapId, int x, int y) const
-            { return "(...not implemented...)"; }
-            virtual bool existsMap(const char* pBasePath, unsigned int pMapId, int x, int y)
-            { return true; }
+            {
+                return getMapFileName(pMapId);
+            }
+            virtual bool existsMap(const char* pBasePath, unsigned int pMapId, int x, int y);
     };
 }
 #endif

@@ -1404,13 +1404,6 @@ void Player::Update( uint32 p_time )
     UpdateEnchantTime(p_time);
     UpdateHomebindTime(p_time);
 
-    if(sWorld.getConfig(CONFIG_UINT32_VMAP_INDOOR_INTERVAL) &&
-       (m_IndoorCheckTimer+=p_time) >=  sWorld.getConfig(CONFIG_UINT32_VMAP_INDOOR_INTERVAL))
-    {
-        PerformIndoorCheck();
-    }
-
-
     // group update
     SendUpdateToOutOfRangeGroupMembers();
 
@@ -6072,7 +6065,7 @@ bool Player::SetPosition(float x, float y, float z, float orientation, bool tele
     // code block for underwater state update
     UpdateUnderwaterState(m, x, y, z);
 
-    CheckExploreSystem();
+    CheckAreaExploreAndOutdoor();
 
     return true;
 }
@@ -6143,7 +6136,7 @@ void Player::SendMovieStart(uint32 MovieId)
     SendDirectMessage(&data);
 }
 
-void Player::CheckExploreSystem()
+void Player::CheckAreaExploreAndOutdoor()
 {
     if (!isAlive())
         return;
@@ -6151,12 +6144,17 @@ void Player::CheckExploreSystem()
     if (isInFlight())
         return;
 
-    uint16 areaFlag = GetBaseMap()->GetAreaFlag(GetPositionX(),GetPositionY(),GetPositionZ());
-    if(areaFlag==0xffff)
+    bool isOutdoor;
+    uint16 areaFlag = GetBaseMap()->GetAreaFlag(GetPositionX(),GetPositionY(),GetPositionZ(), &isOutdoor);
+
+    if (sWorld.getConfig(CONFIG_BOOL_VMAP_INDOOR_CHECK) && !isOutdoor)
+        RemoveAurasWithAttribute(SPELL_ATTR_OUTDOORS_ONLY);
+
+    if (areaFlag==0xffff)
         return;
     int offset = areaFlag / 32;
 
-    if(offset >= PLAYER_EXPLORED_ZONES_SIZE)
+    if (offset >= PLAYER_EXPLORED_ZONES_SIZE)
     {
         sLog.outError("Wrong area flag %u in map data for (X: %f Y: %f) point to field PLAYER_EXPLORED_ZONES_1 + %u ( %u must be < %u ).",areaFlag,GetPositionX(),GetPositionY(),offset,offset, PLAYER_EXPLORED_ZONES_SIZE);
         return;
@@ -6165,7 +6163,7 @@ void Player::CheckExploreSystem()
     uint32 val = (uint32)(1 << (areaFlag % 32));
     uint32 currFields = GetUInt32Value(PLAYER_EXPLORED_ZONES_1 + offset);
 
-    if( !(currFields & val) )
+    if (!(currFields & val))
     {
         SetUInt32Value(PLAYER_EXPLORED_ZONES_1 + offset, (uint32)(currFields | val));
 
@@ -16931,7 +16929,7 @@ void Player::_SaveActions()
             switch (itr->second.uState)
             {
                 case ACTIONBUTTON_NEW:
-                    CharacterDatabase.PExecute("INSERT INTO character_action (guid,spec, button,action,type) VALUES ('%u', '%u', '%u', '%u', '%u')",
+                    CharacterDatabase.PExecute("REPLACE INTO character_action (guid,spec, button,action,type) VALUES ('%u', '%u', '%u', '%u', '%u')",
                         GetGUIDLow(), i, (uint32)itr->first, (uint32)itr->second.GetAction(), (uint32)itr->second.GetType() );
                     itr->second.uState = ACTIONBUTTON_UNCHANGED;
                     ++itr;
@@ -16983,7 +16981,7 @@ void Player::_SaveAuras()
             {
                 if (first_round)
                 {
-                    ss << "INSERT INTO character_aura (guid,caster_guid,spell,effect_index,stackcount,amount,maxduration,remaintime,remaincharges)VALUES ";
+                    ss << "REPLACE INTO character_aura (guid,caster_guid,spell,effect_index,stackcount,amount,maxduration,remaintime,remaincharges)VALUES ";
                     first_round = false;
                 }
                 // next new/changed record prefix
@@ -17025,7 +17023,7 @@ void Player::_SaveGlyphs()
             switch(m_glyphs[spec][slot].uState)
             {
                 case GLYPH_NEW:
-                    CharacterDatabase.PExecute("INSERT INTO character_glyphs (guid, spec, slot, glyph) VALUES ('%u', '%u', '%u', '%u')", GetGUIDLow(), spec, slot, m_glyphs[spec][slot].GetId());
+                    CharacterDatabase.PExecute("REPLACE INTO character_glyphs (guid, spec, slot, glyph) VALUES ('%u', '%u', '%u', '%u')", GetGUIDLow(), spec, slot, m_glyphs[spec][slot].GetId());
                     break;
                 case GLYPH_CHANGED:
                     CharacterDatabase.PExecute("UPDATE character_glyphs SET glyph = '%u' WHERE guid='%u' AND spec = '%u' AND slot = '%u'", m_glyphs[spec][slot].GetId(), GetGUIDLow(), spec, slot);
@@ -17244,7 +17242,7 @@ void Player::_SaveSkills()
         switch (itr->second.uState)
         {
             case SKILL_NEW:
-                CharacterDatabase.PExecute("INSERT INTO character_skills (guid, skill, value, max) VALUES ('%u', '%u', '%u', '%u')",
+                CharacterDatabase.PExecute("REPLACE INTO character_skills (guid, skill, value, max) VALUES ('%u', '%u', '%u', '%u')",
                     GetGUIDLow(), itr->first, value, max);
                 break;
             case SKILL_CHANGED:
@@ -17271,7 +17269,7 @@ void Player::_SaveSpells()
 
             // add only changed/new not dependent spells
             if (!itr->second.dependent && (itr->second.state == PLAYERSPELL_NEW || itr->second.state == PLAYERSPELL_CHANGED))
-                CharacterDatabase.PExecute("INSERT INTO character_spell (guid,spell,active,disabled) VALUES ('%u', '%u', '%u', '%u')", GetGUIDLow(), itr->first, itr->second.active ? 1 : 0,itr->second.disabled ? 1 : 0);
+                CharacterDatabase.PExecute("REPLACE INTO character_spell (guid,spell,active,disabled) VALUES ('%u', '%u', '%u', '%u')", GetGUIDLow(), itr->first, itr->second.active ? 1 : 0,itr->second.disabled ? 1 : 0);
         }
 
         if (itr->second.state == PLAYERSPELL_REMOVED)
@@ -17296,7 +17294,7 @@ void Player::_SaveTalents()
 
             // add only changed/new talents
             if (itr->second.state == PLAYERSPELL_NEW || itr->second.state == PLAYERSPELL_CHANGED)
-                CharacterDatabase.PExecute("INSERT INTO character_talent (guid, talent_id, current_rank , spec) VALUES ('%u', '%u', '%u', '%u')", GetGUIDLow(), itr->first, itr->second.currentRank, i);
+                CharacterDatabase.PExecute("REPLACE INTO character_talent (guid, talent_id, current_rank , spec) VALUES ('%u', '%u', '%u', '%u')", GetGUIDLow(), itr->first, itr->second.currentRank, i);
 
             if (itr->second.state == PLAYERSPELL_REMOVED)
                 m_talents[i].erase(itr++);
@@ -22175,15 +22173,6 @@ void Player::SetHomebindToLocation(WorldLocation const& loc, uint32 area_id)
     // update sql homebind
     CharacterDatabase.PExecute("UPDATE character_homebind SET map = '%u', zone = '%u', position_x = '%f', position_y = '%f', position_z = '%f' WHERE guid = '%u'",
         m_homebindMapId, m_homebindAreaId, m_homebindX, m_homebindY, m_homebindZ, GetGUIDLow());
-}
-
-void Player::PerformIndoorCheck()
-{
-    if(!GetMap()->IsOutdoors(GetPositionX(), GetPositionY(), GetPositionZ()))
-    {
-        RemoveAurasWithAttribute(SPELL_ATTR_OUTDOORS_ONLY);
-    }
-    m_IndoorCheckTimer ^= m_IndoorCheckTimer;
 }
 
 Object* Player::GetObjectByTypeMask(ObjectGuid guid, TypeMask typemask)

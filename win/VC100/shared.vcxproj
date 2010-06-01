@@ -350,6 +350,7 @@
     <ClCompile Include="..\..\src\shared\Auth\HMACSHA1.cpp" />
     <ClCompile Include="..\..\src\shared\Auth\SARC4.cpp" />
     <ClCompile Include="..\..\src\shared\Auth\Sha1.cpp" />
+    <ClCompile Include="..\..\src\shared\vmap\BIH.cpp" />
     <ClCompile Include="..\..\src\shared\vmap\MapTree.cpp" />
     <ClCompile Include="..\..\src\shared\vmap\ModelInstance.cpp" />
     <ClCompile Include="..\..\src\shared\vmap\TileAssembler.cpp" />

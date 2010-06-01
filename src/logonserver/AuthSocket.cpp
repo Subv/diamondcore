@@ -290,7 +290,7 @@ void AuthSocket::SendProof(Sha1Hash sha)
         case 11159:                                         // 3.3.0a
         case 11403:                                         // 3.3.2
         case 11723:                                         // 3.3.3a
-		case 12065:                                         // 4.0.0
+		case 12122:                                         // 4.0.0
         default:                                            // or later
         {
             sAuthLogonProof_S proof;
@@ -350,6 +350,7 @@ bool AuthSocket::_HandleLogonChallenge()
     ByteBuffer pkt;
 
     _login = (const char*)ch->I;
+	_build = ch->build;
 
     ///- Normalize account name
     //utf8ToUpperOnlyLatin(_login); -- client already send account in expected form
@@ -754,7 +755,6 @@ bool AuthSocket::_HandleReconnectChallenge()
     DEBUG_LOG("[ReconnectChallenge] name(%d): '%s'", ch->I_len, ch->I);
 
     _login = (const char*)ch->I;
-	_build = ch->build;
     _safelogin = _login;
     loginDatabase.escape_string(_safelogin);
 
@@ -936,7 +936,7 @@ void AuthSocket::LoadRealmlist(ByteBuffer &pkt, uint32 acctid)
         case 11159:                                         // 3.3.0a
         case 11403:                                         // 3.3.2
         case 11723:                                         // 3.3.3a
-		case 12065:                                         // 4.0.0
+		case 12122:                                         // 4.0.0
         default:                                            // and later
         {
             pkt << uint32(0);
