@@ -477,7 +477,7 @@ int WorldSocket::handle_input_header (void)
     EndianConvertReverse(header.size);
     EndianConvert(header.cmd);
 
-    if ((header.size < 4) || (header.size > 10240) /*|| (header.cmd  > 10240)*/)
+    if ((header.size < 4) || (header.size > 10240) || (header.cmd  > 10240))
     {
         sLog.outError ("WorldSocket::handle_input_header: client sent malformed packet size = %d , cmd = %d",
                        header.size, header.cmd);
@@ -743,10 +743,9 @@ int WorldSocket::HandleAuthSession (WorldPacket& recvPacket)
     // NOTE: ATM the socket is singlethread, have this in mind ...    
     uint8 digest[20];
     uint32 clientSeed;
-    uint32 unk2;
-	uint8 unk3;
+    uint32 unk2, unk3;
     uint64 unk4;
-    uint16 ClientBuild;
+    uint32 ClientBuild;
     uint32 id, security;
     uint8 expansion = 0;
     LocaleConstant locale;
@@ -758,13 +757,13 @@ int WorldSocket::HandleAuthSession (WorldPacket& recvPacket)
     BigNumber K;
 
     // Read the content of the packet
-    recvPacket.read (digest, 20);
-	recvPacket >> unk4;
+    recvPacket >> ClientBuild;
     recvPacket >> unk2;
+	recvPacket >> account;
+    recvPacket >> unk3;
     recvPacket >> clientSeed;
-	recvPacket >> ClientBuild;
-	recvPacket >> unk3;
-    recvPacket >> account;
+	recvPacket >> unk4;
+    recvPacket.read (digest, 20);
 
     DEBUG_LOG ("WorldSocket::HandleAuthSession: client %u, unk2 %u, account %s, unk3 %u, clientseed %u",
                 ClientBuild,
