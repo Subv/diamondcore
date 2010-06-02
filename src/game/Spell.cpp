@@ -2895,14 +2895,7 @@ void Spell::cast(bool skipCheck)
             if (m_spellInfo->Id == 64382)
                 AddTriggeredSpell(64380);                     // Shattering Throw
             break;
-        }
-        case SPELLFAMILY_DEATHKNIGHT:
-        {
-            // Chains of Ice
-            if (m_spellInfo->Id == 45524)
-                AddTriggeredSpell(55095);                   // Frost Fever
-            break;
-        }
+        }s
         case SPELLFAMILY_DEATHKNIGHT:
         {
             // Chains of Ice
