@@ -2895,7 +2895,7 @@ void Spell::cast(bool skipCheck)
             if (m_spellInfo->Id == 64382)
                 AddTriggeredSpell(64380);                     // Shattering Throw
             break;
-        }s
+        }
         case SPELLFAMILY_DEATHKNIGHT:
         {
             // Chains of Ice
