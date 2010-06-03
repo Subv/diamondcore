@@ -14,7 +14,6 @@ SET(framework_STAT_SRCS
    Platform/Define.h
    Policies/CreationPolicy.h
    Policies/ObjectLifeTime.h
-   Policies/MemoryManagement.cpp
    Policies/Singleton.h
    Policies/SingletonImp.h
    Policies/ThreadingModel.h
