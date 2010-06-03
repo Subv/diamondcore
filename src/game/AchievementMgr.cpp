@@ -642,9 +642,9 @@ void AchievementMgr::SendAchievementEarned(AchievementEntry const* achievement)
     {
         Diamond::AchievementChatBuilder say_builder(*GetPlayer(), CHAT_MSG_ACHIEVEMENT, LANG_ACHIEVEMENT_EARNED,achievement->ID);
         Diamond::LocalizedPacketDo<Diamond::AchievementChatBuilder> say_do(say_builder);
-        Diamond::CameraDistWorker<Diamond::LocalizedPacketDo<Diamond::AchievementChatBuilder> > say_worker(GetPlayer(),sWorld.getConfig(CONFIG_FLOAT_LISTEN_RANGE_SAY),say_do);
+        Diamond::CameraDistWorker<Diamond::LocalizedPacketDo<Diamond::AchievementChatBuilder> > say_worker(GetPlayer(),sWorld.getConfig(CONFIG_FLOAT_LISTEN_RANGE_SAY), say_do);
 
-        Cell::VisitCameras(GetPlayer(), say_worker, sWorld.getConfig(CONFIG_FLOAT_LISTEN_RANGE_SAY));
+        Cell::VisitWorldObjects(GetPlayer(), say_worker, sWorld.getConfig(CONFIG_FLOAT_LISTEN_RANGE_SAY));
     }
 
     WorldPacket data(SMSG_ACHIEVEMENT_EARNED, 8+4+8);

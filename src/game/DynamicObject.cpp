@@ -27,7 +27,7 @@
 #include "GridNotifiersImpl.h"
 #include "SpellMgr.h"
 
-DynamicObject::DynamicObject() : WorldObject(), GridDynamicObject(this)
+DynamicObject::DynamicObject() : WorldObject(), m_isActiveObject(false)
 {
     m_objectType |= TYPEMASK_DYNAMICOBJECT;
     m_objectTypeId = TYPEID_DYNAMICOBJECT;
@@ -44,17 +44,13 @@ void DynamicObject::AddToWorld()
         GetMap()->GetObjectsStore().insert<DynamicObject>(GetGUID(), (DynamicObject*)this);
 
     Object::AddToWorld();
-    getViewPoint().CameraEvent_AddedToWorld();
 }
 
 void DynamicObject::RemoveFromWorld()
 {
     ///- Remove the dynamicObject from the accessor
     if(IsInWorld())
-    {
-        GetMap()->GetObjectsStore().erase<DynamicObject>(GetGUID(), (DynamicObject*)NULL);
-        getViewPoint().CameraEvent_RemovedFromWorld();
-    }
+		GetMap()->GetObjectsStore().erase<DynamicObject>(GetGUID(), (DynamicObject*)NULL);
 
     Object::RemoveFromWorld();
 }
@@ -147,10 +143,6 @@ bool DynamicObject::isVisibleForInState(Player const* u, WorldObject const* view
 {
     if(!IsInWorld() || !u->IsInWorld())
         return false;
-
-    // always seen by owner
-    if(GetCasterGUID()==u->GetGUID())
-        return true;
 
     // normal case
     return IsWithinDistInMap(viewPoint, World::GetMaxVisibleDistanceForObject() + (inVisibleList ? World::GetVisibleObjectGreyDistance() : 0.0f), false);

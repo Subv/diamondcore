@@ -307,7 +307,7 @@ bool SpellModifier::isAffectedOnSpell( SpellEntry const *spell ) const
 
 UpdateMask Player::updateVisualBits;
 
-Player::Player (WorldSession *session): Unit(), m_achievementMgr(this), m_reputationMgr(this), GridPlayer(this), m_camera(this)
+Player::Player (WorldSession *session): Unit(), m_achievementMgr(this), m_reputationMgr(this), m_camera(this)
 {
     m_transport = 0;
 
@@ -509,8 +509,6 @@ Player::Player (WorldSession *session): Unit(), m_achievementMgr(this), m_reputa
 
     m_lastFallTime = 0;
     m_lastFallZ = 0;
-
-    container_type = true;
 }
 
 Player::~Player ()
@@ -2381,7 +2379,7 @@ void Player::SetGameMaster(bool on)
     }
 
     m_camera.UpdateVisibilityForOwner();
-	UpdateObjectVisibility();
+    UpdateObjectVisibility();
 }
 
 void Player::SetGMVisible(bool on)
@@ -4477,8 +4475,8 @@ void Player::ResurrectPlayer(float restore_percent, bool applySickness)
 
     // update visibility of world around viewpoint
     m_camera.UpdateVisibilityForOwner();
-	// update visibility of player for nearby cameras
-	UpdateObjectVisibility();
+    // update visibility of player for nearby cameras
+    UpdateObjectVisibility();
 
     if(!applySickness)
         return;

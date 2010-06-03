@@ -68,6 +68,17 @@ VisibleNotifier::Notify()
         #endif
     }
 
+    // send update to other players (except player updates that already sent using SendUpdateToPlayer)
+    for(UpdateDataMapType::iterator iter = i_data_updates.begin(); iter != i_data_updates.end(); ++iter)
+    {
+        if(iter->first==&i_player)
+            continue;
+
+        WorldPacket packet;
+        iter->second.BuildPacket(&packet);
+        iter->first->GetSession()->SendPacket(&packet);
+    }
+
     if( i_data.HasData() )
     {
         // send create/outofrange packet to player (except player create updates that already sent using SendUpdateToPlayer)
@@ -153,18 +164,18 @@ MessageDistDeliverer::Visit(CameraMapType &m)
 {
     for(CameraMapType::iterator iter=m.begin(); iter != m.end(); ++iter)
     {
-        WorldObject* body = iter->getSource()->getBody();
+		WorldObject* body = iter->getSource()->getBody();
         Player * owner = iter->getSource()->getOwner();
         if ((i_toSelf || owner != &i_player ) &&
             (!i_ownTeamOnly || owner->GetTeam() == i_player.GetTeam() ) &&
             (!i_dist || body->IsWithinDist(&i_player,i_dist)))
-        {
-            if (!i_player.InSamePhase(body))
-                continue;
+		{
+			if (!i_player.InSamePhase(body))
+                 continue;
 
-            if (WorldSession* session = owner->GetSession())
-                session->SendPacket(i_message);
-        }
+			if (WorldSession* session = owner->GetSession())
+                 session->SendPacket(i_message);
+		}
     }
 }
 

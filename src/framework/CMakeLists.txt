@@ -1,6 +1,31 @@
 SET(framework_STAT_SRCS
-   Policies/ObjectLifeTime.cpp
-   Utilities/EventProcessor.cpp
+   Dynamic/FactoryHolder.h
+   Dynamic/ObjectRegistry.h
+   GameSystem/Grid.h
+   GameSystem/GridLoader.h
+   GameSystem/GridRefManager.h
+   GameSystem/GridReference.h
+   GameSystem/NGrid.h
+   GameSystem/TypeContainer.h
+   GameSystem/TypeContainerFunctions.h
+   GameSystem/TypeContainerFunctionsPtr.h
+   GameSystem/TypeContainerVisitor.h
+   Platform/CompilerDefs.h
+   Platform/Define.h
+   Policies/CreationPolicy.h
+   Policies/ObjectLifeTime.h
+   Policies/MemoryManagement.cpp
+   Policies/Singleton.h
+   Policies/SingletonImp.h
+   Policies/ThreadingModel.h
+   Utilities/LinkedReference/RefManager.h
+   Utilities/LinkedReference/Reference.h
+   Utilities/ByteConverter.h
+   Utilities/Callback.h
+   Utilities/EventProcessor.h
+   Utilities/UnorderedMap.h
+   Utilities/LinkedList.h
+   Utilities/TypeList.h
 )
 include_directories(
 ${CMAKE_CURRENT_SRC_DIR}
