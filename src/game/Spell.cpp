@@ -6636,8 +6636,8 @@ void Spell::FillAreaTargets(UnitList &targetUnitMap, float x, float y, float rad
     cell.data.Part.reserved = ALL_DISTRICT;
     cell.SetNoCreate();
     Diamond::SpellNotifierCreatureAndPlayer notifier(*this, targetUnitMap, radius, pushType, spellTargets, originalCaster);
-    GridTypeVisitor<Diamond::SpellNotifierCreatureAndPlayer>::Grid world_notifier(notifier);
-    GridTypeVisitor<Diamond::SpellNotifierCreatureAndPlayer>::World grid_notifier(notifier);
+    TypeContainerVisitor<Diamond::SpellNotifierCreatureAndPlayer, WorldTypeMapContainer > world_notifier(notifier);
+    TypeContainerVisitor<Diamond::SpellNotifierCreatureAndPlayer, GridTypeMapContainer > grid_notifier(notifier);
     cell.Visit(p, world_notifier, *m_caster->GetMap(), *m_caster, radius);
     cell.Visit(p, grid_notifier, *m_caster->GetMap(), *m_caster, radius);
 }

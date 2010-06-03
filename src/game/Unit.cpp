@@ -10856,10 +10856,6 @@ bool Unit::isVisibleForOrDetect(Unit const* u, WorldObject const* viewPoint, boo
             return false;
     }
 
-    // always seen by far sight caster
-    if (u->GetTypeId()==TYPEID_PLAYER && ((Player*)u)->GetFarSight()==GetGUID())
-        return true;
-
     // different visible distance checks
     if (u->isInFlight())                                    // what see player in flight
     {
@@ -11069,7 +11065,7 @@ void Unit::SetVisibility(UnitVisibility x)
         else
             m->CreatureRelocation((Creature*)this,GetPositionX(),GetPositionY(),GetPositionZ(),GetOrientation());
 
-        getViewPoint().CameraEvent_ViewPointVisibilityChanged();
+        getViewPoint().Event_ViewPointVisibilityChanged();
     }
 }
 
@@ -12367,7 +12363,6 @@ uint32 Unit::GetCreatePowers( Powers power ) const
 void Unit::AddToWorld()
 {
     Object::AddToWorld();
-    getViewPoint().CameraEvent_AddedToWorld();
 }
 
 void Unit::RemoveFromWorld()
@@ -12381,8 +12376,6 @@ void Unit::RemoveFromWorld()
         RemoveAllGameObjects();
         RemoveAllDynObjects();
         CleanupDeletedAuras();
-
-        getViewPoint().CameraEvent_RemovedFromWorld();
     }
 
     Object::RemoveFromWorld();

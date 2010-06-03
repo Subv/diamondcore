@@ -1506,17 +1506,18 @@ void WorldObject::MonsterSay(int32 textId, uint32 language, uint64 TargetGuid)
     Diamond::MonsterChatBuilder say_build(*this, CHAT_MSG_MONSTER_SAY, textId,language,TargetGuid);
     Diamond::LocalizedPacketDo<Diamond::MonsterChatBuilder> say_do(say_build);
     Diamond::CameraDistWorker<Diamond::LocalizedPacketDo<Diamond::MonsterChatBuilder> > say_worker(this,sWorld.getConfig(CONFIG_FLOAT_LISTEN_RANGE_SAY),say_do);
-    Cell::VisitCameras(this, say_worker, sWorld.getConfig(CONFIG_FLOAT_LISTEN_RANGE_SAY));
+    Cell::VisitWorldObjects(this, say_worker, sWorld.getConfig(CONFIG_FLOAT_LISTEN_RANGE_SAY));
 }
 
 void WorldObject::MonsterYell(int32 textId, uint32 language, uint64 TargetGuid)
 {
+
     float range = sWorld.getConfig(CONFIG_FLOAT_LISTEN_RANGE_YELL);
 
     Diamond::MonsterChatBuilder say_build(*this, CHAT_MSG_MONSTER_YELL, textId,language,TargetGuid);
     Diamond::LocalizedPacketDo<Diamond::MonsterChatBuilder> say_do(say_build);
     Diamond::CameraDistWorker<Diamond::LocalizedPacketDo<Diamond::MonsterChatBuilder> > say_worker(this,range,say_do);
-    Cell::VisitCameras(this, say_worker, sWorld.getConfig(CONFIG_FLOAT_LISTEN_RANGE_YELL));
+    Cell::VisitWorldObjects(this, say_worker, sWorld.getConfig(CONFIG_FLOAT_LISTEN_RANGE_YELL));
 }
 
 void WorldObject::MonsterYellToZone(int32 textId, uint32 language, uint64 TargetGuid)
@@ -1539,7 +1540,7 @@ void WorldObject::MonsterTextEmote(int32 textId, uint64 TargetGuid, bool IsBossE
     Diamond::MonsterChatBuilder say_build(*this, IsBossEmote ? CHAT_MSG_RAID_BOSS_EMOTE : CHAT_MSG_MONSTER_EMOTE, textId,LANG_UNIVERSAL,TargetGuid);
     Diamond::LocalizedPacketDo<Diamond::MonsterChatBuilder> say_do(say_build);
     Diamond::CameraDistWorker<Diamond::LocalizedPacketDo<Diamond::MonsterChatBuilder> > say_worker(this,range,say_do);
-    Cell::VisitCameras(this, say_worker, range);
+    Cell::VisitWorldObjects(this, say_worker, range);
 }
 
 void WorldObject::MonsterWhisper(int32 textId, uint64 receiver, bool IsBossWhisper)
@@ -1612,10 +1613,7 @@ void WorldObject::SendMessageToSet(WorldPacket *data, Player const* skipped_rece
     //if object is in world, map for it already created!
     Map * _map = IsInWorld() ? GetMap() : sMapMgr.FindMap(GetMapId(), GetInstanceId());
     if(_map)
-    {
         ObjectMessageDeliverer2 notifier(this, data, skipped_receiver);
-        Cell::VisitCameras(this, notifier, _map->GetVisibilityDistance());
-    }
 }
 
 void WorldObject::SendMessageToSetInRange(WorldPacket *data, float dist, bool /*bToSelf*/)
@@ -1962,9 +1960,9 @@ void WorldObject::SetPhaseMask(uint32 newPhaseMask, bool update)
     m_phaseMask = newPhaseMask;
 
     if(update && IsInWorld())
-    {
-        UpdateObjectVisibility();
-        getViewPoint().CameraEvent_ViewPointVisibilityChanged();
+	{
+		UpdateObjectVisibility();
+        getViewPoint().Event_ViewPointVisibilityChanged();
     }
 }
 
@@ -2035,7 +2033,7 @@ struct WorldObjectChangeAccumulator
 void WorldObject::BuildUpdateData( UpdateDataMapType & update_players)
 {
     WorldObjectChangeAccumulator notifier(*this, update_players);
-    Cell::VisitCameras(this, notifier, GetMap()->GetVisibilityDistance());
+    Cell::VisitWorldObjects(this, notifier, GetMap()->GetVisibilityDistance());
 
     ClearUpdateMask(false);
 }

@@ -40,11 +40,13 @@ namespace Diamond
     {
         Camera& camera;
         UpdateData i_data;
+        UpdateDataMapType i_data_updates;
         ObjectGuidSet i_clientGUIDs;
         std::set<WorldObject*> i_visibleNow;
 
         explicit VisibleNotifier(Camera &c) : camera(c), i_clientGUIDs(c.getOwner()->m_clientGUIDs) {}
         template<class T> void Visit(GridRefManager<T> &m);
+		void Visit(CameraMapType &m) {}
         void Notify(void);
     };
 
@@ -140,6 +142,7 @@ namespace Diamond
         template<class T> void Visit(GridRefManager<T> &m);
         void Visit(PlayerMapType &) {}
         void Visit(CorpseMapType &) {}
+        void Visit(CameraMapType &) {}
         void Visit(CreatureMapType &);
     };
 

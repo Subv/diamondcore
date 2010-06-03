@@ -23,7 +23,6 @@
 #include "ByteBuffer.h"
 #include "UpdateFields.h"
 #include "UpdateData.h"
-#include "GameSystem/GridReference.h"
 #include "ObjectGuid.h"
 #include "Camera.h"
 
@@ -325,7 +324,7 @@ class DIAMOND_DLL_SPEC Object
 
 struct WorldObjectChangeAccumulator;
 
-class DIAMOND_DLL_SPEC WorldObject : public Object, public GridObject
+class DIAMOND_DLL_SPEC WorldObject : public Object
 {
     friend struct WorldObjectChangeAccumulator;
 
