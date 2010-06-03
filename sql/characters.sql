@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50141
 File Encoding         : 65001
 
-Date: 2010-05-13 17:34:54
+Date: 2010-06-03 23:09:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -961,7 +961,7 @@ CREATE TABLE `groups` (
   `icon6` int(11) unsigned NOT NULL,
   `icon7` int(11) unsigned NOT NULL,
   `icon8` int(11) unsigned NOT NULL,
-  `isRaid` tinyint(1) unsigned NOT NULL,
+  `groupType` tinyint(1) unsigned NOT NULL,
   `difficulty` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `raiddifficulty` int(11) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`groupId`),
