@@ -576,7 +576,7 @@ class Unit;
 // 5 sec for bobber catch
 #define FISHING_BOBBER_READY_TIME 5
 
-class DIAMOND_DLL_SPEC GameObject : public WorldObject, public GridGameObject
+class DIAMOND_DLL_SPEC GameObject : public WorldObject
 {
     public:
         explicit GameObject();
@@ -701,6 +701,9 @@ class DIAMOND_DLL_SPEC GameObject : public WorldObject, public GridGameObject
 
         GameObject* LookupFishingHoleAround(float range);
 
+        GridReference<GameObject> &GetGridRef() { return m_gridRef; }
+
+        bool isActiveObject() const { return false; }
         uint64 GetRotation() const { return m_rotation; }
         void DealSiegeDamage(uint32 damage);
     protected:
@@ -722,5 +725,7 @@ class DIAMOND_DLL_SPEC GameObject : public WorldObject, public GridGameObject
         uint64 m_rotation;
     private:
         void SwitchDoorOrButton(bool activate, bool alternative = false);
+
+        GridReference<GameObject> m_gridRef;
 };
 #endif

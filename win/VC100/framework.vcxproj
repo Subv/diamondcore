@@ -273,7 +273,6 @@
   <ItemGroup>
     <ClInclude Include="..\..\src\framework\GameSystem\Grid.h" />
     <ClInclude Include="..\..\src\framework\GameSystem\GridLoader.h" />
-    <ClInclude Include="..\..\src\framework\GameSystem\GridObject.h" />
     <ClInclude Include="..\..\src\framework\GameSystem\GridReference.h" />
     <ClInclude Include="..\..\src\framework\GameSystem\GridRefManager.h" />
     <ClInclude Include="..\..\src\framework\GameSystem\NGrid.h" />

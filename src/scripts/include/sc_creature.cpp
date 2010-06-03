@@ -463,7 +463,7 @@ Unit* ScriptedAI::DoSelectLowestHpFriendly(float fRange, uint32 uiMinHPDiff)
     typedef TYPELIST_4(GameObject, Creature*except pets*, DynamicObject, Corpse*Bones*) AllGridObjectTypes;
     This means that if we only search grid then we cannot possibly return pets or players so this is safe
     */
-    GridTypeVisitor<Diamond::UnitLastSearcher<Diamond::MostHPMissingInRange> >::Grid  grid_unit_searcher(searcher);
+    TypeContainerVisitor<Diamond::UnitLastSearcher<Diamond::MostHPMissingInRange>, GridTypeMapContainer >  grid_unit_searcher(searcher);
 
     cell.Visit(p, grid_unit_searcher, *(m_creature->GetMap()), *m_creature, fRange);
 
@@ -482,7 +482,7 @@ std::list<Creature*> ScriptedAI::DoFindFriendlyCC(float fRange)
     Diamond::FriendlyCCedInRange u_check(m_creature, fRange);
     Diamond::CreatureListSearcher<Diamond::FriendlyCCedInRange> searcher(m_creature, pList, u_check);
 
-    GridTypeVisitor<Diamond::CreatureListSearcher<Diamond::FriendlyCCedInRange> >::Grid  grid_creature_searcher(searcher);
+    TypeContainerVisitor<Diamond::CreatureListSearcher<Diamond::FriendlyCCedInRange>, GridTypeMapContainer >  grid_creature_searcher(searcher);
 
     cell.Visit(p, grid_creature_searcher, *(m_creature->GetMap()), *m_creature, fRange);
 
@@ -501,7 +501,7 @@ std::list<Creature*> ScriptedAI::DoFindFriendlyMissingBuff(float fRange, uint32 
     Diamond::FriendlyMissingBuffInRange u_check(m_creature, fRange, uiSpellId);
     Diamond::CreatureListSearcher<Diamond::FriendlyMissingBuffInRange> searcher(m_creature, pList, u_check);
 
-    GridTypeVisitor<Diamond::CreatureListSearcher<Diamond::FriendlyMissingBuffInRange> >::Grid  grid_creature_searcher(searcher);
+    TypeContainerVisitor<Diamond::CreatureListSearcher<Diamond::FriendlyMissingBuffInRange>, GridTypeMapContainer >  grid_creature_searcher(searcher);
 
     cell.Visit(p, grid_creature_searcher, *(m_creature->GetMap()), *m_creature, fRange);
 
@@ -519,7 +519,7 @@ Player* ScriptedAI::GetPlayerAtMinimumRange(float fMinimumRange)
 
     PlayerAtMinimumRangeAway check(m_creature, fMinimumRange);
     Diamond::PlayerSearcher<PlayerAtMinimumRangeAway> searcher(m_creature, pPlayer, check);
-    GridTypeVisitor<Diamond::PlayerSearcher<PlayerAtMinimumRangeAway> >::World visitor(searcher);
+    TypeContainerVisitor<Diamond::PlayerSearcher<PlayerAtMinimumRangeAway>, GridTypeMapContainer> visitor(searcher);
 
     Map * map = m_creature->GetMap();
     //lets limit the maximum player search distance to speed up calculations...

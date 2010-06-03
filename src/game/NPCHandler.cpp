@@ -397,18 +397,18 @@ void WorldSession::SendSpiritResurrect()
         if(corpseGrave != ghostGrave)
             _player->TeleportTo(corpseGrave->map_id, corpseGrave->x, corpseGrave->y, corpseGrave->z, _player->GetOrientation());
         // or update at original position
-        else
+		else
 		{
             _player->GetCamera().UpdateVisibilityForOwner();
-			_player->UpdateObjectVisibility();
-		}
+            _player->UpdateObjectVisibility();
+        }
     }
     // or update at original position
     else
 	{
-        _player->GetCamera().UpdateVisibilityForOwner();
-		_player->UpdateObjectVisibility();
-	}
+		_player->GetCamera().UpdateVisibilityForOwner();
+        _player->UpdateObjectVisibility();
+    }
 }
 
 void WorldSession::HandleBinderActivateOpcode( WorldPacket & recv_data )

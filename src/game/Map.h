@@ -213,6 +213,8 @@ enum LevelRequirementVsMode
 class DIAMOND_DLL_SPEC Map : public GridRefManager<NGridType>, public Diamond::ObjectLevelLockable<Map, ACE_Thread_Mutex>
 {
     friend class MapReference;
+    friend class ObjectGridLoader;
+    friend class ObjectWorldLoader;
     public:
         Map(uint32 id, time_t, uint32 InstanceId, uint8 SpawnMode, Map* _parent = NULL);
         virtual ~Map();
@@ -245,7 +247,7 @@ class DIAMOND_DLL_SPEC Map : public GridRefManager<NGridType>, public Diamond::O
         void PlayerRelocation(Player *, float x, float y, float z, float angl);
         void CreatureRelocation(Creature *creature, float x, float y, float z, float orientation);
 
-        template<class T, class CONTAINER, class V> void Visit(const Cell& cell, TypeContainerVisitor<T, CONTAINER, V> &visitor);
+        template<class T, class CONTAINER> void Visit(const Cell& cell, TypeContainerVisitor<T, CONTAINER> &visitor);
 
         bool IsRemovalGrid(float x, float y) const
         {
@@ -397,13 +399,6 @@ class DIAMOND_DLL_SPEC Map : public GridRefManager<NGridType>, public Diamond::O
             i_objectsToClientUpdate.erase( obj );
         }
 
-        NGridType* getNGrid(uint32 x, uint32 y) const
-        {
-            ASSERT(x < MAX_NUMBER_OF_GRIDS);
-            ASSERT(y < MAX_NUMBER_OF_GRIDS);
-            return i_grids[x][y];
-        }
-
         // DynObjects currently
         uint32 GenerateLocalLowGuid(HighGuid guidhigh);
         bool GetAreaInfo(float x, float y, float z, uint32 &mogpflags, int32 &adtId, int32 &rootId, int32 &groupId) const;
@@ -434,6 +429,13 @@ class DIAMOND_DLL_SPEC Map : public GridRefManager<NGridType>, public Diamond::O
 
         template<class T> void AddType(T *obj);
         template<class T> void RemoveType(T *obj, bool);
+
+        NGridType* getNGrid(uint32 x, uint32 y) const
+        {
+            ASSERT(x < MAX_NUMBER_OF_GRIDS);
+            ASSERT(y < MAX_NUMBER_OF_GRIDS);
+            return i_grids[x][y];
+        }
 
         bool isGridObjectDataLoaded(uint32 x, uint32 y) const { return getNGrid(x,y)->isGridObjectDataLoaded(); }
         void setGridObjectDataLoaded(bool pLoaded, uint32 x, uint32 y) { getNGrid(x,y)->setGridObjectDataLoaded(pLoaded); }
@@ -582,9 +584,9 @@ Map::CalculateGridMask(const uint32 &y) const
 }
 */
 
-template<class T, class CONTAINER, class V>
+template<class T, class CONTAINER>
 inline void
-Map::Visit(const Cell& cell, TypeContainerVisitor<T, CONTAINER, V> &visitor)
+Map::Visit(const Cell& cell, TypeContainerVisitor<T, CONTAINER> &visitor)
 {
     const uint32 x = cell.GridX();
     const uint32 y = cell.GridY();

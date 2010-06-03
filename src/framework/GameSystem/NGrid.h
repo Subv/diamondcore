@@ -127,14 +127,16 @@ class DIAMOND_DLL_DECL NGrid
             getGridType(x, y).RemoveWorldObject(obj);
         }
 
-        template<class T, class TT, class V> void Visit(TypeContainerVisitor<T, TypeMapContainer<TT>, V > &visitor)
+        template<class T, class TT>
+        void Visit(TypeContainerVisitor<T, TypeMapContainer<TT> > &visitor)
         {
             for(unsigned int x=0; x < N; ++x)
                 for(unsigned int y=0; y < N; ++y)
                     i_cells[x][y].Visit(visitor);
         }
 
-        template<class T, class TT, class V> void Visit(const uint32 &x, const uint32 &y, TypeContainerVisitor<T, TypeMapContainer<TT>, V> &visitor)
+        template<class T, class TT>
+        void Visit(const uint32 &x, const uint32 &y, TypeContainerVisitor<T, TypeMapContainer<TT> > &visitor)
         {
             getGridType(x, y).Visit(visitor);
         }
