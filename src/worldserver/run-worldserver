@@ -4,11 +4,11 @@
 
 while :
 do
-	echo "MaNGOS daemon restarted"
+	echo "WorldServer restarted"
 	echo `date` >> crash.log &
-	./mangosd | tail -n 20 >> crash.log
+	./WorldServer | tail -n 20 >> crash.log
 	echo " " >> crash.log &
-	pid=`ps ax | awk '($5 ~ /mangosd/) { print $1 }'`
+	pid=`ps ax | awk '($5 ~ /WorldServer/) { print $1 }'`
 	wait $pid
-        echo `date` ", MaNGOS daemon crashed and restarted." >> serverlog
+        echo `date` ", WorldServer crashed and restarted." >> serverlog
 done
