@@ -245,8 +245,8 @@ int WorldSocket::open (void *a)
 
     // Send startup packet.
     WorldPacket packet (SMSG_AUTH_CHALLENGE, 24);
-    packet << uint32(1);                                    // 1...31
-    packet << m_Seed;
+    // packet << uint32(1);                                    // 1...31
+    //packet << m_Seed;
 
     BigNumber seed1;
     seed1.SetRand(16 * 8);
@@ -255,6 +255,9 @@ int WorldSocket::open (void *a)
     BigNumber seed2;
     seed2.SetRand(16 * 8);
     packet.append(seed2.AsByteArray(16), 16);               // new encryption seeds
+
+	packet << uint8( 1 );
+	packet << m_Seed;
 
     if (SendPacket (packet) == -1)
         return -1;
@@ -477,7 +480,7 @@ int WorldSocket::handle_input_header (void)
     EndianConvertReverse(header.size);
     EndianConvert(header.cmd);
 
-    if ((header.size < 4) || (header.size > 10240) || (header.cmd  > 10240))
+    if ((header.size < 4) || (header.size > 10240) /*|| (header.cmd  > 10240)*/)
     {
         sLog.outError ("WorldSocket::handle_input_header: client sent malformed packet size = %d , cmd = %d",
                        header.size, header.cmd);
@@ -743,9 +746,10 @@ int WorldSocket::HandleAuthSession (WorldPacket& recvPacket)
     // NOTE: ATM the socket is singlethread, have this in mind ...    
     uint8 digest[20];
     uint32 clientSeed;
-    uint32 unk2, unk3;
+    uint32 unk2;
+	uint8 unk3;
     uint64 unk4;
-    uint32 ClientBuild;
+    uint16 ClientBuild;
     uint32 id, security;
     uint8 expansion = 0;
     LocaleConstant locale;
@@ -757,13 +761,13 @@ int WorldSocket::HandleAuthSession (WorldPacket& recvPacket)
     BigNumber K;
 
     // Read the content of the packet
-    recvPacket >> ClientBuild;
-    recvPacket >> unk2;
-	recvPacket >> account;
-    recvPacket >> unk3;
-    recvPacket >> clientSeed;
-	recvPacket >> unk4;
     recvPacket.read (digest, 20);
+	recvPacket >> unk4;
+    recvPacket >> unk2;
+    recvPacket >> clientSeed;
+	recvPacket >> ClientBuild;
+	recvPacket >> unk3;
+    recvPacket >> account;
 
     DEBUG_LOG ("WorldSocket::HandleAuthSession: client %u, unk2 %u, account %s, unk3 %u, clientseed %u",
                 ClientBuild,

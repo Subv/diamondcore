@@ -99,8 +99,8 @@ void Vehicle::RegeneratePower(Powers power)
 
     // hack: needs more research of power type from the dbc. 
     // It must contains some info about vehicles like Salvaged Chopper.
-    if(m_vehicleInfo->m_powerType == POWER_TYPE_PYRITE)
-        return;
+    //if(m_vehicleInfo->m_powerType == POWER_TYPE_PYRITE)
+        //return;
 
     addvalue = 20.0f;
 
@@ -124,13 +124,6 @@ bool Vehicle::Create(uint32 guidlow, Map *map, uint32 phaseMask, uint32 Entry, u
     if(!UpdateEntry(Entry, team, data))
         return false;
 
-    if(!vehicleId)
-    {
-        CreatureDataAddon const *cainfo = GetCreatureAddon();
-        if(!cainfo)
-            return false;
-        vehicleId = cainfo->vehicle_id;
-    }
     if(!SetVehicleId(vehicleId))
         return false;
 
@@ -150,7 +143,7 @@ bool Vehicle::Create(uint32 guidlow, Map *map, uint32 phaseMask, uint32 Entry, u
         ((InstanceMap*)map)->GetInstanceData()->OnCreatureCreate(this);
     }
     
-    if(m_vehicleInfo->m_powerType == POWER_TYPE_STEAM)
+    /*if(m_vehicleInfo->m_powerType == POWER_TYPE_STEAM)
     {
         setPowerType(POWER_ENERGY);
         SetMaxPower(POWER_ENERGY, 100);
@@ -163,7 +156,7 @@ bool Vehicle::Create(uint32 guidlow, Map *map, uint32 phaseMask, uint32 Entry, u
         SetPower(POWER_ENERGY, 50);
     }
     else
-    {
+    {*/
         for (uint32 i = 0; i < MAX_VEHICLE_SPELLS; ++i)
         {
             if(!GetVehicleData()->v_spells[i])
@@ -183,7 +176,7 @@ bool Vehicle::Create(uint32 guidlow, Map *map, uint32 phaseMask, uint32 Entry, u
                 break;
             }
         }
-    }
+    //}
     SetHealth(GetMaxHealth());
     InstallAllAccessories();
 
