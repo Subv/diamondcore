@@ -501,6 +501,7 @@
     <ClCompile Include="..\..\src\scripts\scripts\northrend\vault_of_archavon\boss_archavon.cpp" />
     <ClCompile Include="..\..\src\scripts\scripts\northrend\vault_of_archavon\boss_emalon.cpp" />
     <ClCompile Include="..\..\src\scripts\scripts\northrend\vault_of_archavon\boss_koralon.cpp" />
+    <ClCompile Include="..\..\src\scripts\scripts\northrend\vault_of_archavon\boss_toravon.cpp" />
     <ClCompile Include="..\..\src\scripts\scripts\northrend\vault_of_archavon\instance_vault_of_archavon.cpp" />
     <ClCompile Include="..\..\src\scripts\scripts\northrend\violet_hold\instance_violet_hold.cpp" />
     <ClCompile Include="..\..\src\scripts\scripts\northrend\violet_hold\violet_hold.cpp" />

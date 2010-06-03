@@ -267,7 +267,7 @@ namespace VMAP
         {
             Vector3 pos = convertPositionToInternalRep(x, y, z);
             result = instanceTree->second->getAreaInfo(pos, flags, adtId, rootId, groupId);
-            // z is not touched by convertPositionToMangosRep(), so just copy
+            // z is not touched by convertPositionToRep(), so just copy
             z = pos.z;
         }
         return(result);

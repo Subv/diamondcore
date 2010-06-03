@@ -13,84 +13,116 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+// Gormok - Firebomb not implemented, timers need correct
+// Snakes - Underground phase not worked, timers need correct
+// Icehowl - Trample&Crash event not implemented, timers need correct
 
 /* ScriptData
-SDName:
-SD%Complete: 0
-SDComment:
+SDName: northrend_beasts
+SD%Complete: 90% 
+SDComment: by /dev/rsa
 SDCategory:
 EndScriptData */
+
+// not implemented:
+// snobolds link
+// snakes underground cast (not support in core)
+// aura 31 (SPELL_ADRENALINE) not applyed by undefined reason
+// model_id (or visual effect) for slime_pool need change.
 
 #include "precompiled.h"
 #include "trial_of_the_crusader.h"
 
-/**********************************************************
-                    GORMOK THE IMPALER
-**********************************************************/
+enum Equipment
+{
+    EQUIP_MAIN           = 50760,
+    EQUIP_OFFHAND        = 48040,
+    EQUIP_RANGED         = 47267,
+    EQUIP_DONE           = EQUIP_NO_CHANGE,
+};
 
-#define SP_IMPALE       66331
-#define H_SP_IMPALE     67477
-#define SP_STOMP        66330
-#define H_SP_STOMP      67649
-#define SP_RISING_ANGER 66636
-#define SP_FIRE_BOMB    66318
+enum Summons
+{
+    NPC_SNOBOLD_VASSAL   = 34800,
+    NPC_SLIME_POOL       = 35176,
+    NPC_FIRE_BOMB        = 34854,
+};
 
-#define CR_SNOBOLD     34800
-#define CR_FIRE_BOMB   34854
+enum BossSpells
+{
+SPELL_IMPALE           = 66331,
+SPELL_STAGGERING_STOMP = 67648,
+SPELL_RISING_ANGER     = 66636,
+SUMMON_SNOBOLD         = NPC_SNOBOLD_VASSAL,
+SPELL_ACID_SPIT        = 66880,
+SPELL_PARALYTIC_SPRAY  = 66901,
+SPELL_ACID_SPEW        = 66819,
+SPELL_PARALYTIC_BITE   = 66824,
+SPELL_SWEEP_0          = 66794,
+SPELL_SLIME_POOL       = 66883,
+SPELL_FIRE_SPIT        = 66796,
+SPELL_MOLTEN_SPEW      = 66821,
+SPELL_BURNING_BITE     = 66879,
+SPELL_BURNING_SPRAY    = 66902,
+SPELL_SWEEP_1          = 67646,
+SPELL_FEROCIOUS_BUTT   = 66770,
+SPELL_MASSIVE_CRASH    = 66683,
+SPELL_WHIRL            = 67345,
+SPELL_ARCTIC_BREATH    = 66689,
+SPELL_TRAMPLE          = 66734,
+SPELL_ADRENALINE       = 68667,
+SPELL_SNOBOLLED        = 66406,
+SPELL_BATTER           = 66408,
+SPELL_FIRE_BOMB        = 66313,
+SPELL_FIRE_BOMB_1      = 66317,
+SPELL_FIRE_BOMB_DOT    = 66318,
+SPELL_HEAD_CRACK       = 66407,
+SPELL_SUBMERGE_0       = 53421,
+SPELL_ENRAGE           = 68335,
+SPELL_FROTHING_RAGE    = 66759,
+SPELL_STAGGERED_DAZE   = 66758,
+SPELL_SLIME_POOL_1     = 66881,
+SPELL_SLIME_POOL_2     = 66882,
+};
 
 struct DIAMOND_DLL_DECL boss_gormokAI : public ScriptedAI
 {
     boss_gormokAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
         m_pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
-        m_bIsRegularMode = pCreature->GetMap()->IsRegularDifficulty();
+        bsw = new BossSpellWorker(this);
         Reset();
     }
 
     ScriptedInstance* m_pInstance;
-    bool m_bIsRegularMode;
-    uint32 SnoboldsLaunched;
-    uint32 MaxSnobolds;
-    uint32 SnoboldTimer;
-    uint32 ImpaleTimer;
-    uint32 StompTimer;
-    uint32 FireBombTimer;
+    uint8 SnoboldsCount;
+    BossSpellWorker* bsw; 
 
     void Reset()
     {
-        SnoboldsLaunched = 0;
-        MaxSnobolds = m_bIsRegularMode ? 4 : 5;
-        SnoboldTimer = urand(15000, 30000);
-        ImpaleTimer = 10000;
-        StompTimer = urand(20000, 25000);
-        FireBombTimer = 10000 + rand()%8000;
+        if(!m_pInstance) return;
+        SetEquipmentSlots(false, EQUIP_MAIN, EQUIP_OFFHAND, EQUIP_RANGED);
+        m_creature->SetRespawnDelay(DAY);
+        m_creature->SetInCombatWithZone();
+        SnoboldsCount = 4;
+    }
+
+    void JustDied(Unit* pKiller)
+    {
+        if (!m_pInstance) return;
+        m_pInstance->SetData(TYPE_NORTHREND_BEASTS, GORMOK_DONE);
     }
 
     void JustReachedHome()
     {
-        if (m_pInstance)
-            m_pInstance->SetData(TYPE_NORTHREND_BEASTS, NOT_STARTED);
+        if (!m_pInstance) return;
+        m_pInstance->SetData(TYPE_NORTHREND_BEASTS, FAIL);
+        m_creature->ForcedDespawn();
     }
 
     void Aggro(Unit* pWho)
     {
-        if (m_pInstance)
-            m_pInstance->SetData(DATA_BEASTS_ENRAGE, 900000);
-    }
-
-    void JustDied(Unit *killer)
-    {
-        if (m_pInstance)
-            m_pInstance->SetData(DATA_GORMOK, DONE);
-    }
-
-    void JustSummoned(Unit *snobold)
-    {
-        if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM, 0))
-        {
-            snobold->AddThreat(target, 1000000.0f);
-            snobold->NearTeleportTo(target->GetPositionX(), target->GetPositionY(), target->GetPositionZ(), 0);
-        }
+        m_pInstance->SetData(TYPE_NORTHREND_BEASTS, GORMOK_IN_PROGRESS);
     }
 
     void UpdateAI(const uint32 uiDiff)
@@ -98,56 +130,15 @@ struct DIAMOND_DLL_DECL boss_gormokAI : public ScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        if(ImpaleTimer < uiDiff)
-        {
-            DoCast(m_creature->getVictim(), m_bIsRegularMode ? SP_IMPALE : H_SP_IMPALE);
-            ImpaleTimer = 10000;
-        }
-        else
-            ImpaleTimer -= uiDiff;
+        bsw->timedCast(SPELL_IMPALE, uiDiff);
+        bsw->timedCast(SPELL_STAGGERING_STOMP, uiDiff);
 
-        if(StompTimer < uiDiff)
+        if (bsw->timedQuery(SUMMON_SNOBOLD, uiDiff) && SnoboldsCount > 0 )
         {
-            DoCast(m_creature, m_bIsRegularMode ? SP_STOMP : H_SP_STOMP);
-            StompTimer = urand(20000, 25000);
-        }
-        else
-            StompTimer -= uiDiff;
-
-        if(FireBombTimer < uiDiff)
-        {
-            if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM, 0))
-            {
-                if(Creature *bomb = m_creature->SummonCreature(CR_FIRE_BOMB, 
-                    target->GetPositionX(), target->GetPositionY(), target->GetPositionZ(), 0, 
-                    TEMPSUMMON_TIMED_DESPAWN, 62000))
-                {
-                    bomb->CastSpell(bomb, SP_FIRE_BOMB, false);
-                    bomb->addUnitState(UNIT_STAT_ROOT);
-                    bomb->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
-                    bomb->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
-                }
-            }
-            FireBombTimer = 10000 + rand()%8000;
-        }
-        else
-            FireBombTimer -= uiDiff;
-
-        if((SnoboldsLaunched < MaxSnobolds) && (SnoboldTimer < uiDiff))
-        {
-            if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM, 0))
-            {
-                if(Creature *snobold = m_creature->SummonCreature(CR_SNOBOLD, 
-                    target->GetPositionX(), target->GetPositionY(), target->GetPositionZ(), 0, 
-                    TEMPSUMMON_DEAD_DESPAWN, 3000))
-                    snobold->AddThreat(target, 1000000.0f);
-                ++SnoboldsLaunched;
-                DoCast(m_creature, SP_RISING_ANGER, true);
-            }
-            SnoboldTimer = 30000 + rand()%15000;
-        }
-        else
-            SnoboldTimer -= uiDiff;
+            bsw->doCast(SUMMON_SNOBOLD);
+            DoScriptText(-1713601,m_creature);
+            --SnoboldsCount;
+        };
 
         DoMeleeAttackIfReady();
     }
@@ -158,65 +149,48 @@ CreatureAI* GetAI_boss_gormok(Creature* pCreature)
     return new boss_gormokAI(pCreature);
 }
 
-/**********************************************************
-                   ACIDMAW & DREADSCALE
-**********************************************************/
-
-#define SP_ACIDIC_SPEW      66818
-#define SP_PARALYTIC_BITE   66824
-#define H_SP_PARALYTIC_BITE 67612
-#define SP_SLIME_POOL       66883
-#define SP_ACID_SPIT        66880
-#define H_SP_ACID_SPIT      67606
-#define SP_SWEEP            66794
-#define SP_PARALYTIC_SPRAY  66901
-
-struct DIAMOND_DLL_DECL boss_acidmawAI : public ScriptedAI
+struct DIAMOND_DLL_DECL mob_snobold_vassalAI : public ScriptedAI
 {
-    boss_acidmawAI(Creature* pCreature) : ScriptedAI(pCreature)
+    mob_snobold_vassalAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
         m_pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
-        m_bIsRegularMode = pCreature->GetMap()->IsRegularDifficulty();
+        bsw = new BossSpellWorker(this);
         Reset();
     }
 
     ScriptedInstance* m_pInstance;
-    bool m_bIsRegularMode;
-    bool mobile;
-    uint32 MobileTimer;
-
-    uint32 SweepTimer;
-    uint32 AcidSpitTimer;
-    uint32 ParalyticSprayTimer;
-    uint32 BiteTimer;
-    uint32 SpewTimer;
-
-    void JustReachedHome()
-    {
-        if (m_pInstance)
-            m_pInstance->SetData(TYPE_NORTHREND_BEASTS, NOT_STARTED);
-    }
+    BossSpellWorker* bsw;
+    Unit* pBoss;
+    Unit* defaultTarget;
 
     void Reset()
     {
-        MobileTimer = 60000;
-        SweepTimer = 25000 + rand()%15000;
-        AcidSpitTimer = 4000 + rand()%4000;
-        ParalyticSprayTimer = 15000 + rand()%15000;
-        BiteTimer = 20000 + rand()%10000;
-        SpewTimer = 15000 + rand()%10000;
-        mobile = false;
-        SetCombatMovement(false);
+        pBoss = NULL;
+        defaultTarget = NULL;
+        m_creature->SetInCombatWithZone();
+        m_creature->SetRespawnDelay(DAY);
+        pBoss = (Creature*)Unit::GetUnit((*m_creature),m_pInstance->GetData64(NPC_GORMOK));
+        if (pBoss) bsw->doCast(SPELL_RISING_ANGER,pBoss);
     }
 
-    void Aggro(Unit* pWho)
+    void Aggro(Unit *who)
     {
+        if (!m_pInstance) return;
+        defaultTarget = who;
+        bsw->doCast(SPELL_SNOBOLLED, defaultTarget);
     }
- 
-    void JustDied(Unit *killer)
+
+    void JustReachedHome()
     {
-        if (m_pInstance)
-            m_pInstance->SetData(DATA_ACIDMAW, DEAD);
+        if (!m_pInstance) return;
+            m_creature->ForcedDespawn();
+    }
+
+    void JustDied(Unit* pKiller)
+    {
+        if (defaultTarget && defaultTarget->isAlive()) bsw->doRemove(SPELL_SNOBOLLED, defaultTarget);
+//      if (pBoss && pBoss->isAlive()) bsw->doRemove(SPELL_RISING_ANGER,pBoss);
+//      This string - not offlike, in off this buff not removed! especially for small servers.
     }
 
     void UpdateAI(const uint32 uiDiff)
@@ -224,76 +198,133 @@ struct DIAMOND_DLL_DECL boss_acidmawAI : public ScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        if(MobileTimer < uiDiff)
+        bsw->timedCast(SPELL_BATTER, uiDiff);
+
+        if (bsw->timedCast(SPELL_FIRE_BOMB, uiDiff, m_creature->getVictim()) == CAST_OK)
         {
-            mobile = !mobile;
-            SetCombatMovement(mobile);
-            MobileTimer = 60000;
-            if(mobile)
+            bsw->doCast(SPELL_FIRE_BOMB_1, m_creature->getVictim());
+            bsw->doCast(SPELL_FIRE_BOMB_DOT, m_creature->getVictim());
+        }
+
+        bsw->timedCast(SPELL_HEAD_CRACK, uiDiff);
+
+        DoMeleeAttackIfReady();
+    }
+};
+
+CreatureAI* GetAI_mob_snobold_vassal(Creature* pCreature)
+{
+    return new mob_snobold_vassalAI(pCreature);
+}
+
+struct DIAMOND_DLL_DECL boss_acidmawAI : public ScriptedAI
+{
+    boss_acidmawAI(Creature* pCreature) : ScriptedAI(pCreature)
+    {
+        m_pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
+        bsw = new BossSpellWorker(this);
+        Reset();
+    }
+
+    ScriptedInstance* m_pInstance;
+    BossSpellWorker* bsw;
+    uint8 stage;
+    bool enraged;
+
+    void Reset()
+    {
+        stage = 1;
+        enraged = false;
+        m_creature->SetInCombatWithZone();
+        m_creature->SetRespawnDelay(DAY);
+    }
+
+    void JustDied(Unit* pKiller)
+    {
+        if (!m_pInstance) return;
+        if (Creature* pSister = (Creature*)Unit::GetUnit((*m_creature),m_pInstance->GetData64(NPC_DREADSCALE)))
+        {
+           if (!pSister->isAlive())
+               m_pInstance->SetData(TYPE_NORTHREND_BEASTS, SNAKES_DONE);
+           else
+               m_pInstance->SetData(TYPE_NORTHREND_BEASTS, SNAKES_SPECIAL);
+        }
+    }
+
+    void JustReachedHome()
+    {
+        if (!m_pInstance) return;
+        if (m_pInstance->GetData(TYPE_NORTHREND_BEASTS) == IN_PROGRESS)
+            m_pInstance->SetData(TYPE_NORTHREND_BEASTS, FAIL);
+        m_creature->ForcedDespawn();
+    }
+
+    void Aggro(Unit* pWho)
+    {
+    }
+
+    void UpdateAI(const uint32 uiDiff)
+    {
+
+        if ((!m_creature->SelectHostileTarget() || !m_creature->getVictim()) &&
+            (m_pInstance->GetData(TYPE_NORTHREND_BEASTS) != ACIDMAW_SUBMERGED))
+            return;
+
+        switch (stage) 
+        {
+            case 0:
             {
-                m_creature->GetMotionMaster()->Clear();
-                m_creature->GetMotionMaster()->MoveChase(m_creature->getVictim());
+                bsw->timedCast(SPELL_ACID_SPEW, uiDiff);
+                bsw->timedCast(SPELL_PARALYTIC_BITE, uiDiff);
+                bsw->timedCast(SPELL_ACID_SPIT, uiDiff);
+                bsw->timedCast(SPELL_PARALYTIC_SPRAY, uiDiff);
+                bsw->timedCast(SPELL_SWEEP_0, uiDiff);
+
+                if (m_pInstance->GetData(TYPE_NORTHREND_BEASTS) == ACIDMAW_SUBMERGED)
+                     stage = 1;
+
+                break;
             }
-            else
+            case 1:
             {
-                m_creature->GetMotionMaster()->Clear();
-                m_creature->GetMotionMaster()->MoveIdle();
+                m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+                bsw->doCast(SPELL_SUBMERGE_0);
+                stage = 2;
+                DoScriptText(-1713557,m_creature);
+                m_pInstance->SetData(TYPE_NORTHREND_BEASTS, ACIDMAW_SUBMERGED);
+                break;}
+            case 2:
+            {
+                if (bsw->timedQuery(SPELL_SLIME_POOL, uiDiff))
+                    bsw->doCast(NPC_SLIME_POOL);
+
+                if (bsw->timedQuery(SPELL_SUBMERGE_0, uiDiff) && m_pInstance->GetData(TYPE_NORTHREND_BEASTS) == ACIDMAW_SUBMERGED)
+                    stage = 3;
+                break;
+            }
+            case 3:
+            {
+                DoScriptText(-1713559,m_creature);
+                bsw->doRemove(SPELL_SUBMERGE_0);
+                m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+                stage = 0;
+                m_pInstance->SetData(TYPE_NORTHREND_BEASTS, DREADSCALE_SUBMERGED);
+                break;
             }
         }
-        else
-            MobileTimer -= uiDiff;
 
-        if(mobile)
+        if (m_pInstance->GetData(TYPE_NORTHREND_BEASTS) == SNAKES_SPECIAL && !enraged)
         {
-            if(BiteTimer < uiDiff)
-            {
-                DoCast(m_creature->getVictim(), m_bIsRegularMode ? SP_PARALYTIC_BITE : H_SP_PARALYTIC_BITE);
-                BiteTimer = 20000 + rand()%10000;
-            }
-            else
-                BiteTimer -= uiDiff;
+            DoScriptText(-1713559,m_creature);
+            bsw->doRemove(SPELL_SUBMERGE_0);
+            m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+            bsw->doCast(SPELL_ENRAGE);
+            enraged = true;
+            stage = 0;
+            DoScriptText(-1713504,m_creature);
+        };
 
-            if(SpewTimer < uiDiff)
-            {
-                DoCast(m_creature->getVictim(), SP_ACIDIC_SPEW);
-                SpewTimer = 25000 + rand()%15000;
-            }
-            else
-                 SpewTimer -= uiDiff;
-
-            DoMeleeAttackIfReady();
-        }
-        else
-        {
-            if(ParalyticSprayTimer < uiDiff)
-            {
-                if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM, 0))
-                {
-                    DoCast(target, SP_PARALYTIC_SPRAY, true);
-                    DoCast(target, 66823, true);
-                }
-                ParalyticSprayTimer = m_bIsRegularMode ? 25000 + rand()%10000 : 15000 + rand()%5000;
-            }
-            else
-                ParalyticSprayTimer -= uiDiff;
-
-            if(SweepTimer < uiDiff)
-            {
-                DoCast(m_creature, SP_SWEEP);
-                SweepTimer = 25000 + rand()%15000;
-            }
-            else
-                SweepTimer -= uiDiff;
-
-            if(AcidSpitTimer < uiDiff)
-            {
-                if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM, 0))
-                    DoCast(target, m_bIsRegularMode ? SP_ACID_SPIT : H_SP_ACID_SPIT);
-                AcidSpitTimer = m_bIsRegularMode ? 3000 + rand()%3000 : 2000 + rand()%2000;
-            }
-            else
-                AcidSpitTimer -= uiDiff;
-        } 
+        DoMeleeAttackIfReady();
     }
 };
 
@@ -302,134 +333,114 @@ CreatureAI* GetAI_boss_acidmaw(Creature* pCreature)
     return new boss_acidmawAI(pCreature);
 }
 
-#define SP_BURNING_BITE     66879
-#define H_SP_BURNING_BITE   67624
-#define SP_MOLTEN_SPEW      66821
-#define SP_FIRE_SPIT        66796
-#define H_SP_FIRE_SPIT      67632
-#define SP_BURNING_SPRAY    66902
-
 struct DIAMOND_DLL_DECL boss_dreadscaleAI : public ScriptedAI
 {
     boss_dreadscaleAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
         m_pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
-        m_bIsRegularMode = pCreature->GetMap()->IsRegularDifficulty();
+        bsw = new BossSpellWorker(this);
         Reset();
     }
 
     ScriptedInstance* m_pInstance;
-    bool m_bIsRegularMode;
-    bool mobile;
-    uint32 MobileTimer;
-    uint32 SweepTimer;
-    uint32 FireSpitTimer;
-    uint32 BiteTimer;
-    uint32 SpewTimer;
-    uint32 BurningSprayTimer;
+    BossSpellWorker* bsw;
+    uint8 stage;
+    bool enraged;
 
     void Reset()
     {
-        MobileTimer = 60000;
-        mobile = true;
-        SweepTimer = 25000 + rand()%15000;
-        FireSpitTimer = 4000 + rand()%4000;
-        BiteTimer = 20000 + rand()%10000;
-        SpewTimer = 15000 + rand()%10000;
-        BurningSprayTimer = 15000 + rand()%15000;
+        stage = 0;
+        enraged = false;
+        m_creature->SetInCombatWithZone();
+        m_creature->SetRespawnDelay(DAY);
+    }
+
+    void JustDied(Unit* pKiller)
+    {
+        if (!m_pInstance) return;
+        if (Creature* pSister = (Creature*)Unit::GetUnit((*m_creature),m_pInstance->GetData64(NPC_ACIDMAW)))
+        {
+            if (!pSister->isAlive())
+                m_pInstance->SetData(TYPE_NORTHREND_BEASTS, SNAKES_DONE);
+            else
+                m_pInstance->SetData(TYPE_NORTHREND_BEASTS, SNAKES_SPECIAL);
+        }
     }
 
     void JustReachedHome()
     {
-        if (m_pInstance)
-            m_pInstance->SetData(TYPE_NORTHREND_BEASTS, NOT_STARTED);
+        if (!m_pInstance) return;
+        if (m_pInstance->GetData(TYPE_NORTHREND_BEASTS) == IN_PROGRESS)
+            m_pInstance->SetData(TYPE_NORTHREND_BEASTS, FAIL);
+        m_creature->ForcedDespawn();
     }
 
     void Aggro(Unit* pWho)
     {
     }
 
-    void JustDied(Unit *killer)
-    {
-        if (m_pInstance)
-            m_pInstance->SetData(DATA_DREADSCALE, DEAD);
-    }
-
     void UpdateAI(const uint32 uiDiff)
     {
-        if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+        if ((!m_creature->SelectHostileTarget() || !m_creature->getVictim()) &&
+            (m_pInstance->GetData(TYPE_NORTHREND_BEASTS) != DREADSCALE_SUBMERGED))
             return;
 
-        if(MobileTimer < uiDiff)
+        switch (stage) 
         {
-            mobile = !mobile;
-            SetCombatMovement(mobile);
-            MobileTimer = 60000;
-            if(mobile)
+            case 0:
             {
-                m_creature->GetMotionMaster()->Clear();
-                m_creature->GetMotionMaster()->MoveChase(m_creature->getVictim());
+                bsw->timedCast(SPELL_BURNING_BITE, uiDiff);
+                bsw->timedCast(SPELL_MOLTEN_SPEW, uiDiff);
+                bsw->timedCast(SPELL_FIRE_SPIT, uiDiff);
+                bsw->timedCast(SPELL_BURNING_SPRAY, uiDiff);
+                bsw->timedCast(SPELL_SWEEP_0, uiDiff);
+
+                if (m_pInstance->GetData(TYPE_NORTHREND_BEASTS) == DREADSCALE_SUBMERGED)
+                     stage = 1;
+
+                break;
             }
-            else
+            case 1:
             {
-                m_creature->GetMotionMaster()->Clear();
-                m_creature->GetMotionMaster()->MoveIdle();
+                m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+                bsw->doCast(SPELL_SUBMERGE_0);
+                stage = 2;
+                DoScriptText(-1713557,m_creature);
+                m_pInstance->SetData(TYPE_NORTHREND_BEASTS, DREADSCALE_SUBMERGED);
+                break;
+            }
+            case 2:
+            {
+                if (bsw->timedQuery(SPELL_SLIME_POOL, uiDiff))
+                    bsw->doCast(NPC_SLIME_POOL);
+
+                if (bsw->timedQuery(SPELL_SUBMERGE_0, uiDiff) && m_pInstance->GetData(TYPE_NORTHREND_BEASTS) == DREADSCALE_SUBMERGED) 
+                         stage = 3;
+                    break;
+            }
+            case 3:
+            {
+                DoScriptText(-1713559,m_creature);
+                bsw->doRemove(SPELL_SUBMERGE_0);
+                m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+                stage = 0;
+                m_pInstance->SetData(TYPE_NORTHREND_BEASTS, ACIDMAW_SUBMERGED);
+                break;
             }
         }
-        else
-            MobileTimer -= uiDiff;
 
-        if(mobile)
+        if (m_pInstance->GetData(TYPE_NORTHREND_BEASTS) == SNAKES_SPECIAL && !enraged)
         {
-            if(BiteTimer < uiDiff)
-            {
-                DoCast(m_creature->getVictim(), m_bIsRegularMode ? SP_BURNING_BITE : H_SP_BURNING_BITE);
-                BiteTimer = 20000 + rand()%10000;
-            }
-            else
-                BiteTimer -= uiDiff;
+            DoScriptText(-1713559,m_creature);
+            bsw->doRemove(SPELL_SUBMERGE_0);
+            m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+            bsw->doCast(SPELL_ENRAGE);
+            enraged = true;
+            stage = 0;
+            DoScriptText(-1713504,m_creature);
+        };
 
-            if(SpewTimer < uiDiff)
-            {
-                DoCast(m_creature->getVictim(), SP_MOLTEN_SPEW);
-                SpewTimer = 25000 + rand()%15000;
-            }
-            else
-                SpewTimer -= uiDiff;
-
-            DoMeleeAttackIfReady();
-        }
-        else
-        {
-            if(BurningSprayTimer < uiDiff)
-            {
-                if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM, 0))
-                {
-                    DoCast(target, SP_BURNING_SPRAY, true);
-                    DoCast(target, 66869, true);
-                }
-                BurningSprayTimer = m_bIsRegularMode ? 25000 + rand()%10000 : 15000 + rand()%5000;
-            }
-            else
-                BurningSprayTimer -= uiDiff;
-
-            if(SweepTimer < uiDiff)
-            {
-                DoCast(m_creature, SP_SWEEP);
-                SweepTimer = 25000 + rand()%15000;
-            }
-            else
-                SweepTimer -= uiDiff;
-
-            if(FireSpitTimer < uiDiff)
-            {
-                if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM, 0))
-                    DoCast(target, m_bIsRegularMode ? SP_FIRE_SPIT : H_SP_FIRE_SPIT);
-                FireSpitTimer = m_bIsRegularMode ? 3000 + rand()%3000 : 2000 + rand()%2000;
-            }
-            else
-                FireSpitTimer -= uiDiff; 
-        } 
+        DoMeleeAttackIfReady();
     }
 };
 
@@ -438,98 +449,209 @@ CreatureAI* GetAI_boss_dreadscale(Creature* pCreature)
     return new boss_dreadscaleAI(pCreature);
 }
 
-/**********************************************************
-                          ICEHOWL
-**********************************************************/
+struct DIAMOND_DLL_DECL mob_slime_poolAI : public ScriptedAI
+{
+    mob_slime_poolAI(Creature *pCreature) : ScriptedAI(pCreature)
+    {
+        m_pInstance = ((ScriptedInstance*)pCreature->GetInstanceData());
+        bsw = new BossSpellWorker(this);
+        Reset();
+    }
 
-#define SP_ENRAGE           26662
-#define SP_FEROCIOUS_BUTT   66770
-#define H_SP_FEROCIOUS_BUTT 67655
-#define SP_WHIRL            67345
-#define H_SP_WHIRL          67663
-#define SP_MASSIVE_CRASH    66683
-#define H_SP_MASSIVE_CRASH  67660
-#define SP_ARCTIC_BREATH    66689
-#define H_SP_ARCTIC_BREATH  67650
+    ScriptedInstance *m_pInstance;
+    BossSpellWorker* bsw;
+    float m_Size;
+    uint8 Difficulty;
+
+    void Reset()
+    {
+        if(!m_pInstance) return;
+        Difficulty = m_pInstance->GetData(TYPE_DIFFICULTY);
+        if (Difficulty == RAID_DIFFICULTY_10MAN_HEROIC || Difficulty == RAID_DIFFICULTY_25MAN_HEROIC) 
+            m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+        m_creature->SetInCombatWithZone();
+        m_creature->SetSpeedRate(MOVE_RUN, 0.05f);
+        SetCombatMovement(false);
+        m_creature->GetMotionMaster()->MoveRandom();
+        bsw->doCast(SPELL_SLIME_POOL_2);
+        m_Size = m_creature->GetFloatValue(OBJECT_FIELD_SCALE_X);
+    }
+
+    void AttackStart(Unit *who)
+    {
+        return;
+    }
+
+    void UpdateAI(const uint32 uiDiff)
+    {
+        if (bsw->timedQuery(SPELL_SLIME_POOL_2,uiDiff))
+        {
+            m_Size = m_Size*1.036;
+            m_creature->SetFloatValue(OBJECT_FIELD_SCALE_X, m_Size);
+        }
+        // Override especially for clean core
+        if (m_Size >= 6.0f) m_creature->ForcedDespawn();
+    }
+
+};
+
+CreatureAI* GetAI_mob_slime_pool(Creature* pCreature)
+{
+    return new mob_slime_poolAI(pCreature);
+}
 
 struct DIAMOND_DLL_DECL boss_icehowlAI : public ScriptedAI
 {
     boss_icehowlAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
         m_pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
-        m_bIsRegularMode = pCreature->GetMap()->IsRegularDifficulty();
+        bsw = new BossSpellWorker(this);
         Reset();
     }
 
     ScriptedInstance* m_pInstance;
-    bool m_bIsRegularMode;
-    uint32 EnrageTimer;
-    uint32 CrashTimer;
-    uint32 BreathTimer;
-    uint32 WhirlTimer;
+    BossSpellWorker* bsw;
+    bool MovementStarted;
+    bool TrampleCasted;
+    uint8 stage;
+    float fPosX, fPosY, fPosZ;
+    Unit* pTarget;
 
     void Reset()
     {
-        if (m_pInstance)
-            EnrageTimer = m_pInstance->GetData(DATA_BEASTS_ENRAGE);
-        else 
-            EnrageTimer = 300000;
+        if(!m_pInstance) return;
+        m_creature->SetRespawnDelay(DAY);
+        MovementStarted = false;
+        stage = 0;
+    }
 
-        CrashTimer = 45000;
-        BreathTimer = 25000;
-        WhirlTimer = 15000;
+    void JustDied(Unit* pKiller)
+    {
+        if (!m_pInstance) return;
+            m_pInstance->SetData(TYPE_NORTHREND_BEASTS, ICEHOWL_DONE);
+    }
+
+    void MovementInform(uint32 type, uint32 id)
+    {
+        if(!m_pInstance) return;
+        if(type != POINT_MOTION_TYPE) return;
+        if(id != 1 && MovementStarted) 
+        {
+             m_creature->GetMotionMaster()->MovePoint(1, fPosX, fPosY, fPosZ);
+        }
+        else
+        {
+            m_creature->GetMotionMaster()->MovementExpired();
+            MovementStarted = false;
+            SetCombatMovement(true);
+            m_creature->GetMotionMaster()->MoveChase(m_creature->getVictim());
+        }
     }
 
     void JustReachedHome()
     {
-        if (m_pInstance)
-            m_pInstance->SetData(TYPE_NORTHREND_BEASTS, NOT_STARTED);
+        if (!m_pInstance) return;
+        m_pInstance->SetData(TYPE_NORTHREND_BEASTS, FAIL);
+        m_creature->ForcedDespawn();
     }
 
-    void JustDied(Unit *killer)
+    void Aggro(Unit* pWho)
     {
-        if (m_pInstance)
-            m_pInstance->SetData(TYPE_NORTHREND_BEASTS, DONE);
+        m_creature->SetInCombatWithZone();
+        m_pInstance->SetData(TYPE_NORTHREND_BEASTS, ICEHOWL_IN_PROGRESS);
     }
 
     void UpdateAI(const uint32 uiDiff)
     {
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
-        
-        if(EnrageTimer < uiDiff)
-        {
-            DoCast(m_creature, SP_ENRAGE);
-            EnrageTimer = 30000;
-        }
-        else
-            EnrageTimer -= uiDiff;
 
-        if(CrashTimer < uiDiff)
+        switch (stage) 
         {
-            DoCast(m_creature->getVictim(), m_bIsRegularMode ? SP_MASSIVE_CRASH : H_SP_MASSIVE_CRASH);
-            CrashTimer = 45000;
-        }
-        else
-            CrashTimer -= uiDiff;
+            case 0:
+            {
+                bsw->timedCast(SPELL_FEROCIOUS_BUTT, uiDiff);
+                bsw->timedCast(SPELL_ARCTIC_BREATH, uiDiff);
+                bsw->timedCast(SPELL_WHIRL, uiDiff);
+                if (bsw->timedQuery(SPELL_MASSIVE_CRASH, uiDiff)) stage = 1;
+                bsw->timedCast(SPELL_FROTHING_RAGE, uiDiff);
+                DoMeleeAttackIfReady();
+                break;
+            }
+            case 1:
+            {
+                 if (bsw->doCast(SPELL_MASSIVE_CRASH) == CAST_OK)
+                     stage = 2;
+                 break;
+            }
+            case 2:
+            {
+                if (pTarget = bsw->SelectUnit())
+                {
+                    TrampleCasted = false;
+                    m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+                    stage = 3;
+                    bsw->resetTimer(SPELL_TRAMPLE);
+                    DoScriptText(-1713506,m_creature,pTarget);
+                    SetCombatMovement(false);
+                    m_creature->GetMotionMaster()->MoveIdle();
+                }
+                break;
+            }
+            case 3:
+            {
+                if (bsw->timedQuery(SPELL_TRAMPLE,uiDiff))
+                {
+                    pTarget->GetPosition(fPosX, fPosY, fPosZ);
+                    TrampleCasted = false;
+                    MovementStarted = true;
+                    m_creature->GetMotionMaster()->MovePoint(1, fPosX, fPosY, fPosZ);
+                    DoScriptText(-1713508,m_creature);
+                    bsw->doCast(SPELL_ADRENALINE);
+                    stage = 4;
+                }
+                break;
+            }
+            case 4:
+            {
+                if (MovementStarted)
+                {
+                    Map* pMap = m_creature->GetMap();
+                    Map::PlayerList const &lPlayers = pMap->GetPlayers();
+                    for(Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
+                    {
+                        Unit* pPlayer = itr->getSource();
+                        if (!pPlayer) continue;
+                        if (pPlayer->isAlive() && pPlayer->IsWithinDistInMap(m_creature, 5.0f))
+                        {
+                            bsw->doCast(SPELL_TRAMPLE, pPlayer);
+                            TrampleCasted = true;
+                            MovementStarted = false;
+                            m_creature->GetMotionMaster()->MovementExpired();
+                            m_creature->GetMotionMaster()->MoveChase(m_creature->getVictim());
+                        }
+                    }
 
-        if(BreathTimer < uiDiff)
-        {
-            DoCast(m_creature->getVictim(), m_bIsRegularMode ? SP_ARCTIC_BREATH : H_SP_ARCTIC_BREATH);
-            BreathTimer = 45000;
+                } else stage = 5;
+                if (TrampleCasted) stage = 5;
+                break;
+            }
+            case 5:
+            {
+                if (!TrampleCasted)
+                {
+                    bsw->doCast(SPELL_STAGGERED_DAZE);
+                    DoScriptText(-1713507,m_creature);
+                }
+                MovementStarted = false;
+                m_creature->GetMotionMaster()->MovementExpired();
+                m_creature->GetMotionMaster()->MoveChase(m_creature->getVictim());
+                SetCombatMovement(true);
+                m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+                stage = 0;
+                break;
+            }
         }
-        else
-            BreathTimer -= uiDiff;
-
-        if(WhirlTimer < uiDiff)
-        {
-            DoCast(m_creature->getVictim(), m_bIsRegularMode ? SP_WHIRL : H_SP_WHIRL);
-            WhirlTimer = 45000;
-        }
-        else
-            WhirlTimer -= uiDiff;
-
-        DoMeleeAttackIfReady();
     }
 };
 
@@ -560,6 +682,16 @@ void AddSC_northrend_beasts()
     newscript = new Script;
     newscript->Name = "boss_icehowl";
     newscript->GetAI = &GetAI_boss_icehowl;
+    newscript->RegisterSelf();
+
+    newscript = new Script;
+    newscript->Name = "mob_snobold_vassal";
+    newscript->GetAI = &GetAI_mob_snobold_vassal;
+    newscript->RegisterSelf();
+
+    newscript = new Script;
+    newscript->Name = "mob_slime_pool";
+    newscript->GetAI = &GetAI_mob_slime_pool;
     newscript->RegisterSelf();
 
 }

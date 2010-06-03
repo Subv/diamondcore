@@ -17,197 +17,204 @@
 /* ScriptData
 SDName: trial_of_the_crusader
 SD%Complete: 0
-SDComment:
+SDComment: by /dev/rsa
 SDCategory: Crusader Coliseum
 EndScriptData */
+
+// Twin pact - heal part not worked now by undefined reason. Need override?
+// timers need correct
 
 #include "precompiled.h"
 #include "trial_of_the_crusader.h"
 
-#define CR_DARK_ORB             34628
-#define CR_LIGHT_ORB            34630
+enum Equipment
+{
+    EQUIP_MAIN_1         = 49303,
+    EQUIP_OFFHAND_1      = 47146,
+    EQUIP_RANGED_1       = 47267,
+    EQUIP_MAIN_2         = 45990,
+    EQUIP_OFFHAND_2      = 47470,
+    EQUIP_RANGED_2       = 47267,
+    EQUIP_DONE           = EQUIP_NO_CHANGE,
+};
 
-#define CR_DARK_ESSENCE         34567
-#define CR_LIGHT_ESSENCE        34568
+enum Summons
+{
+    NPC_DARK_ESSENCE     = 34567,
+    NPC_LIGHT_ESSENCE    = 34568,
 
-#define SP_DARK_ESSENCE         65684
-#define SP_LIGHT_ESSENCE        65686
+    NPC_UNLEASHED_DARK   = 34628,
+    NPC_UNLEASHED_LIGHT  = 34630,
+};
 
-#define SP_UNLEASHED_DARK       67172
-#define H_SP_UNLEASHED_DARK     67173
-#define SP_UNLEASHED_LIGHT      65795
-#define H_SP_UNLEASHED_LIGHT    67239
+enum BossSpells
+{
+    SPELL_TWIN_SPIKE_L     = 66075,
+    SPELL_LIGHT_SURGE      = 65766,
+    SPELL_SHIELD_LIGHT     = 65858,
+    SPELL_TWIN_PACT_L      = 65875,
+    SPELL_LIGHT_VORTEX     = 66046,
+    SPELL_LIGHT_TOUCH      = 67297,
+    SPELL_TWIN_SPIKE_H     = 66069,
+    SPELL_DARK_SURGE       = 65768,
+    SPELL_SHIELD_DARK      = 65874,
+    SPELL_TWIN_PACT_H      = 65876,
+    SPELL_DARK_VORTEX      = 66058,
+    SPELL_DARK_TOUCH       = 67282,
+    SPELL_TWIN_POWER       = 65916,
+    SPELL_LIGHT_ESSENCE    = 65686,
+    SPELL_DARK_ESSENCE     = 65684,
+    SPELL_BERSERK          = 64238,
+    SPELL_NONE             = 0,
 
-#define SP_POWER_OF_THE_TWINS   65916
-#define SP_ENRAGE               64238
+    SPELL_UNLEASHED_DARK   = 65808,
+    SPELL_UNLEASHED_LIGHT  = 65795,
+};
 
-//Darkbane Spells
-#define SP_SURGE_OF_DARKNESS    65768
-#define H_SP_SURGE_OF_DARKNESS  67262
-#define SP_SHIELD_OF_DARKNESS   65874 //175k damage
-#define H_SP_SHIELD_OF_DARKNESS 67256 //700k damage
-#define SP_DARK_VORTEX          66058
-#define SP_TWIN_SPIKE_D         67309
-#define H_SP_TWIN_SPIKE_D       67311
-#define SP_TWINS_PACT_D         65875
-
-//Lightbane Spells
-#define SP_SURGE_OF_LIGHT       65766
-#define H_SP_SURGE_OF_LIGHT     67270
-#define SP_SHIELD_OF_LIGHTS     67259
-#define H_SP_SHIELD_OF_LIGHTS   65858
-#define SP_LIGHT_VORTEX         66046
-#define SP_TWIN_SPIKE_L         67312
-#define H_SP_TWIN_SPIKE_L       67314
-#define SP_TWINS_PACT_L         65876
-
-#define SAY_DARK_VORTEX     -1649026
-#define SAY_LIGHT_VORTEX    -1649027
-#define SAY_TWINS_PACT      -1649028
-
-#define ROOM_RADIUS     55.0f
-
-/**********************************************************
-                    Fjola Lightbane
-**********************************************************/
+/*######
+## boss_fjola
+######*/
 
 struct DIAMOND_DLL_DECL boss_fjolaAI : public ScriptedAI
 {
     boss_fjolaAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
-        m_pInstance = (ScriptedInstance *) pCreature->GetInstanceData();
-        m_bIsRegularMode = pCreature->GetMap()->IsRegularDifficulty();
+        m_pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
+        bsw = new BossSpellWorker(this);
         Reset();
     }
 
     ScriptedInstance* m_pInstance;
-    bool m_bIsRegularMode;
-    uint64 mDarkbaneGUID;
-    uint32 OrbTimer;
-    uint32 SpikeTimer;
-    uint32 EnrageTimer;
-    uint32 SpecialAbilityTimer;
-
-    float summX, summY, summZ;
+    uint8 stage;
+    BossSpellWorker* bsw;
+    bool TwinPactCasted;
 
     void Reset()
     {
-        OrbTimer = 5000;
-        EnrageTimer = 360000; //6 minutes
-        SpecialAbilityTimer = 120000;
-        SpikeTimer = 15000;
-        mDarkbaneGUID = 0;
-    }
-
-    void Aggro(Unit* pWho)
-    {
-        if(m_pInstance)
-        {
-            mDarkbaneGUID = m_pInstance->GetData64(TYPE_DARKBANE_GUID);
-            if(Creature *eydis = m_pInstance->instance->GetCreature(mDarkbaneGUID))
-                eydis->SetInCombatWithZone();
-        }
-
-        DoCast(m_creature, m_bIsRegularMode ? SP_SURGE_OF_LIGHT : H_SP_SURGE_OF_LIGHT);
-    }
-
-    void JustDied(Unit *killer)
-    {
-        if(m_pInstance) 
-        {
-            if(Creature *eydis = m_pInstance->instance->GetCreature(mDarkbaneGUID))
-                if(eydis->isAlive())
-                    eydis->DealDamage(eydis, eydis->GetHealth(), NULL, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, NULL, false);
-            m_pInstance->SetData(TYPE_TWIN_VALKYR, DONE);
-        }
+        if(!m_pInstance) return;
+        SetEquipmentSlots(false, EQUIP_MAIN_1, EQUIP_OFFHAND_1, EQUIP_RANGED_1);
+        m_creature->SetRespawnDelay(DAY);
+        stage = 1;
+        TwinPactCasted = false;
     }
 
     void JustReachedHome()
     {
-        if(m_pInstance)
-            m_pInstance->SetData(TYPE_TWIN_VALKYR, NOT_STARTED);
+        if (!m_pInstance) return;
+        m_pInstance->SetData(TYPE_VALKIRIES, FAIL);
+        m_pInstance->SetData(DATA_HEALTH_FJOLA, m_creature->GetMaxHealth());
+        m_creature->ForcedDespawn();
     }
 
-    void DamageTaken(Unit *who, uint32 &dmg)
+    void JustDied(Unit* pKiller)
     {
-        if(who->GetGUID() == m_creature->GetGUID())
+        if (!m_pInstance) return;
+        DoScriptText(-1713547,m_creature);
+        if (Creature* pSister = (Creature*)Unit::GetUnit((*m_creature),m_pInstance->GetData64(NPC_DARKBANE)))
+           if (!pSister->isAlive())
+               m_pInstance->SetData(TYPE_VALKIRIES, DONE);
+           else 
+               m_pInstance->SetData(TYPE_VALKIRIES, SPECIAL);
+        m_pInstance->SetData(DATA_HEALTH_FJOLA, 0);
+    }
+
+    void KilledUnit(Unit* pVictim)
+    {
+        if (!m_pInstance) return;
+        DoScriptText(-1713544,m_creature,pVictim);
+    }
+
+    void Aggro(Unit* pWho)
+    {
+        if (!m_pInstance) return;
+        m_creature->SetInCombatWithZone();
+        m_pInstance->SetData(TYPE_VALKIRIES, IN_PROGRESS);
+        if (m_creature->isAlive()) m_creature->SummonCreature(NPC_LIGHT_ESSENCE, SpawnLoc[24].x, SpawnLoc[24].y, SpawnLoc[24].z, 0, TEMPSUMMON_MANUAL_DESPAWN, 5000);
+        if (m_creature->isAlive()) m_creature->SummonCreature(NPC_LIGHT_ESSENCE, SpawnLoc[25].x, SpawnLoc[25].y, SpawnLoc[25].z, 0, TEMPSUMMON_MANUAL_DESPAWN, 5000);
+        DoScriptText(-1713541,m_creature);
+        m_pInstance->SetData(DATA_HEALTH_FJOLA, m_creature->GetMaxHealth());
+    }
+
+    void DamageTaken(Unit* pDoneBy, uint32 &uiDamage)
+    {
+        if (!m_pInstance) return;
+        if (!m_creature || !m_creature->isAlive())
             return;
- 
-        if(who->GetTypeId() == TYPEID_PLAYER)
+
+        if(pDoneBy->GetGUID() == m_creature->GetGUID()) return;
+
+        if(pDoneBy->GetTypeId() == TYPEID_PLAYER)
         {
-            if(who->HasAura(SP_LIGHT_ESSENCE))
-                dmg /= 2;
-            else if(who->HasAura(SP_DARK_ESSENCE))
-                dmg += dmg/2;
+            if(pDoneBy->HasAura(SPELL_LIGHT_ESSENCE))
+                uiDamage /= 2;
+            else if(pDoneBy->HasAura(SPELL_DARK_ESSENCE))
+                uiDamage += uiDamage/2;
         }
 
-        if(m_pInstance)
-        {
-            if(Creature *eydis = m_pInstance->instance->GetCreature(mDarkbaneGUID))
-                if(eydis->isAlive())
-                    eydis->SetHealth(eydis->GetHealth() > dmg ? eydis->GetHealth()-dmg : 1);
-        }
+        m_pInstance->SetData(DATA_HEALTH_FJOLA, m_creature->GetHealth() >= uiDamage ? m_creature->GetHealth() - uiDamage : 0);
     }
 
     void UpdateAI(const uint32 uiDiff)
     {
+        if (!m_pInstance) return;
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        if(m_creature->getVictim()->GetGUID() == mDarkbaneGUID)
-            EnterEvadeMode();
+        if (m_creature->GetHealth() > m_pInstance->GetData(DATA_HEALTH_EYDIS) &&
+                                      m_pInstance->GetData(DATA_HEALTH_EYDIS) != 0)
+                m_creature->SetHealth(m_pInstance->GetData(DATA_HEALTH_EYDIS));
 
-        if(OrbTimer < uiDiff)
+        switch (stage)
         {
-            float angle = rand_norm() * 2 * 3.1416;
-            summX = ROOM_CENTER_X + ROOM_RADIUS * sinf(angle);
-            summY = ROOM_CENTER_Y + ROOM_RADIUS * cosf(angle);
-            summZ = 395.0f;
-            m_creature->SummonCreature(CR_LIGHT_ORB, summX, summY, summZ, 0.0f, TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN, 30000);
-            OrbTimer = 2500;
-        }
-        else
-            OrbTimer -= uiDiff;
-        
-        if(SpecialAbilityTimer < uiDiff)
-        {
-            if(urand(0,1))
-            {
-                //Vortex
-                DoCast(m_creature, SP_LIGHT_VORTEX);
-                DoScriptText(SAY_LIGHT_VORTEX, m_creature);
-            }
-            else
-            {
-                //Twins Pact
-                DoCast(m_creature, m_bIsRegularMode ? SP_SHIELD_OF_LIGHTS : H_SP_SHIELD_OF_LIGHTS, true);
-                DoCast(m_creature, SP_TWINS_PACT_L);
-                DoScriptText(SAY_TWINS_PACT, m_creature);
-                if(Creature *eydis = m_pInstance->instance->GetCreature(mDarkbaneGUID))
+            case 0:
+                break;
+            case 1:
+                if (bsw->timedQuery(SPELL_LIGHT_VORTEX, uiDiff))
                 {
-                    eydis->CastSpell(eydis, SP_POWER_OF_THE_TWINS, true);
+                    m_pInstance->SetData(DATA_CASTING_FJOLA, SPELL_LIGHT_VORTEX);
+                    DoScriptText(-1713538,m_creature);
+                    bsw->doCast(SPELL_LIGHT_VORTEX);
+                    stage = 0;
+                };
+                break;
+            case 2:
+                if (bsw->timedQuery(SPELL_TWIN_PACT_L, uiDiff) && bsw->doCast(SPELL_SHIELD_LIGHT) == CAST_OK) 
+                {
+                    m_pInstance->SetData(DATA_CASTING_FJOLA, SPELL_TWIN_PACT_L);
+                    DoScriptText(-1713539,m_creature);
+                    bsw->doCast(SPELL_TWIN_PACT_L);
+                    stage = 0;
+                    TwinPactCasted = true;
                 }
-            }
-            SpecialAbilityTimer = 120000;
+                break;
+            default:
+                break;
         }
-        else
-            SpecialAbilityTimer -= uiDiff;
 
-        if(SpikeTimer < uiDiff)
+        if (m_pInstance->GetData(DATA_CASTING_EYDIS) == SPELL_DARK_VORTEX && stage==0 )
         {
-            DoCast(m_creature->getVictim(), m_bIsRegularMode ? SP_TWIN_SPIKE_L : H_SP_TWIN_SPIKE_L);
-            SpikeTimer = 20000;
+            m_pInstance->SetData(DATA_CASTING_EYDIS, SPELL_NONE);
+            stage = 1;
         }
-        else
-            SpikeTimer -= uiDiff;
 
-        if(EnrageTimer < uiDiff)
+        if (m_creature->GetHealthPercent() <= 50.0f && stage == 0 && !TwinPactCasted)
+            stage = 2;
+
+        if (m_pInstance->GetData(DATA_CASTING_EYDIS) == SPELL_TWIN_PACT_H)
         {
-            DoCast(m_creature, SP_ENRAGE);
-            EnrageTimer = 30000;
+            bsw->doCast(SPELL_TWIN_POWER);
+            m_pInstance->SetData(DATA_CASTING_EYDIS, SPELL_NONE);
         }
-        else
-            EnrageTimer -= uiDiff;
+
+        bsw->timedCast(SPELL_LIGHT_SURGE, uiDiff);
+
+        if (bsw->timedQuery(SPELL_LIGHT_TOUCH, uiDiff))
+        {
+            bsw->doCast(SPELL_LIGHT_TOUCH);
+            bsw->doCast(NPC_UNLEASHED_LIGHT);
+        }
+
+        bsw->timedCast(SPELL_BERSERK, uiDiff);
 
         DoMeleeAttackIfReady();
     }
@@ -224,79 +231,80 @@ CreatureAI* GetAI_boss_fjola(Creature* pCreature)
 
 struct DIAMOND_DLL_DECL boss_eydisAI : public ScriptedAI
 {
-    boss_eydisAI(Creature* pCreature) : ScriptedAI(pCreature)
+    boss_eydisAI(Creature* pCreature) : ScriptedAI(pCreature) 
     {
-        m_pInstance = (ScriptedInstance *) pCreature->GetInstanceData();
-        m_bIsRegularMode = pCreature->GetMap()->IsRegularDifficulty();
+        m_pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
+        bsw = new BossSpellWorker(this);
         Reset();
     }
 
-    ScriptedInstance *m_pInstance;
-    bool m_bIsRegularMode;
-    uint64 mLightbaneGUID;
-    uint32 OrbTimer;
-    uint32 SpikeTimer;
-    uint32 EnrageTimer;
-    uint32 SpecialAbilityTimer;
+    ScriptedInstance* m_pInstance;
+    uint8 stage;
+    BossSpellWorker* bsw;
+    bool TwinPactCasted;
 
-    float summX, summY, summZ;
-
-    void Reset()
+    void Reset() 
     {
-        OrbTimer = 5000;
-        EnrageTimer = 360000; //6 minutes
-        SpecialAbilityTimer = 60000;
-        SpikeTimer = 15000;
-        mLightbaneGUID = 0;
-    }
-    
-    void Aggro(Unit* pWho)
-    {
-        if(m_pInstance)
-        {
-            mLightbaneGUID = m_pInstance->GetData64(TYPE_LIGHTBANE_GUID);
-            if(Creature *fjola = m_pInstance->instance->GetCreature(mLightbaneGUID))
-                fjola->SetInCombatWithZone();
-        }
-
-        DoCast(m_creature, m_bIsRegularMode ? SP_SURGE_OF_DARKNESS : H_SP_SURGE_OF_DARKNESS);
-    }
-
-    void JustDied(Unit *killer)
-    {
-        if(m_pInstance)
-        {
-            if(Creature *fjola = m_pInstance->instance->GetCreature(mLightbaneGUID))
-                if(fjola->isAlive())
-                    fjola->DealDamage(fjola, fjola->GetHealth(), NULL, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, NULL, false);
-            m_pInstance->SetData(TYPE_TWIN_VALKYR, DONE);
-        }
+        if(!m_pInstance) return;
+        SetEquipmentSlots(false, EQUIP_MAIN_2, EQUIP_OFFHAND_2, EQUIP_RANGED_2);
+        m_creature->SetRespawnDelay(DAY);
+        stage = 0;
+        TwinPactCasted = false;
     }
 
     void JustReachedHome()
     {
-        if(m_pInstance)
-            m_pInstance->SetData(TYPE_TWIN_VALKYR, NOT_STARTED);
+        if (!m_pInstance) return;
+        m_pInstance->SetData(TYPE_VALKIRIES, FAIL);
+        m_pInstance->SetData(DATA_HEALTH_EYDIS, m_creature->GetMaxHealth());
+        m_creature->ForcedDespawn();
     }
 
-    void DamageTaken(Unit *who, uint32 &dmg)
+    void JustDied(Unit* pKiller)
     {
-        if(who->GetGUID() == m_creature->GetGUID()) return;
-        
-        if(who->GetTypeId() == TYPEID_PLAYER)
+        if (!m_pInstance) return;
+        DoScriptText(-1713547,m_creature);
+        if (Creature* pSister = (Creature*)Unit::GetUnit((*m_creature),m_pInstance->GetData64(NPC_LIGHTBANE)))
+           if (!pSister->isAlive())
+               m_pInstance->SetData(TYPE_VALKIRIES, DONE);
+           else 
+               m_pInstance->SetData(TYPE_VALKIRIES, SPECIAL);
+        m_pInstance->SetData(DATA_HEALTH_EYDIS, 0);
+    }
+
+    void KilledUnit(Unit* pVictim)
+    {
+        DoScriptText(-1713543,m_creature,pVictim);
+    }
+
+    void Aggro(Unit* pWho)
+    {
+        if (!m_pInstance) return;
+        m_creature->SetInCombatWithZone();
+        m_pInstance->SetData(TYPE_VALKIRIES, IN_PROGRESS);
+        DoScriptText(-1713741,m_creature);
+        if (m_creature->isAlive()) m_creature->SummonCreature(NPC_DARK_ESSENCE, SpawnLoc[22].x, SpawnLoc[22].y, SpawnLoc[22].z, 0, TEMPSUMMON_MANUAL_DESPAWN, 5000);
+        if (m_creature->isAlive()) m_creature->SummonCreature(NPC_DARK_ESSENCE, SpawnLoc[23].x, SpawnLoc[23].y, SpawnLoc[23].z, 0, TEMPSUMMON_MANUAL_DESPAWN, 5000);
+        m_pInstance->SetData(DATA_HEALTH_EYDIS, m_creature->GetMaxHealth());
+    }
+
+    void DamageTaken(Unit* pDoneBy, uint32 &uiDamage)
+    {
+        if (!m_pInstance) return;
+        if (!m_creature || !m_creature->isAlive())
+            return;
+
+        if(pDoneBy->GetGUID() == m_creature->GetGUID()) return;
+
+        if(pDoneBy->GetTypeId() == TYPEID_PLAYER)
         {
-            if(who->HasAura(SP_DARK_ESSENCE))
-                dmg /= 2;
-            else if(who->HasAura(SP_LIGHT_ESSENCE))
-                dmg += dmg/2;
+            if(pDoneBy->HasAura(SPELL_DARK_ESSENCE))
+                uiDamage /= 2;
+            else if(pDoneBy->HasAura(SPELL_LIGHT_ESSENCE))
+                uiDamage += uiDamage/2;
         }
 
-        if(m_pInstance)
-        {
-            if(Creature *fjola = m_pInstance->instance->GetCreature(mLightbaneGUID))
-                if(fjola->isAlive())
-                    fjola->SetHealth(fjola->GetHealth() > dmg ? fjola->GetHealth()-dmg : 1);
-        }
+        m_pInstance->SetData(DATA_HEALTH_EYDIS, m_creature->GetHealth() >= uiDamage ? m_creature->GetHealth() - uiDamage : 0);
     }
 
     void UpdateAI(const uint32 uiDiff)
@@ -304,59 +312,62 @@ struct DIAMOND_DLL_DECL boss_eydisAI : public ScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        if(m_creature->getVictim()->GetGUID() == mLightbaneGUID) EnterEvadeMode();
+        if (m_creature->GetHealth() > m_pInstance->GetData(DATA_HEALTH_FJOLA) &&
+                                      m_pInstance->GetData(DATA_HEALTH_FJOLA) != 0)
+                m_creature->SetHealth(m_pInstance->GetData(DATA_HEALTH_FJOLA));
 
-        if(OrbTimer < uiDiff)
+        switch (stage)
         {
-            float angle = rand_norm() * 2 * 3.1416;
-            summX = ROOM_CENTER_X + ROOM_RADIUS * sinf(angle);
-            summY = ROOM_CENTER_Y + ROOM_RADIUS * cosf(angle);
-            summZ = 395.0f;
-            m_creature->SummonCreature(CR_DARK_ORB, summX, summY, summZ, 0.0f, TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN, 30000);
-            OrbTimer = 2500;
-        }
-        else
-            OrbTimer -= uiDiff;
-
-        if(SpecialAbilityTimer < uiDiff)
-        {
-            if(urand(0,1))
-            {
-                //Vortex
-                DoCast(m_creature, SP_DARK_VORTEX);
-                DoScriptText(SAY_DARK_VORTEX, m_creature);
-            }
-            else
-            {
-                //Twins Pact
-                DoCast(m_creature, m_bIsRegularMode ? SP_SHIELD_OF_DARKNESS, true : H_SP_SHIELD_OF_DARKNESS);
-                DoCast(m_creature, SP_TWINS_PACT_D);
-                DoScriptText(SAY_TWINS_PACT, m_creature);
-                if(Creature *fjola = m_pInstance->instance->GetCreature(mLightbaneGUID))
+            case 0:
+                break;
+            case 1:
+                if (bsw->timedQuery(SPELL_DARK_VORTEX, uiDiff))
                 {
-                    fjola->CastSpell(fjola, SP_POWER_OF_THE_TWINS, true);
+                    m_pInstance->SetData(DATA_CASTING_EYDIS, SPELL_DARK_VORTEX);
+                    DoScriptText(-1713540,m_creature);
+                    bsw->doCast(SPELL_DARK_VORTEX);
+                    stage = 0;
+                };
+                break;
+            case 2:
+                if (bsw->timedQuery(SPELL_TWIN_PACT_H, uiDiff) && bsw->doCast(SPELL_SHIELD_DARK) == CAST_OK ) 
+                {
+                    m_pInstance->SetData(DATA_CASTING_EYDIS, SPELL_TWIN_PACT_H);
+                    DoScriptText(-1713539,m_creature);
+                    bsw->doCast(SPELL_TWIN_PACT_H);
+                    stage = 0;
+                    TwinPactCasted = true;
                 }
-            }
-            SpecialAbilityTimer = 120000;
+                break;
+            default:
+                break;
         }
-        else
-            SpecialAbilityTimer -= uiDiff;
 
-        if(SpikeTimer < uiDiff)
+        if (m_pInstance->GetData(DATA_CASTING_FJOLA) == SPELL_LIGHT_VORTEX && stage==0 )
         {
-            DoCast(m_creature->getVictim(), m_bIsRegularMode ? SP_TWIN_SPIKE_D : H_SP_TWIN_SPIKE_D);
-            SpikeTimer = 20000;
+            m_pInstance->SetData(DATA_CASTING_FJOLA, SPELL_NONE);
+            stage = 1;
         }
-        else
-            SpikeTimer -= uiDiff;
 
-        if(EnrageTimer < uiDiff)
+        if ( m_creature->GetHealthPercent() <= 50.0f 
+        && m_pInstance->GetData(DATA_CASTING_FJOLA) == SPELL_TWIN_PACT_L
+        && !TwinPactCasted
+        && stage == 0)
         {
-            DoCast(m_creature, SP_ENRAGE);
-            EnrageTimer = 30000;
+            bsw->doCast(SPELL_TWIN_POWER);
+            m_pInstance->SetData(DATA_CASTING_FJOLA, SPELL_NONE);
+            stage = 2;
         }
-        else
-            EnrageTimer -= uiDiff;
+
+        bsw->timedCast(SPELL_DARK_SURGE, uiDiff);
+
+        if (bsw->timedQuery(SPELL_DARK_TOUCH, uiDiff))
+        {
+            bsw->doCast(SPELL_DARK_TOUCH);
+            bsw->doCast(NPC_UNLEASHED_DARK);
+        }
+
+        bsw->timedCast(SPELL_BERSERK, uiDiff);
 
         DoMeleeAttackIfReady();
     }
@@ -367,68 +378,247 @@ CreatureAI* GetAI_boss_eydis(Creature* pCreature)
     return new boss_eydisAI(pCreature);
 }
 
-// Concentrated Light/Darkness
-struct DIAMOND_DLL_DECL mob_valkyr_orbAI : public ScriptedAI
+struct DIAMOND_DLL_DECL mob_light_essenceAI : public ScriptedAI
 {
-    mob_valkyr_orbAI(Creature *pCreature) : ScriptedAI(pCreature) 
+    mob_light_essenceAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
-        m_bIsRegularMode = pCreature->GetMap()->IsRegularDifficulty();
-
-        switch(pCreature->GetEntry())
-        {
-            case CR_DARK_ORB: spell = m_bIsRegularMode ? SP_UNLEASHED_DARK : H_SP_UNLEASHED_DARK; break;
-            case CR_LIGHT_ORB: spell = m_bIsRegularMode ? SP_UNLEASHED_LIGHT : H_SP_UNLEASHED_LIGHT; break;
-        }
-        SetCombatMovement(false);    
-        ChooseDirection();
+        m_pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
+        Reset();
     }
+    ScriptedInstance* m_pInstance;
 
-    uint32 spell;
-    bool m_bIsRegularMode;
-    float dstX, dstY, dstZ;
-
-    void Reset()
+    void Reset() 
     {
-    }
-
-    void AttackStart(Unit *pWho)
-    {
-        if(!pWho)
-            return;
-
-        //if(m_creature->Attack(pWho, false))
-        if(m_creature->GetDistance2d(pWho) <= 3.0f)
-        {
-            m_creature->SetLevel(83);
-            m_creature->SetInCombatWithZone();
-            m_creature->CastSpell(pWho, spell, true);
-            m_creature->DealDamage(m_creature, m_creature->GetHealth(), NULL, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, NULL, false);
-        }
-    }
-
-    void ChooseDirection()
-    {
-        float angle = rand_norm() * 2.0f * 3.1416f;
-        dstX = ROOM_CENTER_X + ROOM_RADIUS * sinf(angle);
-        dstY = ROOM_CENTER_Y + ROOM_RADIUS * cosf(angle);
-        dstZ = 394.5f;
-
-        m_creature->GetMotionMaster()->MovePoint(0, dstX, dstY, dstZ);
+        m_creature->SetRespawnDelay(DAY);
+        m_creature->AddSplineFlag(SPLINEFLAG_WALKMODE);
+        m_creature->GetMotionMaster()->MoveRandom();
     }
 
     void UpdateAI(const uint32 uiDiff)
     {
-        if(abs(m_creature->GetPositionX() - dstX) < 2.0f && abs(m_creature->GetPositionY() - dstY) < 2.0f)
+        if (!m_pInstance) m_creature->ForcedDespawn();
+        if (m_pInstance->GetData(TYPE_VALKIRIES) != IN_PROGRESS)
         {
-            m_creature->GetMotionMaster()->MovementExpired();
-            ChooseDirection();
+            Map* pMap = m_creature->GetMap();
+            Map::PlayerList const &lPlayers = pMap->GetPlayers();
+            for(Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
+            {
+                Unit* pPlayer = itr->getSource();
+                if (!pPlayer) continue;
+                if (pPlayer->isAlive())
+                    pPlayer->RemoveAurasDueToSpell(SPELL_LIGHT_ESSENCE);
+            }
+            m_creature->ForcedDespawn();
         }
+        return;
     }
 };
 
-CreatureAI* GetAI_mob_valkyr_orb(Creature *pCreature)
+CreatureAI* GetAI_mob_light_essence(Creature* pCreature)
 {
-    return new mob_valkyr_orbAI(pCreature);
+    return new mob_light_essenceAI(pCreature);
+};
+
+bool GossipHello_mob_light_essence(Player *player, Creature* pCreature)
+{
+    ScriptedInstance *pInstance = (ScriptedInstance *) pCreature->GetInstanceData();
+    if(!pInstance) return true;
+    player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE, pCreature->GetGUID());
+    player->RemoveAurasDueToSpell(SPELL_DARK_ESSENCE);
+    player->CastSpell(player,SPELL_LIGHT_ESSENCE,false);
+    player->CLOSE_GOSSIP_MENU();
+    return true;
+};
+
+struct DIAMOND_DLL_DECL mob_dark_essenceAI : public ScriptedAI
+{
+    mob_dark_essenceAI(Creature* pCreature) : ScriptedAI(pCreature)
+    {
+        m_pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
+        Reset();
+    }
+    ScriptedInstance* m_pInstance;
+
+    void Reset() 
+    {
+        m_creature->SetRespawnDelay(DAY);
+        m_creature->AddSplineFlag(SPLINEFLAG_WALKMODE);
+        m_creature->GetMotionMaster()->MoveRandom();
+    }
+
+    void UpdateAI(const uint32 uiDiff)
+    {
+        if (!m_pInstance) m_creature->ForcedDespawn();
+        if (m_pInstance->GetData(TYPE_VALKIRIES) != IN_PROGRESS)
+        {
+            Map* pMap = m_creature->GetMap();
+            Map::PlayerList const &lPlayers = pMap->GetPlayers();
+            for(Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
+            {
+                Unit* pPlayer = itr->getSource();
+                if (!pPlayer) continue;
+                if (pPlayer->isAlive())
+                    pPlayer->RemoveAurasDueToSpell(SPELL_DARK_ESSENCE);
+            }
+            m_creature->ForcedDespawn();
+        }
+        return;
+    }
+};
+
+CreatureAI* GetAI_mob_dark_essence(Creature* pCreature)
+{
+    return new mob_dark_essenceAI(pCreature);
+};
+
+bool GossipHello_mob_dark_essence(Player *player, Creature* pCreature)
+{
+    ScriptedInstance *pInstance = (ScriptedInstance *) pCreature->GetInstanceData();
+    if(!pInstance) return true;
+    player->SEND_GOSSIP_MENU(DEFAULT_GOSSIP_MESSAGE, pCreature->GetGUID());
+    player->RemoveAurasDueToSpell(SPELL_LIGHT_ESSENCE);
+    player->CastSpell(player,SPELL_DARK_ESSENCE,false);
+    player->CLOSE_GOSSIP_MENU();
+    return true;
+}
+
+struct DIAMOND_DLL_DECL mob_unleashed_darkAI : public ScriptedAI
+{
+    mob_unleashed_darkAI(Creature *pCreature) : ScriptedAI(pCreature) 
+    {
+        m_pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
+        Reset();
+    }
+
+    ScriptedInstance* m_pInstance;
+    uint32 m_uiRangeCheck_Timer;
+    Creature* pboss1;
+    Creature* pboss2;
+
+    void Reset()
+    {
+        m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+        SetCombatMovement(false); 
+        m_creature->GetMotionMaster()->MoveRandom();
+        m_uiRangeCheck_Timer = 1000;
+        pboss1 = (Creature*)Unit::GetUnit((*m_creature),m_pInstance->GetData64(NPC_DARKBANE));
+        pboss2 = (Creature*)Unit::GetUnit((*m_creature),m_pInstance->GetData64(NPC_LIGHTBANE));
+    }
+
+    void AttackStart(Unit *pWho)
+    {
+        return;
+    }
+
+    void UpdateAI(const uint32 uiDiff)
+    {
+        if (!m_pInstance || m_pInstance->GetData(TYPE_VALKIRIES) != IN_PROGRESS) 
+              m_creature->ForcedDespawn();
+ 
+        if (m_uiRangeCheck_Timer < uiDiff)
+        {
+            Map* pMap = m_creature->GetMap();
+            Map::PlayerList const &lPlayers = pMap->GetPlayers();
+            for(Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
+            {
+                Unit* pPlayer = itr->getSource();
+                if (!pPlayer) continue;
+                if (pPlayer->isAlive() && pPlayer->IsWithinDistInMap(m_creature, 2.0f))
+                {
+                    m_creature->CastSpell(m_creature, SPELL_UNLEASHED_DARK, true);
+                    m_creature->ForcedDespawn();
+                }
+
+            }
+            if (pboss1 && pboss1->isAlive() && pboss1->IsWithinDistInMap(m_creature, 2.0f))
+            {
+                m_creature->CastSpell(m_creature, SPELL_UNLEASHED_DARK, true);
+                m_creature->ForcedDespawn();
+            }
+            if (pboss2 && pboss2->isAlive() && pboss2->IsWithinDistInMap(m_creature, 2.0f))
+            {
+                m_creature->CastSpell(m_creature, SPELL_UNLEASHED_DARK, true);
+                m_creature->ForcedDespawn();
+            }
+            m_uiRangeCheck_Timer = 1000;
+        }
+        else m_uiRangeCheck_Timer -= uiDiff;
+    }
+
+};
+
+CreatureAI* GetAI_mob_unleashed_dark(Creature *pCreature)
+{
+    return new mob_unleashed_darkAI(pCreature);
+}
+
+struct DIAMOND_DLL_DECL mob_unleashed_lightAI : public ScriptedAI
+{
+    mob_unleashed_lightAI(Creature *pCreature) : ScriptedAI(pCreature) 
+    {
+        m_pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
+        Reset();
+    }
+
+    ScriptedInstance* m_pInstance;
+    uint32 m_uiRangeCheck_Timer;
+    Creature* pboss1;
+    Creature* pboss2;
+
+    void Reset()
+    {
+        m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+        SetCombatMovement(false); 
+        m_creature->GetMotionMaster()->MoveRandom();
+        m_uiRangeCheck_Timer = 1000;
+        pboss1 = (Creature*)Unit::GetUnit((*m_creature),m_pInstance->GetData64(NPC_DARKBANE));
+        pboss2 = (Creature*)Unit::GetUnit((*m_creature),m_pInstance->GetData64(NPC_LIGHTBANE));
+    }
+
+    void AttackStart(Unit *pWho)
+    {
+        return;
+    }
+
+    void UpdateAI(const uint32 uiDiff)
+    {
+        if (!m_pInstance || m_pInstance->GetData(TYPE_VALKIRIES) != IN_PROGRESS) 
+              m_creature->ForcedDespawn();
+ 
+        if (m_uiRangeCheck_Timer < uiDiff)
+        {
+            Map* pMap = m_creature->GetMap();
+            Map::PlayerList const &lPlayers = pMap->GetPlayers();
+            for(Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
+            {
+                Unit* pPlayer = itr->getSource();
+                if (!pPlayer) continue;
+                if (pPlayer->isAlive() && pPlayer->IsWithinDistInMap(m_creature, 2.0f))
+                {
+                    m_creature->CastSpell(m_creature, SPELL_UNLEASHED_LIGHT, true);
+                    m_creature->ForcedDespawn();
+                }
+            }
+            if (pboss1 && pboss1->isAlive() && pboss1->IsWithinDistInMap(m_creature, 2.0f))
+            {
+                m_creature->CastSpell(m_creature, SPELL_UNLEASHED_LIGHT, true);
+                m_creature->ForcedDespawn();
+            }
+            if (pboss2 && pboss2->isAlive() && pboss2->IsWithinDistInMap(m_creature, 2.0f))
+            {
+                m_creature->CastSpell(m_creature, SPELL_UNLEASHED_LIGHT, true);
+                m_creature->ForcedDespawn();
+            }
+            m_uiRangeCheck_Timer = 1000;
+        }
+        else m_uiRangeCheck_Timer -= uiDiff;
+    }
+
+};
+
+CreatureAI* GetAI_mob_unleashed_light(Creature *pCreature)
+{
+    return new mob_unleashed_lightAI(pCreature);
 }
 
 void AddSC_twin_valkyr()
@@ -446,7 +636,25 @@ void AddSC_twin_valkyr()
     newscript->RegisterSelf();
 
     newscript = new Script;
-    newscript->Name = "mob_valkyr_orb";
-    newscript->GetAI = &GetAI_mob_valkyr_orb;
+    newscript->Name = "mob_unleashed_light";
+    newscript->GetAI = &GetAI_mob_unleashed_light;
     newscript->RegisterSelf();
+
+    newscript = new Script;
+    newscript->Name = "mob_unleashed_dark";
+    newscript->GetAI = &GetAI_mob_unleashed_dark;
+    newscript->RegisterSelf();
+
+    newscript = new Script;
+    newscript->Name = "mob_light_essence";
+    newscript->GetAI = &GetAI_mob_light_essence;
+    newscript->pGossipHello = &GossipHello_mob_light_essence;
+    newscript->RegisterSelf();
+
+    newscript = new Script;
+    newscript->Name = "mob_dark_essence";
+    newscript->GetAI = &GetAI_mob_dark_essence;
+    newscript->pGossipHello = &GossipHello_mob_dark_essence;
+    newscript->RegisterSelf();
+
 }

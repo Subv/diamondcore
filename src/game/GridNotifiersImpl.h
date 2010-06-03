@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005-2010 MaNGOS <http://getmangos.com/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef MANGOS_GRIDNOTIFIERSIMPL_H
-#define MANGOS_GRIDNOTIFIERSIMPL_H
+#ifndef DIAMOND_GRIDNOTIFIERSIMPL_H
+#define DIAMOND_GRIDNOTIFIERSIMPL_H
 
 #include "GridNotifiers.h"
 #include "WorldPacket.h"
@@ -589,4 +589,4 @@ void Diamond::LocalizedPacketListDo<Builder>::operator()( Player* p )
         p->SendDirectMessage((*data_list)[i]);
 }
 
-#endif                                                      // MANGOS_GRIDNOTIFIERSIMPL_H
+#endif                                                      // DIAMOND_GRIDNOTIFIERSIMPL_H

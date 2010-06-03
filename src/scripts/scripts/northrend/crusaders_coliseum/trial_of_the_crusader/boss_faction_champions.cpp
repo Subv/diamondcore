@@ -16,8 +16,8 @@
 
 /* ScriptData
 SDName: faction_champions
-SD%Complete: 0
-SDComment:
+SD%Complete: 60%
+SDComment: Scripts by Selector, modified by /dev/rsa
 SDCategory: Crusader Coliseum
 EndScriptData */
 
@@ -28,23 +28,23 @@ EndScriptData */
 #define AI_RANGED   1
 #define AI_HEALER   2
 
-#define SP_ANTI_AOE     68595
-#define SP_PVP_TRINKET  65547
+#define SPELL_ANTI_AOE     68595
+#define SPELL_PVP_TRINKET  65547
 
-struct DIAMOND_DLL_DECL boss_faction_championAI : public ScriptedAI
+struct DIAMOND_DLL_DECL boss_faction_championsAI : public ScriptedAI
 {
-    boss_faction_championAI(Creature *pCreature, uint32 aitype) : ScriptedAI(pCreature) 
+    boss_faction_championsAI(Creature* pCreature, uint32 aitype) : ScriptedAI(pCreature) 
     {
-        pInstance = (ScriptedInstance *) pCreature->GetInstanceData();
-        m_bIsRegularMode = pCreature->GetMap()->IsRegularDifficulty();
+        m_pInstance = (ScriptedInstance *) pCreature->GetInstanceData();
         mAIType = aitype;
+        bsw = new BossSpellWorker(this);
         Init();
     }
-    
-    ScriptedInstance *pInstance;
-    bool m_bIsRegularMode;
+
+    ScriptedInstance* m_pInstance;
+    BossSpellWorker* bsw;
+
     uint32 mAIType;
-    
     uint32 ThreatTimer;
     uint32 CCTimer;
 
@@ -52,8 +52,18 @@ struct DIAMOND_DLL_DECL boss_faction_championAI : public ScriptedAI
     {
         CCTimer = rand()%10000;
         ThreatTimer = 5000;
+        bsw->resetTimers();
+        m_creature->SetInCombatWithZone();
+        m_creature->SetRespawnDelay(DAY);
     }
-    
+
+    void JustReachedHome()
+    {
+        if (m_pInstance)
+            m_pInstance->SetData(TYPE_CRUSADERS, FAIL);
+        m_creature->ForcedDespawn();
+    }
+
     float CalculateThreat(float distance, float armor, uint32 health)
     {
         float dist_mod = (mAIType == AI_MELEE) ? 15.0f/(15.0f + distance) : 1.0f;
@@ -61,8 +71,8 @@ struct DIAMOND_DLL_DECL boss_faction_championAI : public ScriptedAI
         float eh = (health+1) * (1.0f + armor_mod);
         return dist_mod * 30000.0f / eh;
     }
-    
-    /*void UpdateThreat()
+
+    void UpdateThreat()
     {
         ThreatList const& tList = m_creature->getThreatManager().getThreatList();
         ThreatList::const_iterator itr;
@@ -72,7 +82,7 @@ struct DIAMOND_DLL_DECL boss_faction_championAI : public ScriptedAI
             Unit* pUnit = Unit::GetUnit((*m_creature), (*itr)->getUnitGuid());
             if (pUnit && m_creature->getThreatManager().getThreat(pUnit))
             {
-                if(pUnit->GetTypeId()==TYPEID_PLAYER)
+                if(pUnit->GetTypeId() == TYPEID_PLAYER)
                 {
                     float threat = CalculateThreat(m_creature->GetDistance2d(pUnit), (float)pUnit->GetArmor(), pUnit->GetHealth());
                     m_creature->getThreatManager().modifyThreatPercent(pUnit, -100);
@@ -81,9 +91,7 @@ struct DIAMOND_DLL_DECL boss_faction_championAI : public ScriptedAI
                 }
             }
         }
-        if(empty)
-            EnterEvadeMode();
-    }*/
+    }
 
     void UpdatePower()
     {
@@ -92,7 +100,7 @@ struct DIAMOND_DLL_DECL boss_faction_championAI : public ScriptedAI
         //else if(m_creature->getPowerType() == POWER_ENERGY)
         //    m_creature->ModifyPower(POWER_ENERGY, 100);
     }
-    
+
     void RemoveCC()
     {
         m_creature->RemoveSpellsCausingAura(SPELL_AURA_MOD_STUN);
@@ -100,26 +108,23 @@ struct DIAMOND_DLL_DECL boss_faction_championAI : public ScriptedAI
         m_creature->RemoveSpellsCausingAura(SPELL_AURA_MOD_ROOT);
         m_creature->RemoveSpellsCausingAura(SPELL_AURA_MOD_PACIFY);
         m_creature->RemoveSpellsCausingAura(SPELL_AURA_MOD_CONFUSE);
-        //DoCast(m_creature, SP_PVP_TRINKET);
+        //DoCast(m_creature, SPELL_PVP_TRINKET);
     }
-    
+
     void JustDied(Unit *killer)
     {
-        if(pInstance)
-            pInstance->SetData(TYPE_FACTION_CHAMPIONS, SPECIAL);
+        if(m_pInstance) m_pInstance->SetData(TYPE_CRUSADERS_COUNT, 0);
     }
-    
+
     void Aggro(Unit *who)
     {
-        DoCast(m_creature, SP_ANTI_AOE, true);
-        if(pInstance)
-            pInstance->SetData(TYPE_FACTION_CHAMPIONS, 5);
+        DoCast(m_creature, SPELL_ANTI_AOE, true);
+        if(m_pInstance) m_pInstance->SetData(TYPE_CRUSADERS, IN_PROGRESS);
     }
-    
+
     void Reset()
     {
-        if(pInstance)
-            pInstance->SetData(TYPE_FACTION_CHAMPIONS, NOT_STARTED);
+        if(m_pInstance) m_pInstance->SetData(TYPE_CRUSADERS, NOT_STARTED);
     }
 
     Creature* SelectRandomFriendlyMissingBuff(uint32 spell)
@@ -163,8 +168,7 @@ struct DIAMOND_DLL_DECL boss_faction_championAI : public ScriptedAI
 
     void AttackStart(Unit* pWho)
     {
-        if (!pWho)
-            return;
+        if (!pWho) return;
 
         if (m_creature->Attack(pWho, true))
         {
@@ -172,34 +176,33 @@ struct DIAMOND_DLL_DECL boss_faction_championAI : public ScriptedAI
             m_creature->SetInCombatWith(pWho);
             pWho->SetInCombatWith(m_creature);
 
-            if(mAIType == AI_MELEE)
+            if(mAIType==AI_MELEE)
                 DoStartMovement(pWho);
             else
                 DoStartMovement(pWho, 20.0f);
+
+            SetCombatMovement(true);
         }
     }
-    
-    void UpdateAI(const uint32 uiDiff)
+
+    void UpdateAI(const uint32 diff)
     {
-        if(ThreatTimer < uiDiff)
+        if(ThreatTimer < diff)
         {
             UpdatePower();
-            //UpdateThreat();
+            UpdateThreat();
             ThreatTimer = 4000;
         }
-        else
-            ThreatTimer -= uiDiff;
-        
-        if(CCTimer < uiDiff)
+        else ThreatTimer -= diff;
+
+        if(CCTimer < diff)
         {
             RemoveCC();
-            CCTimer = 10000+rand()%5000;
+            CCTimer = 8000+rand()%2000;
         }
-        else
-            CCTimer -= uiDiff;
+        else CCTimer -= diff;
 
-        if(mAIType == AI_MELEE)
-            DoMeleeAttackIfReady();
+        if(mAIType == AI_MELEE) DoMeleeAttackIfReady();
     }
 };
 
@@ -207,383 +210,210 @@ struct DIAMOND_DLL_DECL boss_faction_championAI : public ScriptedAI
                             HEALERS
 ********************************************************************/
 
-#define SP_LIFEBLOOM        66093
-#define H_SP_LIFEBLOOM      67957
-#define SP_NOURISH          66066
-#define H_SP_NOURISH        67965
-#define SP_REGROWTH         66067
-#define H_SP_REGROWTH       67968
-#define SP_REJUVENATION     66065
-#define H_SP_REJUVENATION   67971
-#define SP_TRANQUILITY      66086
-#define H_SP_TRANQUILITY    67974
-#define SP_BARKSKIN         65860 //1 min cd
-#define SP_THORNS           66068
-#define SP_NATURE_GRASP     66071 //1 min cd, self buff
+#define SPELL_LIFEBLOOM        66093
+#define SPELL_NOURISH          66066
+#define SPELL_REGROWTH         66067
+#define SPELL_REJUVENATION     66065
+#define SPELL_TRANQUILITY      66086
+#define SPELL_BARKSKIN         65860 //1 min cd
+#define SPELL_THORNS           66068
+#define SPELL_NATURE_GRASP     66071 //1 min cd, self buff
 
-struct DIAMOND_DLL_DECL boss_fc_resto_druidAI : public boss_faction_championAI
+struct DIAMOND_DLL_DECL mob_toc_druidAI : public boss_faction_championsAI
 {
-    boss_fc_resto_druidAI(Creature *pCreature) : boss_faction_championAI(pCreature, AI_HEALER) {Init();}
-    
-    uint32 GCDTimer;
-    uint32 GraspTimer;
-    uint32 TranquilityTimer;
-    uint32 BarkSkinTimer;
-    
+    mob_toc_druidAI(Creature* pCreature) : boss_faction_championsAI(pCreature, AI_HEALER) {Init();}
+
     void Init()
     {
-        GCDTimer = 2500;
-        BarkSkinTimer = 3000;
-        GraspTimer = 5000 + rand()%40000;
-        TranquilityTimer = 20000 + rand()%20000;
+        SetEquipmentSlots(false, 51799, EQUIP_NO_CHANGE, EQUIP_NO_CHANGE);
     }
-    
-    void UpdateAI(const uint32 uiDiff)
-    {
-        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim())
-            return;
-        
-        if(GraspTimer < uiDiff)
-        {
-            DoCast(m_creature, SP_NATURE_GRASP);
-            GraspTimer = 60000 + rand()%10000;
-        }
-        else
-            GraspTimer -= uiDiff;
-        
-        if(TranquilityTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature, m_bIsRegularMode ? SP_TRANQUILITY : H_SP_TRANQUILITY) == CAST_OK)
-                TranquilityTimer = 600000;
-        }
-        else
-            TranquilityTimer -= uiDiff;
 
-        if(BarkSkinTimer < uiDiff)
-        {
-            if(m_creature->GetHealth()*2 < m_creature->GetMaxHealth())
-            {
-                if (DoCastSpellIfCan(m_creature, SP_BARKSKIN) == CAST_OK)
-                    BarkSkinTimer = 60000;
-            }
-            else
-                BarkSkinTimer = 5000;
-        }
-        else
-            BarkSkinTimer -= uiDiff;
-        
-        if(GCDTimer < uiDiff)
-        {
+    void UpdateAI(const uint32 diff)
+    {
+        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim()) return;
+
+        bsw->timedCast(SPELL_NATURE_GRASP, diff);
+        bsw->timedCast(SPELL_TRANQUILITY, diff);
+
+         if(bsw->timedQuery(SPELL_BARKSKIN, diff))
+             if(m_creature->GetHealthPercent() < 50.0f)
+                 bsw->doCast(SPELL_BARKSKIN);
+
+        if(bsw->timedQuery(SPELL_LIFEBLOOM, diff))
             switch(urand(0,4))
             {
                 case 0:
-                    if(Unit *target = DoSelectLowestHpFriendly(40.0f))
-                        DoCastSpellIfCan(target, m_bIsRegularMode ? SP_LIFEBLOOM : H_SP_LIFEBLOOM);
+                    bsw->doCast(SPELL_LIFEBLOOM);
                     break;
                 case 1:
-                    if(Unit *target = DoSelectLowestHpFriendly(40.0f))
-                        DoCastSpellIfCan(target, m_bIsRegularMode ? SP_NOURISH : H_SP_NOURISH);
+                    bsw->doCast(SPELL_NOURISH);
                     break;
                 case 2:
-                    if(Unit *target = DoSelectLowestHpFriendly(40.0f))
-                        DoCastSpellIfCan(target, m_bIsRegularMode ? SP_REGROWTH : H_SP_REGROWTH);
+                    bsw->doCast(SPELL_REGROWTH);
                     break;
                 case 3:
-                    if(Unit *target = DoSelectLowestHpFriendly(40.0f))
-                        DoCastSpellIfCan(target, m_bIsRegularMode ? SP_REJUVENATION : H_SP_REJUVENATION);
+                    bsw->doCast(SPELL_REJUVENATION);
                     break;
                 case 4:
-                    if(Creature *target = SelectRandomFriendlyMissingBuff(SP_THORNS))
-                        DoCastSpellIfCan(target, SP_THORNS);
+                    if(Creature* target = SelectRandomFriendlyMissingBuff(SPELL_THORNS))
+                        bsw->doCast(SPELL_THORNS, target);
                     break;
             }
-            GCDTimer = 2000;
-        }
-        else
-            GCDTimer -= uiDiff;
-        
-        boss_faction_championAI::UpdateAI(uiDiff);
+
+        boss_faction_championsAI::UpdateAI(diff);
     }
 };
 
-#define SP_HEALING_WAVE         66055
-#define H_SP_HEALING_WAVE       68115
-#define SP_RIPTIDE              66053
-#define H_SP_RIPTIDE            68118
-#define SP_SPIRIT_CLEANSE       66056 //friendly only
-#define SP_HEROISM              65983
-#define SP_BLOODLUST            65980
-#define SP_HEX                  66054
-#define SP_EARTH_SHIELD         66063
-#define SP_EARTH_SHOCK          65973
-#define H_SP_EARTH_SHOCK        68100
+#define SPELL_HEALING_WAVE         66055
+#define SPELL_RIPTIDE              66053
+#define SPELL_SPIRIT_CLEANSE       66056 //friendly only
+#define SPELL_HEROISM              65983
+#define SPELL_BLOODLUST            65980
+#define SPELL_HEX                  66054
+#define SPELL_EARTH_SHIELD         66063
+#define SPELL_EARTH_SHOCK          65973
 
-struct DIAMOND_DLL_DECL boss_fc_resto_shammyAI : public boss_faction_championAI
+struct DIAMOND_DLL_DECL mob_toc_shamanAI : public boss_faction_championsAI
 {
-    boss_fc_resto_shammyAI(Creature *pCreature) : boss_faction_championAI(pCreature, AI_HEALER) {Init();}
-    
-    uint32 HeroTimer;
-    uint32 HexTimer;
-    uint32 GCDTimer;
-    
+    mob_toc_shamanAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_HEALER) {Init();}
+
     void Init()
     {
-        HeroTimer = 30000 + rand()%30000;
-        HexTimer = 10000 + rand()%30000;
-        GCDTimer = 2500;
+        SetEquipmentSlots(false, 49992, EQUIP_NO_CHANGE, EQUIP_NO_CHANGE);
     }
-    
-    void UpdateAI(const uint32 uiDiff)
+
+    void UpdateAI(const uint32 diff)
     {
-        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim())
-            return;
-        
-        if(HeroTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature, SP_HEROISM) == CAST_OK)
-                HeroTimer = 600000;
-        }
-        else
-            HeroTimer -= uiDiff;
-        
-        if(HexTimer < uiDiff)
-        {
-            if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,1))
-                if (DoCastSpellIfCan(target, SP_HEX) == CAST_OK)
-                    HexTimer = 20000 + rand()%20000;
-        }
-        else
-            HexTimer -= uiDiff;
-        
-        if(GCDTimer < uiDiff)
-        {
+        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim()) return;
+
+        bsw->timedCast(SPELL_HEROISM, diff);
+        bsw->timedCast(SPELL_HEX, diff);
+
+        if(bsw->timedQuery(SPELL_HEALING_WAVE, diff))
             switch(urand(0,5))
             {
                 case 0: case 1:
-                    if(Unit *target = DoSelectLowestHpFriendly(40.0f))
-                        DoCastSpellIfCan(target, m_bIsRegularMode ? SP_HEALING_WAVE : H_SP_HEALING_WAVE);
+                    bsw->doCast(SPELL_HEALING_WAVE);
                     break;
                 case 2:
-                    if(Unit *target = DoSelectLowestHpFriendly(40.0f))
-                        DoCastSpellIfCan(target, m_bIsRegularMode ? SP_RIPTIDE : H_SP_RIPTIDE);
+                    bsw->doCast(SPELL_RIPTIDE);
                     break;
                 case 3:
-                    if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM, 0))
-                        DoCastSpellIfCan(target, m_bIsRegularMode ? SP_EARTH_SHOCK : H_SP_EARTH_SHOCK);
+                    bsw->doCast(SPELL_EARTH_SHOCK);
                     break;
                 case 4:
-                    if(Unit *target = DoSelectLowestHpFriendly(40.0f))
-                        DoCastSpellIfCan(target, SP_SPIRIT_CLEANSE);
+                    bsw->doCast(SPELL_SPIRIT_CLEANSE);
                     break;
                 case 5:
-                    if(Unit *target = SelectRandomFriendlyMissingBuff(SP_EARTH_SHIELD))
-                        DoCastSpellIfCan(target, SP_EARTH_SHIELD);
+                    if(Unit *target = SelectRandomFriendlyMissingBuff(SPELL_EARTH_SHIELD))
+                        bsw->doCast(target, SPELL_EARTH_SHIELD);
                     break;
             }
-            GCDTimer = 2000;
-        }
-        else
-            GCDTimer -= uiDiff;
-        
-        boss_faction_championAI::UpdateAI(uiDiff);
+
+        boss_faction_championsAI::UpdateAI(diff);
     }
 };
 
-#define SP_HAND_OF_FREEDOM    68757 //25 sec cd
-#define SP_BUBBLE             66010 //5 min cd
-#define SP_CLEANSE            66116
-#define SP_FLASH_OF_LIGHT     66113
-#define H_SP_FLASH_OF_LIGHT   68008
-#define SP_HOLY_LIGHT         66112
-#define H_SP_HOLY_LIGHT       68011
-#define SP_HAND_OF_PROTECTION 66009
-#define SP_HOLY_SHOCK         66114
-#define H_SP_HOLY_SHOCK       68015
-#define SP_HAND_OF_PROTECTION 66009
-#define SP_HAMMER_OF_JUSTICE  66613
+#define SPELL_HAND_OF_FREEDOM    68757 //25 sec cd
+#define SPELL_BUBBLE             66010 //5 min cd
+#define SPELL_CLEANSE            66116
+#define SPELL_FLASH_OF_LIGHT     66113
+#define SPELL_HOLY_LIGHT         66112
+#define SPELL_HOLY_SHOCK         66114
+#define SPELL_HAND_OF_PROTECTION 66009
+#define SPELL_HAMMER_OF_JUSTICE  66613
 
-struct DIAMOND_DLL_DECL boss_fc_holy_pallyAI : public boss_faction_championAI
+struct DIAMOND_DLL_DECL mob_toc_paladinAI : public boss_faction_championsAI
 {
-    boss_fc_holy_pallyAI(Creature *pCreature) : boss_faction_championAI(pCreature, AI_HEALER) {Init();}
-    
-    bool BubbleUsed;
-    bool ProtectionUsed;
-    uint32 FreedomTimer;
-    uint32 GCDTimer;
-    uint32 ShockTimer;
-    uint32 HammerOfJusticeTimer;
-    
+    mob_toc_paladinAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_HEALER) {Init();}
+
     void Init()
     {
-        GCDTimer = 3000;
-        ShockTimer = 6000 + rand()%4000;
-        BubbleUsed = false;
-        ProtectionUsed = false;
-        FreedomTimer = 10000 + rand()%15000;
-        HammerOfJusticeTimer = 15000 + rand()%10000;
+        SetEquipmentSlots(false, 50771, 47079, EQUIP_NO_CHANGE);
     }
-    
-    void UpdateAI(const uint32 uiDiff)
+
+    void UpdateAI(const uint32 diff)
     {
-        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim())
-            return;
-       
+        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim()) return;
+
         //cast bubble at 20% hp
-        if(!BubbleUsed && m_creature->GetHealth()*5 < m_creature->GetMaxHealth())
-        {
-            if (DoCastSpellIfCan(m_creature, SP_BUBBLE) == CAST_OK)
-                BubbleUsed = true;
-        }
-        
-        if(!ProtectionUsed)
-        {
-            if(Unit *target = DoSelectLowestHpFriendly(40.0f))
-            {
-                if(target->GetHealth() * 100 / target->GetMaxHealth() < 15)
-                {
-                    if (DoCastSpellIfCan(target, SP_HAND_OF_PROTECTION) == CAST_OK)
-                        ProtectionUsed = true;
-                }
-            }
-        }
+        if(m_creature->GetHealthPercent() < 20.0f)
+            bsw->timedCast(SPELL_BUBBLE, diff);
 
-        if(ShockTimer < uiDiff)
-        {
-            if(Unit *target = DoSelectLowestHpFriendly(40.0f))
-            {
-                if (DoCastSpellIfCan(target, m_bIsRegularMode ? SP_HOLY_SHOCK : H_SP_HOLY_SHOCK) == CAST_OK)
-                    ShockTimer = 6000 + rand()%4000;
-            }
-            else
-                ShockTimer = 1000;
-        }
-        else
-            ShockTimer -=uiDiff;
-        
-        if(FreedomTimer < uiDiff)
-        {   
-            if(Unit *target = SelectRandomFriendlyMissingBuff(SP_HAND_OF_FREEDOM))
-                if (DoCastSpellIfCan(target, SP_HAND_OF_FREEDOM) == CAST_OK)
-                    FreedomTimer = 25000 + rand()%10000;
-        }
-        else
-            FreedomTimer -= uiDiff;
+        if(Unit *target = DoSelectLowestHpFriendly(40.0f))
+            if(target->GetHealthPercent() < 15.0f)
+                bsw->timedCast(SPELL_HAND_OF_PROTECTION, diff);
 
-        if(HammerOfJusticeTimer < uiDiff)
-        {
-            if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,0))
-            {
-                if(m_creature->GetDistance2d(target) < 15)
-                {
-                    if (DoCastSpellIfCan(target, SP_HAMMER_OF_JUSTICE) == CAST_OK)
-                        HammerOfJusticeTimer=40000+rand()%5000;
-                }
-                else
-                    HammerOfJusticeTimer = 1000;
-            }
-        }
-        else
-            HammerOfJusticeTimer -= uiDiff;
-        
-        if(GCDTimer < uiDiff)
-        {
+        bsw->timedCast(SPELL_HOLY_SHOCK, diff);
+
+        if(Unit *target = SelectRandomFriendlyMissingBuff(SPELL_HAND_OF_FREEDOM))
+            bsw->timedCast(SPELL_HAND_OF_FREEDOM, diff, target);
+
+        bsw->timedCast(SPELL_HAMMER_OF_JUSTICE, diff);
+
+        if(bsw->timedQuery(SPELL_FLASH_OF_LIGHT, diff))
             switch(urand(0,4))
             {
                 case 0: case 1:
-                    if(Unit *target = DoSelectLowestHpFriendly(40.0f))
-                        DoCastSpellIfCan(target, m_bIsRegularMode ? SP_FLASH_OF_LIGHT : H_SP_FLASH_OF_LIGHT);
+                    bsw->doCast(SPELL_FLASH_OF_LIGHT);
                     break;
                 case 2: case 3:
-                    if(Unit *target = DoSelectLowestHpFriendly(40.0f))
-                        DoCastSpellIfCan(target, m_bIsRegularMode ? SP_HOLY_LIGHT : H_SP_HOLY_LIGHT);
+                    bsw->doCast(SPELL_HOLY_LIGHT);
                     break;
                 case 4:
-                    if(Unit *target = DoSelectLowestHpFriendly(40.0f))
-                        DoCastSpellIfCan(target, SP_CLEANSE);
+                    bsw->doCast(SPELL_CLEANSE);
                     break;
             }
-            GCDTimer = 2500;
-        }
-        else
-            GCDTimer -= uiDiff;
-        
-        boss_faction_championAI::UpdateAI(uiDiff);
+
+        boss_faction_championsAI::UpdateAI(diff);
     }
 };
 
-#define SP_RENEW            66177
-#define H_SP_RENEW          68035
-#define SP_SHIELD           66099
-#define H_SP_SHIELD         68032
-#define SP_FLASH_HEAL       66104
-#define H_SP_FLASH_HEAL     68023
-#define SP_DISPEL           65546
-#define SP_PSYCHIC_SCREAM   65543
-#define SP_MANA_BURN        66100
-#define H_SP_MANA_BURN      68026
+#define SPELL_RENEW            66177
+#define SPELL_SHIELD           66099
+#define SPELL_FLASH_HEAL       66104
+#define SPELL_DISPEL           65546
+#define SPELL_PSYCHIC_SCREAM   65543
+#define SPELL_MANA_BURN        66100
 
-struct DIAMOND_DLL_DECL boss_fc_holy_priestAI : public boss_faction_championAI
+struct DIAMOND_DLL_DECL mob_toc_priestAI : public boss_faction_championsAI
 {
-    boss_fc_holy_priestAI(Creature *pCreature) : boss_faction_championAI(pCreature, AI_HEALER) {Init();}
-    
-    uint32 GCDTimer;
-    uint32 ScreamTimer;
-    
+    mob_toc_priestAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_HEALER) {Init();}
+
     void Init()
     {
-        GCDTimer = 2500;
-        ScreamTimer = 5000;
+        SetEquipmentSlots(false, 49992, EQUIP_NO_CHANGE, EQUIP_NO_CHANGE);
     }
-    
-    void UpdateAI(const uint32 uiDiff)
-    {
-        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim())
-            return;
 
-        if(ScreamTimer < uiDiff)
-        {
-            if(EnemiesInRange(10.0f) > 2)
-            {
-                if (DoCastSpellIfCan(m_creature, SP_PSYCHIC_SCREAM) == CAST_OK)
-                    ScreamTimer = 30000;
-            }
-            else
-                ScreamTimer = 3000;
-        }
-        else
-            ScreamTimer -= uiDiff;
-        
-        if(GCDTimer < uiDiff)
-        {
+    void UpdateAI(const uint32 diff)
+    {
+        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim()) return;
+
+        if(EnemiesInRange(10.0f) > 2)
+            bsw->timedCast(SPELL_PSYCHIC_SCREAM, diff);
+
+        if(bsw->timedQuery(SPELL_RENEW, diff))
             switch(urand(0,5))
             {
                 case 0:
-                    if(Unit *target = DoSelectLowestHpFriendly(40.0f))
-                        DoCastSpellIfCan(target, m_bIsRegularMode ? SP_RENEW : H_SP_RENEW);
+                    bsw->doCast(SPELL_RENEW);
                     break;
                 case 1:
-                    if(Unit *target = DoSelectLowestHpFriendly(40.0f))
-                        DoCastSpellIfCan(target, m_bIsRegularMode ? SP_SHIELD : H_SP_SHIELD);
+                    bsw->doCast(SPELL_SHIELD);
                     break;
                 case 2: case 3:
-                    if(Unit *target = DoSelectLowestHpFriendly(40.0f))
-                        DoCastSpellIfCan(target, m_bIsRegularMode ? SP_FLASH_HEAL : H_SP_FLASH_HEAL);
+                    bsw->doCast(SPELL_FLASH_HEAL);
                     break;
                 case 4:
                     if(Unit *target = urand(0,1) ? SelectUnit(SELECT_TARGET_RANDOM,0) : DoSelectLowestHpFriendly(40.0f))
-                        DoCast(target, SP_DISPEL);
+                        bsw->doCast(target, SPELL_DISPEL);
                     break;
                 case 5:
-                    if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,0))
-                        DoCastSpellIfCan(target, m_bIsRegularMode ? SP_MANA_BURN : H_SP_MANA_BURN);
+                    bsw->doCast(SPELL_MANA_BURN);
                     break;
             }
-            GCDTimer = 2000;
-        }
-        else
-            GCDTimer -= uiDiff;
-        
-        boss_faction_championAI::UpdateAI(uiDiff);
+
+        boss_faction_championsAI::UpdateAI(diff);
     }
 };
 
@@ -591,552 +421,276 @@ struct DIAMOND_DLL_DECL boss_fc_holy_priestAI : public boss_faction_championAI
                             RANGED
 ********************************************************************/
 
-#define SP_SILENCE          65542
-#define SP_VAMPIRIC_TOUCH   65490
-#define H_SP_VAMPIRIC_TOUCH 68091
-#define SP_SW_PAIN          65541
-#define H_SP_SW_PAIN        68088
-#define SP_MIND_FLAY        65488
-#define H_SP_MIND_FLAY      68042
-#define SP_MIND_BLAST       65492
-#define H_SP_MIND_BLAST     68038
-#define SP_HORROR           65545
-#define SP_DISPERSION       65544
-#define SP_SHADOWFORM       16592
+#define SPELL_SILENCE          65542
+#define SPELL_VAMPIRIC_TOUCH   65490
+#define SPELL_SW_PAIN          65541
+#define SPELL_MIND_FLAY        65488
+#define SPELL_MIND_BLAST       65492
+#define SPELL_HORROR           65545
+#define SPELL_DISPERSION       65544
+#define SPELL_SHADOWFORM       16592
 
-struct DIAMOND_DLL_DECL boss_fc_shadow_priestAI : public boss_faction_championAI
+struct DIAMOND_DLL_DECL mob_toc_shadow_priestAI : public boss_faction_championsAI
 {
-    boss_fc_shadow_priestAI(Creature *pCreature) : boss_faction_championAI(pCreature, AI_RANGED) {Init();}
-    
-    uint32 SilenceTimer;
-    uint32 PsychicScreamTimer;
-    uint32 MindBlastTimer;
-    uint32 GCDTimer;
-    uint32 DispersionTimer;
-    
+    mob_toc_shadow_priestAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_RANGED) {Init();}
+
     void Init()
     {
-        SilenceTimer = 15000;
-        PsychicScreamTimer = 8000;
-        MindBlastTimer = 15000;
-        GCDTimer = 3000;
-        DispersionTimer = 1000;
+        SetEquipmentSlots(false, 50040, EQUIP_NO_CHANGE, EQUIP_NO_CHANGE);
     }
 
     void Aggro(Unit *who)
     {
-        boss_faction_championAI::Aggro(who);
-        DoCast(m_creature, SP_SHADOWFORM, true);
+        boss_faction_championsAI::Aggro(who);
+        bsw->doCast(SPELL_SHADOWFORM);
     }
-    
-    void UpdateAI(const uint32 uiDiff)
+
+    void UpdateAI(const uint32 diff)
     {
-        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim())
-            return;
-        
-        if(PsychicScreamTimer < uiDiff)
-        {
-            if(EnemiesInRange(10.0f) > 2)
-            {
-                if (DoCastSpellIfCan(m_creature, SP_PSYCHIC_SCREAM) == CAST_OK)
-                    PsychicScreamTimer = 24000;
-            }
-            else
-                PsychicScreamTimer = 3000;
-        }
-        else
-            PsychicScreamTimer -= uiDiff;
+        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim()) return;
 
-        if(DispersionTimer < uiDiff)
-        {
-            if(m_creature->GetHealth()*5 < m_creature->GetMaxHealth())
-            {
-                if (DoCastSpellIfCan(m_creature, SP_DISPERSION) == CAST_OK)
-                    DispersionTimer = 180000;
-            }
-            else
-                DispersionTimer = 1000;
-        }
-        else
-            DispersionTimer -= uiDiff;
-        
-        if(SilenceTimer < uiDiff)
-        {
-            if(Unit *target = SelectEnemyCaster(false))
-                if (DoCastSpellIfCan(target, SP_SILENCE) == CAST_OK)
-                    SilenceTimer = 45000;
-        }
-        else
-            SilenceTimer -= uiDiff;
+        if(EnemiesInRange(10.0f) > 2)
+            bsw->timedCast(SPELL_PSYCHIC_SCREAM, diff);
 
-        if(MindBlastTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature->getVictim(), m_bIsRegularMode ? SP_MIND_BLAST : H_SP_MIND_BLAST) == CAST_OK)
-                MindBlastTimer = 8000;
-        }
-        else
-            MindBlastTimer -= uiDiff;
-        
-        if(GCDTimer < uiDiff)
-        {
+        if(m_creature->GetHealthPercent() < 20.0f)
+            bsw->timedCast(SPELL_DISPERSION, diff);
+
+        if(Unit *target = SelectEnemyCaster(false))
+            bsw->timedCast(SPELL_SILENCE, diff, target);
+
+        bsw->timedCast(SPELL_MIND_BLAST, diff);
+
+        if(bsw->timedQuery(SPELL_MIND_FLAY, diff))
             switch(urand(0,4))
             {
                 case 0: case 1:
-                    DoCastSpellIfCan(m_creature->getVictim(), m_bIsRegularMode ? SP_MIND_FLAY : H_SP_MIND_FLAY);
+                    bsw->doCast(SPELL_MIND_FLAY);
                     break;
                 case 2:
-                    if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,0))
-                        DoCastSpellIfCan(target, m_bIsRegularMode ? SP_VAMPIRIC_TOUCH : H_SP_VAMPIRIC_TOUCH);
+                    bsw->doCast(SPELL_VAMPIRIC_TOUCH);
                     break;
-               case 3:
-                    if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,0))
-                        DoCastSpellIfCan(target, m_bIsRegularMode ? SP_SW_PAIN : H_SP_SW_PAIN);
+                case 3:
+                    bsw->doCast(SPELL_SW_PAIN);
                     break;
-               case 4:
-                    if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,0))
-                        DoCastSpellIfCan(target, SP_DISPEL);
+                case 4:
+                    bsw->doCast(SPELL_DISPEL);
                     break;
             }
-            GCDTimer = 2000;
-        }
-        else
-            GCDTimer -= uiDiff;
-        
-        boss_faction_championAI::UpdateAI(uiDiff);
+
+        boss_faction_championsAI::UpdateAI(diff);
     }
 };
 
-#define SP_HELLFIRE             65816
-#define H_SP_HELLFIRE           68146
-#define SP_CORRUPTION           65810
-#define H_SP_CORRUPTION         68134
-#define SP_Curse_of_Agony       65814
-#define H_SP_Curse_of_Agony     68137       
-#define SP_Curse_of_Exhaustion  65815
-#define SP_Fear                 65809 //8s
-#define SP_Searing_Pain         65819
-#define H_SP_Searing_Pain       68149
-#define SP_Shadow_Bolt          65821
-#define H_SP_Shadow_Bolt        68152
-#define SP_Summon_Felhunter     67514
-#define SP_Unstable_Affliction  65812
-#define H_SP_Unstable_Affliction 68155 //15s
+#define SPELL_HELLFIRE             65816
+#define SPELL_CORRUPTION           65810
+#define SPELL_Curse_of_Agony       65814
+#define SPELL_Curse_of_Exhaustion  65815
+#define SPELL_Fear                 65809 //8s
+#define SPELL_Searing_Pain         65819
+#define SPELL_Shadow_Bolt          65821
+#define SPELL_Unstable_Affliction  65812
+#define H_SPELL_Unstable_Affliction 68155 //15s
 
-struct DIAMOND_DLL_DECL boss_fc_warlockAI : public boss_faction_championAI
+struct DIAMOND_DLL_DECL mob_toc_warlockAI : public boss_faction_championsAI
 {
-    boss_fc_warlockAI(Creature *pCreature) : boss_faction_championAI(pCreature, AI_RANGED) {Init();}
-    
-    uint32 FearTimer;
-    uint32 UnstableAfflictionTimer;
-    uint32 HellfireTimer;
-    uint32 GCDTimer;
+    mob_toc_warlockAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_RANGED) {Init();}
 
     void Init()
     {
-        FearTimer = 4000+rand()%1000;
-        UnstableAfflictionTimer = 2000+rand()%1000;
-        HellfireTimer = 15000;
-        GCDTimer = 2500;
+        SetEquipmentSlots(false, 49992, EQUIP_NO_CHANGE, EQUIP_NO_CHANGE);
     }
-    
-    void UpdateAI(const uint32 uiDiff)
+
+    void UpdateAI(const uint32 diff)
     {
-        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim())
-            return;
+        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim()) return;
 
-        if(FearTimer < uiDiff)
-        {
-            if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,0))
-                if (DoCastSpellIfCan(target, SP_Fear) == CAST_OK)
-                    FearTimer = 8000;
-        }
-        else
-            FearTimer -= uiDiff;
+        bsw->timedCast(SPELL_Fear, diff);
 
-        if(HellfireTimer < uiDiff)
-        {
-            if(EnemiesInRange(10.0f) > 2)
-            {
-                if (DoCastSpellIfCan(m_creature, m_bIsRegularMode ? SP_HELLFIRE : H_SP_HELLFIRE) == CAST_OK)
-                    HellfireTimer = 40000;
-            }
-            else
-                HellfireTimer = 5000;
-        }
-        else
-            HellfireTimer -= uiDiff;
+        if(EnemiesInRange(10.0f) > 2)
+            bsw->timedCast(SPELL_HELLFIRE, diff);
 
-        if(UnstableAfflictionTimer  < uiDiff)
-        {
-            if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,0))
-                if (DoCastSpellIfCan(target, m_bIsRegularMode ? SP_Unstable_Affliction : H_SP_Unstable_Affliction) == CAST_OK)
-                    UnstableAfflictionTimer = 15000;
-        }
-        else
-            UnstableAfflictionTimer  -= uiDiff;
-        
-        if(GCDTimer < uiDiff)
-        {
+        bsw->timedCast(SPELL_Unstable_Affliction, diff);
+
+        if(bsw->timedQuery(SPELL_Shadow_Bolt, diff))
             switch(urand(0,5))
             {
                 case 0:
-                    DoCastSpellIfCan(m_creature->getVictim(), m_bIsRegularMode ? SP_Searing_Pain : H_SP_Searing_Pain);
+                    bsw->doCast(SPELL_Searing_Pain);
                     break;
                 case 1: case 2:
-                    DoCastSpellIfCan(m_creature->getVictim(), m_bIsRegularMode ? SP_Shadow_Bolt : H_SP_Shadow_Bolt);
+                    bsw->doCast(SPELL_Shadow_Bolt);
                     break;
                 case 3:
-                    if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,0))
-                        DoCastSpellIfCan(target, m_bIsRegularMode ? SP_CORRUPTION : H_SP_CORRUPTION);
+                    bsw->doCast(SPELL_CORRUPTION);
                     break;
                 case 4:
-                    if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,0))
-                        DoCastSpellIfCan(target, m_bIsRegularMode ? SP_Curse_of_Agony : H_SP_Curse_of_Agony);
+                    bsw->doCast(SPELL_Curse_of_Agony);
                     break;
                 case 5:
-                    if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,0))
-                        DoCastSpellIfCan(target, SP_Curse_of_Exhaustion);
+                    bsw->doCast(SPELL_Curse_of_Exhaustion);
                     break;
              }
-             GCDTimer = 2500;
-        }
-        else
-            GCDTimer -= uiDiff;
 
-        boss_faction_championAI::UpdateAI(uiDiff);
+         boss_faction_championsAI::UpdateAI(diff);
     }
 };
 
-#define SP_Arcane_Barrage   65799 //3s
-#define H_SP_Arcane_Barrage 67995
-#define SP_Arcane_Blast 65791
-#define H_SP_Arcane_Blast 67998
-#define SP_Arcane_Explosion 65800
-#define H_SP_Arcane_Explosion 68001
-#define SP_Blink  65793 //15s
-#define SP_Counterspell 65790 //24s
-#define SP_Frost_Nova 65792 //25s
-#define SP_Frostbolt 65807
-#define H_SP_Frostbolt 68004
-#define SP_Ice_Block  65802 //5min
-#define SP_Polymorph 65801 //15s
+#define SPELL_Arcane_Barrage   65799 //3s
+#define SPELL_Arcane_Blast     65791
+#define SPELL_Arcane_Explosion 65800
+#define SPELL_Blink            65793 //15s
+#define SPELL_Counterspell     65790 //24s
+#define SPELL_Frost_Nova       65792 //25s
+#define SPELL_Frostbolt        65807
+#define SPELL_Ice_Block        65802 //5min
+#define SPELL_Polymorph        65801 //15s
 
-struct DIAMOND_DLL_DECL boss_fc_mageAI : public boss_faction_championAI
+struct DIAMOND_DLL_DECL mob_toc_mageAI : public boss_faction_championsAI
 {
-    boss_fc_mageAI(Creature *pCreature) : boss_faction_championAI(pCreature, AI_RANGED) {Init();}
-    
-    uint32 ArcaneBarrageTimer;
-    uint32 BlinkTimer;
-    uint32 CounterspellTimer;
-    uint32 FrostNovaTimer;
-    bool IceBlockUsed;
-    uint32 PolymorphTimer;
-    uint32 GCDTimer;
+    mob_toc_mageAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_RANGED) {Init();}
 
     void Init()
     {
-        ArcaneBarrageTimer = 2000+rand()%1000;
-        BlinkTimer =  8000+rand()%1000;
-        CounterspellTimer = 5000+rand()%1000;
-        FrostNovaTimer =  7000+rand()%2000;
-        IceBlockUsed = false;
-        PolymorphTimer = 3000+rand()%3000;
-        GCDTimer = 2000;
+        SetEquipmentSlots(false, 47524, EQUIP_NO_CHANGE, EQUIP_NO_CHANGE);
     }
-    
-    void UpdateAI(const uint32 uiDiff)
+
+    void UpdateAI(const uint32 diff)
     {
-        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim())
-            return;
+        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim()) return;
 
-        if(CounterspellTimer < uiDiff)
+        if(Unit *target = SelectEnemyCaster(false))
+            bsw->timedCast(SPELL_Counterspell, diff, target);
+
+        if(m_creature->GetHealthPercent() < 50.0f && EnemiesInRange(10.0f)>3)
         {
-            if(Unit *target = SelectEnemyCaster(false))
-                if (DoCastSpellIfCan(target, SP_Counterspell) == CAST_OK)
-                    CounterspellTimer = 24000;
+            bsw->timedCast(SPELL_Frost_Nova, diff);
+            bsw->timedCast(SPELL_Blink, diff);
         }
-        else
-            CounterspellTimer -= uiDiff;
 
-        if(BlinkTimer < uiDiff) // escape
-        {
-            if(m_creature->GetHealth()*2 < m_creature->GetMaxHealth() && EnemiesInRange(10.0f)>3)
-            {
-                DoCast(m_creature, SP_Frost_Nova, true);
-                if (DoCastSpellIfCan(m_creature , SP_Blink) == CAST_OK)
-                    BlinkTimer = 25000;
-            }
-            else
-                BlinkTimer = 5000;
-        }
-        else
-            BlinkTimer -= uiDiff;
+        if(m_creature->GetHealthPercent() < 20.0f)
+               bsw->timedCast(SPELL_Ice_Block, diff);
 
-        if(!IceBlockUsed && m_creature->GetHealth()*5 < m_creature->GetMaxHealth())
-            if (DoCastSpellIfCan(m_creature, SP_Ice_Block) == CAST_OK)
-                IceBlockUsed = true;
+        bsw->timedCast(SPELL_Polymorph, diff);
 
-        if(PolymorphTimer < uiDiff)
-        {
-            if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,1))
-                if (DoCastSpellIfCan(target, SP_Polymorph) == CAST_OK)
-                    PolymorphTimer = 15000;
-        }
-        else
-            PolymorphTimer -= uiDiff;
-    
-        if(GCDTimer < uiDiff)
-        {
+        if(bsw->timedQuery(SPELL_Arcane_Barrage, diff))
             switch(urand(0,2))
             {
                 case 0:
-                    DoCastSpellIfCan(m_creature->getVictim(), m_bIsRegularMode ? SP_Arcane_Barrage : H_SP_Arcane_Barrage);
+                    bsw->doCast(SPELL_Arcane_Barrage);
                     break;
                 case 1:
-                    DoCastSpellIfCan(m_creature->getVictim(), m_bIsRegularMode ? SP_Arcane_Blast : H_SP_Arcane_Blast);
+                    bsw->doCast(SPELL_Arcane_Blast);
                     break;
                 case 2:
-                    if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,0))
-                        DoCastSpellIfCan(target, m_bIsRegularMode ? SP_Frostbolt : H_SP_Frostbolt);
+                    bsw->doCast(SPELL_Frostbolt);
                     break;
             }
-            GCDTimer = 2500;
-        }
-        else
-            GCDTimer -= uiDiff;
 
-        boss_faction_championAI::UpdateAI(uiDiff);
+        boss_faction_championsAI::UpdateAI(diff);
     }
 };
 
 
-#define SP_AIMED_SHOT 65883
-#define H_SP_AIMED_SHOT 67978//10s
-#define SP_Call_Pet 67777//perm
-#define SP_Deterrence 65871 //90s
-#define SP_Disengage 65869 //30s
-#define SP_EXPLOSIVE_SHOT   65866
-#define H_SP_EXPLOSIVE_SHOT 67984 //6s
-#define SP_Frost_Trap 65880 //30s
-#define SP_SHOOT 65868 //1.7s
-#define H_SP_SHOOT 67989
-#define SP_Steady_Shot  65867 //3s
-#define SP_WING_CLIP 66207 //6s
-#define SP_Wyvern_Sting 65877 //60s
+#define SPELL_AIMED_SHOT       65883
+#define SPELL_Deterrence       65871 //90s
+#define SPELL_Disengage        65869 //30s
+#define SPELL_EXPLOSIVE_SHOT   65866
+#define SPELL_Frost_Trap       65880 //30s
+#define SPELL_SHOOT            65868 //1.7s
+#define SPELL_Steady_Shot      65867 //3s
+#define SPELL_WING_CLIP        66207 //6s
+#define SPELL_Wyvern_Sting     65877 //60s
 
-struct DIAMOND_DLL_DECL boss_fc_hunterAI : public boss_faction_championAI
+struct DIAMOND_DLL_DECL mob_toc_hunterAI : public boss_faction_championsAI
 {
-    boss_fc_hunterAI(Creature *pCreature) : boss_faction_championAI(pCreature, AI_RANGED) {Init();}
-    
-    uint32 AimedShotTimer;
-    uint32 CallPetTimer;
-    uint32 DeterrenceTimer;
-    uint32 DisengageTimer;
-    uint32 ExplosiveShotTimer;
-    uint32 FrostTrapTimer;
-    uint32 AutoShootTimer;
-    uint32 SteadyShotTimer;
-    uint32 WingClipTimer;
-    uint32 WyvernStingTimer;
-    uint32 GCDTimer;
+    mob_toc_hunterAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_RANGED) {Init();}
 
     void Init()
     {
-        AimedShotTimer = 1000+rand()%2000;
-        DeterrenceTimer = 20000;
-        DisengageTimer = 10000+rand()%3000;
-        ExplosiveShotTimer = 2000+rand()%3000;
-        FrostTrapTimer = 11000+rand()%5000;
-        SteadyShotTimer = 3200+rand()%2000;
-        WingClipTimer =  6000+rand()%2000;
-        WyvernStingTimer = 7000+rand()%3000;
-        GCDTimer = 1000;
+        SetEquipmentSlots(false, 47156, EQUIP_NO_CHANGE, 48711);
     }
-    
-    void UpdateAI(const uint32 uiDiff)
+
+    void UpdateAI(const uint32 diff)
     {
-        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim())
-            return;
+        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim()) return;
 
-        if(DisengageTimer < uiDiff)
-        {
-            if(EnemiesInRange(10.0f) > 3)
-            {
-                if (DoCastSpellIfCan(m_creature , SP_Disengage) == CAST_OK)
-                    DisengageTimer = 30000;
-            }
-            else
-                DisengageTimer = 3000;
-        }
-        else
-            DisengageTimer -= uiDiff;
+        if(EnemiesInRange(10.0f) > 3)
+            bsw->timedCast(SPELL_Disengage, diff);
 
-        if(DeterrenceTimer < uiDiff)
-        {
-            if(m_creature->GetHealth()*5 < m_creature->GetMaxHealth())
-            {
-                if (DoCastSpellIfCan(m_creature, SP_Deterrence) == CAST_OK)
-                    DeterrenceTimer = 90000;
-            }
-            else
-                DeterrenceTimer = 3000;
-        }
-        else
-            DeterrenceTimer -= uiDiff;
+        if(m_creature->GetHealthPercent() < 20.0f)
+            bsw->timedCast(SPELL_Deterrence, diff);
 
-        if(WyvernStingTimer < uiDiff)
-        {
-            if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,1))
-                if (DoCastSpellIfCan(target, SP_Wyvern_Sting) == CAST_OK)
-                    WyvernStingTimer = 60000;
-        }
-        else
-            WyvernStingTimer -= uiDiff;
+        bsw->timedCast(SPELL_Wyvern_Sting, diff);
+        bsw->timedCast(SPELL_Frost_Trap, diff);
 
-        if(FrostTrapTimer < uiDiff)
-        {
-            //if (DoCastSpellIfCan(m_creature, SP_Frost_Trap) == CAST_OK) // disabled, because of core bug
-                FrostTrapTimer = 30000 + rand()%1000;
-        }
-        else
-            FrostTrapTimer -= uiDiff;
+        if(m_creature->GetDistance2d(m_creature->getVictim()) < 5.0f)
+            bsw->timedCast(SPELL_WING_CLIP, diff);
 
-        if(WingClipTimer < uiDiff)
-        {
-            if(m_creature->GetDistance2d(m_creature->getVictim()) < 5.0f)
-                if (DoCastSpellIfCan(m_creature->getVictim(), SP_WING_CLIP) == CAST_OK)
-                    WingClipTimer = 5000;
-        }
-        else
-            WingClipTimer-= uiDiff;
-
-        if(GCDTimer < uiDiff)
-        {
+        if(bsw->timedQuery(SPELL_SHOOT, diff))
             switch(urand(0,3))
             {
                 case 0: case 1:
-                    DoCastSpellIfCan(m_creature->getVictim(), m_bIsRegularMode ? SP_SHOOT : H_SP_SHOOT);
+                    bsw->doCast(SPELL_SHOOT);
                     break;
                 case 2:
-                    DoCastSpellIfCan(m_creature->getVictim(), m_bIsRegularMode ? SP_EXPLOSIVE_SHOT : H_SP_EXPLOSIVE_SHOT);
+                    bsw->doCast(SPELL_EXPLOSIVE_SHOT);
                     break;
                 case 3:
-                    DoCastSpellIfCan(m_creature->getVictim(), m_bIsRegularMode ? SP_AIMED_SHOT : H_SP_AIMED_SHOT);
+                    bsw->doCast(SPELL_AIMED_SHOT);
                     break;
             }
-            GCDTimer = 2500;
-        }
-        else
-            GCDTimer -= uiDiff; 
 
-        boss_faction_championAI::UpdateAI(uiDiff);
+        boss_faction_championsAI::UpdateAI(diff);
     }
 };
 
-#define SP_CYCLONE  65859 //6s
-#define SP_Entangling_Roots 65857 //10s
-#define SP_Faerie_Fire 65863
-#define SP_Force_of_Nature 65861 //180s
-#define SP_Insect_Swarm 65855
-#define H_SP_Insect_Swarm 67942
-#define SP_Moonfire  65856 //5s
-#define H_SP_Moonfire 67945
-#define SP_Starfire 65854
-#define H_SP_Starfire 67948
-#define SP_Wrath     65862
-#define H_SP_Wrath     67952
+#define SPELL_Cyclone          65859 //6s
+#define SPELL_Entangling_Roots 65857 //10s
+#define SPELL_Faerie_Fire      65863
+#define SPELL_Force_of_Nature  65861 //180s
+#define SPELL_Insect_Swarm     65855
+#define SPELL_Moonfire         65856 //5s
+#define SPELL_Starfire         65854
+#define SPELL_Wrath            65862
 
-struct DIAMOND_DLL_DECL boss_fc_boomkinAI : public boss_faction_championAI
+struct DIAMOND_DLL_DECL mob_toc_boomkinAI : public boss_faction_championsAI
 {
-    boss_fc_boomkinAI(Creature *pCreature) : boss_faction_championAI(pCreature, AI_RANGED) {Init();}
-    
-    uint32 BarkskinTimer;
-    uint32 CycloneTimer;
-    uint32 EntanglingRootsTimer;
-    uint32 MoonfireTimer;
-    uint32 FaerieFireTimer;
-    uint32 GCDTimer;
-    
+    mob_toc_boomkinAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_RANGED) {Init();}
+
     void Init()
     {
-        BarkskinTimer = 6000;
-        CycloneTimer = 5000;
-        EntanglingRootsTimer = 2000+rand()%1000;
-        MoonfireTimer = 1000+rand()%1000;
-        FaerieFireTimer = 10000;
-        GCDTimer = 1500;
+        SetEquipmentSlots(false, 50966, EQUIP_NO_CHANGE, EQUIP_NO_CHANGE);
     }
-    
-    void UpdateAI(const uint32 uiDiff)
+
+    void UpdateAI(const uint32 diff)
     {
-        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim())
-            return;
+        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim()) return;
 
-        if(BarkskinTimer < uiDiff)
-        {
-            if(m_creature->GetHealth()*2 < m_creature->GetMaxHealth())
-            {
-                if (DoCastSpellIfCan(m_creature, SP_BARKSKIN) == CAST_OK)
-                    BarkskinTimer = 60000;
-            }
-            else
-                BarkskinTimer = 3000;
-        }
-        else
-            BarkskinTimer -= uiDiff;
+        if(m_creature->GetHealthPercent() < 50.0f)
+            bsw->timedCast(SPELL_BARKSKIN, diff);
 
-        if(CycloneTimer < uiDiff)
-        {
-            if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,1))
-                if (DoCastSpellIfCan(target, SP_CYCLONE) == CAST_OK)
-                    CycloneTimer = 6000+rand()%2000;
-        }
-        else
-            CycloneTimer -= uiDiff;
+        bsw->timedCast(SPELL_Cyclone, diff);
+        bsw->timedCast(SPELL_Entangling_Roots, diff);
+        bsw->timedCast(SPELL_Faerie_Fire, diff);
 
-        if(EntanglingRootsTimer < uiDiff)
-        {
-            if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,0))
-                if (DoCastSpellIfCan(target, SP_Entangling_Roots) == CAST_OK)
-                    EntanglingRootsTimer = 10000 + rand()%2000;
-        }
-        else
-            EntanglingRootsTimer -= uiDiff;
-
-        if(FaerieFireTimer < uiDiff)
-        {
-            if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,0))
-                if (DoCastSpellIfCan(target, SP_Faerie_Fire) == CAST_OK)
-                    FaerieFireTimer = 10000 + rand()%8000;
-        }
-        else
-            FaerieFireTimer -= uiDiff;
-
-        if(GCDTimer < uiDiff)
-        {
+        if(bsw->timedQuery(SPELL_Moonfire, diff))
             switch(urand(0,6))
             {
                 case 0: case 1:
-                    DoCastSpellIfCan(m_creature->getVictim(), m_bIsRegularMode ? SP_Moonfire : H_SP_Moonfire);
-                    break;
+                      bsw->doCast(SPELL_Moonfire);
+                      break;
                 case 2:
-                    if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,0))
-                        DoCastSpellIfCan(target,m_bIsRegularMode ? SP_Insect_Swarm : H_SP_Insect_Swarm);
-                    break;
+                      bsw->doCast(SPELL_Insect_Swarm);
+                      break;
                 case 3:
-                    if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,0))
-                        DoCastSpellIfCan(m_creature->getVictim(),m_bIsRegularMode ? SP_Starfire : H_SP_Starfire);
-                    break;
+                      bsw->doCast(SPELL_Starfire);
+                      break;
                 case 4: case 5: case 6:
-                    DoCastSpellIfCan(m_creature->getVictim(),m_bIsRegularMode ? SP_Wrath : H_SP_Wrath);
-                    break;
+                      bsw->doCast(SPELL_Wrath);
+                      break;
             }
-            GCDTimer = 2000;
-        }
-        else
-            GCDTimer -= uiDiff; 
-          
-        boss_faction_championAI::UpdateAI(uiDiff);
+
+        boss_faction_championsAI::UpdateAI(diff);
     }
 };
 
@@ -1144,629 +698,386 @@ struct DIAMOND_DLL_DECL boss_fc_boomkinAI : public boss_faction_championAI
                             MELEE
 ********************************************************************/
 
-#define SP_BLADESTORM           65947
-#define SP_INTIMIDATING_SHOUT   65930
-#define SP_MORTAL_STRIKE        65926
-#define SP_CHARGE               68764
-#define SP_DISARM               65935
-#define SP_OVERPOWER            65924
-#define SP_SUNDER_ARMOR         65936
-#define SP_SHATTERING_THROW     65940
-#define SP_RETALIATION          65932
+#define SPELL_BLADESTORM           65947
+#define SPELL_INTIMIDATING_SHOUT   65930
+#define SPELL_MORTAL_STRIKE        65926
+#define SPELL_CHARGE               68764
+#define SPELL_DISARM               65935
+#define SPELL_OVERPOWER            65924
+#define SPELL_SUNDER_ARMOR         65936
+#define SPELL_SHATTERING_THROW     65940
+#define SPELL_RETALIATION          65932
 
-struct DIAMOND_DLL_DECL boss_fc_warriorAI : public boss_faction_championAI
+struct DIAMOND_DLL_DECL mob_toc_warriorAI : public boss_faction_championsAI
 {
-    boss_fc_warriorAI(Creature *pCreature) : boss_faction_championAI(pCreature, AI_MELEE) {Init();}
-    
-    uint32 BladestormTimer;
-    uint32 FearTimer;
-    uint32 MortalStrikeTimer;
-    uint32 ChargeTimer;
-    uint32 SunderArmorTimer;
-    uint32 RetaliationTimer;
-    uint32 ShatteringThrowTimer;
-    uint32 DisarmTimer;
-    
+    mob_toc_warriorAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_MELEE) {Init();}
+
     void Init()
     {
-        BladestormTimer = 20000 + rand()%10000;
-        FearTimer = 10000 + rand()%10000;
-        MortalStrikeTimer = 6000 + rand()%4000;
-        ChargeTimer = 1000;
-        SunderArmorTimer = 5000;
-        RetaliationTimer = 30000 + rand()%8000;
-        ShatteringThrowTimer =  10000 + rand()%30000;
-        DisarmTimer = 5000 + rand()%20000;
+        SetEquipmentSlots(false, 47427, 46964, EQUIP_NO_CHANGE);
     }
-    
-    void UpdateAI(const uint32 uiDiff)
+
+    void UpdateAI(const uint32 diff)
     {
-        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim())
-            return;
-        
-        if(BladestormTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature, SP_BLADESTORM) == CAST_OK)
-                BladestormTimer = 90000 + rand()%5000;
-        }
-        else
-            BladestormTimer -= uiDiff;
-        
-        if(FearTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature->getVictim(), SP_INTIMIDATING_SHOUT) == CAST_OK)
-                FearTimer = 40000 + rand()%40000;
-        }
-        else
-            FearTimer -= uiDiff;
-        
-        if(MortalStrikeTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature->getVictim(), SP_MORTAL_STRIKE) == CAST_OK)
-                MortalStrikeTimer = 6000 + rand()%2000;
-        }
-        else
-            MortalStrikeTimer -= uiDiff;
+        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim()) return;
 
-        if(SunderArmorTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature->getVictim(), SP_SUNDER_ARMOR) == CAST_OK)
-                SunderArmorTimer = 2000+rand()%5000;
-        }
-        else
-            SunderArmorTimer -= uiDiff;
+        bsw->timedCast(SPELL_BLADESTORM, diff);
+        bsw->timedCast(SPELL_INTIMIDATING_SHOUT, diff);
+        bsw->timedCast(SPELL_MORTAL_STRIKE, diff);
+        bsw->timedCast(SPELL_SUNDER_ARMOR, diff);
+        bsw->timedCast(SPELL_CHARGE, diff);
+        bsw->timedCast(SPELL_RETALIATION, diff);
+        bsw->timedCast(SPELL_OVERPOWER, diff);
+        bsw->timedCast(SPELL_SHATTERING_THROW, diff);
+        bsw->timedCast(SPELL_DISARM, diff);
 
-        if(ChargeTimer < uiDiff)
-        {
-            if(m_creature->IsInRange(m_creature->getVictim(), 8.0f, 25.0f, false))
-            {
-                if (DoCastSpellIfCan(m_creature->getVictim(), SP_CHARGE) == CAST_OK)
-                    ChargeTimer = 12000;
-            }
-            else
-                ChargeTimer = 2000;
-        }
-        else
-            ChargeTimer -= uiDiff;
-
-        if(RetaliationTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature, SP_RETALIATION) == CAST_OK)
-                RetaliationTimer = 300000 + rand()%10000;
-        }
-        else
-            RetaliationTimer -= uiDiff;
-
-        if(ShatteringThrowTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature->getVictim(), SP_SHATTERING_THROW) == CAST_OK)
-                ShatteringThrowTimer = 300000 + rand()%30000;
-        }
-        else
-            ShatteringThrowTimer -= uiDiff;
-        
-        if(DisarmTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature->getVictim(), SP_DISARM) == CAST_OK)
-                DisarmTimer = 60000 + rand()%6000;
-        }
-        else
-            DisarmTimer -= uiDiff;
-        
-        boss_faction_championAI::UpdateAI(uiDiff);
+        boss_faction_championsAI::UpdateAI(diff);
     }
 };
 
-#define SP_Chains_of_Ice 66020 //8sec
-#define SP_Death_Coil 66019    //5sec
-#define H_SP_Death_Coil 67930
-#define SP_Death_Grip  66017 //35sec
-#define SP_Frost_Strike 66047  //6sec
-#define H_SP_Frost_Strike 67936 
-#define SP_Icebound_Fortitude 66023 //1min 
-#define SP_Icy_Touch 66021  //8sec
-#define H_SP_Icy_Touch 67939
-#define SP_Strangulate 66018 //2min               
+#define SPELL_Chains_of_Ice      66020 //8sec
+#define SPELL_Death_Coil         66019    //5sec
+#define SPELL_Death_Grip         66017 //35sec
+#define SPELL_Frost_Strike       66047  //6sec
+#define SPELL_Icebound_Fortitude 66023 //1min
+#define SPELL_Icy_Touch          66021  //8sec
+#define SPELL_Strangulate        66018 //2min
 
-struct DIAMOND_DLL_DECL boss_fc_deathknightAI : public boss_faction_championAI
+struct DIAMOND_DLL_DECL mob_toc_dkAI : public boss_faction_championsAI
 {
-    boss_fc_deathknightAI(Creature *pCreature) : boss_faction_championAI(pCreature, AI_MELEE) {Init();}
-    
-    uint32 ChainsOfIceTimer;
-    uint32 DeathCoilTimer;
-    uint32 DeathGripTimer;
-    uint32 FrostStrikeTimer;
-    uint32 IceboundFortitudeTimer;
-    uint32 IcyTouchTimer;
-    uint32 StrangulateTimer;
+    mob_toc_dkAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_MELEE) {Init();}
 
     void Init()
     {
-        ChainsOfIceTimer = 2000+rand()%3000;
-        DeathCoilTimer = 3000+rand()%4000;
-        DeathGripTimer = 1000+rand()%2000;
-        FrostStrikeTimer = 4000+rand()%2000;
-        IceboundFortitudeTimer = 20000;
-        IcyTouchTimer = 6000+rand()%2000;
-        StrangulateTimer = 6000+rand()%10000;
+        SetEquipmentSlots(false, 47518, 51021, EQUIP_NO_CHANGE);
     }
-    
-    void UpdateAI(const uint32 uiDiff)
+
+    void UpdateAI(const uint32 diff)
     {
-        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim())
-            return;
-        
-        if(IceboundFortitudeTimer < uiDiff)
-        {
-            if(m_creature->GetHealth()*2 < m_creature->GetMaxHealth())
-            {
-                if (DoCastSpellIfCan(m_creature, SP_Icebound_Fortitude) == CAST_OK)
-                    IceboundFortitudeTimer = 60000 + rand()%10000;
-            }
-            else
-                IceboundFortitudeTimer = 5000;
-        }
-        else
-            IceboundFortitudeTimer -= uiDiff;
+        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim()) return;
 
-        if(ChainsOfIceTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature->getVictim(), SP_Chains_of_Ice) == CAST_OK)
-                ChainsOfIceTimer = 8000 + rand()%6000;
-        }
-        else
-            ChainsOfIceTimer -= uiDiff;
+        if(m_creature->GetHealthPercent() < 50.0f)
+           bsw->timedCast(SPELL_Icebound_Fortitude, diff);
 
-        if(DeathCoilTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature->getVictim(), m_bIsRegularMode ? SP_Death_Coil : H_SP_Death_Coil) == CAST_OK)
-                DeathCoilTimer = 6000 + rand()%4000;
-        }
-        else
-            DeathCoilTimer -= uiDiff;
+        bsw->timedCast(SPELL_Chains_of_Ice, diff);
+        bsw->timedCast(SPELL_Death_Coil, diff);
 
-        if(StrangulateTimer < uiDiff)
-        {
-            if(Unit *target = SelectEnemyCaster(false))
-                if (DoCastSpellIfCan(target, SP_Strangulate) == CAST_OK)
-                    StrangulateTimer = 60000 + rand()%6000;
-        }
-        else
-            StrangulateTimer -= uiDiff;
+        if(Unit *target = SelectEnemyCaster(false))
+            bsw->timedCast(SPELL_Strangulate, diff, target);
 
-        if(FrostStrikeTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature->getVictim(), m_bIsRegularMode ? SP_Frost_Strike : H_SP_Frost_Strike) == CAST_OK)
-                FrostStrikeTimer = 5000 + rand()%5000;
-        }
-        else
-            FrostStrikeTimer -= uiDiff;
+        bsw->timedCast(SPELL_Frost_Strike, diff);
+        bsw->timedCast(SPELL_Icy_Touch, diff);
 
-        if(IcyTouchTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature->getVictim(), m_bIsRegularMode ? SP_Icy_Touch : H_SP_Icy_Touch) == CAST_OK)
-                IcyTouchTimer = 8000 + rand()%4000;
-        }
-        else
-            IcyTouchTimer -= uiDiff;
+        if(m_creature->IsInRange(m_creature->getVictim(), 10.0f, 30.0f, false))
+            bsw->timedCast(SPELL_Death_Grip, diff); 
 
-        if(DeathGripTimer < uiDiff)
-        {
-            if(m_creature->IsInRange(m_creature->getVictim(), 10.0f, 30.0f, false))
-            {
-                DoCast(m_creature->getVictim(), SP_Death_Grip);
-                DeathGripTimer = 35000 + rand()%1000;
-            }
-            else
-                DeathGripTimer = 3000;
-        }
-        else
-            DeathGripTimer -= uiDiff;
-
-        boss_faction_championAI::UpdateAI(uiDiff);
+        boss_faction_championsAI::UpdateAI(diff);
     }
 };
 
-#define SP_FAN_OF_KNIVES        52874 //correst is 65955 //2sec
-#define SP_BLIND                43433 //correst is 65960 //2min
-#define SP_CLOAK                65961 //90sec
-#define SP_Blade_Flurry         65956 //2min
-#define SP_SHADOWSTEP           66178 //30sec
-#define SP_HEMORRHAGE            65897 //correct is65954
-#define SP_EVISCERATE           71933 //correct is 65957
-#define H_SP_EVISCERATE         71933 //correct is 68095                  
+#define SPELL_FAN_OF_KNIVES        65955 //2sec
+#define SPELL_BLIND                65960 //2min
+#define SPELL_CLOAK                65961 //90sec
+#define SPELL_Blade_Flurry         65956 //2min
+#define SPELL_SHADOWSTEP           66178 //30sec
+#define SPELL_HEMORRHAGE           65954
+#define SPELL_EVISCERATE           65957
 
-struct DIAMOND_DLL_DECL boss_fc_rogueAI : public boss_faction_championAI
+struct DIAMOND_DLL_DECL mob_toc_rogueAI : public boss_faction_championsAI
 {
-    boss_fc_rogueAI(Creature *pCreature) : boss_faction_championAI(pCreature, AI_MELEE) {Init();}
-    
-    uint32 FanOfKnivesTimer;
-    uint32 BlindTimer;
-    uint32 CloakTimer;
-    uint32 BladeFlurryTimer;
-    uint32 ShadowstepTimer;
-    uint32 HemorrhageTimer;
-    uint32 EviscerateTimer;
+    mob_toc_rogueAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_MELEE) {Init();}
 
     void Init()
     {
-        FanOfKnivesTimer = 7000 + rand()%1000;
-        BlindTimer = 6000 + rand()%3000;
-        CloakTimer = 20000 + rand()%20000;
-        BladeFlurryTimer = 10000 + rand()%1000;
-        ShadowstepTimer = 9000 + rand()%2000;
-        HemorrhageTimer = 5000 + rand()%1000;
-        EviscerateTimer = 14000 + rand()%2000;
+        SetEquipmentSlots(false, 47422, 49982, EQUIP_NO_CHANGE);
     }
-    
-    void UpdateAI(const uint32 uiDiff)
+
+    void UpdateAI(const uint32 diff)
     {
-        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim())
-            return;
+        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim()) return;
 
-        if(FanOfKnivesTimer < uiDiff)
-        {
-            if(EnemiesInRange(15.0f) > 2)
-                if (DoCastSpellIfCan(m_creature->getVictim(), SP_FAN_OF_KNIVES) == CAST_OK)
-                    FanOfKnivesTimer = 3000;
-        }
-        else
-            FanOfKnivesTimer -= uiDiff;
+        if(EnemiesInRange(15.0f) > 2)
+            bsw->timedCast(SPELL_FAN_OF_KNIVES, diff);
 
-        if(HemorrhageTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature->getVictim(), SP_HEMORRHAGE) == CAST_OK)
-                HemorrhageTimer = 5000 + rand()%2000;
-        }
-        else
-            HemorrhageTimer -= uiDiff;
+        bsw->timedCast(SPELL_HEMORRHAGE, diff);
+        bsw->timedCast(SPELL_EVISCERATE, diff);
 
-        if(EviscerateTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature->getVictim(), m_bIsRegularMode ? SP_EVISCERATE : H_SP_EVISCERATE) == CAST_OK)
-                EviscerateTimer = 7000 + rand()%3000;
-        }
-        else
-            EviscerateTimer -= uiDiff;
+        if(m_creature->IsInRange(m_creature->getVictim(), 10.0f, 40.0f))
+            bsw->timedCast(SPELL_SHADOWSTEP, diff);
 
-        if(ShadowstepTimer < uiDiff)
-        {
-            if(m_creature->IsInRange(m_creature->getVictim(), 10.0f, 40.0f))
-            {
-                 if (DoCastSpellIfCan(m_creature->getVictim(), SP_SHADOWSTEP) == CAST_OK)
-                    ShadowstepTimer = 30000 + rand()%6000;
-            }
-            else
-                ShadowstepTimer = 2000;
-        }
-        else
-            ShadowstepTimer -= uiDiff;
+        if(Unit* target = SelectUnit(SELECT_TARGET_RANDOM,1))
+            if(m_creature->IsInRange(target, 0.0f, 15.0f, false))
+                bsw->timedCast(SPELL_BLIND, diff, target);
 
-        if(BlindTimer < uiDiff)
-        {
-            if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,1))
-            {
-                if(m_creature->IsInRange(target, 0.0f, 15.0f, false))
-                {
-                    if (DoCastSpellIfCan(target, SP_BLIND) == CAST_OK)
-                        BlindTimer = 120000 + rand()%6000;
-                }
-                else
-                    BlindTimer = 2000;
-            }
-            else
-                BlindTimer = 2000;
-        }
-        else
-            BlindTimer -= uiDiff;
+        if(m_creature->GetHealthPercent() < 50.0f)
+            bsw->timedCast(SPELL_CLOAK, diff);
 
-        if(CloakTimer < uiDiff) //If rogue really damaged...
-        {
-            if(m_creature->GetHealth()*2 < m_creature->GetMaxHealth())
-            {
-                if (DoCastSpellIfCan(m_creature, SP_CLOAK) == CAST_OK)  //...She will cloak.
-                    CloakTimer = 90000;
-            }
-            else
-                CloakTimer = 5000;
-        }
-        else
-            CloakTimer -= uiDiff;
+        bsw->timedCast(SPELL_Blade_Flurry, diff);
 
-        if(BladeFlurryTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature, SP_Blade_Flurry) == CAST_OK)
-                BladeFlurryTimer = 120000 + rand()%5000;
-        }
-        else
-            BladeFlurryTimer -= uiDiff;
-
-        boss_faction_championAI::UpdateAI(uiDiff);
+        boss_faction_championsAI::UpdateAI(diff);
     }
 };
 
-//#define SP_EARTH_SHOCK      65973
-//#define H_SP_EARTH_SHOCK    68101
-#define SP_LAVA_LASH        65974
-#define SP_STORMSTRIKE      65970
+#define SPELL_EARTH_SHOCK      65973
+#define SPELL_LAVA_LASH        65974
+#define SPELL_STORMSTRIKE      65970
 
-struct DIAMOND_DLL_DECL boss_fc_enh_shammyAI : public boss_faction_championAI
+struct DIAMOND_DLL_DECL mob_toc_enh_shamanAI : public boss_faction_championsAI
 {
-    boss_fc_enh_shammyAI(Creature *pCreature) : boss_faction_championAI(pCreature, AI_MELEE) {Init();}
-    
-    uint32 HeroismTimer;
-    uint32 ShockTimer;
-    uint32 LavaLashTimer;
-    uint32 StormstrikeTimer;
+    mob_toc_enh_shamanAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_MELEE) {Init();}
 
     void Init()
     {
-        ShockTimer=3000+rand()%2000;       
-        LavaLashTimer=4000+rand()%2000;
-        StormstrikeTimer=5000+rand()%2000;
-        HeroismTimer=5000+rand()%20000;
+        SetEquipmentSlots(false, 51803, 48013, EQUIP_NO_CHANGE);
     }
 
-    void UpdateAI(const uint32 uiDiff)
+    void UpdateAI(const uint32 diff)
     {
-        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim())
-            return;
+        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim()) return;
 
-        if(HeroismTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature, SP_HEROISM) == CAST_OK)
-                HeroismTimer = 600000;
-        }
-        else
-            HeroismTimer -= uiDiff;
+        bsw->timedCast(SPELL_HEROISM, diff);
+        bsw->timedCast(SPELL_EARTH_SHOCK, diff);
+        bsw->timedCast(SPELL_STORMSTRIKE, diff);
+        bsw->timedCast(SPELL_LAVA_LASH, diff);
 
-        if(ShockTimer < uiDiff)
-        {
-            if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,0))
-                if (DoCastSpellIfCan(target, m_bIsRegularMode ? SP_EARTH_SHOCK : H_SP_EARTH_SHOCK) == CAST_OK)
-                    ShockTimer = 6000 + rand()%1000;
-        }
-        else
-            ShockTimer -= uiDiff;
-
-        if(StormstrikeTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature->getVictim(), SP_STORMSTRIKE) == CAST_OK)
-                StormstrikeTimer = 8000 + rand()%4000;
-        }
-        else
-            StormstrikeTimer -= uiDiff;
-
-        if(LavaLashTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature->getVictim(), SP_LAVA_LASH) == CAST_OK)
-                LavaLashTimer = 8000 + rand()%5000;
-        }
-        else
-            LavaLashTimer -= uiDiff;
-
-        boss_faction_championAI::UpdateAI(uiDiff);
+        boss_faction_championsAI::UpdateAI(diff);
     }
 };
 
-#define SP_Avenging_Wrath 66011 //3min cd
-#define SP_Crusader_Strike 66003 //6sec cd
-#define SP_Divine_Shield 66010 //5min cd
-#define SP_Divine_Storm 66006 //10sec cd
-#define SP_Hammer_of_Justice 66007 //40sec cd
-#define SP_Hand_of_Protection 66009 //5min cd
-#define SP_Judgement_of_Command 66005 //8sec cd
-#define H_SP_Judgement_of_Command 68018
-#define SP_REPENTANCE 66008 //60sec cd
-#define SP_Seal_of_Command 66004 //no cd
-#define H_SP_Seal_of_Command 68021
+#define SPELL_Avenging_Wrath       66011 //3min cd
+#define SPELL_Crusader_Strike      66003 //6sec cd
+#define SPELL_Divine_Shield        66010 //5min cd
+#define SPELL_Divine_Storm         66006 //10sec cd
+#define SPELL_Hammer_of_Justice    66007 //40sec cd
+#define SPELL_Hand_of_Protection   66009 //5min cd
+#define SPELL_Judgement_of_Command 66005 //8sec cd
+#define SPELL_REPENTANCE           66008 //60sec cd
+#define SPELL_Seal_of_Command      66004 //no cd
 
-struct DIAMOND_DLL_DECL boss_fc_ret_pallyAI : public boss_faction_championAI
+struct DIAMOND_DLL_DECL mob_toc_retro_paladinAI : public boss_faction_championsAI
 {
-    boss_fc_ret_pallyAI(Creature *pCreature) : boss_faction_championAI(pCreature, AI_MELEE) {Init();}
-    
-    bool ShieldUsed;
-    uint32 AvengingWrathTimer;
-    uint32 CrusaderStrikeTimer;
-    uint32 DivineShieldTimer;
-    uint32 DivineStormTimer;
-    uint32 HammerOfJusticeTimer;
-    uint32 HandOfProtectionTimer;
-    uint32 JudgementOfCommandTimer;
-    uint32 RepentanceTimer;
+    mob_toc_retro_paladinAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_MELEE) {Init();}
 
     void Init()
     {
-        AvengingWrathTimer = 7000 + rand()%3000;
-        CrusaderStrikeTimer = 4000 + rand()%1000;
-        DivineShieldTimer = 30000 + rand()%1000;
-        DivineStormTimer = 5000 + rand()%2000;
-        HammerOfJusticeTimer = 1000 + rand()%5000;
-        HandOfProtectionTimer = 40000 + rand()%2000;
-        JudgementOfCommandTimer = 6000;
-        RepentanceTimer = 2000 + rand()%5000;
-        ShieldUsed = false;
+        SetEquipmentSlots(false, 47519, EQUIP_NO_CHANGE, EQUIP_NO_CHANGE);
     }
 
     void Aggro(Unit *who)
     {
-        boss_faction_championAI::Aggro(who);
-
-        DoCastSpellIfCan(m_creature, m_bIsRegularMode ? SP_Seal_of_Command : H_SP_Seal_of_Command);
+        boss_faction_championsAI::Aggro(who);
+        bsw->doCast(SPELL_Seal_of_Command);
     }
-    
-    void UpdateAI(const uint32 uiDiff)
+
+    void UpdateAI(const uint32 diff)
     {
-        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim())
-            return;
+        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim()) return;
 
-        if(RepentanceTimer < uiDiff)
-        {
-            if(Unit *target = SelectUnit(SELECT_TARGET_RANDOM,1))
-                if (DoCastSpellIfCan(target, SP_REPENTANCE) == CAST_OK)
-                    RepentanceTimer = 60000 + rand()%4000;
-        }
-        else
-            RepentanceTimer -= uiDiff;
+        bsw->timedCast(SPELL_REPENTANCE, diff);
+        bsw->timedCast(SPELL_Crusader_Strike, diff);
+        bsw->timedCast(SPELL_Avenging_Wrath, diff);
 
-        if(CrusaderStrikeTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature->getVictim(), SP_Crusader_Strike) == CAST_OK)
-                CrusaderStrikeTimer = 6000 + rand()%1000;
-        }
-        else
-            CrusaderStrikeTimer -= uiDiff;
+        if(m_creature->GetHealthPercent() < 20.0f)
+             bsw->timedCast(SPELL_Divine_Shield, diff);
 
-        if(AvengingWrathTimer < uiDiff)  //Wrath+shield problem.
-        {
-            DoCast(m_creature, SP_Avenging_Wrath);
-            AvengingWrathTimer = 300000 + rand()%5000;
-        }
-        else
-            AvengingWrathTimer -= uiDiff;
+        bsw->timedCast(SPELL_Divine_Storm, diff);
+        bsw->timedCast(SPELL_Judgement_of_Command, diff);
 
-        if(!ShieldUsed && m_creature->GetHealthPercent() < 5.0f)
-        {
-            DoCast(m_creature, SP_Divine_Shield);
-            ShieldUsed = true;
-        }
-         
-        if(DivineStormTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature->getVictim(), SP_Divine_Storm) == CAST_OK)
-                DivineStormTimer = 10000 + rand()%1000;
-        }
-        else
-            DivineStormTimer -= uiDiff;
-        
-        if(JudgementOfCommandTimer < uiDiff)
-        {
-            if (DoCastSpellIfCan(m_creature->getVictim(), m_bIsRegularMode ? SP_Judgement_of_Command : H_SP_Judgement_of_Command) == CAST_OK)
-                JudgementOfCommandTimer = 8000 + rand()%1000;
-        }
-        else
-            JudgementOfCommandTimer -= uiDiff;
+        boss_faction_championsAI::UpdateAI(diff);
+    }
+};
 
-        boss_faction_championAI::UpdateAI(uiDiff);
+#define SPELL_WPET0 67518
+#define SPELL_WPET1 67519
+
+struct DIAMOND_DLL_DECL mob_toc_pet_warlockAI : public boss_faction_championsAI
+{
+    mob_toc_pet_warlockAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_MELEE) {Init();}
+
+    void Aggro(Unit *who)
+    {
+        boss_faction_championsAI::Aggro(who);
+    }
+
+    void UpdateAI(const uint32 diff)
+    {
+        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim()) return;
+
+        bsw->timedCast(SPELL_WPET0, diff);
+        bsw->timedCast(SPELL_WPET1, diff);
+
+        boss_faction_championsAI::UpdateAI(diff);
+    }
+};
+
+#define SPELL_HPET0 67793
+struct DIAMOND_DLL_DECL mob_toc_pet_hunterAI : public boss_faction_championsAI
+{
+    mob_toc_pet_hunterAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_MELEE) {Init();}
+
+    void Aggro(Unit *who)
+    {
+        boss_faction_championsAI::Aggro(who);
+    }
+
+    void UpdateAI(const uint32 diff)
+    {
+        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim()) return;
+
+        bsw->timedCast(SPELL_HPET0, diff);
+
+        boss_faction_championsAI::UpdateAI(diff);
     }
 };
 
 
 /*========================================================*/
-CreatureAI* GetAI_boss_fc_resto_druid(Creature *pCreature) {
-    return new boss_fc_resto_druidAI (pCreature);
+CreatureAI* GetAI_mob_toc_druid(Creature *pCreature)
+{
+    return new mob_toc_druidAI (pCreature);
 }
-CreatureAI* GetAI_boss_fc_resto_shammy(Creature *pCreature) {
-    return new boss_fc_resto_shammyAI (pCreature);
+CreatureAI* GetAI_mob_toc_shaman(Creature *pCreature)
+{
+    return new mob_toc_shamanAI (pCreature);
 }
-CreatureAI* GetAI_boss_fc_holy_pally(Creature *pCreature) {
-    return new boss_fc_holy_pallyAI (pCreature);
+CreatureAI* GetAI_mob_toc_paladin(Creature *pCreature)
+{
+    return new mob_toc_paladinAI (pCreature);
 }
-CreatureAI* GetAI_boss_fc_holy_priest(Creature *pCreature) {
-    return new boss_fc_holy_priestAI (pCreature);
+CreatureAI* GetAI_mob_toc_priest(Creature *pCreature)
+{
+    return new mob_toc_priestAI (pCreature);
 }
-CreatureAI* GetAI_boss_fc_shadow_priest(Creature *pCreature) {
-    return new boss_fc_shadow_priestAI (pCreature);
+CreatureAI* GetAI_mob_toc_shadow_priest(Creature *pCreature)
+{
+    return new mob_toc_shadow_priestAI (pCreature);
 }
-CreatureAI* GetAI_boss_fc_warlock(Creature *pCreature) {
-    return new boss_fc_warlockAI (pCreature);
+CreatureAI* GetAI_mob_toc_warlock(Creature *pCreature)
+{
+    return new mob_toc_warlockAI (pCreature);
 }
-CreatureAI* GetAI_boss_fc_mage(Creature *pCreature) {
-    return new boss_fc_mageAI (pCreature);
+CreatureAI* GetAI_mob_toc_mage(Creature *pCreature)
+{
+    return new mob_toc_mageAI (pCreature);
 }
-CreatureAI* GetAI_boss_fc_hunter(Creature *pCreature) {
-    return new boss_fc_hunterAI (pCreature);
+CreatureAI* GetAI_mob_toc_hunter(Creature *pCreature)
+{
+    return new mob_toc_hunterAI (pCreature);
 }
-CreatureAI* GetAI_boss_fc_boomkin(Creature *pCreature) {
-    return new boss_fc_boomkinAI (pCreature);
+CreatureAI* GetAI_mob_toc_boomkin(Creature *pCreature)
+{
+    return new mob_toc_boomkinAI (pCreature);
 }
-CreatureAI* GetAI_boss_fc_warrior(Creature *pCreature) {
-    return new boss_fc_warriorAI (pCreature);
+CreatureAI* GetAI_mob_toc_warrior(Creature *pCreature)
+{
+    return new mob_toc_warriorAI (pCreature);
 }
-CreatureAI* GetAI_boss_fc_deathknight(Creature *pCreature) {
-    return new boss_fc_deathknightAI (pCreature);
+CreatureAI* GetAI_mob_toc_dk(Creature *pCreature)
+{
+    return new mob_toc_dkAI (pCreature);
 }
-CreatureAI* GetAI_boss_fc_rogue(Creature *pCreature) {
-    return new boss_fc_rogueAI (pCreature);
+CreatureAI* GetAI_mob_toc_rogue(Creature *pCreature)
+{
+    return new mob_toc_rogueAI (pCreature);
 }
-CreatureAI* GetAI_boss_fc_enh_shammy(Creature *pCreature) {
-    return new boss_fc_enh_shammyAI (pCreature);
+CreatureAI* GetAI_mob_toc_enh_shaman(Creature *pCreature)
+{
+    return new mob_toc_enh_shamanAI (pCreature);
 }
-CreatureAI* GetAI_boss_fc_ret_pally(Creature *pCreature) {
-    return new boss_fc_ret_pallyAI (pCreature);
+CreatureAI* GetAI_mob_toc_retro_paladin(Creature *pCreature)
+{
+    return new mob_toc_retro_paladinAI (pCreature);
+}
+CreatureAI* GetAI_mob_toc_pet_warlock(Creature *pCreature)
+{
+    return new mob_toc_pet_warlockAI (pCreature);
+}
+CreatureAI* GetAI_mob_toc_pet_hunter(Creature *pCreature)
+{
+    return new mob_toc_pet_hunterAI (pCreature);
 }
 
 void AddSC_faction_champions()
 {
     Script *newscript;
-    
+
     newscript = new Script;
-    newscript->Name = "boss_fc_resto_druid";
-    newscript->GetAI = &GetAI_boss_fc_resto_druid;
+    newscript->Name = "mob_toc_druid";
+    newscript->GetAI = &GetAI_mob_toc_druid;
     newscript->RegisterSelf();
-    
+
     newscript = new Script;
-    newscript->Name = "boss_fc_resto_shammy";
-    newscript->GetAI = &GetAI_boss_fc_resto_shammy;
+    newscript->Name = "mob_toc_shaman";
+    newscript->GetAI = &GetAI_mob_toc_shaman;
     newscript->RegisterSelf();
-    
+
     newscript = new Script;
-    newscript->Name = "boss_fc_holy_pally";
-    newscript->GetAI = &GetAI_boss_fc_holy_pally;
+    newscript->Name = "mob_toc_paladin";
+    newscript->GetAI = &GetAI_mob_toc_paladin;
     newscript->RegisterSelf();
-    
+
     newscript = new Script;
-    newscript->Name = "boss_fc_holy_priest";
-    newscript->GetAI = &GetAI_boss_fc_holy_priest;
+    newscript->Name = "mob_toc_priest";
+    newscript->GetAI = &GetAI_mob_toc_priest;
     newscript->RegisterSelf();
-    
+
     newscript = new Script;
-    newscript->Name = "boss_fc_shadow_priest";
-    newscript->GetAI = &GetAI_boss_fc_shadow_priest;
+    newscript->Name = "mob_toc_shadow_priest";
+    newscript->GetAI = &GetAI_mob_toc_shadow_priest;
     newscript->RegisterSelf();
-    
+
     newscript = new Script;
-    newscript->Name = "boss_fc_mage";
-    newscript->GetAI = &GetAI_boss_fc_mage;
+    newscript->Name = "mob_toc_mage";
+    newscript->GetAI = &GetAI_mob_toc_mage;
     newscript->RegisterSelf();
-    
+
     newscript = new Script;
-    newscript->Name = "boss_fc_warlock";
-    newscript->GetAI = &GetAI_boss_fc_warlock;
+    newscript->Name = "mob_toc_warlock";
+    newscript->GetAI = &GetAI_mob_toc_warlock;
     newscript->RegisterSelf();
-    
+
     newscript = new Script;
-    newscript->Name = "boss_fc_hunter";
-    newscript->GetAI = &GetAI_boss_fc_hunter;
+    newscript->Name = "mob_toc_hunter";
+    newscript->GetAI = &GetAI_mob_toc_hunter;
     newscript->RegisterSelf();
-    
+
     newscript = new Script;
-    newscript->Name = "boss_fc_boomkin";
-    newscript->GetAI = &GetAI_boss_fc_boomkin;
+    newscript->Name = "mob_toc_boomkin";
+    newscript->GetAI = &GetAI_mob_toc_boomkin;
     newscript->RegisterSelf();
-    
+
     newscript = new Script;
-    newscript->Name = "boss_fc_warrior";
-    newscript->GetAI = &GetAI_boss_fc_warrior;
+    newscript->Name = "mob_toc_warrior";
+    newscript->GetAI = &GetAI_mob_toc_warrior;
     newscript->RegisterSelf();
-    
+
     newscript = new Script;
-    newscript->Name = "boss_fc_deathknight";
-    newscript->GetAI = &GetAI_boss_fc_deathknight;
+    newscript->Name = "mob_toc_dk";
+    newscript->GetAI = &GetAI_mob_toc_dk;
     newscript->RegisterSelf();
-    
+
     newscript = new Script;
-    newscript->Name = "boss_fc_rogue";
-    newscript->GetAI = &GetAI_boss_fc_rogue;
+    newscript->Name = "mob_toc_rogue";
+    newscript->GetAI = &GetAI_mob_toc_rogue;
     newscript->RegisterSelf();
-    
+
     newscript = new Script;
-    newscript->Name = "boss_fc_enh_shammy";
-    newscript->GetAI = &GetAI_boss_fc_enh_shammy;
+    newscript->Name = "mob_toc_enh_shaman";
+    newscript->GetAI = &GetAI_mob_toc_enh_shaman;
     newscript->RegisterSelf();
-    
+
     newscript = new Script;
-    newscript->Name = "boss_fc_ret_pally";
-    newscript->GetAI = &GetAI_boss_fc_ret_pally;
+    newscript->Name = "mob_toc_retro_paladin";
+    newscript->GetAI = &GetAI_mob_toc_retro_paladin;
+    newscript->RegisterSelf();
+
+    newscript = new Script;
+    newscript->Name = "mob_toc_pet_warlock";
+    newscript->GetAI = &GetAI_mob_toc_pet_warlock;
+    newscript->RegisterSelf();
+
+    newscript = new Script;
+    newscript->Name = "mob_toc_pet_hunter";
+    newscript->GetAI = &GetAI_mob_toc_pet_hunter;
     newscript->RegisterSelf();
 }

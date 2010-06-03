@@ -51,7 +51,7 @@ void BossSpellWorker::LoadSpellTable()
 
       sprintf(query, "SELECT entry, spellID_N10, spellID_N25, spellID_H10, spellID_H25, timerMin_N10, timerMin_N25, timerMin_H10, timerMin_H25, timerMax_N10, timerMax_N25, timerMax_H10, timerMax_H25, data1, data2, data3, data4, locData_x, locData_y, locData_z, varData, StageMask_N, StageMask_H, CastType, isVisualEffect, isBugged, textEntry FROM `boss_spell_table` WHERE entry = %u;\r\n", bossID);
 
-      QueryResult* Result = strDSPquery(query);
+      QueryResult* Result = strDS2Pquery(query);
 
     if (Result)
     {
@@ -338,6 +338,7 @@ CanCastResult BossSpellWorker::_BSWDoCast(uint8 m_uiSpellIdx, Unit* pTarget)
     if (!pTarget->isAlive()) return CAST_FAIL_OTHER;
     SpellTable* pSpell = &m_BossSpell[m_uiSpellIdx];
     debug_log("BSW: Casting bugged spell number %u type %u",pSpell->m_uiSpellEntry[currentDifficulty], pSpell->m_CastTarget);
+    pTarget->InterruptNonMeleeSpells(false);
     pTarget->CastSpell(pTarget, pSpell->m_uiSpellEntry[currentDifficulty], false);
          return CAST_OK;
 };
@@ -375,7 +376,15 @@ Unit* BossSpellWorker::_doSummon(uint8 m_uiSpellIdx, TempSummonType summontype, 
     } else return boss->SummonCreature(pSpell->m_uiSpellEntry[currentDifficulty], pSpell->LocData.x, pSpell->LocData.y, pSpell->LocData.z, 0, summontype, delay);
 };
 
-bool BossSpellWorker::_doRemove(uint8 m_uiSpellIdx, Unit* pTarget)
+Unit* BossSpellWorker::_doSummonAtPosition(uint8 m_uiSpellIdx, TempSummonType summontype, uint32 delay, float fPosX, float fPosY, float fPosZ)
+{
+    SpellTable* pSpell = &m_BossSpell[m_uiSpellIdx];
+
+    debug_log("BSW: Summoning creature number %u type %u despawn delay %u at position %f %f %f",pSpell->m_uiSpellEntry[currentDifficulty], pSpell->m_CastTarget, delay, fPosX, fPosY, fPosZ);
+    return boss->SummonCreature(pSpell->m_uiSpellEntry[currentDifficulty], fPosX, fPosY, fPosZ, 0, summontype, delay);
+};
+
+bool BossSpellWorker::_doRemove(uint8 m_uiSpellIdx, Unit* pTarget, SpellEffectIndex index)
 {
     SpellTable* pSpell = &m_BossSpell[m_uiSpellIdx];
 
@@ -396,13 +405,13 @@ bool BossSpellWorker::_doRemove(uint8 m_uiSpellIdx, Unit* pTarget)
 
                 case CAST_ON_SUMMONS:
                 case CAST_ON_VICTIM:
-                case CAST_ON_RANDOM:
                 case CAST_ON_BOTTOMAGGRO:
                 case CAST_ON_TARGET:
                 case APPLY_AURA_TARGET:
                      if (!pTarget) return false;
                      break;
 
+                case CAST_ON_RANDOM:
                 case CAST_ON_ALLPLAYERS:
                   {
                     Map::PlayerList const& pPlayers = pMap->GetPlayers();
@@ -421,8 +430,8 @@ bool BossSpellWorker::_doRemove(uint8 m_uiSpellIdx, Unit* pTarget)
           if (pTarget) {
               if (pTarget->isAlive()) {
                   if ( pTarget->HasAura(pSpell->m_uiSpellEntry[currentDifficulty]) &&
-                       pTarget->GetAura(pSpell->m_uiSpellEntry[currentDifficulty], EFFECT_INDEX_0)->GetStackAmount() > 1) {
-                           if (pTarget->GetAura(pSpell->m_uiSpellEntry[currentDifficulty], EFFECT_INDEX_0)->modStackAmount(-1)) 
+                       pTarget->GetAura(pSpell->m_uiSpellEntry[currentDifficulty], index)->GetStackAmount() > 1) {
+                           if (pTarget->GetAura(pSpell->m_uiSpellEntry[currentDifficulty], index)->modStackAmount(-1)) 
                                          return true;
                                else return false;
                                }
@@ -570,7 +579,7 @@ Unit* BossSpellWorker::SelectLowHPFriendly(float fRange, uint32 uiMinHPDiff)
     Diamond::MostHPMissingInRange u_check(boss, fRange, uiMinHPDiff);
     Diamond::UnitLastSearcher<Diamond::MostHPMissingInRange> searcher(boss, pUnit, u_check);
 
-    TypeContainerVisitor<Diamond::UnitLastSearcher<Diamond::MostHPMissingInRange>, GridTypeMapContainer> grid_unit_searcher(searcher);
+    TypeContainerVisitor<Diamond::UnitLastSearcher<Diamond::MostHPMissingInRange>, GridTypeMapContainer >  grid_unit_searcher(searcher);
 
     cell.Visit(p, grid_unit_searcher, *(pMap), *boss, fRange);
 

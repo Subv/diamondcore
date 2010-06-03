@@ -7,6 +7,8 @@
 //battlegrounds
 extern void AddSC_battleground();
 
+//custom
+
 //world
 extern void AddSC_areatrigger_scripts();
 extern void AddSC_boss_emeriss();
@@ -254,10 +256,12 @@ extern void AddSC_boss_anubarak();                          //azjol-nerub
 extern void AddSC_boss_hadronox();
 extern void AddSC_boss_krikthir();
 extern void AddSC_instance_azjol_nerub();
-extern void AddSC_northrend_beasts();                       //Crusaders' Coliseum, trial_of_the_crusader
+extern void AddSC_boss_anubarak_trial();                    //Crusaders' Coliseum, trial_of_the_crusader
 extern void AddSC_boss_jaraxxus();
-extern void AddSC_boss_anubarak_trial();
+extern void AddSC_faction_champions();
+extern void AddSC_northrend_beasts();
 extern void AddSC_twin_valkyr();
+extern void AddSC_trial_of_the_crusader();
 extern void AddSC_instance_trial_of_the_crusader();
 extern void AddSC_boss_novos();                             //draktharon_keep
 extern void AddSC_boss_tharonja();
@@ -288,13 +292,6 @@ extern void AddSC_boss_telestra();
 extern void AddSC_instance_nexus();
 extern void AddSC_boss_sartharion();                        //obsidian_sanctum
 extern void AddSC_instance_obsidian_sanctum();
-extern void AddSC_instance_trial_of_the_crusader();         //trial of the crusader
-extern void AddSC_npc_crusader_announcer();
-extern void AddSC_boss_jaraxxus();
-extern void AddSC_northrend_beasts();
-extern void AddSC_faction_champions();
-extern void AddSC_twin_valkyr();
-extern void AddSC_boss_anubarak_trial();
 extern void AddSC_instance_vault_of_archavon();             //vault_of_archavon
 extern void AddSC_boss_koralon();
 extern void AddSC_boss_emalon();
@@ -414,6 +411,8 @@ void AddScripts()
 {
     //battlegrounds
     AddSC_battleground();
+
+    //custom
 
     //world
     AddSC_areatrigger_scripts();
@@ -662,10 +661,12 @@ void AddScripts()
     AddSC_boss_hadronox();
     AddSC_boss_krikthir();
     AddSC_instance_azjol_nerub();
-    AddSC_northrend_beasts();                               //Crusaders' Coliseum, trial_of_the_crusader
+    AddSC_boss_anubarak_trial();                    //Crusaders' Coliseum, trial_of_the_crusader
     AddSC_boss_jaraxxus();
-    AddSC_boss_anubarak_trial();
+    AddSC_faction_champions();
+    AddSC_northrend_beasts();
     AddSC_twin_valkyr();
+    AddSC_trial_of_the_crusader();
     AddSC_instance_trial_of_the_crusader();
     AddSC_boss_novos();                                     //draktharon_keep
     AddSC_boss_tharonja();
@@ -696,13 +697,6 @@ void AddScripts()
     AddSC_instance_nexus();
     AddSC_boss_sartharion();                                //obsidian_sanctum
     AddSC_instance_obsidian_sanctum();
-    AddSC_instance_trial_of_the_crusader();         //trial of the crusader
-    AddSC_npc_crusader_announcer();
-    AddSC_boss_jaraxxus();
-    AddSC_northrend_beasts();
-    AddSC_faction_champions();
-    AddSC_twin_valkyr();
-    AddSC_boss_anubarak_trial();
     AddSC_instance_vault_of_archavon();                     //vault_of_archavon
     AddSC_boss_koralon();
     AddSC_boss_emalon();
