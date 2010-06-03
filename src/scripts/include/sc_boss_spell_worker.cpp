@@ -51,7 +51,7 @@ void BossSpellWorker::LoadSpellTable()
 
       sprintf(query, "SELECT entry, spellID_N10, spellID_N25, spellID_H10, spellID_H25, timerMin_N10, timerMin_N25, timerMin_H10, timerMin_H25, timerMax_N10, timerMax_N25, timerMax_H10, timerMax_H25, data1, data2, data3, data4, locData_x, locData_y, locData_z, varData, StageMask_N, StageMask_H, CastType, isVisualEffect, isBugged, textEntry FROM `boss_spell_table` WHERE entry = %u;\r\n", bossID);
 
-      QueryResult* Result = strDS2Pquery(query);
+      QueryResult* Result = strDSPquery(query);
 
     if (Result)
     {
