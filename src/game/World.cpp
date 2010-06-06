@@ -861,6 +861,43 @@ void World::LoadConfigSettings(bool reload)
     sLog.outString( "WORLD: VMap support included. LineOfSight:%i, getHeight:%i",enableLOS, enableHeight);
     sLog.outString( "WORLD: VMap data directory is: %svmaps",m_dataPath.c_str());
     sLog.outString( "WORLD: VMap config keys are: vmap.enableLOS, vmap.enableHeight, vmap.ignoreMapIds, vmap.ignoreSpellIds");
+
+	/* AHBot Configuration Settings */
+    setConfig(CONFIG_BOOL_AHBOT_SELLER_ENABLED  , "AuctionHouseBot.Seller.Enabled"  , false);
+    setConfig(CONFIG_BOOL_AHBOT_BUYER_ENABLED   , "AuctionHouseBot.Buyer.Enabled"   , false);
+
+    setConfig(CONFIG_UINT32_AHBOT_ACCOUNT_ID    , "AuctionHouseBot.Account"         , 0);
+    setConfig(CONFIG_UINT32_AHBOT_CHARACTER_ID  , "AuctionHouseBot.Character"       , 0);
+
+    setConfig(CONFIG_BOOL_AHBOT_ITEMS_VENDOR    , "AuctionHouseBot.Items.Vendor"    , false);
+    setConfig(CONFIG_BOOL_AHBOT_ITEMS_LOOT      , "AuctionHouseBot.Items.Loot"      , true);
+    setConfig(CONFIG_BOOL_AHBOT_ITEMS_MISC      , "AuctionHouseBot.Items.Misc"      , false);
+
+    setConfig(CONFIG_BOOL_AHBOT_BIND_NO         , "AuctionHouseBot.Bind.No"         , true);
+    setConfig(CONFIG_BOOL_AHBOT_BIND_PICKUP     , "AuctionHouseBot.Bind.Pickup"     , false);
+    setConfig(CONFIG_BOOL_AHBOT_BIND_EQUIP      , "AuctionHouseBot.Bind.Equip"      , true);
+    setConfig(CONFIG_BOOL_AHBOT_BIND_USE        , "AuctionHouseBot.Bind.Use"        , true);
+    setConfig(CONFIG_BOOL_AHBOT_BIND_QUEST      , "AuctionHouseBot.Bind.Quest"      , false);
+
+    setConfig(CONFIG_BOOL_AHBOT_BUYPRICE_SELLER , "AuctionHouseBot.BuyPrice.Seller" , false);
+    setConfig(CONFIG_BOOL_AHBOT_BUYPRICE_BUYER  , "AuctionHouseBot.BuyPrice.Buyer"  , false);
+
+    setConfig(CONFIG_UINT32_AHBOT_ITEMS_CYCLE   , "AuctionHouseBot.ItemsPerCycle"   , 200);
+
+    setConfig(CONFIG_UINT32_AHBOT_ITEM_MIN_ITEM_LEVEL    , "AuctionHouseBot.Items.ItemLevel.Min"         , 0);
+    setConfig(CONFIG_UINT32_AHBOT_ITEM_MAX_ITEM_LEVEL    , "AuctionHouseBot.Items.ItemLevel.Max"         , 0);
+    setConfig(CONFIG_UINT32_AHBOT_ITEM_MIN_REQ_LEVEL     , "AuctionHouseBot.Items.ReqLevel.Min"          , 0);
+    setConfig(CONFIG_UINT32_AHBOT_ITEM_MAX_REQ_LEVEL     , "AuctionHouseBot.Items.ReqLevel.Max"          , 0);
+    setConfig(CONFIG_UINT32_AHBOT_ITEM_MIN_SKILL_RANK    , "AuctionHouseBot.Items.ReqSkill.Min"          , 0);
+    setConfig(CONFIG_UINT32_AHBOT_ITEM_MAX_SKILL_RANK    , "AuctionHouseBot.Items.ReqSkill.Max"          , 0);
+
+    setConfig(CONFIG_UINT32_AHBOT_TG_MIN_ITEM_LEVEL      , "AuctionHouseBot.Tradegoods.ItemLevel.Min"    , 0);
+    setConfig(CONFIG_UINT32_AHBOT_TG_MAX_ITEM_LEVEL      , "AuctionHouseBot.Tradegoods.ItemLevel.Max"    , 0);
+    setConfig(CONFIG_UINT32_AHBOT_TG_MIN_REQ_LEVEL       , "AuctionHouseBot.Tradegoods.ReqLevel.Min"     , 0);
+    setConfig(CONFIG_UINT32_AHBOT_TG_MAX_REQ_LEVEL       , "AuctionHouseBot.Tradegoods.ReqLevel.Max"     , 0);
+    setConfig(CONFIG_UINT32_AHBOT_TG_MIN_SKILL_RANK      , "AuctionHouseBot.Tradegoods.ReqSkill.Min"     , 0);
+    setConfig(CONFIG_UINT32_AHBOT_TG_MAX_SKILL_RANK      , "AuctionHouseBot.Tradegoods.ReqSkill.Max"     , 0);
+
 }
 
 /// Initialize the World

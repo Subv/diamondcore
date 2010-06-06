@@ -3796,7 +3796,14 @@ void Aura::HandleModPossess(bool apply, bool Real)
     {
         m_target->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PLAYER_CONTROLLED);
 
+        m_target->SetCharmerGUID(p_caster->GetGUID());
         m_target->setFaction(p_caster->getFaction());
+
+        p_caster->SetCharm(m_target);
+
+        camera.SetView(m_target);
+        p_caster->SetClientControl(m_target, 1);
+        p_caster->SetMover(m_target);
 
         m_target->CombatStop();
         m_target->DeleteThreatList();
@@ -3819,12 +3826,12 @@ void Aura::HandleModPossess(bool apply, bool Real)
     }
     else
     {
-        p_caster->SetCharm(m_target);
+        p_caster->InterruptSpell(CURRENT_CHANNELED_SPELL);  // the spell is not automatically canceled when interrupted, do it now
+        p_caster->SetCharm(NULL);
 
-        //m_target->SetCharmerGUID(p_caster->GetGUID());
-		camera.SetView(m_target);
-        p_caster->SetClientControl(m_target, 1);
-        p_caster->SetMover(m_target);
+        camera.ResetView();
+        p_caster->SetClientControl(m_target, 0);
+        p_caster->SetMover(NULL);
 
         p_caster->RemovePetActionBar();
 
@@ -3846,14 +3853,6 @@ void Aura::HandleModPossess(bool apply, bool Real)
             CreatureInfo const *cinfo = ((Creature*)m_target)->GetCreatureInfo();
             m_target->setFaction(cinfo->faction_A);
         }
-        p_caster->InterruptSpell(CURRENT_CHANNELED_SPELL);  // the spell is not automatically canceled when interrupted, do it now
-		p_caster->SetCharm(NULL);
-
-        camera.ResetView();
-        p_caster->SetClientControl(m_target, 0);
-        p_caster->SetMover(NULL);
-
-        p_caster->RemovePetActionBar();
 
         if(m_target->GetTypeId() == TYPEID_UNIT)
         {
@@ -3879,16 +3878,16 @@ void Aura::HandleModPossessPet(bool apply, bool Real)
         return;
 
     Player* p_caster = (Player*)caster;
-	Camera& camera = p_caster->GetCamera();
+    Camera& camera = p_caster->GetCamera();
 
     if(apply)
-	{
-		pet->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PLAYER_CONTROLLED);
+    {
+        pet->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PLAYER_CONTROLLED);
         camera.SetView(pet);
     }
     else
-	{
-		pet->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PLAYER_CONTROLLED);
+    {
+        pet->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PLAYER_CONTROLLED);
         camera.ResetView();
     }
 
