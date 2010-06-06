@@ -35,7 +35,7 @@
 #endif
 
 #ifndef _WORLDCONFVERSION
-# define _WORLDCONFVERSION 2
+# define _WORLDCONFVERSION 3
 #endif
 #ifndef _LOGONCONFVERSION
 # define _LOGONCONFVERSION 1

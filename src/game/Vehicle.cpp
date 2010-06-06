@@ -53,6 +53,12 @@ void Vehicle::RemoveFromWorld()
     Unit::RemoveFromWorld();
 }
 
+void Vehicle::Respawn()
+{
+    Creature::Respawn();
+    InstallAllAccessories();
+}
+
 void Vehicle::setDeathState(DeathState s)                       // overwrite virtual Creature::setDeathState and Unit::setDeathState
 {
     Creature::setDeathState(s);
@@ -68,7 +74,6 @@ void Vehicle::setDeathState(DeathState s)                       // overwrite vir
 void Vehicle::Update(uint32 diff)
 {
     Creature::Update(diff);
-    InstallAllAccessories();
 
     if(despawn)
     {
@@ -381,9 +386,9 @@ void Vehicle::EmptySeatsCountChanged()
         if(Vehicle *vehicle = ObjectAccessor::GetVehicle(vehicleGUID))
         {
             if(u_count > 0)
-                vehicle->ChangeSeatFlag(m_SeatData.seat, SEAT_VEHICLE_FREE);
+                vehicle->ChangeSeatFlag(m_movementInfo.GetTransportSeat(), SEAT_VEHICLE_FREE);
             else
-                vehicle->ChangeSeatFlag(m_SeatData.seat, SEAT_VEHICLE_FULL);
+                vehicle->ChangeSeatFlag(m_movementInfo.GetTransportSeat(), SEAT_VEHICLE_FULL);
         }
     }
 }
@@ -408,9 +413,9 @@ void Vehicle::RellocatePassengers(Map *map)
             Unit *passengers = itr->second.passenger;
             assert(passengers);
 
-            float xx = GetPositionX() + passengers->m_SeatData.OffsetX;
-            float yy = GetPositionY() + passengers->m_SeatData.OffsetY;
-            float zz = GetPositionZ() + passengers->m_SeatData.OffsetZ;
+            float xx = GetPositionX() + passengers->m_movementInfo.GetTransportPos()->x;
+            float yy = GetPositionY() + passengers->m_movementInfo.GetTransportPos()->y;
+            float zz = GetPositionZ() + passengers->m_movementInfo.GetTransportPos()->z;
             //float oo = passengers->m_SeatData.Orientation;
             // this is not correct, we should recalculate
             // actual rotation depending on vehicle
@@ -427,9 +432,9 @@ void Vehicle::RellocatePassengers(Map *map)
             Unit *passengers = itr->second.passenger;
             assert(passengers);
 
-            float xx = GetPositionX() + passengers->m_SeatData.OffsetX;
-            float yy = GetPositionY() + passengers->m_SeatData.OffsetY;
-            float zz = GetPositionZ() + passengers->m_SeatData.OffsetZ;
+            float xx = GetPositionX() + passengers->m_movementInfo.GetTransportPos()->x;
+            float yy = GetPositionY() + passengers->m_movementInfo.GetTransportPos()->y;
+            float zz = GetPositionZ() + passengers->m_movementInfo.GetTransportPos()->z;
             //float oo = passengers->m_SeatData.Orientation;
             // this is not correct, we should recalculate
             // actual rotation depending on vehicle
@@ -588,16 +593,6 @@ void Vehicle::RemovePassenger(Unit *unit)
                     unit->SendMessageToSet(&data1,true);
                 }
             }
-            unit->m_SeatData.OffsetX = 0.0f;
-            unit->m_SeatData.OffsetY = 0.0f;
-            unit->m_SeatData.OffsetZ = 0.0f;
-            unit->m_SeatData.Orientation = 0.0f;
-            unit->m_SeatData.c_time = 0;
-            unit->m_SeatData.dbc_seat = 0;
-            unit->m_SeatData.seat = 0;
-            unit->m_SeatData.s_flags = 0;
-            unit->m_SeatData.v_flags = 0;
-
             seat->second.passenger = NULL;
             seat->second.flags = SEAT_FREE;
             EmptySeatsCountChanged();
@@ -690,67 +685,63 @@ void Vehicle::BuildVehicleActionBar(Player *plr) const
 }
 void Vehicle::InstallAllAccessories()
 {
-    //TODO: Move this into DB!!!
-    switch(GetEntry())
+    if(!GetMap())
+       return;
+
+    CreatureDataAddon const *cainfo = GetCreatureAddon();
+    if(!cainfo || !cainfo->passengers)
+        return;
+    for (CreatureDataAddonPassengers const* cPassanger = cainfo->passengers; cPassanger->seat_idx != -1; ++cPassanger)
     {
-        //case 27850:InstallAccessory(27905,1);break;
-        case 28782:InstallAccessory(28768,1,true);break; // Acherus Deathcharger
-        case 28312:InstallAccessory(28319,7,true);break;
-        case 32627:InstallAccessory(32629,7,true);break;
-        case 32930:
-            InstallAccessory(32933,0);
-            InstallAccessory(32934,1);
-            break;
-        case 33109:InstallAccessory(33167,1, true);break;
-        case 33060:InstallAccessory(33067,7, true);break;
-        case 33113:
-            InstallAccessory(33114,0, true);
-            InstallAccessory(33114,1, true);
-            InstallAccessory(33114,2, true);
-            InstallAccessory(33114,3, true);
-            InstallAccessory(33139,7);
-            break;
-        case 33114:
-            InstallAccessory(33143,2); // Overload Control Device
-            InstallAccessory(33142,1); // Leviathan Defense Turret
-            break;
-        case 33214:InstallAccessory(33218,1,false,false);break; // Mechanolift 304-A
+        // Continue if seat already taken
+        if(GetPassenger(cPassanger->seat_idx))
+            continue;
+
+        uint32 guid = 0;
+        bool isVehicle = false;
+        // Set guid and check whatever it is
+        if(cPassanger->guid != 0)
+            guid = cPassanger->guid;
+        else
+        {
+            CreatureDataAddon const* passAddon;
+            passAddon = ObjectMgr::GetCreatureTemplateAddon(cPassanger->entry);
+            if(passAddon && passAddon->vehicle_id != 0)
+                isVehicle = true;
+            else
+                guid = sObjectMgr.GenerateLowGuid(HIGHGUID_UNIT);
+        }
+        // Create it
+        Creature *pPassenger = new Creature;
+        if(!isVehicle)
+        {
+            uint32 entry = cPassanger->entry;
+            if(entry == 0)
+            {
+                CreatureData const* data = sObjectMgr.GetCreatureData(guid);
+                if(!data)
+                    continue;
+                entry = data->id;
+            }     
+            
+            if(!pPassenger->Create(guid, GetMap(), GetPhaseMask(), entry, 0))
+                continue;
+            pPassenger->LoadFromDB(guid, GetMap());
+            pPassenger->Relocate(GetPositionX(), GetPositionY(), GetPositionZ());
+            GetMap()->Add(pPassenger);
+            pPassenger->AIM_Initialize();
+        }
+        else
+            pPassenger = (Creature*)SummonVehicle(cPassanger->entry, GetPositionX(), GetPositionY(), GetPositionZ(), 0);
+        // Enter vehicle...
+        pPassenger->EnterVehicle(this, cPassanger->seat_idx, true);
+        // ...and send update. Without this, client wont show this new creature/vehicle...
+        WorldPacket data;
+        pPassenger->BuildHeartBeatMsg(&data);
+        pPassenger->SendMessageToSet(&data, false);
     }
 }
 
-void Vehicle::InstallAccessory(uint32 entry, int8 seatId, bool isVehicle, bool minion)
-{
-    if(Unit *passenger = GetPassenger(seatId))
-    {
-        // already installed
-        if(passenger->GetEntry() == entry)
-        {
-            assert(passenger->GetTypeId() == TYPEID_UNIT);
-            return;
-        }
-        passenger->ExitVehicle(); // this should not happen
-    }
-
-    //TODO: accessory should be minion
-    if(isVehicle)
-    {
-        if(Vehicle *accessory = SummonVehicle(entry, 0, 0, 0, 0))
-        {
-            accessory->EnterVehicle(this, seatId, true);
-            // This is not good, we have to send update twice
-            accessory->BuildVehicleInfo(accessory);
-        }
-    }else{
-        if(Creature *accessory = SummonCreature(entry, 0, 0, 0, 0, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 30000))
-        {
-            accessory->EnterVehicle(this, seatId);
-            // This is not good, we have to send update twice
-            WorldPacket data;
-            accessory->BuildHeartBeatMsg(&data);
-            accessory->SendMessageToSet(&data, false);
-        }
-    }
-}
 Unit *Vehicle::GetPassenger(int8 seatId) const
 {
     SeatMap::const_iterator seat = m_Seats.find(seatId);

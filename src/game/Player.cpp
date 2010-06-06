@@ -18182,7 +18182,9 @@ void Player::HandleStealthedUnitsDetection()
                 if((*i)!=this && (*i)->isType(TYPEMASK_UNIT))
                 {
                     SendAurasForTarget(*i);
-                    BuildVehicleInfo(*i);
+                    WorldPacket data;
+                    (*i)->BuildHeartBeatMsg(&data);
+                    GetSession()->SendPacket(&data);
                 }
             }
         }
@@ -19372,7 +19374,9 @@ void Player::UpdateVisibilityOf(WorldObject const* viewPoint, WorldObject* targe
             if(target!=this && target->isType(TYPEMASK_UNIT))
             {
                 SendAurasForTarget((Unit*)target);
-                BuildVehicleInfo((Unit*)target);
+                WorldPacket data;
+                ((Unit*)target)->BuildHeartBeatMsg(&data);
+                GetSession()->SendPacket(&data);
             }
 
             if(target->GetTypeId()==TYPEID_UNIT && ((Creature*)target)->isAlive())
@@ -19630,7 +19634,7 @@ void Player::SendInitialPacketsAfterAddToMap()
     {
         WorldPacket data3(SMSG_FORCE_MOVE_ROOT, 10);
         data3 << GetPackGUID();
-        data3 << (uint32)((m_SeatData.s_flags & SF_CAN_CAST) ? 2 : 0);
+        data3 << (uint32)((m_movementInfo.GetVehicleSeatFlags() & SF_CAN_CAST) ? 2 : 0);
         SendMessageToSet(&data3,true);
     }*/
 
@@ -20394,8 +20398,8 @@ bool Player::RewardSinglePlayerAtKill(Unit* pVictim)
     // honor can be in PvP and !PvP (racial leader) cases
     bool honored_kill = RewardHonor(pVictim,1);
 
-    // xp and reputation only in !PvP case
-    if(!PvP)
+    // xp and reputation only in !PvP case and not in vehicle
+    if(!PvP && !(GetVehicleGUID() && (m_movementInfo.GetVehicleFlags() & VF_GIVE_EXP)))
     {
         RewardReputation(pVictim,1);
         GiveXP(xp, pVictim);
