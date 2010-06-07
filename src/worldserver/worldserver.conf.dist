@@ -47,8 +47,8 @@ ConfVersion = 3
 ###################################################################################################################
 
 RealmID = 1
-DataDir = "Logs"
-LogsDir = "Data"
+DataDir = "Data"
+LogsDir = "Logs"
 LoginDatabaseInfo     = "127.0.0.1;3306;root;diamondcore;logon"
 WorldDatabaseInfo     = "127.0.0.1;3306;root;diamondcore;world"
 CharacterDatabaseInfo = "127.0.0.1;3306;root;diamondcore;characters"
