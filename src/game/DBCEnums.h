@@ -1,5 +1,5 @@
 /*
-* Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+* Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
 *
 * This program is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@
 
 // Server side limitation. Base at used code requirements.
 // also see MAX_LEVEL and GT_MAX_LEVEL define
-#define STRONG_MAX_LEVEL 255
+#define STRONG_MAX_LEVEL 100
 
 enum BattleGroundBracketId                                  // bracketId for level ranges
 {

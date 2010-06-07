@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -384,7 +384,7 @@ void WorldSession::HandleLootRoll( WorldPacket &recv_data )
     recv_data >> itemSlot;
     recv_data >> rollType;
 
-    //sLog.outDebug("WORLD RECIEVE CMSG_LOOT_ROLL, From:%u, Numberofplayers:%u, rollType:%u", (uint32)Guid, NumberOfPlayers, rollType);
+    //DEBUG_LOG("WORLD RECIEVE CMSG_LOOT_ROLL, From:%u, Numberofplayers:%u, rollType:%u", (uint32)Guid, NumberOfPlayers, rollType);
 
     Group* group = GetPlayer()->GetGroup();
     if (!group)
@@ -416,7 +416,7 @@ void WorldSession::HandleMinimapPingOpcode(WorldPacket& recv_data)
     if(!GetPlayer()->GetGroup())
         return;
 
-    //sLog.outDebug("Received opcode MSG_MINIMAP_PING X: %f, Y: %f", x, y);
+    //DEBUG_LOG("Received opcode MSG_MINIMAP_PING X: %f, Y: %f", x, y);
 
     /** error handling **/
     /********************/
@@ -443,7 +443,7 @@ void WorldSession::HandleRandomRollOpcode(WorldPacket& recv_data)
     // everything is fine, do it
     roll = urand(minimum, maximum);
 
-    //sLog.outDebug("ROLL: MIN: %u, MAX: %u, ROLL: %u", minimum, maximum, roll);
+    //DEBUG_LOG("ROLL: MIN: %u, MAX: %u, ROLL: %u", minimum, maximum, roll);
 
     WorldPacket data(MSG_RANDOM_ROLL, 4+4+4+8);
     data << uint32(minimum);
@@ -562,7 +562,7 @@ void WorldSession::HandlePartyAssignmentOpcode( WorldPacket & recv_data )
     recv_data >> role >> apply;                             // role 0 = Main Tank, 1 = Main Assistant
     recv_data >> guid;
 
-    sLog.outDebug("MSG_PARTY_ASSIGNMENT");
+    DEBUG_LOG("MSG_PARTY_ASSIGNMENT");
 
     Group *group = GetPlayer()->GetGroup();
     if(!group)
@@ -805,7 +805,7 @@ void WorldSession::BuildPartyMemberStatsChangedPacket(Player *player, WorldPacke
 /*this procedure handles clients CMSG_REQUEST_PARTY_MEMBER_STATS request*/
 void WorldSession::HandleRequestPartyMemberStatsOpcode( WorldPacket &recv_data )
 {
-    sLog.outDebug("WORLD: Received CMSG_REQUEST_PARTY_MEMBER_STATS");
+    DEBUG_LOG("WORLD: Received CMSG_REQUEST_PARTY_MEMBER_STATS");
     uint64 Guid;
     recv_data >> Guid;
 
@@ -882,8 +882,7 @@ void WorldSession::HandleRequestPartyMemberStatsOpcode( WorldPacket &recv_data )
                 data << uint8(1);
             }
         }
-
-        data.put<uint64>(petMaskPos,petauramask);           // GROUP_UPDATE_FLAG_PET_AURAS
+        data.put<uint64>(petMaskPos, petauramask);          // GROUP_UPDATE_FLAG_PET_AURAS
         data << (uint32) player->m_movementInfo.GetTransportDBCSeat();
     }
     else
@@ -903,7 +902,7 @@ void WorldSession::HandleRequestRaidInfoOpcode( WorldPacket & /*recv_data*/ )
 
 void WorldSession::HandleOptOutOfLootOpcode( WorldPacket & recv_data )
 {
-    sLog.outDebug("WORLD: Received CMSG_OPT_OUT_OF_LOOT");
+    DEBUG_LOG("WORLD: Received CMSG_OPT_OUT_OF_LOOT");
 
     uint32 unkn;
     recv_data >> unkn;

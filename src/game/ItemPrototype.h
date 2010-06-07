@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -586,7 +586,7 @@ struct ItemPrototype
     _Socket Socket[MAX_ITEM_PROTO_SOCKETS];
     uint32 socketBonus;                                     // id from SpellItemEnchantment.dbc
     uint32 GemProperties;                                   // id from GemProperties.dbc
-    uint32 RequiredDisenchantSkill;
+    int32 RequiredDisenchantSkill;
     float  ArmorDamageModifier;
     uint32 Duration;                                        // negative = realtime, positive = ingame time
     uint32 ItemLimitCategory;                               // id from ItemLimitCategory.dbc

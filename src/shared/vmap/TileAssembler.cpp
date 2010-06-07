@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -80,8 +80,6 @@ namespace VMAP
         for (MapData::iterator map_iter = mapData.begin(); map_iter != mapData.end() && success; ++map_iter)
         {
             // build global map tree
-            printf("Building map %u\n", map_iter->first);
-
             std::vector<ModelSpawn*> mapSpawns;
             UniqueEntryMap::iterator entry;
             for (entry = map_iter->second->UniqueEntries.begin(); entry != map_iter->second->UniqueEntries.end(); ++entry)
@@ -109,8 +107,8 @@ namespace VMAP
             std::map<uint32, uint32> modelNodeIdx;
             for (uint32 i=0; i<mapSpawns.size(); ++i)
                 modelNodeIdx.insert(pair<uint32, uint32>(mapSpawns[i]->ID, i));
-            if(!modelNodeIdx.empty())
-                /*printf("min GUID: %u, max GUID: %u\n", modelNodeIdx.begin()->first, modelNodeIdx.rbegin()->first)*/;
+            if (!modelNodeIdx.empty())
+                printf("min GUID: %u, max GUID: %u\n", modelNodeIdx.begin()->first, modelNodeIdx.rbegin()->first);
 
             // write map tree file
             std::stringstream mapfilename;
@@ -124,8 +122,7 @@ namespace VMAP
             }
 
             //general info
-			if (success && fwrite(VMAP_MAGIC, 1, 8, mapfile) != 8) success = false;
-            printf("writing vmtree\n");
+            if (success && fwrite(VMAP_MAGIC, 1, 8, mapfile) != 8) success = false;
             uint32 globalTileID = StaticMapTree::packTileID(65, 65);
             pair<TileMap::iterator, TileMap::iterator> globalRange = map_iter->second->TileEntries.equal_range(globalTileID);
             char isTiled = globalRange.first == globalRange.second; // only maps without terrain (tiles) have global WMO
@@ -146,15 +143,14 @@ namespace VMAP
             // <====
 
             // write map tile files, similar to ADT files, only with extra BSP tree node info
-			TileMap &tileEntries = map_iter->second->TileEntries;
-            printf("writing vmtiles\n");
+            TileMap &tileEntries = map_iter->second->TileEntries;
             TileMap::iterator tile;
             for (tile = tileEntries.begin(); tile != tileEntries.end(); ++tile)
             {
                 const ModelSpawn &spawn = map_iter->second->UniqueEntries[tile->second];
-                if(spawn.flags & MOD_WORLDSPAWN) // WDT spawn, saved as tile 65/65 currently...
+                if (spawn.flags & MOD_WORLDSPAWN) // WDT spawn, saved as tile 65/65 currently...
                     continue;
-				uint32 nSpawns = tileEntries.count(tile->first);
+                uint32 nSpawns = tileEntries.count(tile->first);
                 std::stringstream tilefilename;
                 tilefilename.fill('0');
                 tilefilename << iDestDir << "/" << std::setw(3) << map_iter->first << "_";
@@ -162,8 +158,7 @@ namespace VMAP
                 StaticMapTree::unpackTileID(tile->first, x, y);
                 tilefilename << std::setw(2) << x << "_" << std::setw(2) << y << ".vmtile";
                 FILE *tilefile = fopen(tilefilename.str().c_str(), "wb");
-
-				// write number of tile spawns
+                // write number of tile spawns
                 if (success && fwrite(&nSpawns, sizeof(uint32), 1, tilefile) != 1) success = false;
                 // write tile spawns
                 for (uint32 s=0; s<nSpawns; ++s)
@@ -176,7 +171,6 @@ namespace VMAP
                     std::map<uint32, uint32>::iterator nIdx = modelNodeIdx.find(spawn2.ID);
                     if (success && fwrite(&nIdx->second, sizeof(uint32), 1, tilefile) != 1) success = false;
                 }
-
                 fclose(tilefile);
             }
             // break; //test, extract only first map; TODO: remvoe this line

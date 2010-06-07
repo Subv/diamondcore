@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -104,12 +104,10 @@ void LoadSkillExtraItemTable()
 
         delete result;
 
-        sLog.outString();
         sLog.outString( ">> Loaded %u spell specialization definitions", count );
     }
     else
     {
-        sLog.outString();
         sLog.outString( ">> Loaded 0 spell specialization definitions. DB table `skill_extra_item_template` is empty." );
     }
 }

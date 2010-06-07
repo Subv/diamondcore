@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,6 +62,7 @@ AccountOpResult AccountMgr::DeleteAccount(uint32 accid)
         return AOR_NAME_NOT_EXIST;                          // account doesn't exist
     delete result;
 
+    // existed characters list
     result = CharacterDatabase.PQuery("SELECT guid FROM characters WHERE account='%d'",accid);
     if (result)
     {
@@ -182,6 +183,21 @@ bool AccountMgr::GetName(uint32 acc_id, std::string &name)
     return false;
 }
 
+uint32 AccountMgr::GetCharactersCount(uint32 acc_id)
+{
+    // check character count
+    QueryResult *result = CharacterDatabase.PQuery("SELECT COUNT(guid) FROM characters WHERE account = '%d'", acc_id);
+    if (result)
+    {
+        Field *fields=result->Fetch();
+        uint32 charcount = fields[0].GetUInt32();
+        delete result;
+        return charcount;
+    }
+    else
+        return 0;
+}
+
 bool AccountMgr::CheckPassword(uint32 accid, std::string passwd)
 {
     std::string username;
@@ -227,4 +243,3 @@ std::string AccountMgr::CalculateShaPassHash(std::string& name, std::string& pas
 
     return encoded;
 }
-

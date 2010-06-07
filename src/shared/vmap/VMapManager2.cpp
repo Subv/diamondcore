@@ -56,8 +56,7 @@ namespace VMAP
     Vector3 VMapManager2::convertPositionToInternalRep(float x, float y, float z) const
     {
         Vector3 pos;
-
-		const float mid = 0.5 * 64.0 * 533.33333333f;
+        const float mid = 0.5 * 64.0 * 533.33333333;
         pos.x = mid - x;
         pos.y = mid - y;
         pos.z = z;
@@ -69,14 +68,13 @@ namespace VMAP
 
     Vector3 VMapManager2::convertPositionToRep(float x, float y, float z) const
     {
-       Vector3 pos;
+        Vector3 pos;
+        const float mid = 0.5 * 64.0 * 533.33333333;
+        pos.x = mid - x;
+        pos.y = mid - y;
+        pos.z = z;
 
-	   const float mid = 0.5 * 64.0 * 533.33333333f;
-	   pos.x = mid - x;
-	   pos.y = mid - y;
-	   pos.z = z;
-
-	   return pos;
+        return pos;
     }
     //=========================================================
 
@@ -98,20 +96,23 @@ namespace VMAP
 
     void VMapManager2::preventMapsFromBeingUsed(const char* pMapIdString)
     {
-        if(pMapIdString != NULL)
+        iIgnoreMapIds.clear();
+        if (pMapIdString != NULL)
         {
             std::string map_str;
             std::stringstream map_ss;
             map_ss.str(std::string(pMapIdString));
-            while(std::getline(map_ss, map_str, ','))
+            while (std::getline(map_ss, map_str, ','))
             {
                 std::stringstream ss2(map_str);
                 int map_num = -1;
                 ss2 >> map_num;
-                if(map_num >= 0)
+                if (map_num >= 0)
                 {
                     std::cout << "ingoring Map " << map_num << " for VMaps\n";
                     iIgnoreMapIds[map_num] = true;
+                    // unload map in case it is loaded
+                    unloadMap(map_num);
                 }
             }
         }
@@ -122,17 +123,12 @@ namespace VMAP
     int VMapManager2::loadMap(const char* pBasePath, unsigned int pMapId, int x, int y)
     {
         int result = VMAP_LOAD_RESULT_IGNORED;
-        if(isMapLoadingEnabled() && !iIgnoreMapIds.count(pMapId))
+        if (isMapLoadingEnabled() && !iIgnoreMapIds.count(pMapId))
         {
-            bool loaded = _loadMap(pMapId, pBasePath, x, y);
-            if(!loaded)
-            {
+            if (_loadMap(pMapId, pBasePath, x, y))
                 result = VMAP_LOAD_RESULT_OK;
-            }
             else
-            {
                 result = VMAP_LOAD_RESULT_ERROR;
-            }
         }
         return result;
     }
@@ -147,11 +143,11 @@ namespace VMAP
         {
             std::string mapFileName = getMapFileName(pMapId);
             StaticMapTree *newTree = new StaticMapTree(pMapId, basePath);
-            if(!newTree->init(mapFileName, this))
+            if (!newTree->InitMap(mapFileName, this))
                 return false;
             instanceTree = iInstanceMapTrees.insert(InstanceTreeMap::value_type(pMapId, newTree)).first;
         }
-        return instanceTree->second->loadMap(tileX, tileY, this);
+        return instanceTree->second->LoadMapTile(tileX, tileY, this);
     }
 
     //=========================================================
@@ -161,7 +157,7 @@ namespace VMAP
         InstanceTreeMap::iterator instanceTree = iInstanceMapTrees.find(pMapId);
         if (instanceTree != iInstanceMapTrees.end())
         {
-            //instanceTree->second->unloadMap(x,y);
+            instanceTree->second->UnloadMap(this);
             if (instanceTree->second->numLoadedTiles() == 0)
             {
                 delete instanceTree->second;
@@ -177,7 +173,7 @@ namespace VMAP
         InstanceTreeMap::iterator instanceTree = iInstanceMapTrees.find(pMapId);
         if (instanceTree != iInstanceMapTrees.end())
         {
-            instanceTree->second->unloadMap(x, y, this);
+            instanceTree->second->UnloadMapTile(x, y, this);
             if (instanceTree->second->numLoadedTiles() == 0)
             {
                 delete instanceTree->second;

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -405,8 +405,7 @@ void AchievementMgr::Reset()
 
 void AchievementMgr::ResetAchievementCriteria(AchievementCriteriaTypes type, uint32 miscvalue1, uint32 miscvalue2)
 {
-    if((sLog.getLogFilter() & LOG_FILTER_ACHIEVEMENT_UPDATES)==0)
-        sLog.outDetail("AchievementMgr::ResetAchievementCriteria(%u, %u, %u)", type, miscvalue1, miscvalue2);
+    DETAIL_FILTER_LOG(LOG_FILTER_ACHIEVEMENT_UPDATES, "AchievementMgr::ResetAchievementCriteria(%u, %u, %u)", type, miscvalue1, miscvalue2);
 
     if (!sWorld.getConfig(CONFIG_BOOL_GM_ALLOW_ACHIEVEMENT_GAINS) && m_player->GetSession()->GetSecurity() > SEC_PLAYER)
         return;
@@ -615,10 +614,7 @@ void AchievementMgr::SendAchievementEarned(AchievementEntry const* achievement)
     if(GetPlayer()->GetSession()->PlayerLoading())
         return;
 
-    #ifdef DIAMOND_DEBUG
-    if((sLog.getLogFilter() & LOG_FILTER_ACHIEVEMENT_UPDATES)==0)
-        sLog.outDebug("AchievementMgr::SendAchievementEarned(%u)", achievement->ID);
-    #endif
+    DEBUG_FILTER_LOG(LOG_FILTER_ACHIEVEMENT_UPDATES, "AchievementMgr::SendAchievementEarned(%u)", achievement->ID);
 
     if(Guild* guild = sObjectMgr.GetGuildById(GetPlayer()->GetGuildId()))
     {
@@ -642,7 +638,7 @@ void AchievementMgr::SendAchievementEarned(AchievementEntry const* achievement)
     {
         Diamond::AchievementChatBuilder say_builder(*GetPlayer(), CHAT_MSG_ACHIEVEMENT, LANG_ACHIEVEMENT_EARNED,achievement->ID);
         Diamond::LocalizedPacketDo<Diamond::AchievementChatBuilder> say_do(say_builder);
-        Diamond::CameraDistWorker<Diamond::LocalizedPacketDo<Diamond::AchievementChatBuilder> > say_worker(GetPlayer(),sWorld.getConfig(CONFIG_FLOAT_LISTEN_RANGE_SAY), say_do);
+        Diamond::CameraDistWorker<Diamond::LocalizedPacketDo<Diamond::AchievementChatBuilder> > say_worker(GetPlayer(),sWorld.getConfig(CONFIG_FLOAT_LISTEN_RANGE_SAY),say_do);
 
         Cell::VisitWorldObjects(GetPlayer(), say_worker, sWorld.getConfig(CONFIG_FLOAT_LISTEN_RANGE_SAY));
     }
@@ -698,8 +694,7 @@ static const uint32 achievIdForDangeon[][4] =
  */
 void AchievementMgr::UpdateAchievementCriteria(AchievementCriteriaTypes type, uint32 miscvalue1, uint32 miscvalue2, Unit *unit, uint32 time)
 {
-    if((sLog.getLogFilter() & LOG_FILTER_ACHIEVEMENT_UPDATES)==0)
-        sLog.outDetail("AchievementMgr::UpdateAchievementCriteria(%u, %u, %u, %u)", type, miscvalue1, miscvalue2, time);
+    DETAIL_FILTER_LOG(LOG_FILTER_ACHIEVEMENT_UPDATES, "AchievementMgr::UpdateAchievementCriteria(%u, %u, %u, %u)", type, miscvalue1, miscvalue2, time);
 
     if (!sWorld.getConfig(CONFIG_BOOL_GM_ALLOW_ACHIEVEMENT_GAINS) && m_player->GetSession()->GetSecurity() > SEC_PLAYER)
         return;
@@ -1698,7 +1693,7 @@ bool AchievementMgr::IsCompletedAchievement(AchievementEntry const* entry)
 
         // completed as have req. count of completed criterias
         if(achievementForTestCount > 0 && achievementForTestCount <= count)
-           return true;
+            return true;
     }
 
     // all criterias completed requirement
@@ -1710,8 +1705,7 @@ bool AchievementMgr::IsCompletedAchievement(AchievementEntry const* entry)
 
 void AchievementMgr::SetCriteriaProgress(AchievementCriteriaEntry const* entry, uint32 changeValue, ProgressType ptype)
 {
-    if((sLog.getLogFilter() & LOG_FILTER_ACHIEVEMENT_UPDATES)==0)
-        sLog.outDetail("AchievementMgr::SetCriteriaProgress(%u, %u) for (GUID:%u)", entry->ID, changeValue, m_player->GetGUIDLow());
+    DETAIL_FILTER_LOG(LOG_FILTER_ACHIEVEMENT_UPDATES, "AchievementMgr::SetCriteriaProgress(%u, %u) for (GUID:%u)", entry->ID, changeValue, m_player->GetGUIDLow());
 
     CriteriaProgress *progress = NULL;
 
@@ -1772,7 +1766,7 @@ void AchievementMgr::SetCriteriaProgress(AchievementCriteriaEntry const* entry, 
 
 void AchievementMgr::CompletedAchievement(AchievementEntry const* achievement)
 {
-    sLog.outDetail("AchievementMgr::CompletedAchievement(%u)", achievement->ID);
+    DETAIL_LOG("AchievementMgr::CompletedAchievement(%u)", achievement->ID);
     if(achievement->flags & ACHIEVEMENT_FLAG_COUNTER || m_completedAchievements.find(achievement->ID)!=m_completedAchievements.end())
         return;
 
@@ -1894,7 +1888,6 @@ void AchievementGlobalMgr::LoadAchievementCriteriaList()
         sLog.outErrorDb(">> Loaded 0 achievement criteria.");
         return;
     }
-
     for (uint32 entryId = 0; entryId < sAchievementCriteriaStore.GetNumRows(); ++entryId)
     {
         AchievementCriteriaEntry const* criteria = sAchievementCriteriaStore.LookupEntry(entryId);
@@ -1940,13 +1933,12 @@ void AchievementGlobalMgr::LoadAchievementCriteriaRequirements()
 
     if(!result)
     {
-        sLog.outString(">> Loaded 0 additional achievement criteria data. DB table `achievement_criteria_requirement` is empty.");
+        sLog.outString(">> Loaded 0 additional achievement criteria data.");
         return;
     }
 
     uint32 count = 0;
     uint32 disabled_count = 0;
-
     do
     {
         Field *fields = result->Fetch();
@@ -2054,7 +2046,6 @@ void AchievementGlobalMgr::LoadAchievementCriteriaRequirements()
             sLog.outErrorDb("Table `achievement_criteria_requirement` is missing expected data for `criteria_id` %u (type: %u) for achievement %u.", criteria->ID, criteria->requiredType, criteria->referredAchievement);
     }
 
-    sLog.outString();
     sLog.outString(">> Loaded %u additional achievement criteria data (%u disabled).",count,disabled_count);
 }
 
@@ -2097,12 +2088,11 @@ void AchievementGlobalMgr::LoadRewards()
 
     if(!result)
     {
-        sLog.outErrorDb(">> Loaded 0 achievement rewards. DB table `achievement_reward` is empty.");
+        sLog.outErrorDb(">> Loaded 0 achievement rewards.");
         return;
     }
 
     uint32 count = 0;
-
     do
     {
         Field *fields = result->Fetch();
@@ -2220,7 +2210,7 @@ void AchievementGlobalMgr::LoadRewardLocales()
 
     if(!result)
     {
-        sLog.outString(">> Loaded 0 achievement reward locale strings. DB table `locales_achievement_reward` is empty.");
+        sLog.outString(">> Loaded 0 achievement reward locale strings.");
         return;
     }
     do

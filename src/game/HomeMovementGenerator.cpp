@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,7 +51,6 @@ HomeMovementGenerator<Creature>::_setTargetLocation(Creature & owner)
     CreatureTraveller traveller(owner);
 
     uint32 travel_time = i_destinationHolder.SetDestination(traveller, x, y, z);
-
     modifyTravelTime(travel_time);
     owner.clearUnitState(UNIT_STAT_ALL_STATE);
 }

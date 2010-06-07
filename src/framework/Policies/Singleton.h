@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,25 +30,29 @@
 namespace Diamond
 {
     template
-        <
-        typename T,
-        class ThreadingModel = Diamond::SingleThreaded<T>,
-        class CreatePolicy = Diamond::OperatorNew<T>,
-        class LifeTimePolicy = Diamond::ObjectLifeTime<T>
-        >
-        class DIAMOND_DLL_DECL Singleton
+    <
+    typename T,
+    class ThreadingModel = Diamond::SingleThreaded<T>,
+    class CreatePolicy = Diamond::OperatorNew<T>,
+    class LifeTimePolicy = Diamond::ObjectLifeTime<T>
+    >
+    class DIAMOND_DLL_DECL Singleton
     {
         public:
+
             static T& Instance();
 
         protected:
-            Singleton() {};
+
+            Singleton()
+            {
+            }
 
         private:
 
             // Prohibited actions...this does not prevent hijacking.
-            Singleton(const Singleton &);
-            Singleton& operator=(const Singleton &);
+            Singleton(const Singleton&);
+            Singleton& operator=(const Singleton&);
 
             // Singleton Helpers
             static void DestroySingleton();
@@ -59,4 +63,5 @@ namespace Diamond
             static bool si_destroyed;
     };
 }
+
 #endif

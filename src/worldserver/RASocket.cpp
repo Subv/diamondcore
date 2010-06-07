@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,10 +15,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
-/** \file
-    \ingroup worldserver
-*/
 
 #include "Common.h"
 #include "Database/DatabaseEnv.h"
@@ -86,7 +82,7 @@ int RASocket::close(int)
 {
     if(closing_)
         return -1;
-    sLog.outDebug("RASocket::close");
+    DEBUG_LOG("RASocket::close");
     shutdown();
 
     closing_ = true;
@@ -99,7 +95,7 @@ int RASocket::handle_close (ACE_HANDLE h, ACE_Reactor_Mask)
 {
     if(closing_)
         return -1;
-    sLog.outDebug("RASocket::handle_close");
+    DEBUG_LOG("RASocket::handle_close");
     ACE_GUARD_RETURN (ACE_Thread_Mutex, Guard, outBufferLock, -1);
 
     closing_ = true;
@@ -146,7 +142,7 @@ int RASocket::handle_output (ACE_HANDLE)
 /// Read data from the network
 int RASocket::handle_input(ACE_HANDLE)
 {
-    sLog.outDebug("RASocket::handle_input");
+    DEBUG_LOG("RASocket::handle_input");
     if(closing_)
     {
         sLog.outError("Called RASocket::handle_input with closing_ = true");
@@ -157,7 +153,7 @@ int RASocket::handle_input(ACE_HANDLE)
 
     if(readBytes <= 0)
     {
-        sLog.outDebug("read %u bytes in RASocket::handle_input", readBytes);
+        DEBUG_LOG("read %u bytes in RASocket::handle_input", readBytes);
         return -1;
     }
 
@@ -238,7 +234,7 @@ int RASocket::handle_input(ACE_HANDLE)
 
                     sendf("+Logged in.\r\n");
                     sLog.outRALog("User account %u has logged in.", accId);
-                    sendf("DiamondCore>");
+                    sendf("DC>");
                 }
                 else
                 {
@@ -270,7 +266,7 @@ int RASocket::handle_input(ACE_HANDLE)
                     }
                 }
                 else
-                    sendf("DiamondCore>");
+                    sendf("DC>");
                 break;
             ///</ul>
         };
@@ -292,7 +288,7 @@ void RASocket::zprint(void* callbackArg, const char * szText )
 void RASocket::commandFinished(void* callbackArg, bool success)
 {
     RASocket* raSocket = (RASocket*)callbackArg;
-    raSocket->sendf("DiamondCore>");
+    raSocket->sendf("DC>");
     raSocket->pendingCommands.release();
 }
 
@@ -323,4 +319,3 @@ int RASocket::sendf(const char* msg)
     }
     return 0;
 }
-

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,6 +42,8 @@ class DIAMOND_DLL_DECL MapManager : public Diamond::Singleton<MapManager, Diamon
         Map* CreateBgMap(uint32 mapid, BattleGround* bg);
         Map const* CreateBaseMap(uint32 id) const { return const_cast<MapManager*>(this)->_createBaseMap(id); }
         Map* FindMap(uint32 mapid, uint32 instanceId = 0) const;
+
+        void UpdateGridState(grid_state_t state, Map& map, NGridType& ngrid, GridInfo& ginfo, const uint32 &x, const uint32 &y, const uint32 &t_diff);
 
         // only const version for outer users
         void DeleteInstance(uint32 mapid, uint32 instanceId);
@@ -130,16 +132,21 @@ class DIAMOND_DLL_DECL MapManager : public Diamond::Singleton<MapManager, Diamon
         uint32 GetNumPlayersInInstances();
 
     private:
+
         // debugging code, should be deleted some day
-        void checkAndCorrectGridStatesArray();              // just for debugging to find some memory overwrites
-        GridState* i_GridStates[MAX_GRID_STATE];            // shadow entries to the global array in Map.cpp
+        GridState* si_GridStates[MAX_GRID_STATE];
         int i_GridStateErrorCount;
+
     private:
+
         MapManager();
         ~MapManager();
 
         MapManager(const MapManager &);
         MapManager& operator=(const MapManager &);
+
+        void InitStateMachine();
+        void DeleteStateMachine();
 
         Map* _createBaseMap(uint32 id);
         Map* _findMap(uint32 id) const

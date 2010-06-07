@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@ Group::~Group()
 {
     if(m_bgGroup)
     {
-        sLog.outDebug("Group::~Group: battleground group being deleted.");
+        DEBUG_LOG("Group::~Group: battleground group being deleted.");
         if(m_bgGroup->GetBgRaid(ALLIANCE) == this)
             m_bgGroup->SetBgRaid(ALLIANCE, NULL);
         else if(m_bgGroup->GetBgRaid(HORDE) == this)
@@ -548,7 +548,7 @@ void Group::GroupLoot(Creature *creature, Loot *loot)
         ItemPrototype const *itemProto = ObjectMgr::GetItemPrototype(lootItem.itemid);
         if (!itemProto)
         {
-            sLog.outDebug("Group::GroupLoot: missing item prototype for item with id: %d", itemProto->ItemId);
+            DEBUG_LOG("Group::GroupLoot: missing item prototype for item with id: %d", lootItem.itemid);
             continue;
         }
 
@@ -568,11 +568,11 @@ void Group::NeedBeforeGreed(Creature *creature, Loot *loot)
         ItemPrototype const *itemProto = ObjectMgr::GetItemPrototype(lootItem.itemid);
         if (!itemProto)
         {
-            sLog.outDebug("Group::NeedBeforeGreed: missing item prototype for item with id: %d", lootItem.itemid);
+            DEBUG_LOG("Group::NeedBeforeGreed: missing item prototype for item with id: %d", lootItem.itemid);
             continue;
         }
 
-		//only roll for one-player items, not for ones everyone can get
+        //only roll for one-player items, not for ones everyone can get
         if (itemProto->Quality >= uint32(m_lootThreshold) && !lootItem.freeforall)
             StartLootRool(creature, loot, itemSlot, true);
         else
@@ -652,7 +652,7 @@ bool Group::CountRollVote(ObjectGuid const& playerGUID, Rolls::iterator& rollI, 
             SendLootRoll(playerGUID, 128, 128, *roll);
             ++roll->totalPass;
             itr->second = ROLL_PASS;
-			break;
+            break;
         }
         case ROLL_NEED:                                     // player choose Need
         {
@@ -921,12 +921,11 @@ void Group::GetDataForXPAtKill(Unit const* victim, uint32& count,uint32& sum_lev
         if (member == additional)
             continue;
 
-        if (!member->IsAtGroupRewardDistance(victim))        // at req. distance
+        if (!member->IsAtGroupRewardDistance(victim))       // at req. distance
             continue;
 
         ++count;
         GetDataForXPAtKill_helper(member,victim,sum_level,member_with_max_level,not_gray_member_with_max_level);
-
     }
 
     if (additional)
@@ -973,8 +972,8 @@ void Group::SendUpdate()
         data << uint8(m_groupType);                         // group type (flags in 3.3)
         data << uint8(citr->group);                         // groupid
         data << uint8(GetFlags(*citr));                     // group flags
-		data << uint8(isBGGroup() ? 1 : 0);                 // 2.0.x, isBattleGroundGroup?
-		if(m_groupType & GROUPTYPE_LFD)
+        data << uint8(isBGGroup() ? 1 : 0);                 // 2.0.x, isBattleGroundGroup?
+        if(m_groupType & GROUPTYPE_LFD)
         {
             data << uint8(0);
             data << uint32(0);
@@ -1018,14 +1017,15 @@ void Group::UpdatePlayerOutOfRange(Player* pPlayer)
         return;
 
     if (pPlayer->GetGroupUpdateFlag() == GROUP_UPDATE_FLAG_NONE)
-		return;
+        return;
+
     WorldPacket data;
     pPlayer->GetSession()->BuildPartyMemberStatsChangedPacket(pPlayer, &data);
 
     for(GroupReference *itr = GetFirstMember(); itr != NULL; itr = itr->next())
-    if (Player *player = itr->getSource())
-		if (player != pPlayer && !player->HaveAtClient(pPlayer))
-			player->GetSession()->SendPacket(&data);
+        if (Player *player = itr->getSource())
+            if (player != pPlayer && !player->HaveAtClient(pPlayer))
+                player->GetSession()->SendPacket(&data);
 }
 
 void Group::BroadcastPacket(WorldPacket *packet, bool ignorePlayersInBGRaid, int group, uint64 ignore)
@@ -1505,8 +1505,6 @@ GroupJoinBattlegroundResult Group::CanJoinBattleGroundQueue(BattleGround const* 
     uint32 arenaTeamId = reference->GetArenaTeamId(arenaSlot);
     uint32 team = reference->GetTeam();
 
-    uint32 allowedPlayerCount = 0;
-
     // check every member of the group to be able to join
     for(GroupReference *itr = GetFirstMember(); itr != NULL; itr = itr->next())
     {
@@ -1533,14 +1531,7 @@ GroupJoinBattlegroundResult Group::CanJoinBattleGroundQueue(BattleGround const* 
         // check if member can join any more battleground queues
         if(!member->HasFreeBattleGroundQueueId())
             return ERR_BATTLEGROUND_TOO_MANY_QUEUES;        // not blizz-like
-
-        ++allowedPlayerCount;
     }
-
-    if(bgOrTemplate->GetTypeID() == BATTLEGROUND_AA)
-        if(allowedPlayerCount < MinPlayerCount || allowedPlayerCount > MaxPlayerCount)
-            return ERR_ARENA_TEAM_PARTY_SIZE;
-
     return GroupJoinBattlegroundResult(bgOrTemplate->GetTypeID());
 }
 
@@ -1720,7 +1711,7 @@ InstanceGroupBind* Group::BindToInstance(InstanceSave *save, bool permanent, boo
         bind.save = save;
         bind.perm = permanent;
         if(!load)
-            sLog.outDebug("Group::BindToInstance: %d is now bound to map %d, instance %d, difficulty %d", GUID_LOPART(GetLeaderGUID()), save->GetMapId(), save->GetInstanceId(), save->GetDifficulty());
+            DEBUG_LOG("Group::BindToInstance: %d is now bound to map %d, instance %d, difficulty %d", GUID_LOPART(GetLeaderGUID()), save->GetMapId(), save->GetInstanceId(), save->GetDifficulty());
         return &bind;
     }
     else
@@ -1811,7 +1802,7 @@ void Group::RewardGroupAtKill(Unit* pVictim, Player* player_tap)
 
     if(member_with_max_level)
     {
-        /// not get Xp in PvP or no not gray players in Diamond
+        /// not get Xp in PvP or no not gray players in group
         xp = (PvP || !not_gray_member_with_max_level) ? 0 : Diamond::XP::Gain(not_gray_member_with_max_level, pVictim);
 
         /// skip in check PvP case (for speed, not used)

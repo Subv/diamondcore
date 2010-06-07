@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef DIAMOND_COMMON_H
-#define DIAMOND_COMMON_H
+#ifndef DIAMONDCORE_COMMON_H
+#define DIAMONDCORE_COMMON_H
 
 // config.h needs to be included 1st
 #ifdef HAVE_CONFIG_H
@@ -180,7 +180,6 @@ enum AccountTypes
     SEC_CONSOLE        = 4                                  // must be always last in list, accounts must have less security level always also
 };
 
-// Used in worldserver/realmd
 enum RealmFlags
 {
     REALM_FLAG_NONE         = 0x00,
@@ -220,10 +219,10 @@ struct LocaleNameStr
 };
 
 // used for iterate all names including alternative
-extern LocaleNameStr fullLocaleNameList[];
+extern LocaleNameStr const fullLocaleNameList[];
 
 //operator new[] based version of strdup() function! Release memory by using operator delete[] !
-inline char * _strdup(const char * source)
+inline char * strdup(const char * source)
 {
     char * dest = new char[strlen(source) + 1];
     strcpy(dest, source);

@@ -43,6 +43,8 @@ database
 auth
 config
 vmaps
+detour
+recast
 g3dlite
 ${READLINE_LIBRARY}
 ${TERMCAP_LIBRARY}

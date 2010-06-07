@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,10 +23,10 @@ namespace Diamond
 {
     extern "C" void external_wrapper(void *p)
     {
-        std::atexit( (void (*)())p );
+        std::atexit((void (*)())p);
     }
 
-    void DIAMOND_DLL_SPEC at_exit( void (*func)() )
+    void DIAMOND_DLL_SPEC at_exit(void (*func)())
     {
         external_wrapper((void*)func);
     }

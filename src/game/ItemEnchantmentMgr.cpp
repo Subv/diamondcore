@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ void LoadRandomEnchantmentsTable()
 
     if (result)
     {
-		do
+        do
         {
             Field *fields = result->Fetch();
 
@@ -76,7 +76,7 @@ void LoadRandomEnchantmentsTable()
     }
     else
     {
-        sLog.outErrorDb( ">> Loaded 0 Item Enchantment definitions. DB table `item_enchantment_template` is empty.");
+        sLog.outErrorDb( ">> Loaded 0 Item Enchantment definitions.");
     }
 }
 

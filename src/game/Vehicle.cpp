@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +16,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "Camera.h"
 #include "Common.h"
 #include "Log.h"
 #include "Vehicle.h"
@@ -495,11 +496,11 @@ void Vehicle::AddPassenger(Unit *unit, int8 seatId, bool force)
             unit->SetUInt64Value(UNIT_FIELD_CHARM, GetGUID());
             if(unit->GetTypeId() == TYPEID_PLAYER)
             {
-				((Player*)unit)->SetMover(this);
+                ((Player*)unit)->SetMover(this);
                 ((Player*)unit)->SetMoverInQueve(this);
                 ((Player*)unit)->SetClientControl(this, 1);
             }
-            if(canFly() || HasAuraType(SPELL_AURA_FLY) || HasAuraType(SPELL_AURA_MOD_FLIGHT_SPEED_MOUNTED))
+            if(canFly() || HasAuraType(SPELL_AURA_FLY) || HasAuraType(SPELL_AURA_MOD_FLIGHT_SPEED))
             {
                 WorldPacket data3(SMSG_MOVE_SET_CAN_FLY, 12);
                 data3<< GetPackGUID();
@@ -525,7 +526,7 @@ void Vehicle::AddPassenger(Unit *unit, int8 seatId, bool force)
             if(((Player*)unit)->GetGroup())
                 ((Player*)unit)->SetGroupUpdateFlag(GROUP_UPDATE_VEHICLE);
 
-            ((Player*)unit)->GetCamera().SetView(this);
+			//((Player*)unit)->GetCamera().SetView(GetGUID());
 
             BuildVehicleActionBar((Player*)unit);
         }
@@ -583,7 +584,7 @@ void Vehicle::RemovePassenger(Unit *unit)
             // restore player control
             if(unit->GetTypeId() == TYPEID_PLAYER)
             {
-                ((Player*)unit)->GetCamera().ResetView();
+				((Player*)unit)->GetCamera().ResetView();
 
                 if(seat->second.vs_flags & SF_CAN_CAST)
                 {

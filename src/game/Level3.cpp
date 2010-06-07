@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -73,7 +73,7 @@ bool ChatHandler::HandleAHBotOptionsCommand(const char* args)
 
     if (strncmp(opt,"help",l) == 0)
     {
-       PSendSysMessage("AHBot commands:");
+        PSendSysMessage("AHBot commands:");
         PSendSysMessage("ahexpire");
         PSendSysMessage("minitems");
         PSendSysMessage("maxitems");
@@ -549,7 +549,7 @@ bool ChatHandler::HandleReloadAllCommand(const char*)
     HandleReloadMailLevelRewardCommand("");
     HandleReloadCommandCommand("");
     HandleReloadReservedNameCommand("");
-    HandleReloadGetStringCommand("");
+    HandleReloadStringCommand("");
     HandleReloadGameTeleCommand("");
 
     HandleReloadVehicleDataCommand("");
@@ -648,7 +648,6 @@ bool ChatHandler::HandleReloadAllSpellCommand(const char*)
     HandleReloadSpellTargetPositionCommand("a");
     HandleReloadSpellThreatsCommand("a");
     HandleReloadSpellPetAurasCommand("a");
-    HandleReloadSpellDisabledCommand("a");
     return true;
 }
 
@@ -826,9 +825,8 @@ bool ChatHandler::HandleReloadCreatureTemplateCommand(const char*)
 {
 	sLog.outString("ReLoading creature_template");
 	sObjectMgr.LoadCreatureTemplates();
-
+	
 	SendGlobalSysMessage("DB table creature_template reloaded.");
-
 	return true;
 }
 
@@ -836,9 +834,8 @@ bool ChatHandler::HandleReloadItemTemplateCommand(const char*)
 {
 	sLog.outString("ReLoading item_template");
 	sObjectMgr.LoadItemPrototypes();
-
+	
 	SendGlobalSysMessage("DB table item_template reloaded.");
-
 	return true;
 }
 
@@ -846,9 +843,8 @@ bool ChatHandler::HandleReloadGameObjectTemplateCommand(const char*)
 {
 	sLog.outString("ReLoading gameobject_template");
 	sObjectMgr.LoadGameobjectInfo();
-
+	
 	SendGlobalSysMessage("DB table gameobject_template reloaded.");
-
 	return true;
 }
 
@@ -959,7 +955,7 @@ bool ChatHandler::HandleReloadLootTemplatesSpellCommand(const char*)
     return true;
 }
 
-bool ChatHandler::HandleReloadGetStringCommand(const char*)
+bool ChatHandler::HandleReloadStringCommand(const char*)
 {
     sLog.outString( "Re-Loading strings Table!" );
     sObjectMgr.LoadStrings();
@@ -1090,7 +1086,7 @@ bool ChatHandler::HandleReloadSpellProcEventCommand(const char*)
 bool ChatHandler::HandleReloadSpellBonusesCommand(const char*)
 {
     sLog.outString( "Re-Loading Spell Bonus Data..." );
-    sSpellMgr.LoadSpellBonusess();
+    sSpellMgr.LoadSpellBonuses();
     SendGlobalSysMessage("DB table `spell_bonus_data` (spell damage/healing coefficients) reloaded.");
     return true;
 }
@@ -1418,17 +1414,6 @@ bool ChatHandler::HandleReloadVehicleSeatDataCommand(const char*)
     return true;
 }
 
-bool ChatHandler::HandleReloadSpellDisabledCommand(const char* /*arg*/)
-{
-    sLog.outString( "Re-Loading spell disabled table...");
-
-    sObjectMgr.LoadSpellDisabledEntrys();
-
-    SendGlobalSysMessage("DB table `spell_disabled` reloaded.");
-
-    return true;
-}
-
 bool ChatHandler::HandleLoadScriptsCommand(const char* args)
 {
     if(!LoadScriptingModule(args)) return true;
@@ -1439,52 +1424,20 @@ bool ChatHandler::HandleLoadScriptsCommand(const char* args)
 
 bool ChatHandler::HandleAccountSetGmLevelCommand(const char* args)
 {
-    char* arg1 = strtok((char*)args, " ");
-    if( !arg1 )
-        return false;
+    char* arg1;
+    char* arg2;
 
-    /// must be NULL if targeted syntax and must be not nULL if not targeted
-    char* arg2 = strtok(NULL, " ");
+    extractOptFirstArg((char*)args, &arg1, &arg2);
 
     std::string targetAccountName;
-    uint32 targetAccountId = 0;
+    Player* targetPlayer = NULL;
+    uint32 targetAccountId = extractAccountId(arg1,&targetAccountName,&targetPlayer);
+    if (!targetAccountId)
+        return false;
 
-    /// only target player different from self allowed (if targetPlayer!=NULL then not console)
-    Player* targetPlayer = getSelectedPlayer();
-    if(targetPlayer && m_session->GetPlayer()!=targetPlayer)
-    {
-        /// wrong command syntax or unexpected targeting
-        if(arg2)
-            return false;
-
-        /// security level expected in arg2 after this if.
-        arg2 = arg1;
-
-        targetAccountId = targetPlayer->GetSession()->GetAccountId();
-        sAccountMgr.GetName(targetAccountId, targetAccountName);
-    }
-    else
-    {
-        /// wrong command syntax (second arg expected)
-        if(!arg2)
-            return false;
-
-        targetAccountName = arg1;
-        if (!AccountMgr::normalizeString(targetAccountName))
-        {
-            PSendSysMessage(LANG_ACCOUNT_NOT_EXIST,targetAccountName.c_str());
-            SetSentErrorMessage(true);
-            return false;
-        }
-
-        targetAccountId = sAccountMgr.GetId(targetAccountName);
-        if(!targetAccountId)
-        {
-            PSendSysMessage(LANG_ACCOUNT_NOT_EXIST,targetAccountName.c_str());
-            SetSentErrorMessage(true);
-            return false;
-        }
-    }
+    /// only target player different from self allowed
+    if (GetAccountId() == targetAccountId)
+        return false;
 
     int32 gm = (int32)atoi(arg2);
     if ( gm < SEC_PLAYER || gm > SEC_ADMINISTRATOR )
@@ -1508,8 +1461,7 @@ bool ChatHandler::HandleAccountSetGmLevelCommand(const char* args)
         return false;
     }
 
-    // This will prevent self apply by self target or no target
-    if(targetPlayer && m_session->GetPlayer()!=targetPlayer)
+    if (targetPlayer)
     {
         ChatHandler(targetPlayer).PSendSysMessage(LANG_YOURS_SECURITY_CHANGED,GetNameLink().c_str(), gm);
         targetPlayer->GetSession()->SetSecurity(AccountTypes(gm));
@@ -1528,28 +1480,15 @@ bool ChatHandler::HandleAccountSetPasswordCommand(const char* args)
         return false;
 
     ///- Get the command line arguments
-    char *szAccount = strtok ((char*)args," ");
+    std::string account_name;
+    uint32 targetAccountId = extractAccountId((char*)args, &account_name);
+    if (!targetAccountId)
+        return false;
+
     char *szPassword1 =  strtok (NULL," ");
     char *szPassword2 =  strtok (NULL," ");
-
-    if (!szAccount||!szPassword1 || !szPassword2)
+    if (!szPassword1 || !szPassword2)
         return false;
-
-    std::string account_name = szAccount;
-    if (!AccountMgr::normalizeString(account_name))
-    {
-        PSendSysMessage(LANG_ACCOUNT_NOT_EXIST,account_name.c_str());
-        SetSentErrorMessage(true);
-        return false;
-    }
-
-    uint32 targetAccountId = sAccountMgr.GetId(account_name);
-    if (!targetAccountId)
-    {
-        PSendSysMessage(LANG_ACCOUNT_NOT_EXIST,account_name.c_str());
-        SetSentErrorMessage(true);
-        return false;
-    }
 
     /// can set password only for target with less security
     /// This is also reject self apply in fact
@@ -2416,9 +2355,13 @@ bool ChatHandler::HandleLearnAllMySpellsCommand(const char* /*args*/)
         return true;
     uint32 family = clsEntry->spellfamily;
 
-    for (uint32 i = 0; i < sSpellStore.GetNumRows(); ++i)
+    for (uint32 i = 0; i < sSkillLineAbilityStore.GetNumRows(); ++i)
     {
-        SpellEntry const *spellInfo = sSpellStore.LookupEntry(i);
+        SkillLineAbilityEntry const *entry = sSkillLineAbilityStore.LookupEntry(i);
+        if (!entry)
+            continue;
+
+        SpellEntry const *spellInfo = sSpellStore.LookupEntry(entry->spellId);
         if(!spellInfo)
             continue;
 
@@ -2443,7 +2386,7 @@ bool ChatHandler::HandleLearnAllMySpellsCommand(const char* /*args*/)
         if(!SpellMgr::IsSpellValid(spellInfo,m_session->GetPlayer(),false))
             continue;
 
-        m_session->GetPlayer()->learnSpell(i, false);
+        m_session->GetPlayer()->learnSpell(spellInfo->Id, false);
     }
 
     SendSysMessage(LANG_COMMAND_LEARN_CLASS_SPELLS);
@@ -2698,7 +2641,7 @@ bool ChatHandler::HandleAddItemCommand(const char* args)
     if(!plTarget)
         plTarget = pl;
 
-    sLog.outDetail(GetString(LANG_ADDITEM), itemId, count);
+    DETAIL_LOG(GetString(LANG_ADDITEM), itemId, count);
 
     ItemPrototype const *pProto = ObjectMgr::GetItemPrototype(itemId);
     if(!pProto)
@@ -2777,7 +2720,7 @@ bool ChatHandler::HandleAddItemSetCommand(const char* args)
     if(!plTarget)
         plTarget = pl;
 
-    sLog.outDetail(GetString(LANG_ADDITEMSET), itemsetId);
+    DETAIL_LOG(GetString(LANG_ADDITEMSET), itemsetId);
 
     bool found = false;
     for (uint32 id = 0; id < sItemStorage.MaxEntry; id++)
@@ -5686,24 +5629,10 @@ bool ChatHandler::HandleBanInfoAccountCommand(const char* args)
     if (!*args)
         return false;
 
-    char* cname = strtok((char*)args, "");
-    if (!cname)
-        return false;
-
-    std::string account_name = cname;
-    if (!AccountMgr::normalizeString(account_name))
-    {
-        PSendSysMessage(LANG_ACCOUNT_NOT_EXIST,account_name.c_str());
-        SetSentErrorMessage(true);
-        return false;
-    }
-
-    uint32 accountid = sAccountMgr.GetId(account_name);
+    std::string account_name;
+    uint32 accountid = extractAccountId((char*)args, &account_name);
     if (!accountid)
-    {
-        PSendSysMessage(LANG_ACCOUNT_NOT_EXIST,account_name.c_str());
-        return true;
-    }
+        return false;
 
     return HandleBanInfoHelper(accountid,account_name.c_str());
 }
@@ -6026,15 +5955,9 @@ bool ChatHandler::HandleGMFlyCommand(const char* args)
 
     WorldPacket data(12);
     if (strncmp(args, "on", 3) == 0)
-    {
         data.SetOpcode(SMSG_MOVE_SET_CAN_FLY);
-        ((Player*)(target))->SetCanFly(true);
-    } 
     else if (strncmp(args, "off", 4) == 0)
-    {
         data.SetOpcode(SMSG_MOVE_UNSET_CAN_FLY);
-        ((Player*)(target))->SetCanFly(false);
-    }
     else
     {
         SendSysMessage(LANG_USE_BOL);
@@ -6052,43 +5975,22 @@ bool ChatHandler::HandlePDumpLoadCommand(const char *args)
     if (!*args)
         return false;
 
-    char * file = strtok((char*)args, " ");
+    char* file = strtok((char*)args, " ");
     if (!file)
         return false;
 
-    char * account = strtok(NULL, " ");
+    char* account = strtok(NULL, " ");
     if (!account)
         return false;
 
-    std::string account_name = account;
-    if (!AccountMgr::normalizeString(account_name))
-    {
-        PSendSysMessage(LANG_ACCOUNT_NOT_EXIST,account_name.c_str());
-        SetSentErrorMessage(true);
-        return false;
-    }
+    char* name_str = strtok(NULL, " ");
 
-    uint32 account_id = sAccountMgr.GetId(account_name);
+    std::string account_name;
+    uint32 account_id = extractAccountId(account, &account_name);
     if (!account_id)
-    {
-        account_id = atoi(account);                             // use original string
-        if (!account_id)
-        {
-            PSendSysMessage(LANG_ACCOUNT_NOT_EXIST,account_name.c_str());
-            SetSentErrorMessage(true);
-            return false;
-        }
-    }
-
-    if (!sAccountMgr.GetName(account_id,account_name))
-    {
-        PSendSysMessage(LANG_ACCOUNT_NOT_EXIST,account_name.c_str());
-        SetSentErrorMessage(true);
         return false;
-    }
 
     char* guid_str = NULL;
-    char* name_str = strtok(NULL, " ");
 
     std::string name;
     if (name_str)
@@ -6171,7 +6073,7 @@ bool ChatHandler::HandlePDumpWriteCommand(const char *args)
 
     uint32 guid;
     // character name can't start from number
-    if (isNumeric(p2[0]))
+    if (isNumeric(p2))
         guid = atoi(p2);
     else
     {
@@ -6761,49 +6663,97 @@ bool ChatHandler::HandleServerSetMotdCommand(const char* args)
     return true;
 }
 
+bool ChatHandler::ShowPlayerListHelper(QueryResult* result, uint32* limit, bool title, bool error)
+{
+    if (!result)
+    {
+        if (error)
+        {
+            PSendSysMessage(LANG_NO_PLAYERS_FOUND);
+            SetSentErrorMessage(true);
+        }
+        return false;
+    }
+
+    if (!m_session && title)
+    {
+        SendSysMessage(LANG_CHARACTERS_LIST_BAR);
+        SendSysMessage(LANG_CHARACTERS_LIST_HEADER);
+        SendSysMessage(LANG_CHARACTERS_LIST_BAR);
+    }
+
+    if (result)
+    {
+        ///- Circle through them. Display username and GM level
+        do
+        {
+            // check limit
+            if (limit)
+            {
+                if(*limit == 0)
+                    break;
+                --*limit;
+            }
+
+            Field *fields = result->Fetch();
+            uint32 guid      = fields[0].GetUInt32();
+            std::string name = fields[1].GetCppString();
+            uint8 race       = fields[2].GetUInt8();
+            uint8 class_     = fields[3].GetUInt8();
+            uint32 level     = fields[4].GetUInt32();
+
+            ChrRacesEntry const* raceEntry = sChrRacesStore.LookupEntry(race);
+            ChrClassesEntry const* classEntry = sChrClassesStore.LookupEntry(class_);
+
+            char const* race_name = raceEntry   ? raceEntry->name[GetSessionDbcLocale()] : "<?>";
+            char const* class_name = classEntry ? classEntry->name[GetSessionDbcLocale()] : "<?>";
+
+            if (!m_session)
+                PSendSysMessage(LANG_CHARACTERS_LIST_LINE_CONSOLE, guid, name.c_str(), race_name, class_name, level);
+            else
+                PSendSysMessage(LANG_CHARACTERS_LIST_LINE_CHAT, guid, name.c_str(), name.c_str(), race_name, class_name, level);
+
+        }while( result->NextRow() );
+
+        delete result;
+    }
+
+    if (!m_session)
+        SendSysMessage(LANG_CHARACTERS_LIST_BAR);
+
+    return true;
+}
+
+
+/// Output list of character for account
+bool ChatHandler::HandleAccountCharactersCommand(const char* args)
+{
+    ///- Get the command line arguments
+    std::string account_name;
+    Player* target = NULL;                                  // only for triggering use targeted player account
+    uint32 account_id = extractAccountId((char*)args, &account_name, &target);
+    if (!account_id )
+        return false;
+
+    ///- Get the characters for account id
+    QueryResult *result = CharacterDatabase.PQuery( "SELECT guid, name, race, class, level FROM characters WHERE account = %u", account_id);
+
+    return ShowPlayerListHelper(result);
+}
+
 /// Set/Unset the expansion level for an account
 bool ChatHandler::HandleAccountSetAddonCommand(const char* args)
 {
     ///- Get the command line arguments
-    char *szAcc = strtok((char*)args," ");
-    char *szExp = strtok(NULL," ");
+    char* arg1;
+    char* arg2;
 
-    if(!szAcc)
-        return false;
+    extractOptFirstArg((char*)args, &arg1, &arg2);
 
     std::string account_name;
-    uint32 account_id;
-
-    if (!szExp)
-    {
-        Player* player = getSelectedPlayer();
-        if (!player)
-            return false;
-
-        account_id = player->GetSession()->GetAccountId();
-        sAccountMgr.GetName(account_id,account_name);
-        szExp = szAcc;
-    }
-    else
-    {
-        ///- Convert Account name to Upper Format
-        account_name = szAcc;
-        if (!AccountMgr::normalizeString(account_name))
-        {
-            PSendSysMessage(LANG_ACCOUNT_NOT_EXIST,account_name.c_str());
-            SetSentErrorMessage(true);
-            return false;
-        }
-
-        account_id = sAccountMgr.GetId(account_name);
-        if (!account_id)
-        {
-            PSendSysMessage(LANG_ACCOUNT_NOT_EXIST,account_name.c_str());
-            SetSentErrorMessage(true);
-            return false;
-        }
-
-    }
+    uint32 account_id = extractAccountId(arg1, &account_name);
+    if (!account_id )
+        return false;
 
     // Let set addon state only for lesser (strong) security level
     // or to self account
@@ -6811,8 +6761,8 @@ bool ChatHandler::HandleAccountSetAddonCommand(const char* args)
         HasLowerSecurityAccount (NULL,account_id,true))
         return false;
 
-    int lev=atoi(szExp);                                    //get int anyway (0 if error)
-    if(lev < 0)
+    int lev=atoi(arg2);                                     //get int anyway (0 if error)
+    if (lev < 0)
         return false;
 
     // No SQL injection

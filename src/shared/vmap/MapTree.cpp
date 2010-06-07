@@ -122,10 +122,9 @@ namespace VMAP
     }
 
     //=========================================================
+    //! Make sure to call unloadMap() to unregister acquired model references before destroying
     StaticMapTree::~StaticMapTree()
     {
-        // TODO: release all acquired model references
-
         delete[] iTreeValues;
     }
 
@@ -224,7 +223,7 @@ namespace VMAP
 
     //=========================================================
 
-	bool StaticMapTree::CanLoadMap(const std::string &vmapPath, uint32 mapID, uint32 tileX, uint32 tileY)
+    bool StaticMapTree::CanLoadMap(const std::string &vmapPath, uint32 mapID, uint32 tileX, uint32 tileY)
     {
         std::string basePath = vmapPath;
         if (basePath.length() > 0 && (basePath[basePath.length()-1] != '/' || basePath[basePath.length()-1] != '\\'))
@@ -257,13 +256,13 @@ namespace VMAP
 
     //=========================================================
 
-    bool StaticMapTree::init(const std::string &fname, VMapManager2 *vm)
+    bool StaticMapTree::InitMap(const std::string &fname, VMapManager2 *vm)
     {
         std::cout << "Initializing StaticMapTree '" << fname << "'\n";
-        bool success=true;
+        bool success = true;
         std::string fullname = iBasePath + fname;
         FILE *rf = fopen(fullname.c_str(), "rb");
-        if(!rf)
+        if (!rf)
             return false;
         else
         {
@@ -297,7 +296,7 @@ namespace VMAP
                 {
                     // assume that global model always is the first and only tree value (could be improved...)
                     iTreeValues[0] = ModelInstance(spawn, model);
-                    iLoadedSpawns[spawn.ID] = 1;
+                    iLoadedSpawns[0] = 1;
                 }
                 else
                 {
@@ -310,9 +309,24 @@ namespace VMAP
         }
         return success;
     }
+
     //=========================================================
 
-    bool StaticMapTree::loadMap(uint32 tileX, uint32 tileY, VMapManager2 *vm)
+    void StaticMapTree::UnloadMap(VMapManager2 *vm)
+    {
+        for (loadedSpawnMap::iterator i = iLoadedSpawns.begin(); i != iLoadedSpawns.end(); ++i)
+        {
+            iTreeValues[i->first].setUnloaded();
+            for (uint32 refCount = 0; refCount < i->second; ++refCount)
+                vm->releaseModelInstance(iTreeValues[i->first].name);
+        }
+        iLoadedSpawns.clear();
+        iLoadedTiles.clear();
+    }
+
+    //=========================================================
+
+    bool StaticMapTree::LoadMapTile(uint32 tileX, uint32 tileY, VMapManager2 *vm)
     {
         if (!iIsTiled)
         {
@@ -344,7 +358,7 @@ namespace VMAP
                 {
                     // acquire model instance
                     WorldModel *model = vm->acquireModelInstance(iBasePath, spawn.name);
-                    if(!model) std::cout << "error: could not acquire WorldModel pointer!\n";
+                    if (!model) std::cout << "error: could not acquire WorldModel pointer!\n";
 
                     // update tree
                     uint32 referencedVal;
@@ -353,7 +367,7 @@ namespace VMAP
                     if (!iLoadedSpawns.count(referencedVal))
                     {
 #ifdef VMAP_DEBUG
-						if (referencedVal > iNTreeValues)
+                        if (referencedVal > iNTreeValues)
                         {
                             std::cout << "invalid tree element! (" << referencedVal << "/" << iNTreeValues << ")\n";
                             continue;
@@ -361,13 +375,13 @@ namespace VMAP
 #endif
                         iTreeValues[referencedVal] = ModelInstance(spawn, model);
                         iLoadedSpawns[referencedVal] = 1;
-					}
+                    }
                     else
                     {
                         ++iLoadedSpawns[referencedVal];
 #ifdef VMAP_DEBUG
-						if (iTreeValues[referencedVal].ID != spawn.ID) std::cout << "error: trying to load wrong spawn in node!\n";
-						else if (iTreeValues[referencedVal].name != spawn.name) std::cout << "error: name collision on GUID="<< spawn.ID << "\n";
+                        if (iTreeValues[referencedVal].ID != spawn.ID) std::cout << "error: trying to load wrong spawn in node!\n";
+                        else if (iTreeValues[referencedVal].name != spawn.name) std::cout << "error: name collision on GUID="<< spawn.ID << "\n";
 #endif
                     }
                 }
@@ -382,7 +396,7 @@ namespace VMAP
 
     //=========================================================
 
-    void StaticMapTree::unloadMap(uint32 tileX, uint32 tileY, VMapManager2 *vm)
+    void StaticMapTree::UnloadMapTile(uint32 tileX, uint32 tileY, VMapManager2 *vm)
     {
         uint32 tileID = packTileID(tileX, tileY);
         loadedTileMap::iterator tile = iLoadedTiles.find(tileID);

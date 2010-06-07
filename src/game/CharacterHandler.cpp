@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,8 +17,8 @@
  */
 
 #include "Common.h"
-#include "Config/ConfigEnv.h"
 #include "Database/DatabaseEnv.h"
+#include "Config/ConfigEnv.h"
 #include "WorldPacket.h"
 #include "SharedDefines.h"
 #include "WorldSession.h"
@@ -148,7 +148,7 @@ void WorldSession::HandleCharEnum(QueryResult * result)
         do
         {
             uint32 guidlow = (*result)[0].GetUInt32();
-            sLog.outDetail("Build enum data for char guid %u from account %u.", guidlow, GetAccountId());
+            DETAIL_LOG("Build enum data for char guid %u from account %u.", guidlow, GetAccountId());
             if(Player::BuildEnumData(result, &data))
                 ++num;
         }
@@ -203,7 +203,6 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
     recv_data >> class_;
 
     WorldPacket data(SMSG_CHAR_CREATE, 1);                  // returned with diff.values in all cases
-	WorldPacket data_login(SMSG_CHAR_CREATE, 1);                  // returned with diff.values in all cases
 
     if(GetSecurity() == SEC_PLAYER)
     {
@@ -227,7 +226,7 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
         }
     }
 
-// Disable Race/Class combinations \\
+    // Disable Race/Class combinations \\
 	 //            by Fabian          \\
 
 	// Enable Race/Class Blocker for GameMaster/Admins ?!
@@ -717,7 +716,7 @@ void WorldSession::HandleCharCreateOpcode( WorldPacket & recv_data )
     SendPacket( &data );
 
     std::string IP_str = GetRemoteAddress();
-    sLog.outBasic("Account: %d (IP: %s) Create Character:[%s] (guid: %u)", GetAccountId(), IP_str.c_str(), name.c_str(), pNewChar->GetGUIDLow());
+    BASIC_LOG("Account: %d (IP: %s) Create Character:[%s] (guid: %u)", GetAccountId(), IP_str.c_str(), name.c_str(), pNewChar->GetGUIDLow());
     sLog.outChar("Account: %d (IP: %s) Create Character:[%s] (guid: %u)", GetAccountId(), IP_str.c_str(), name.c_str(), pNewChar->GetGUIDLow());
 
     delete pNewChar;                                        // created only to call SaveToDB()
@@ -767,7 +766,7 @@ void WorldSession::HandleCharDeleteOpcode( WorldPacket & recv_data )
         return;
 
     std::string IP_str = GetRemoteAddress();
-    sLog.outBasic("Account: %d (IP: %s) Delete Character:[%s] (guid: %u)", GetAccountId(), IP_str.c_str(), name.c_str(), GUID_LOPART(guid));
+    BASIC_LOG("Account: %d (IP: %s) Delete Character:[%s] (guid: %u)", GetAccountId(), IP_str.c_str(), name.c_str(), GUID_LOPART(guid));
     sLog.outChar("Account: %d (IP: %s) Delete Character:[%s] (guid: %u)", GetAccountId(), IP_str.c_str(), name.c_str(), GUID_LOPART(guid));
 
     if(sLog.IsOutCharDump())                                // optimize GetPlayerDump call
@@ -950,7 +949,7 @@ void WorldSession::HandlePlayerLogin(LoginQueryHolder *holder)
     }
 
     sObjectAccessor.AddObject(pCurrChar);
-    //sLog.outDebug("Player %s added to Map.",pCurrChar->GetName());
+    //DEBUG_LOG("Player %s added to Map.",pCurrChar->GetName());
 
     pCurrChar->SendInitialPacketsAfterAddToMap();
 
@@ -1096,7 +1095,7 @@ void WorldSession::HandleTutorialFlag( WorldPacket & recv_data )
     tutflag |= (1 << rInt);
     SetTutorialInt( wInt, tutflag );
 
-    //sLog.outDebug("Received Tutorial Flag Set {%u}.", iFlag);
+    //DEBUG_LOG("Received Tutorial Flag Set {%u}.", iFlag);
 }
 
 void WorldSession::HandleTutorialClear( WorldPacket & /*recv_data*/ )
@@ -1286,7 +1285,7 @@ void WorldSession::HandleSetPlayerDeclinedNames(WorldPacket& recv_data)
         }
     }
 
-    if(!ObjectMgr::CheckDeclinedNames(wname, declinedname))
+    if(!ObjectMgr::CheckDeclinedNames(GetMainPartOfName(wname, 0), declinedname))
     {
         WorldPacket data(SMSG_SET_PLAYER_DECLINED_NAMES_RESULT, 4+8);
         data << uint32(1);
@@ -1312,7 +1311,7 @@ void WorldSession::HandleSetPlayerDeclinedNames(WorldPacket& recv_data)
 
 void WorldSession::HandleAlterAppearance( WorldPacket & recv_data )
 {
-    sLog.outDebug("CMSG_ALTER_APPEARANCE");
+    DEBUG_LOG("CMSG_ALTER_APPEARANCE");
 
     uint32 Hair, Color, FacialHair;
     recv_data >> Hair >> Color >> FacialHair;
@@ -1365,7 +1364,7 @@ void WorldSession::HandleRemoveGlyph( WorldPacket & recv_data )
 
     if(slot >= MAX_GLYPH_SLOT_INDEX)
     {
-        sLog.outDebug("Client sent wrong glyph slot number in opcode CMSG_REMOVE_GLYPH %u", slot);
+        DEBUG_LOG("Client sent wrong glyph slot number in opcode CMSG_REMOVE_GLYPH %u", slot);
         return;
     }
 
@@ -1471,7 +1470,7 @@ void WorldSession::HandleCharCustomize(WorldPacket& recv_data)
 
 void WorldSession::HandleEquipmentSetSave(WorldPacket &recv_data)
 {
-    sLog.outDebug("CMSG_EQUIPMENT_SET_SAVE");
+    DEBUG_LOG("CMSG_EQUIPMENT_SET_SAVE");
 
     ObjectGuid setGuid;
     uint32 index;
@@ -1515,7 +1514,7 @@ void WorldSession::HandleEquipmentSetSave(WorldPacket &recv_data)
 
 void WorldSession::HandleEquipmentSetDelete(WorldPacket &recv_data)
 {
-    sLog.outDebug("CMSG_EQUIPMENT_SET_DELETE");
+    DEBUG_LOG("CMSG_EQUIPMENT_SET_DELETE");
 
     ObjectGuid setGuid;
 
@@ -1526,7 +1525,7 @@ void WorldSession::HandleEquipmentSetDelete(WorldPacket &recv_data)
 
 void WorldSession::HandleEquipmentSetUse(WorldPacket &recv_data)
 {
-    sLog.outDebug("CMSG_EQUIPMENT_SET_USE");
+    DEBUG_LOG("CMSG_EQUIPMENT_SET_USE");
     recv_data.hexlike();
 
     for(uint32 i = 0; i < EQUIPMENT_SLOT_END; ++i)
@@ -1537,7 +1536,7 @@ void WorldSession::HandleEquipmentSetUse(WorldPacket &recv_data)
         recv_data >> itemGuid.ReadAsPacked();
         recv_data >> srcbag >> srcslot;
 
-        sLog.outDebug("Item (%s): srcbag %u, srcslot %u", itemGuid.GetString().c_str(), srcbag, srcslot);
+        DEBUG_LOG("Item (%s): srcbag %u, srcslot %u", itemGuid.GetString().c_str(), srcbag, srcslot);
 
         Item *item = _player->GetItemByGuid(itemGuid);
 
