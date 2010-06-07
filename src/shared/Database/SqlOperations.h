@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ class SqlStatement : public SqlOperation
     private:
         const char *m_sql;
     public:
-        SqlStatement(const char *sql) : m_sql(_strdup(sql)){}
+        SqlStatement(const char *sql) : m_sql(strdup(sql)){}
         ~SqlStatement() { char* tofree = const_cast<char*>(m_sql); delete [] tofree; }
         void Execute(Database *db);
 };
@@ -57,7 +57,7 @@ class SqlTransaction : public SqlOperation
         std::queue<const char *> m_queue;
     public:
         SqlTransaction() {}
-        void DelayExecute(const char *sql) { m_queue.push(_strdup(sql)); }
+        void DelayExecute(const char *sql) { m_queue.push(strdup(sql)); }
         void Execute(Database *db);
 };
 
@@ -84,7 +84,7 @@ class SqlQuery : public SqlOperation
         SqlResultQueue * m_queue;
     public:
         SqlQuery(const char *sql, Diamond::IQueryCallback * callback, SqlResultQueue * queue)
-            : m_sql(_strdup(sql)), m_callback(callback), m_queue(queue) {}
+            : m_sql(strdup(sql)), m_callback(callback), m_queue(queue) {}
         ~SqlQuery() { char* tofree = const_cast<char*>(m_sql); delete [] tofree; }
         void Execute(Database *db);
 };

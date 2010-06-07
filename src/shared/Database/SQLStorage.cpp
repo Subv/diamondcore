@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,24 +51,23 @@ SQLStorage sInstanceTemplate(InstanceTemplatesrcfmt, InstanceTemplatedstfmt, "ma
 
 void SQLStorage::EraseEntry(uint32 id)
 {
-	uint32 offset=0;
-	
-	for(uint32 x=0;x<iNumFields;x++)
-		if (dst_format[x]==FT_STRING)
-		{
-			if(pIndex[id])
-				delete [] *(char**)((char*)(pIndex[id])+offset);
-			
-			offset += sizeof(char*);
-		}
-		else if (dst_format[x]==FT_LOGIC)
-			offset += sizeof(bool);
-		else if (dst_format[x]==FT_BYTE)
-			offset += sizeof(char);
-		else
-			offset += 4;
-		
-		reinterpret_cast<void*&>(pIndex[id]) = NULL;
+    uint32 offset=0;
+    for(uint32 x=0;x<iNumFields;x++)
+        if (dst_format[x]==FT_STRING)
+        {
+            if(pIndex[id])
+                delete [] *(char**)((char*)(pIndex[id])+offset);
+
+            offset += sizeof(char*);
+        }
+        else if (dst_format[x]==FT_LOGIC)
+            offset += sizeof(bool);
+        else if (dst_format[x]==FT_BYTE)
+            offset += sizeof(char);
+        else
+            offset += 4;
+
+    reinterpret_cast<void*&>(pIndex[id]) = NULL;
 }
 
 void SQLStorage::Free ()

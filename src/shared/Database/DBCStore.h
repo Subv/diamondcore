@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -42,7 +42,11 @@ class DBCStorage
                 return false;
 
             fieldCount = dbc.GetCols();
+
+            // load raw non-string data
             m_dataTable = (T*)dbc.AutoProduceData(fmt,nCount,(char**&)indexTable);
+
+            // load strings from dbc data
             m_stringPoolList.push_back(dbc.AutoProduceStrings(fmt,(char*)m_dataTable));
 
             // error in dbc file at loading if NULL
@@ -60,6 +64,7 @@ class DBCStorage
             if(!dbc.Load(fn, fmt))
                 return false;
 
+            // load strings from another locale dbc data
             m_stringPoolList.push_back(dbc.AutoProduceStrings(fmt,(char*)m_dataTable));
 
             return true;
@@ -83,7 +88,7 @@ class DBCStorage
             nCount = 0;
         }
 
-		void EraseEntry(uint32 id) { indexTable[id] = NULL; }
+        void EraseEntry(uint32 id) { indexTable[id] = NULL; }
 
     private:
         uint32 nCount;
@@ -93,4 +98,5 @@ class DBCStorage
         T* m_dataTable;
         StringPoolList m_stringPoolList;
 };
+
 #endif

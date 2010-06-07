@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,10 +15,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
-/** \file
-    \ingroup worldserver
-*/
 
 #include "WorldSocketMgr.h"
 #include "Common.h"
@@ -72,6 +68,22 @@ public:
             ACE_Based::Thread::Sleep(1000);
 
             uint32 curtime = getMSTime();
+            //DEBUG_LOG("anti-freeze: time=%u, counters=[%u; %u]",curtime,Master::m_masterLoopCounter,World::m_worldLoopCounter);
+
+            // There is no Master anymore
+            // TODO: clear the rest of the code
+//            // normal work
+//            if(m_loops != Master::m_masterLoopCounter)
+//            {
+//                m_lastchange = curtime;
+//                m_loops = Master::m_masterLoopCounter;
+//            }
+//            // possible freeze
+//            else if(getMSTimeDiff(m_lastchange,curtime) > _delaytime)
+//            {
+//                sLog.outError("Main/Sockets Thread hangs, kicking out server!");
+//                *((uint32 volatile*)NULL) = 0;                       // bang crash
+//            }
 
             // normal work
             if(w_loops != World::m_worldLoopCounter)
@@ -176,6 +188,7 @@ int Master::Run()
         if( !pid )
         {
             sLog.outError( "Cannot create PID file %s.\n", pidfile.c_str() );
+            Log::WaitBeforeContinueIfNeed();
             return 1;
         }
 
@@ -184,7 +197,10 @@ int Master::Run()
 
     ///- Start the databases
     if (!_StartDB())
+    {
+        Log::WaitBeforeContinueIfNeed();
         return 1;
+    }
 
     ///- Initialize the World
     sWorld.SetInitialWorldSettings();
@@ -196,7 +212,6 @@ int Master::Run()
     ACE_Based::Thread world_thread(new WorldRunnable);
     world_thread.setPriority(ACE_Based::Highest);
 
-    // set realmbuilds depend on worldserver expected builds, and set server online
     {
         std::string builds = AcceptableClientBuildsListStr();
         loginDatabase.escape_string(builds);
@@ -238,7 +253,7 @@ int Master::Run()
 
                 if(!curAff )
                 {
-                    sLog.outError("Processors marked in UseProcessors bitmask (hex) %x not accessible for worldserver. Accessible processors bitmask (hex): %x",Aff,appAff);
+                    sLog.outError("Processors marked in UseProcessors bitmask (hex) %x not accessible for WorldServer. Accessible processors bitmask (hex): %x",Aff,appAff);
                 }
                 else
                 {
@@ -257,13 +272,16 @@ int Master::Run()
         if(Prio)
         {
             if(SetPriorityClass(hProcess,HIGH_PRIORITY_CLASS))
-                sLog.outString("worldserver process priority class set to HIGH");
+                sLog.outString("WorldServer process priority class set to HIGH");
             else
-                sLog.outError("ERROR: Can't set worldserver process priority class.");
+                sLog.outError("ERROR: Can't set WorldServer process priority class.");
             sLog.outString();
         }
     }
     #endif
+
+    ///- Start soap serving thread
+    ACE_Based::Thread* soap_thread = NULL;
 
     uint32 realCurrTime, realPrevTime;
     realCurrTime = realPrevTime = getMSTime();
@@ -285,6 +303,7 @@ int Master::Run()
     if (sWorldSocketMgr->StartNetwork (wsport, bind_ip) == -1)
     {
         sLog.outError ("Failed to start network");
+        Log::WaitBeforeContinueIfNeed();
         World::StopNow(ERROR_EXIT_CODE);
         // go down and shutdown the server
     }
@@ -296,6 +315,14 @@ int Master::Run()
     {
         freeze_thread->destroy();
         delete freeze_thread;
+    }
+
+    ///- Stop soap thread
+    if(soap_thread)
+    {
+        soap_thread->wait();
+        soap_thread->destroy();
+        delete soap_thread;
     }
 
     ///- Set server offline in realmlist
@@ -393,6 +420,7 @@ bool Master::_StartDB()
         sLog.outError("Database not specified in configuration file");
         return false;
     }
+    sLog.outString("World Database: %s", dbstring.c_str());
 
     ///- Initialise the world database
     if(!WorldDatabase.Initialize(dbstring.c_str()))
@@ -410,6 +438,7 @@ bool Master::_StartDB()
         WorldDatabase.HaltDelayThread();
         return false;
     }
+    sLog.outString("Character Database: %s", dbstring.c_str());
 
     ///- Initialise the Character database
     if(!CharacterDatabase.Initialize(dbstring.c_str()))
@@ -433,6 +462,8 @@ bool Master::_StartDB()
         return false;
     }
 
+    ///- Initialise the login database
+    sLog.outString("Login Database: %s", dbstring.c_str() );
     if(!loginDatabase.Initialize(dbstring.c_str()))
     {
         sLog.outError("Cannot connect to login database %s",dbstring.c_str());
@@ -463,8 +494,8 @@ bool Master::_StartDB()
 
     sWorld.LoadDBVersion();
 
-    sLog.outString("World DB: %s", sWorld.GetDBVersion());
-	sLog.outString("EventAI: %s", sWorld.GetCreatureEventAIVersion());
+    sLog.outString("Using World DB: %s", sWorld.GetDBVersion());
+    sLog.outString("Using creature EventAI: %s", sWorld.GetCreatureEventAIVersion());
     return true;
 }
 

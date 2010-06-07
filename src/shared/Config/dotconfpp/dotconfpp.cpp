@@ -124,7 +124,6 @@ int DOTCONFDocument::cleanupLine(char* line)
             continue;
         }
 
-        //if(*line == '\\' && (*(line+1) == '"' || *(line+1) == '\'')){
         if (*line == '\\' && (*(line + 1) == '\''))
         {
             *bg++ = *(line + 1);

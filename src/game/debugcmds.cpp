@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,6 +32,10 @@
 #include "ObjectMgr.h"
 #include "ObjectGuid.h"
 #include "SpellMgr.h"
+
+#include "pathfinding/Detour/DetourNavMesh.h"
+#include "pathfinding/Detour/DetourCommon.h"
+#include "PathFinder.h"
 
 bool ChatHandler::HandleDebugSendSpellFailCommand(const char* args)
 {
@@ -87,7 +91,7 @@ bool ChatHandler::HandleDebugSendPoiCommand(const char* args)
     uint32 icon = atol(icon_text);
     uint32 flags = atol(flags_text);
 
-    sLog.outDetail("Command : POI, NPC = %u, icon = %u flags = %u", target->GetGUIDLow(), icon,flags);
+    DETAIL_LOG("Command : POI, NPC = %u, icon = %u flags = %u", target->GetGUIDLow(), icon,flags);
     pPlayer->PlayerTalkClass->SendPointOfInterest(target->GetPositionX(), target->GetPositionY(), Poi_Icon(icon), flags, 30, "Test POI");
     return true;
 }
@@ -187,12 +191,12 @@ bool ChatHandler::HandleDebugSendOpcodeCommand(const char* /*args*/)
         }
         else
         {
-            sLog.outDebug("Sending opcode: unknown type '%s'", type.c_str());
+            DEBUG_LOG("Sending opcode: unknown type '%s'", type.c_str());
             break;
         }
     }
     ifs.close();
-    sLog.outDebug("Sending opcode %u", data.GetOpcode());
+    DEBUG_LOG("Sending opcode %u", data.GetOpcode());
     data.hexlike();
     ((Player*)unit)->GetSession()->SendPacket(&data);
     PSendSysMessage(LANG_COMMAND_OPCODESENT, data.GetOpcode(), unit->GetName());
@@ -211,6 +215,211 @@ bool ChatHandler::HandleDebugUpdateWorldStateCommand(const char* args)
     uint32 state = (uint32)atoi(s);
     m_session->GetPlayer()->SendUpdateWorldState(world, state);
     return true;
+}
+
+bool ChatHandler::HandleDebugMoveMapCommand(const char* args)
+{
+    if(!args)
+        return false;
+
+    if(!m_session->GetPlayer()->GetMap() || !m_session->GetPlayer()->GetMap()->GetNavMesh())
+    {
+        PSendSysMessage("NavMesh not loaded for current map.");
+        return true;
+    }
+
+    char* w = strtok((char*)args, " ");
+
+    if (w && strcmp(w, "path") == 0)
+    {
+        float extents[3] = {2.f, 4.f, 2.f};
+        dtQueryFilter filter = dtQueryFilter();
+
+        // units
+        Player* player = m_session->GetPlayer();
+        Unit* target = getSelectedUnit();
+
+        // unit locations
+        float x, y, z;
+        target->GetPosition(x, y, z);
+        float start[3] = {y, z, x};
+        player->GetPosition(x, y, z);
+        float end[3] = {y, z, x};
+        float pathPos[MAX_PATH_LENGTH];
+
+        // path
+        PathInfo path = PathInfo(target, x, y, z);
+        PSendSysMessage("%s's path to %s:", target->GetName(), player->GetName());
+        PSendSysMessage("length %i", path.m_length);
+        PSendSysMessage("start  (%f,%f,%f)", path.m_startPosition[0],path.m_startPosition[1],path.m_startPosition[2]);
+        PSendSysMessage("next   (%f,%f,%f)", path.m_nextPosition[0],path.m_nextPosition[1],path.m_nextPosition[2]);
+        PSendSysMessage("end    (%f,%f,%f)", path.m_endPosition[0],path.m_endPosition[1],path.m_endPosition[2]);
+        PSendSysMessage("path");
+        for(int i = 0; i < path.m_length; ++i)
+            PSendSysMessage("       %i", path.m_pathPolyRefs[i]);
+
+        // unit polyrefs
+        dtPolyRef startPoly = path.m_navMesh->findNearestPoly(start, extents, &filter, 0);
+        dtPolyRef endPoly = path.m_navMesh->findNearestPoly(end, extents, &filter, 0);
+
+        // straithPath
+        int length = path.m_navMesh->findStraightPath(start, end, path.m_pathPolyRefs, path.m_length, pathPos, 0, 0, MAX_PATH_LENGTH);
+        PSendSysMessage("Path positions:");
+        for(int i = 0; i < length; ++i)
+            PSendSysMessage("(%.2f,%.2f,%.2f)", pathPos[i*3], pathPos[i*3+1], pathPos[i*3+2]);
+
+        return true;
+    }
+    else if(w && strcmp(w, "verts") == 0)
+    {
+        float extents[3] = {2.f, 4.f, 2.f};
+        dtQueryFilter filter = dtQueryFilter();
+
+        // units
+        Player* player = m_session->GetPlayer();
+        Unit* target = getSelectedUnit();
+
+        // unit locations
+        float x, y, z;
+        target->GetPosition(x, y, z);
+        float start[3] = {y, z, x};
+        player->GetPosition(x, y, z);
+        float end[3] = {y, z, x};
+
+        PathInfo path = PathInfo(target, x, y, z);
+
+        dtPolyRef startPoly = path.m_navMesh->findNearestPoly(start, extents, &filter, 0);
+        dtPolyRef endPoly = path.m_navMesh->findNearestPoly(end, extents, &filter, 0);
+
+        // vertices stuff
+        int polyindex;
+        const dtMeshTile* tile = path.m_navMesh->getTileByPolyRef(startPoly, &polyindex);
+        dtPoly poly = tile->polys[polyindex];
+        float vertices[DT_VERTS_PER_POLYGON*3];
+
+        // startpoly vertices
+        int nv = 0;
+        for (int i = 0; i < (int)poly.vertCount; ++i)
+        {
+            dtVcopy(&vertices[nv*3], &tile->verts[poly.verts[i]*3]);
+            nv++;
+        }
+
+        PSendSysMessage("Poly vertices for %i:", startPoly);
+        for(int i = 0; i < (int)poly.vertCount; ++i)
+            PSendSysMessage("(%.2f,%.2f,%.2f)", vertices[i*3], vertices[i*3+1], vertices[i*3+2]);
+
+        // endpoly vertices
+        tile = path.m_navMesh->getTileByPolyRef(endPoly, &polyindex);
+        poly = tile->polys[polyindex];
+        nv = 0;
+        for (int i = 0; i < (int)poly.vertCount; ++i)
+        {
+            dtVcopy(&vertices[nv*3], &tile->verts[poly.verts[i]*3]);
+            nv++;
+        }
+
+        PSendSysMessage("Poly vertices for %i:", endPoly);
+        for(int i = 0; i < (int)poly.vertCount; ++i)
+            PSendSysMessage("(%.2f,%.2f,%.2f)", vertices[i*3], vertices[i*3+1], vertices[i*3+2]);
+
+        return true;
+    }
+    else if(w && strcmp(w, "tileloc") == 0)
+    {
+        Player* player = m_session->GetPlayer();
+        dtNavMesh* navmesh = player->GetMap()->GetNavMesh();
+
+        const float* min = navmesh->getParams()->orig;
+
+        float x, y, z;
+        player->GetPosition(x, y, z);
+        float location[3] = {y, z, x};
+        float extents[3] = {2.f,4.f,2.f};
+
+        int tilex = (int) (y - min[0]) / 533.33333;
+        int tiley = (int) (x - min[2]) / 533.33333;
+
+        PSendSysMessage("Calc [%02i,%02i]", tilex, tiley);
+
+        dtPolyRef poly = navmesh->findNearestPoly(location, extents, &(dtQueryFilter()), 0);
+        const dtMeshTile* tile = navmesh->getTileByPolyRef(poly, 0);
+        PSendSysMessage("Dt   [%02i,%02i]", tile->header->x, tile->header->y);
+
+        return true;
+    }
+    else if(w && strcmp(w, "polytest") == 0)
+    {
+        Player* player = m_session->GetPlayer();
+        dtNavMesh* navmesh = player->GetMap()->GetNavMesh();
+
+        float x, y, z;
+        player->GetPosition(x, y, z);
+        float location[3] = {y, z, x};
+        float extents[3] = {2.f,4.f,2.f};
+        dtQueryFilter filter = dtQueryFilter();
+        filter.includeFlags = 0xFFFF;
+
+        dtPolyRef nearestPoly;
+
+        PSendSysMessage("Nearest poly is:");
+
+        nearestPoly = navmesh->findNearestPoly(location, extents, &filter, 0);
+        PSendSysMessage("(y,z,x)");
+        PSendSysMessage("(%.2f,%.2f,%.2f)", y, z, x);
+        PSendSysMessage("%u", nearestPoly);
+
+        return true;
+    }
+    else if(w && strcmp(w, "stats") == 0)
+    {
+        dtNavMesh* navmesh = m_session->GetPlayer()->GetMap()->GetNavMesh();
+
+        uint32 tileCount = 0;
+        uint32 nodeCount = 0;
+        uint32 polyCount = 0;
+        uint32 vertCount = 0;
+        uint32 triCount = 0;
+        uint32 triVertCount = 0;
+        uint32 dataSize = 0;
+        for(int i = 0; i < navmesh->getMaxTiles(); ++i)
+        {
+            const dtMeshTile* tile = navmesh->getTile(i);
+            if(!tile || !tile->header)
+                continue;
+
+            tileCount ++;
+            nodeCount += tile->header->bvNodeCount;
+            polyCount += tile->header->polyCount;
+            vertCount += tile->header->vertCount;
+            triCount += tile->header->detailTriCount;
+            triVertCount += tile->header->detailVertCount;
+            dataSize += tile->dataSize;
+        }
+
+        PSendSysMessage("Navmesh stats:");
+        PSendSysMessage(" %u tiles loaded", tileCount);
+        PSendSysMessage(" %u BVTree nodes", nodeCount);
+        PSendSysMessage(" %u polygons (%u vertices)", polyCount, vertCount);
+        PSendSysMessage(" %u triangles (%u vertices)", triCount, triVertCount);
+        PSendSysMessage(" %.2f MB of data (not including pointers)", ((float)dataSize / sizeof(unsigned char)) / 1048576);
+
+        return true;
+    }
+    else
+    {
+        // usage
+        PSendSysMessage(".debug mmap commands:");
+        PSendSysMessage("  path      print path info from target (or self) to self");
+        PSendSysMessage("  verts     print vertices of current start and end poly");
+        PSendSysMessage("  tileloc   print the current tile's navmesh index");
+        PSendSysMessage("  polytest  print the current polygon's ref");
+        PSendSysMessage("  stats     print stats about the current navmesh");
+        
+        return true;
+    }
+
+    return false;
 }
 
 bool ChatHandler::HandleDebugPlayCinematicCommand(const char* args)
@@ -824,14 +1033,14 @@ bool ChatHandler::HandleDebugSetValueCommand(const char* args)
     if(isint32)
     {
         iValue = (uint32)atoi(py);
-        sLog.outDebug(GetString(LANG_SET_UINT), GUID_LOPART(guid), Opcode, iValue);
+        DEBUG_LOG(GetString(LANG_SET_UINT), GUID_LOPART(guid), Opcode, iValue);
         target->SetUInt32Value( Opcode , iValue );
         PSendSysMessage(LANG_SET_UINT_FIELD, GUID_LOPART(guid), Opcode,iValue);
     }
     else
     {
         fValue = (float)atof(py);
-        sLog.outDebug(GetString(LANG_SET_FLOAT), GUID_LOPART(guid), Opcode, fValue);
+        DEBUG_LOG(GetString(LANG_SET_FLOAT), GUID_LOPART(guid), Opcode, fValue);
         target->SetFloatValue( Opcode , fValue );
         PSendSysMessage(LANG_SET_FLOAT_FIELD, GUID_LOPART(guid), Opcode,fValue);
     }
@@ -875,13 +1084,13 @@ bool ChatHandler::HandleDebugGetValueCommand(const char* args)
     if(isint32)
     {
         iValue = target->GetUInt32Value( Opcode );
-        sLog.outDebug(GetString(LANG_GET_UINT), GUID_LOPART(guid), Opcode, iValue);
+        DEBUG_LOG(GetString(LANG_GET_UINT), GUID_LOPART(guid), Opcode, iValue);
         PSendSysMessage(LANG_GET_UINT_FIELD, GUID_LOPART(guid), Opcode,    iValue);
     }
     else
     {
         fValue = target->GetFloatValue( Opcode );
-        sLog.outDebug(GetString(LANG_GET_FLOAT), GUID_LOPART(guid), Opcode, fValue);
+        DEBUG_LOG(GetString(LANG_GET_FLOAT), GUID_LOPART(guid), Opcode, fValue);
         PSendSysMessage(LANG_GET_FLOAT_FIELD, GUID_LOPART(guid), Opcode, fValue);
     }
 
@@ -908,7 +1117,7 @@ bool ChatHandler::HandleDebugMod32ValueCommand(const char* args)
         return false;
     }
 
-    sLog.outDebug(GetString(LANG_CHANGE_32BIT), Opcode, Value);
+    DEBUG_LOG(GetString(LANG_CHANGE_32BIT), Opcode, Value);
 
     int CurrentValue = (int)m_session->GetPlayer( )->GetUInt32Value( Opcode );
 
@@ -967,28 +1176,6 @@ bool ChatHandler::HandleDebugUpdateCommand(const char* args)
     PSendSysMessage(LANG_UPDATE_CHANGE, chr->GetGUIDLow(),updateIndex,value);
 
     chr->SetUInt32Value(updateIndex,value);
-
-    return true;
-}
-
-bool ChatHandler::HandleDebugVMAPCommand(const char* args)
-{
-    float x, y, z;
-    m_session->GetPlayer()->GetPosition(x, y, z);
-
-    Map* playerMap = m_session->GetPlayer()->GetMap();
-    char* outdoorString;
-    if(playerMap->IsOutdoors(x, y, z))
-        outdoorString = "outdoors";
-    else
-        outdoorString = "indoors";
-
-    uint32 flags;
-    int32 adtId, rootId, groupId;
-    playerMap->GetAreaInfo(x, y, z, flags, adtId, rootId, groupId);
-
-    PSendSysMessage("You are %s", outdoorString);
-    PSendSysMessage("AreaInfo flags 0x%08X", flags);
 
     return true;
 }

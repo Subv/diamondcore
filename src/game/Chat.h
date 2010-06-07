@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -67,7 +67,7 @@ class ChatHandler
         void SendSysMessage(          int32     entry);
         void PSendSysMessage(         const char *format, ...) ATTR_PRINTF(2,3);
         void PSendSysMessage(         int32     entry, ...  );
-        std::string PGetParseString(int32 entry, ...);
+		std::string PGetParseString(int32 entry, ...);
 
         int ParseCommands(const char* text);
 
@@ -91,7 +91,7 @@ class ChatHandler
         bool HasLowerSecurityAccount(WorldSession* target, uint32 account, bool strong = false);
 
         void SendGlobalSysMessage(const char *str);
-        void SendGlobalGMSysMessage(const char *str);
+		void SendGlobalGMSysMessage(const char *str);
 
         bool SetDataForCommandInTable(ChatCommand *table, const char* text, uint32 security, std::string const& help, std::string const& fullcommand );
         bool ExecuteCommandInTable(ChatCommand *table, const char* text, const std::string& fullcommand);
@@ -101,6 +101,7 @@ class ChatHandler
         ChatCommand* getCommandTable();
 
         bool HandleAccountCommand(const char* args);
+        bool HandleAccountCharactersCommand(const char* args);
         bool HandleAccountCreateCommand(const char* args);
         bool HandleAccountDeleteCommand(const char* args);
         bool HandleAccountLockCommand(const char* args);
@@ -128,14 +129,15 @@ class ChatHandler
         bool HandleCastTargetCommand(const char *args);
 
         bool HandleCharacterCustomizeCommand(const char * args);
-        bool HandleCharacterDeleteCommand(const char* args);
+        bool HandleCharacterDeletedDeleteCommand(const char* args);
+        bool HandleCharacterDeletedListCommand(const char* args);
+        bool HandleCharacterDeletedRestoreCommand(const char* args);
+        bool HandleCharacterDeletedOldCommand(const char* args);
+        bool HandleCharacterEraseCommand(const char* args);
         bool HandleCharacterLevelCommand(const char* args);
         bool HandleCharacterRenameCommand(const char * args);
         bool HandleCharacterReputationCommand(const char* args);
         bool HandleCharacterTitlesCommand(const char* args);
-        bool HandleCharacterDeletedListCommand(const char* args);
-        bool HandleCharacterDeletedRestoreCommand(const char* args);
-        bool HandleCharacterDeletedDeleteCommand(const char* args);
 
         bool HandleDebugAnimCommand(const char* args);
         bool HandleDebugArenaCommand(const char * args);
@@ -152,6 +154,7 @@ class ChatHandler
         bool HandleDebugSpellCheckCommand(const char* args);
         bool HandleDebugUpdateCommand(const char* args);
         bool HandleDebugUpdateWorldStateCommand(const char* args);
+        bool HandleDebugMoveMapCommand(const char* args);
 
         bool HandleDebugPlayCinematicCommand(const char* args);
         bool HandleDebugPlayMovieCommand(const char* args);
@@ -170,8 +173,6 @@ class ChatHandler
         bool HandleDebugSendSetPhaseShiftCommand(const char * args);
         bool HandleDebugSendSpellFailCommand(const char* args);
 
-        bool HandleDebugVMAPCommand(const char* args);
-
         bool HandleEventListCommand(const char* args);
         bool HandleEventStartCommand(const char* args);
         bool HandleEventStopCommand(const char* args);
@@ -185,7 +186,7 @@ class ChatHandler
         bool HandleGameObjectTargetCommand(const char* args);
         bool HandleGameObjectTurnCommand(const char* args);
 
-        // Ticketsystem
+		// Ticketsystem
         bool HandleGMTicketListCommand(const char* args);
         bool HandleGMTicketListOnlineCommand(const char* args);
         bool HandleGMTicketListClosedCommand(const char* args);
@@ -251,6 +252,9 @@ class ChatHandler
         bool HandleListObjectCommand(const char* args);
         bool HandleListTalentsCommand(const char * args);
 
+        bool HandleLookupAccountEmailCommand(const char* args);
+        bool HandleLookupAccountIpCommand(const char* args);
+        bool HandleLookupAccountNameCommand(const char* args);
         bool HandleLookupAreaCommand(const char* args);
         bool HandleLookupCreatureCommand(const char* args);
         bool HandleLookupEventCommand(const char* args);
@@ -392,7 +396,7 @@ class ChatHandler
         bool HandleReloadLootTemplatesSkinningCommand(const char* args);
         bool HandleReloadLootTemplatesSpellCommand(const char* args);
         bool HandleReloadMailLevelRewardCommand(const char* args);
-        bool HandleReloadGetStringCommand(const char* args);
+        bool HandleReloadStringCommand(const char* args);
         bool HandleReloadNpcGossipCommand(const char* args);
         bool HandleReloadNpcTrainerCommand(const char* args);
         bool HandleReloadNpcVendorCommand(const char* args);
@@ -422,7 +426,6 @@ class ChatHandler
         bool HandleReloadSpellScriptsCommand(const char* args);
         bool HandleReloadSpellTargetPositionCommand(const char* args);
         bool HandleReloadSpellThreatsCommand(const char* args);
-		bool HandleReloadSpellDisabledCommand(const char* args);
         bool HandleReloadSpellPetAurasCommand(const char* args);
         bool HandleReloadVehicleDataCommand(const char* args);
         bool HandleReloadVehicleSeatDataCommand(const char* args);
@@ -446,10 +449,11 @@ class ChatHandler
         bool HandleServerIdleRestartCommand(const char* args);
         bool HandleServerIdleShutDownCommand(const char* args);
         bool HandleServerInfoCommand(const char* args);
+        bool HandleServerLogFilterCommand(const char* args);
+        bool HandleServerLogLevelCommand(const char* args);
         bool HandleServerMotdCommand(const char* args);
         bool HandleServerPLimitCommand(const char* args);
         bool HandleServerRestartCommand(const char* args);
-        bool HandleServerSetLogLevelCommand(const char* args);
         bool HandleServerSetMotdCommand(const char* args);
         bool HandleServerShutDownCommand(const char* args);
         bool HandleServerShutDownCancelCommand(const char* args);
@@ -560,11 +564,14 @@ class ChatHandler
         std::string playerLink(std::string const& name) const { return m_session ? "|cffffffff|Hplayer:"+name+"|h["+name+"]|h|r" : name; }
         std::string GetNameLink(Player* chr) const { return playerLink(chr->GetName()); }
 
+        uint32 extractAccountId(char* args, std::string* accountName = NULL, Player** targetIfNullArg = NULL);
+
         GameObject* GetObjectGlobalyWithGuidOrNearWithDbGuid(uint32 lowguid,uint32 entry);
 
         // Utility methods for commands
-        void ShowTicket(uint64 guid, char const* text, char const* time);
-        bool LookupPlayerSearchCommand(QueryResult* result, int32 limit);
+        bool ShowAccountListHelper(QueryResult* result, uint32* limit = NULL, bool title = true, bool error = true);
+        bool ShowPlayerListHelper(QueryResult* result, uint32* limit = NULL, bool title = true, bool error = true);
+        bool LookupPlayerSearchCommand(QueryResult* result, uint32* limit = NULL);
         bool HandleBanListHelper(QueryResult* result);
         bool HandleBanHelper(BanMode mode,char const* args);
         bool HandleBanInfoHelper(uint32 accountid, char const* accountname);
@@ -572,6 +579,24 @@ class ChatHandler
         void HandleCharacterLevel(Player* player, uint64 player_guid, uint32 oldlevel, uint32 newlevel);
         void HandleLearnSkillRecipesHelper(Player* player,uint32 skill_id);
         void ShowSpellListHelper(Player* target, SpellEntry const* spellInfo, LocaleConstant loc);
+
+        /**
+         * Stores informations about a deleted character
+         */
+        struct DeletedInfo
+        {
+            uint32      lowguid;                            ///< the low GUID from the character
+            std::string name;                               ///< the character name
+            uint32      accountId;                          ///< the account id
+            std::string accountName;                        ///< the account name
+            time_t      deleteDate;                         ///< the date at which the character has been deleted
+        };
+
+        typedef std::list<DeletedInfo> DeletedInfoList;
+        bool GetDeletedCharacterInfoList(DeletedInfoList& foundList, std::string searchString = "");
+        std::string GenerateDeletedCharacterGUIDsWhereStr(DeletedInfoList::const_iterator& itr, DeletedInfoList::const_iterator const& itr_end);
+        void HandleCharacterDeletedListHelper(DeletedInfoList const& foundList);
+        void HandleCharacterDeletedRestoreHelper(DeletedInfo const& delInfo);
 
         void SetSentErrorMessage(bool val){ sentErrorMessage = val;};
     private:

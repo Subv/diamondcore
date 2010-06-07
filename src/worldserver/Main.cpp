@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,10 +15,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
-/// \addtogroup DiamondCore Daemon
-/// @{
-/// \file
 
 #include "Common.h"
 #include "Database/DatabaseEnv.h"
@@ -66,7 +62,7 @@ void usage(const char *prog)
         ,prog);
 }
 
-/// Launch the DiamondCore server
+/// Launch the WorldServer
 extern int main(int argc, char **argv)
 {
     // - Construct Memory Manager Instance
@@ -107,6 +103,7 @@ extern int main(int argc, char **argv)
             {
                 sLog.outError("Runtime-Error: -s option requires an input argument");
                 usage(argv[0]);
+                Log::WaitBeforeContinueIfNeed();
                 return 1;
             }
             if( strcmp(argv[c],"install") == 0)
@@ -125,6 +122,7 @@ extern int main(int argc, char **argv)
             {
                 sLog.outError("Runtime-Error: unsupported option %s",argv[c]);
                 usage(argv[0]);
+                Log::WaitBeforeContinueIfNeed();
                 return 1;
             }
         }
@@ -140,6 +138,7 @@ extern int main(int argc, char **argv)
     if (!sConfig.SetSource(cfg_file))
     {
         sLog.outError("Could not find configuration file %s.", cfg_file);
+        Log::WaitBeforeContinueIfNeed();
         return 1;
     }
 
@@ -148,13 +147,14 @@ extern int main(int argc, char **argv)
 
     sLog.outString("Using configuration file %s.", cfg_file);
 
-    sLog.outDetail("%s (Library: %s)", OPENSSL_VERSION_TEXT, SSLeay_version(SSLEAY_VERSION));
+    DETAIL_LOG("%s (Library: %s)", OPENSSL_VERSION_TEXT, SSLeay_version(SSLEAY_VERSION));
     if (SSLeay() < 0x009080bfL )
     {
-        sLog.outDetail("WARNING: Outdated version of OpenSSL lib. Logins to server may not work!");
-        sLog.outDetail("WARNING: Minimal required version [OpenSSL 0.9.8k]");
+        DETAIL_LOG("WARNING: Outdated version of OpenSSL lib. Logins to server may not work!");
+        DETAIL_LOG("WARNING: Minimal required version [OpenSSL 0.9.8k]");
     }
-    sLog.outDetail("Using ACE: %s", ACE_VERSION);
+
+    DETAIL_LOG("Using ACE: %s", ACE_VERSION);
 
     ///- and run the 'Master'
     /// \todo Why do we need this 'Master'? Can't all of this be in the Main as for Realmd?
@@ -163,7 +163,6 @@ extern int main(int argc, char **argv)
     // at sMaster return function exist with codes
     // 0 - normal shutdown
     // 1 - shutdown at error
-    // 2 - restart command used, this code can be used by restarter for restart worldserver
+    // 2 - restart command used, this code can be used by restarter for restart WorldServer
 }
 
-/// @}

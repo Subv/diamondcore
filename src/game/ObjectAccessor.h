@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@
 #include "Platform/Define.h"
 #include "Policies/Singleton.h"
 #include <ace/Thread_Mutex.h>
+#include <ace/RW_Thread_Mutex.h>
 #include "Utilities/UnorderedMap.h"
 #include "Policies/ThreadingModel.h"
 
@@ -48,26 +49,33 @@ class HashMapHolder
     public:
 
         typedef UNORDERED_MAP< uint64, T* >   MapType;
-        typedef ACE_Thread_Mutex LockType;
-        typedef Diamond::GeneralLock<LockType > Guard;
+        typedef ACE_RW_Thread_Mutex LockType;
+        typedef ACE_Read_Guard<LockType> ReadGuard;
+        typedef ACE_Write_Guard<LockType> WriteGuard;
 
-        static void Insert(T* o) { m_objectMap[o->GetGUID()] = o; }
+        static void Insert(T* o)
+        {
+            WriteGuard guard(i_lock);
+            m_objectMap[o->GetGUID()] = o;
+        }
 
         static void Remove(T* o)
         {
-            Guard guard(i_lock);
+            WriteGuard guard(i_lock);
             m_objectMap.erase(o->GetGUID());
         }
 
         static T* Find(ObjectGuid guid)
         {
+            ReadGuard guard(i_lock);
             typename MapType::iterator itr = m_objectMap.find(guid.GetRawValue());
             return (itr != m_objectMap.end()) ? itr->second : NULL;
         }
 
         static MapType& GetContainer() { return m_objectMap; }
 
-        static LockType* GetLock() { return &i_lock; }
+        static LockType& GetLock() { return i_lock; }
+
     private:
 
         //Non instanceable only static
@@ -79,8 +87,8 @@ class HashMapHolder
 
 class DIAMOND_DLL_DECL ObjectAccessor : public Diamond::Singleton<ObjectAccessor, Diamond::ClassLevelLockable<ObjectAccessor, ACE_Thread_Mutex> >
 {
-
     friend class Diamond::OperatorNew<ObjectAccessor>;
+
     ObjectAccessor();
     ~ObjectAccessor();
     ObjectAccessor(const ObjectAccessor &);

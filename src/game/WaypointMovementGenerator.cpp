@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ alter table creature_movement add `wpguid` int(11) default '0';
 //-----------------------------------------------//
 void WaypointMovementGenerator<Creature>::LoadPath(Creature &c)
 {
-    sLog.outDetail("LoadPath: loading waypoint path for creature %u, %u", c.GetGUIDLow(), c.GetDBTableGUIDLow());
+    DETAIL_FILTER_LOG(LOG_FILTER_AI_AND_MOVEGENSS, "LoadPath: loading waypoint path for creature %u, %u", c.GetGUIDLow(), c.GetDBTableGUIDLow());
 
     i_path = sWaypointMgr.GetPath(c.GetDBTableGUIDLow());
 
@@ -56,8 +56,17 @@ void WaypointMovementGenerator<Creature>::LoadPath(Creature &c)
         return;
     }
 
-    // do not perform behavior while leaving first waypoint after loading
-    i_hasDone = true;
+    uint32 node_count = i_path->size();
+    i_hasDone.resize(node_count);
+
+    for(uint32 i = 0; i < node_count-1; ++i)
+        i_hasDone[i] = false;
+
+    // to prevent a misbehavior inside "update"
+    // update is always called with the next wp - but the wpSys needs the current
+    // so when the routine is called the first time, wpSys gets the last waypoint
+    // and this prevents the system from performing text/emote, etc
+    i_hasDone[node_count - 1] = true;
 }
 
 void WaypointMovementGenerator<Creature>::Initialize( Creature &u )
@@ -105,6 +114,10 @@ bool WaypointMovementGenerator<Creature>::Update(Creature &creature, const uint3
         return true;
     }
 
+    // i_path was modified by chat commands for example
+    if (i_path->size() != i_hasDone.size())
+        i_hasDone.resize(i_path->size());
+
     if (i_currentNode >= i_path->size())
         i_currentNode = 0;
 
@@ -149,61 +162,70 @@ bool WaypointMovementGenerator<Creature>::Update(Creature &creature, const uint3
         return true;                                        // Abort here this update
     }
 
-    if (creature.IsStopped() && !i_hasDone) // creature is waiting on a waypoint and hasn't done the behavior yet
+    if (creature.IsStopped())
     {
         uint32 idx = i_currentNode > 0 ? i_currentNode-1 : i_path->size()-1;
 
-        if (i_path->at(idx).orientation != 100)
-            creature.SetOrientation(i_path->at(idx).orientation);
-
-        if (WaypointBehavior *behavior = i_path->at(idx).behavior)
+        if (!i_hasDone[idx])
         {
-            if (behavior->emote != 0)
-                creature.HandleEmote(behavior->emote);
+            if (i_path->at(idx).orientation != 100)
+                creature.SetOrientation(i_path->at(idx).orientation);
 
-            if (behavior->spell != 0)
+            if (i_path->at(idx).script_id)
             {
-                creature.CastSpell(&creature, behavior->spell, false);
-
-                if (!IsActive(creature))                // force stop processing (cast can change movegens list)
-                    return true;                        // not expire now, but already lost
+                DEBUG_FILTER_LOG(LOG_FILTER_AI_AND_MOVEGENSS, "Creature movement start script %u at point %u for creature %u (entry %u).", i_path->at(idx).script_id, idx, creature.GetDBTableGUIDLow(), creature.GetEntry());
+                creature.GetMap()->ScriptsStart(sCreatureMovementScripts, i_path->at(idx).script_id, &creature, &creature);
             }
 
-            if (behavior->model1 != 0)
-                creature.SetDisplayId(behavior->model1);
-
-            if (behavior->textid[0])
+            if (WaypointBehavior *behavior = i_path->at(idx).behavior)
             {
-                // Not only one text is set
-                if (behavior->textid[1])
+                if (behavior->emote != 0)
+                    creature.HandleEmote(behavior->emote);
+
+                if (behavior->spell != 0)
                 {
-                    // Select one from max 5 texts (0 and 1 already checked)
-                    int i = 2;
-                    for(; i < MAX_WAYPOINT_TEXT; ++i)
-                    {
-                        if (!behavior->textid[i])
-                            break;
-                    }
+                    creature.CastSpell(&creature, behavior->spell, false);
 
-                    creature.Say(behavior->textid[rand() % i], 0, 0);
+                    if (!IsActive(creature))                // force stop processing (cast can change movegens list)
+                        return true;                        // not expire now, but already lost
                 }
-                else
-                    creature.Say(behavior->textid[0], 0, 0);
+
+                if (behavior->model1 != 0)
+                    creature.SetDisplayId(behavior->model1);
+
+                if (behavior->textid[0])
+                {
+                    // Not only one text is set
+                    if (behavior->textid[1])
+                    {
+                        // Select one from max 5 texts (0 and 1 already checked)
+                        int i = 2;
+                        for(; i < MAX_WAYPOINT_TEXT; ++i)
+                        {
+                            if (!behavior->textid[i])
+                                break;
+                        }
+
+                        creature.Say(behavior->textid[rand() % i], 0, 0);
+                    }
+                    else
+                        creature.Say(behavior->textid[0], 0, 0);
+                }
+            }                                               // wpBehaviour found
+
+            i_hasDone[idx] = true;
+            MovementInform(creature);
+
+            if (!IsActive(creature))                        // force stop processing (movement can move out active zone with cleanup movegens list)
+                return true;                                // not expire now, but already lost
+
+            // prevent a crash at empty waypoint path.
+            if (!i_path || i_path->empty() || i_currentNode >= i_path->size())
+            {
+                creature.clearUnitState(UNIT_STAT_ROAMING_MOVE);
+                return true;
             }
-        } // behavior done
-
-        i_hasDone = true;
-        MovementInform(creature);
-
-        if (!IsActive(creature))                        // force stop processing (movement can move out active zone with cleanup movegens list)
-            return true;                                // not expire now, but already lost
-
-        // prevent a crash at empty waypoint path.
-        if (!i_path || i_path->empty() || i_currentNode >= i_path->size())
-        {
-            creature.clearUnitState(UNIT_STAT_ROAMING_MOVE);
-            return true;
-        }
+        }                                                   // HasDone == false
     }                                                       // i_creature.IsStopped()
 
     // This is at the end of waypoint segment or has been stopped by player
@@ -226,14 +248,10 @@ bool WaypointMovementGenerator<Creature>::Update(Creature &creature, const uint3
             if (i_path->at(idx).orientation != 100)
                 creature.SetOrientation(i_path->at(idx).orientation);
 
-            if (i_path->at(idx).script_id)
-            {
-                sLog.outDebug("Creature movement start script %u at point %u for creature %u (entry %u).", i_path->at(idx).script_id, idx, creature.GetDBTableGUIDLow(), creature.GetEntry());
-                creature.GetMap()->ScriptsStart(sCreatureMovementScripts, i_path->at(idx).script_id, &creature, &creature);
-            }
-
             if (WaypointBehavior *behavior = i_path->at(idx).behavior)
             {
+                i_hasDone[idx] = false;
+
                 if (behavior->model2 != 0)
                     creature.SetDisplayId(behavior->model2);
 
@@ -248,8 +266,6 @@ bool WaypointMovementGenerator<Creature>::Update(Creature &creature, const uint3
 
             i_nextMoveTime.Reset(i_path->at(i_currentNode).delay);
             ++i_currentNode;
-
-            i_hasDone = false;
 
             if (i_currentNode >= i_path->size())
                 i_currentNode = 0;
@@ -298,7 +314,6 @@ void FlightPathMovementGenerator::Finalize(Player & player)
 
     float x, y, z;
     i_destinationHolder.GetLocationNow(player.GetBaseMap(), x, y, z);
-    player.Anti__SetLastTeleTime(time(NULL));
     player.SetPosition(x, y, z, player.GetOrientation());
 
     player.Unmount();
@@ -355,7 +370,7 @@ bool FlightPathMovementGenerator::Update(Player &player, const uint32 &diff)
                 {
                     DoEventIfAny(player,(*i_path)[i_currentNode],true);
 
-                    DEBUG_LOG("loading node %u for player %s", i_currentNode, player.GetName());
+                    DEBUG_FILTER_LOG(LOG_FILTER_AI_AND_MOVEGENSS, "loading node %u for player %s", i_currentNode, player.GetName());
                     if ((*i_path)[i_currentNode].mapid == curMap)
                     {
                         // do not send movement, it was sent already
@@ -396,7 +411,7 @@ void FlightPathMovementGenerator::DoEventIfAny(Player& player, TaxiPathNodeEntry
 {
     if (uint32 eventid = departure ? node.departureEventID : node.arrivalEventID)
     {
-        DEBUG_LOG("Taxi %s event %u of node %u of path %u for player %s", departure ? "departure" : "arrival", eventid, node.index, node.path, player.GetName());
+        DEBUG_FILTER_LOG(LOG_FILTER_AI_AND_MOVEGENSS, "Taxi %s event %u of node %u of path %u for player %s", departure ? "departure" : "arrival", eventid, node.index, node.path, player.GetName());
         player.GetMap()->ScriptsStart(sEventScripts, eventid, &player, &player);
     }
 }

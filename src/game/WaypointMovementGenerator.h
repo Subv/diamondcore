@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -101,7 +101,7 @@ public PathMovementBase<Creature, WaypointPath const*>
     private:
 
         TimeTrackerSmall i_nextMoveTime;
-        bool i_hasDone;
+        std::vector<bool> i_hasDone;
         bool b_StoppedByPlayer;
 };
 

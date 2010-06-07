@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -60,7 +60,7 @@ TrainerSpell const* TrainerSpellData::Find(uint32 spell_id) const
 bool VendorItemData::RemoveItem( uint32 item_id )
 {
     bool found = false;
-    for(VendorItemList::iterator i = m_items.begin(); i != m_items.end();)
+    for(VendorItemList::iterator i = m_items.begin(); i != m_items.end(); )
     {
         // can have many examples
         if((*i)->item == item_id)
@@ -68,8 +68,8 @@ bool VendorItemData::RemoveItem( uint32 item_id )
             i = m_items.erase(i);
             found = true;
         }
-		else
-			++i;
+        else
+            ++i;
     }
 
     return found;
@@ -131,8 +131,6 @@ m_creatureInfo(NULL), m_isActiveObject(false), m_splineFlags(SPLINEFLAG_WALKMODE
     m_GlobalCooldown = 0;
 
     m_splineFlags = SPLINEFLAG_WALKMODE;
-
-    ResetObtainedDamage();
 }
 
 Creature::~Creature()
@@ -369,7 +367,7 @@ void Creature::Update(uint32 diff)
         {
             if( m_respawnTime <= time(NULL) )
             {
-                DEBUG_LOG("Respawning...");
+                DEBUG_FILTER_LOG(LOG_FILTER_AI_AND_MOVEGENSS, "Respawning...");
                 m_respawnTime = 0;
                 lootForPickPocketed = false;
                 lootForBody         = false;
@@ -415,7 +413,7 @@ void Creature::Update(uint32 diff)
                 if (IsInWorld())                            // can be despawned by update pool
                 {
                     RemoveCorpse();
-                    DEBUG_LOG("Removing corpse... %u ", GetEntry());
+                    DEBUG_FILTER_LOG(LOG_FILTER_AI_AND_MOVEGENSS, "Removing corpse... %u ", GetEntry());
                 }
             }
             else
@@ -447,7 +445,7 @@ void Creature::Update(uint32 diff)
                     if (IsInWorld())                        // can be despawned by update pool
                     {
                         RemoveCorpse();
-                        DEBUG_LOG("Removing alive corpse... %u ", GetEntry());
+                        DEBUG_FILTER_LOG(LOG_FILTER_AI_AND_MOVEGENSS, "Removing alive corpse... %u ", GetEntry());
                     }
                     else
                         return;
@@ -610,7 +608,7 @@ bool Creature::AIM_Initialize()
     // make sure nothing can change the AI during AI update
     if(m_AI_locked)
     {
-        sLog.outDebug("AIM_Initialize: failed to init, locked.");
+        DEBUG_FILTER_LOG(LOG_FILTER_AI_AND_MOVEGENSS, "AIM_Initialize: failed to init, locked.");
         return false;
     }
 
@@ -1288,7 +1286,7 @@ void Creature::DeleteFromDB()
 {
     if (!m_DBTableGuid)
     {
-        sLog.outDebug("Trying to delete not saved creature!");
+        DEBUG_LOG("Trying to delete not saved creature!");
         return;
     }
 
@@ -1383,7 +1381,6 @@ void Creature::setDeathState(DeathState s)
     {
         SetHealth(GetMaxHealth());
         SetLootRecipient(NULL);
-        ResetObtainedDamage();
         CreatureInfo const *cinfo = GetCreatureInfo();
         SetUInt32Value(UNIT_DYNAMIC_FLAGS, 0);
         RemoveFlag (UNIT_FIELD_FLAGS, UNIT_FLAG_SKINNABLE);
@@ -1656,7 +1653,7 @@ void Creature::SendAIReaction(AiReaction reactionType)
 
     ((WorldObject*)this)->SendMessageToSet(&data, true);
 
-    sLog.outDebug("WORLD: Sent SMSG_AI_REACTION, type %u.", reactionType);
+    DEBUG_FILTER_LOG(LOG_FILTER_AI_AND_MOVEGENSS, "WORLD: Sent SMSG_AI_REACTION, type %u.", reactionType);
 }
 
 void Creature::CallAssistance()
@@ -1870,7 +1867,7 @@ bool Creature::LoadCreaturesAddon(bool reload)
 
             Aura* AdditionalAura = CreateAura(AdditionalSpellInfo, cAura->effect_idx, NULL, this, this, 0);
             AddAura(AdditionalAura);
-            sLog.outDebug("Spell: %u with Aura %u added to creature (GUIDLow: %u Entry: %u )", cAura->spell_id, AdditionalSpellInfo->EffectApplyAuraName[EFFECT_INDEX_0],GetGUIDLow(),GetEntry());
+            DEBUG_FILTER_LOG(LOG_FILTER_SPELL_CAST, "Spell: %u with Aura %u added to creature (GUIDLow: %u Entry: %u )", cAura->spell_id, AdditionalSpellInfo->EffectApplyAuraName[EFFECT_INDEX_0],GetGUIDLow(),GetEntry());
         }
     }
     return true;

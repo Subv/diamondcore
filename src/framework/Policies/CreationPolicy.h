@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,20 +27,28 @@ namespace Diamond
     /**
      * OperatorNew policy creates an object on the heap using new.
      */
-    template <class T>
-        class DIAMOND_DLL_DECL OperatorNew
+    template<class T>
+    class DIAMOND_DLL_DECL OperatorNew
     {
         public:
-            static T* Create(void) { return (new T); }
-            static void Destroy(T *obj) { delete obj; }
+
+            static T* Create()
+            {
+                return (new T);
+            }
+
+            static void Destroy(T *obj)
+            {
+                delete obj;
+            }
     };
 
     /**
      * LocalStaticCreation policy creates an object on the stack
      * the first time call Create.
      */
-    template <class T>
-        class DIAMOND_DLL_DECL LocalStaticCreation
+    template<class T>
+    class DIAMOND_DLL_DECL LocalStaticCreation
     {
         union MaxAlign
         {
@@ -55,34 +63,43 @@ namespace Diamond
             int Test::* pMember_;
             int (Test::*pMemberFn_)(int);
         };
+
         public:
-            static T* Create(void)
+
+            static T* Create()
             {
                 static MaxAlign si_localStatic;
                 return new(&si_localStatic) T;
             }
 
-            static void Destroy(T *obj) { obj->~T(); }
+            static void Destroy(T *obj)
+            {
+                obj->~T();
+            }
     };
 
     /**
      * CreateUsingMalloc by pass the memory manger.
      */
     template<class T>
-        class DIAMOND_DLL_DECL CreateUsingMalloc
+    class DIAMOND_DLL_DECL CreateUsingMalloc
     {
         public:
+
             static T* Create()
             {
-                void* p = ::malloc(sizeof(T));
-                if (!p) return 0;
+                void* p = malloc(sizeof(T));
+
+                if (!p)
+                    return NULL;
+
                 return new(p) T;
             }
 
             static void Destroy(T* p)
             {
                 p->~T();
-                ::free(p);
+                free(p);
             }
     };
 
@@ -90,7 +107,7 @@ namespace Diamond
      * CreateOnCallBack creates the object base on the call back.
      */
     template<class T, class CALL_BACK>
-        class DIAMOND_DLL_DECL CreateOnCallBack
+    class DIAMOND_DLL_DECL CreateOnCallBack
     {
         public:
             static T* Create()
@@ -104,4 +121,5 @@ namespace Diamond
             }
     };
 }
+
 #endif
