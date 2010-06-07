@@ -168,6 +168,9 @@ src/shared
 src/framework 
 src/shared/Database 
 src/shared/vmap
+src/shared/pathfinding
+src/shared/pathfinding/Detour
+src/shared/pathfinding/Recast
 src/game 
 src/scripts/base
 ${CMAKE_BINARY_DIR}
