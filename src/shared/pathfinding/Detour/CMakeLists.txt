@@ -10,4 +10,3 @@ SET(detour_STAT_SRCS
 )
 
 add_library(detour STATIC ${detour_STAT_SRCS})
-)

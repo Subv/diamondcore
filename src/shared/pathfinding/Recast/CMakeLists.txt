@@ -15,4 +15,3 @@ SET(recast_STAT_SRCS
 )
 
 add_library(recast STATIC ${recast_STAT_SRCS})
-)
