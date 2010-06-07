@@ -97,7 +97,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\src\shared\pathfinding\ChunkyTriMesh.cpp" />
     <ClCompile Include="..\..\..\..\src\shared\pathfinding\DebugUtils\DebugDraw.cpp" />
     <ClCompile Include="..\..\..\..\src\shared\pathfinding\DebugUtils\DetourDebugDraw.cpp" />
     <ClCompile Include="..\..\..\..\src\shared\pathfinding\DebugUtils\RecastDebugDraw.cpp" />
@@ -106,8 +105,6 @@
     <ClCompile Include="..\..\..\..\src\shared\pathfinding\Detour\DetourNavMesh.cpp" />
     <ClCompile Include="..\..\..\..\src\shared\pathfinding\Detour\DetourNavMeshBuilder.cpp" />
     <ClCompile Include="..\..\..\..\src\shared\pathfinding\Detour\DetourNode.cpp" />
-    <ClCompile Include="..\..\..\..\src\shared\pathfinding\InputGeom.cpp" />
-    <ClCompile Include="..\..\..\..\src\shared\pathfinding\MeshLoaderObj.cpp" />
     <ClCompile Include="..\..\..\..\src\shared\pathfinding\Recast\Recast.cpp" />
     <ClCompile Include="..\..\..\..\src\shared\pathfinding\Recast\RecastArea.cpp" />
     <ClCompile Include="..\..\..\..\src\shared\pathfinding\Recast\RecastContour.cpp" />
@@ -125,13 +122,13 @@
     <ClCompile Include="..\..\..\..\src\shared\vmap\VMapFactory.cpp" />
     <ClCompile Include="..\..\..\..\src\shared\vmap\VMapManager2.cpp" />
     <ClCompile Include="..\..\..\..\src\shared\vmap\WorldModel.cpp" />
+    <ClCompile Include="..\..\src\ChunkyTriMesh.cpp" />
     <ClCompile Include="..\..\src\generator.cpp" />
     <ClCompile Include="..\..\src\MapBuilder.cpp" />
     <ClCompile Include="..\..\src\TileBuilder.cpp" />
     <ClCompile Include="..\..\src\VMapExtensions.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\src\shared\pathfinding\ChunkyTriMesh.h" />
     <ClInclude Include="..\..\..\..\src\shared\pathfinding\DebugUtils\DebugDraw.h" />
     <ClInclude Include="..\..\..\..\src\shared\pathfinding\DebugUtils\DetourDebugDraw.h" />
     <ClInclude Include="..\..\..\..\src\shared\pathfinding\DebugUtils\RecastDebugDraw.h" />
@@ -140,8 +137,6 @@
     <ClInclude Include="..\..\..\..\src\shared\pathfinding\Detour\DetourNavMesh.h" />
     <ClInclude Include="..\..\..\..\src\shared\pathfinding\Detour\DetourNavMeshBuilder.h" />
     <ClInclude Include="..\..\..\..\src\shared\pathfinding\Detour\DetourNode.h" />
-    <ClInclude Include="..\..\..\..\src\shared\pathfinding\InputGeom.h" />
-    <ClInclude Include="..\..\..\..\src\shared\pathfinding\MeshLoaderObj.h" />
     <ClInclude Include="..\..\..\..\src\shared\pathfinding\Recast\Recast.h" />
     <ClInclude Include="..\..\..\..\src\shared\pathfinding\Recast\RecastLog.h" />
     <ClInclude Include="..\..\..\..\src\shared\pathfinding\Recast\RecastTimer.h" />
@@ -156,6 +151,7 @@
     <ClInclude Include="..\..\..\..\src\shared\vmap\VMapManager2.h" />
     <ClInclude Include="..\..\..\..\src\shared\vmap\VMapTools.h" />
     <ClInclude Include="..\..\..\..\src\shared\vmap\WorldModel.h" />
+    <ClInclude Include="..\..\src\ChunkyTriMesh.h" />
     <ClInclude Include="..\..\src\MangosMap.h" />
     <ClInclude Include="..\..\src\MapBuilder.h" />
     <ClInclude Include="..\..\src\MMapCommon.h" />
