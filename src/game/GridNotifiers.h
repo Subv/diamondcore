@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,13 +40,12 @@ namespace Diamond
     {
         Camera& camera;
         UpdateData i_data;
-        UpdateDataMapType i_data_updates;
         ObjectGuidSet i_clientGUIDs;
         std::set<WorldObject*> i_visibleNow;
 
         explicit VisibleNotifier(Camera &c) : camera(c), i_clientGUIDs(c.getOwner()->m_clientGUIDs) {}
         template<class T> void Visit(GridRefManager<T> &m);
-		void Visit(CameraMapType &m) {}
+        void Visit(CameraMapType &m) {}
         void Notify(void);
     };
 
@@ -93,10 +92,10 @@ namespace Diamond
         uint32        i_phaseMask;
         WorldPacket*  i_message;
         Player const* i_skipped_receiver;
-        
+
         MessageDelivererExcept(WorldObject const* obj, WorldPacket *msg, Player const* skipped)
             : i_phaseMask(obj->GetPhaseMask()), i_message(msg), i_skipped_receiver(skipped) {}
-        
+
         void Visit(CameraMapType &m);
         template<class SKIP> void Visit(GridRefManager<SKIP> &) {}
     };

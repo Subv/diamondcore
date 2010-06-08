@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -70,16 +70,15 @@ enum ShutdownExitCode
 /// Timers for different object refresh rates
 enum WorldTimers
 {
-    WUPDATE_OBJECTS       = 0,
-    WUPDATE_SESSIONS      = 1,
-    WUPDATE_AUCTIONS      = 2,
-    WUPDATE_WEATHERS      = 3,
-    WUPDATE_UPTIME        = 4,
-    WUPDATE_CORPSES       = 5,
-    WUPDATE_EVENTS        = 6,
-    WUPDATE_DELETECHARS   = 7,
-	WUPDATE_AUTOBROADCAST = 8,
-    WUPDATE_COUNT         = 9
+    WUPDATE_OBJECTS     = 0,
+    WUPDATE_SESSIONS    = 1,
+    WUPDATE_AUCTIONS    = 2,
+    WUPDATE_WEATHERS    = 3,
+    WUPDATE_UPTIME      = 4,
+    WUPDATE_CORPSES     = 5,
+    WUPDATE_EVENTS      = 6,
+    WUPDATE_DELETECHARS = 7,
+    WUPDATE_COUNT       = 8
 };
 
 /// Configuration elements
@@ -169,6 +168,7 @@ enum eConfigUInt32Values
     CONFIG_UINT32_ARENA_RATING_DISCARD_TIMER,
     CONFIG_UINT32_ARENA_AUTO_DISTRIBUTE_INTERVAL_DAYS,
     CONFIG_UINT32_ARENA_SEASON_ID,
+    CONFIG_UINT32_CLIENTCACHE_VERSION,
     CONFIG_UINT32_GUILD_EVENT_LOG_COUNT,
     CONFIG_UINT32_GUILD_BANK_EVENT_LOG_COUNT,
     CONFIG_UINT32_TIMERBAR_FATIGUE_GMLEVEL,
@@ -178,22 +178,32 @@ enum eConfigUInt32Values
     CONFIG_UINT32_TIMERBAR_FIRE_GMLEVEL,
     CONFIG_UINT32_TIMERBAR_FIRE_MAX,
     CONFIG_UINT32_MIN_LEVEL_STAT_SAVE,
-    CONFIG_UINT32_DALARAN_RESTRICTED_FLIGHT_AREA,
-	CONFIG_UINT32_AHBOT_ACCOUNT_ID,
+    CONFIG_UINT32_CHARDELETE_KEEP_DAYS,
+    CONFIG_UINT32_CHARDELETE_METHOD,
+    CONFIG_UINT32_CHARDELETE_MIN_LEVEL,
+	
+	    /* Start AHBot */
+    CONFIG_UINT32_AHBOT_ACCOUNT_ID,
     CONFIG_UINT32_AHBOT_CHARACTER_ID,
+
     CONFIG_UINT32_AHBOT_ITEMS_CYCLE,
+
     CONFIG_UINT32_AHBOT_ITEM_MIN_ITEM_LEVEL,
     CONFIG_UINT32_AHBOT_ITEM_MAX_ITEM_LEVEL,
     CONFIG_UINT32_AHBOT_TG_MIN_ITEM_LEVEL,
     CONFIG_UINT32_AHBOT_TG_MAX_ITEM_LEVEL,
+
     CONFIG_UINT32_AHBOT_ITEM_MIN_REQ_LEVEL,
     CONFIG_UINT32_AHBOT_ITEM_MAX_REQ_LEVEL,
     CONFIG_UINT32_AHBOT_TG_MIN_REQ_LEVEL,
     CONFIG_UINT32_AHBOT_TG_MAX_REQ_LEVEL,
+
     CONFIG_UINT32_AHBOT_ITEM_MIN_SKILL_RANK,
     CONFIG_UINT32_AHBOT_ITEM_MAX_SKILL_RANK,
     CONFIG_UINT32_AHBOT_TG_MIN_SKILL_RANK,
     CONFIG_UINT32_AHBOT_TG_MAX_SKILL_RANK,
+    /* End AHBot*/
+
     CONFIG_UINT32_VALUE_COUNT
 };
 
@@ -324,24 +334,21 @@ enum eConfigBoolValues
     CONFIG_BOOL_ARENA_QUEUE_ANNOUNCER_JOIN,
     CONFIG_BOOL_ARENA_QUEUE_ANNOUNCER_EXIT,
     CONFIG_BOOL_KICK_PLAYER_ON_BAD_PACKET,
-    CONFIG_BOOL_STATS_SAVE_ONLY_ON_LOGOUT,
-    CONFIG_BOOL_CLEAN_CHARACTER_DB,
-    CONFIG_BOOL_VMAP_INDOOR_CHECK,
-	CONFIG_BOOL_AHBOT_SELLER_ENABLED,
+    CONFIG_BOOL_AHBOT_SELLER_ENABLED,
     CONFIG_BOOL_AHBOT_BUYER_ENABLED,
-
     CONFIG_BOOL_AHBOT_ITEMS_VENDOR,
     CONFIG_BOOL_AHBOT_ITEMS_LOOT,
     CONFIG_BOOL_AHBOT_ITEMS_MISC,
-
     CONFIG_BOOL_AHBOT_BIND_NO,
     CONFIG_BOOL_AHBOT_BIND_PICKUP,
     CONFIG_BOOL_AHBOT_BIND_EQUIP,
     CONFIG_BOOL_AHBOT_BIND_USE,
     CONFIG_BOOL_AHBOT_BIND_QUEST,
-
     CONFIG_BOOL_AHBOT_BUYPRICE_SELLER,
     CONFIG_BOOL_AHBOT_BUYPRICE_BUYER,
+    CONFIG_BOOL_STATS_SAVE_ONLY_ON_LOGOUT,
+    CONFIG_BOOL_CLEAN_CHARACTER_DB,
+    CONFIG_BOOL_VMAP_INDOOR_CHECK,
     CONFIG_BOOL_VALUE_COUNT
 };
 
@@ -475,7 +482,6 @@ class World
 
         WorldSession* FindSession(uint32 id) const;
         void AddSession(WorldSession *s);
-        void SendBroadcast();
         bool RemoveSession(uint32 id);
         /// Get the number of current active sessions
         void UpdateMaxSessionCounters();
@@ -607,18 +613,6 @@ class World
         static float GetVisibleUnitGreyDistance()           { return m_VisibleUnitGreyDistance;       }
         static float GetVisibleObjectGreyDistance()         { return m_VisibleObjectGreyDistance;     }
 
-        //movement anticheat enable flag
-        inline bool GetMvAnticheatEnable()             {return m_MvAnticheatEnable;}
-        inline bool GetMvAnticheatKick()               {return m_MvAnticheatKick;}
-        inline uint32 GetMvAnticheatAlarmCount()       {return m_MvAnticheatAlarmCount;}
-        inline uint32 GetMvAnticheatAlarmPeriod()      {return m_MvAnticheatAlarmPeriod;}
-        inline unsigned char GetMvAnticheatBan()       {return m_MvAntiCheatBan;}
-        inline std::string GetMvAnticheatBanTime()     {return m_MvAnticheatBanTime;}
-        inline unsigned char GetMvAnticheatGmLevel()   {return m_MvAnticheatGmLevel;}
-        inline bool GetMvAnticheatKill()               {return m_MvAnticheatKill;}
-        inline float GetMvAnticheatMaxXYT()            {return m_MvAnticheatMaxXYT;}
-        inline uint16 GetMvAnticheatIgnoreAfterTeleport()   {return m_MvAnticheatIgnoreAfterTeleport;}
-
         void ProcessCliCommands();
         void QueueCliCommand(CliCommandHolder* commandHolder) { cliCmdQueue.add(commandHolder); }
 
@@ -709,18 +703,6 @@ class World
         static float m_MaxVisibleDistanceInFlight;
         static float m_VisibleUnitGreyDistance;
         static float m_VisibleObjectGreyDistance;
-
-        //movement anticheat enable flag
-        bool m_MvAnticheatEnable;
-        bool m_MvAnticheatKick;
-        uint32 m_MvAnticheatAlarmCount;
-        uint32 m_MvAnticheatAlarmPeriod;
-        unsigned char m_MvAntiCheatBan;
-        std::string m_MvAnticheatBanTime;
-        unsigned char m_MvAnticheatGmLevel;
-        bool m_MvAnticheatKill;
-        float m_MvAnticheatMaxXYT;
-        uint16 m_MvAnticheatIgnoreAfterTeleport;
 
         // CLI command holder to be thread safe
         ACE_Based::LockedQueue<CliCommandHolder*,ACE_Thread_Mutex> cliCmdQueue;

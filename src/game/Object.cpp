@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -182,7 +182,7 @@ void Object::BuildCreateUpdateBlockForPlayer(UpdateData *data, Player *target) c
         }
     }
 
-    //sLog.outDebug("BuildCreateUpdate: update-type: %u, object-type: %u got updateFlags: %X", updatetype, m_objectTypeId, updateFlags);
+    //DEBUG_LOG("BuildCreateUpdate: update-type: %u, object-type: %u got updateFlags: %X", updatetype, m_objectTypeId, updateFlags);
 
     ByteBuffer buf(500);
     buf << uint8(updatetype);
@@ -335,7 +335,7 @@ void Object::BuildMovementUpdate(ByteBuffer * data, uint16 updateFlags) const
         {
             if(GetTypeId() != TYPEID_PLAYER)
             {
-                sLog.outDebug("_BuildMovementUpdate: MOVEFLAG_SPLINE_ENABLED for non-player");
+                DEBUG_LOG("_BuildMovementUpdate: MOVEFLAG_SPLINE_ENABLED for non-player");
                 return;
             }
 
@@ -343,7 +343,7 @@ void Object::BuildMovementUpdate(ByteBuffer * data, uint16 updateFlags) const
 
             if(!player->isInFlight())
             {
-                sLog.outDebug("_BuildMovementUpdate: MOVEFLAG_SPLINE_ENABLED but not in flight");
+                DEBUG_LOG("_BuildMovementUpdate: MOVEFLAG_SPLINE_ENABLED but not in flight");
                 return;
             }
 
@@ -1186,6 +1186,16 @@ float WorldObject::GetDistance(float x, float y, float z) const
     return ( dist > 0 ? dist : 0);
 }
 
+float WorldObject::GetDistanceSqr(float x, float y, float z) const
+{
+    float dx = GetPositionX() - x;
+    float dy = GetPositionY() - y;
+    float dz = GetPositionZ() - z;
+    float sizefactor = GetObjectSize();
+    float dist = dx*dx+dy*dy+dz*dz-sizefactor;
+    return (dist > 0 ? dist : 0);
+}
+
 float WorldObject::GetDistance2d(const WorldObject* obj) const
 {
     float dx = GetPositionX() - obj->GetPositionX();
@@ -1366,6 +1376,34 @@ float WorldObject::GetAngle( const float x, const float y ) const
     return ang;
 }
 
+bool WorldObject::HasInArc(const float arcangle, const float x, const float y) const
+{
+    // always have self in arc
+    if(x == m_positionX && y == m_positionY)
+        return true;
+
+    float arc = arcangle;
+
+    // move arc to range 0.. 2*pi
+    while( arc >= 2.0f * M_PI_F )
+        arc -=  2.0f * M_PI_F;
+    while( arc < 0 )
+        arc +=  2.0f * M_PI_F;
+
+    float angle = GetAngle( x, y );
+    angle -= m_orientation;
+
+    // move angle to range -pi ... +pi
+    while( angle > M_PI_F)
+        angle -= 2.0f * M_PI_F;
+    while(angle < -M_PI_F)
+        angle += 2.0f * M_PI_F;
+
+    float lborder =  -1 * (arc/2.0f);                       // in range -pi..0
+    float rborder = (arc/2.0f);                             // in range 0..pi
+    return (( angle >= lborder ) && ( angle <= rborder ));
+}
+
 bool WorldObject::HasInArc(const float arcangle, const WorldObject* obj) const
 {
     // always have self in arc
@@ -1467,11 +1505,11 @@ void WorldObject::MonsterTextEmote(const char* text, uint64 TargetGuid, bool IsB
 {
     WorldPacket data(SMSG_MESSAGECHAT, 200);
     BuildMonsterChat(&data,IsBossEmote ? CHAT_MSG_RAID_BOSS_EMOTE : CHAT_MSG_MONSTER_EMOTE,text,LANG_UNIVERSAL,GetName(),TargetGuid);
-	Unit * eye = Unit::GetUnit((*this), TargetGuid);
+    Unit * eye = Unit::GetUnit((*this), TargetGuid);
     if (eye && eye->isCharmed())
         SendMessageToSet(&data, true);
     else
-		SendMessageToSetInRange(&data,sWorld.getConfig(IsBossEmote ? CONFIG_FLOAT_LISTEN_RANGE_YELL : CONFIG_FLOAT_LISTEN_RANGE_TEXTEMOTE),true);
+    SendMessageToSetInRange(&data,sWorld.getConfig(IsBossEmote ? CONFIG_FLOAT_LISTEN_RANGE_YELL : CONFIG_FLOAT_LISTEN_RANGE_TEXTEMOTE),true);
 }
 
 void WorldObject::MonsterWhisper(const char* text, uint64 receiver, bool IsBossWhisper)
@@ -1592,37 +1630,6 @@ void WorldObject::SendMessageToSet(WorldPacket *data, bool /*bToSelf*/)
     Map * _map = IsInWorld() ? GetMap() : sMapMgr.FindMap(GetMapId(), GetInstanceId());
     if(_map)
         _map->MessageBroadcast(this, data);
-}
-
-struct ObjectMessageDeliverer2
-{
-    uint32 i_phaseMask;
-    WorldPacket *i_message;
-    Player const* skipped_receiver;
-    explicit ObjectMessageDeliverer2(WorldObject const* obj, WorldPacket *msg, Player const* skipped)
-        : i_phaseMask(obj->GetPhaseMask()), i_message(msg), skipped_receiver(skipped) {}
-
-    void Visit(CameraMapType &m)
-    {
-        for(CameraMapType::iterator it = m.begin(); it!= m.end(); ++it)
-        {
-            Camera* c = it->getSource();
-            if(!c->getBody()->InSamePhase(i_phaseMask) || c->getOwner() == skipped_receiver)
-                continue;
-
-            if (WorldSession* session = c->getOwner()->GetSession())
-                session->SendPacket(i_message);
-        }
-    }
-    template<class SKIP> void Visit(GridRefManager<SKIP> &) {}
-};
-
-void WorldObject::SendMessageToSet(WorldPacket *data, Player const* skipped_receiver)
-{
-    //if object is in world, map for it already created!
-    Map * _map = IsInWorld() ? GetMap() : sMapMgr.FindMap(GetMapId(), GetInstanceId());
-    if(_map)
-        ObjectMessageDeliverer2 notifier(this, data, skipped_receiver);
 }
 
 void WorldObject::SendMessageToSetInRange(WorldPacket *data, float dist, bool /*bToSelf*/)
@@ -1875,7 +1882,7 @@ void WorldObject::GetNearPoint(WorldObject const* searcher, float &x, float &y, 
     {
         Diamond::NearUsedPosDo u_do(*this,searcher,absAngle,selector);
         Diamond::WorldObjectWorker<Diamond::NearUsedPosDo> worker(this,u_do);
-        
+
         Cell::VisitAllObjects(this, worker, distance2d);
     }
 
@@ -1969,8 +1976,8 @@ void WorldObject::SetPhaseMask(uint32 newPhaseMask, bool update)
     m_phaseMask = newPhaseMask;
 
     if(update && IsInWorld())
-	{
-		UpdateObjectVisibility();
+    {
+        UpdateObjectVisibility();
         getViewPoint().Event_ViewPointVisibilityChanged();
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -97,9 +97,7 @@ class Vehicle : public Creature
             duration < 1 ? despawn = false : despawn = true;
             m_spawnduration = duration;
         }
-
-		VehicleDataStructure const* GetVehicleData() { return m_VehicleData; }
-
+        VehicleDataStructure const* GetVehicleData() { return m_VehicleData; }
         uint32 GetVehicleFlags() { return m_VehicleData ? m_VehicleData->v_flags : NULL; }
         uint32 GetCreationTime() { return m_creation_time; }
         void BuildVehicleActionBar(Player *plr) const;

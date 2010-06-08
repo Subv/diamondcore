@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -297,7 +297,7 @@ class ByteBuffer
         void read(uint8 *dest, size_t len)
         {
             if(_rpos  + len > size())
-               throw ByteBufferException(false, _rpos, len, size());
+                throw ByteBufferException(false, _rpos, len, size());
             memcpy(dest, &_storage[_rpos], len);
             _rpos += len;
         }
@@ -406,7 +406,7 @@ class ByteBuffer
         void put(size_t pos, const uint8 *src, size_t cnt)
         {
             if(pos + cnt > size())
-               throw ByteBufferException(true, pos, cnt, size());
+                throw ByteBufferException(true, pos, cnt, size());
             memcpy(&_storage[pos], src, cnt);
         }
 

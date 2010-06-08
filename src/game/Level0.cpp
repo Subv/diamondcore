@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -91,10 +91,8 @@ bool ChatHandler::HandleServerInfoCommand(const char* /*args*/)
     std::string str = secsToTimeString(sWorld.GetUptime());
 
     char const* full;
-    if(m_session)
-        full = _FULLVERSION;
-    else
-        full = _FULLVERSION;
+ 
+    full = _FULLVERSION;
 
     SendSysMessage(full);
     PSendSysMessage(LANG_USING_SCRIPT_LIB,sWorld.GetScriptsVersion());
@@ -152,21 +150,23 @@ bool ChatHandler::HandleGMListIngameCommand(const char* /*args*/)
 {
     bool first = true;
 
-    HashMapHolder<Player>::MapType &m = HashMapHolder<Player>::GetContainer();
-    HashMapHolder<Player>::MapType::const_iterator itr = m.begin();
-    for(; itr != m.end(); ++itr)
     {
-        AccountTypes itr_sec = itr->second->GetSession()->GetSecurity();
-        if ((itr->second->isGameMaster() || (itr_sec > SEC_PLAYER && itr_sec <= (AccountTypes)sWorld.getConfig(CONFIG_UINT32_GM_LEVEL_IN_GM_LIST))) &&
-            (!m_session || itr->second->IsVisibleGloballyFor(m_session->GetPlayer())))
+        HashMapHolder<Player>::ReadGuard g(HashMapHolder<Player>::GetLock());
+        HashMapHolder<Player>::MapType &m = sObjectAccessor.GetPlayers();
+        for(HashMapHolder<Player>::MapType::const_iterator itr = m.begin(); itr != m.end(); ++itr)
         {
-            if(first)
+            AccountTypes itr_sec = itr->second->GetSession()->GetSecurity();
+            if ((itr->second->isGameMaster() || (itr_sec > SEC_PLAYER && itr_sec <= (AccountTypes)sWorld.getConfig(CONFIG_UINT32_GM_LEVEL_IN_GM_LIST))) &&
+                (!m_session || itr->second->IsVisibleGloballyFor(m_session->GetPlayer())))
             {
-                SendSysMessage(LANG_GMS_ON_SRV);
-                first = false;
-            }
+                if(first)
+                {
+                    SendSysMessage(LANG_GMS_ON_SRV);
+                    first = false;
+                }
 
-            SendSysMessage(GetNameLink(itr->second).c_str());
+                SendSysMessage(GetNameLink(itr->second).c_str());
+            }
         }
     }
 

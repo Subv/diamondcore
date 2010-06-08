@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -84,6 +84,7 @@ class AuctionHouseObject
 
         uint32 Getcount() { return AuctionsMap.size(); }
 
+        // Added by AHBot
         AuctionEntryMap::iterator GetAuctionsBegin() {return AuctionsMap.begin();}
         AuctionEntryMap::iterator GetAuctionsEnd() {return AuctionsMap.end();}
 

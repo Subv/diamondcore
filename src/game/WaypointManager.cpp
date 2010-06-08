@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -61,12 +61,9 @@ void WaypointManager::Load()
     {
         sLog.outString( ">> Loaded 0 paths." );
         return;
-    }
-	else
-	{
+    } else {
         total_paths = (uint32)result->GetRowCount();
-        
-		do
+        do
         {
             Field *fields = result->Fetch();
             uint32 id    = fields[0].GetUInt32();
@@ -187,7 +184,7 @@ void WaypointManager::Load()
     } while( result->NextRow() );
     delete result;
 
-	if (!movementScriptSet.empty())
+    if (!movementScriptSet.empty())
     {
         for(std::set<uint32>::const_iterator itr = movementScriptSet.begin(); itr != movementScriptSet.end(); ++itr)
             sLog.outErrorDb("Table `creature_movement_scripts` contain unused script, id %u.", *itr);

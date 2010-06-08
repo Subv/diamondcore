@@ -699,14 +699,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\game\CharacterDatabaseCleaner.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\game\CharacterDatabaseCleaner.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\src\game\CharacterHandler.cpp"
 				>
 			</File>
@@ -748,6 +740,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\game\GridDefines.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\game\GridMap.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\game\GridMap.h"
 				>
 			</File>
 			<File
@@ -848,6 +848,10 @@
 			</File>
 			<File
 				RelativePath="..\..\src\game\MiscHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\game\MoveMap.cpp"
 				>
 			</File>
 			<File
@@ -970,10 +974,6 @@
 				RelativePath="..\..\src\game\TradeHandler.cpp"
 				>
 			</File>
-      <File
-				RelativePath="..\..\src\game\TicketMgr.cpp"
-				>
-      </File>
 			<File
 				RelativePath="..\..\src\game\Transports.cpp"
 				>
@@ -1080,6 +1080,14 @@
 			</File>
 			<File
 				RelativePath="..\..\src\game\MovementGenerator.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\game\PathFinder.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\game\PathFinder.h"
 				>
 			</File>
 			<File
@@ -1419,6 +1427,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\game\TicketMgr.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\game\Totem.cpp"
 				>
 			</File>
@@ -1550,6 +1562,14 @@
 		<Filter
 			Name="Tool"
 			>
+			<File
+				RelativePath="..\..\src\game\CharacterDatabaseCleaner.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\game\CharacterDatabaseCleaner.h"
+				>
+			</File>
 			<File
 				RelativePath="..\..\src\game\Language.h"
 				>

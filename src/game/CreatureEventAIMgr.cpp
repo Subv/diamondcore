@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -184,8 +184,7 @@ void CreatureEventAIMgr::LoadCreatureEventAI_Summons(bool check_entry_use)
             CheckUnusedAISummons();
 
         sLog.outString(">> Loaded %u CreatureEventAI summon definitions", Count);
-    }
-	else
+    }else
     {
         sLog.outString(">> Loaded 0 CreatureEventAI Summon definitions.");
     }
@@ -576,7 +575,7 @@ void CreatureEventAIMgr::LoadCreatureEventAI_Scripts()
                             {
                                 //output as debug for now, also because there's no general rule all spells have RecoveryTime
                                 if (temp.event_param3 < spell->RecoveryTime)
-                                    sLog.outDebug("CreatureEventAI:  Event %u Action %u uses SpellID %u but cooldown is longer(%u) than minumum defined in event param3(%u).", i, j+1,action.cast.spellId, spell->RecoveryTime, temp.event_param3);
+                                    DEBUG_FILTER_LOG(LOG_FILTER_AI_AND_MOVEGENSS, "CreatureEventAI:  Event %u Action %u uses SpellID %u but cooldown is longer(%u) than minumum defined in event param3(%u).", i, j+1,action.cast.spellId, spell->RecoveryTime, temp.event_param3);
                             }
                         }
                         */
@@ -769,8 +768,7 @@ void CreatureEventAIMgr::LoadCreatureEventAI_Scripts()
         CheckUnusedAISummons();
 
         sLog.outString(">> Loaded %u CreatureEventAI scripts", Count);
-    }
-    else
+    }else
     {
         sLog.outString(">> Loaded 0 CreatureEventAI scripts.");
     }

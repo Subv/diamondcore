@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -309,7 +309,7 @@ void PoolGroup<Creature>::Spawn1Object(PoolObject* obj, bool instantly)
         if (!map->Instanceable() && map->IsLoaded(data->posX, data->posY))
         {
             Creature* pCreature = new Creature;
-            //sLog.outDebug("Spawning creature %u",obj->guid);
+            //DEBUG_LOG("Spawning creature %u",obj->guid);
             if (!pCreature->LoadFromDB(obj->guid, map))
             {
                 delete pCreature;
@@ -350,7 +350,7 @@ void PoolGroup<GameObject>::Spawn1Object(PoolObject* obj, bool instantly)
         if (!map->Instanceable() && map->IsLoaded(data->posX, data->posY))
         {
             GameObject* pGameobject = new GameObject;
-            //sLog.outDebug("Spawning gameobject %u", obj->guid);
+            //DEBUG_LOG("Spawning gameobject %u", obj->guid);
             if (!pGameobject->LoadFromDB(obj->guid, map))
             {
                 delete pGameobject;
@@ -443,12 +443,10 @@ void PoolManager::LoadFromDB()
     {
         mPoolTemplate.clear();
         sLog.outString(">> Table pool_template is empty:");
-        sLog.outString();
         return;
     }
 
     uint32 count = 0;
-
     do
     {
         ++count;
@@ -682,7 +680,7 @@ void PoolManager::Initialize()
         delete result;
     }
 
-    sLog.outBasic("Pool handling system initialized, %u pools spawned.", count);
+    BASIC_LOG("Pool handling system initialized, %u pools spawned.", count);
 }
 
 // Call to spawn a pool, if cache if true the method will spawn only if cached entry is different

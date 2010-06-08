@@ -171,7 +171,7 @@ struct DIAMOND_DLL_DECL boss_malacrassAI : public ScriptedAI
         //it's empty, so first time
         if (m_lAddsEntryList.empty())
         {
-            //fill list with entries from creature array
+            //fill list with entries FROM creature_spawns array
             for(uint8 i = 0; i < MAX_ACTIVE_ADDS; ++i)
                 m_lAddsEntryList.push_back(rand()%2 ? m_auiSpawnEntry[i].m_uiCreatureEntry : m_auiSpawnEntry[i].m_uiCreatureEntryAlt);
 

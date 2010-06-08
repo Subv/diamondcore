@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -68,8 +68,7 @@ class SQLStorage
         void Load();
         void Free();
 
-		void EraseEntry(uint32 id);
-
+        void EraseEntry(uint32 id);
     private:
         void init(const char * _entry_field, const char * sqlname)
         {

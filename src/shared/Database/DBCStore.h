@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,6 +43,8 @@ class DBCStorage
 
 			// load raw non-string data
             fieldCount = dbc.GetCols();
+
+            // load raw non-string data
             m_dataTable = (T*)dbc.AutoProduceData(fmt,nCount,(char**&)indexTable);
             // create string holders for loaded string fields
 
@@ -90,7 +92,7 @@ class DBCStorage
             nCount = 0;
         }
 
-		void EraseEntry(uint32 id) { indexTable[id] = NULL; }
+        void EraseEntry(uint32 id) { indexTable[id] = NULL; }
 
     private:
         uint32 nCount;
@@ -100,4 +102,5 @@ class DBCStorage
         T* m_dataTable;
         StringPoolList m_stringPoolList;
 };
+
 #endif

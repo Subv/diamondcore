@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -101,7 +101,7 @@ void LootStore::LoadLootTable()
 
     if (result)
     {
-		do
+        do
         {
             Field *fields = result->Fetch();
 
@@ -165,7 +165,7 @@ void LootStore::LoadLootTable()
     }
     else
     {
-        sLog.outErrorDb( ">> Loaded 0 loot definitions. DB table `%s` is empty.",GetName() );
+        sLog.outErrorDb( ">> Loaded 0 loot definitions.",GetName() );
     }
 }
 

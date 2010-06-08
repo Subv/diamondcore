@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -141,7 +141,7 @@ typedef UNORDERED_MAP<uint32/*(mapid,spawnMode) pair*/,CellObjectGuidsMap> MapOb
 typedef UNORDERED_MAP<uint64/*(instance,guid) pair*/,time_t> RespawnTimes;
 
 
-// string ranges
+// String ranges
 #define MIN_DIAMOND_STRING_ID           1                    // 'strings'
 #define MAX_DIAMOND_STRING_ID           2000000000
 #define MIN_DB_SCRIPT_STRING_ID        MAX_DIAMOND_STRING_ID // 'db_script_string'
@@ -149,7 +149,7 @@ typedef UNORDERED_MAP<uint64/*(instance,guid) pair*/,time_t> RespawnTimes;
 #define MIN_CREATURE_AI_TEXT_STRING_ID (-1)                 // 'creature_ai_texts'
 #define MAX_CREATURE_AI_TEXT_STRING_ID (-1000000)
 
-struct GetDStringLocale
+struct StringLocale
 {
     std::vector<std::string> Content;                       // 0 -> default, i -> i-1 locale index
 };
@@ -162,7 +162,7 @@ typedef UNORDERED_MAP<uint32,ItemLocale> ItemLocaleMap;
 typedef UNORDERED_MAP<uint32,QuestLocale> QuestLocaleMap;
 typedef UNORDERED_MAP<uint32,NpcTextLocale> NpcTextLocaleMap;
 typedef UNORDERED_MAP<uint32,PageTextLocale> PageTextLocaleMap;
-typedef UNORDERED_MAP<int32,GetDStringLocale> GetStringLocaleMap;
+typedef UNORDERED_MAP<int32,StringLocale> StringLocaleMap;
 typedef UNORDERED_MAP<uint32,GossipMenuItemsLocale> GossipMenuItemsLocaleMap;
 typedef UNORDERED_MAP<uint32,PointOfInterestLocale> PointOfInterestLocaleMap;
 
@@ -204,7 +204,6 @@ struct ReputationOnKillEntry
     uint32 reputation_max_cap2;
     int32 repvalue2;
     bool team_dependent;
-    uint32 championingAura;
 };
 
 struct PointOfInterest
@@ -393,6 +392,7 @@ extern LanguageDesc lang_description[LANGUAGES_COUNT];
 DIAMOND_DLL_SPEC LanguageDesc const* GetLanguageDescByID(uint32 lang);
 
 class PlayerDumpReader;
+// vehicle system
 #define MAX_VEHICLE_SPELLS 6
 
 template<typename T>
@@ -419,8 +419,8 @@ struct VehicleDataStructure
     uint32 v_spells[MAX_VEHICLE_SPELLS];                    // spells
     uint32 req_aura;                                        // requieres aura on player to enter (eg. in wintergrasp)
 };
-typedef UNORDERED_MAP<uint32, VehicleDataStructure> VehicleDataMap;
 
+typedef UNORDERED_MAP<uint32, VehicleDataStructure> VehicleDataMap;
 typedef std::map<uint32,uint32> VehicleSeatDataMap;
 
 class ObjectMgr
@@ -689,7 +689,7 @@ class ObjectMgr
 
         void LoadVehicleData();
         void LoadVehicleSeatData();
-        void LoadTickets();
+		void LoadTickets();
 
         std::string GeneratePetName(uint32 entry);
         uint32 GetBaseXP(uint32 level) const;
@@ -714,7 +714,7 @@ class ObjectMgr
         //uint32 GenerateItemTextID() { return m_ItemGuids.Generate(); }
         uint32 GenerateMailID() { return m_MailIds.Generate(); }
         uint32 GeneratePetNumber() { return m_PetNumbers.Generate(); }
-        uint64 m_GMticketid;
+		uint64 m_GMticketid;
 
         typedef std::multimap<int32, uint32> ExclusiveQuestGroups;
         ExclusiveQuestGroups mExclusiveQuestGroups;
@@ -812,10 +812,10 @@ class ObjectMgr
         GameObjectData& NewGOData(uint32 guid) { return mGameObjectDataMap[guid]; }
         void DeleteGOData(uint32 guid);
 
-        GetDStringLocale const* GetStringLocale(int32 entry) const
+        StringLocale const* GetStringLocale(int32 entry) const
         {
-            GetStringLocaleMap::const_iterator itr = mGetStringLocaleMap.find(entry);
-            if(itr==mGetStringLocaleMap.end()) return NULL;
+            StringLocaleMap::const_iterator itr = mStringLocaleMap.find(entry);
+            if(itr==mStringLocaleMap.end()) return NULL;
             return &itr->second;
         }
         const char *GetString(int32 entry, int locale_idx) const;
@@ -847,21 +847,7 @@ class ObjectMgr
         static PetNameInvalidReason CheckPetName( const std::string& name );
         static bool IsValidCharterName( const std::string& name );
 
-        static bool CheckDeclinedNames(std::wstring w_ownname, DeclinedName const& names);
-
-        void LoadSpellDisabledEntrys();
-        uint8 IsSpellDisabled(uint32 spellid)
-        {
-            uint8 result=0;
-            SpellDisabledMap::const_iterator itr = m_spell_disabled.find(spellid);
-            if(itr != m_spell_disabled.end())
-            {
-                result=1;
-                if(itr->second != 0)
-                    result=2;
-            }
-            return result;
-        }
+        static bool CheckDeclinedNames(std::wstring mainpart, DeclinedName const& names);
 
         int GetIndexForLocale(LocaleConstant loc);
         LocaleConstant GetLocaleForIndex(int i);
@@ -1036,9 +1022,6 @@ class ObjectMgr
         typedef std::set<std::wstring> ReservedNamesMap;
         ReservedNamesMap    m_ReservedNames;
 
-        typedef UNORDERED_MAP<uint32, uint32> SpellDisabledMap;
-        SpellDisabledMap  m_spell_disabled;
-
         GraveYardMap        mGraveYardMap;
 
         GameTeleMap         m_GameTeleMap;
@@ -1095,7 +1078,7 @@ class ObjectMgr
         QuestLocaleMap mQuestLocaleMap;
         NpcTextLocaleMap mNpcTextLocaleMap;
         PageTextLocaleMap mPageTextLocaleMap;
-        GetStringLocaleMap mGetStringLocaleMap;
+        StringLocaleMap mStringLocaleMap;
         GossipMenuItemsLocaleMap mGossipMenuItemsLocaleMap;
         PointOfInterestLocaleMap mPointOfInterestLocaleMap;
         RespawnTimes mCreatureRespawnTimes;

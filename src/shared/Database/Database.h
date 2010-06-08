@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -100,7 +100,7 @@ class DIAMOND_DLL_SPEC Database
         virtual bool DirectExecute(const char* sql) = 0;
         bool DirectPExecute(const char *format,...) ATTR_PRINTF(2,3);
 
-        // Writes SQL commands to a LOG file (see worldserver.conf "LogSQL")
+        // Writes SQL commands to a LOG file (see WorldServer.conf "LogSQL")
         bool PExecuteLog(const char *format,...) ATTR_PRINTF(2,3);
 
         virtual bool BeginTransaction()                     // nothing do if DB not support transactions
@@ -129,7 +129,6 @@ class DIAMOND_DLL_SPEC Database
         // sets the result queue of the current thread, be careful what thread you call this from
         void SetResultQueue(SqlResultQueue * queue);
 
-        bool CheckRequiredField(char const* table_name, char const* required_name);
         uint32 GetPingIntervall() { return m_pingIntervallms;}
 
     private:

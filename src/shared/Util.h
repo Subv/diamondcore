@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -186,35 +186,28 @@ inline bool isNumeric(char c)
     return (c >= '0' && c <='9');
 }
 
-inline bool isNumeric(std::string str)
-{
-    for(std::string::iterator itr = str.begin(); itr != str.end(); ++itr)
-        if (!isNumeric(*itr)) return false;
-
-    return true;
-}
-
-inline bool isNumeric(std::wstring str)
-{
-    for(std::wstring::iterator itr = str.begin(); itr != str.end(); ++itr)
-        if (!isNumeric(*itr)) return false;
-
-    return true;
-}
-
 inline bool isNumericOrSpace(wchar_t wchar)
 {
     return isNumeric(wchar) || wchar == L' ';
 }
 
-/*inline bool isNumeric(std::string const& str)
+inline bool isNumeric(char const* str)
+{
+    for(char const* c = str; *c; ++c)
+        if (!isNumeric(*c))
+            return false;
+
+    return true;
+}
+
+inline bool isNumeric(std::string const& str)
 {
     for(std::string::const_iterator itr = str.begin(); itr != str.end(); ++itr)
         if (!isNumeric(*itr))
             return false;
 
     return true;
-}*/
+}
 
 inline bool isNumeric(std::wstring const& str)
 {

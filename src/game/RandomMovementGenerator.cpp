@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -178,8 +178,8 @@ bool RandomMovementGenerator<Creature>::Update(Creature &creature, const uint32 
         }
         else if (creature.isPet() && creature.GetOwner() && !creature.IsWithinDist(creature.GetOwner(), PET_FOLLOW_DIST+2.5f))
         {
-           creature.AddSplineFlag(SPLINEFLAG_WALKMODE);
-           _setRandomLocation(creature);
+            creature.AddSplineFlag(SPLINEFLAG_WALKMODE);
+            _setRandomLocation(creature);
         }
     }
     return true;

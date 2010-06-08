@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://diamondcore.eu/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -59,7 +59,7 @@ struct ServerPktHeader
         uint8 headerIndex=0;
         if(isLargePacket())
         {
-            sLog.outDebug("initializing large server to client packet. Size: %u, cmd: %u", size, cmd);
+            DEBUG_LOG("initializing large server to client packet. Size: %u, cmd: %u", size, cmd);
             header[headerIndex++] = 0x80|(0xFF &(size>>16));
         }
         header[headerIndex++] = 0xFF &(size>>8);
@@ -729,7 +729,7 @@ int WorldSocket::ProcessIncoming (WorldPacket* new_pct)
 
         if (sWorld.getConfig(CONFIG_BOOL_KICK_PLAYER_ON_BAD_PACKET))
         {
-            sLog.outDetail("Disconnecting session [account id %i / address %s] for badly formatted packet.",
+            DETAIL_LOG("Disconnecting session [account id %i / address %s] for badly formatted packet.",
                 m_Session?m_Session->GetAccountId():-1, GetRemoteAddress().c_str());
 
             return -1;
@@ -743,7 +743,7 @@ int WorldSocket::ProcessIncoming (WorldPacket* new_pct)
 
 int WorldSocket::HandleAuthSession (WorldPacket& recvPacket)
 {
-    // NOTE: ATM the socket is singlethread, have this in mind ...    
+    // NOTE: ATM the socket is singlethread, have this in mind ...
     uint8 digest[20];
     uint32 clientSeed;
     uint32 unk2;
@@ -852,7 +852,7 @@ int WorldSocket::HandleAuthSession (WorldPacket& recvPacket)
             SendPacket (packet);
 
             delete result;
-            sLog.outBasic ("WorldSocket::HandleAuthSession: Sent Auth Response (Account IP differs).");
+            BASIC_LOG("WorldSocket::HandleAuthSession: Sent Auth Response (Account IP differs).");
             return -1;
         }
     }
@@ -901,7 +901,7 @@ int WorldSocket::HandleAuthSession (WorldPacket& recvPacket)
 
         SendPacket (packet);
 
-        sLog.outBasic ("WorldSocket::HandleAuthSession: User tries to login but his security level is not enough");
+        BASIC_LOG("WorldSocket::HandleAuthSession: User tries to login but his security level is not enough");
         return -1;
     }
 
