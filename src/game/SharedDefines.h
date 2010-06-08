@@ -897,7 +897,8 @@ enum SpellCastResult
     SPELL_FAILED_CURRENCY_WEIGHT_NOT_ENOUGH = 190,
     SPELL_FAILED_CURRENCY_WEIGHT_TOO_MUCH = 191,
     SPELL_FAILED_NO_VACANT_SEAT = 192,
-    SPELL_FAILED_UNKNOWN = 193,                             // actually doesn't exist in client
+    SPELL_FAILED_NO_LIQUID = 193,
+    SPELL_FAILED_UNKNOWN = 194,
 
     SPELL_CAST_OK = 255                                     // custom value, don't must be send to client
 };
