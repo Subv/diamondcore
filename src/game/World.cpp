@@ -913,7 +913,7 @@ void World::SetInitialWorldSettings()
     sObjectMgr.SetHighestGuids();
 
     ///- Check the existence of the map files for all races' startup areas.
-    if(   !MapManager::ExistMapAndVMap(0,-6240.32f, 331.033f)
+    /*if(   !MapManager::ExistMapAndVMap(0,-6240.32f, 331.033f)
         ||!MapManager::ExistMapAndVMap(0,-8949.95f,-132.493f)
         ||!MapManager::ExistMapAndVMap(0,-8949.95f,-132.493f)
         ||!MapManager::ExistMapAndVMap(1,-618.518f,-4251.67f)
@@ -923,9 +923,9 @@ void World::SetInitialWorldSettings()
         ||m_configUint32Values[CONFIG_UINT32_EXPANSION] && (
         !MapManager::ExistMapAndVMap(530,10349.6f,-6357.29f) || !MapManager::ExistMapAndVMap(530,-3961.64f,-13931.2f) ) )
     {
-        sLog.outError("Correct *.map files not found in path '%smaps' or *.vmap/*vmdir files in '%svmaps'. Please place *.map/*.vmap/*.vmdir files in appropriate directories or correct the DataDir value in the WorldServer.conf file.",m_dataPath.c_str(),m_dataPath.c_str());
-        exit(1);
-    }
+        sLog.outError("Correct *.map files not found in path '%smaps' or *.vmap/*vmdir files in '%svmaps'. Please place *.map/*.vmap/*.vmdir files in appropriate directories or correct the DataDir value in the worldserver.conf file.",m_dataPath.c_str(),m_dataPath.c_str());
+        //exit(1);
+    }*/
 
     ///- Loading strings. Getting no records means core load has to be canceled because no error message can be output.
     sLog.outString();

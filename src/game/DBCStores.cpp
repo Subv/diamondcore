@@ -220,7 +220,7 @@ static bool ReadDBCBuildFileText(const std::string& dbc_path, char const* locale
         return false;
 }
 
-static uint32 ReadDBCBuild(const std::string& dbc_path, LocaleNameStr const* localeNameStr = NULL)
+static uint32 ReadDBCBuild(const std::string& dbc_path, LocaleNameStr const*&localeNameStr)
 {
     std::string text;
 
@@ -266,10 +266,11 @@ static bool LoadDBC_assert_print(uint32 fsize,uint32 rsize, const std::string& f
 
 struct LocalData
 {
-    LocalData(uint32 build)
-        : main_build(build), availableDbcLocales(0xFFFFFFFF),checkedDbcLocaleBuilds(0) {}
+    LocalData(uint32 build, LocaleConstant loc)
+        : main_build(build), defaultLocale(loc), availableDbcLocales(0xFFFFFFFF),checkedDbcLocaleBuilds(0) {}
 
     uint32 main_build;
+	LocaleConstant defaultLocale;
 
     // bitmasks for index of fullLocaleNameList
     uint32 availableDbcLocales;
@@ -283,7 +284,7 @@ inline void LoadDBC(LocalData& localeData, StoreProblemList& errlist, DBCStorage
     ASSERT(DBCFileLoader::GetFormatRecordSize(storage.GetFormat()) == sizeof(T) || LoadDBC_assert_print(DBCFileLoader::GetFormatRecordSize(storage.GetFormat()),sizeof(T),filename));
 
     std::string dbc_filename = dbc_path + filename;
-    if(storage.Load(dbc_filename.c_str()))
+    if(storage.Load(dbc_filename.c_str(),localeData.defaultLocale))
     {
         for(uint8 i = 0; fullLocaleNameList[i].name; ++i)
         {
@@ -318,7 +319,7 @@ inline void LoadDBC(LocalData& localeData, StoreProblemList& errlist, DBCStorage
             }
 
             std::string dbc_filename_loc = dbc_path + localStr->name + "/" + filename;
-            if(!storage.LoadStringsFrom(dbc_filename_loc.c_str()))
+            if(!storage.LoadStringsFrom(dbc_filename_loc.c_str(),localStr->locale))
                 localeData.availableDbcLocales &= ~(1<<i);  // mark as not available for speedup next checks
         }
     }
@@ -342,7 +343,8 @@ void LoadDBCStores(const std::string& dataPath)
 {
     std::string dbcPath = dataPath+"dbc/";
 
-    uint32 build = ReadDBCBuild(dbcPath);
+    LocaleNameStr const* defaultLocaleNameStr = NULL;
+    uint32 build = ReadDBCBuild(dbcPath,defaultLocaleNameStr);
 
     // Check the expected DBC version
     if (!IsAcceptableClientBuild(build))
@@ -358,7 +360,7 @@ void LoadDBCStores(const std::string& dataPath)
 
     StoreProblemList bad_dbc_files;
 
-    LocalData availableDbcLocales(build);
+    LocalData availableDbcLocales(build,defaultLocaleNameStr->locale);
 
     LoadDBC(availableDbcLocales,bad_dbc_files,sAreaStore,                dbcPath,"AreaTable.dbc");
 
@@ -659,13 +661,13 @@ void LoadDBCStores(const std::string& dataPath)
     }
 
     // Check loaded DBC files proper version
-    if( !sAreaStore.LookupEntry(3617)              ||       // last area (areaflag) added in 3.3.3a
-        !sCharTitlesStore.LookupEntry(177)         ||       // last char title added in 3.3.3a
-        !sGemPropertiesStore.LookupEntry(1629)     ||       // last gem property added in 3.3.3a
-        !sItemStore.LookupEntry(54860)             ||       // last client known item added in 3.3.3a
-        !sItemExtendedCostStore.LookupEntry(2997)  ||       // last item extended cost added in 3.3.3a
-        !sMapStore.LookupEntry(724)                ||       // last map added in 3.3.3a
-        !sSpellStore.LookupEntry(76567)            )        // last added spell in 3.3.3a
+    if( !sAreaStore.LookupEntry(4058)              ||       // last area (areaflag) added in 4.0.0
+        !sCharTitlesStore.LookupEntry(187)         ||       // last char title added in 4.0.0
+        !sGemPropertiesStore.LookupEntry(1823)     ||       // last gem property added in 4.0.0
+        !sItemStore.LookupEntry(59337)             ||       // last client known item added in 4.0.0
+        !sItemExtendedCostStore.LookupEntry(2999)  ||       // last item extended cost added in 4.0.0
+        !sMapStore.LookupEntry(750)                ||       // last map added in 4.0.0
+        !sSpellStore.LookupEntry(81625)            )        // last added spell in 4.0.0
     {
         sLog.outError("\nYou have mixed version DBC files. Please re-extract DBC files for one from client build: %s",AcceptableClientBuildsListStr().c_str());
         exit(1);

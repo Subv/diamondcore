@@ -772,6 +772,14 @@ void Spell::EffectDummy(SpellEffectIndex eff_idx)
 {
     if (!unitTarget && !gameObjTarget && !itemTarget)
         return;
+	
+	if(m_spellInfo->Id == 68996)    
+	{      
+		if(!m_caster->HasFlag(UNIT_FIELD_FLAGS_2,0x80000))
+			m_caster->CastSpell(m_caster, 69001, true);
+
+		m_caster->RemoveFlag(UNIT_FIELD_FLAGS_2,0x80000);
+	}
 
     // selection by spell family
     switch(m_spellInfo->SpellFamilyName)
@@ -2322,6 +2330,11 @@ void Spell::EffectDummy(SpellEffectIndex eff_idx)
                     m_caster->CastSpell(m_caster, spell_id, true);
                     return;
                 }
+                case 68996:                                 // Two Forms
+                {
+                    m_caster->ToggleFlag(UNIT_FIELD_FLAGS_2, UNIT_FLAG2_WORGEN_TRANSFORM);
+                    return;
+                }
             }
             break;
         }
@@ -2970,6 +2983,15 @@ void Spell::EffectApplyAura(SpellEffectIndex eff_idx)
         else
             return;
     }
+	
+	//Darkflight
+	if(m_spellInfo->Id == 68992)
+	{
+		if(unitTarget->HasFlag(UNIT_FIELD_FLAGS_2,0x80000))
+			return;
+		
+		unitTarget->CastSpell(unitTarget, 69001, true);
+	}
 
     DEBUG_FILTER_LOG(LOG_FILTER_SPELL_CAST, "Spell: Aura is: %u", m_spellInfo->EffectApplyAuraName[eff_idx]);
 
@@ -5318,8 +5340,8 @@ void Spell::EffectWeaponDmg(SpellEffectIndex eff_idx)
                 ((Player*)m_caster)->DestroyItemCount( pItem, count, true);
             }
         }
-        else if(uint32 ammo = ((Player*)m_caster)->GetUInt32Value(PLAYER_AMMO_ID))
-            ((Player*)m_caster)->DestroyItemCount(ammo, 1, true);
+        //else if(uint32 ammo = ((Player*)m_caster)->GetUInt32Value(PLAYER_AMMO_ID))
+        //    ((Player*)m_caster)->DestroyItemCount(ammo, 1, true);
     }
 }
 

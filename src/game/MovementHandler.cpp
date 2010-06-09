@@ -365,11 +365,11 @@ void WorldSession::HandleMovementOpcodes( WorldPacket & recv_data )
     else                                                    // creature charmed
     {
         if(mover->IsInWorld())
-        {
+		{
             mover->GetMap()->CreatureRelocation((Creature*)mover, movementInfo.GetPos()->x, movementInfo.GetPos()->y, movementInfo.GetPos()->z, movementInfo.GetPos()->o);
-            if(((Creature*)mover)->isVehicle())
+			if(((Creature*)mover)->isVehicle())
                 ((Vehicle*)mover)->RellocatePassengers(mover->GetMap());
-        }
+		}
     }
 }
 
@@ -452,11 +452,11 @@ void WorldSession::HandleSetActiveMoverOpcode(WorldPacket &recv_data)
     uint64 guid;
     recv_data >> guid;
 
-    if(_player->m_mover_in_queve && _player->m_mover_in_queve->GetGUID() == guid)
+	/*if(_player->m_mover_in_queve && _player->m_mover_in_queve->GetGUID() == guid)
     {
         _player->m_mover = _player->m_mover_in_queve;
         _player->m_mover_in_queve = NULL;
-    }
+    }*/
 
     if(_player->m_mover->GetGUID() != guid)
     {
