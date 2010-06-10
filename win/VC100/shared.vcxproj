@@ -88,16 +88,34 @@
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\shared__$(Platform)_$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\shared__$(Platform)_$(Configuration)\</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\shared__$(Platform)_$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\shared__$(Platform)_$(Configuration)\</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">.\shared__$(Platform)_$(Configuration)\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">.\shared__$(Platform)_$(Configuration)\</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\shared__$(Platform)_$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\shared__$(Platform)_$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\shared__$(Platform)_$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\shared__$(Platform)_$(Configuration)\</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\shared__$(Platform)_$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\shared__$(Platform)_$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">.\shared__$(Platform)_$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">.\shared__$(Platform)_$(Configuration)\</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|x64'">.\shared__$(Platform)_$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|x64'">.\shared__$(Platform)_$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <PreBuildEvent>
@@ -108,7 +126,7 @@
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>..\..\dep\include;..\..\dep\include\g3dlite;..\..\src\framework;..\..\src\shared;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;_SECURE_SCL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;_SECURE_SCL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -125,7 +143,6 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CallingConvention>Cdecl</CallingConvention>
       <CompileAs>Default</CompileAs>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -134,78 +151,6 @@
     <Lib>
       <OutputFile>.\shared__$(Platform)_$(Configuration)\shared.lib</OutputFile>
       <AdditionalLibraryDirectories>dep\lib\$(Platform)_$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-    </Lib>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <PreBuildEvent>
-      <Command>
-      </Command>
-    </PreBuildEvent>
-    <ClCompile>
-      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
-      <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\dep\include;..\..\dep\include\g3dlite;..\..\src\framework;..\..\src\shared;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;DIAMOND_DEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <PrecompiledHeaderOutputFile>.\shared__$(Platform)_$(Configuration)\shared.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>.\shared__$(Platform)_$(Configuration)\</AssemblerListingLocation>
-      <ObjectFileName>.\shared__$(Platform)_$(Configuration)\</ObjectFileName>
-      <ProgramDataBaseFileName>.\shared__$(Platform)_$(Configuration)\</ProgramDataBaseFileName>
-      <WarningLevel>Level3</WarningLevel>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <CallingConvention>Cdecl</CallingConvention>
-      <CompileAs>Default</CompileAs>
-    </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <Culture>0x0409</Culture>
-    </ResourceCompile>
-    <Lib>
-      <OutputFile>.\shared__$(Platform)_$(Configuration)\shared.lib</OutputFile>
-      <AdditionalLibraryDirectories>dep\lib\$(Platform)_$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-    </Lib>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">
-    <PreBuildEvent>
-      <Command>
-      </Command>
-    </PreBuildEvent>
-    <ClCompile>
-      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
-      <Optimization>Disabled</Optimization>
-      <AdditionalIncludeDirectories>..\..\dep\include;..\..\dep\include\g3dlite;..\..\src\framework;..\..\src\shared;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;DIAMOND_DEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <PrecompiledHeaderOutputFile>.\shared__$(Platform)_$(Configuration)\shared.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>.\shared__$(Platform)_$(Configuration)\</AssemblerListingLocation>
-      <ObjectFileName>.\shared__$(Platform)_$(Configuration)\</ObjectFileName>
-      <ProgramDataBaseFileName>.\shared__$(Platform)_$(Configuration)\</ProgramDataBaseFileName>
-      <WarningLevel>Level3</WarningLevel>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <CallingConvention>Cdecl</CallingConvention>
-      <CompileAs>Default</CompileAs>
-    </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <Culture>0x0409</Culture>
-    </ResourceCompile>
-    <Lib>
-      <OutputFile>.\shared__$(Platform)_$(Configuration)\shared.lib</OutputFile>
-      <AdditionalLibraryDirectories>dep\lib\$(Platform)_debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
   </ItemDefinitionGroup>
@@ -250,6 +195,42 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\dep\include;..\..\dep\include\g3dlite;..\..\src\framework;..\..\src\shared;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;DIAMOND_DEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\shared__$(Platform)_$(Configuration)\shared.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\shared__$(Platform)_$(Configuration)\</AssemblerListingLocation>
+      <ObjectFileName>.\shared__$(Platform)_$(Configuration)\</ObjectFileName>
+      <ProgramDataBaseFileName>.\shared__$(Platform)_$(Configuration)\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>Cdecl</CallingConvention>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>.\shared__$(Platform)_$(Configuration)\shared.lib</OutputFile>
+      <AdditionalLibraryDirectories>dep\lib\$(Platform)_$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <PreBuildEvent>
       <Command>
@@ -287,6 +268,42 @@
       <AdditionalDependencies>.\g3dlite__$(Platform)_$(Configuration)\g3dlite.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>.\shared__$(Platform)_$(Configuration)\shared.lib</OutputFile>
       <AdditionalLibraryDirectories>dep\lib\$(Platform)_$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <ClCompile>
+      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\dep\include;..\..\dep\include\g3dlite;..\..\src\framework;..\..\src\shared;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_DEBUG;DIAMOND_DEBUG;_LIB;_CRT_SECURE_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <PrecompiledHeaderOutputFile>.\shared__$(Platform)_$(Configuration)\shared.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\shared__$(Platform)_$(Configuration)\</AssemblerListingLocation>
+      <ObjectFileName>.\shared__$(Platform)_$(Configuration)\</ObjectFileName>
+      <ProgramDataBaseFileName>.\shared__$(Platform)_$(Configuration)\</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <CallingConvention>Cdecl</CallingConvention>
+      <CompileAs>Default</CompileAs>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>.\shared__$(Platform)_$(Configuration)\shared.lib</OutputFile>
+      <AdditionalLibraryDirectories>dep\lib\$(Platform)_debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
   </ItemDefinitionGroup>
@@ -357,6 +374,24 @@
     <ClCompile Include="..\..\src\shared\vmap\VMapFactory.cpp" />
     <ClCompile Include="..\..\src\shared\vmap\VMapManager2.cpp" />
     <ClCompile Include="..\..\src\shared\vmap\WorldModel.cpp" />
+    <ClCompile Include="..\..\src\shared\pathfinding\Recast\Recast.cpp" />
+    <ClCompile Include="..\..\src\shared\pathfinding\Recast\RecastArea.cpp" />
+    <ClCompile Include="..\..\src\shared\pathfinding\Recast\RecastContour.cpp" />
+    <ClCompile Include="..\..\src\shared\pathfinding\Recast\RecastFilter.cpp" />
+    <ClCompile Include="..\..\src\shared\pathfinding\Recast\RecastLog.cpp" />
+    <ClCompile Include="..\..\src\shared\pathfinding\Recast\RecastMesh.cpp" />
+    <ClCompile Include="..\..\src\shared\pathfinding\Recast\RecastMeshDetail.cpp" />
+    <ClCompile Include="..\..\src\shared\pathfinding\Recast\RecastRasterization.cpp" />
+    <ClCompile Include="..\..\src\shared\pathfinding\Recast\RecastRegion.cpp" />
+    <ClCompile Include="..\..\src\shared\pathfinding\Recast\RecastTimer.cpp" />
+    <ClCompile Include="..\..\src\shared\pathfinding\Detour\DetourCommon.cpp" />
+    <ClCompile Include="..\..\src\shared\pathfinding\Detour\DetourNavMesh.cpp" />
+    <ClCompile Include="..\..\src\shared\pathfinding\Detour\DetourNavMeshBuilder.cpp" />
+    <ClCompile Include="..\..\src\shared\pathfinding\Detour\DetourNode.cpp" />
+    <ClCompile Include="..\..\src\shared\pathfinding\DebugUtils\DebugDraw.cpp" />
+    <ClCompile Include="..\..\src\shared\pathfinding\DebugUtils\DetourDebugDraw.cpp" />
+    <ClCompile Include="..\..\src\shared\pathfinding\DebugUtils\RecastDebugDraw.cpp" />
+    <ClCompile Include="..\..\src\shared\pathfinding\DebugUtils\RecastDump.cpp" />
     <ClCompile Include="..\..\src\shared\Common.cpp" />
     <ClCompile Include="..\..\src\shared\ServiceWin32.cpp" />
     <ClCompile Include="..\..\src\shared\Threading.cpp" />
@@ -393,6 +428,7 @@
     <ClInclude Include="..\..\src\shared\Auth\HMACSHA1.h" />
     <ClInclude Include="..\..\src\shared\Auth\SARC4.h" />
     <ClInclude Include="..\..\src\shared\Auth\Sha1.h" />
+    <ClInclude Include="..\..\src\shared\vmap\BIH.h" />
     <ClInclude Include="..\..\src\shared\vmap\IVMapManager.h" />
     <ClInclude Include="..\..\src\shared\vmap\MapTree.h" />
     <ClInclude Include="..\..\src\shared\vmap\ModelInstance.h" />
@@ -402,6 +438,17 @@
     <ClInclude Include="..\..\src\shared\vmap\VMapManager2.h" />
     <ClInclude Include="..\..\src\shared\vmap\VMapTools.h" />
     <ClInclude Include="..\..\src\shared\vmap\WorldModel.h" />
+    <ClInclude Include="..\..\src\shared\pathfinding\Recast\Recast.h" />
+    <ClInclude Include="..\..\src\shared\pathfinding\Recast\RecastLog.h" />
+    <ClInclude Include="..\..\src\shared\pathfinding\Recast\RecastTimer.h" />
+    <ClInclude Include="..\..\src\shared\pathfinding\Detour\DetourCommon.h" />
+    <ClInclude Include="..\..\src\shared\pathfinding\Detour\DetourNavMesh.h" />
+    <ClInclude Include="..\..\src\shared\pathfinding\Detour\DetourNavMeshBuilder.h" />
+    <ClInclude Include="..\..\src\shared\pathfinding\Detour\DetourNode.h" />
+    <ClInclude Include="..\..\src\shared\pathfinding\DebugUtils\DebugDraw.h" />
+    <ClInclude Include="..\..\src\shared\pathfinding\DebugUtils\DetourDebugDraw.h" />
+    <ClInclude Include="..\..\src\shared\pathfinding\DebugUtils\RecastDebugDraw.h" />
+    <ClInclude Include="..\..\src\shared\pathfinding\DebugUtils\RecastDump.h" />
     <ClInclude Include="..\..\src\shared\Common.h" />
     <ClInclude Include="..\..\src\shared\LockedQueue.h" />
     <ClInclude Include="..\..\src\shared\revision_nr.h" />

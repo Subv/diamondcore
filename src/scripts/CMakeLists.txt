@@ -316,18 +316,9 @@ SET(SCRIPT_LIB_SRCS
    scripts/northrend/icecrown_citadel/frozen_halls/pit_of_saron/boss_scourgelord_tyrannus.cpp
    scripts/northrend/icecrown_citadel/frozen_halls/forge_of_souls/boss_bronjahm.cpp
    scripts/northrend/icecrown_citadel/frozen_halls/forge_of_souls/boss_devourer_of_souls.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/blood_prince_council.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/boss_blood_queen_lanathel.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/boss_deathbringer_saurfang.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/boss_festergut.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/boss_lady_deathwhisper.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/boss_lord_marrowgar.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/boss_proffesor_putricide.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/boss_rotface.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/boss_sindragosa.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/boss_the_lich_king.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/boss_valithria_dreamwalker.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/gunship_battle.cpp
+   scripts/northrend/icecrown_citadel/icecrown_citadel/instance_icecrown_citadel.cpp
+   scripts/northrend/icecrown_citadel/icecrown_citadel/icecrown_citadel.h
+   scripts/northrend/icecrown_citadel/icecrown_citadel/icecrown_teleport.cpp
    scripts/northrend/naxxramas/boss_anubrekhan.cpp
    scripts/northrend/naxxramas/boss_faerlina.cpp
    scripts/northrend/naxxramas/boss_four_horsemen.cpp

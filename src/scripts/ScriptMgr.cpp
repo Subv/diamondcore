@@ -312,6 +312,34 @@ bool GOGossipSelectWithCode(Player *pPlayer, GameObject *pGo, uint32 sender, uin
 }
 
 DIAMOND_DLL_EXPORT
+bool GOSelect(Player* pPlayer, GameObject* pGO, uint32 uiSender, uint32 uiAction)
+{
+    if (!pGO)
+    return false;
+    debug_log("DS: Gossip selection, sender: %d, action: %d", uiSender, uiAction);
+
+    Script *tmpscript = m_scripts[pGO->GetGOInfo()->ScriptId];
+    if (!tmpscript || !tmpscript->pGOSelect) return false;
+
+    pPlayer->PlayerTalkClass->ClearMenus();
+    return tmpscript->pGOSelect(pPlayer, pGO, uiSender, uiAction);
+}
+
+DIAMOND_DLL_EXPORT
+bool GOSelectWithCode(Player* pPlayer, GameObject* pGO, uint32 uiSender, uint32 uiAction, const char* sCode)
+{
+    if (!pGO)
+    return false;
+    debug_log("DS: Gossip selection, sender: %d, action: %d",uiSender, uiAction);
+
+    Script *tmpscript = m_scripts[pGO->GetGOInfo()->ScriptId];
+    if (!tmpscript || !tmpscript->pGOSelectWithCode) return false;
+
+    pPlayer->PlayerTalkClass->ClearMenus();
+    return tmpscript->pGOSelectWithCode(pPlayer, pGO, uiSender ,uiAction, sCode);
+}
+
+DIAMOND_DLL_EXPORT
 bool QuestAccept(Player* pPlayer, Creature* pCreature, const Quest* pQuest)
 {
     Script *tmpscript = m_scripts[pCreature->GetScriptId()];

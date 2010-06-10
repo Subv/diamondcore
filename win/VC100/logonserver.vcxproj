@@ -104,6 +104,24 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|x64'">.\logonserver__$(Platform)_$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|x64'">.\logonserver__$(Platform)_$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|x64'">false</LinkIncremental>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Midl>
@@ -113,7 +131,7 @@
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <AdditionalIncludeDirectories>..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\logonserver;..\..\dep\ACE_wrappers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_SECURE_SCL=0;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>VERSION=0.16.0-DEV;WIN32;NDEBUG;_CONSOLE;_SECURE_SCL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -150,7 +168,7 @@
       </DataExecutionPrevention>
     </Link>
     <PostBuildEvent>
-      <Command>copy ..\..\src\logonserver\logonserver.conf.dist ..\..\bin\$(PlatformName)_$(ConfigurationName)\LogonServer.conf</Command>
+      <Command>copy ..\..\src\logonserver\logonserver.conf.dist ..\..\bin\$(Platform)_$(Configuration)\LogonServer.conf</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -198,7 +216,7 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>)copy ..\..\src\logonserver\logonserver.conf.dist ..\..\bin\$(PlatformName)_$(ConfigurationName)\LogonServer.conf</Command>
+      <Command>copy ..\..\src\logonserver\logonserver.conf.dist ..\..\bin\$(Platform)_$(Configuration)\LogonServer.conf</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -247,7 +265,7 @@
       </DataExecutionPrevention>
     </Link>
     <PostBuildEvent>
-      <Command>copy ..\..\src\logonserver\logonserver.conf.dist ..\..\bin\$(PlatformName)_$(ConfigurationName)\LogonServer.conf</Command>
+      <Command>copy ..\..\src\logonserver\logonserver.conf.dist ..\..\bin\$(Platform)_$(Configuration)\LogonServer.conf</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -296,7 +314,7 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy ..\..\src\logonserver\logonserver.conf.dist ..\..\bin\$(PlatformName)_$(ConfigurationName)\LogonServer.conf</Command>
+      <Command>copy ..\..\src\logonserver\logonserver.conf.dist ..\..\bin\$(Platform)_$(Configuration)\LogonServer.conf</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">
@@ -345,7 +363,7 @@
       </DataExecutionPrevention>
     </Link>
     <PostBuildEvent>
-      <Command>copy ..\..\src\logonserver\logonserver.conf.dist ..\..\bin\$(PlatformName)_$(ConfigurationName)\LogonServer.conf</Command>
+      <Command>copy ..\..\src\logonserver\logonserver.conf.dist ..\..\bin\$(Platform)_$(Configuration)\LogonServer.conf</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|x64'">
@@ -394,7 +412,7 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>copy ..\..\src\logonserver\logonserver.conf.dist ..\..\bin\$(PlatformName)_$(ConfigurationName)\LogonServer.conf</Command>
+      <Command>copy ..\..\src\logonserver\logonserver.conf.dist ..\..\bin\$(Platform)_$(Configuration)\LogonServer.conf</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
