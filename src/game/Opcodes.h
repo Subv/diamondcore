@@ -140,7 +140,7 @@ enum Opcodes
     SMSG_CONTACT_LIST                               = 0x821A,    // 33306 - 4.0.0.12164
     SMSG_FRIEND_STATUS                              = 0x521A,    // 21018 - 4.0.0.12164
     CMSG_ADD_FRIEND                                 = 0x8464,    // 33892 - 4.0.0.12164
-    CMSG_DEL_FRIEND                                 = 0x06A,
+    CMSG_DEL_FRIEND                                 = 0x807C,    // 32892 - 4.0.0.12164
     CMSG_SET_CONTACT_NOTES                          = 0x06B,
     CMSG_ADD_IGNORE                                 = 0x06C,
     CMSG_DEL_IGNORE                                 = 0x06D,
@@ -290,7 +290,7 @@ enum Opcodes
     SMSG_TUTORIAL_FLAGS                             = 0x5012,    // 20498 - 4.0.0.12164
     CMSG_TUTORIAL_FLAG                              = 0x0FE,
     CMSG_TUTORIAL_CLEAR                             = 0x0FF,
-    CMSG_TUTORIAL_RESET                             = 0x100,
+    CMSG_TUTORIAL_RESET                             = 0x9046,    // 36934 - 4.0.0.12164
     CMSG_STANDSTATECHANGE                           = 0x101,
     CMSG_EMOTE                                      = 0xD422,    // 54306 - 4.0.0.12164
     SMSG_EMOTE                                      = 0x1438,    // 5176  - 4.0.0.12164
@@ -831,7 +831,7 @@ enum Opcodes
     SMSG_SPLINE_MOVE_ROOT                           = 0x843A,    // 33850 - 4.0.0.12164
     CMSG_SET_EXPLORATION_ALL                        = 0x31B,
     SMSG_INVALIDATE_PLAYER                          = 0x4466,    // 17510 - 4.0.0.12164
-    CMSG_RESET_INSTANCES                            = 0xBF6B,    // 49003 - 4.0.0.12065
+    CMSG_RESET_INSTANCES                            = 0x446C,    // 17516 - 4.0.0.12164
     SMSG_INSTANCE_RESET                             = 0xCBEA,    // 52202 - 4.0.0.12065
     SMSG_INSTANCE_RESET_FAILED                      = 0xABE9,    // 44009 - 4.0.0.12065
     SMSG_UPDATE_LAST_INSTANCE                       = 0x2F61,    // 12129 - 4.0.0.12065
@@ -843,7 +843,7 @@ enum Opcodes
     SMSG_GHOSTEE_GONE                               = 0x326,
     CMSG_GM_UPDATE_TICKET_STATUS                    = 0x327,
     SMSG_GM_TICKET_STATUS_UPDATE                    = 0x5648,    // 22088 - 4.0.0.12164
-    MSG_SET_DUNGEON_DIFFICULTY                      = 0x2D6C,    // 11628 - 4.0.0.12065
+    MSG_SET_DUNGEON_DIFFICULTY                      = 0x5672,    // 22130 - 4.0.0.12164
     CMSG_GMSURVEY_SUBMIT                            = 0x32A,
     SMSG_UPDATE_INSTANCE_OWNERSHIP                  = 0x4F6B,    // 20331 - 4.0.0.12065
     CMSG_IGNORE_KNOCKBACK_CHEAT                     = 0x32C,
@@ -1293,7 +1293,7 @@ enum Opcodes
     SMSG_BATTLEFIELD_MGR_STATE_CHANGE               = 0x620,     // 1568  - 4.0.0.12164, uint32, uint32 EVENT_BATTLEFIELD_MGR_STATE_CHANGE
     UMSG_UNKNOWN_1257                               = 0x4E9,     // not found 3.2
     UMSG_UNKNOWN_1258                               = 0x4EA,     // not found 3.2
-    MSG_SET_RAID_DIFFICULTY                         = 0x5D68,    // 23912 - 4.0.0.12065, lua: SetRaidDifficulty
+    MSG_SET_RAID_DIFFICULTY                         = 0x046A,    // 1130  - 4.0.0.12164, lua: SetRaidDifficulty
     UMSG_UNKNOWN_1260                               = 0x4EC,     // not found 3.2
     SMSG_TOGGLE_XP_GAIN                             = 0x47C,     // 1148  - 4.0.0.12164, enable/disable XP gain console message
     SMSG_GMRESPONSE_DB_ERROR                        = 0x541E,    // 21534 - 4.0.0.12164, empty
