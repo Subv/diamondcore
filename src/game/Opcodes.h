@@ -947,7 +947,7 @@ enum Opcodes
     MSG_PARTY_ASSIGNMENT                            = 0x38E,
     SMSG_OFFER_PETITION_ERROR                       = 0x806E,    // 32878 - 4.0.0.12164
     SMSG_TIME_SYNC_REQ                              = 0xC65E,    // 50782 - 4.0.0.12164
-    CMSG_TIME_SYNC_RESP                             = 0x1BE4,    // 7140  - 4.0.0.12065
+    CMSG_TIME_SYNC_RESP                             = 0x8610,    // 34320 - 4.0.0.12164
     CMSG_SEND_LOCAL_EVENT                           = 0x392,
     CMSG_SEND_GENERAL_TRIGGER                       = 0x393,
     CMSG_SEND_COMBAT_TRIGGER                        = 0x394,
