@@ -39,7 +39,7 @@ const char CreatureDisplayInfofmt[]="nxxxfxxxxxxxxxxxx";
 const char CreatureFamilyfmt[]="nfifiiiiixsx";
 const char CreatureSpellDatafmt[]="niiiixxxx";
 const char CreatureTypefmt[]="nxx";
-const char CurrencyTypesfmt[]="xxixxxxxxxx";
+const char CurrencyTypesfmt[]="xxixxxxxxxxx";
 const char DurabilityCostsfmt[]="niiiiiiiiiiiiiiiiiiiiiiiiiiiii";
 const char DurabilityQualityfmt[]="nf";
 const char EmotesEntryfmt[]="nxxiiix";
@@ -107,7 +107,7 @@ const char TotemCategoryEntryfmt[]="nxii";
 const char VehicleEntryfmt[]="niffffiiiiiiiifffffffffffffffssssfifiixx";
 const char VehicleSeatEntryfmt[]="niiffffffffffiiiiiifffffffiiifffiiiiiiiffiiiiixxxxxxxxxxxxxxxxxxx";
 const char WMOAreaTableEntryfmt[]="niiixxxxxiix";
-const char WorldMapAreaEntryfmt[]="xinxffffixx";
+const char WorldMapAreaEntryfmt[]="xinxffffixxx";
 const char WorldMapOverlayEntryfmt[]="nxiiiixxxxxxxxxxx";
 const char WorldSafeLocsEntryfmt[]="nifffx";
 
