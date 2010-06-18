@@ -311,7 +311,7 @@ void WorldSession::HandleCastSpellOpcode(WorldPacket& recvPacket)
 
     // vehicle spells are handled by CMSG_PET_CAST_SPELL,
     // but player is still able to cast own spells
-    if(_player->GetCharmGUID() && _player->GetCharmGUID() == _player->GetVehicleGUID())
+    if(_player->GetCharmGUID() && _player->GetVehicleBase() && _player->GetCharmGUID() == _player->GetVehicleBase()->GetGUID())
         mover = _player;
 
     SpellEntry const *spellInfo = sSpellStore.LookupEntry(spellId );
@@ -473,7 +473,7 @@ void WorldSession::HandlePetCancelAuraOpcode( WorldPacket& recvPacket)
         return;
     }
 
-    Creature* pet=ObjectAccessor::GetCreatureOrPetOrVehicle(*_player,guid);
+    Creature* pet = GetPlayer()->GetMap()->GetCreatureOrPetOrVehicle(guid);
 
     if(!pet)
     {
@@ -561,54 +561,26 @@ void WorldSession::HandleSpellClick( WorldPacket & recv_data )
     if (_player->isInCombat())                              // client prevent click and set different icon at combat state
         return;
 
-    Creature *unit = ObjectAccessor::GetCreatureOrPetOrVehicle(*_player, guid);
-    if (!unit || unit->isInCombat())                        // client prevent click and set different icon at combat state
+    Creature *unit = _player->GetMap()->GetCreatureOrPetOrVehicle(guid);
+    if (!unit)
         return;
 
     if(!_player->IsWithinDistInMap(unit, 10))
         return;
 
     // cheater?
-    if(!unit->HasFlag(UNIT_NPC_FLAGS,UNIT_NPC_FLAG_SPELLCLICK))
-        return;
+    //if(!unit->HasFlag(UNIT_NPC_FLAGS,UNIT_NPC_FLAG_SPELLCLICK))
+        //return;
 
-    uint32 vehicleId = 0;
-    CreatureDataAddon const *cainfo = unit->GetCreatureAddon();
-    if(cainfo)
-        vehicleId = cainfo->vehicle_id;
-
-    // handled other (hacky) way to avoid overwriting auras
-    if(vehicleId || unit->isVehicle())
+    if(unit->GetVehicleKit())
     {
         if(!unit->isAlive())
             return;
 
-        if(_player->GetVehicleGUID())
+        if(GetPlayer()->GetVehicle() == unit->GetVehicleKit())
             return;
 
-        // create vehicle if no one present and kill the original creature to avoid double, triple etc spawns
-        if(!unit->isVehicle())
-        {
-            Vehicle *v = _player->SummonVehicle(unit->GetEntry(), unit->GetPositionX(), unit->GetPositionY(), unit->GetPositionZ(), unit->GetOrientation(), vehicleId);
-            if(!v)
-                return;
-
-            if(v->GetVehicleFlags() & VF_DESPAWN_NPC)
-            {
-                v->SetSpawnDuration(unit->GetRespawnDelay()*IN_MILLISECONDS);
-                unit->setDeathState(JUST_DIED);
-                unit->RemoveCorpse();
-                unit->SetHealth(0);
-            }
-            unit = v;
-        }
-
-        if(((Vehicle*)unit)->GetVehicleData())
-            if(uint32 r_aura = ((Vehicle*)unit)->GetVehicleData()->req_aura)
-                if(!_player->HasAura(r_aura))
-                    return;
-
-        _player->EnterVehicle((Vehicle*)unit, 0);
+        _player->EnterVehicle(unit->GetVehicleKit(), false);
     }
     else
     {

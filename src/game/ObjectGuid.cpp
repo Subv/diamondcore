@@ -102,6 +102,5 @@ template uint32 ObjectGuidGenerator<HIGHGUID_GAMEOBJECT>::Generate();
 template uint32 ObjectGuidGenerator<HIGHGUID_TRANSPORT>::Generate();
 template uint32 ObjectGuidGenerator<HIGHGUID_UNIT>::Generate();
 template uint32 ObjectGuidGenerator<HIGHGUID_PET>::Generate();
-template uint32 ObjectGuidGenerator<HIGHGUID_VEHICLE>::Generate();
 template uint32 ObjectGuidGenerator<HIGHGUID_DYNAMICOBJECT>::Generate();
 template uint32 ObjectGuidGenerator<HIGHGUID_CORPSE>::Generate();
