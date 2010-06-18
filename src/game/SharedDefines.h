@@ -2457,29 +2457,18 @@ enum DiminishingGroup
     DIMINISHING_LIMITONLY
 };
 
-
-/* NOTE : vehicles and seats has their own flags in DBC,
-but for now, they are too unknown for us, to use them */
-enum CustomVehicleFLags
+enum VehicleFlags
 {
-    VF_CANT_MOVE                    = 0x0001,                   // vehicle cant move, only turn, maybe handle by some auras?
-    VF_FACTION                      = 0x0002,                   // vehicle retain its own faction
-    VF_DESPAWN_NPC                  = 0x0004,                   // vehicle will delete npc on spellclick
-    VF_DESPAWN_AT_LEAVE             = 0x0008,                   // vehicle will be deleted when rider leaves
-    VF_CAN_BE_HEALED                = 0x0010,                   // vehicle can be healed
-    VF_GIVE_EXP                     = 0x0020,                   // vehicle will give exp for killing enemies
-    VF_MOVEMENT                     = 0x0040,                   // vehicle will move on its own, not depending on rider, however rider can cast spells
-    VF_NON_SELECTABLE               = 0x0080                    // vehicle will be not selectable after rider enter
-    //VF_HAS_FUEL                     = 0x0100,                   // TODO : find out what energy type is fuel and implement this
 };
 
-enum CustomVehicleSeatFLags
+enum VehicleSeatFlags
 {
-    SF_MAIN_RIDER                   = 0x0001,                   // the one who controlls vehicle, can also cast spells
-    SF_UNATTACKABLE                 = 0x0002,                   // hided inside, and unatackable until vehicle is destroyed
-    SF_CAN_CAST                     = 0x0004,                   // player/npc can rotate, and cast OWN spells
-    SF_UNACCESSIBLE                 = 0x0008                    // player cant enter this seat by normal way (only by script)
+    SF_HIDE_PASSENGER               = 0x00000200,               // Passenger is hidden
+    SF_MAIN_RIDER                   = 0x00000800,               // Can control vehicle
+    SF_USABLE                       = 0x02000000,
+    SF_CAN_CAST                     = 0x20000000,
 };
+
 enum ResponseCodes
 {
     RESPONSE_SUCCESS                                       = 0x00,
@@ -2692,6 +2681,33 @@ enum TotemSlot
 #define TOTEM_SLOT_NONE 255                                 // custom value for no slot case
 
 #define MAX_TOTEM_SLOT  4
+
+enum TradeStatus
+{
+    TRADE_STATUS_BUSY           = 0,
+    TRADE_STATUS_BEGIN_TRADE    = 1,
+    TRADE_STATUS_OPEN_WINDOW    = 2,
+    TRADE_STATUS_TRADE_CANCELED = 3,
+    TRADE_STATUS_TRADE_ACCEPT   = 4,
+    TRADE_STATUS_BUSY_2         = 5,
+    TRADE_STATUS_NO_TARGET      = 6,
+    TRADE_STATUS_BACK_TO_TRADE  = 7,
+    TRADE_STATUS_TRADE_COMPLETE = 8,
+    // 9?
+    TRADE_STATUS_TARGET_TO_FAR  = 10,
+    TRADE_STATUS_WRONG_FACTION  = 11,
+    TRADE_STATUS_CLOSE_WINDOW   = 12,
+    // 13?
+    TRADE_STATUS_IGNORE_YOU     = 14,
+    TRADE_STATUS_YOU_STUNNED    = 15,
+    TRADE_STATUS_TARGET_STUNNED = 16,
+    TRADE_STATUS_YOU_DEAD       = 17,
+    TRADE_STATUS_TARGET_DEAD    = 18,
+    TRADE_STATUS_YOU_LOGOUT     = 19,
+    TRADE_STATUS_TARGET_LOGOUT  = 20,
+    TRADE_STATUS_TRIAL_ACCOUNT  = 21,                       // Trial accounts can not perform that action
+    TRADE_STATUS_ONLY_CONJURED  = 22                        // You can only trade conjured items... (cross realm BG related).
+};
 
 // we need to stick to 1 version or half of the stuff will work for someone
 // others will not and opposite

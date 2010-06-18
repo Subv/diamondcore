@@ -2936,7 +2936,7 @@ void Aura::HandleAuraMounted(bool apply, bool Real)
         if (minfo)
             display_id = minfo->modelid;
 
-        target->Mount(display_id, GetId());
+        target->Mount(display_id, GetId(), ci->VehicleId);
     }
     else
     {
@@ -3546,7 +3546,7 @@ void Aura::HandleBindSight(bool apply, bool /*Real*/)
 
     Camera& camera = ((Player*)caster)->GetCamera();
     if (apply)
-        camera.SetView(m_target, GetId());
+        camera.SetView(m_target);
     else
         camera.ResetView();
 }
@@ -3559,7 +3559,7 @@ void Aura::HandleFarSight(bool apply, bool /*Real*/)
 
     Camera& camera = ((Player*)caster)->GetCamera();
     if (apply)
-        camera.SetView(m_target, GetId());
+        camera.SetView(m_target);
     else
         camera.ResetView();
 }
@@ -3620,6 +3620,8 @@ void Aura::HandleModPossess(bool apply, bool Real)
 
     if( apply )
     {
+        target->addUnitState(UNIT_STAT_CONTROLLED);
+
         target->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PLAYER_CONTROLLED);
 
         target->SetCharmerGUID(p_caster->GetGUID());
@@ -3627,28 +3629,31 @@ void Aura::HandleModPossess(bool apply, bool Real)
 
         p_caster->SetCharm(target);
 
-        camera.SetView(m_target, GetId());
-        p_caster->SetClientControl(m_target, 1);
-        p_caster->SetMover(m_target);
+        camera.SetView(target);
+        p_caster->SetClientControl(target, 1);
+        p_caster->SetMover(target);
 
-        target->CombatStop();
+        target->CombatStop(true);
         target->DeleteThreatList();
+        target->getHostileRefManager().deleteReferences();
+
+        if(CharmInfo *charmInfo = target->InitCharmInfo(target))
+        {
+            charmInfo->InitPossessCreateSpells();
+            charmInfo->SetReactState(REACT_PASSIVE);
+            charmInfo->SetCommandState(COMMAND_STAY);
+        }
+
+        p_caster->PossessSpellInitialize();
 
         if(target->GetTypeId() == TYPEID_UNIT)
         {
-            target->StopMoving();
-            target->GetMotionMaster()->Clear();
-            target->GetMotionMaster()->MoveIdle();
+            ((Creature*)target)->AIM_Initialize();
         }
-        else if(m_target->GetTypeId() == TYPEID_PLAYER && !m_target->GetVehicleGUID())
+        else if(target->GetTypeId() == TYPEID_PLAYER && !target->GetVehicle())
         {
             ((Player*)target)->SetClientControl(target, 0);
         }
-
-        if(CharmInfo *charmInfo = target->InitCharmInfo(target))
-            charmInfo->InitPossessCreateSpells();
-
-        p_caster->PossessSpellInitialize();
     }
     else
     {
@@ -3656,7 +3661,7 @@ void Aura::HandleModPossess(bool apply, bool Real)
         p_caster->SetCharm(NULL);
 
         camera.ResetView();
-        p_caster->SetClientControl(m_target, 0);
+        p_caster->SetClientControl(target, 0);
         p_caster->SetMover(NULL);
 
         p_caster->RemovePetActionBar();
@@ -3665,11 +3670,17 @@ void Aura::HandleModPossess(bool apply, bool Real)
         if(m_removeMode == AURA_REMOVE_BY_DELETE)
             return;
 
+        target->clearUnitState(UNIT_STAT_CONTROLLED);
+
+        target->CombatStop(true);
+        target->DeleteThreatList();
+        target->getHostileRefManager().deleteReferences();
+
         target->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PLAYER_CONTROLLED);
 
         target->SetCharmerGUID(0);
 
-        if(m_target->GetTypeId() == TYPEID_PLAYER && !m_target->GetVehicleGUID())
+        if(target->GetTypeId() == TYPEID_PLAYER && !target->GetVehicle())
         {
             ((Player*)target)->setFactionForRace(target->getRace());
             ((Player*)target)->SetClientControl(target, 1);
@@ -3709,7 +3720,7 @@ void Aura::HandleModPossessPet(bool apply, bool Real)
     if(apply)
     {
         pet->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_PLAYER_CONTROLLED);
-        camera.SetView(pet, GetId());
+        camera.SetView(pet);
     }
     else
     {
@@ -3773,8 +3784,9 @@ void Aura::HandleModCharm(bool apply, bool Real)
         target->CastStop(target == caster ? GetId() : 0);
         caster->SetCharm(target);
 
-        target->CombatStop();
+        target->CombatStop(true);
         target->DeleteThreatList();
+        target->getHostileRefManager().deleteReferences();
 
         if(target->GetTypeId() == TYPEID_UNIT)
         {
@@ -3848,6 +3860,10 @@ void Aura::HandleModCharm(bool apply, bool Real)
 
         if(caster->GetTypeId() == TYPEID_PLAYER)
             ((Player*)caster)->RemovePetActionBar();
+
+        target->CombatStop(true);
+        target->DeleteThreatList();
+        target->getHostileRefManager().deleteReferences();
 
         if(target->GetTypeId() == TYPEID_UNIT)
         {
@@ -3945,7 +3961,7 @@ void Aura::HandleAuraModStun(bool apply, bool Real)
         if(!m_target->hasUnitState(UNIT_STAT_ON_VEHICLE))
         {
             WorldPacket data(SMSG_FORCE_MOVE_ROOT, 8);
-            data << m_target->GetPackGUID();
+            data << target->GetPackGUID();
             data << uint32(0);
             m_target->SendMessageToSet(&data,true);
         }
@@ -4082,7 +4098,6 @@ void Aura::HandleModStealth(bool apply, bool Real)
                     // Overkill
                     else if ((*i)->GetId() == 58426 && GetSpellProto()->SpellFamilyFlags & UI64LIT(0x0000000000400000))
                     {
-                        target->RemoveAurasDueToSpell(58428);
                         target->CastSpell(target, 58427, true);
                     }
                 }
@@ -4121,7 +4136,13 @@ void Aura::HandleModStealth(bool apply, bool Real)
                     target->CastSpell(target, 31666, true);
                 // Overkill
                 else if ((*i)->GetId() == 58426 && GetSpellProto()->SpellFamilyFlags & UI64LIT(0x0000000000400000))
-                    target->CastSpell(target, 58428, true);
+                {
+                    if (Aura* aura = target->GetAura(58427, EFFECT_INDEX_0))
+                    {
+                        aura->SetAuraMaxDuration(20*IN_MILLISECONDS);
+                        aura->RefreshAura();
+                    }
+                }
             }
         }
     }
@@ -4220,15 +4241,16 @@ void Aura::HandleAuraModRoot(bool apply, bool Real)
         if( target->getVictim() )
             target->SetOrientation(target->GetAngle(target->getVictim()));
 
-        if(target->GetTypeId() == TYPEID_PLAYER)
+		if(target->GetTypeId() == TYPEID_PLAYER && !target->GetVehicle())
         {
             if(!m_target->hasUnitState(UNIT_STAT_ON_VEHICLE))
             {
                 WorldPacket data(SMSG_FORCE_MOVE_ROOT, 10);
-                data << m_target->GetPackGUID();
+                data << target->GetPackGUID();
                 data << (uint32)2;
                 m_target->SendMessageToSet(&data,true);
             }
+
             //Clear unit movement flags
             ((Player*)target)->m_movementInfo.SetMovementFlags(MOVEFLAG_NONE);
         }
@@ -4836,8 +4858,6 @@ void Aura::HandleAuraPeriodicDummy(bool apply, bool Real)
                 {
                     // Master of Subtlety
                     case 31666: target->RemoveAurasDueToSpell(31665); break;
-                    // Overkill
-                    case 58428: target->RemoveAurasDueToSpell(58427); break;
                 }
             }
             break;
@@ -5848,7 +5868,7 @@ void Aura::HandleModDamageDone(bool apply, bool Real)
             // done in Player::_ApplyWeaponDependentAuraMods
         }
 
-        if(target->GetTypeId() == TYPEID_PLAYER)
+        if(target->GetTypeId() == TYPEID_PLAYER && !target->GetVehicle())
         {
             if(m_positive)
                 target->ApplyModUInt32Value(PLAYER_FIELD_MOD_DAMAGE_DONE_POS, m_modifier.m_amount, apply);
@@ -8260,32 +8280,26 @@ void Aura::HandleAuraControlVehicle(bool apply, bool Real)
          return;
 
     Unit *caster = GetCaster();
-    Vehicle *vehicle = dynamic_cast<Vehicle*>(m_target);
-    if(!caster || !vehicle)
+    Unit* target = GetTarget();
+
+    if(!caster || !target || !target->GetVehicleKit())
         return;
 
     // this can happen due to wrong caster/target spell handling
     // note : SPELL_AURA_CONTROL_VEHICLE can have EffectImplicitTargetA
     // TARGET_SCRIPT, TARGET_DUELVSPLAYER.. etc
-    if(caster->GetGUID() == vehicle->GetGUID())
+    if(caster->GetGUID() == target->GetGUID())
         return;
 
     if (apply)
     {
-        if(caster->GetTypeId() == TYPEID_PLAYER)
-        {
-            WorldPacket data(SMSG_ON_CANCEL_EXPECTED_RIDE_VEHICLE_AURA, 0);
-            ((Player*)caster)->GetSession()->SendPacket(&data);
-        }
-        // if we leave and enter again, this will refresh
-        int32 duration = GetSpellMaxDuration(GetSpellProto());
-        if(duration > 0)
-            vehicle->SetSpawnDuration(duration);
+        caster->EnterVehicle(target->GetVehicleKit(), GetModifier()->m_amount - 1);
     }
     else
     {
         // some SPELL_AURA_CONTROL_VEHICLE auras have a dummy effect on the player - remove them
         caster->RemoveAurasDueToSpell(GetId());
+        caster->ExitVehicle();
     }
 }
 
@@ -8490,4 +8504,18 @@ void Aura::HandleAllowOnlyAbility(bool apply, bool Real)
     target->UpdateDamagePhysical(BASE_ATTACK);
     target->UpdateDamagePhysical(RANGED_ATTACK);
     target->UpdateDamagePhysical(OFF_ATTACK);
+}
+
+void Aura::SetAuraMaxDuration( int32 duration )
+{
+    m_maxduration = duration;
+    
+    // possible overwrite persistent state
+    if (duration > 0)
+    {
+        if (!(m_isPassive && m_spellProto->DurationIndex == 0))
+            m_permanent = false;
+
+        m_auraFlags |= AFLAG_DURATION;
+    }
 }

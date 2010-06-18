@@ -98,6 +98,24 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">.\game__$(Platform)_$(Configuration)\</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|x64'">.\game__$(Platform)_$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|x64'">.\game__$(Platform)_$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug_NoPCH|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -194,7 +212,6 @@
       <CallingConvention>Cdecl</CallingConvention>
       <CompileAs>Default</CompileAs>
       <ForcedIncludeFiles>pchdef.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -337,7 +354,6 @@
     <ClCompile Include="..\..\src\game\Channel.cpp" />
     <ClCompile Include="..\..\src\game\ChannelHandler.cpp" />
     <ClCompile Include="..\..\src\game\ChannelMgr.cpp" />
-    <ClCompile Include="..\..\src\game\CharacterDatabaseCleaner.cpp" />
     <ClCompile Include="..\..\src\game\CharacterHandler.cpp" />
     <ClCompile Include="..\..\src\game\Chat.cpp" />
     <ClCompile Include="..\..\src\game\ChatHandler.cpp" />
@@ -345,6 +361,7 @@
     <ClCompile Include="..\..\src\game\DuelHandler.cpp" />
     <ClCompile Include="..\..\src\game\GameEventMgr.cpp" />
     <ClCompile Include="..\..\src\game\GossipDef.cpp" />
+    <ClCompile Include="..\..\src\game\GridMap.cpp" />
     <ClCompile Include="..\..\src\game\GridNotifiers.cpp" />
     <ClCompile Include="..\..\src\game\GridStates.cpp" />
     <ClCompile Include="..\..\src\game\Group.cpp" />
@@ -360,6 +377,7 @@
     <ClCompile Include="..\..\src\game\MapInstanced.cpp" />
     <ClCompile Include="..\..\src\game\MapManager.cpp" />
     <ClCompile Include="..\..\src\game\MiscHandler.cpp" />
+    <ClCompile Include="..\..\src\game\MoveMap.cpp" />
     <ClCompile Include="..\..\src\game\MovementHandler.cpp" />
     <ClCompile Include="..\..\src\game\NPCHandler.cpp" />
     <ClCompile Include="..\..\src\game\ObjectGridLoader.cpp" />
@@ -379,7 +397,6 @@
     <ClCompile Include="..\..\src\game\SpellHandler.cpp" />
     <ClCompile Include="..\..\src\game\TaxiHandler.cpp" />
     <ClCompile Include="..\..\src\game\TradeHandler.cpp" />
-    <ClCompile Include="..\..\src\game\TicketMgr.cpp" />
     <ClCompile Include="..\..\src\game\Transports.cpp" />
     <ClCompile Include="..\..\src\game\UpdateData.cpp" />
     <ClCompile Include="..\..\src\game\VoiceChatHandler.cpp" />
@@ -393,6 +410,7 @@
     <ClCompile Include="..\..\src\game\IdleMovementGenerator.cpp" />
     <ClCompile Include="..\..\src\game\MotionMaster.cpp" />
     <ClCompile Include="..\..\src\game\MovementGenerator.cpp" />
+    <ClCompile Include="..\..\src\game\PathFinder.cpp" />
     <ClCompile Include="..\..\src\game\PointMovementGenerator.cpp" />
     <ClCompile Include="..\..\src\game\RandomMovementGenerator.cpp" />
     <ClCompile Include="..\..\src\game\TargetedMovementGenerator.cpp" />
@@ -433,6 +451,7 @@
     <ClCompile Include="..\..\src\game\SpellMgr.cpp" />
     <ClCompile Include="..\..\src\game\StatSystem.cpp" />
     <ClCompile Include="..\..\src\game\TemporarySummon.cpp" />
+    <ClCompile Include="..\..\src\game\TicketMgr.cpp" />
     <ClCompile Include="..\..\src\game\Totem.cpp" />
     <ClCompile Include="..\..\src\game\TotemAI.cpp" />
     <ClCompile Include="..\..\src\game\Unit.cpp" />
@@ -447,6 +466,7 @@
     <ClCompile Include="..\..\src\game\Level1.cpp" />
     <ClCompile Include="..\..\src\game\Level2.cpp" />
     <ClCompile Include="..\..\src\game\Level3.cpp" />
+    <ClCompile Include="..\..\src\game\CharacterDatabaseCleaner.cpp" />
     <ClCompile Include="..\..\src\game\PlayerDump.cpp" />
     <ClCompile Include="..\..\src\game\FollowerReference.cpp" />
     <ClCompile Include="..\..\src\game\GroupReference.cpp" />
@@ -485,11 +505,11 @@
     <ClInclude Include="..\..\src\game\CellImpl.h" />
     <ClInclude Include="..\..\src\game\Channel.h" />
     <ClInclude Include="..\..\src\game\ChannelMgr.h" />
-    <ClInclude Include="..\..\src\game\CharacterDatabaseCleaner.h" />
     <ClInclude Include="..\..\src\game\Chat.h" />
     <ClInclude Include="..\..\src\game\GameEventMgr.h" />
     <ClInclude Include="..\..\src\game\GossipDef.h" />
     <ClInclude Include="..\..\src\game\GridDefines.h" />
+    <ClInclude Include="..\..\src\game\GridMap.h" />
     <ClInclude Include="..\..\src\game\GridNotifiers.h" />
     <ClInclude Include="..\..\src\game\GridNotifiersImpl.h" />
     <ClInclude Include="..\..\src\game\GridStates.h" />
@@ -524,6 +544,7 @@
     <ClInclude Include="..\..\src\game\IdleMovementGenerator.h" />
     <ClInclude Include="..\..\src\game\MotionMaster.h" />
     <ClInclude Include="..\..\src\game\MovementGenerator.h" />
+    <ClInclude Include="..\..\src\game\PathFinder.h" />
     <ClInclude Include="..\..\src\game\PointMovementGenerator.h" />
     <ClInclude Include="..\..\src\game\RandomMovementGenerator.h" />
     <ClInclude Include="..\..\src\game\TargetedMovementGenerator.h" />
@@ -583,6 +604,7 @@
     <ClInclude Include="..\..\src\game\WorldSession.h" />
     <ClInclude Include="..\..\src\game\WorldSocket.h" />
     <ClInclude Include="..\..\src\game\WorldSocketMgr.h" />
+    <ClInclude Include="..\..\src\game\CharacterDatabaseCleaner.h" />
     <ClInclude Include="..\..\src\game\Language.h" />
     <ClInclude Include="..\..\src\game\PlayerDump.h" />
     <ClInclude Include="..\..\src\game\FollowerReference.h" />

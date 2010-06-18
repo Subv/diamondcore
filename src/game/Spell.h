@@ -170,6 +170,7 @@ class SpellCastTargets
         Item* getItemTarget() const { return m_itemTarget; }
         uint32 getItemTargetEntry() const { return m_itemTargetEntry; }
         void setItemTarget(Item* item);
+        void setTradeItemTarget(Player* caster);
         void updateTradeSlotItem()
         {
             if(m_itemTarget && (m_targetMask & TARGET_FLAG_TRADE_ITEM))
@@ -361,7 +362,6 @@ class Spell
         void EffectPlayMusic(SpellEffectIndex eff_idx);
         void EffectSpecCount(SpellEffectIndex eff_idx);
         void EffectActivateSpec(SpellEffectIndex eff_idx);
-        void EffectSummonVehicle(SpellEffectIndex eff_idx);
         void EffectDamageBuilding(SpellEffectIndex eff_idx);
 
         Spell( Unit* caster, SpellEntry const *info, bool triggered, ObjectGuid originalCasterGUID = ObjectGuid(), Spell** triggeringContainer = NULL );
@@ -409,6 +409,7 @@ class Spell
         void DoSummonGuardian(SpellEffectIndex eff_idx, uint32 forceFaction = 0);
         void DoSummonTotem(SpellEffectIndex eff_idx, uint8 slot_dbc = 0);
         void DoSummonCritter(SpellEffectIndex eff_idx, uint32 forceFaction = 0);
+        void DoSummonVehicle(SpellEffectIndex eff_idx, uint32 forceFaction = 0);
 
         void WriteSpellGoTargets( WorldPacket * data );
         void WriteAmmoToPacket( WorldPacket * data );

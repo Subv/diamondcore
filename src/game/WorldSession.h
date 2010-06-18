@@ -221,12 +221,12 @@ class DIAMOND_DLL_SPEC WorldSession
 
         void SendBattlegGroundList( uint64 guid, BattleGroundTypeId bgTypeId );
 
-        void SendTradeStatus(uint32 status);
+        void SendTradeStatus(TradeStatus status);
         void SendCancelTrade();
 
         void SendStablePet(uint64 guid );
         void SendPetitionQueryOpcode( uint64 petitionguid);
-        void SendUpdateTrade();
+        void SendUpdateTrade(bool trader_state = true);
 
         //pet
         void SendPetNameQuery(uint64 guid, uint32 petnumber);
@@ -425,8 +425,12 @@ class DIAMOND_DLL_SPEC WorldSession
         void HandleMoveNotActiveMover(WorldPacket &recv_data);
         void HandleDismissControlledVehicle(WorldPacket &recv_data);
         void HandleRequestVehicleExit(WorldPacket &recv_data);
+        void HandleRequestVehiclePrevSeat(WorldPacket &recv_data);
+        void HandleRequestVehicleNextSeat(WorldPacket &recv_data);
         void HandleRequestVehicleSwitchSeat(WorldPacket &recv_data);
         void HandleChangeSeatsOnControlledVehicle(WorldPacket &recv_data);
+        void HandleEnterPlayerVehicle(WorldPacket &recv_data);
+        void HandleEjectPasenger(WorldPacket &recv_data);
         void HandleMoveTimeSkippedOpcode(WorldPacket &recv_data);
 
         void HandleRequestRaidInfoOpcode( WorldPacket & recv_data );

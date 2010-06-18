@@ -117,6 +117,7 @@ struct CreatureInfo
     int32   resistance6;
     uint32  spells[CREATURE_MAX_SPELLS];
     uint32  PetSpellDataId;
+    uint32  VehicleId;
     uint32  mingold;
     uint32  maxgold;
     char const* AIName;
@@ -212,15 +213,6 @@ struct CreatureDataAddonAura
     SpellEffectIndex effect_idx;
 };
 
-struct CreatureDataAddonPassengers
-{
-    CreatureDataAddonPassengers() : entry(0), guid(0), seat_idx(-1) {}
-
-    uint32 entry;
-    uint32 guid;
-    int8 seat_idx;
-};
-
 // from `creature_addon` table
 struct CreatureDataAddon
 {
@@ -229,9 +221,7 @@ struct CreatureDataAddon
     uint32 bytes1;
     uint32 bytes2;
     uint32 emote;
-	uint32 splineFlags;
-    uint32 vehicle_id;
-    CreatureDataAddonPassengers const* passengers;          // loaded as char* "entry1 seatid1 entry2 seatid2 ... "  
+    uint32 splineFlags;
     CreatureDataAddonAura const* auras;                     // loaded as char* "spell1 eff1 spell2 eff2 ... "
 };
 
@@ -410,9 +400,6 @@ class DIAMOND_DLL_SPEC Creature : public Unit
         void Update( uint32 time );                         // overwrited Unit::Update
         void GetRespawnCoord(float &x, float &y, float &z, float* ori = NULL, float* dist =NULL) const;
         uint32 GetEquipmentId() const { return m_equipmentId; }
-
-        bool CreateVehicleKit(uint32 id);
-        Vehicle *GetVehicleKit()const { return m_vehicleKit; }
 
         CreatureSubtype GetSubtype() const { return m_subtype; }
         bool isPet() const { return m_subtype == CREATURE_SUBTYPE_PET; }
@@ -642,7 +629,6 @@ class DIAMOND_DLL_SPEC Creature : public Unit
 
         void SetDeadByDefault (bool death_state) { m_isDeadByDefault = death_state; }
 
-        bool isActiveObject() const { return m_isActiveObject || HasAuraType(SPELL_AURA_BIND_SIGHT) || HasAuraType(SPELL_AURA_FAR_SIGHT); }
         void SetActiveObjectState(bool on);
 
         void SetNeedNotify() { m_needNotify = true; }
@@ -678,7 +664,7 @@ class DIAMOND_DLL_SPEC Creature : public Unit
         float m_respawnradius;
 
         CreatureSubtype m_subtype;                          // set in Creatures subclasses for fast it detect without dynamic_cast use
-        void RegenerateMana();
+        void Regenerate(Powers power);
         void RegenerateHealth();
         MovementGeneratorType m_defaultMovementType;
         Cell m_currentCell;                                 // store current cell where creature listed
@@ -698,7 +684,7 @@ class DIAMOND_DLL_SPEC Creature : public Unit
         float CombatStartX;
         float CombatStartY;
         float CombatStartZ;
-        Vehicle* m_vehicleKit;
+
         float m_summonXpoint;
         float m_summonYpoint;
         float m_summonZpoint;
