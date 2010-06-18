@@ -493,6 +493,7 @@ bool Master::_StartDB()
     clearOnlineAccounts();
 
     sWorld.LoadDBVersion();
+    sWorld.InsertCoreVersion();
 
     sLog.outString("Using World DB: %s", sWorld.GetDBVersion());
     sLog.outString("Using creature EventAI: %s", sWorld.GetCreatureEventAIVersion());

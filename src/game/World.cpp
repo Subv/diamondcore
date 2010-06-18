@@ -2111,6 +2111,11 @@ void World::LoadDBVersion()
         m_CreatureEventAIVersion = "Unknown EventAI.";
 }
 
+void World::InsertCoreVersion()
+{
+    WorldDatabase.PExecute("UPDATE `version` SET `core_version` = '%s'", REVISION_NR);
+}
+
 void World::setConfig(eConfigUInt32Values index, char const* fieldname, uint32 defvalue)
 {
     setConfig(index, sConfig.GetIntDefault(fieldname,defvalue));
