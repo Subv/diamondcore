@@ -277,6 +277,17 @@ struct QuestPOI
 typedef std::vector<QuestPOI> QuestPOIVector;
 typedef UNORDERED_MAP<uint32, QuestPOIVector> QuestPOIMap;
 
+struct VehicleAccessory
+{
+    explicit VehicleAccessory(uint32 _uiAccessory, int8 _uiSeat, bool _bMinion) : uiAccessory(_uiAccessory), uiSeat(_uiSeat), bMinion(_bMinion) {}
+    uint32 uiAccessory;
+    int8 uiSeat;
+    uint32 bMinion;
+};
+
+typedef std::vector<VehicleAccessory> VehicleAccessoryList;
+typedef std::map<uint32, VehicleAccessoryList> VehicleAccessoryMap;
+
 #define WEATHER_SEASONS 4
 struct WeatherSeasonChances
 {
