@@ -482,6 +482,8 @@ class DIAMOND_DLL_SPEC WorldObject : public Object
 		GameObject* SummonGameobject(uint32 id, float x, float y, float z, float angle, uint32 despwtime);
         Vehicle* SummonVehicle(uint32 id, float x, float y, float z, float ang, uint32 vehicleId = NULL);
 
+        bool isActiveObject() const { return m_isActiveObject || m_viewPoint.hasViewers(); }
+
         ViewPoint& getViewPoint() { return m_viewPoint; }
     protected:
         explicit WorldObject();
@@ -493,6 +495,7 @@ class DIAMOND_DLL_SPEC WorldObject : public Object
         void SetLocationInstanceId(uint32 _instanceId) { m_InstanceId = _instanceId; }
 
         std::string m_name;
+        bool m_isActiveObject;
 
     private:
         Map * m_currMap;                                    //current object's Map location

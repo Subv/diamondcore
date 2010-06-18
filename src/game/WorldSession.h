@@ -221,12 +221,12 @@ class DIAMOND_DLL_SPEC WorldSession
 
         void SendBattlegGroundList( uint64 guid, BattleGroundTypeId bgTypeId );
 
-        void SendTradeStatus(uint32 status);
+        void SendTradeStatus(TradeStatus status);
         void SendCancelTrade();
 
         void SendStablePet(uint64 guid );
         void SendPetitionQueryOpcode( uint64 petitionguid);
-        void SendUpdateTrade();
+        void SendUpdateTrade(bool trader_state = true);
 
         //pet
         void SendPetNameQuery(uint64 guid, uint32 petnumber);

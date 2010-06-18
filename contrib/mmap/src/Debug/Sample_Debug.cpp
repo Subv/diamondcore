@@ -53,7 +53,18 @@ Sample_Debug::Sample_Debug() : Sample_SoloMeshTiled(),
 
 Sample_Debug::~Sample_Debug()
 {
-    Sample_SoloMeshTiled::cleanup();
+    cleanup();
+}
+
+void Sample_Debug::cleanup()
+{
+    delete [] m_hf; m_hf = 0;
+    delete [] m_chf; m_chf = 0;
+    delete [] m_cset; m_cset = 0;
+    delete [] m_pmesh; m_pmesh = 0;
+    delete [] m_dmesh; m_dmesh = 0;
+    delete m_tool; m_tool = 0;
+    delete m_navMesh; m_navMesh = 0;
 }
 
 void Sample_Debug::handleSettings()
@@ -348,7 +359,7 @@ bool Sample_Debug::handleBuild()
 
     duReadNavMesh(mapID, m_navMesh);
     m_pmeshCount = duReadPolyMesh(mapID, m_pmesh);
-    m_hfCount = duReadHeightfield(mapID, m_hf);
+    //m_hfCount = duReadHeightfield(mapID, m_hf);
     m_chfCount = duReadCompactHeightfield(mapID, m_chf);
 
     m_tileSize = m_navMesh->getParams()->tileHeight;
@@ -366,13 +377,22 @@ bool Sample_Debug::handleBuild()
 void Sample_Debug::setHighlightedTile(const float* pos)
 {
 
-	if (!pos)
+	if (!pos || !m_navMesh)
 	{
 		m_highLightedTileX = -1;
 		m_highLightedTileY = -1;
 		return;
 	}
 	const float* bmin = m_geom->getMeshBoundsMin();
-	m_highLightedTileX = (int)((pos[0] - bmin[0]) / m_tileSize);
-	m_highLightedTileY = (int)((pos[2] - bmin[2]) / m_tileSize);
+    float extents[3] = {2.f, 4.f, 2.f};
+    dtPolyRef polyRef = m_navMesh->findNearestPoly(pos, extents, &dtQueryFilter(), 0);
+    const dtMeshTile* tile = m_navMesh->getTileByPolyRef(polyRef, 0);
+    if(!tile)
+    {
+		m_highLightedTileX = -1;
+		m_highLightedTileY = -1;
+		return;
+    }
+    m_highLightedTileX = tile->header->x;
+	m_highLightedTileY = tile->header->y;
 }
