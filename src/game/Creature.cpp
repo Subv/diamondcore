@@ -146,17 +146,36 @@ Creature::~Creature()
 void Creature::AddToWorld()
 {
     ///- Register the creature for guid lookup
-    if(!IsInWorld() && GetObjectGuid().GetHigh() == HIGHGUID_UNIT)
-        GetMap()->GetObjectsStore().insert<Creature>(GetGUID(), (Creature*)this);
+    if(!IsInWorld())
+    {
+        switch(GetObjectGuid().GetHigh())
+        {
+            case HIGHGUID_UNIT:
+            case HIGHGUID_VEHICLE:
+                GetMap()->GetObjectsStore().insert<Creature>(GetGUID(), (Creature*)this);
+                break;
+        }
+    }
 
     Unit::AddToWorld();
+
+    if (GetVehicleKit())
+        GetVehicleKit()->Install();
 }
 
 void Creature::RemoveFromWorld()
 {
     ///- Remove the creature from the accessor
-    if(IsInWorld() && GetObjectGuid().GetHigh() == HIGHGUID_UNIT)
-        GetMap()->GetObjectsStore().erase<Creature>(GetGUID(), (Creature*)NULL);
+    if(IsInWorld())
+    {
+        switch(GetObjectGuid().GetHigh())
+        {
+            case HIGHGUID_UNIT:
+            case HIGHGUID_VEHICLE:
+                GetMap()->GetObjectsStore().erase<Creature>(GetGUID(), (Creature*)NULL);
+                break;
+        }
+    }
 
     Unit::RemoveFromWorld();
 }
@@ -491,7 +510,7 @@ void Creature::Update(uint32 diff)
             if (!isInCombat() || IsPolymorphed())
                 RegenerateHealth();
 
-            RegenerateMana();
+            Regenerate(getPowerType());
 
             m_regenTimer = REGEN_TIME_FULL;
             break;
@@ -525,31 +544,47 @@ void Creature::StopGroupLoot()
     m_groupLootId = 0;
 }
 
-void Creature::RegenerateMana()
+void Creature::Regenerate(Powers power)
 {
-    uint32 curValue = GetPower(POWER_MANA);
-    uint32 maxValue = GetMaxPower(POWER_MANA);
+    uint32 curValue = GetPower(power);
+    uint32 maxValue = GetMaxPower(power);
 
     if (curValue >= maxValue)
         return;
 
     uint32 addvalue = 0;
 
-    // Combat and any controlled creature
-    if (isInCombat() || GetCharmerOrOwnerGUID())
+    switch (power)
     {
-        if(!IsUnderLastManaUseEffect())
+        case POWER_MANA:
         {
-            float ManaIncreaseRate = sWorld.getConfig(CONFIG_FLOAT_RATE_POWER_MANA);
-            float Spirit = GetStat(STAT_SPIRIT);
+            // Combat and any controlled creature
+            if (isInCombat() || GetCharmerOrOwnerGUID())
+            {
+                if(!IsUnderLastManaUseEffect())
+                {
+                    float ManaIncreaseRate = sWorld.getConfig(CONFIG_FLOAT_RATE_POWER_MANA);
+                    float Spirit = GetStat(STAT_SPIRIT);
 
-            addvalue = uint32((Spirit / 5.0f + 17.0f) * ManaIncreaseRate);
+                    addvalue = uint32((Spirit / 5.0f + 17.0f) * ManaIncreaseRate);
+                }
+            }
+            else
+                addvalue = maxValue / 3;
+
+            break;
         }
+        case POWER_ENERGY:
+        {
+            if (!GetVehicleKit() || GetVehicleKit()->GetVehicleInfo()->m_powerType != POWER_PYRITE)
+                addvalue = 20;
+            break;
+        }
+    default:
+        return;
     }
-    else
-        addvalue = maxValue / 3;
 
-    ModifyPower(POWER_MANA, addvalue);
+    ModifyPower(power, addvalue);
 }
 
 void Creature::RegenerateHealth()
@@ -1155,7 +1190,12 @@ bool Creature::CreateFromProto(uint32 guidlow, uint32 Entry, uint32 team, const 
     }
     m_originalEntry = Entry;
 
-   Object::_Create(guidlow, Entry, HIGHGUID_UNIT);
+    uint32 vehicleId = cinfo->VehicleId;
+
+    if(vehicleId && !CreateVehicleKit(vehicleId))
+        vehicleId = 0;
+
+    Object::_Create(guidlow, Entry, vehicleId ? HIGHGUID_VEHICLE : HIGHGUID_UNIT);
 
     if (!UpdateEntry(Entry, team, data, false))
         return false;
@@ -1377,8 +1417,6 @@ void Creature::setDeathState(DeathState s)
         }
 
         Unit::setDeathState(CORPSE);
-        if(isVehicle())
-            ((Vehicle*)this)->Die();
     }
     if (s == JUST_ALIVED)
     {
@@ -1389,6 +1427,10 @@ void Creature::setDeathState(DeathState s)
         RemoveFlag (UNIT_FIELD_FLAGS, UNIT_FLAG_SKINNABLE);
         AddSplineFlag(SPLINEFLAG_WALKMODE);
         SetUInt32Value(UNIT_NPC_FLAGS, cinfo->npcflag);
+
+        if (GetVehicleKit())
+            GetVehicleKit()->Reset();
+
         Unit::setDeathState(ALIVE);
         clearUnitState(UNIT_STAT_ALL_STATE);
         i_motionMaster.Clear();
@@ -1483,7 +1525,7 @@ bool Creature::IsImmunedToSpellEffect(SpellEntry const* spellInfo, SpellEffectIn
     }
 
     // Heal immunity
-    if (isVehicle() && !(((Vehicle*)this)->GetVehicleFlags() & VF_CAN_BE_HEALED))
+    if (isVehicle()/* && !(((Vehicle*)this)->GetVehicleFlags() & VF_CAN_BE_HEALED)*/)
     {
         switch(spellInfo->Effect[index])
         {
@@ -2015,9 +2057,9 @@ bool Creature::IsInEvadeMode() const
 
 float Creature::GetBaseSpeed() const
 {
-    if( isPet() )
+    if (isPet())
     {
-        switch( ((Pet*)this)->getPetType() )
+        switch(((Pet*)this)->getPetType())
         {
             case SUMMON_PET:
             case HUNTER_PET:

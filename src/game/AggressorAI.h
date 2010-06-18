@@ -21,6 +21,7 @@
 
 #include "CreatureAI.h"
 #include "Timer.h"
+#include "Vehicle.h"
 
 class Creature;
 

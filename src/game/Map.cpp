@@ -2105,13 +2105,11 @@ void Map::ScriptsProcess()
                     break;
                 }
                 case HIGHGUID_UNIT:
+                case HIGHGUID_VEHICLE:
                     source = GetCreature(step.sourceGUID);
                     break;
                 case HIGHGUID_PET:
                     source = GetPet(step.sourceGUID);
-                    break;
-                case HIGHGUID_VEHICLE:
-                    source = GetVehicle(step.sourceGUID);
                     break;
                 case HIGHGUID_PLAYER:
                     source = HashMapHolder<Player>::Find(step.sourceGUID);
@@ -2138,13 +2136,11 @@ void Map::ScriptsProcess()
             switch(GUID_HIPART(step.targetGUID))
             {
                 case HIGHGUID_UNIT:
+                case HIGHGUID_VEHICLE:
                     target = GetCreature(step.targetGUID);
                     break;
                 case HIGHGUID_PET:
                     target = GetPet(step.targetGUID);
-                    break;
-                case HIGHGUID_VEHICLE:
-                    target = GetVehicle(step.targetGUID);
                     break;
                 case HIGHGUID_PLAYER:                       // empty GUID case also
                     target = HashMapHolder<Player>::Find(step.targetGUID);
@@ -2837,11 +2833,6 @@ Creature* Map::GetCreature(ObjectGuid guid)
     return m_objectsStore.find<Creature>(guid.GetRawValue(), (Creature*)NULL);
 }
 
-Vehicle* Map::GetVehicle(ObjectGuid guid)
-{
-    return m_objectsStore.find<Vehicle>(guid.GetRawValue(), (Vehicle*)NULL);
-}
-
 Pet* Map::GetPet(ObjectGuid guid)
 {
     return m_objectsStore.find<Pet>(guid.GetRawValue(), (Pet*)NULL);
@@ -2861,9 +2852,9 @@ Creature* Map::GetCreatureOrPetOrVehicle(ObjectGuid guid)
 {
     switch(guid.GetHigh())
     {
-        case HIGHGUID_UNIT:         return GetCreature(guid);
+        case HIGHGUID_UNIT:
+        case HIGHGUID_VEHICLE:      return GetCreature(guid);
         case HIGHGUID_PET:          return GetPet(guid);
-        case HIGHGUID_VEHICLE:      return GetVehicle(guid);
         default:                    break;
     }
 
@@ -2886,9 +2877,9 @@ WorldObject* Map::GetWorldObject(ObjectGuid guid)
     {
         case HIGHGUID_PLAYER:       return ObjectAccessor::FindPlayer(guid);
         case HIGHGUID_GAMEOBJECT:   return GetGameObject(guid);
-        case HIGHGUID_UNIT:         return GetCreature(guid);
+        case HIGHGUID_UNIT:
+        case HIGHGUID_VEHICLE:      return GetCreature(guid);
         case HIGHGUID_PET:          return GetPet(guid);
-        case HIGHGUID_VEHICLE:      return GetVehicle(guid);
         case HIGHGUID_DYNAMICOBJECT:return GetDynamicObject(guid);
         case HIGHGUID_CORPSE:       return GetCorpse(guid);
         case HIGHGUID_MO_TRANSPORT:
@@ -2928,8 +2919,6 @@ uint32 Map::GenerateLocalLowGuid(HighGuid guidhigh)
             return m_DynObjectGuids.Generate();
         case HIGHGUID_PET:
             return m_PetGuids.Generate();
-        case HIGHGUID_VEHICLE:
-            return m_VehicleGuids.Generate();
         default:
             ASSERT(0);
     }

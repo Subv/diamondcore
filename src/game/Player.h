@@ -50,7 +50,6 @@ class Transport;
 class UpdateMask;
 class SpellCastTargets;
 class PlayerSocial;
-class Vehicle;
 class InstanceSave;
 class Spell;
 class Item;
@@ -1610,6 +1609,7 @@ class DIAMOND_DLL_SPEC Player : public Unit
         void PetSpellInitialize();
         void SendPetGUIDs();
         void CharmSpellInitialize();
+        void VehicleSpellInitialize();
         void PossessSpellInitialize();
         void RemovePetActionBar();
 
@@ -2198,9 +2198,7 @@ class DIAMOND_DLL_SPEC Player : public Unit
         /*********************************************************/
         bool HasMovementFlag(MovementFlags f) const;        // for script access to m_movementInfo.HasMovementFlag
         void UpdateFallInformationIfNeed(MovementInfo const& minfo,uint16 opcode);
-        Unit *m_mover_in_queve;
-
-        void SetMoverInQueve(Unit* pet) {m_mover_in_queve = pet ? pet : this; }
+        Unit *m_mover;
 
         void SetFallInformation(uint32 time, float z)
         {
@@ -2220,11 +2218,9 @@ class DIAMOND_DLL_SPEC Player : public Unit
 
         void SetClientControl(Unit* target, uint8 allowMove);
         void SetMover(Unit* target) { m_mover = target ? target : this; }
-        Unit* GetMover() const { return m_mover; }
-        bool IsSelfMover() const { return m_mover == this; }// normal case for player not controlling other unit
 
         // vehicle system
-        void SendEnterVehicle(Vehicle *vehicle);
+        void SendEnterVehicle(VehicleKit *vehicle);
 
         uint64 GetFarSight() const { return GetUInt64Value(PLAYER_FARSIGHT); }
 

@@ -362,7 +362,6 @@ class Spell
         void EffectPlayMusic(SpellEffectIndex eff_idx);
         void EffectSpecCount(SpellEffectIndex eff_idx);
         void EffectActivateSpec(SpellEffectIndex eff_idx);
-        void EffectSummonVehicle(SpellEffectIndex eff_idx);
         void EffectDamageBuilding(SpellEffectIndex eff_idx);
 
         Spell( Unit* caster, SpellEntry const *info, bool triggered, ObjectGuid originalCasterGUID = ObjectGuid(), Spell** triggeringContainer = NULL );
@@ -410,6 +409,7 @@ class Spell
         void DoSummonGuardian(SpellEffectIndex eff_idx, uint32 forceFaction = 0);
         void DoSummonTotem(SpellEffectIndex eff_idx, uint8 slot_dbc = 0);
         void DoSummonCritter(SpellEffectIndex eff_idx, uint32 forceFaction = 0);
+        void DoSummonVehicle(SpellEffectIndex eff_idx, uint32 forceFaction = 0);
 
         void WriteSpellGoTargets( WorldPacket * data );
         void WriteAmmoToPacket( WorldPacket * data );

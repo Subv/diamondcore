@@ -90,7 +90,7 @@ VisibleNotifier::Notify()
     for(std::set<WorldObject*>::const_iterator vItr = i_visibleNow.begin(); vItr != i_visibleNow.end(); ++vItr)
     {
         // target aura duration for caster show only if target exist at caster client
-        if((*vItr)!=&i_player && (*vItr)->isType(TYPEMASK_UNIT))
+        if ((*vItr) != &i_player && (*vItr)->isType(TYPEMASK_UNIT))
         {
             i_player.SendAurasForTarget((Unit*)(*vItr));
             WorldPacket data;

@@ -69,7 +69,6 @@ class Unit;
 class Map;
 class UpdateMask;
 class InstanceData;
-class Vehicle;
 
 typedef UNORDERED_MAP<Player*, UpdateData> UpdateDataMapType;
 
@@ -277,6 +276,7 @@ class DIAMOND_DLL_SPEC Object
 
         virtual bool hasQuest(uint32 /* quest_id */) const { return false; }
         virtual bool hasInvolvedQuest(uint32 /* quest_id */) const { return false; }
+        Creature* ToCreature(){ if (GetTypeId() == TYPEID_UNIT) return reinterpret_cast<Creature*>(this); else return NULL; }
     protected:
 
         Object ( );
@@ -480,7 +480,6 @@ class DIAMOND_DLL_SPEC WorldObject : public Object
 
         Creature* SummonCreature(uint32 id, float x, float y, float z, float ang,TempSummonType spwtype,uint32 despwtime);
 		GameObject* SummonGameobject(uint32 id, float x, float y, float z, float angle, uint32 despwtime);
-        Vehicle* SummonVehicle(uint32 id, float x, float y, float z, float ang, uint32 vehicleId = NULL);
 
         bool isActiveObject() const { return m_isActiveObject || m_viewPoint.hasViewers(); }
 
