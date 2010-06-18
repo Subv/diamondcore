@@ -22,6 +22,7 @@
 #include "ObjectGuid.h"
 #include "Creature.h"
 #include "Unit.h"
+#include "ObjectMgr.h"
 
 enum PowerType
 {
