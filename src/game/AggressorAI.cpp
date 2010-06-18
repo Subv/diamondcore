@@ -117,8 +117,8 @@ void AggressorAI::EnterEvadeMode()
     m_creature->CombatStop(true);
     m_creature->SetLootRecipient(NULL);
 
-    if (m_creature->GetVehicleKit())
-        m_creature->GetVehicleKit()->Reset();
+    //if (m_creature->GetVehicleKit())
+        //m_creature->GetVehicleKit()->Reset();
 }
 
 void

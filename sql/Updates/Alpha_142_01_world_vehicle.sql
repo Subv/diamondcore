@@ -7,6 +7,9 @@ ALTER TABLE creature_template
 ALTER TABLE creature_template
   ADD COLUMN `VehicleId` mediumint(8) unsigned NOT NULL default '0' AFTER `PetSpellDataId`;
 
+UPDATE creature_template SET unit_flags = 32768 WHERE entry = 28782;
+UPDATE quest_template SET SrcSpell = 52693 WHERE entry = 12687;
+
 DROP TABLE IF EXISTS `vehicle_accessory`;
 CREATE TABLE `vehicle_accessory` (
   `entry` MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT 0,
