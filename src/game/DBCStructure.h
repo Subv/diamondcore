@@ -508,7 +508,7 @@ struct AreaTableEntry
     int32   area_level;                                     // 10
     DBCString area_name;                                    // 11
     uint32  team;                                           // 12
-                                                            // 13-19 unknown
+                                                            // 13-20 unknown
 };
 
 struct AreaGroupEntry
@@ -1339,6 +1339,7 @@ struct SkillLineAbilityEntry
     uint32    min_value;                                    // 11       m_trivialSkillLineRankLow
     //uint32    characterPoints[2];                         // 12-13    m_characterPoints[2]
     //uint32                                                // 14
+	//uint32                                                // 15
 };
 
 struct SoundEntriesEntry

@@ -21,7 +21,7 @@
 
 const char Achievementfmt[]="niixsxiixixxii";
 const char AchievementCriteriafmt[]="niiiiiiiixiixix";
-const char AreaTableEntryfmt[]="iiinixxxxxisixxxxxxx";
+const char AreaTableEntryfmt[]="iiinixxxxxisixxxxxxxx";
 const char AreaGroupEntryfmt[]="niiiiiii";
 const char AreaTriggerEntryfmt[]="nifffxxxfffff";
 const char AuctionHouseEntryfmt[]="niiix";
@@ -83,7 +83,7 @@ const char RandomPropertiesPointsfmt[]="niiiiiiiiiiiiiii";
 const char ScalingStatDistributionfmt[]="niiiiiiiiiiiiiiiiiiiixi";
 const char ScalingStatValuesfmt[]="iniiiiiiiiiiiiiiiiixiiii";
 const char SkillLinefmt[]="nixsxixi";
-const char SkillLineAbilityfmt[]="niiiixxiiiiixxx";
+const char SkillLineAbilityfmt[]="niiiixxiiiiixxxx";
 const char SoundEntriesfmt[]="nxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 const char SpellCastTimefmt[]="nixx";
 const char SpellDurationfmt[]="niii";
