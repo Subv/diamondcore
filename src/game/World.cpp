@@ -22,7 +22,7 @@
 
 #include "Common.h"
 #include "Database/DatabaseEnv.h"
-#include "Config/ConfigEnv.h"
+#include "Config/Config.h"
 #include "SystemConfig.h"
 #include "Log.h"
 #include "Opcodes.h"
@@ -61,6 +61,7 @@
 #include "Util.h"
 #include "AuctionHouseBot.h"
 #include "CharacterDatabaseCleaner.h"
+#include "LFGMgr.h"
 
 INSTANTIATE_SINGLETON_1( World );
 
@@ -402,9 +403,9 @@ Weather* World::AddWeather(uint32 zone_id)
 /// Initialize config values
 void World::LoadConfigSettings(bool reload)
 {
-    if(reload)
+    if (reload)
     {
-        if(!sConfig.Reload())
+        if (!sConfig.Reload())
         {
             sLog.outError("World settings reload fail: can't read settings from %s.",sConfig.GetFilename().c_str());
             return;
@@ -413,7 +414,7 @@ void World::LoadConfigSettings(bool reload)
 
     ///- Read the version of the configuration file and warn the user in case of emptiness or mismatch
     uint32 confVersion = sConfig.GetIntDefault("ConfVersion", 0);
-    if(!confVersion)
+    if (!confVersion)
     {
         sLog.outError("*****************************************************************************");
         sLog.outError(" WARNING: WorldServer.conf does not include a ConfVersion variable.");
@@ -1072,7 +1073,7 @@ void World::SetInitialWorldSettings()
     sLog.outString( "Loading Objects Pooling Data...");
     sPoolMgr.LoadFromDB();
 
-    sLog.outString( "Loading Game Event Data...");
+    sLog.outString( "Loading Game Event Data...");          // must be after sPoolMgr.LoadFromDB for proper load pool events
     sLog.outString();
     sGameEventMgr.LoadFromDB();
     sLog.outString( ">>> Game Event Data loaded" );
@@ -1231,6 +1232,10 @@ void World::SetInitialWorldSettings()
 
     sLog.outString( "Loading GM tickets...");
     sObjectMgr.LoadTickets();
+
+    ///- Initialize Looking For Group
+    sLog.outString("Starting Looking For Group System");
+    sLFGMgr.InitLFG();
 
     ///- Handle outdated emails (delete/return)
     sLog.outString( "Returning old mails..." );
@@ -1481,6 +1486,8 @@ void World::Update(uint32 diff)
         m_timers[WUPDATE_DELETECHARS].Reset();
         Player::DeleteOldCharacters();
     }
+
+    sLFGMgr.Update(diff);
 
     // execute callbacks from sql queries that were queued recently
     UpdateResultQueue();

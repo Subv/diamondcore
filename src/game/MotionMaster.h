@@ -115,6 +115,7 @@ class DIAMOND_DLL_SPEC MotionMaster : private std::stack<MovementGenerator *>
         void UpdateFinalDistanceToTarget(float fDistance);
 
         bool GetDestination(float &x, float &y, float &z);
+        void MoveJump(float x, float y, float z, float speedZ);
     private:
         void Mutate(MovementGenerator *m);                  // use Move* functions instead
 

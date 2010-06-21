@@ -76,9 +76,17 @@ class DIAMOND_DLL_SPEC ViewPoint
 
     void CameraCall(void (Camera::*handler)())
     {
-        if(!m_cameras.empty())
-            for(camera_iter = m_cameras.begin(); camera_iter!=m_cameras.end(); ++camera_iter)
+        if (!m_cameras.empty())
+        {
+            for(camera_iter = m_cameras.begin(); camera_iter != m_cameras.end(); ++camera_iter)
+            {
                 ((*camera_iter)->*handler)();
+
+                // can be end() after handler
+                if (camera_iter == m_cameras.end())
+                    break;
+            }
+        }
     }
 
 public:

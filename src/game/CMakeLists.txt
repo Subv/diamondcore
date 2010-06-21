@@ -142,6 +142,9 @@ SET(game_STAT_SRCS
     Level1.cpp
     Level2.cpp
     Level3.cpp
+    LFG.h
+    LFGMgr.cpp
+    LFGMgr.h
     LFGHandler.cpp
     LootHandler.cpp
     LootMgr.cpp

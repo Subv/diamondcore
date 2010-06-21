@@ -700,6 +700,13 @@ void ObjectMgr::LoadCreatureTemplates()
             }
         }
 
+        if (cInfo->VehicleId)
+        {
+            VehicleEntry const* vehicle = sVehicleStore.LookupEntry(cInfo->VehicleId);
+            if (!vehicle)
+                sLog.outErrorDb("Creature (Entry: %u) has non-existing VehicleId (%u)", cInfo->Entry, cInfo->VehicleId);
+        }
+
         if(cInfo->MovementType >= MAX_DB_MOTION_TYPE)
         {
             sLog.outErrorDb("Creature (Entry: %u) has wrong movement generator type (%u), ignore and set to IDLE.",cInfo->Entry,cInfo->MovementType);
@@ -896,7 +903,8 @@ void ObjectMgr::LoadEquipmentTemplates()
                 dbcitem->InventoryType != INVTYPE_WEAPONOFFHAND &&
                 dbcitem->InventoryType != INVTYPE_HOLDABLE &&
                 dbcitem->InventoryType != INVTYPE_THROWN &&
-                dbcitem->InventoryType != INVTYPE_RANGEDRIGHT)
+                dbcitem->InventoryType != INVTYPE_RANGEDRIGHT &&
+                dbcitem->InventoryType != INVTYPE_RELIC)
             {
                 sLog.outErrorDb("Item (entry=%u) in creature_equip_template.equipentry%u for entry = %u is not equipable in a hand, forced to 0.", eqInfo->equipentry[j], j+1, i);
                 const_cast<EquipmentInfo*>(eqInfo)->equipentry[j] = 0;
@@ -5557,6 +5565,8 @@ uint32 ObjectMgr::GenerateLowGuid(HighGuid guidhigh)
             return m_GameobjectGuids.Generate();
         case HIGHGUID_CORPSE:
             return m_CorpseGuids.Generate();
+        case HIGHGUID_GROUP:
+            return m_GroupIds.Generate();
         default:
             ASSERT(0);
     }

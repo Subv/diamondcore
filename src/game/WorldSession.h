@@ -43,6 +43,8 @@ class LoginQueryHolder;
 class CharacterHandler;
 class GMTicket;
 
+struct OpcodeHandler;
+
 enum AccountDataType
 {
     GLOBAL_CONFIG_CACHE             = 0,                    // 0x01 g
@@ -159,8 +161,6 @@ class DIAMOND_DLL_SPEC WorldSession
         void SendNotification(const char *format,...) ATTR_PRINTF(2,3);
         void SendNotification(int32 string_id,...);
         void SendPetNameInvalid(uint32 error, const std::string& name, DeclinedName *declinedName);
-        void SendLfgResult(uint32 type, uint32 entry, uint8 lfg_type);
-        void SendLfgUpdate(uint8 unk1, uint8 unk2, uint8 unk3);
         void SendPartyResult(PartyOperation operation, const std::string& member, PartyResult res);
         void SendAreaTriggerMessage(const char* Text, ...) ATTR_PRINTF(2,3);
         void SendSetPhaseShift(uint32 phaseShift);
@@ -683,25 +683,29 @@ class DIAMOND_DLL_SPEC WorldSession
         void HandleMinimapPingOpcode(WorldPacket& recv_data);
         void HandleRandomRollOpcode(WorldPacket& recv_data);
         void HandleFarSightOpcode(WorldPacket& recv_data);
-        void HandleSetLfgOpcode(WorldPacket& recv_data);
         void HandleSetDungeonDifficultyOpcode(WorldPacket& recv_data);
         void HandleSetRaidDifficultyOpcode(WorldPacket& recv_data);
         void HandleMoveSetCanFlyAckOpcode(WorldPacket& recv_data);
-        void HandleLfgJoinOpcode(WorldPacket& recv_data);
-        void HandleLfgLeaveOpcode(WorldPacket& recv_data);
-        void HandleSearchLfgJoinOpcode(WorldPacket& recv_data);
-        void HandleSearchLfgLeaveOpcode(WorldPacket& recv_data);
-        void HandleLfgClearOpcode(WorldPacket& recv_data);
-        void HandleLfmClearOpcode(WorldPacket& recv_data);
-        void HandleSetLfmOpcode(WorldPacket& recv_data);
-        void HandleSetLfgCommentOpcode(WorldPacket& recv_data);
-        void HandleLfgSetRoles(WorldPacket& recv_data);
         void HandleSetTitleOpcode(WorldPacket& recv_data);
         void HandleRealmSplitOpcode(WorldPacket& recv_data);
         void HandleTimeSyncResp(WorldPacket& recv_data);
         void HandleWhoisOpcode(WorldPacket& recv_data);
         void HandleResetInstancesOpcode(WorldPacket& recv_data);
         void HandleHearthandResurrect(WorldPacket & recv_data);
+
+        // Looking for Dungeon/Raid
+        void HandleSetLfgCommentOpcode(WorldPacket & recv_data);
+        void HandleLfgPlayerLockInfoRequestOpcode(WorldPacket& recv_data);
+        void HandleLfgPartyLockInfoRequestOpcode(WorldPacket& recv_data);
+        void HandleLfgJoinOpcode(WorldPacket &recv_data);
+        void HandleLfgLeaveOpcode(WorldPacket & /*recv_data*/);
+        void HandleLfgSetRolesOpcode(WorldPacket &recv_data);
+        void SendLfgUpdatePlayer(uint8 updateType);
+        void SendLfgUpdateParty(uint8 updateType);
+        void SendLfgRoleChosen(uint64 guid, uint8 roles);
+        void SendLfgUpdateSearch(bool update);
+        void SendLfgJoinResult(uint8 checkResult, uint8 checkValue);
+        void SendLfgQueueStatus(uint32 dungeon, int32 waitTime, int32 avgWaitTime, int32 waitTimeTanks, int32 waitTimeHealer, int32 waitTimeDps, uint32 queuedTime, uint8 tanks, uint8 healers, uint8 dps);
 
         // Arena Team
         void HandleInspectArenaTeamsOpcode(WorldPacket& recv_data);
@@ -780,6 +784,8 @@ class DIAMOND_DLL_SPEC WorldSession
     private:
         // private trade methods
         void moveItems(Item* myItems[], Item* hisItems[]);
+
+        void ExecuteOpcode( OpcodeHandler const& opHandle, WorldPacket* packet );
 
         // logging helper
         void LogUnexpectedOpcode(WorldPacket *packet, const char * reason);
