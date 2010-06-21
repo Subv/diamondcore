@@ -273,25 +273,7 @@ void AuthSocket::SendProof(Sha1Hash sha)
 {
     switch(_build)
     {
-        case 5875:                                          // 1.12.1
-        case 6005:                                          // 1.12.2
-        {
-            sAuthLogonProof_S_BUILD_6005 proof;
-            memcpy(proof.M2, sha.GetDigest(), 20);
-            proof.cmd = AUTH_LOGON_PROOF;
-            proof.error = 0;
-            proof.unk2 = 0x00;
-
-            send((char *)&proof, sizeof(proof));
-            break;
-        }
-        case 8606:                                          // 2.4.3
-        case 10505:                                         // 3.2.2a
-        case 11159:                                         // 3.3.0a
-        case 11403:                                         // 3.3.2
-        case 11723:                                         // 3.3.3a
-		case 12196:                                         // 0.3.5
-        default:                                            // or later
+        case 12213:                                         // We support only 3.3.5.12213
         {
             sAuthLogonProof_S proof;
             memcpy(proof.M2, sha.GetDigest(), 20);
@@ -874,70 +856,7 @@ void AuthSocket::LoadRealmlist(ByteBuffer &pkt, uint32 acctid)
 {
     switch(_build)
     {
-        case 5875:                                          // 1.12.1
-        case 6005:                                          // 1.12.2
-        {
-            pkt << uint32(0);
-            pkt << uint8(sRealmList.size());
-
-            for(RealmList::RealmMap::const_iterator  i = sRealmList.begin(); i != sRealmList.end(); ++i)
-            {
-                uint8 AmountOfCharacters;
-
-                // No SQL injection. id of realm is controlled by the database.
-                QueryResult *result = loginDatabase.PQuery( "SELECT numchars FROM realmcharacters WHERE realmid = '%d' AND acctid='%u'", i->second.m_ID, acctid);
-                if( result )
-                {
-                    Field *fields = result->Fetch();
-                    AmountOfCharacters = fields[0].GetUInt8();
-                    delete result;
-                }
-                else
-                    AmountOfCharacters = 0;
-
-                bool ok_build = std::find(i->second.realmbuilds.begin(), i->second.realmbuilds.end(), _build) != i->second.realmbuilds.end();
-
-                RealmBuildInfo const* buildInfo = ok_build ? FindBuildInfo(_build) : NULL;
-                if (!buildInfo)
-                    buildInfo = &i->second.realmBuildInfo;
-
-                RealmFlags realmflags = i->second.realmflags;
-
-                // 1.x clients not support explicitly REALM_FLAG_SPECIFYBUILD, so manually form similar name as show in more recent clients
-                std::string name = i->first;
-                if (realmflags & REALM_FLAG_SPECIFYBUILD)
-                {
-                    char buf[20];
-                    snprintf(buf, 20," (%u,%u,%u)", buildInfo->major_version, buildInfo->minor_version, buildInfo->bugfix_version);
-                    name += buf;
-                }
-
-                // Show offline state for unsupported client builds and locked realms (1.x clients not support locked state show)
-                if (!ok_build || (i->second.allowedSecurityLevel >= _accountSecurityLevel))
-                    realmflags = RealmFlags(realmflags | REALM_FLAG_OFFLINE);
-
-                pkt << uint32(i->second.icon);              // realm type
-                pkt << uint8(realmflags);                   // realmflags
-                pkt << name;                                // name
-                pkt << i->second.address;                   // address
-                pkt << float(i->second.populationLevel);
-                pkt << uint8(AmountOfCharacters);
-                pkt << uint8(i->second.timezone);           // realm category
-                pkt << uint8(0x00);                         // unk, may be realm number/id?
-            }
-
-            pkt << uint8(0x00);
-            pkt << uint8(0x02);
-            break;
-        }
-
-        case 8606:                                          // 2.4.3
-        case 10505:                                         // 3.2.2a
-        case 11159:                                         // 3.3.0a
-        case 11403:                                         // 3.3.2
-        case 11723:                                         // 3.3.3a
-		case 12196:                                         // 0.3.5
-        default:                                            // and later
+        case 12213:                                         // We support only 3.3.5.12213
         {
             pkt << uint32(0);
             pkt << uint16(sRealmList.size());

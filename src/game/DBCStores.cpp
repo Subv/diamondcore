@@ -661,13 +661,13 @@ void LoadDBCStores(const std::string& dataPath)
     }
 
     // Check loaded DBC files proper version
-    if( !sAreaStore.LookupEntry(3617)              ||       // last area (areaflag) added in 0.3.5
-        !sCharTitlesStore.LookupEntry(177)         ||       // last char title added in 0.3.5
-        !sGemPropertiesStore.LookupEntry(1629)     ||       // last gem property added in 0.3.5
-        !sItemStore.LookupEntry(56806)             ||       // last client known item added in 0.3.5
-        !sItemExtendedCostStore.LookupEntry(2997)  ||       // last item extended cost added in 0.3.5
-        !sMapStore.LookupEntry(724)                ||       // last map added in 0.3.5
-        !sSpellStore.LookupEntry(79404)            )        // last added spell in 0.3.5
+    if( !sAreaStore.LookupEntry(3617)              ||       // last area (areaflag) added in 3.3.5
+        !sCharTitlesStore.LookupEntry(177)         ||       // last char title added in 3.3.5
+        !sGemPropertiesStore.LookupEntry(1629)     ||       // last gem property added in 3.3.5
+        !sItemStore.LookupEntry(56806)             ||       // last client known item added in 3.3.5
+        !sItemExtendedCostStore.LookupEntry(2997)  ||       // last item extended cost added in 3.3.5
+        !sMapStore.LookupEntry(724)                ||       // last map added in 3.3.5
+        !sSpellStore.LookupEntry(80864)            )        // last added spell in 3.3.5
     {
         sLog.outError("\nYou have mixed version DBC files. Please re-extract DBC files for one from client build: %s",AcceptableClientBuildsListStr().c_str());
         exit(1);

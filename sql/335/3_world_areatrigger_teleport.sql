@@ -1,3 +1,0 @@
-REPLACE INTO `instance_template` (`map`, `levelMin`, `levelMax`) VALUES ('724', '80', '80');
-REPLACE INTO `areatrigger_teleport` (`id`, `name`, `required_level`, `target_map`, `target_position_x`, `target_position_y`, `target_position_z`, `target_orientation`) VALUES ('5872', ' The Ruby Sanctum (Exit)', '0', '571', '3604.969', '191.169998', '-110.0', '0');
-REPLACE INTO `areatrigger_teleport` (`id`, `name`, `required_level`, `target_map`, `target_position_x`, `target_position_y`, `target_position_z`, `target_orientation`) VALUES ('5869', 'The Ruby Sanctum (Entrance)', '80', '724', '3279.91', '533.36', '90', '0');

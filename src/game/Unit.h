@@ -23,7 +23,7 @@
 #include "Object.h"
 #include "Opcodes.h"
 #include "SpellAuraDefines.h"
-#include "UpdateFields.h"
+#include "ObjectFields.h"
 #include "SharedDefines.h"
 #include "ThreatManager.h"
 #include "HostileRefManager.h"

@@ -1,5 +1,3 @@
-
-
 DELETE FROM  `spell_chain` WHERE `spell_id` IN (61024,61316);
 
 INSERT INTO `spell_chain` (`spell_id`, `prev_spell`, `first_spell`, `rank`, `req_spell`) VALUES

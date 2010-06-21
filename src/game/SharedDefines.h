@@ -2709,17 +2709,10 @@ enum TradeStatus
     TRADE_STATUS_ONLY_CONJURED  = 22                        // You can only trade conjured items... (cross realm BG related).
 };
 
-// we need to stick to 1 version or half of the stuff will work for someone
-// others will not and opposite
-// will only support WoW, WoW:TBC and WoW:WotLK 0.3.5 client build 12196...
+// We support only WoW:WotLK 3.3.5.12213
+#define EXPECTED_DIAMOND_CLIENT_BUILD        {12213, 0}
 
-#define EXPECTED_DIAMOND_CLIENT_BUILD        {12196, 0}
-
-// max supported expansion level in DiamondCore
-// NOTE: not set it more that supported by targeted client version with all expansions installed
-// account with expansion > client supported will rejected at connection by client
-// because if client receive unsupported expansion level it think
-// that it not have expansion installed and reject
+// Max expansion level. Support WotLK (Expansion 2).
 #define MAX_EXPANSION 2
 
 #endif

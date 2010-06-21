@@ -1347,6 +1347,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\game\ObjectFields.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\game\ObjectGuid.cpp"
 				>
 			</File>
@@ -1468,10 +1472,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\game\UnitEvents.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\game\UpdateFields.h"
 				>
 			</File>
 			<File

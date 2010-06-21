@@ -21,7 +21,7 @@
 
 #include "Common.h"
 #include "ByteBuffer.h"
-#include "UpdateFields.h"
+#include "ObjectFields.h"
 #include "UpdateData.h"
 #include "ObjectGuid.h"
 #include "Camera.h"

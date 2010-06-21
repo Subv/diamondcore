@@ -171,9 +171,10 @@ SET(game_STAT_SRCS
     NPCHandler.h
     NullCreatureAI.cpp
     NullCreatureAI.h
+    Object.cpp
     ObjectAccessor.cpp
     ObjectAccessor.h
-    Object.cpp
+    ObjectFields.h
     ObjectGuid.cpp
     ObjectGuid.h
     ObjectGridLoader.cpp
@@ -253,7 +254,6 @@ SET(game_STAT_SRCS
     UnitEvents.h
     UpdateData.cpp
     UpdateData.h
-    UpdateFields.h
     UpdateMask.h
     Vehicle.cpp
     Vehicle.h
