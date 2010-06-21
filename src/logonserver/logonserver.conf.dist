@@ -1,7 +1,9 @@
 ############################################
-# MaNGOS realmd configuration file         #
+#      LogonServer configuration file      #
 ############################################
-ConfVersion=2007062001
+
+[LogonServerConf]
+ConfVersion = 2
 
 ###################################################################################################################
 # REALMD SETTINGS

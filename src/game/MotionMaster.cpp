@@ -313,6 +313,28 @@ MotionMaster::MovePoint(uint32 id, float x, float y, float z)
         Mutate(new PointMovementGenerator<Creature>(id,x,y,z));
 }
 
+void 
+MotionMaster::MoveJump(float x, float y, float z, float speedZ)
+{
+    uint32 moveFlag = SPLINEFLAG_TRAJECTORY | SPLINEFLAG_WALKMODE;
+    uint32 time = 521;
+
+    i_owner->addUnitState(UNIT_STAT_FLEEING_MOVE | UNIT_STAT_JUMPING);
+    if (i_owner->GetTypeId() == TYPEID_PLAYER)
+    {
+        DEBUG_LOG("Player (GUID: %u) jump to point (X: %f Y: %f Z: %f)", i_owner->GetGUIDLow(), x, y, z);
+        Mutate(new PointMovementGenerator<Player>(0,x,y,z));
+    }
+    else
+    {
+        DEBUG_LOG("Creature (Entry: %u GUID: %u) jump to point (X: %f Y: %f Z: %f)",
+            i_owner->GetEntry(), i_owner->GetGUIDLow(), x, y, z);
+        Mutate(new PointMovementGenerator<Creature>(0,x,y,z));
+    }
+
+    i_owner->SendMonsterMove(x, y, z,SPLINETYPE_NORMAL, (SplineFlags)moveFlag, time,NULL, speedZ);
+}
+
 void
 MotionMaster::MoveSeekAssistance(float x, float y, float z)
 {

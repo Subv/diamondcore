@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug_NoPCH|Win32">
@@ -360,8 +360,6 @@
     <ClCompile Include="..\..\src\shared\MemoryLeaks.cpp" />
     <ClCompile Include="..\..\src\shared\Util.cpp" />
     <ClCompile Include="..\..\src\shared\Config\Config.cpp" />
-    <ClCompile Include="..\..\src\shared\Config\dotconfpp\dotconfpp.cpp" />
-    <ClCompile Include="..\..\src\shared\Config\dotconfpp\mempool.cpp" />
     <ClCompile Include="..\..\src\shared\Auth\AuthCrypt.cpp" />
     <ClCompile Include="..\..\src\shared\Auth\BigNumber.cpp" />
     <ClCompile Include="..\..\src\shared\Auth\HMACSHA1.cpp" />
@@ -420,9 +418,6 @@
     <ClInclude Include="..\..\src\shared\Util.h" />
     <ClInclude Include="..\..\src\shared\WorldPacket.h" />
     <ClInclude Include="..\..\src\shared\Config\Config.h" />
-    <ClInclude Include="..\..\src\shared\Config\ConfigEnv.h" />
-    <ClInclude Include="..\..\src\shared\Config\dotconfpp\dotconfpp.h" />
-    <ClInclude Include="..\..\src\shared\Config\dotconfpp\mempool.h" />
     <ClInclude Include="..\..\src\shared\Auth\AuthCrypt.h" />
     <ClInclude Include="..\..\src\shared\Auth\BigNumber.h" />
     <ClInclude Include="..\..\src\shared\Auth\HMACSHA1.h" />

@@ -2778,7 +2778,15 @@ void Spell::EffectJump(SpellEffectIndex eff_idx)
         return;
     }
 
-    m_caster->NearTeleportTo(x, y, z, o, true);
+    // m_caster->NearTeleportTo(x, y, z, o, true);
+	    float speedZ;
+    if (m_spellInfo->EffectMiscValue[eff_idx])
+        speedZ = float(m_spellInfo->EffectMiscValue[eff_idx])/7.8f;
+    else if (m_spellInfo->EffectMiscValueB[eff_idx])
+        speedZ = float(m_spellInfo->EffectMiscValueB[eff_idx])/7.8f;
+    else
+        speedZ = 10.0f;
+    m_caster->GetMotionMaster()->MoveJump(x, y, z, speedZ);
 }
 
 void Spell::EffectTeleportUnits(SpellEffectIndex eff_idx)

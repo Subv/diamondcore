@@ -441,7 +441,8 @@ enum UnitState
     UNIT_STAT_FOLLOW_MOVE     = 0x00010000,
     UNIT_STAT_FLEEING         = 0x00020000,                     // FleeMovementGenerator/TimedFleeingMovementGenerator active/onstack
     UNIT_STAT_FLEEING_MOVE    = 0x00040000,
-    UNIT_STAT_ON_VEHICLE      = 0x00080000,                     // Unit is on vehicle
+    UNIT_STAT_JUMPING		  = 0x00080000,
+    UNIT_STAT_ON_VEHICLE      = 0x00120000,                     // Unit is on vehicle
 
     // masks (only for check)
 
@@ -1983,14 +1984,14 @@ void Unit::CallForAllControlledUnits(Func const& func, bool withTotems, bool wit
 template<typename Func>
 bool Unit::CheckAllControlledUnits(Func const& func, bool withTotems, bool withGuardians, bool withCharms) const
 {
-    if (Pet* pet = GetPet())
+    if (Pet const* pet = GetPet())
         if (func(pet))
             return true;
 
     if (withGuardians)
     {
         for(GuardianPetList::const_iterator itr = m_guardianPets.begin(); itr != m_guardianPets.end(); ++itr)
-            if (Unit* guardian = Unit::GetUnit(*this,*itr))
+            if (Unit const* guardian = Unit::GetUnit(*this,*itr))
                 if (func(guardian))
                     return true;
 
@@ -1999,13 +2000,13 @@ bool Unit::CheckAllControlledUnits(Func const& func, bool withTotems, bool withG
     if (withTotems)
     {
         for (int i = 0; i < MAX_TOTEM_SLOT; ++i)
-            if (Unit *totem = _GetTotem(TotemSlot(i)))
+            if (Unit const* totem = _GetTotem(TotemSlot(i)))
                 if (func(totem))
                     return true;
     }
 
     if (withCharms)
-        if(Unit* charm = GetCharm())
+        if(Unit const* charm = GetCharm())
             if (func(charm))
                 return true;
 
