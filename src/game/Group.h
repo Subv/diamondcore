@@ -210,6 +210,7 @@ class DIAMOND_DLL_SPEC Group
         bool isBGGroup()   const { return m_bgGroup != NULL; }
         bool IsCreated()   const { return GetMembersCount() > 0; }
         const uint64& GetLeaderGUID() const { return m_leaderGuid; }
+        const uint64& GetGUID() const { return m_guid; }
         const char * GetLeaderName() const { return m_leaderName.c_str(); }
         LootMethod    GetLootMethod() const { return m_lootMethod; }
         const uint64& GetLooterGuid() const { return m_looterGuid; }
@@ -452,5 +453,7 @@ class DIAMOND_DLL_SPEC Group
         Rolls               RollId;
         BoundInstancesMap   m_boundInstances[MAX_DIFFICULTY];
         uint8*              m_subGroupsCounts;
+        uint64              m_guid;
+        uint32              m_counter;                      // used only in SMSG_GROUP_LIST
 };
 #endif

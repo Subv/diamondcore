@@ -700,6 +700,13 @@ void ObjectMgr::LoadCreatureTemplates()
             }
         }
 
+        if (cInfo->VehicleId)
+        {
+            VehicleEntry const* vehicle = sVehicleStore.LookupEntry(cInfo->VehicleId);
+            if (!vehicle)
+                sLog.outErrorDb("Creature (Entry: %u) has non-existing VehicleId (%u)", cInfo->Entry, cInfo->VehicleId);
+        }
+
         if(cInfo->MovementType >= MAX_DB_MOTION_TYPE)
         {
             sLog.outErrorDb("Creature (Entry: %u) has wrong movement generator type (%u), ignore and set to IDLE.",cInfo->Entry,cInfo->MovementType);
@@ -5557,6 +5564,8 @@ uint32 ObjectMgr::GenerateLowGuid(HighGuid guidhigh)
             return m_GameobjectGuids.Generate();
         case HIGHGUID_CORPSE:
             return m_CorpseGuids.Generate();
+        case HIGHGUID_GROUP:
+            return m_GroupIds.Generate();
         default:
             ASSERT(0);
     }

@@ -273,9 +273,6 @@ Unit::~Unit()
     if (m_charmInfo)
         delete m_charmInfo;
 
-    if(m_pVehicleKit)
-        delete m_pVehicleKit;
-
     // those should be already removed at "RemoveFromWorld()" call
     ASSERT(m_gameObj.size() == 0);
     ASSERT(m_dynObjGUIDs.size() == 0);
@@ -12207,7 +12204,6 @@ void Unit::RemoveFromWorld()
         RemoveGuardians();
         RemoveAllGameObjects();
         RemoveAllDynObjects();
-        ExitVehicle();
         CleanupDeletedAuras();
         getViewPoint().Event_RemovedFromWorld();
     }
@@ -12219,6 +12215,9 @@ void Unit::CleanupsBeforeDelete()
 {
     if(m_uint32Values)                                      // only for fully created object
     {
+        RemoveVehicleKit();
+        ExitVehicle();
+
         InterruptNonMeleeSpells(true);
         m_Events.KillAllEvents(false);                      // non-delatable (currently casted spells) will not deleted now but it will deleted at call in Map::RemoveAllObjectsInRemoveList
         CombatStop();

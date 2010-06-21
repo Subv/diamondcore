@@ -38,6 +38,7 @@
 #include "Auth/AuthCrypt.h"
 #include "Auth/HMACSHA1.h"
 #include "zlib/zlib.h"
+#include "LFGMgr.h"
 
 /// WorldSession constructor
 WorldSession::WorldSession(uint32 id, WorldSocket *sock, AccountTypes sec, uint8 expansion, time_t mute_time, LocaleConstant locale) :
@@ -302,6 +303,11 @@ void WorldSession::LogoutPlayer(bool Save)
 
     if (_player)
     {
+        sLFGMgr.Leave(_player);
+        GetPlayer()->GetSession()->SendLfgUpdateParty(LFG_UPDATETYPE_REMOVED_FROM_QUEUE);
+        GetPlayer()->GetSession()->SendLfgUpdatePlayer(LFG_UPDATETYPE_REMOVED_FROM_QUEUE);
+        GetPlayer()->GetSession()->SendLfgUpdateSearch(false);
+
         sLog.outChar("Account: %d (IP: %s) Logout Character:[%s] (guid: %u)", GetAccountId(), GetRemoteAddress().c_str(), _player->GetName() ,_player->GetGUIDLow());
 
         if (uint64 lguid = GetPlayer()->GetLootGUID())

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug_NoPCH|Win32">
@@ -371,6 +371,7 @@
     <ClCompile Include="..\..\src\game\InstanceSaveMgr.cpp" />
     <ClCompile Include="..\..\src\game\ItemHandler.cpp" />
     <ClCompile Include="..\..\src\game\LFGHandler.cpp" />
+    <ClCompile Include="..\..\src\game\LFGMgr.cpp" />
     <ClCompile Include="..\..\src\game\LootHandler.cpp" />
     <ClCompile Include="..\..\src\game\Mail.cpp" />
     <ClCompile Include="..\..\src\game\Map.cpp" />
@@ -573,6 +574,8 @@
     <ClInclude Include="..\..\src\game\Item.h" />
     <ClInclude Include="..\..\src\game\ItemEnchantmentMgr.h" />
     <ClInclude Include="..\..\src\game\ItemPrototype.h" />
+    <ClInclude Include="..\..\src\game\LFG.h" />
+    <ClInclude Include="..\..\src\game\LFGMgr.h" />
     <ClInclude Include="..\..\src\game\LootMgr.h" />
     <ClInclude Include="..\..\src\game\NullCreatureAI.h" />
     <ClInclude Include="..\..\src\game\Object.h" />
