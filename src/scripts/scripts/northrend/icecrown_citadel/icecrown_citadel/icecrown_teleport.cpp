@@ -76,12 +76,12 @@ bool GOSelect_icecrown_teleporter( Player *pPlayer, GameObject *pGO, uint32 send
     switch(action)
     {
     case LIGHTS_HAMMER:
-        pPlayer->TeleportTo(631, -17.856115, 2211.640137, 30.115812, 3.12149);
+        pPlayer->TeleportTo(631, -17.856115f, 2211.640137f, 30.115812f, 3.12149f);
         pPlayer->CLOSE_GOSSIP_MENU();
 		break;
 
     case ORATORY:
-        pPlayer->TeleportTo(631, -503.632599, 2211.219971, 62.823246, 3.139313);
+        pPlayer->TeleportTo(631, -503.632599f, 2211.219971f, 62.823246f, 3.139313f);
         pPlayer->CLOSE_GOSSIP_MENU();
 		break;
 
@@ -91,32 +91,32 @@ bool GOSelect_icecrown_teleporter( Player *pPlayer, GameObject *pGO, uint32 send
 		break; */
 
     case DEATHBRINGER:
-        pPlayer->TeleportTo(631, -549.151001, 2211.463967, 539.290222, 6.275452);
+        pPlayer->TeleportTo(631, -549.151001f, 2211.463967f, 539.290222f, 6.275452f);
         pPlayer->CLOSE_GOSSIP_MENU();
 		break;
 
     case PLAGUEWORKS:
-        pPlayer->TeleportTo(631, 4356.780273, 2863.636230, 349.337982, 1.559445);
+        pPlayer->TeleportTo(631, 4356.780273f, 2863.636230f, 349.337982f, 1.559445f);
         pPlayer->CLOSE_GOSSIP_MENU();
 		break;
 
     case CRIMSONHALL:
-        pPlayer->TeleportTo(631, 4453.248535, 2769.325684, 349.347473, 0.023817);
+        pPlayer->TeleportTo(631, 4453.248535f, 2769.325684f, 349.347473f, 0.023817f);
         pPlayer->CLOSE_GOSSIP_MENU();
 		break;
 
     case FWHALLS:
-        pPlayer->TeleportTo(631, 4356.853516, 2674.143311, 349.340118, 4.736377);
+        pPlayer->TeleportTo(631, 4356.853516f, 2674.143311f, 349.340118f, 4.736377f);
         pPlayer->CLOSE_GOSSIP_MENU();
 		break;
 
     case QUEEN:
-        pPlayer->TeleportTo(631, 4356.527344, 2402.710205, 220.462723, 4.886216);
+        pPlayer->TeleportTo(631, 4356.527344f, 2402.710205f, 220.462723f, 4.886216f);
         pPlayer->CLOSE_GOSSIP_MENU(); 
 		break;
 
     case LICHKING:
-        pPlayer->TeleportTo(631, 529.3969, -2124.879883, 1060.959961, 0.120937);
+        pPlayer->TeleportTo(631, 529.3969f, -2124.879883f, 1060.959961f, 0.120937f);
         pPlayer->CLOSE_GOSSIP_MENU(); 
 		break;
     }

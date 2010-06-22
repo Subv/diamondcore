@@ -486,17 +486,5 @@ SET(SCRIPT_LIB_SRCS
    system/system.h
 )
 
-add_library(scripts SHARED ${SCRIPT_LIB_SRCS})
-
-add_definitions(-D_SCRIPTS_CONFIG='"${CONF_DIR}/WorldsServer.conf"')
-
-IF (CMAKE_SYSTEM_NAME MATCHES "Darwin")
-    SET_TARGET_PROPERTIES(scripts PROPERTIES LINK_FLAGS "-flat_namespace -undefined suppress")
-ENDIF (CMAKE_SYSTEM_NAME MATCHES "Darwin")
-
-target_link_libraries(scripts)
-
-set_target_properties(scripts PROPERTIES VERSION 4.2.0 SOVERSION 4)
-SET_TARGET_PROPERTIES(scripts PROPERTIES LINKER_LANGUAGE C)
-install(TARGETS scripts DESTINATION lib)
+add_library(scripts STATIC ${SCRIPT_LIB_SRCS})
 

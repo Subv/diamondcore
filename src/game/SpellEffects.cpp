@@ -18,6 +18,7 @@
 
 #include "Common.h"
 #include "Database/DatabaseEnv.h"
+#include "Config/Config.h"
 #include "WorldPacket.h"
 #include "Opcodes.h"
 #include "Log.h"

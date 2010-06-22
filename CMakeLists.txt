@@ -16,7 +16,6 @@ ADD_CUSTOM_TARGET(uninstall "${CMAKE_COMMAND}" -P "${CMAKE_CURRENT_BINARY_DIR}/c
 
 OPTION(DO_MYSQL "With MySQL support" 1)
 OPTION(DO_POSTGRESQL "With PostgreSQL support" 0) # not complete yet, may not link properly.
-OPTION(DO_SCRIPTS "With scripts" 1)
 OPTION(DO_CLI "With CLI" 1)
 OPTION(DO_RA "With RA" 0)
 OPTION(DO_DEBUG "Debug mode" 0)
@@ -69,11 +68,6 @@ IF(DO_MYSQL)
     FIND_MYSQL()
     ADD_DEFINITIONS(-DDO_MYSQL)
 ENDIF(DO_MYSQL)
-
-message("* With DiamondScripts")
-SET(SCRIPT_LIB scripts)
-SET(SCRIPT_INCLUDE src/scripts/include)
-ADD_DEFINITIONS(-DDO_SCRIPTS)
 
 message("-- Miscellaneus options:")
 
@@ -170,9 +164,9 @@ src/shared/Database
 src/shared/vmap
 src/shared/pathfinding
 src/game 
+src/scripts
 src/scripts/base
 ${CMAKE_BINARY_DIR}
-${SCRIPT_INCLUDE}
 ${MYSQL_INCLUDE_DIR} 
 ${POSTGRESQL_INCLUDE_DIR}
 ${POSTGRESQL_INCLUDE_DIR}/libpq-4/

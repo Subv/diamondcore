@@ -49,17 +49,16 @@ typedef ACE_SHLIB_HANDLE DIAMOND_LIBRARY_HANDLE;
 
 #define DIAMOND_PATH_MAX PATH_MAX                            // ace/os_include/os_limits.h -> ace/Basic_Types.h
 
+
 #if PLATFORM == PLATFORM_WINDOWS
-#  define DIAMOND_IMPORT __cdecl
-#else //PLATFORM != PLATFORM_WINDOWS
-#  if defined(__APPLE_CC__) && defined(BIG_ENDIAN)
-#    define DIAMOND_IMPORT __attribute__ ((longcall))
-#  elif defined(__x86_64__)
-#    define DIAMOND_IMPORT
-#  else
-#    define DIAMOND_IMPORT __attribute__ ((cdecl))
-#  endif //__APPLE_CC__ && BIG_ENDIAN
-#endif //PLATFORM
+ #  define DIAMOND_PATH_MAX MAX_PATH
+#  ifndef DECLSPEC_NORETURN
+ #    define DECLSPEC_NORETURN __declspec(noreturn)
+ #  endif //DECLSPEC_NORETURN
+ #else //PLATFORM != PLATFORM_WINDOWS
+#  define DIAMOND_PATH_MAX PATH_MAX
+ #  define DECLSPEC_NORETURN
+ #endif //PLATFORM
 
 #if !defined(DEBUG)
 #  define DIAMOND_INLINE inline

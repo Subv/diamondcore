@@ -2,14 +2,13 @@
  * This program is free software licensed under GPL version 2
  * Please see the included DOCS/LICENSE.TXT for more information */
 
-#ifndef SC_SCRIPTMGR_H
-#define SC_SCRIPTMGR_H
+#ifndef SCRIPTMGR_H
+#define SCRIPTMGR_H
 
 #include "Common.h"
 #include "DBCStructure.h"
 #include "ObjectMgr.h"
 #include "Database/DatabaseEnv.h"
-#include "Policies/Singleton.h"
 
 class Player;
 class Creature;
@@ -59,7 +58,7 @@ struct Script
     bool (*pChooseReward            )(Player*, Creature*, const Quest*, uint32);
     bool (*pItemHello               )(Player*, Item*, const Quest*);
     bool (*pGOHello                 )(Player*, GameObject*);
-    bool (*pAreaTrigger             )(Player*, AreaTriggerEntry*);
+    bool (*pAreaTrigger             )(Player*, AreaTriggerEntry const*);
     bool (*pItemQuestAccept         )(Player*, Item*, const Quest*);
     bool (*pGOQuestAccept           )(Player*, GameObject*, const Quest*);
     bool (*pGOChooseReward          )(Player*, GameObject*, const Quest*, uint32);
@@ -100,7 +99,7 @@ class ScriptMgr
         bool ChooseReward( Player *player, Creature *_Creature, Quest const*, uint32 opt );
         bool ItemHello( Player *player, Item *, Quest const*);
         bool GOHello( Player *player, GameObject * );
-        bool AreaTrigger( Player *player, AreaTriggerEntry const* );
+        bool AreaTrigger(Player* pPlayer,AreaTriggerEntry const* atEntry);
         bool ItemQuestAccept(Player *player, Item *, Quest const*);
         bool GOQuestAccept(Player *player, GameObject *, Quest const*);
         bool GOChooseReward(Player *player, GameObject *, Quest const*, uint32 opt );

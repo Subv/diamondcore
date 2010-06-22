@@ -83,7 +83,7 @@ uint32 RingBoss[]=
     9032,                                                   // Hedrum
 };
 
-bool AreaTrigger_at_ring_of_law(Player* pPlayer, AreaTriggerEntry *at)
+bool AreaTrigger_at_ring_of_law(Player* pPlayer, AreaTriggerEntry const* at)
 {
     if (ScriptedInstance* pInstance = (ScriptedInstance*)pPlayer->GetInstanceData())
     {

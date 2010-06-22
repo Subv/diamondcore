@@ -38,7 +38,7 @@ namespace Diamond
                 at_exit(destroyer);
             }
 
-            DECLSPEC_NORETURN static void OnDeadReference() ATTR_NORETURN;
+            static void OnDeadReference() ATTR_NORETURN;
     };
 
     template <class T>

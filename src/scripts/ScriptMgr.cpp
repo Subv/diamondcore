@@ -13,44 +13,28 @@
 #define _FULLVERSION "DiamondScripts"
 #define _SCRIPTS_CONFIG SYSCONFDIR "WorldServer.conf"
 
+INSTANTIATE_SINGLETON_1(ScriptMgr);
+
 int num_sc_scripts;
 Script *m_scripts[MAX_SCRIPTS];
 
 Config DSConfig;
 
-QueryResult* strDSPquery(char* str)
-{
-	return DSDatabase.Query(str);
-}
-
 void FillSpellSummary();
+
+ScriptMgr::ScriptMgr()
+{
+}
+ScriptMgr::~ScriptMgr()
+{
+}
 
 void ScriptMgr::LoadDatabase()
 {
-    std::string strDSDBinfo = DSConfig.GetStringDefault("WorldDatabaseInfo", "");
-
-    if (strDSDBinfo.empty())
-    {
-        error_log("DS: Missing Scripts database info from configuration file. Load database aborted.");
-        return;
-    }
-
-    //Initialize connection to DB
-    if (DSDatabase.Initialize(strDSDBinfo.c_str()))
-    {
-        outstring_log("DS: Scripts database at %s initialized.", strDSDBinfo.c_str());
-        outstring_log("");
-
-        pSystemMgr.LoadVersion();
-        pSystemMgr.LoadScriptTexts();
-        pSystemMgr.LoadScriptTextsCustom();
-        pSystemMgr.LoadScriptWaypoints();
-    }
-    else
-    {
-        error_log("DS: Unable to connect to Database. Load database aborted.");
-        return;
-    }
+    pSystemMgr.LoadVersion();
+    pSystemMgr.LoadScriptTexts();
+    pSystemMgr.LoadScriptTextsCustom();
+    pSystemMgr.LoadScriptWaypoints();
 }
 
 struct TSpellSummary {
@@ -70,12 +54,6 @@ void ScriptMgr::ScriptsInit()
     outstring_log("DD  D  DDD   D  DD  DD D         DD    DD  D");
     outstring_log(" DDD     DDD D   DD DD D         DD     DDD");
     outstring_log("");
-
-    //Get configuration file
-    if (!DSConfig.SetSource(_SCRIPTS_CONFIG))
-        error_log("DS: Unable to open configuration file. Database will be unaccessible. Configuration values will use default.");
-    else
-        outstring_log("DS: Using configuration file %s",_SCRIPTS_CONFIG);
 
     //Load database (must be called after DSConfig.SetSource).
     LoadDatabase();
@@ -194,19 +172,6 @@ void Script::RegisterSelf()
         debug_log("DS: RegisterSelf, but script named %s does not have ScriptName assigned in database.",(this)->Name.c_str());
         delete this;
     }
-}
-
-//********************************
-//*** Functions to be Exported ***
-
-char const* ScriptsVersion()
-{
-    if (!strDSVersion.empty())
-    {
-        strDSVersion.append(_FULLVERSION);
-        return strDSVersion.c_str();
-    }
-    return _FULLVERSION;
 }
 
 bool ScriptMgr::GossipHello(Player* pPlayer, Creature* pCreature)
@@ -445,7 +410,7 @@ bool ScriptMgr::GOChooseReward(Player* pPlayer, GameObject* pGo, const Quest* pQ
     return tmpscript->pGOChooseReward(pPlayer, pGo, pQuest,opt);
 }
 
-bool ScriptMgr::AreaTrigger(Player* pPlayer, const AreaTriggerEntry* atEntry)
+bool ScriptMgr::AreaTrigger(Player* pPlayer, AreaTriggerEntry const* atEntry)
 {
     Script *tmpscript = m_scripts[GetAreaTriggerScriptId(atEntry->id)];
 

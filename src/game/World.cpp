@@ -1264,7 +1264,8 @@ void World::SetInitialWorldSettings()
     sLog.outString( "Loading CreatureEventAI Scripts...");
     sEventAIMgr.LoadCreatureEventAI_Scripts();
 
-    sLog.outString( "Loading Scripts..." );
+    sLog.outString( "Loading DiamondScripts..." );
+	sScriptMgr.ScriptsInit();
 
     ///- Initialize game time and timers
     sLog.outString( "DEBUG:: Initialize game time and timers" );

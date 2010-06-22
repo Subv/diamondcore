@@ -47,7 +47,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP /Zm200"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\shared\vmap;..\..\src\scripts;\..\dep\ACE_wrappers"
+				AdditionalIncludeDirectories="..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\shared\vmap;..\..\src\scripts;..\..\dep\ACE_wrappers"
 				PreprocessorDefinitions="WIN32;_DEBUG;DIAMOND_DEBUG;_LIB;"
 				StringPooling="false"
 				MinimalRebuild="false"
