@@ -25,7 +25,7 @@
 #include "FollowerReference.h"
 
 template<class T>
-class DIAMOND_DLL_SPEC PointMovementGenerator
+class PointMovementGenerator
 : public MovementGeneratorMedium< T, PointMovementGenerator<T> >
 {
     public:
@@ -50,7 +50,7 @@ class DIAMOND_DLL_SPEC PointMovementGenerator
         DestinationHolder< Traveller<T> > i_destinationHolder;
 };
 
-class DIAMOND_DLL_SPEC AssistanceMovementGenerator
+class AssistanceMovementGenerator
 : public PointMovementGenerator<Creature>
 {
     public:

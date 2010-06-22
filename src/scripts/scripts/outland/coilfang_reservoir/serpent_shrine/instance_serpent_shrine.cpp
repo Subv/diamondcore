@@ -36,7 +36,7 @@ EndScriptData */
 const int MAX_ENCOUNTER = 6;
 const int MAX_GENERATOR = 4;
 
-struct DIAMOND_DLL_DECL instance_serpentshrine_cavern : public ScriptedInstance
+struct instance_serpentshrine_cavern : public ScriptedInstance
 {
     instance_serpentshrine_cavern(Map* pMap) : ScriptedInstance(pMap) { Initialize(); };
 

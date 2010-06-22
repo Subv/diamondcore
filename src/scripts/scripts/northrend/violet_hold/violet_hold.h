@@ -133,7 +133,7 @@ static sPortalData afPortalLocation[]=
     {PORTAL_TYPE_BOSS, 1890.73f, 803.309f, 38.4001f, 2.4139f},  //center
 };
 
-class DIAMOND_DLL_DECL instance_violet_hold : public ScriptedInstance
+class instance_violet_hold : public ScriptedInstance
 {
     public:
         instance_violet_hold(Map* pMap);

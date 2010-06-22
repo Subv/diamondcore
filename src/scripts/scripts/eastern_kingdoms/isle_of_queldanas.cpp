@@ -69,7 +69,7 @@ bool GossipSelect_npc_ayren_cloudbreaker(Player* pPlayer, Creature* pCreature, u
 
 #define SPELL_CONVERT_CREDIT    45009
 
-struct DIAMOND_DLL_DECL npc_converted_sentryAI : public ScriptedAI
+struct npc_converted_sentryAI : public ScriptedAI
 {
     npc_converted_sentryAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 

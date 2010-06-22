@@ -48,7 +48,7 @@ enum
     SPELL_BERSERK                   = 26662
 };
 
-struct DIAMOND_DLL_DECL boss_najentusAI : public ScriptedAI
+struct boss_najentusAI : public ScriptedAI
 {
     boss_najentusAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

@@ -40,7 +40,7 @@
 #define STOP_TIME_FOR_PLAYER  3 * 60 * 1000                         // 3 Minutes
 
 template<class T, class P>
-class DIAMOND_DLL_SPEC PathMovementBase
+class PathMovementBase
 {
     public:
         PathMovementBase() : i_currentNode(0) {}
@@ -66,10 +66,10 @@ class DIAMOND_DLL_SPEC PathMovementBase
  */
 
 template<class T>
-class DIAMOND_DLL_SPEC WaypointMovementGenerator;
+class WaypointMovementGenerator;
 
 template<>
-class DIAMOND_DLL_SPEC WaypointMovementGenerator<Creature>
+class WaypointMovementGenerator<Creature>
 : public MovementGeneratorMedium< Creature, WaypointMovementGenerator<Creature> >,
 public PathMovementBase<Creature, WaypointPath const*>
 {
@@ -108,7 +108,7 @@ public PathMovementBase<Creature, WaypointPath const*>
 /** FlightPathMovementGenerator generates movement of the player for the paths
  * and hence generates ground and activities for the player.
  */
-class DIAMOND_DLL_SPEC FlightPathMovementGenerator
+class FlightPathMovementGenerator
 : public MovementGeneratorMedium< Player, FlightPathMovementGenerator >,
 public PathMovementBase<Player,TaxiPathNodeList const*>
 {

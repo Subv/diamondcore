@@ -89,7 +89,7 @@ static float M_F_ANGLE = 0.2f;                              // to adjust for map
 static float M_F_HEIGHT = 2.0f;                             // adjust for height difference
 static float M_F_RANGE = 55.0f;                             // ~ range from center of chamber to center of alcove
 
-struct DIAMOND_DLL_DECL boss_kelthuzadAI : public ScriptedAI
+struct boss_kelthuzadAI : public ScriptedAI
 {
     boss_kelthuzadAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

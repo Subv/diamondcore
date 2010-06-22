@@ -100,7 +100,7 @@ void SummonCroneIfReady(ScriptedInstance* pInstance, Creature* pCreature)
     }
 };
 
-struct DIAMOND_DLL_DECL boss_dorotheeAI : public ScriptedAI
+struct boss_dorotheeAI : public ScriptedAI
 {
     boss_dorotheeAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -206,7 +206,7 @@ struct DIAMOND_DLL_DECL boss_dorotheeAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL mob_titoAI : public ScriptedAI
+struct mob_titoAI : public ScriptedAI
 {
     mob_titoAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -264,7 +264,7 @@ void boss_dorotheeAI::SummonTito()
     }
 }
 
-struct DIAMOND_DLL_DECL boss_strawmanAI : public ScriptedAI
+struct boss_strawmanAI : public ScriptedAI
 {
     boss_strawmanAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -369,7 +369,7 @@ struct DIAMOND_DLL_DECL boss_strawmanAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL boss_tinheadAI : public ScriptedAI
+struct boss_tinheadAI : public ScriptedAI
 {
     boss_tinheadAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -471,7 +471,7 @@ struct DIAMOND_DLL_DECL boss_tinheadAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL boss_roarAI : public ScriptedAI
+struct boss_roarAI : public ScriptedAI
 {
     boss_roarAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -569,7 +569,7 @@ struct DIAMOND_DLL_DECL boss_roarAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL boss_croneAI : public ScriptedAI
+struct boss_croneAI : public ScriptedAI
 {
     boss_croneAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -634,7 +634,7 @@ struct DIAMOND_DLL_DECL boss_croneAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL mob_cycloneAI : public ScriptedAI
+struct mob_cycloneAI : public ScriptedAI
 {
     mob_cycloneAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -743,7 +743,7 @@ bool GossipSelect_npc_grandmother(Player* pPlayer, Creature* pCreature, uint32 u
     return true;
 }
 
-struct DIAMOND_DLL_DECL boss_bigbadwolfAI : public ScriptedAI
+struct boss_bigbadwolfAI : public ScriptedAI
 {
     boss_bigbadwolfAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -932,7 +932,7 @@ void Resurrect(Creature* target)
             target->GetMotionMaster()->Initialize();
 };
 
-struct DIAMOND_DLL_DECL boss_julianneAI : public ScriptedAI
+struct boss_julianneAI : public ScriptedAI
 {
     boss_julianneAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -1036,7 +1036,7 @@ struct DIAMOND_DLL_DECL boss_julianneAI : public ScriptedAI
     void UpdateAI(const uint32 diff);
 };
 
-struct DIAMOND_DLL_DECL boss_romuloAI : public ScriptedAI
+struct boss_romuloAI : public ScriptedAI
 {
     boss_romuloAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

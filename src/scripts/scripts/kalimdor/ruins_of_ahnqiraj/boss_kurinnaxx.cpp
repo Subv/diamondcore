@@ -32,7 +32,7 @@ enum
     SPELL_ENRAGE       = 28798
 };
 
-struct DIAMOND_DLL_DECL boss_kurinnaxxAI : public ScriptedAI
+struct boss_kurinnaxxAI : public ScriptedAI
 {
     boss_kurinnaxxAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

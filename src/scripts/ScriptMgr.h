@@ -7,7 +7,9 @@
 
 #include "Common.h"
 #include "DBCStructure.h"
+#include "ObjectMgr.h"
 #include "Database/DatabaseEnv.h"
+#include "Policies/Singleton.h"
 
 class Player;
 class Creature;
@@ -22,7 +24,7 @@ class Unit;
 class WorldObject;
 class Aura;
 
-#define MAX_SCRIPTS         10000                           //72 bytes each (approx 351kb)
+#define MAX_SCRIPTS         5000                            //72 bytes each (approx 351kb)
 #define VISIBLE_RANGE       (166.0f)                        //MAX visible range (size of grid)
 #define DEFAULT_TEXT        "<Scripts Text Entry Missing!>"
 
@@ -73,26 +75,58 @@ struct Script
     void RegisterSelf();
 };
 
+class ScriptMgr
+{
+    public:
+        ScriptMgr();
+        ~ScriptMgr();
+
+		void ScriptsInit();
+        void LoadDatabase();
+
+        bool GossipHello(Player *player, Creature *_Creature);
+        bool GOGossipHello(Player *player, GameObject *_GO);
+        bool QuestAccept(Player *player, Creature *_Creature, Quest const *);
+        bool GossipSelect(Player *player, Creature *_Creature, uint32 sender, uint32 action);
+        bool GOGossipSelect(Player *player, GameObject *_GO, uint32 sender, uint32 action);
+        bool GossipSelectWithCode( Player *player, Creature *_Creature, uint32 sender, uint32 action, const char* sCode );
+        bool GOGossipSelectWithCode( Player *player, GameObject *_GO, uint32 sender, uint32 action, const char* sCode );
+        bool GOSelect(Player* pPlayer, GameObject* pGO, uint32 uiSender, uint32 uiAction);
+        bool GOSelectWithCode(Player* pPlayer, GameObject* pGO, uint32 uiSender, uint32 uiAction, const char* sCode);
+        bool QuestSelect( Player *player, Creature *_Creature, Quest const* );
+        bool QuestComplete(Player *player, Creature *_Creature, Quest const*);
+        uint32 NPCDialogStatus( Player *player, Creature *_Creature);
+        uint32 GODialogStatus( Player *player, GameObject * _GO);
+        bool ChooseReward( Player *player, Creature *_Creature, Quest const*, uint32 opt );
+        bool ItemHello( Player *player, Item *, Quest const*);
+        bool GOHello( Player *player, GameObject * );
+        bool AreaTrigger( Player *player, AreaTriggerEntry const* );
+        bool ItemQuestAccept(Player *player, Item *, Quest const*);
+        bool GOQuestAccept(Player *player, GameObject *, Quest const*);
+        bool GOChooseReward(Player *player, GameObject *, Quest const*, uint32 opt );
+        bool ItemUse(Player *player, Item *_Item, SpellCastTargets const& targets);
+        bool EffectDummyGameObj(Unit *caster, uint32 spellId, SpellEffectIndex effIndex, GameObject *gameObjTarget);
+        bool EffectDummyCreature(Unit *caster, uint32 spellId, SpellEffectIndex effIndex, Creature *crTarget);
+        bool EffectDummyItem(Unit *caster, uint32 spellId, SpellEffectIndex effIndex, Item *itemTarget);
+        bool EffectAuraDummy(const Aura* pAura, bool apply);
+        CreatureAI*  GetAI( Creature *_Creature );
+        InstanceData*  CreateInstanceData(Map *map);
+};
+
 //Generic scripting text function
 void DoScriptText(int32 textEntry, WorldObject* pSource, Unit* target = NULL);
-
-QueryResult* strDSPquery(char*);
-
-#ifdef WIN32
-  #define DIAMOND_DLL_EXPORT extern "C" __declspec(dllexport)
-#elif defined( __GNUC__ )
-  #define DIAMOND_DLL_EXPORT extern "C"
-#else
-  #define DIAMOND_DLL_EXPORT extern "C" export
-#endif
-
-// The path to config files
-#define SYSCONFDIR ""
 
 #if COMPILER == COMPILER_GNU
 #define FUNC_PTR(name,callconvention,returntype,parameters)    typedef returntype(*name)parameters __attribute__ ((callconvention));
 #else
 #define FUNC_PTR(name, callconvention, returntype, parameters)    typedef returntype(callconvention *name)parameters;
 #endif
+
+QueryResult* strDSPquery(char*);
+
+// The path to config files
+#define SYSCONFDIR ""
+
+#define sScriptMgr Diamond::Singleton<ScriptMgr>::Instance()
 
 #endif

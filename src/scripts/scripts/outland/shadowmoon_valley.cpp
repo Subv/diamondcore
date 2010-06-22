@@ -56,7 +56,7 @@ enum
     NPC_EVENT_PINGER            = 22131
 };
 
-struct DIAMOND_DLL_DECL mob_mature_netherwing_drakeAI : public ScriptedAI
+struct mob_mature_netherwing_drakeAI : public ScriptedAI
 {
     mob_mature_netherwing_drakeAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 
@@ -180,7 +180,7 @@ enum
     NPC_ESCAPE_DUMMY                = 21348
 };
 
-struct DIAMOND_DLL_DECL mob_enslaved_netherwing_drakeAI : public ScriptedAI
+struct mob_enslaved_netherwing_drakeAI : public ScriptedAI
 {
     mob_enslaved_netherwing_drakeAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -285,7 +285,7 @@ enum
     POINT_DEST                      = 1
 };
 
-struct DIAMOND_DLL_DECL mob_dragonmaw_peonAI : public ScriptedAI
+struct mob_dragonmaw_peonAI : public ScriptedAI
 {
     mob_dragonmaw_peonAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 
@@ -618,7 +618,7 @@ enum
 };
 
 //this script needs verification
-struct DIAMOND_DLL_DECL npc_wildaAI : public npc_escortAI
+struct npc_wildaAI : public npc_escortAI
 {
     npc_wildaAI(Creature* pCreature) : npc_escortAI(pCreature) { Reset(); }
 
@@ -888,7 +888,7 @@ enum
     SPELL_SPELL_REFLECTION = 33961
 };
 
-struct DIAMOND_DLL_DECL mob_torlothAI : public ScriptedAI
+struct mob_torlothAI : public ScriptedAI
 {
     mob_torlothAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -1041,7 +1041,7 @@ CreatureAI* GetAI_mob_torloth(Creature* pCreature)
 # npc_lord_illidan_stormrage
 #####*/
 
-struct DIAMOND_DLL_DECL npc_lord_illidan_stormrageAI : public Scripted_NoMovementAI
+struct npc_lord_illidan_stormrageAI : public Scripted_NoMovementAI
 {
     npc_lord_illidan_stormrageAI(Creature* pCreature) : Scripted_NoMovementAI(pCreature) {Reset();}
 

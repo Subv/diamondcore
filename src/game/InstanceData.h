@@ -27,7 +27,7 @@ class Player;
 class GameObject;
 class Creature;
 
-class DIAMOND_DLL_SPEC InstanceData
+class InstanceData
 {
     public:
 

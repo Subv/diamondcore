@@ -95,7 +95,7 @@ const float CENTER_X = 120.148811f;
 const float CENTER_Y = 703.713684f;
 const float CENTER_Z = 45.111477f;
 
-struct DIAMOND_DLL_DECL boss_zuljinAI : public ScriptedAI
+struct boss_zuljinAI : public ScriptedAI
 {
     boss_zuljinAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

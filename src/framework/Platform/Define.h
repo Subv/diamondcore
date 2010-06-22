@@ -41,7 +41,6 @@
 
 typedef ACE_SHLIB_HANDLE DIAMOND_LIBRARY_HANDLE;
 
-#define DIAMOND_SCRIPT_NAME "scripts"
 #define DIAMOND_SCRIPT_SUFFIX ACE_DLL_SUFFIX
 #define DIAMOND_SCRIPT_PREFIX ACE_DLL_PREFIX
 #define DIAMOND_LOAD_LIBRARY(libname)    ACE_OS::dlopen(libname)
@@ -51,10 +50,8 @@ typedef ACE_SHLIB_HANDLE DIAMOND_LIBRARY_HANDLE;
 #define DIAMOND_PATH_MAX PATH_MAX                            // ace/os_include/os_limits.h -> ace/Basic_Types.h
 
 #if PLATFORM == PLATFORM_WINDOWS
-#  define DIAMOND_EXPORT __declspec(dllexport)
 #  define DIAMOND_IMPORT __cdecl
 #else //PLATFORM != PLATFORM_WINDOWS
-#  define DIAMOND_EXPORT export
 #  if defined(__APPLE_CC__) && defined(BIG_ENDIAN)
 #    define DIAMOND_IMPORT __attribute__ ((longcall))
 #  elif defined(__x86_64__)
@@ -62,30 +59,6 @@ typedef ACE_SHLIB_HANDLE DIAMOND_LIBRARY_HANDLE;
 #  else
 #    define DIAMOND_IMPORT __attribute__ ((cdecl))
 #  endif //__APPLE_CC__ && BIG_ENDIAN
-#endif //PLATFORM
-
-#if PLATFORM == PLATFORM_WINDOWS
-#  ifdef DIAMOND_WIN32_DLL_IMPORT
-#    define DIAMOND_DLL_DECL __declspec(dllimport)
-#  else //!DIAMOND_WIN32_DLL_IMPORT
-#    ifdef DIAMOND_WIND_DLL_EXPORT
-#      define DIAMOND_DLL_DECL __declspec(dllexport)
-#    else //!DIAMOND_WIND_DLL_EXPORT
-#      define DIAMOND_DLL_DECL
-#    endif //DIAMOND_WIND_DLL_EXPORT
-#  endif //DIAMOND_WIN32_DLL_IMPORT
-#else //PLATFORM != PLATFORM_WINDOWS
-#  define DIAMOND_DLL_DECL
-#endif //PLATFORM
-
-#if PLATFORM == PLATFORM_WINDOWS
-#  define DIAMOND_DLL_SPEC __declspec(dllexport)
-#  ifndef DECLSPEC_NORETURN
-#    define DECLSPEC_NORETURN __declspec(noreturn)
-#  endif //DECLSPEC_NORETURN
-#else //PLATFORM != PLATFORM_WINDOWS
-#  define DIAMOND_DLL_SPEC
-#  define DECLSPEC_NORETURN
 #endif //PLATFORM
 
 #if !defined(DEBUG)

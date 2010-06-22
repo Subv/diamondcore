@@ -51,7 +51,7 @@ EndContentData */
 #define SPELL_PULVERIZE                 2676
 //#define SPELL_QUID9889                32174
 
-struct DIAMOND_DLL_DECL mob_unkor_the_ruthlessAI : public ScriptedAI
+struct mob_unkor_the_ruthlessAI : public ScriptedAI
 {
     mob_unkor_the_ruthlessAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 
@@ -148,7 +148,7 @@ CreatureAI* GetAI_mob_unkor_the_ruthless(Creature* pCreature)
 ## mob_infested_root_walker
 ######*/
 
-struct DIAMOND_DLL_DECL mob_infested_root_walkerAI : public ScriptedAI
+struct mob_infested_root_walkerAI : public ScriptedAI
 {
     mob_infested_root_walkerAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -172,7 +172,7 @@ CreatureAI* GetAI_mob_infested_root_walker(Creature* pCreature)
 ## mob_rotting_forest_rager
 ######*/
 
-struct DIAMOND_DLL_DECL mob_rotting_forest_ragerAI : public ScriptedAI
+struct mob_rotting_forest_ragerAI : public ScriptedAI
 {
     mob_rotting_forest_ragerAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -207,7 +207,7 @@ const uint32 netherwebVictims[6] =
 {
     18470, 16805, 21242, 18452, 22482, 21285
 };
-struct DIAMOND_DLL_DECL mob_netherweb_victimAI : public ScriptedAI
+struct mob_netherweb_victimAI : public ScriptedAI
 {
     mob_netherweb_victimAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -262,7 +262,7 @@ enum
 static float m_afAmbushB1[]= {-2895.525879f, 5336.431641f, -11.800f};
 static float m_afAmbushB2[]= {-2890.604980f, 5331.938965f, -11.282f};
 
-struct DIAMOND_DLL_DECL npc_akunoAI : public npc_escortAI
+struct npc_akunoAI : public npc_escortAI
 {
     npc_akunoAI(Creature* pCreature) : npc_escortAI(pCreature) { Reset(); }
 
@@ -364,7 +364,7 @@ enum
 #define GOSSIP_FLOON1       "You owe Sim'salabim money. Hand them over or die!"
 #define GOSSIP_FLOON2       "Hand over the money or die...again!"
 
-struct DIAMOND_DLL_DECL npc_floonAI : public ScriptedAI
+struct npc_floonAI : public ScriptedAI
 {
     npc_floonAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -511,7 +511,7 @@ enum
 };
 
 //Some details still missing from here, and will also have issues if followers evade for any reason.
-struct DIAMOND_DLL_DECL npc_letollAI : public npc_escortAI
+struct npc_letollAI : public npc_escortAI
 {
     npc_letollAI(Creature* pCreature) : npc_escortAI(pCreature)
     {
@@ -743,7 +743,7 @@ enum
     NPC_MANA_BOMB_KILL_TRIGGER  = 21039
 };
 
-struct DIAMOND_DLL_DECL npc_mana_bomb_exp_triggerAI : public ScriptedAI
+struct npc_mana_bomb_exp_triggerAI : public ScriptedAI
 {
     npc_mana_bomb_exp_triggerAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 

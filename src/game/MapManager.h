@@ -29,7 +29,7 @@
 class Transport;
 class BattleGround;
 
-class DIAMOND_DLL_DECL MapManager : public Diamond::Singleton<MapManager, Diamond::ClassLevelLockable<MapManager, ACE_Thread_Mutex> >
+class MapManager : public Diamond::Singleton<MapManager, Diamond::ClassLevelLockable<MapManager, ACE_Thread_Mutex> >
 {
 
     friend class Diamond::OperatorNew<MapManager>;

@@ -161,7 +161,7 @@ struct InstanceGroupBind
 
 /** request member stats checken **/
 /** todo: uninvite people that not accepted invite **/
-class DIAMOND_DLL_SPEC Group
+class Group
 {
     public:
         struct MemberSlot

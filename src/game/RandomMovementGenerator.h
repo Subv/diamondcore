@@ -24,7 +24,7 @@
 #include "Traveller.h"
 
 template<class T>
-class DIAMOND_DLL_SPEC RandomMovementGenerator
+class RandomMovementGenerator
 : public MovementGeneratorMedium< T, RandomMovementGenerator<T> >
 {
     public:

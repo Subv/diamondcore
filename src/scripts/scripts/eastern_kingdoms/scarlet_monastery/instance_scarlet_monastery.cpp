@@ -24,7 +24,7 @@ EndScriptData */
 #include "precompiled.h"
 #include "scarlet_monastery.h"
 
-struct DIAMOND_DLL_DECL instance_scarlet_monastery : public ScriptedInstance
+struct instance_scarlet_monastery : public ScriptedInstance
 {
     instance_scarlet_monastery(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

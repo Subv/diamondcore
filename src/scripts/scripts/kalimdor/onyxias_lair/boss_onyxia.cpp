@@ -99,7 +99,7 @@ static float SpawnLocs[4][3]=
     {-22.347f, -214.571f, -89.104f}  //Onyxia
 };
 
-struct DIAMOND_DLL_DECL boss_onyxiaAI : public ScriptedAI
+struct boss_onyxiaAI : public ScriptedAI
 {
     boss_onyxiaAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

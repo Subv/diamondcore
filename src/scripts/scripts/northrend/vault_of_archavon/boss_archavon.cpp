@@ -40,7 +40,7 @@ enum
     SPELL_BERSERK                           = 47008
 };
 
-struct DIAMOND_DLL_DECL boss_archavonAI : public ScriptedAI
+struct boss_archavonAI : public ScriptedAI
 {
     boss_archavonAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

@@ -72,7 +72,7 @@ enum
     QUEST_SHATTERED_SALUTE  = 2460
 };
 
-struct DIAMOND_DLL_DECL npc_shenthulAI : public ScriptedAI
+struct npc_shenthulAI : public ScriptedAI
 {
     npc_shenthulAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 
@@ -160,7 +160,7 @@ bool QuestAccept_npc_shenthul(Player* pPlayer, Creature* pCreature, const Quest*
 #define SPELL_SHOCK             16034
 
 //TODO: verify abilities/timers
-struct DIAMOND_DLL_DECL npc_thrall_warchiefAI : public ScriptedAI
+struct npc_thrall_warchiefAI : public ScriptedAI
 {
     npc_thrall_warchiefAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 

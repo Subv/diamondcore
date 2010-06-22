@@ -24,7 +24,7 @@
 
 class Creature;
 
-class DIAMOND_DLL_DECL GuardAI : public CreatureAI
+class GuardAI : public CreatureAI
 {
     enum GuardState
     {

@@ -23,7 +23,7 @@ enum EncounterState
 #define OUT_LOAD_INST_DATA_COMPLETE    debug_log("DS: Instance Data Load for Instance %s (Map %d, Instance Id: %d) is complete.",instance->GetMapName(), instance->GetId(), instance->GetInstanceId())
 #define OUT_LOAD_INST_DATA_FAIL        error_log("DS: Unable to load Instance Data for Instance %s (Map %d, Instance Id: %d).",instance->GetMapName(), instance->GetId(), instance->GetInstanceId())
 
-class DIAMOND_DLL_DECL ScriptedInstance : public InstanceData
+class ScriptedInstance : public InstanceData
 {
     public:
 

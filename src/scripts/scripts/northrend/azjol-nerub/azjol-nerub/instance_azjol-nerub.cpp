@@ -24,7 +24,7 @@ EndScriptData */
 #include "precompiled.h"
 #include "azjol-nerub.h"
 
-struct DIAMOND_DLL_DECL instance_azjol_nerub : public ScriptedInstance
+struct instance_azjol_nerub : public ScriptedInstance
 {
     instance_azjol_nerub(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

@@ -82,7 +82,7 @@ enum LevelRequirementVsMode
 #define INVALID_HEIGHT       -100000.0f                     // for check, must be equal to VMAP_INVALID_HEIGHT, real value for unknown height is VMAP_INVALID_HEIGHT_VALUE
 #define MIN_UNLOAD_DELAY      1                             // immediate unload
 
-class DIAMOND_DLL_SPEC Map : public GridRefManager<NGridType>, public Diamond::ObjectLevelLockable<Map, ACE_Thread_Mutex>
+class Map : public GridRefManager<NGridType>, public Diamond::ObjectLevelLockable<Map, ACE_Thread_Mutex>
 {
     friend class MapReference;
     friend class ObjectGridLoader;
@@ -403,7 +403,7 @@ enum InstanceResetMethod
     INSTANCE_RESET_RESPAWN_DELAY
 };
 
-class DIAMOND_DLL_SPEC InstanceMap : public Map
+class InstanceMap : public Map
 {
     public:
         InstanceMap(uint32 id, time_t, uint32 InstanceId, uint8 SpawnMode, Map* _parent);
@@ -429,7 +429,7 @@ class DIAMOND_DLL_SPEC InstanceMap : public Map
         uint32 i_script_id;
 };
 
-class DIAMOND_DLL_SPEC BattleGroundMap : public Map
+class BattleGroundMap : public Map
 {
     public:
         BattleGroundMap(uint32 id, time_t, uint32 InstanceId, Map* _parent, uint8 spawnMode);

@@ -33,7 +33,7 @@
 #include "Guild.h"
 #include "ObjectAccessor.h"
 #include "MapManager.h"
-#include "ScriptCalls.h"
+#include "ScriptMgr.h"
 #include "Language.h"
 #include "GridNotifiersImpl.h"
 #include "CellImpl.h"
@@ -1397,7 +1397,7 @@ bool ChatHandler::HandleReloadMailLevelRewardCommand(const char* /*arg*/)
 
 bool ChatHandler::HandleLoadScriptsCommand(const char* args)
 {
-    if(!LoadScriptingModule(args)) return true;
+    //if(!LoadScriptingModule(args)) return true;
 
     sWorld.SendWorldText(LANG_SCRIPTS_RELOADED);
     return true;

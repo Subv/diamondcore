@@ -112,7 +112,7 @@ class InstanceSave
         bool m_canReset;
 };
 
-class DIAMOND_DLL_DECL InstanceSaveManager : public Diamond::Singleton<InstanceSaveManager, Diamond::ClassLevelLockable<InstanceSaveManager, ACE_Thread_Mutex> >
+class InstanceSaveManager : public Diamond::Singleton<InstanceSaveManager, Diamond::ClassLevelLockable<InstanceSaveManager, ACE_Thread_Mutex> >
 {
     friend class InstanceSave;
     public:

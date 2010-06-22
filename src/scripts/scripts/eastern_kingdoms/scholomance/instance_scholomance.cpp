@@ -24,7 +24,7 @@ EndScriptData */
 #include "precompiled.h"
 #include "scholomance.h"
 
-struct DIAMOND_DLL_DECL instance_scholomance : public ScriptedInstance
+struct instance_scholomance : public ScriptedInstance
 {
     instance_scholomance(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

@@ -65,7 +65,7 @@ SPELL_BERSERK           = 26662,
 ## boss_jaraxxus
 ######*/
 
-struct DIAMOND_DLL_DECL boss_jaraxxusAI : public ScriptedAI
+struct boss_jaraxxusAI : public ScriptedAI
 {
     boss_jaraxxusAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -173,7 +173,7 @@ CreatureAI* GetAI_boss_jaraxxus(Creature* pCreature)
     return new boss_jaraxxusAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL mob_legion_flameAI : public ScriptedAI
+struct mob_legion_flameAI : public ScriptedAI
 {
     mob_legion_flameAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -244,7 +244,7 @@ CreatureAI* GetAI_mob_legion_flame(Creature* pCreature)
     return new mob_legion_flameAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL mob_infernal_volcanoAI : public ScriptedAI
+struct mob_infernal_volcanoAI : public ScriptedAI
 {
     mob_infernal_volcanoAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -319,7 +319,7 @@ CreatureAI* GetAI_mob_infernal_volcano(Creature* pCreature)
     return new mob_infernal_volcanoAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL mob_fel_infernalAI : public ScriptedAI
+struct mob_fel_infernalAI : public ScriptedAI
 {
     mob_fel_infernalAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -371,7 +371,7 @@ CreatureAI* GetAI_mob_fel_infernal(Creature* pCreature)
     return new mob_fel_infernalAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL mob_nether_portalAI : public ScriptedAI
+struct mob_nether_portalAI : public ScriptedAI
 {
     mob_nether_portalAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -445,7 +445,7 @@ CreatureAI* GetAI_mob_nether_portal(Creature* pCreature)
     return new mob_nether_portalAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL mob_mistress_of_painAI : public ScriptedAI
+struct mob_mistress_of_painAI : public ScriptedAI
 {
     mob_mistress_of_painAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

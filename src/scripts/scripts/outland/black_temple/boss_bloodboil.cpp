@@ -51,7 +51,7 @@ EndScriptData */
 #define SPELL_INSIGNIFIGANCE     40618
 #define SPELL_BERSERK            45078
 
-struct DIAMOND_DLL_DECL boss_gurtogg_bloodboilAI : public ScriptedAI
+struct boss_gurtogg_bloodboilAI : public ScriptedAI
 {
     boss_gurtogg_bloodboilAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

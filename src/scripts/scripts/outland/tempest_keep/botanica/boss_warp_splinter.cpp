@@ -27,7 +27,7 @@ EndScriptData */
 # mob_treant (Sapling)
 #####*/
 
-struct DIAMOND_DLL_DECL mob_treantAI  : public ScriptedAI
+struct mob_treantAI  : public ScriptedAI
 {
     mob_treantAI (Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -83,7 +83,7 @@ float treant_pos[6][3] =
     {106.78015f, 355.582580f, -27.593357f}
 };
 
-struct DIAMOND_DLL_DECL boss_warp_splinterAI : public ScriptedAI
+struct boss_warp_splinterAI : public ScriptedAI
 {
     boss_warp_splinterAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

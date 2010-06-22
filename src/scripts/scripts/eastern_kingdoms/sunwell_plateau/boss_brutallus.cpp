@@ -55,7 +55,7 @@ enum Brutallus
     SPELL_BERSERK                   = 26662
 };
 
-struct DIAMOND_DLL_DECL boss_brutallusAI : public ScriptedAI
+struct boss_brutallusAI : public ScriptedAI
 {
     boss_brutallusAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

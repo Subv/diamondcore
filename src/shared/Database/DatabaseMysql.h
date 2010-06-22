@@ -34,7 +34,7 @@
 #include <mysql.h>
 #endif
 
-class DIAMOND_DLL_SPEC DatabaseMysql : public Database
+class DatabaseMysql : public Database
 {
     friend class Diamond::OperatorNew<DatabaseMysql>;
 

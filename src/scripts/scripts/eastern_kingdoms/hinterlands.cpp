@@ -47,7 +47,7 @@ enum
     NPC_VILE_AMBUSHER       = 7809
 };
 
-struct DIAMOND_DLL_DECL npc_00x09hlAI : public npc_escortAI
+struct npc_00x09hlAI : public npc_escortAI
 {
     npc_00x09hlAI(Creature* pCreature) : npc_escortAI(pCreature) { Reset(); }
 
@@ -174,7 +174,7 @@ Location m_afAmbushMoveTo[] =
     {70.886589f,  -2874.335449f, 116.675f}
 };
 
-struct DIAMOND_DLL_DECL npc_rinjiAI : public npc_escortAI
+struct npc_rinjiAI : public npc_escortAI
 {
     npc_rinjiAI(Creature* pCreature) : npc_escortAI(pCreature)
     {

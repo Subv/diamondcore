@@ -24,7 +24,7 @@ EndScriptData */
 #include "precompiled.h"
 #include "ulduar.h"
 
-struct DIAMOND_DLL_DECL instance_ulduar : public ScriptedInstance
+struct instance_ulduar : public ScriptedInstance
 {
     instance_ulduar(Map* pMap) : ScriptedInstance(pMap) { Initialize(); }
 

@@ -24,7 +24,7 @@ EndScriptData */
 #include "precompiled.h"
 #include "molten_core.h"
 
-struct DIAMOND_DLL_DECL instance_molten_core : public ScriptedInstance
+struct instance_molten_core : public ScriptedInstance
 {
     instance_molten_core(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

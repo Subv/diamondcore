@@ -25,7 +25,7 @@
 
 class ACE_Configuration_Heap;
 
-class DIAMOND_DLL_SPEC Config
+class Config
 {
     public:
 

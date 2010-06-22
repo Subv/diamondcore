@@ -59,7 +59,7 @@ enum
     NPC_KILREK                  = 17229
 };
 
-struct DIAMOND_DLL_DECL mob_demon_chainAI : public ScriptedAI
+struct mob_demon_chainAI : public ScriptedAI
 {
     mob_demon_chainAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -84,7 +84,7 @@ struct DIAMOND_DLL_DECL mob_demon_chainAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL boss_terestianAI : public ScriptedAI
+struct boss_terestianAI : public ScriptedAI
 {
     boss_terestianAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

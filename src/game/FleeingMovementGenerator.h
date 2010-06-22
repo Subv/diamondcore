@@ -24,7 +24,7 @@
 #include "Traveller.h"
 
 template<class T>
-class DIAMOND_DLL_SPEC FleeingMovementGenerator
+class FleeingMovementGenerator
 : public MovementGeneratorMedium< T, FleeingMovementGenerator<T> >
 {
     public:
@@ -60,7 +60,7 @@ class DIAMOND_DLL_SPEC FleeingMovementGenerator
         DestinationHolder< Traveller<T> > i_destinationHolder;
 };
 
-class DIAMOND_DLL_SPEC TimedFleeingMovementGenerator
+class TimedFleeingMovementGenerator
 : public FleeingMovementGenerator<Creature>
 {
     public:

@@ -6,7 +6,7 @@
 ## npc_eye_of_acherus
 ######*/
 
-struct DIAMOND_DLL_DECL npc_eye_of_acherusAI : public ScriptedAI
+struct npc_eye_of_acherusAI : public ScriptedAI
 {
     npc_eye_of_acherusAI(Creature *pCreature) : ScriptedAI(pCreature)
     {

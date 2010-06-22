@@ -108,7 +108,7 @@ const float SPAWN_Z = 90.5f;
 const float SPAWN_Y = -1758.0f;
 const float SPAWN_O = 4.738f;
 
-struct DIAMOND_DLL_DECL npc_barnesAI : public npc_escortAI
+struct npc_barnesAI : public npc_escortAI
 {
     npc_barnesAI(Creature* pCreature) : npc_escortAI(pCreature)
     {

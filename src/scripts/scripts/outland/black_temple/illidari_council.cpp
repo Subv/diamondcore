@@ -105,7 +105,7 @@ static CouncilYells CouncilEnrage[]=
 
 #define SPELL_BERSERK              45078
 
-struct DIAMOND_DLL_DECL mob_blood_elf_council_voice_triggerAI : public ScriptedAI
+struct mob_blood_elf_council_voice_triggerAI : public ScriptedAI
 {
     mob_blood_elf_council_voice_triggerAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -187,7 +187,7 @@ struct DIAMOND_DLL_DECL mob_blood_elf_council_voice_triggerAI : public ScriptedA
     }
 };
 
-struct DIAMOND_DLL_DECL mob_illidari_councilAI : public ScriptedAI
+struct mob_illidari_councilAI : public ScriptedAI
 {
     mob_illidari_councilAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -353,7 +353,7 @@ struct DIAMOND_DLL_DECL mob_illidari_councilAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL boss_illidari_councilAI : public ScriptedAI
+struct boss_illidari_councilAI : public ScriptedAI
 {
     boss_illidari_councilAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -426,7 +426,7 @@ struct DIAMOND_DLL_DECL boss_illidari_councilAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL boss_gathios_the_shattererAI : public boss_illidari_councilAI
+struct boss_gathios_the_shattererAI : public boss_illidari_councilAI
 {
     boss_gathios_the_shattererAI(Creature* pCreature) : boss_illidari_councilAI(pCreature) { Reset(); }
 
@@ -533,7 +533,7 @@ struct DIAMOND_DLL_DECL boss_gathios_the_shattererAI : public boss_illidari_coun
     }
 };
 
-struct DIAMOND_DLL_DECL boss_high_nethermancer_zerevorAI : public boss_illidari_councilAI
+struct boss_high_nethermancer_zerevorAI : public boss_illidari_councilAI
 {
     boss_high_nethermancer_zerevorAI(Creature* pCreature) : boss_illidari_councilAI(pCreature) { Reset(); }
 
@@ -626,7 +626,7 @@ struct DIAMOND_DLL_DECL boss_high_nethermancer_zerevorAI : public boss_illidari_
     }
 };
 
-struct DIAMOND_DLL_DECL boss_lady_malandeAI : public boss_illidari_councilAI
+struct boss_lady_malandeAI : public boss_illidari_councilAI
 {
     boss_lady_malandeAI(Creature* pCreature) : boss_illidari_councilAI(pCreature) { Reset(); }
 
@@ -693,7 +693,7 @@ struct DIAMOND_DLL_DECL boss_lady_malandeAI : public boss_illidari_councilAI
     }
 };
 
-struct DIAMOND_DLL_DECL boss_veras_darkshadowAI : public boss_illidari_councilAI
+struct boss_veras_darkshadowAI : public boss_illidari_councilAI
 {
     boss_veras_darkshadowAI(Creature* pCreature) : boss_illidari_councilAI(pCreature) { Reset(); }
 

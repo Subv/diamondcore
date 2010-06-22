@@ -117,7 +117,7 @@ struct GothTrigger
     bool bIsAnchorHigh;
 };
 
-class DIAMOND_DLL_DECL instance_naxxramas : public ScriptedInstance
+class instance_naxxramas : public ScriptedInstance
 {
     public:
         instance_naxxramas(Map* pMap);

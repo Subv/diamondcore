@@ -74,7 +74,7 @@ enum
     SPELL_INTERRUPT_2            = 35176,                   // ACID mobs should cast this (Manaforge Ara-version)
 };
 
-struct DIAMOND_DLL_DECL npc_manaforge_control_consoleAI : public ScriptedAI
+struct npc_manaforge_control_consoleAI : public ScriptedAI
 {
     npc_manaforge_control_consoleAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -387,7 +387,7 @@ enum
     NPC_PATHALEON_THE_CALCULATOR_IMAGE     = 21504
 };
 
-struct DIAMOND_DLL_DECL npc_commander_dawnforgeAI : public ScriptedAI
+struct npc_commander_dawnforgeAI : public ScriptedAI
 {
     npc_commander_dawnforgeAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset (); }
 

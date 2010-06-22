@@ -27,7 +27,7 @@
 
 class ObjectWorldLoader;
 
-class DIAMOND_DLL_DECL ObjectGridLoader
+class ObjectGridLoader
 {
     friend class ObjectWorldLoader;
 
@@ -54,7 +54,7 @@ class DIAMOND_DLL_DECL ObjectGridLoader
         uint32 i_corpses;
 };
 
-class DIAMOND_DLL_DECL ObjectGridUnloader
+class ObjectGridUnloader
 {
     public:
         ObjectGridUnloader(NGridType &grid) : i_grid(grid) {}
@@ -78,7 +78,7 @@ class DIAMOND_DLL_DECL ObjectGridUnloader
         NGridType &i_grid;
 };
 
-class DIAMOND_DLL_DECL ObjectGridStoper
+class ObjectGridStoper
 {
     public:
         ObjectGridStoper(NGridType &grid) : i_grid(grid) {}

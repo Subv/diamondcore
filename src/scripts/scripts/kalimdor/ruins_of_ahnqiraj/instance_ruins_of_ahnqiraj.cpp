@@ -25,7 +25,7 @@ EndScriptData */
 #include "ruins_of_ahnqiraj.h"
 
 
-struct DIAMOND_DLL_DECL instance_ruins_of_ahnqiraj : public ScriptedInstance
+struct instance_ruins_of_ahnqiraj : public ScriptedInstance
 {
     instance_ruins_of_ahnqiraj(Map* pMap) : ScriptedInstance(pMap) {Initialize();}
 

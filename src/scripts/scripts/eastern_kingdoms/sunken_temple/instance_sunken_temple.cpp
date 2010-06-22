@@ -24,7 +24,7 @@ EndScriptData */
 #include "precompiled.h"
 #include "sunken_temple.h"
 
-struct DIAMOND_DLL_DECL instance_sunken_temple : public ScriptedInstance
+struct instance_sunken_temple : public ScriptedInstance
 {
     instance_sunken_temple(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

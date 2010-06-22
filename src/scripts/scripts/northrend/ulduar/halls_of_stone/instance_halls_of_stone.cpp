@@ -24,7 +24,7 @@ EndScriptData */
 #include "precompiled.h"
 #include "halls_of_stone.h"
 
-struct DIAMOND_DLL_DECL instance_halls_of_stone : public ScriptedInstance
+struct instance_halls_of_stone : public ScriptedInstance
 {
     instance_halls_of_stone(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

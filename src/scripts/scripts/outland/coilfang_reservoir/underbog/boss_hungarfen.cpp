@@ -26,7 +26,7 @@ EndScriptData */
 #define SPELL_FOUL_SPORES   31673
 #define SPELL_ACID_GEYSER   38739
 
-struct DIAMOND_DLL_DECL boss_hungarfenAI : public ScriptedAI
+struct boss_hungarfenAI : public ScriptedAI
 {
     boss_hungarfenAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -89,7 +89,7 @@ CreatureAI* GetAI_boss_hungarfen(Creature* pCreature)
 #define SPELL_PUTRID_MUSHROOM   31690
 #define SPELL_GROW              31698
 
-struct DIAMOND_DLL_DECL mob_underbog_mushroomAI : public ScriptedAI
+struct mob_underbog_mushroomAI : public ScriptedAI
 {
     mob_underbog_mushroomAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 

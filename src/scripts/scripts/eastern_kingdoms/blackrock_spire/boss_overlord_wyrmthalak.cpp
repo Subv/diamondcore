@@ -38,7 +38,7 @@ EndScriptData */
 #define ADD_2Z 88.195160f
 #define ADD_2O 4.613114f
 
-struct DIAMOND_DLL_DECL boss_overlordwyrmthalakAI : public ScriptedAI
+struct boss_overlordwyrmthalakAI : public ScriptedAI
 {
     boss_overlordwyrmthalakAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

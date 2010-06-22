@@ -88,7 +88,7 @@ enum Phases
     BANISH_PHASE = 1,
 };
 
-struct DIAMOND_DLL_DECL boss_netherspiteAI : public ScriptedAI
+struct boss_netherspiteAI : public ScriptedAI
 {
     boss_netherspiteAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

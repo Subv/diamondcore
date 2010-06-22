@@ -100,6 +100,6 @@ class GameEventMgr
 
 #define sGameEventMgr Diamond::Singleton<GameEventMgr>::Instance()
 
-DIAMOND_DLL_SPEC bool IsHolidayActive(HolidayIds id);
+bool IsHolidayActive(HolidayIds id);
 
 #endif

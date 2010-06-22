@@ -26,10 +26,10 @@ typedef void (* Destroyer)(void);
 
 namespace Diamond
 {
-    void DIAMOND_DLL_SPEC at_exit(void (*func)());
+    void at_exit(void (*func)());
 
     template<class T>
-    class DIAMOND_DLL_DECL ObjectLifeTime
+    class ObjectLifeTime
     {
         public:
 

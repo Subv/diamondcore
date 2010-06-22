@@ -21,7 +21,7 @@ EndScriptData */
 5 - Kil'Jaeden
 */
 
-struct DIAMOND_DLL_DECL instance_sunwell_plateau : public ScriptedInstance
+struct instance_sunwell_plateau : public ScriptedInstance
 {
     instance_sunwell_plateau(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

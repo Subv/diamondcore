@@ -43,7 +43,7 @@ enum
     SPELL_PLAGUE_STRIKE     = 58339
 };
 
-struct DIAMOND_DLL_DECL mob_stolen_soulAI : public ScriptedAI
+struct mob_stolen_soulAI : public ScriptedAI
 {
     mob_stolen_soulAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -148,7 +148,7 @@ enum
     NPC_DORE                 = 19412
 };
 
-struct DIAMOND_DLL_DECL boss_exarch_maladaarAI : public ScriptedAI
+struct boss_exarch_maladaarAI : public ScriptedAI
 {
     boss_exarch_maladaarAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -307,7 +307,7 @@ enum
     SPELL_AV_SUNDER_ARMOR  = 16145
 };
 
-struct DIAMOND_DLL_DECL mob_avatar_of_martyredAI : public ScriptedAI
+struct mob_avatar_of_martyredAI : public ScriptedAI
 {
     mob_avatar_of_martyredAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

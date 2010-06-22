@@ -27,7 +27,7 @@ EndScriptData */
 #define SPELL_FLAMEBUFFET       23341
 #define SPELL_PYROBLAST         17274
 
-struct DIAMOND_DLL_DECL boss_pyroguard_emberseerAI : public ScriptedAI
+struct boss_pyroguard_emberseerAI : public ScriptedAI
 {
     boss_pyroguard_emberseerAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

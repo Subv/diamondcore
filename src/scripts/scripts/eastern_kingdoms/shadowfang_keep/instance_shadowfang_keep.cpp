@@ -44,7 +44,7 @@ enum
     GO_ARUGAL_FOCUS         = 18973                         //this generates the lightning visual in the Fenrus event
 };
 
-struct DIAMOND_DLL_DECL instance_shadowfang_keep : public ScriptedInstance
+struct instance_shadowfang_keep : public ScriptedInstance
 {
     instance_shadowfang_keep(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

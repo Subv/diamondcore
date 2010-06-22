@@ -141,7 +141,7 @@ enum TutorialDataState
 };
 
 /// Player session in the World
-class DIAMOND_DLL_SPEC WorldSession
+class WorldSession
 {
     friend class CharacterHandler;
     public:

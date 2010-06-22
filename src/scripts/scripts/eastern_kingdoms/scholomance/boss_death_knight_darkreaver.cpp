@@ -23,7 +23,7 @@ EndScriptData */
 
 #include "precompiled.h"
 
-struct DIAMOND_DLL_DECL boss_death_knight_darkreaverAI : public ScriptedAI
+struct boss_death_knight_darkreaverAI : public ScriptedAI
 {
     boss_death_knight_darkreaverAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

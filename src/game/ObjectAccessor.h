@@ -84,7 +84,7 @@ class HashMapHolder
         static MapType  m_objectMap;
 };
 
-class DIAMOND_DLL_DECL ObjectAccessor : public Diamond::Singleton<ObjectAccessor, Diamond::ClassLevelLockable<ObjectAccessor, ACE_Thread_Mutex> >
+class ObjectAccessor : public Diamond::Singleton<ObjectAccessor, Diamond::ClassLevelLockable<ObjectAccessor, ACE_Thread_Mutex> >
 {
     friend class Diamond::OperatorNew<ObjectAccessor>;
 

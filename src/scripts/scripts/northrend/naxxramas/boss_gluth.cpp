@@ -73,7 +73,7 @@ enum
 #define ADD_9Y -3180.766f
 #define ADD_9Z 297.423f
 
-struct DIAMOND_DLL_DECL boss_gluthAI : public ScriptedAI
+struct boss_gluthAI : public ScriptedAI
 {
     boss_gluthAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

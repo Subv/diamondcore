@@ -39,7 +39,7 @@ enum
 ## boss_tharonja
 ######*/
 
-struct DIAMOND_DLL_DECL boss_tharonjaAI : public ScriptedAI
+struct boss_tharonjaAI : public ScriptedAI
 {
     boss_tharonjaAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

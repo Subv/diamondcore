@@ -94,7 +94,7 @@ static ReliquaryPosition Coords[]=
     {450.4f, 168.3f}
 };
 
-struct DIAMOND_DLL_DECL npc_enslaved_soulAI : public ScriptedAI
+struct npc_enslaved_soulAI : public ScriptedAI
 {
     npc_enslaved_soulAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -128,7 +128,7 @@ struct DIAMOND_DLL_DECL npc_enslaved_soulAI : public ScriptedAI
     void JustDied(Unit *killer);
 };
 
-struct DIAMOND_DLL_DECL boss_reliquary_of_soulsAI : public ScriptedAI
+struct boss_reliquary_of_soulsAI : public ScriptedAI
 {
     boss_reliquary_of_soulsAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -547,7 +547,7 @@ struct DIAMOND_DLL_DECL boss_reliquary_of_soulsAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL boss_essence_of_sufferingAI : public ScriptedAI
+struct boss_essence_of_sufferingAI : public ScriptedAI
 {
     boss_essence_of_sufferingAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -690,7 +690,7 @@ struct DIAMOND_DLL_DECL boss_essence_of_sufferingAI : public ScriptedAI
         DoMeleeAttackIfReady();
     }
 };
-struct DIAMOND_DLL_DECL boss_essence_of_desireAI : public ScriptedAI
+struct boss_essence_of_desireAI : public ScriptedAI
 {
     boss_essence_of_desireAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -797,7 +797,7 @@ struct DIAMOND_DLL_DECL boss_essence_of_desireAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL boss_essence_of_angerAI : public ScriptedAI
+struct boss_essence_of_angerAI : public ScriptedAI
 {
     boss_essence_of_angerAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

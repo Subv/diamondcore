@@ -49,7 +49,7 @@ EndScriptData */
 #define CREATURE_DOOM_BLOSSOM           23123
 #define CREATURE_SHADOWY_CONSTRUCT      23111
 
-struct DIAMOND_DLL_DECL mob_doom_blossomAI : public ScriptedAI
+struct mob_doom_blossomAI : public ScriptedAI
 {
     mob_doom_blossomAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -103,7 +103,7 @@ struct DIAMOND_DLL_DECL mob_doom_blossomAI : public ScriptedAI
     void SetTeronGUID(uint64 guid){ TeronGUID = guid; }
 };
 
-struct DIAMOND_DLL_DECL mob_shadowy_constructAI : public ScriptedAI
+struct mob_shadowy_constructAI : public ScriptedAI
 {
     mob_shadowy_constructAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -184,7 +184,7 @@ struct DIAMOND_DLL_DECL mob_shadowy_constructAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL boss_teron_gorefiendAI : public ScriptedAI
+struct boss_teron_gorefiendAI : public ScriptedAI
 {
     boss_teron_gorefiendAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

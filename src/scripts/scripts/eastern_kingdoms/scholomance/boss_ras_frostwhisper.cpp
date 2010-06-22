@@ -30,7 +30,7 @@ EndScriptData */
 #define SPELL_CHILLNOVA         18099
 #define SPELL_FROSTVOLLEY       8398
 
-struct DIAMOND_DLL_DECL boss_rasfrostAI : public ScriptedAI
+struct boss_rasfrostAI : public ScriptedAI
 {
     boss_rasfrostAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

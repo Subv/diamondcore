@@ -53,7 +53,7 @@ enum
 #define LOC_Y3    -3843.384f
 #define LOC_Z3    302.384f
 
-struct DIAMOND_DLL_DECL mob_webwrapAI : public ScriptedAI
+struct mob_webwrapAI : public ScriptedAI
 {
     mob_webwrapAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -89,7 +89,7 @@ struct DIAMOND_DLL_DECL mob_webwrapAI : public ScriptedAI
     void UpdateAI(const uint32 uiDiff) { }
 };
 
-struct DIAMOND_DLL_DECL boss_maexxnaAI : public ScriptedAI
+struct boss_maexxnaAI : public ScriptedAI
 {
     boss_maexxnaAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

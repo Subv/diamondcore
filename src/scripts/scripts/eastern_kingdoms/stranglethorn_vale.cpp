@@ -31,7 +31,7 @@ EndContentData */
 ## mob_yenniku
 ######*/
 
-struct DIAMOND_DLL_DECL mob_yennikuAI : public ScriptedAI
+struct mob_yennikuAI : public ScriptedAI
 {
     mob_yennikuAI(Creature *c) : ScriptedAI(c)
     {

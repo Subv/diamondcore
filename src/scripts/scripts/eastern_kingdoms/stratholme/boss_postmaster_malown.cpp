@@ -34,7 +34,7 @@ EndScriptData */
 #define SPELL_CURSEOFTONGUES    12889
 #define SPELL_CALLOFTHEGRAVE    17831
 
-struct DIAMOND_DLL_DECL boss_postmaster_malownAI : public ScriptedAI
+struct boss_postmaster_malownAI : public ScriptedAI
 {
     boss_postmaster_malownAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

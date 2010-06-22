@@ -35,7 +35,7 @@ enum
     QUEST_ENTRY_DIVERSION       = 10283
 };
 
-struct DIAMOND_DLL_DECL instance_old_hillsbrad : public ScriptedInstance
+struct instance_old_hillsbrad : public ScriptedInstance
 {
     instance_old_hillsbrad(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

@@ -25,7 +25,7 @@ EndScriptData
 #include "precompiled.h"
 #include "uldaman.h"
 
-struct DIAMOND_DLL_DECL instance_uldaman : public ScriptedInstance
+struct instance_uldaman : public ScriptedInstance
 {
     instance_uldaman(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

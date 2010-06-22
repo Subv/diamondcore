@@ -394,7 +394,7 @@ typedef std::list<GM_Ticket*> GmTicketList;
 
 bool normalizePlayerName(std::string& name);
 
-struct DIAMOND_DLL_SPEC LanguageDesc
+struct LanguageDesc
 {
     Language lang_id;
     uint32   spell_id;
@@ -402,7 +402,7 @@ struct DIAMOND_DLL_SPEC LanguageDesc
 };
 
 extern LanguageDesc lang_description[LANGUAGES_COUNT];
-DIAMOND_DLL_SPEC LanguageDesc const* GetLanguageDescByID(uint32 lang);
+LanguageDesc const* GetLanguageDescByID(uint32 lang);
 
 class PlayerDumpReader;
 
@@ -1087,11 +1087,11 @@ class ObjectMgr
 #define sObjectMgr Diamond::Singleton<ObjectMgr>::Instance()
 
 // scripting access functions
-DIAMOND_DLL_SPEC bool LoadStrings(DatabaseType& db, char const* table,int32 start_value = MAX_CREATURE_AI_TEXT_STRING_ID, int32 end_value = std::numeric_limits<int32>::min());
-DIAMOND_DLL_SPEC uint32 GetAreaTriggerScriptId(uint32 trigger_id);
-DIAMOND_DLL_SPEC uint32 GetScriptId(const char *name);
-DIAMOND_DLL_SPEC ObjectMgr::ScriptNameMap& GetScriptNames();
-DIAMOND_DLL_SPEC CreatureInfo const* GetCreatureTemplateStore(uint32 entry);
-DIAMOND_DLL_SPEC Quest const* GetQuestTemplateStore(uint32 entry);
+bool LoadStrings(DatabaseType& db, char const* table,int32 start_value = MAX_CREATURE_AI_TEXT_STRING_ID, int32 end_value = std::numeric_limits<int32>::min());
+uint32 GetAreaTriggerScriptId(uint32 trigger_id);
+uint32 GetScriptId(const char *name);
+ObjectMgr::ScriptNameMap& GetScriptNames();
+CreatureInfo const* GetCreatureTemplateStore(uint32 entry);
+Quest const* GetQuestTemplateStore(uint32 entry);
 
 #endif

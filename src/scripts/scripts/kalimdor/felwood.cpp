@@ -49,7 +49,7 @@ enum
 
 #define GOSSIP_ITEM_RELEASE     "I want to release the corrupted saber to Winna."
 
-struct DIAMOND_DLL_DECL npc_kittenAI : public FollowerAI
+struct npc_kittenAI : public FollowerAI
 {
     npc_kittenAI(Creature* pCreature) : FollowerAI(pCreature)
     {
@@ -236,7 +236,7 @@ enum
     SAY_NIBY_3         = -1000570
 };
 
-struct DIAMOND_DLL_DECL npc_niby_the_almightyAI : public ScriptedAI
+struct npc_niby_the_almightyAI : public ScriptedAI
 {
     npc_niby_the_almightyAI(Creature* pCreature) : ScriptedAI(pCreature){ Reset(); }
 

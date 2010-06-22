@@ -50,7 +50,7 @@ enum
 
 #define GOSSIP_ITEM_BOOK    "Ezekiel said that you might have a certain book..."
 
-struct DIAMOND_DLL_DECL npc_dirty_larryAI : public ScriptedAI
+struct npc_dirty_larryAI : public ScriptedAI
 {
     npc_dirty_larryAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -391,7 +391,7 @@ enum
     NPC_HAGGARD             = 19684
 };
 
-struct DIAMOND_DLL_DECL npc_khadgars_servantAI : public npc_escortAI
+struct npc_khadgars_servantAI : public npc_escortAI
 {
     npc_khadgars_servantAI(Creature* pCreature) : npc_escortAI(pCreature)
     {
@@ -641,7 +641,7 @@ enum
 
 #define GOSSIP_RALIQ        "You owe Sim'salabim money. Hand them over or die!"
 
-struct DIAMOND_DLL_DECL npc_raliq_the_drunkAI : public ScriptedAI
+struct npc_raliq_the_drunkAI : public ScriptedAI
 {
     npc_raliq_the_drunkAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -710,7 +710,7 @@ bool GossipSelect_npc_raliq_the_drunk(Player* pPlayer, Creature* pCreature, uint
 
 #define SPELL_MAGNETIC_PULL             31705
 
-struct DIAMOND_DLL_DECL npc_salsalabimAI : public ScriptedAI
+struct npc_salsalabimAI : public ScriptedAI
 {
     npc_salsalabimAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 

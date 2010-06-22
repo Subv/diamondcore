@@ -1103,7 +1103,7 @@ typedef std::set<uint64> GuardianPetList;
 
 struct SpellProcEventEntry;                                 // used only privately
 
-class DIAMOND_DLL_SPEC Unit : public WorldObject
+class Unit : public WorldObject
 {
     public:
         typedef std::set<Unit*> AttackerSet;

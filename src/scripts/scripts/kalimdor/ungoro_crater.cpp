@@ -45,7 +45,7 @@ enum
     QUEST_CHASING_AME       = 4245
 };
 
-struct DIAMOND_DLL_DECL npc_ame01AI : public npc_escortAI
+struct npc_ame01AI : public npc_escortAI
 {
     npc_ame01AI(Creature* pCreature) : npc_escortAI(pCreature) { Reset(); }
 
@@ -146,7 +146,7 @@ enum
     NPC_SPRAGGLE                = 9997
 };
 
-struct DIAMOND_DLL_DECL npc_ringoAI : public FollowerAI
+struct npc_ringoAI : public FollowerAI
 {
     npc_ringoAI(Creature* pCreature) : FollowerAI(pCreature) { Reset(); }
 

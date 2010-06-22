@@ -36,7 +36,7 @@ EndScriptData */
 #define SPELL_SONIC_SHOCK           38797    //Heroic Spell
 #define SPELL_THUNDERING_STORM      39365    //Heroic Spell
 
-struct DIAMOND_DLL_DECL boss_murmurAI : public ScriptedAI
+struct boss_murmurAI : public ScriptedAI
 {
     boss_murmurAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

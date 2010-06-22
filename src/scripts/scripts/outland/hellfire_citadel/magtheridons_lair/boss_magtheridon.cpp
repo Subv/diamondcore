@@ -87,7 +87,7 @@ enum
 
 typedef std::map<uint64, uint64> CubeMap;
 
-struct DIAMOND_DLL_DECL mob_abyssalAI : public ScriptedAI
+struct mob_abyssalAI : public ScriptedAI
 {
     mob_abyssalAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -189,7 +189,7 @@ struct DIAMOND_DLL_DECL mob_abyssalAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL boss_magtheridonAI : public ScriptedAI
+struct boss_magtheridonAI : public ScriptedAI
 {
     boss_magtheridonAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -495,7 +495,7 @@ struct DIAMOND_DLL_DECL boss_magtheridonAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL mob_hellfire_channelerAI : public ScriptedAI
+struct mob_hellfire_channelerAI : public ScriptedAI
 {
     mob_hellfire_channelerAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

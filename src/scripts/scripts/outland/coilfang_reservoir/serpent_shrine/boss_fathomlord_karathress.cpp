@@ -75,7 +75,7 @@ enum
 const float afCoords_Olum[] = {446.78f, -542.76f, -7.54773f, 0.401581f};
 
 //Fathom-Lord Karathress AI
-struct DIAMOND_DLL_DECL boss_fathomlord_karathressAI : public ScriptedAI
+struct boss_fathomlord_karathressAI : public ScriptedAI
 {
     boss_fathomlord_karathressAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -265,7 +265,7 @@ struct DIAMOND_DLL_DECL boss_fathomlord_karathressAI : public ScriptedAI
 };
 
 // Base AI for every advisor
-struct DIAMOND_DLL_DECL Advisor_Base_AI : public ScriptedAI
+struct Advisor_Base_AI : public ScriptedAI
 {
     Advisor_Base_AI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -305,7 +305,7 @@ struct DIAMOND_DLL_DECL Advisor_Base_AI : public ScriptedAI
 };
 
 //Fathom-Guard Sharkkis AI
-struct DIAMOND_DLL_DECL boss_fathomguard_sharkkisAI : public Advisor_Base_AI
+struct boss_fathomguard_sharkkisAI : public Advisor_Base_AI
 {
     boss_fathomguard_sharkkisAI(Creature* pCreature) : Advisor_Base_AI(pCreature)
     {
@@ -426,7 +426,7 @@ struct DIAMOND_DLL_DECL boss_fathomguard_sharkkisAI : public Advisor_Base_AI
 };
 
 //Fathom-Guard Tidalvess AI
-struct DIAMOND_DLL_DECL boss_fathomguard_tidalvessAI : public Advisor_Base_AI
+struct boss_fathomguard_tidalvessAI : public Advisor_Base_AI
 {
     boss_fathomguard_tidalvessAI(Creature* pCreature) : Advisor_Base_AI(pCreature)
     {
@@ -475,7 +475,7 @@ struct DIAMOND_DLL_DECL boss_fathomguard_tidalvessAI : public Advisor_Base_AI
 };
 
 //Fathom-Guard Caribdis AI
-struct DIAMOND_DLL_DECL boss_fathomguard_caribdisAI : public Advisor_Base_AI
+struct boss_fathomguard_caribdisAI : public Advisor_Base_AI
 {
     boss_fathomguard_caribdisAI(Creature* pCreature) : Advisor_Base_AI(pCreature)
     {

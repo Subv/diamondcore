@@ -51,7 +51,7 @@ enum
     SPELL_LEVELUP               = 24312                     //visual
 };
 
-struct DIAMOND_DLL_DECL boss_marliAI : public ScriptedAI
+struct boss_marliAI : public ScriptedAI
 {
     boss_marliAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -304,7 +304,7 @@ struct DIAMOND_DLL_DECL boss_marliAI : public ScriptedAI
 };
 
 //Spawn of Marli
-struct DIAMOND_DLL_DECL mob_spawn_of_marliAI : public ScriptedAI
+struct mob_spawn_of_marliAI : public ScriptedAI
 {
     mob_spawn_of_marliAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

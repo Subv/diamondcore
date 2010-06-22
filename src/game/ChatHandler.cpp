@@ -29,7 +29,7 @@
 #include "Group.h"
 #include "Guild.h"
 #include "ObjectAccessor.h"
-#include "ScriptCalls.h"
+#include "ScriptMgr.h"
 #include "Player.h"
 #include "SpellAuras.h"
 #include "Language.h"

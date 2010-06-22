@@ -62,7 +62,7 @@ SPELL_BERSERK           = 26662,
 SPELL_PERMAFROST        = 66193,
 };
 
-struct DIAMOND_DLL_DECL boss_anubarak_trialAI : public ScriptedAI
+struct boss_anubarak_trialAI : public ScriptedAI
 {
     boss_anubarak_trialAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -214,7 +214,7 @@ CreatureAI* GetAI_boss_anubarak_trial(Creature* pCreature)
     return new boss_anubarak_trialAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL mob_swarm_scarabAI : public ScriptedAI
+struct mob_swarm_scarabAI : public ScriptedAI
 {
     mob_swarm_scarabAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -266,7 +266,7 @@ CreatureAI* GetAI_mob_swarm_scarab(Creature* pCreature)
     return new mob_swarm_scarabAI(pCreature);
 };
 
-struct DIAMOND_DLL_DECL mob_nerubian_borrowerAI : public ScriptedAI
+struct mob_nerubian_borrowerAI : public ScriptedAI
 {
     mob_nerubian_borrowerAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -342,7 +342,7 @@ CreatureAI* GetAI_mob_nerubian_borrower(Creature* pCreature)
     return new mob_nerubian_borrowerAI(pCreature);
 };
 
-struct DIAMOND_DLL_DECL mob_frost_sphereAI : public ScriptedAI
+struct mob_frost_sphereAI : public ScriptedAI
 {
     mob_frost_sphereAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -379,7 +379,7 @@ CreatureAI* GetAI_mob_frost_sphere(Creature* pCreature)
     return new mob_frost_sphereAI(pCreature);
 };
 
-struct DIAMOND_DLL_DECL mob_anubarak_spikeAI : public ScriptedAI
+struct mob_anubarak_spikeAI : public ScriptedAI
 {
     mob_anubarak_spikeAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

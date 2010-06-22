@@ -377,7 +377,7 @@ enum CreatureSubtype
     CREATURE_SUBTYPE_TEMPORARY_SUMMON,                      // new TemporarySummon
 };
 
-class DIAMOND_DLL_SPEC Creature : public Unit
+class Creature : public Unit
 {
     CreatureAI *i_AI;
 

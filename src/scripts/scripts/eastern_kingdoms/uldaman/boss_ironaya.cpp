@@ -29,7 +29,7 @@ EndScriptData */
 #define SPELL_KNOCKAWAY             10101
 #define SPELL_WSTOMP                11876
 
-struct DIAMOND_DLL_DECL boss_ironayaAI : public ScriptedAI
+struct boss_ironayaAI : public ScriptedAI
 {
     boss_ironayaAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

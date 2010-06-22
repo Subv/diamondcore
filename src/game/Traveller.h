@@ -29,7 +29,7 @@
 #define PLAYER_FLIGHT_SPEED        32.0f
 
 template<class T>
-struct DIAMOND_DLL_DECL Traveller
+struct Traveller
 {
     T &i_traveller;
     Traveller(T &t) : i_traveller(t) {}

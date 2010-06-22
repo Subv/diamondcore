@@ -804,7 +804,7 @@ GameEventMgr::GameEventMgr()
     m_IsGameEventsInit = false;
 }
 
-DIAMOND_DLL_SPEC bool IsHolidayActive( HolidayIds id )
+bool IsHolidayActive( HolidayIds id )
 {
     if (id == HOLIDAY_NONE)
         return false;

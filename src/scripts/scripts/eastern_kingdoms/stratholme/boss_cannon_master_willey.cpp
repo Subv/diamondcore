@@ -74,7 +74,7 @@ EndScriptData */
 #define SPELL_SHOOT    20463
 //#define SPELL_SUMMONCRIMSONRIFLEMAN    17279
 
-struct DIAMOND_DLL_DECL boss_cannon_master_willeyAI : public ScriptedAI
+struct boss_cannon_master_willeyAI : public ScriptedAI
 {
     boss_cannon_master_willeyAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

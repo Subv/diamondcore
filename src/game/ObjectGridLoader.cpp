@@ -27,7 +27,7 @@
 #include "CellImpl.h"
 #include "GridDefines.h"
 
-class DIAMOND_DLL_DECL ObjectGridRespawnMover
+class ObjectGridRespawnMover
 {
     public:
         ObjectGridRespawnMover() {}

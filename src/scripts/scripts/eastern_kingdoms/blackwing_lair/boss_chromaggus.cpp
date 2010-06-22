@@ -57,7 +57,7 @@ enum
     SPELL_ENRAGE                = 28747
 };
 
-struct DIAMOND_DLL_DECL boss_chromaggusAI : public ScriptedAI
+struct boss_chromaggusAI : public ScriptedAI
 {
     boss_chromaggusAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

@@ -39,7 +39,7 @@ enum
     PHASE_GROUND        = 1
 };
 
-struct DIAMOND_DLL_DECL boss_ayamissAI : public ScriptedAI
+struct boss_ayamissAI : public ScriptedAI
 {
     boss_ayamissAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

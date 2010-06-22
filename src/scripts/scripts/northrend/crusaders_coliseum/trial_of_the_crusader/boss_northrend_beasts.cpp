@@ -85,7 +85,7 @@ SPELL_SLIME_POOL_1     = 66881,
 SPELL_SLIME_POOL_2     = 66882,
 };
 
-struct DIAMOND_DLL_DECL boss_gormokAI : public ScriptedAI
+struct boss_gormokAI : public ScriptedAI
 {
     boss_gormokAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -149,7 +149,7 @@ CreatureAI* GetAI_boss_gormok(Creature* pCreature)
     return new boss_gormokAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL mob_snobold_vassalAI : public ScriptedAI
+struct mob_snobold_vassalAI : public ScriptedAI
 {
     mob_snobold_vassalAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -217,7 +217,7 @@ CreatureAI* GetAI_mob_snobold_vassal(Creature* pCreature)
     return new mob_snobold_vassalAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL boss_acidmawAI : public ScriptedAI
+struct boss_acidmawAI : public ScriptedAI
 {
     boss_acidmawAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -333,7 +333,7 @@ CreatureAI* GetAI_boss_acidmaw(Creature* pCreature)
     return new boss_acidmawAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL boss_dreadscaleAI : public ScriptedAI
+struct boss_dreadscaleAI : public ScriptedAI
 {
     boss_dreadscaleAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -449,7 +449,7 @@ CreatureAI* GetAI_boss_dreadscale(Creature* pCreature)
     return new boss_dreadscaleAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL mob_slime_poolAI : public ScriptedAI
+struct mob_slime_poolAI : public ScriptedAI
 {
     mob_slime_poolAI(Creature *pCreature) : ScriptedAI(pCreature)
     {
@@ -500,7 +500,7 @@ CreatureAI* GetAI_mob_slime_pool(Creature* pCreature)
     return new mob_slime_poolAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL boss_icehowlAI : public ScriptedAI
+struct boss_icehowlAI : public ScriptedAI
 {
     boss_icehowlAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

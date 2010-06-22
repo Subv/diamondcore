@@ -32,7 +32,7 @@ enum
     SPELL_GATE_DUMMY                = 23138                 // effect spell: 23139
 };
 
-struct DIAMOND_DLL_DECL boss_shazzrahAI : public ScriptedAI
+struct boss_shazzrahAI : public ScriptedAI
 {
     boss_shazzrahAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

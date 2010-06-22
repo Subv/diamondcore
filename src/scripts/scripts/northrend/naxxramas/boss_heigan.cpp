@@ -52,7 +52,7 @@ enum
     SPELL_PLAGUE_CLOUD      = 29350
 };
 
-struct DIAMOND_DLL_DECL boss_heiganAI : public ScriptedAI
+struct boss_heiganAI : public ScriptedAI
 {
     boss_heiganAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

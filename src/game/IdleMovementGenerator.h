@@ -21,7 +21,7 @@
 
 #include "MovementGenerator.h"
 
-class DIAMOND_DLL_SPEC IdleMovementGenerator : public MovementGenerator
+class IdleMovementGenerator : public MovementGenerator
 {
     public:
 
@@ -35,7 +35,7 @@ class DIAMOND_DLL_SPEC IdleMovementGenerator : public MovementGenerator
 
 extern IdleMovementGenerator si_idleMovement;
 
-class DIAMOND_DLL_SPEC DistractMovementGenerator : public MovementGenerator
+class DistractMovementGenerator : public MovementGenerator
 {
     public:
         explicit DistractMovementGenerator(uint32 timer) : m_timer(timer) {}
@@ -51,7 +51,7 @@ class DIAMOND_DLL_SPEC DistractMovementGenerator : public MovementGenerator
         uint32 m_timer;
 };
 
-class DIAMOND_DLL_SPEC AssistanceDistractMovementGenerator : public DistractMovementGenerator
+class AssistanceDistractMovementGenerator : public DistractMovementGenerator
 {
     public:
         AssistanceDistractMovementGenerator(uint32 timer) :

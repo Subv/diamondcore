@@ -52,7 +52,7 @@ enum
     GO_ICE_BLOCK         = 181247, // Not sure
 };
 
-struct DIAMOND_DLL_DECL boss_sapphironAI : public ScriptedAI
+struct boss_sapphironAI : public ScriptedAI
 {
     boss_sapphironAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

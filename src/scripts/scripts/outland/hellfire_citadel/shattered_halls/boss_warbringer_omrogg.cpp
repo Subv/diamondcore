@@ -98,7 +98,7 @@ static Yell KillingDelay[]=
     {-1000000, NPC_LEFT_HEAD},
 };
 
-struct DIAMOND_DLL_DECL mob_omrogg_headsAI : public ScriptedAI
+struct mob_omrogg_headsAI : public ScriptedAI
 {
     mob_omrogg_headsAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 
@@ -130,7 +130,7 @@ struct DIAMOND_DLL_DECL mob_omrogg_headsAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL boss_warbringer_omroggAI : public ScriptedAI
+struct boss_warbringer_omroggAI : public ScriptedAI
 {
     boss_warbringer_omroggAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

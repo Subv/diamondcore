@@ -57,7 +57,7 @@ enum
     //SE_LOC_Y_MIN            = 1370
 };
 
-struct DIAMOND_DLL_DECL boss_akilzonAI : public ScriptedAI
+struct boss_akilzonAI : public ScriptedAI
 {
     boss_akilzonAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -194,7 +194,7 @@ enum
     POINT_ID_RANDOM         = 1
 };
 
-struct DIAMOND_DLL_DECL mob_soaring_eagleAI : public ScriptedAI
+struct mob_soaring_eagleAI : public ScriptedAI
 {
     mob_soaring_eagleAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

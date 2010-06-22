@@ -28,7 +28,7 @@
 #include "Player.h"
 #include "GossipDef.h"
 #include "UpdateMask.h"
-#include "ScriptCalls.h"
+#include "ScriptMgr.h"
 #include "ObjectAccessor.h"
 #include "Creature.h"
 #include "Pet.h"
@@ -276,7 +276,7 @@ void WorldSession::HandleGossipHelloOpcode(WorldPacket & recv_data)
     if (pCreature->isSpiritGuide())
         pCreature->SendAreaSpiritHealerQueryOpcode(_player);
 
-    if (!Script->GossipHello(_player, pCreature))
+    if (!sScriptMgr.GossipHello(_player, pCreature))
     {
         _player->PrepareGossipMenu(pCreature, pCreature->GetCreatureInfo()->GossipMenuId);
         _player->SendPreparedGossip(pCreature);
@@ -317,12 +317,12 @@ void WorldSession::HandleGossipSelectOptionOpcode( WorldPacket & recv_data )
 
         if (!code.empty())
         {
-            if (!Script->GossipSelectWithCode(_player, pCreature, _player->PlayerTalkClass->GossipOptionSender(gossipListId), _player->PlayerTalkClass->GossipOptionAction(gossipListId), code.c_str()))
+            if (!sScriptMgr.GossipSelectWithCode(_player, pCreature, _player->PlayerTalkClass->GossipOptionSender(gossipListId), _player->PlayerTalkClass->GossipOptionAction(gossipListId), code.c_str()))
                 _player->OnGossipSelect(pCreature, gossipListId, menuId);
         }
         else
         {
-            if (!Script->GossipSelect(_player, pCreature, _player->PlayerTalkClass->GossipOptionSender(gossipListId), _player->PlayerTalkClass->GossipOptionAction(gossipListId)))
+            if (!sScriptMgr.GossipSelect(_player, pCreature, _player->PlayerTalkClass->GossipOptionSender(gossipListId), _player->PlayerTalkClass->GossipOptionAction(gossipListId)))
                 _player->OnGossipSelect(pCreature, gossipListId, menuId);
         }
     }
@@ -338,12 +338,12 @@ void WorldSession::HandleGossipSelectOptionOpcode( WorldPacket & recv_data )
 
         if (!code.empty())
         {
-            if (!Script->GOGossipSelectWithCode(_player, pGo, _player->PlayerTalkClass->GossipOptionSender(gossipListId), _player->PlayerTalkClass->GossipOptionAction(gossipListId), code.c_str()))
+            if (!sScriptMgr.GOGossipSelectWithCode(_player, pGo, _player->PlayerTalkClass->GossipOptionSender(gossipListId), _player->PlayerTalkClass->GossipOptionAction(gossipListId), code.c_str()))
                 _player->OnGossipSelect(pGo, gossipListId, menuId);
         }
         else
         {
-            if (!Script->GOGossipSelect(_player, pGo, _player->PlayerTalkClass->GossipOptionSender(gossipListId), _player->PlayerTalkClass->GossipOptionAction(gossipListId)))
+            if (!sScriptMgr.GOGossipSelect(_player, pGo, _player->PlayerTalkClass->GossipOptionSender(gossipListId), _player->PlayerTalkClass->GossipOptionAction(gossipListId)))
                 _player->OnGossipSelect(pGo, gossipListId, menuId);
         }
     }

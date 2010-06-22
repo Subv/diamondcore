@@ -45,7 +45,7 @@ enum
     SPELL_BERSERK               = 26662
 };
 
-struct DIAMOND_DLL_DECL boss_curatorAI : public ScriptedAI
+struct boss_curatorAI : public ScriptedAI
 {
     boss_curatorAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

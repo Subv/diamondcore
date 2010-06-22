@@ -35,7 +35,7 @@ EndScriptData */
 #define SPELL_HEAL      25807
 #define SPELL_FEAR      19408
 
-struct DIAMOND_DLL_DECL boss_kriAI : public ScriptedAI
+struct boss_kriAI : public ScriptedAI
 {
     boss_kriAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -117,7 +117,7 @@ struct DIAMOND_DLL_DECL boss_kriAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL boss_vemAI : public ScriptedAI
+struct boss_vemAI : public ScriptedAI
 {
     boss_vemAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -191,7 +191,7 @@ struct DIAMOND_DLL_DECL boss_vemAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL boss_yaujAI : public ScriptedAI
+struct boss_yaujAI : public ScriptedAI
 {
     boss_yaujAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

@@ -299,7 +299,7 @@ static Animation DemonTransformation[]=
 };
 
 /**** Demon Fire will be used for Eye Blast. Illidan needs to have access to it's vars and functions, so we'll set it here ****/
-struct DIAMOND_DLL_DECL demonfireAI : public ScriptedAI
+struct demonfireAI : public ScriptedAI
 {
     demonfireAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -368,7 +368,7 @@ struct DIAMOND_DLL_DECL demonfireAI : public ScriptedAI
 };
 
 /******* Functions and vars for Akama's AI ******/
-struct DIAMOND_DLL_DECL npc_akama_illidanAI : public ScriptedAI
+struct npc_akama_illidanAI : public ScriptedAI
 {
     npc_akama_illidanAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -834,7 +834,7 @@ struct DIAMOND_DLL_DECL npc_akama_illidanAI : public ScriptedAI
 };
 
 /************************************** Illidan's AI ***************************************/
-struct DIAMOND_DLL_DECL boss_illidan_stormrageAI : public ScriptedAI
+struct boss_illidan_stormrageAI : public ScriptedAI
 {
     boss_illidan_stormrageAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -1970,7 +1970,7 @@ bool GossipSelect_npc_akama_at_illidan(Player* pPlayer, Creature* pCreature, uin
     return true;
 }
 
-struct DIAMOND_DLL_DECL boss_maievAI : public ScriptedAI
+struct boss_maievAI : public ScriptedAI
 {
     boss_maievAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -2026,7 +2026,7 @@ struct DIAMOND_DLL_DECL boss_maievAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL cage_trap_triggerAI : public ScriptedAI
+struct cage_trap_triggerAI : public ScriptedAI
 {
     cage_trap_triggerAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -2115,7 +2115,7 @@ bool GOHello_cage_trap(Player* pPlayer, GameObject* pGo)
     return true;
 }
 
-struct DIAMOND_DLL_DECL flame_of_azzinothAI : public ScriptedAI
+struct flame_of_azzinothAI : public ScriptedAI
 {
     flame_of_azzinothAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -2190,7 +2190,7 @@ struct DIAMOND_DLL_DECL flame_of_azzinothAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL shadow_demonAI : public ScriptedAI
+struct shadow_demonAI : public ScriptedAI
 {
     shadow_demonAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -2229,7 +2229,7 @@ struct DIAMOND_DLL_DECL shadow_demonAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL flamecrashAI : public ScriptedAI
+struct flamecrashAI : public ScriptedAI
 {
     flamecrashAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -2264,7 +2264,7 @@ struct DIAMOND_DLL_DECL flamecrashAI : public ScriptedAI
 };
 
 // Shadowfiends interact with Illidan, setting more targets in Illidan's hashmap
-struct DIAMOND_DLL_DECL mob_parasitic_shadowfiendAI : public ScriptedAI
+struct mob_parasitic_shadowfiendAI : public ScriptedAI
 {
     mob_parasitic_shadowfiendAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -2291,7 +2291,7 @@ struct DIAMOND_DLL_DECL mob_parasitic_shadowfiendAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL blazeAI : public ScriptedAI
+struct blazeAI : public ScriptedAI
 {
     blazeAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -2324,7 +2324,7 @@ struct DIAMOND_DLL_DECL blazeAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL blade_of_azzinothAI : public ScriptedAI
+struct blade_of_azzinothAI : public ScriptedAI
 {
     blade_of_azzinothAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 

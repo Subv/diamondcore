@@ -30,7 +30,7 @@ EndScriptData */
 #define SPELL_KNOCKAWAY         20686
 #define SPELL_SLOW              22356
 
-struct DIAMOND_DLL_DECL boss_highlordomokkAI : public ScriptedAI
+struct boss_highlordomokkAI : public ScriptedAI
 {
     boss_highlordomokkAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

@@ -49,7 +49,7 @@ enum
     ENTRY_VENGEFUL_SURGE    = 2776
 };
 
-struct DIAMOND_DLL_DECL npc_professor_phizzlethorpeAI : public npc_escortAI
+struct npc_professor_phizzlethorpeAI : public npc_escortAI
 {
     npc_professor_phizzlethorpeAI(Creature* pCreature) : npc_escortAI(pCreature) { Reset(); }
 

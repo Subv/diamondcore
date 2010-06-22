@@ -73,7 +73,7 @@ const float afSpawnDiffs[4][2] =
     {12.577011f , 4.72702f   }                              // diff 4
 };
 
-struct DIAMOND_DLL_DECL boss_hydross_the_unstableAI : public ScriptedAI
+struct boss_hydross_the_unstableAI : public ScriptedAI
 {
     boss_hydross_the_unstableAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

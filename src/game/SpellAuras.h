@@ -54,7 +54,7 @@ typedef void(Aura::*pAuraHandler)(bool Apply, bool Real);
 //      each setting object update field code line moved under if(Real) check is significant DiamondCore speedup, and less server->client data sends
 //      each packet sending code moved under if(Real) check is _large_ DiamondCore speedup, and lot less server->client data sends
 
-class DIAMOND_DLL_SPEC Aura
+class Aura
 {
     friend struct ReapplyAffectedPassiveAurasHelper;
     friend Aura* CreateAura(SpellEntry const* spellproto, SpellEffectIndex eff, int32 *currentBasePoints, Unit *target, Unit *caster, Item* castItem);
@@ -407,7 +407,7 @@ class DIAMOND_DLL_SPEC Aura
         void ReapplyAffectedPassiveAuras(Unit* target, bool owner_mode);
 };
 
-class DIAMOND_DLL_SPEC AreaAura : public Aura
+class AreaAura : public Aura
 {
     public:
         AreaAura(SpellEntry const* spellproto, SpellEffectIndex eff, int32 *currentBasePoints, Unit *target, Unit *caster = NULL, Item* castItem = NULL);
@@ -419,7 +419,7 @@ class DIAMOND_DLL_SPEC AreaAura : public Aura
         AreaAuraType m_areaAuraType;
 };
 
-class DIAMOND_DLL_SPEC PersistentAreaAura : public Aura
+class PersistentAreaAura : public Aura
 {
     public:
         PersistentAreaAura(SpellEntry const* spellproto, SpellEffectIndex eff, int32 *currentBasePoints, Unit *target, Unit *caster = NULL, Item* castItem = NULL);
@@ -428,7 +428,7 @@ class DIAMOND_DLL_SPEC PersistentAreaAura : public Aura
         void Update(uint32 diff);
 };
 
-class DIAMOND_DLL_SPEC SingleEnemyTargetAura : public Aura
+class SingleEnemyTargetAura : public Aura
 {
     friend Aura* CreateAura(SpellEntry const* spellproto, SpellEffectIndex eff, int32 *currentBasePoints, Unit *target, Unit *caster, Item* castItem);
 

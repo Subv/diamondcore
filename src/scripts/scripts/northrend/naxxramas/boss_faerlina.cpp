@@ -44,7 +44,7 @@ enum
 
     SPELL_RAINOFFIRE          = 28794                       //Not sure if targeted AoEs work if casted directly upon a pPlayer
 };
-struct DIAMOND_DLL_DECL boss_faerlinaAI : public ScriptedAI
+struct boss_faerlinaAI : public ScriptedAI
 {
     boss_faerlinaAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

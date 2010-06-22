@@ -29,7 +29,7 @@ EndScriptData */
 2 - Gruul event
 */
 
-struct DIAMOND_DLL_DECL instance_gruuls_lair : public ScriptedInstance
+struct instance_gruuls_lair : public ScriptedInstance
 {
     instance_gruuls_lair(Map *pMap) : ScriptedInstance(pMap) {Initialize();}
 

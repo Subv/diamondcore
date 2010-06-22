@@ -31,7 +31,7 @@ EndScriptData */
 3 - Loken
 */
 
-struct DIAMOND_DLL_DECL instance_halls_of_lightning : public ScriptedInstance
+struct instance_halls_of_lightning : public ScriptedInstance
 {
     instance_halls_of_lightning(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

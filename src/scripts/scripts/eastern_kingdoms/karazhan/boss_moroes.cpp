@@ -59,7 +59,7 @@ const uint32 auiAdds[6]=
     19876
 };
 
-struct DIAMOND_DLL_DECL boss_moroesAI : public ScriptedAI
+struct boss_moroesAI : public ScriptedAI
 {
     boss_moroesAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -323,7 +323,7 @@ struct DIAMOND_DLL_DECL boss_moroesAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL boss_moroes_guestAI : public ScriptedAI
+struct boss_moroes_guestAI : public ScriptedAI
 {
     ScriptedInstance* m_pInstance;
 
@@ -391,7 +391,7 @@ enum
     SPELL_SHADOWFORM    = 29406
 };
 
-struct DIAMOND_DLL_DECL boss_baroness_dorothea_millstipeAI : public boss_moroes_guestAI
+struct boss_baroness_dorothea_millstipeAI : public boss_moroes_guestAI
 {
     //Shadow Priest
     boss_baroness_dorothea_millstipeAI(Creature* pCreature) : boss_moroes_guestAI(pCreature) { Reset(); }
@@ -455,7 +455,7 @@ enum
     SPELL_SEALOFCOMMAND         = 29385
 };
 
-struct DIAMOND_DLL_DECL boss_baron_rafe_dreugerAI : public boss_moroes_guestAI
+struct boss_baron_rafe_dreugerAI : public boss_moroes_guestAI
 {
     //Retr Pally
     boss_baron_rafe_dreugerAI(Creature* pCreature) : boss_moroes_guestAI(pCreature) { Reset(); }
@@ -513,7 +513,7 @@ enum
     SPELL_PWSHIELD      = 29408
 };
 
-struct DIAMOND_DLL_DECL boss_lady_catriona_von_indiAI : public boss_moroes_guestAI
+struct boss_lady_catriona_von_indiAI : public boss_moroes_guestAI
 {
     //Holy Priest
     boss_lady_catriona_von_indiAI(Creature* pCreature) : boss_moroes_guestAI(pCreature) { Reset(); }
@@ -582,7 +582,7 @@ enum
     SPELL_DIVINESHIELD          = 41367
 };
 
-struct DIAMOND_DLL_DECL boss_lady_keira_berrybuckAI : public boss_moroes_guestAI
+struct boss_lady_keira_berrybuckAI : public boss_moroes_guestAI
 {
     //Holy Pally
     boss_lady_keira_berrybuckAI(Creature* pCreature) : boss_moroes_guestAI(pCreature) { Reset(); }
@@ -648,7 +648,7 @@ enum
     SPELL_WHIRLWIND     = 29573
 };
 
-struct DIAMOND_DLL_DECL boss_lord_robin_darisAI : public boss_moroes_guestAI
+struct boss_lord_robin_darisAI : public boss_moroes_guestAI
 {
     //Arms Warr
     boss_lord_robin_darisAI(Creature* pCreature) : boss_moroes_guestAI(pCreature) { Reset(); }
@@ -705,7 +705,7 @@ enum
     SPELL_SHIELDWALL        = 29390
 };
 
-struct DIAMOND_DLL_DECL boss_lord_crispin_ferenceAI : public boss_moroes_guestAI
+struct boss_lord_crispin_ferenceAI : public boss_moroes_guestAI
 {
     //Arms Warr
     boss_lord_crispin_ferenceAI(Creature* pCreature) : boss_moroes_guestAI(pCreature) { Reset(); }

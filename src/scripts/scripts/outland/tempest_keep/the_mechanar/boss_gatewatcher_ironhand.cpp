@@ -38,7 +38,7 @@ EndScriptData */
 #define H_SPELL_JACKHAMMER              39194
 #define SPELL_STREAM_OF_MACHINE_FLUID   35311
 
-struct DIAMOND_DLL_DECL boss_gatewatcher_iron_handAI : public ScriptedAI
+struct boss_gatewatcher_iron_handAI : public ScriptedAI
 {
     boss_gatewatcher_iron_handAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

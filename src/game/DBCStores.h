@@ -41,8 +41,8 @@ uint32 GetAreaFlagByMapId(uint32 mapid);
 
 WMOAreaTableEntry const* GetWMOAreaTableEntryByTripple(int32 rootid, int32 adtid, int32 groupid);
 
-DIAMOND_DLL_SPEC AreaTableEntry const* GetAreaEntryByAreaID(uint32 area_id);
-DIAMOND_DLL_SPEC AreaTableEntry const* GetAreaEntryByAreaFlagAndMap(uint32 area_flag,uint32 map_id);
+AreaTableEntry const* GetAreaEntryByAreaID(uint32 area_id);
+AreaTableEntry const* GetAreaEntryByAreaFlagAndMap(uint32 area_flag,uint32 map_id);
 
 uint32 GetVirtualMapForMapAndZone(uint32 mapid, uint32 zoneId);
 
@@ -172,12 +172,12 @@ extern DBCStorage <WorldSafeLocsEntry>           sWorldSafeLocsStore;
 void LoadDBCStores(const std::string& dataPath);
 
 // script support functions
-DIAMOND_DLL_SPEC DBCStorage <SoundEntriesEntry>          const* GetSoundEntriesStore();
-DIAMOND_DLL_SPEC DBCStorage <SpellEntry>                 const* GetSpellStore();
-DIAMOND_DLL_SPEC DBCStorage <SpellRangeEntry>            const* GetSpellRangeStore();
-DIAMOND_DLL_SPEC DBCStorage <FactionEntry>               const* GetFactionStore();
-DIAMOND_DLL_SPEC DBCStorage <ItemEntry>                  const* GetItemDisplayStore();
-DIAMOND_DLL_SPEC DBCStorage <CreatureDisplayInfoEntry>   const* GetCreatureDisplayStore();
-DIAMOND_DLL_SPEC DBCStorage <EmotesEntry>                const* GetEmotesStore();
-DIAMOND_DLL_SPEC DBCStorage <EmotesTextEntry>            const* GetEmotesTextStore();
+DBCStorage <SoundEntriesEntry>          const* GetSoundEntriesStore();
+DBCStorage <SpellEntry>                 const* GetSpellStore();
+DBCStorage <SpellRangeEntry>            const* GetSpellRangeStore();
+DBCStorage <FactionEntry>               const* GetFactionStore();
+DBCStorage <ItemEntry>                  const* GetItemDisplayStore();
+DBCStorage <CreatureDisplayInfoEntry>   const* GetCreatureDisplayStore();
+DBCStorage <EmotesEntry>                const* GetEmotesStore();
+DBCStorage <EmotesTextEntry>            const* GetEmotesTextStore();
 #endif

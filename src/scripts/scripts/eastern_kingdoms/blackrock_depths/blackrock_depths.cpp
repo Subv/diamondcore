@@ -103,7 +103,7 @@ bool AreaTrigger_at_ring_of_law(Player* pPlayer, AreaTriggerEntry *at)
 ######*/
 
 //TODO: implement quest part of event (different end boss)
-struct DIAMOND_DLL_DECL npc_grimstoneAI : public npc_escortAI
+struct npc_grimstoneAI : public npc_escortAI
 {
     npc_grimstoneAI(Creature* pCreature) : npc_escortAI(pCreature)
     {
@@ -337,7 +337,7 @@ CreatureAI* GetAI_npc_grimstone(Creature* pCreature)
 #define SPELL_FIREBALLVOLLEY    15285
 #define SPELL_MIGHTYBLOW        14099
 
-struct DIAMOND_DLL_DECL mob_phalanxAI : public ScriptedAI
+struct mob_phalanxAI : public ScriptedAI
 {
     mob_phalanxAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -533,7 +533,7 @@ bool GossipSelect_npc_lokhtos_darkbargainer(Player* pPlayer, Creature* pCreature
 #define SPELL_DRUNKEN_RAGE  14872
 #define QUEST_ALE           4295
 
-struct DIAMOND_DLL_DECL npc_rocknotAI : public npc_escortAI
+struct npc_rocknotAI : public npc_escortAI
 {
     npc_rocknotAI(Creature* pCreature) : npc_escortAI(pCreature)
     {

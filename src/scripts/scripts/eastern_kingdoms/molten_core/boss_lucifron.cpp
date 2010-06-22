@@ -27,7 +27,7 @@ EndScriptData */
 #define SPELL_LUCIFRONCURSE 19703
 #define SPELL_SHADOWSHOCK   20603
 
-struct DIAMOND_DLL_DECL boss_lucifronAI : public ScriptedAI
+struct boss_lucifronAI : public ScriptedAI
 {
     boss_lucifronAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

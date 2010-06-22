@@ -8110,7 +8110,7 @@ bool LoadStrings(DatabaseType& db, char const* table,int32 start_value, int32 en
     return sObjectMgr.LoadStrings(db,table,start_value,end_value);
 }
 
-uint32 DIAMOND_DLL_SPEC GetScriptId(const char *name)
+uint32 GetScriptId(const char *name)
 {
     return sObjectMgr.GetScriptId(name);
 }

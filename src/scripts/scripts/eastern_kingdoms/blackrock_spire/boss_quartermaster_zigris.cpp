@@ -28,7 +28,7 @@ EndScriptData */
 #define SPELL_HEALING_POTION    15504
 #define SPELL_HOOKEDNET         15609
 
-struct DIAMOND_DLL_DECL boss_quatermasterzigrisAI : public ScriptedAI
+struct boss_quatermasterzigrisAI : public ScriptedAI
 {
     boss_quatermasterzigrisAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

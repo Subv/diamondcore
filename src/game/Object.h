@@ -85,7 +85,7 @@ struct WorldLocation
         : mapid(loc.mapid), coord_x(loc.coord_x), coord_y(loc.coord_y), coord_z(loc.coord_z), orientation(loc.orientation) {}
 };
 
-class DIAMOND_DLL_SPEC Object
+class Object
 {
     public:
         virtual ~Object ( );
@@ -326,7 +326,7 @@ class DIAMOND_DLL_SPEC Object
 
 struct WorldObjectChangeAccumulator;
 
-class DIAMOND_DLL_SPEC WorldObject : public Object
+class WorldObject : public Object
 {
     friend struct WorldObjectChangeAccumulator;
 

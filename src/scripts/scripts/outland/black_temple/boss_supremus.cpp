@@ -41,7 +41,7 @@ EndScriptData */
 #define CREATURE_VOLCANO            23085
 #define CREATURE_STALKER            23095
 
-struct DIAMOND_DLL_DECL molten_flameAI : public ScriptedAI
+struct molten_flameAI : public ScriptedAI
 {
     molten_flameAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -107,7 +107,7 @@ struct DIAMOND_DLL_DECL molten_flameAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL npc_volcanoAI : public ScriptedAI
+struct npc_volcanoAI : public ScriptedAI
 {
     npc_volcanoAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -150,7 +150,7 @@ struct DIAMOND_DLL_DECL npc_volcanoAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL boss_supremusAI : public ScriptedAI
+struct boss_supremusAI : public ScriptedAI
 {
     boss_supremusAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

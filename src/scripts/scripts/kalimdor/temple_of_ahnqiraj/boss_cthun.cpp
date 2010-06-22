@@ -106,7 +106,7 @@ EndScriptData */
 #define KICK_Y                              1984.0f
 #define KICK_Z                              -96.0f
 
-struct DIAMOND_DLL_DECL flesh_tentacleAI : public ScriptedAI
+struct flesh_tentacleAI : public ScriptedAI
 {
     flesh_tentacleAI(Creature* pCreature) : ScriptedAI(pCreature), Parent(0)
     {
@@ -132,7 +132,7 @@ struct DIAMOND_DLL_DECL flesh_tentacleAI : public ScriptedAI
     void JustDied(Unit* killer);
 };
 
-struct DIAMOND_DLL_DECL eye_of_cthunAI : public ScriptedAI
+struct eye_of_cthunAI : public ScriptedAI
 {
     eye_of_cthunAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -432,7 +432,7 @@ struct DIAMOND_DLL_DECL eye_of_cthunAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL cthunAI : public ScriptedAI
+struct cthunAI : public ScriptedAI
 {
     cthunAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -918,7 +918,7 @@ struct DIAMOND_DLL_DECL cthunAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL eye_tentacleAI : public ScriptedAI
+struct eye_tentacleAI : public ScriptedAI
 {
     eye_tentacleAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -982,7 +982,7 @@ struct DIAMOND_DLL_DECL eye_tentacleAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL claw_tentacleAI : public ScriptedAI
+struct claw_tentacleAI : public ScriptedAI
 {
     claw_tentacleAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -1075,7 +1075,7 @@ struct DIAMOND_DLL_DECL claw_tentacleAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL giant_claw_tentacleAI : public ScriptedAI
+struct giant_claw_tentacleAI : public ScriptedAI
 {
     giant_claw_tentacleAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -1179,7 +1179,7 @@ struct DIAMOND_DLL_DECL giant_claw_tentacleAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL giant_eye_tentacleAI : public ScriptedAI
+struct giant_eye_tentacleAI : public ScriptedAI
 {
     giant_eye_tentacleAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

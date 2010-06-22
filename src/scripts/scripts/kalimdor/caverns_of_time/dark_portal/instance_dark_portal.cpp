@@ -50,7 +50,7 @@ static Wave RiftWaves[]=
     {NPC_AEONUS, 0}
 };
 
-struct DIAMOND_DLL_DECL instance_dark_portal : public ScriptedInstance
+struct instance_dark_portal : public ScriptedInstance
 {
     instance_dark_portal(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

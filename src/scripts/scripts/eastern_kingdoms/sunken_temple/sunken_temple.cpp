@@ -68,7 +68,7 @@ enum
     MAX_MALFURION_TEMPLE_SPEECHES = 6
 };
 
-struct DIAMOND_DLL_DECL npc_malfurionAI : public ScriptedAI
+struct npc_malfurionAI : public ScriptedAI
 {
     npc_malfurionAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

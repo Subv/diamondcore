@@ -28,7 +28,7 @@ namespace Diamond
      * OperatorNew policy creates an object on the heap using new.
      */
     template<class T>
-    class DIAMOND_DLL_DECL OperatorNew
+    class OperatorNew
     {
         public:
 
@@ -48,7 +48,7 @@ namespace Diamond
      * the first time call Create.
      */
     template<class T>
-    class DIAMOND_DLL_DECL LocalStaticCreation
+    class LocalStaticCreation
     {
         union MaxAlign
         {
@@ -82,7 +82,7 @@ namespace Diamond
      * CreateUsingMalloc by pass the memory manger.
      */
     template<class T>
-    class DIAMOND_DLL_DECL CreateUsingMalloc
+    class CreateUsingMalloc
     {
         public:
 
@@ -107,7 +107,7 @@ namespace Diamond
      * CreateOnCallBack creates the object base on the call back.
      */
     template<class T, class CALL_BACK>
-    class DIAMOND_DLL_DECL CreateOnCallBack
+    class CreateOnCallBack
     {
         public:
             static T* Create()

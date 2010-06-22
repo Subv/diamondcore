@@ -24,7 +24,7 @@ EndScriptData */
 #include "precompiled.h"
 #include "trial_of_the_crusader.h"
 
-struct DIAMOND_DLL_DECL instance_trial_of_the_crusader : public ScriptedInstance
+struct instance_trial_of_the_crusader : public ScriptedInstance
 {
     instance_trial_of_the_crusader(Map* pMap) : ScriptedInstance(pMap) { 
     Difficulty = pMap->GetDifficulty();

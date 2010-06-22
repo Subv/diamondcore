@@ -24,7 +24,7 @@ EndScriptData */
 #include "precompiled.h"
 #include "utgarde_keep.h"
 
-struct DIAMOND_DLL_DECL instance_utgarde_keep : public ScriptedInstance
+struct instance_utgarde_keep : public ScriptedInstance
 {
     instance_utgarde_keep(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

@@ -61,7 +61,7 @@ enum
 const float afCenterPos[3] = {-1399.401f, 1736.365f, 86.008f}; //moves here to drop off nazan
 const float afCombatPos[3] = {-1413.848f, 1754.019f, 83.146f}; //moves here when decending
 
-struct DIAMOND_DLL_DECL boss_vazrudenAI : public ScriptedAI
+struct boss_vazrudenAI : public ScriptedAI
 {
     boss_vazrudenAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -141,7 +141,7 @@ CreatureAI* GetAI_boss_vazruden(Creature* pCreature)
 // Creature fly around platform by default.
 // After "dropping off" Vazruden, transforms to mount (Nazan) and are then ready to fight when
 // Vazruden reach 30% HP
-struct DIAMOND_DLL_DECL boss_vazruden_heraldAI : public ScriptedAI
+struct boss_vazruden_heraldAI : public ScriptedAI
 {
     boss_vazruden_heraldAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

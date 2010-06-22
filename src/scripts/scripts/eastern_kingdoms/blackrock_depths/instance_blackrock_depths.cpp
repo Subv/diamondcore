@@ -61,7 +61,7 @@ enum
     GO_CHEST_SEVEN          = 169243
 };
 
-struct DIAMOND_DLL_DECL instance_blackrock_depths : public ScriptedInstance
+struct instance_blackrock_depths : public ScriptedInstance
 {
     instance_blackrock_depths(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

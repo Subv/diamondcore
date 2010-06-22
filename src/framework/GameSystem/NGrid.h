@@ -82,7 +82,7 @@ class ACTIVE_OBJECT,
 class WORLD_OBJECT_TYPES,
 class GRID_OBJECT_TYPES
 >
-class DIAMOND_DLL_DECL NGrid
+class NGrid
 {
     public:
 

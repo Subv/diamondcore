@@ -102,7 +102,7 @@ enum
 
 #define GOSSIP_ITEM_CHALLENGE   "Your bondage is at an end, Doom'rel. I challenge you!"
 
-struct DIAMOND_DLL_DECL boss_doomrelAI : public ScriptedAI
+struct boss_doomrelAI : public ScriptedAI
 {
     boss_doomrelAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

@@ -45,7 +45,7 @@ enum
     NPC_OURO_TRIGGER        = 15717
 };
 
-struct DIAMOND_DLL_DECL boss_ouroAI : public ScriptedAI
+struct boss_ouroAI : public ScriptedAI
 {
     boss_ouroAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

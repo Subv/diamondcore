@@ -24,7 +24,7 @@ EndScriptData */
 #include "precompiled.h"
 #include "deadmines.h"
 
-struct DIAMOND_DLL_DECL instance_deadmines : public ScriptedInstance
+struct instance_deadmines : public ScriptedInstance
 {
     instance_deadmines(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 
