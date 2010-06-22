@@ -35,8 +35,8 @@ SET_TARGET_PROPERTIES(WorldServer PROPERTIES LINK_FLAGS "${WorldServer_LINK_FLAG
 
 target_link_libraries(
 WorldServer
-scripts
 game
+scripts
 shared
 zlib
 framework
