@@ -166,6 +166,7 @@ src/shared/pathfinding
 src/game 
 src/scripts
 src/scripts/base
+src/scripts/include
 ${CMAKE_BINARY_DIR}
 ${MYSQL_INCLUDE_DIR} 
 ${POSTGRESQL_INCLUDE_DIR}
