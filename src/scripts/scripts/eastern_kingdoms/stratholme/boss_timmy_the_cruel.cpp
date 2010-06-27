@@ -27,7 +27,7 @@ EndScriptData */
 
 #define SPELL_RAVENOUSCLAW      17470
 
-struct DIAMOND_DLL_DECL boss_timmy_the_cruelAI : public ScriptedAI
+struct boss_timmy_the_cruelAI : public ScriptedAI
 {
     boss_timmy_the_cruelAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

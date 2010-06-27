@@ -129,7 +129,7 @@ bool GossipSelect_npc_myranda_the_hag(Player* pPlayer, Creature* pCreature, uint
 ## npc_the_scourge_cauldron
 ######*/
 
-struct DIAMOND_DLL_DECL npc_the_scourge_cauldronAI : public ScriptedAI
+struct npc_the_scourge_cauldronAI : public ScriptedAI
 {
     npc_the_scourge_cauldronAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

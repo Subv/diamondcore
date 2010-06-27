@@ -74,7 +74,7 @@ enum
     SPELL_INTERRUPT_2            = 35176,                   // ACID mobs should cast this (Manaforge Ara-version)
 };
 
-struct DIAMOND_DLL_DECL npc_manaforge_control_consoleAI : public ScriptedAI
+struct npc_manaforge_control_consoleAI : public ScriptedAI
 {
     npc_manaforge_control_consoleAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -387,7 +387,7 @@ enum
     NPC_PATHALEON_THE_CALCULATOR_IMAGE     = 21504
 };
 
-struct DIAMOND_DLL_DECL npc_commander_dawnforgeAI : public ScriptedAI
+struct npc_commander_dawnforgeAI : public ScriptedAI
 {
     npc_commander_dawnforgeAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset (); }
 
@@ -597,7 +597,7 @@ CreatureAI* GetAI_npc_commander_dawnforge(Creature* pCreature)
     return new npc_commander_dawnforgeAI(pCreature);
 }
 
-bool AreaTrigger_at_commander_dawnforge(Player* pPlayer, AreaTriggerEntry *at)
+bool AreaTrigger_at_commander_dawnforge(Player* pPlayer, AreaTriggerEntry const* at)
 {
     // if player lost aura or not have at all, we should not try start event.
     if (!pPlayer->HasAura(SPELL_SUNFURY_DISGUISE, EFFECT_INDEX_0))

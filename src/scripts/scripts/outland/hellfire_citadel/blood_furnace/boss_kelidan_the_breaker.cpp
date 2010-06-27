@@ -52,7 +52,7 @@ enum
     SPELL_VORTEX                = 37370
 };
 
-struct DIAMOND_DLL_DECL boss_kelidan_the_breakerAI : public ScriptedAI
+struct boss_kelidan_the_breakerAI : public ScriptedAI
 {
     boss_kelidan_the_breakerAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -169,7 +169,7 @@ enum
     SPELL_CHANNELING        = 0                             //initial spell channeling boss/each other not known
 };                                                          //when engaged all channelers must stop, trigger yell (SAY_ADD_AGGRO_*), and engage.
 
-struct DIAMOND_DLL_DECL mob_shadowmoon_channelerAI : public ScriptedAI
+struct mob_shadowmoon_channelerAI : public ScriptedAI
 {
     mob_shadowmoon_channelerAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

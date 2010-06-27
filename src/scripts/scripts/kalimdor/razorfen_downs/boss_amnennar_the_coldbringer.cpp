@@ -34,7 +34,7 @@ EndScriptData */
 #define SPELL_FROST_NOVA        15531
 #define SPELL_FROST_SPECTRES    12642
 
-struct DIAMOND_DLL_DECL boss_amnennar_the_coldbringerAI : public ScriptedAI
+struct boss_amnennar_the_coldbringerAI : public ScriptedAI
 {
     boss_amnennar_the_coldbringerAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

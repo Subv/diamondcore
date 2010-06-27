@@ -85,7 +85,7 @@ enum SuperSpell
     SUPER_AE,
 };
 
-struct DIAMOND_DLL_DECL boss_aranAI : public ScriptedAI
+struct boss_aranAI : public ScriptedAI
 {
     boss_aranAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -506,7 +506,7 @@ struct DIAMOND_DLL_DECL boss_aranAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL water_elementalAI : public ScriptedAI
+struct water_elementalAI : public ScriptedAI
 {
     water_elementalAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

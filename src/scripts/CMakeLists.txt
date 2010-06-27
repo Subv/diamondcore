@@ -316,18 +316,9 @@ SET(SCRIPT_LIB_SRCS
    scripts/northrend/icecrown_citadel/frozen_halls/pit_of_saron/boss_scourgelord_tyrannus.cpp
    scripts/northrend/icecrown_citadel/frozen_halls/forge_of_souls/boss_bronjahm.cpp
    scripts/northrend/icecrown_citadel/frozen_halls/forge_of_souls/boss_devourer_of_souls.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/blood_prince_council.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/boss_blood_queen_lanathel.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/boss_deathbringer_saurfang.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/boss_festergut.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/boss_lady_deathwhisper.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/boss_lord_marrowgar.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/boss_proffesor_putricide.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/boss_rotface.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/boss_sindragosa.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/boss_the_lich_king.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/boss_valithria_dreamwalker.cpp
-   scripts/northrend/icecrown_citadel/icecrown_citadel/gunship_battle.cpp
+   scripts/northrend/icecrown_citadel/icecrown_citadel/instance_icecrown_citadel.cpp
+   scripts/northrend/icecrown_citadel/icecrown_citadel/icecrown_citadel.h
+   scripts/northrend/icecrown_citadel/icecrown_citadel/icecrown_teleport.cpp
    scripts/northrend/naxxramas/boss_anubrekhan.cpp
    scripts/northrend/naxxramas/boss_faerlina.cpp
    scripts/northrend/naxxramas/boss_four_horsemen.cpp
@@ -495,17 +486,5 @@ SET(SCRIPT_LIB_SRCS
    system/system.h
 )
 
-add_library(scripts SHARED ${SCRIPT_LIB_SRCS})
-
-add_definitions(-D_SCRIPTS_CONFIG='"${CONF_DIR}/WorldsServer.conf"')
-
-IF (CMAKE_SYSTEM_NAME MATCHES "Darwin")
-    SET_TARGET_PROPERTIES(scripts PROPERTIES LINK_FLAGS "-flat_namespace -undefined suppress")
-ENDIF (CMAKE_SYSTEM_NAME MATCHES "Darwin")
-
-target_link_libraries(scripts)
-
-set_target_properties(scripts PROPERTIES VERSION 4.2.0 SOVERSION 4)
-SET_TARGET_PROPERTIES(scripts PROPERTIES LINKER_LANGUAGE C)
-install(TARGETS scripts DESTINATION lib)
+add_library(scripts STATIC ${SCRIPT_LIB_SRCS})
 

@@ -1,5 +1,3 @@
-
-
 ALTER TABLE groups
   
 CHANGE COLUMN isRaid groupType tinyint(1) unsigned NOT NULL;

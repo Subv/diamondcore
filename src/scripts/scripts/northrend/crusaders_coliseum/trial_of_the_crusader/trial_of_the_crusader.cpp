@@ -47,7 +47,7 @@ enum
 };
 
 
-struct DIAMOND_DLL_DECL npc_toc_announcerAI : public ScriptedAI
+struct npc_toc_announcerAI : public ScriptedAI
 {
     npc_toc_announcerAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -310,7 +310,7 @@ switch(uiAction) {
 return true;
 }
 
-struct DIAMOND_DLL_DECL boss_lich_king_tocAI : public ScriptedAI
+struct boss_lich_king_tocAI : public ScriptedAI
 {
     boss_lich_king_tocAI(Creature *pCreature) : ScriptedAI(pCreature)
     {
@@ -491,7 +491,7 @@ CreatureAI* GetAI_boss_lich_king_toc(Creature* pCreature)
     return new boss_lich_king_tocAI(pCreature);
 };
 
-struct DIAMOND_DLL_DECL npc_fizzlebang_tocAI : public ScriptedAI
+struct npc_fizzlebang_tocAI : public ScriptedAI
 {
     npc_fizzlebang_tocAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -590,7 +590,7 @@ CreatureAI* GetAI_npc_fizzlebang_toc(Creature* pCreature)
     return new npc_fizzlebang_tocAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL npc_tirion_tocAI : public ScriptedAI
+struct npc_tirion_tocAI : public ScriptedAI
 {
     npc_tirion_tocAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -1014,7 +1014,7 @@ CreatureAI* GetAI_npc_tirion_toc(Creature* pCreature)
     return new npc_tirion_tocAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL npc_garrosh_tocAI : public ScriptedAI
+struct npc_garrosh_tocAI : public ScriptedAI
 {
     npc_garrosh_tocAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -1094,7 +1094,7 @@ CreatureAI* GetAI_npc_garrosh_toc(Creature* pCreature)
     return new npc_garrosh_tocAI(pCreature);
 };
 
-struct DIAMOND_DLL_DECL npc_rinn_tocAI : public ScriptedAI
+struct npc_rinn_tocAI : public ScriptedAI
 {
     npc_rinn_tocAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

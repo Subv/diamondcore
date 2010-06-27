@@ -24,7 +24,7 @@ EndScriptData */
 #include "precompiled.h"
 #include "vault_of_archavon.h"
 
-struct DIAMOND_DLL_DECL instance_vault_of_archavon : public ScriptedInstance
+struct instance_vault_of_archavon : public ScriptedInstance
 {
     instance_vault_of_archavon(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

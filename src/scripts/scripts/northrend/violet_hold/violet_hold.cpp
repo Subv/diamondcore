@@ -79,7 +79,7 @@ enum
 #define GOSSIP_ITEM_INTRO       "Activate the crystals when we get in trouble, right?"
 #define GOSSIP_ITEM_START       "Get your people to safety, we'll keep the Blue Dragonflight's forces at bay."
 
-struct DIAMOND_DLL_DECL npc_sinclariAI : public npc_escortAI
+struct npc_sinclariAI : public npc_escortAI
 {
     npc_sinclariAI(Creature* pCreature) : npc_escortAI(pCreature)
     {
@@ -175,7 +175,7 @@ bool GossipSelect_npc_sinclari(Player* pPlayer, Creature* pCreature, uint32 uiSe
 ## npc_teleportation_portal
 ######*/
 
-struct DIAMOND_DLL_DECL npc_teleportation_portalAI : public ScriptedAI
+struct npc_teleportation_portalAI : public ScriptedAI
 {
     npc_teleportation_portalAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

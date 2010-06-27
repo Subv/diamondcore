@@ -23,7 +23,7 @@
 #include "Object.h"
 #include "Opcodes.h"
 #include "SpellAuraDefines.h"
-#include "UpdateFields.h"
+#include "ObjectFields.h"
 #include "SharedDefines.h"
 #include "ThreatManager.h"
 #include "HostileRefManager.h"
@@ -230,7 +230,8 @@ enum UnitRename
     UNIT_CAN_BE_ABANDONED   = 0x02,
 };
 
-#define CREATURE_MAX_SPELLS     4
+#define CREATURE_MAX_SPELLS     8
+#define MAX_SPELL_CONTROL_BAR   10
 
 enum Swing
 {
@@ -302,7 +303,7 @@ class Item;
 class Pet;
 class PetAura;
 class Totem;
-class Vehicle;
+class VehicleKit;
 
 struct SpellImmune
 {
@@ -421,25 +422,27 @@ enum UnitState
     UNIT_STAT_STUNNED         = 0x00000008,                     // Aura::HandleAuraModStun
     UNIT_STAT_ROOT            = 0x00000010,                     // Aura::HandleAuraModRoot
     UNIT_STAT_ISOLATED        = 0x00000020,                     // area auras do not affect other players, Aura::HandleAuraModSchoolImmunity
+    UNIT_STAT_CONTROLLED      = 0x00000040,                     // Aura::HandleAuraModPossess
 
     // persistent movement generator state (all time while movement generator applied to unit (independent from top state of movegen)
-    UNIT_STAT_IN_FLIGHT       = 0x00000040,                     // player is in flight mode (in fact interrupted at far teleport until next map telport landing)
-    UNIT_STAT_DISTRACTED      = 0x00000080,                     // DistractedMovementGenerator active
+    UNIT_STAT_IN_FLIGHT       = 0x00000080,                     // player is in flight mode (in fact interrupted at far teleport until next map telport landing)
+    UNIT_STAT_DISTRACTED      = 0x00000100,                     // DistractedMovementGenerator active
 
     // persistent movement generator state with non-persistent mirror states for stop support
     // (can be removed temporary by stop command or another movement generator apply)
     // not use _MOVE versions for generic movegen state, it can be removed temporary for unit stop and etc
-    UNIT_STAT_CONFUSED        = 0x00000100,                     // ConfusedMovementGenerator active/onstack
-    UNIT_STAT_CONFUSED_MOVE   = 0x00000200,
-    UNIT_STAT_ROAMING         = 0x00000400,                     // RandomMovementGenerator/PointMovementGenerator/WaypointMovementGenerator active (now always set)
-    UNIT_STAT_ROAMING_MOVE    = 0x00000800,
-    UNIT_STAT_CHASE           = 0x00001000,                     // ChaseMovementGenerator active
-    UNIT_STAT_CHASE_MOVE      = 0x00002000,
-    UNIT_STAT_FOLLOW          = 0x00004000,                     // FollowMovementGenerator active
-    UNIT_STAT_FOLLOW_MOVE     = 0x00008000,
-    UNIT_STAT_FLEEING         = 0x00010000,                     // FleeMovementGenerator/TimedFleeingMovementGenerator active/onstack
-    UNIT_STAT_FLEEING_MOVE    = 0x00020000,
-    UNIT_STAT_ON_VEHICLE      = 0x00040000,                     // Unit is on vehicle
+    UNIT_STAT_CONFUSED        = 0x00000200,                     // ConfusedMovementGenerator active/onstack
+    UNIT_STAT_CONFUSED_MOVE   = 0x00000400,
+    UNIT_STAT_ROAMING         = 0x00000800,                     // RandomMovementGenerator/PointMovementGenerator/WaypointMovementGenerator active (now always set)
+    UNIT_STAT_ROAMING_MOVE    = 0x00001000,
+    UNIT_STAT_CHASE           = 0x00002000,                     // ChaseMovementGenerator active
+    UNIT_STAT_CHASE_MOVE      = 0x00004000,
+    UNIT_STAT_FOLLOW          = 0x00008000,                     // FollowMovementGenerator active
+    UNIT_STAT_FOLLOW_MOVE     = 0x00010000,
+    UNIT_STAT_FLEEING         = 0x00020000,                     // FleeMovementGenerator/TimedFleeingMovementGenerator active/onstack
+    UNIT_STAT_FLEEING_MOVE    = 0x00040000,
+    UNIT_STAT_JUMPING		  = 0x00080000,
+    UNIT_STAT_ON_VEHICLE      = 0x00120000,                     // Unit is on vehicle
 
     // masks (only for check)
 
@@ -458,6 +461,12 @@ enum UnitState
     // not react at move in sight or other
     UNIT_STAT_CAN_NOT_REACT   = UNIT_STAT_STUNNED | UNIT_STAT_DIED |
                                 UNIT_STAT_CONFUSED | UNIT_STAT_FLEEING | UNIT_STAT_ON_VEHICLE,
+
+    // AI disabled by some reason
+    UNIT_STAT_LOST_CONTROL    = UNIT_STAT_FLEEING | UNIT_STAT_CONTROLLED,
+
+    // above 2 state cases
+    UNIT_STAT_CAN_NOT_REACT_OR_LOST_CONTROL  = UNIT_STAT_CAN_NOT_REACT | UNIT_STAT_LOST_CONTROL,
 
     // masks (for check or reset)
 
@@ -611,6 +620,7 @@ enum NPCFlags
     UNIT_NPC_FLAG_STABLEMASTER          = 0x00400000,       // 100%
     UNIT_NPC_FLAG_GUILD_BANKER          = 0x00800000,       // cause client to send 997 opcode
     UNIT_NPC_FLAG_SPELLCLICK            = 0x01000000,       // cause client to send 1015 opcode (spell click), dynamic, set at loading and don't must be set in DB
+    UNIT_NPC_FLAG_PLAYER_VEHICLE        = 0x02000000,       // players with mounts that have vehicle data should have it set
     UNIT_NPC_FLAG_GUARD                 = 0x10000000        // custom flag for guards
 };
 
@@ -747,7 +757,7 @@ class MovementInfo
 {
     public:
         MovementInfo() : moveFlags(MOVEFLAG_NONE), moveFlags2(MOVEFLAG2_NONE), time(0),
-            t_time(0), t_seat(-1), t_time2(0), s_pitch(0.0f), fallTime(0), j_velocity(0.0f), j_sinAngle(0.0f),
+            t_time(0), t_seat(-1), t_seatInfo(NULL), t_time2(0), s_pitch(0.0f), fallTime(0), j_velocity(0.0f), j_sinAngle(0.0f),
             j_cosAngle(0.0f), j_xyspeed(0.0f), u_unk1(0.0f) {}
 
         // Read/Write methods
@@ -764,7 +774,7 @@ class MovementInfo
 
         // Position manipulations
         Position const *GetPos() const { return &pos; }
-        void SetTransportData(ObjectGuid guid, float x, float y, float z, float o, uint32 time, int8 seat, uint32 dbc_seat = 0, uint32 seat_flags = 0, uint32 vehicle_flags = 0)
+        void SetTransportData(ObjectGuid guid, float x, float y, float z, float o, uint32 time, int8 seat, VehicleSeatEntry const* seatInfo = NULL)
         {
             t_guid = guid;
             t_pos.x = x;
@@ -773,9 +783,7 @@ class MovementInfo
             t_pos.o = o;
             t_time = time;
             t_seat = seat;
-            t_dbc_seat = dbc_seat;
-            t_seat_flags = seat_flags;
-            t_vehicle_flags = vehicle_flags;
+            t_seatInfo = seatInfo;
         }
         void ClearTransportData()
         {
@@ -786,17 +794,14 @@ class MovementInfo
             t_pos.o = 0.0f;
             t_time = 0;
             t_seat = -1;
-            t_dbc_seat = 0;
-            t_seat_flags = 0;
-            t_vehicle_flags = 0;
+            t_seatInfo = NULL;
         }
         ObjectGuid const& GetTransportGuid() const { return t_guid; }
         Position const *GetTransportPos() const { return &t_pos; }
         int8 GetTransportSeat() const { return t_seat; }
+        uint32 GetTransportDBCSeat() const { return t_seatInfo ? t_seatInfo->m_ID : 0; }
+        uint32 GetVehicleSeatFlags() const { return t_seatInfo ? t_seatInfo->m_flags : 0; }
         uint32 GetTransportTime() const { return t_time; }
-        uint32 GetTransportDBCSeat() const { return t_dbc_seat; }
-        uint32 GetVehicleSeatFlags() const { return t_seat_flags; }
-        uint32 GetVehicleFlags() const { return t_vehicle_flags; }
         uint32 GetFallTime() const { return fallTime; }
         void ChangePosition(float x, float y, float z, float o) { pos.x = x; pos.y = y; pos.z = z; pos.o = o; }
         void UpdateTime(uint32 _time) { time = _time; }
@@ -812,10 +817,8 @@ class MovementInfo
         Position t_pos;
         uint32   t_time;
         int8     t_seat;
+        VehicleSeatEntry const* t_seatInfo;
         uint32   t_time2;
-        uint32   t_dbc_seat;
-        uint32   t_seat_flags;
-        uint32   t_vehicle_flags;
         // swimming and flying
         float    s_pitch;
         // last fall time
@@ -1048,6 +1051,7 @@ struct CharmInfo
         bool HasReactState(ReactStates state) { return (m_reactState == state); }
 
         void InitPossessCreateSpells();
+        void InitVehicleCreateSpells();
         void InitCharmCreateSpells();
         void InitPetActionBar();
         void InitEmptyActionBar();
@@ -1102,7 +1106,7 @@ typedef std::set<uint64> GuardianPetList;
 
 struct SpellProcEventEntry;                                 // used only privately
 
-class DIAMOND_DLL_SPEC Unit : public WorldObject
+class Unit : public WorldObject
 {
     public:
         typedef std::set<Unit*> AttackerSet;
@@ -1261,7 +1265,7 @@ class DIAMOND_DLL_SPEC Unit : public WorldObject
 
         bool IsMounted() const { return HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_MOUNT ); }
         uint32 GetMountID() const { return GetUInt32Value(UNIT_FIELD_MOUNTDISPLAYID); }
-        void Mount(uint32 mount, uint32 spellId = 0);
+        void Mount(uint32 mount, uint32 spellId = 0, uint32 vehicleId = 0);
         void Unmount();
 
         uint16 GetMaxSkillValueForLevel(Unit const* target = NULL) const { return (target ? getLevelForTarget(target) : getLevel()) * 5; }
@@ -1416,6 +1420,9 @@ class DIAMOND_DLL_SPEC Unit : public WorldObject
         // if used additional args in ... part then floats must explicitly casted to double
         void SendMonsterMove(float x, float y, float z, SplineType type, SplineFlags flags, uint32 Time, Player* player = NULL, ...);
         void SendMonsterMoveWithSpeed(float x, float y, float z, uint32 transitTime = 0, Player* player = NULL);
+        void SendMonsterMoveTransport(Unit *vehicle);
+
+        virtual bool SetPosition(float x, float y, float z, float orientation, bool teleport = false);
 
         template<typename PathElem, typename PathNode>
         void SendMonsterMoveByPath(Path<PathElem,PathNode> const& path, uint32 start, uint32 end, SplineFlags flags);
@@ -1851,13 +1858,16 @@ class DIAMOND_DLL_SPEC Unit : public WorldObject
         // Movement info
         MovementInfo m_movementInfo;
 
-         // vehicle system
-         void EnterVehicle(Vehicle *vehicle, int8 seat_id, bool force = false);
-         void ExitVehicle();
-         uint64 GetVehicleGUID() { return m_vehicleGUID; }
-         void SetVehicleGUID(uint64 guid) { m_vehicleGUID = guid; }
-         void ChangeSeat(int8 seatId, bool next);
-
+        // vehicle system
+        void EnterVehicle(VehicleKit *vehicle, int8 seatId = -1);
+        void ExitVehicle();
+        void ChangeSeat(int8 seatId, bool next = true);
+        VehicleKit* GetVehicle() { return m_pVehicle; }
+        VehicleKit* GetVehicleKit() { return m_pVehicleKit; }
+        Unit* GetVehicleBase();
+        Creature *GetVehicleCreatureBase();
+        bool CreateVehicleKit(uint32 vehicleId);
+        void RemoveVehicleKit();
     protected:
         explicit Unit ();
 
@@ -1905,9 +1915,9 @@ class DIAMOND_DLL_SPEC Unit : public WorldObject
         uint32 m_reactiveTimer[MAX_REACTIVE];
         uint32 m_regenTimer;
         uint32 m_lastManaUseTimer;
-        uint64  m_auraUpdateMask;
-        uint64 m_vehicleGUID;
-
+        uint64 m_auraUpdateMask;
+        VehicleKit* m_pVehicle;
+        VehicleKit* m_pVehicleKit;
     private:
         void CleanupDeletedAuras();
 
@@ -1977,14 +1987,14 @@ void Unit::CallForAllControlledUnits(Func const& func, bool withTotems, bool wit
 template<typename Func>
 bool Unit::CheckAllControlledUnits(Func const& func, bool withTotems, bool withGuardians, bool withCharms) const
 {
-    if (Pet* pet = GetPet())
+    if (Pet const* pet = GetPet())
         if (func(pet))
             return true;
 
     if (withGuardians)
     {
         for(GuardianPetList::const_iterator itr = m_guardianPets.begin(); itr != m_guardianPets.end(); ++itr)
-            if (Unit* guardian = Unit::GetUnit(*this,*itr))
+            if (Unit const* guardian = Unit::GetUnit(*this,*itr))
                 if (func(guardian))
                     return true;
 
@@ -1993,13 +2003,13 @@ bool Unit::CheckAllControlledUnits(Func const& func, bool withTotems, bool withG
     if (withTotems)
     {
         for (int i = 0; i < MAX_TOTEM_SLOT; ++i)
-            if (Unit *totem = _GetTotem(TotemSlot(i)))
+            if (Unit const* totem = _GetTotem(TotemSlot(i)))
                 if (func(totem))
                     return true;
     }
 
     if (withCharms)
-        if(Unit* charm = GetCharm())
+        if(Unit const* charm = GetCharm())
             if (func(charm))
                 return true;
 

@@ -24,7 +24,7 @@ EndScriptData */
 #include "precompiled.h"
 #include "ahnkahet.h"
 
-struct DIAMOND_DLL_DECL instance_ahnkahet : public ScriptedInstance
+struct instance_ahnkahet : public ScriptedInstance
 {
     instance_ahnkahet(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

@@ -63,7 +63,7 @@ enum
 ## boss_svala
 ######*/
 
-struct DIAMOND_DLL_DECL boss_svalaAI : public ScriptedAI
+struct boss_svalaAI : public ScriptedAI
 {
     boss_svalaAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -248,7 +248,7 @@ CreatureAI* GetAI_boss_svala(Creature* pCreature)
     return new boss_svalaAI(pCreature);
 }
 
-bool AreaTrigger_at_svala_intro(Player* pPlayer, AreaTriggerEntry* pAt)
+bool AreaTrigger_at_svala_intro(Player* pPlayer, AreaTriggerEntry const* pAt)
 {
     if (ScriptedInstance* pInstance = (ScriptedInstance*)pPlayer->GetInstanceData())
     {

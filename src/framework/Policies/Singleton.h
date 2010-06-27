@@ -36,7 +36,7 @@ namespace Diamond
     class CreatePolicy = Diamond::OperatorNew<T>,
     class LifeTimePolicy = Diamond::ObjectLifeTime<T>
     >
-    class DIAMOND_DLL_DECL Singleton
+    class Singleton
     {
         public:
 

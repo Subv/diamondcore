@@ -36,7 +36,7 @@ class Player;
 
 namespace Diamond
 {
-    struct DIAMOND_DLL_DECL VisibleNotifier
+    struct VisibleNotifier
     {
         Camera& camera;
         UpdateData i_data;
@@ -49,7 +49,7 @@ namespace Diamond
         void Notify(void);
     };
 
-    struct DIAMOND_DLL_DECL VisibleChangesNotifier
+    struct VisibleChangesNotifier
     {
         WorldObject &i_object;
 
@@ -58,7 +58,7 @@ namespace Diamond
         void Visit(CameraMapType &);
     };
 
-    struct DIAMOND_DLL_DECL GridUpdater
+    struct GridUpdater
     {
         GridType &i_grid;
         uint32 i_timeDiff;
@@ -77,7 +77,7 @@ namespace Diamond
         void Visit(CorpseMapType &m) { updateObjects<Corpse>(m); }
     };
 
-    struct DIAMOND_DLL_DECL MessageDeliverer
+    struct MessageDeliverer
     {
         Player &i_player;
         WorldPacket *i_message;
@@ -100,7 +100,7 @@ namespace Diamond
         template<class SKIP> void Visit(GridRefManager<SKIP> &) {}
     };
 
-    struct DIAMOND_DLL_DECL ObjectMessageDeliverer
+    struct ObjectMessageDeliverer
     {
         uint32 i_phaseMask;
         WorldPacket *i_message;
@@ -110,7 +110,7 @@ namespace Diamond
         template<class SKIP> void Visit(GridRefManager<SKIP> &) {}
     };
 
-    struct DIAMOND_DLL_DECL MessageDistDeliverer
+    struct MessageDistDeliverer
     {
         Player &i_player;
         WorldPacket *i_message;
@@ -124,7 +124,7 @@ namespace Diamond
         template<class SKIP> void Visit(GridRefManager<SKIP> &) {}
     };
 
-    struct DIAMOND_DLL_DECL ObjectMessageDistDeliverer
+    struct ObjectMessageDistDeliverer
     {
         WorldObject &i_object;
         WorldPacket *i_message;
@@ -134,7 +134,7 @@ namespace Diamond
         template<class SKIP> void Visit(GridRefManager<SKIP> &) {}
     };
 
-    struct DIAMOND_DLL_DECL ObjectUpdater
+    struct ObjectUpdater
     {
         uint32 i_timeDiff;
         explicit ObjectUpdater(const uint32 &diff) : i_timeDiff(diff) {}
@@ -145,7 +145,7 @@ namespace Diamond
         void Visit(CreatureMapType &);
     };
 
-    struct DIAMOND_DLL_DECL PlayerRelocationNotifier
+    struct PlayerRelocationNotifier
     {
         Player &i_player;
         PlayerRelocationNotifier(Player &pl) : i_player(pl) {}
@@ -154,7 +154,7 @@ namespace Diamond
         void Visit(CreatureMapType &);
     };
 
-    struct DIAMOND_DLL_DECL CreatureRelocationNotifier
+    struct CreatureRelocationNotifier
     {
         Creature &i_creature;
         CreatureRelocationNotifier(Creature &c) : i_creature(c) {}
@@ -164,7 +164,7 @@ namespace Diamond
         #endif
     };
 
-    struct DIAMOND_DLL_DECL DynamicObjectUpdater
+    struct DynamicObjectUpdater
     {
         DynamicObject &i_dynobject;
         Unit* i_check;
@@ -190,7 +190,7 @@ namespace Diamond
     // WorldObject searchers & workers
 
     template<class Check>
-        struct DIAMOND_DLL_DECL WorldObjectSearcher
+        struct WorldObjectSearcher
     {
         uint32 i_phaseMask;
         WorldObject* &i_object;
@@ -209,7 +209,7 @@ namespace Diamond
     };
 
     template<class Check>
-        struct DIAMOND_DLL_DECL WorldObjectListSearcher
+        struct WorldObjectListSearcher
     {
         uint32 i_phaseMask;
         std::list<WorldObject*> &i_objects;
@@ -228,7 +228,7 @@ namespace Diamond
     };
 
     template<class Do>
-        struct DIAMOND_DLL_DECL WorldObjectWorker
+        struct WorldObjectWorker
     {
         uint32 i_phaseMask;
         Do const& i_do;
@@ -276,7 +276,7 @@ namespace Diamond
     // Gameobject searchers
 
     template<class Check>
-        struct DIAMOND_DLL_DECL GameObjectSearcher
+        struct GameObjectSearcher
     {
         uint32 i_phaseMask;
         GameObject* &i_object;
@@ -292,7 +292,7 @@ namespace Diamond
 
     // Last accepted by Check GO if any (Check can change requirements at each call)
     template<class Check>
-        struct DIAMOND_DLL_DECL GameObjectLastSearcher
+        struct GameObjectLastSearcher
     {
         uint32 i_phaseMask;
         GameObject* &i_object;
@@ -307,7 +307,7 @@ namespace Diamond
     };
 
     template<class Check>
-        struct DIAMOND_DLL_DECL GameObjectListSearcher
+        struct GameObjectListSearcher
     {
         uint32 i_phaseMask;
         std::list<GameObject*> &i_objects;
@@ -325,7 +325,7 @@ namespace Diamond
 
     // First accepted by Check Unit if any
     template<class Check>
-        struct DIAMOND_DLL_DECL UnitSearcher
+        struct UnitSearcher
     {
         uint32 i_phaseMask;
         Unit* &i_object;
@@ -342,7 +342,7 @@ namespace Diamond
 
     // Last accepted by Check Unit if any (Check can change requirements at each call)
     template<class Check>
-        struct DIAMOND_DLL_DECL UnitLastSearcher
+        struct UnitLastSearcher
     {
         uint32 i_phaseMask;
         Unit* &i_object;
@@ -359,7 +359,7 @@ namespace Diamond
 
     // All accepted by Check units if any
     template<class Check>
-        struct DIAMOND_DLL_DECL UnitListSearcher
+        struct UnitListSearcher
     {
         uint32 i_phaseMask;
         std::list<Unit*> &i_objects;
@@ -377,7 +377,7 @@ namespace Diamond
     // Creature searchers
 
     template<class Check>
-        struct DIAMOND_DLL_DECL CreatureSearcher
+        struct CreatureSearcher
     {
         uint32 i_phaseMask;
         Creature* &i_object;
@@ -393,7 +393,7 @@ namespace Diamond
 
     // Last accepted by Check Creature if any (Check can change requirements at each call)
     template<class Check>
-        struct DIAMOND_DLL_DECL CreatureLastSearcher
+        struct CreatureLastSearcher
     {
         uint32 i_phaseMask;
         Creature* &i_object;
@@ -408,7 +408,7 @@ namespace Diamond
     };
 
     template<class Check>
-        struct DIAMOND_DLL_DECL CreatureListSearcher
+        struct CreatureListSearcher
     {
         uint32 i_phaseMask;
         std::list<Creature*> &i_objects;
@@ -423,7 +423,7 @@ namespace Diamond
     };
 
     template<class Do>
-    struct DIAMOND_DLL_DECL CreatureWorker
+    struct CreatureWorker
     {
         uint32 i_phaseMask;
         Do& i_do;
@@ -444,7 +444,7 @@ namespace Diamond
     // Player searchers
 
     template<class Check>
-    struct DIAMOND_DLL_DECL PlayerSearcher
+    struct PlayerSearcher
     {
         uint32 i_phaseMask;
         Player* &i_object;
@@ -459,7 +459,7 @@ namespace Diamond
     };
 
     template<class Do>
-    struct DIAMOND_DLL_DECL PlayerWorker
+    struct PlayerWorker
     {
         uint32 i_phaseMask;
         Do& i_do;
@@ -478,7 +478,7 @@ namespace Diamond
     };
 
     template<class Do>
-    struct DIAMOND_DLL_DECL CameraDistWorker
+    struct CameraDistWorker
     {
         WorldObject const* i_searcher;
         float i_dist;

@@ -21,10 +21,9 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="..\..\bin\win32_debug"
-			IntermediateDirectory=".\Scripts__$(PlatformName)_$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			OutputDirectory=".\scripts__$(PlatformName)_$(ConfigurationName)"
+			IntermediateDirectory=".\scripts__$(PlatformName)_$(ConfigurationName)"
+			ConfigurationType="4"
 			CharacterSet="2"
 			>
 			<Tool
@@ -44,14 +43,19 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/Zm116"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\dep\include\;..\..\src\shared\;..\..\src\framework\;..\..\src\game\;..\..\src\scripts\include\;..\..\src\scripts\base\;..\..\dep\ACE_wrappers\"
-				PreprocessorDefinitions="WIN32;_DEBUG;DIAMOND_DEBUG;_WINDOWS;_USRDLL;SCRIPT"
+				PreprocessorDefinitions="WIN32;_DEBUG;DIAMOND_DEBUG;_WINDOWS;_LIB;SCRIPT"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="precompiled.h"
+				PrecompiledHeaderFile=".\scripts__$(PlatformName)_$(ConfigurationName)\scripts.pch"
+				AssemblerListingLocation=".\scripts__$(PlatformName)_$(ConfigurationName)\"
+				ObjectFile=".\scripts__$(PlatformName)_$(ConfigurationName)\"
+				ProgramDataBaseFileName=".\scripts__$(PlatformName)_$(ConfigurationName)\"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="4"
@@ -66,24 +70,11 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="worldserver.lib ACEd.lib"
-				OutputFile="$(OutDir)/Scripts.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories=".\worldserver__Win32_Debug;..\..\dep\lib\win32_debug\"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/Scripts.pdb"
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)/Scripts.lib"
-				TargetMachine="1"
+				Name="VCLibrarianTool"
+				OutputFile=".\scripts__$(PlatformName)_$(ConfigurationName)\scripts.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -93,91 +84,6 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Release|Win32"
-			OutputDirectory="..\..\bin\win32_release"
-			IntermediateDirectory=".\Scripts__$(PlatformName)_$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
-			CharacterSet="2"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
-				AdditionalIncludeDirectories="..\..\dep\include\;..\..\src\shared\;..\..\src\framework\;..\..\src\game\;..\..\src\scripts\include\;..\..\src\scripts\base\;..\..\dep\ACE_wrappers\"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;SCRIPT;_SECURE_SCL=0"
-				MinimalRebuild="false"
-				RuntimeLibrary="2"
-				UsePrecompiledHeader="2"
-				PrecompiledHeaderThrough="precompiled.h"
-				WarningLevel="3"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="3"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="worldserver.lib ACE.lib"
-				OutputFile="$(OutDir)/Scripts.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories=".\worldserver__Win32_Release;..\..\dep\lib\win32_release\"
-				GenerateDebugInformation="false"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)/Scripts.lib"
-				TargetMachine="1"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -185,10 +91,9 @@
 		</Configuration>
 		<Configuration
 			Name="Debug|x64"
-			OutputDirectory="..\..\bin\x64_debug"
-			IntermediateDirectory=".\Scripts__$(PlatformName)_$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			OutputDirectory=".\scripts__$(PlatformName)_$(ConfigurationName)"
+			IntermediateDirectory=".\scripts__$(PlatformName)_$(ConfigurationName)"
+			ConfigurationType="4"
 			CharacterSet="2"
 			>
 			<Tool
@@ -211,12 +116,16 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\dep\include\;..\..\src\shared\;..\..\src\framework\;..\..\src\game\;..\..\src\scripts\include\;..\..\src\scripts\base\;..\..\dep\ACE_wrappers\"
-				PreprocessorDefinitions="WIN32;_DEBUG;DIAMOND_DEBUG;_WINDOWS;_USRDLL;SCRIPT"
+				PreprocessorDefinitions="WIN32;_DEBUG;DIAMOND_DEBUG;_WINDOWS;_LIB;SCRIPT;SCRIPT"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="precompiled.h"
+				PrecompiledHeaderFile=".\scripts__$(PlatformName)_$(ConfigurationName)\scripts.pch"
+				AssemblerListingLocation=".\scripts__$(PlatformName)_$(ConfigurationName)\"
+				ObjectFile=".\scripts__$(PlatformName)_$(ConfigurationName)\"
+				ProgramDataBaseFileName=".\scripts__$(PlatformName)_$(ConfigurationName)\"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
@@ -231,24 +140,11 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="worldserver.lib ACEd.lib"
-				OutputFile="$(OutDir)/Scripts.dll"
-				LinkIncremental="2"
-				AdditionalLibraryDirectories=".\worldserver__x64_Debug;..\..\dep\lib\x64_Debug\"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="$(OutDir)/Scripts.pdb"
-				SubSystem="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)/Scripts.lib"
-				TargetMachine="17"
+				Name="VCLibrarianTool"
+				OutputFile=".\scripts__$(PlatformName)_$(ConfigurationName)\scripts.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -260,7 +156,72 @@
 				Name="VCFxCopTool"
 			/>
 			<Tool
-				Name="VCAppVerifierTool"
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory=".\scripts__$(PlatformName)_$(ConfigurationName)"
+			IntermediateDirectory=".\scripts__$(PlatformName)_$(ConfigurationName)"
+			ConfigurationType="4"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP /Zm111"
+				AdditionalIncludeDirectories="..\..\dep\include\;..\..\src\shared\;..\..\src\framework\;..\..\src\game\;..\..\src\scripts\include\;..\..\src\scripts\base\;..\..\dep\ACE_wrappers\"
+				PreprocessorDefinitions="WIN32;_DEBUG;DIAMOND_DEBUG;_WINDOWS;_LIB;SCRIPT;_SECURE_SCL=0"
+				MinimalRebuild="false"
+				RuntimeLibrary="2"
+				UsePrecompiledHeader="2"
+				PrecompiledHeaderThrough="precompiled.h"
+				PrecompiledHeaderFile=".\scripts__$(PlatformName)_$(ConfigurationName)\scripts.pch"
+				AssemblerListingLocation=".\scripts__$(PlatformName)_$(ConfigurationName)\"
+				ObjectFile=".\scripts__$(PlatformName)_$(ConfigurationName)\"
+				ProgramDataBaseFileName=".\scripts__$(PlatformName)_$(ConfigurationName)\"
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="false"
+				DebugInformationFormat="3"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile=".\scripts__$(PlatformName)_$(ConfigurationName)\scripts.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -268,10 +229,9 @@
 		</Configuration>
 		<Configuration
 			Name="Release|x64"
-			OutputDirectory="..\..\bin\x64_release"
-			IntermediateDirectory=".\Scripts__$(PlatformName)_$(ConfigurationName)"
-			ConfigurationType="2"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
+			OutputDirectory=".\scripts__$(PlatformName)_$(ConfigurationName)"
+			IntermediateDirectory=".\scripts__$(PlatformName)_$(ConfigurationName)"
+			ConfigurationType="4"
 			CharacterSet="2"
 			>
 			<Tool
@@ -294,11 +254,15 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				AdditionalIncludeDirectories="..\..\dep\include\;..\..\src\shared\;..\..\src\framework\;..\..\src\game\;..\..\src\scripts\include\;..\..\src\scripts\base\;..\..\dep\ACE_wrappers\"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;SCRIPT;_SECURE_SCL=0"
+				PreprocessorDefinitions="WIN32;_DEBUG;DIAMOND_DEBUG;_WINDOWS;_LIB;SCRIPT;_SECURE_SCL=0"
 				MinimalRebuild="false"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="precompiled.h"
+				PrecompiledHeaderFile=".\scripts__$(PlatformName)_$(ConfigurationName)\scripts.pch"
+				AssemblerListingLocation=".\scripts__$(PlatformName)_$(ConfigurationName)\"
+				ObjectFile=".\scripts__$(PlatformName)_$(ConfigurationName)\"
+				ProgramDataBaseFileName=".\scripts__$(PlatformName)_$(ConfigurationName)\"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="3"
@@ -313,25 +277,11 @@
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="worldserver.lib ACE.lib"
-				OutputFile="$(OutDir)/Scripts.dll"
-				LinkIncremental="1"
-				AdditionalLibraryDirectories=".\worldserver__x64_Release;..\..\dep\lib\x64_release\"
-				GenerateDebugInformation="false"
-				SubSystem="2"
-				OptimizeReferences="2"
-				EnableCOMDATFolding="2"
-				RandomizedBaseAddress="1"
-				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)/Scripts.lib"
-				TargetMachine="17"
+				Name="VCLibrarianTool"
+				OutputFile=".\scripts__$(PlatformName)_$(ConfigurationName)\scripts.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
 			/>
 			<Tool
 				Name="VCXDCMakeTool"
@@ -341,9 +291,6 @@
 			/>
 			<Tool
 				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
@@ -2026,51 +1973,15 @@
 						Name="icecrown_citadel"
 						>
 						<File
-							RelativePath="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\blood_prince_council.cpp"
+							RelativePath="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\icecrown_citadel.h"
 							>
 						</File>
 						<File
-							RelativePath="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\boss_blood_queen_lanathel.cpp"
+							RelativePath="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\icecrown_teleport.cpp"
 							>
 						</File>
 						<File
-							RelativePath="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\boss_deathbringer_saurfang.cpp"
-							>
-						</File>
-						<File
-							RelativePath="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\boss_festergut.cpp"
-							>
-						</File>
-						<File
-							RelativePath="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\boss_lady_deathwhisper.cpp"
-							>
-						</File>
-						<File
-							RelativePath="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\boss_lord_marrowgar.cpp"
-							>
-						</File>
-						<File
-							RelativePath="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\boss_proffesor_putricide.cpp"
-							>
-						</File>
-						<File
-							RelativePath="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\boss_rotface.cpp"
-							>
-						</File>
-						<File
-							RelativePath="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\boss_sindragosa.cpp"
-							>
-						</File>
-						<File
-							RelativePath="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\boss_the_lich_king.cpp"
-							>
-						</File>
-						<File
-							RelativePath="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\boss_valithria_dreamwalker.cpp"
-							>
-						</File>
-						<File
-							RelativePath="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\gunship_battle.cpp"
+							RelativePath="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\instance_icecrown_citadel.cpp"
 							>
 						</File>
 					</Filter>
@@ -2644,7 +2555,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Release|Win32"
+					Name="Debug|x64"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -2652,7 +2563,7 @@
 					/>
 				</FileConfiguration>
 				<FileConfiguration
-					Name="Debug|x64"
+					Name="Release|Win32"
 					>
 					<Tool
 						Name="VCCLCompilerTool"

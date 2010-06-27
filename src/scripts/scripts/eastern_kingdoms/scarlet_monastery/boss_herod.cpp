@@ -38,7 +38,7 @@ EndScriptData */
 #define ENTRY_SCARLET_TRAINEE       6575
 #define ENTRY_SCARLET_MYRMIDON      4295
 
-struct DIAMOND_DLL_DECL boss_herodAI : public ScriptedAI
+struct boss_herodAI : public ScriptedAI
 {
     boss_herodAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -111,7 +111,7 @@ CreatureAI* GetAI_boss_herod(Creature* pCreature)
     return new boss_herodAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL mob_scarlet_traineeAI : public npc_escortAI
+struct mob_scarlet_traineeAI : public npc_escortAI
 {
     mob_scarlet_traineeAI(Creature* pCreature) : npc_escortAI(pCreature)
     {

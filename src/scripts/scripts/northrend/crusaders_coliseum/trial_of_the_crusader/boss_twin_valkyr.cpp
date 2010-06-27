@@ -75,7 +75,7 @@ enum BossSpells
 ## boss_fjola
 ######*/
 
-struct DIAMOND_DLL_DECL boss_fjolaAI : public ScriptedAI
+struct boss_fjolaAI : public ScriptedAI
 {
     boss_fjolaAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -229,7 +229,7 @@ CreatureAI* GetAI_boss_fjola(Creature* pCreature)
 ## boss_eydis
 ######*/
 
-struct DIAMOND_DLL_DECL boss_eydisAI : public ScriptedAI
+struct boss_eydisAI : public ScriptedAI
 {
     boss_eydisAI(Creature* pCreature) : ScriptedAI(pCreature) 
     {
@@ -378,7 +378,7 @@ CreatureAI* GetAI_boss_eydis(Creature* pCreature)
     return new boss_eydisAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL mob_light_essenceAI : public ScriptedAI
+struct mob_light_essenceAI : public ScriptedAI
 {
     mob_light_essenceAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -430,7 +430,7 @@ bool GossipHello_mob_light_essence(Player *player, Creature* pCreature)
     return true;
 };
 
-struct DIAMOND_DLL_DECL mob_dark_essenceAI : public ScriptedAI
+struct mob_dark_essenceAI : public ScriptedAI
 {
     mob_dark_essenceAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -482,7 +482,7 @@ bool GossipHello_mob_dark_essence(Player *player, Creature* pCreature)
     return true;
 }
 
-struct DIAMOND_DLL_DECL mob_unleashed_darkAI : public ScriptedAI
+struct mob_unleashed_darkAI : public ScriptedAI
 {
     mob_unleashed_darkAI(Creature *pCreature) : ScriptedAI(pCreature) 
     {
@@ -552,7 +552,7 @@ CreatureAI* GetAI_mob_unleashed_dark(Creature *pCreature)
     return new mob_unleashed_darkAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL mob_unleashed_lightAI : public ScriptedAI
+struct mob_unleashed_lightAI : public ScriptedAI
 {
     mob_unleashed_lightAI(Creature *pCreature) : ScriptedAI(pCreature) 
     {

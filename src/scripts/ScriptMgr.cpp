@@ -13,44 +13,28 @@
 #define _FULLVERSION "DiamondScripts"
 #define _SCRIPTS_CONFIG SYSCONFDIR "WorldServer.conf"
 
+INSTANTIATE_SINGLETON_1(ScriptMgr);
+
 int num_sc_scripts;
 Script *m_scripts[MAX_SCRIPTS];
 
 Config DSConfig;
 
-QueryResult* strDSPquery(char* str)
-{
-	return DSDatabase.Query(str);
-}
-
 void FillSpellSummary();
 
-void LoadDatabase()
+ScriptMgr::ScriptMgr()
 {
-    std::string strDSDBinfo = DSConfig.GetStringDefault("WorldDatabaseInfo", "");
+}
+ScriptMgr::~ScriptMgr()
+{
+}
 
-    if (strDSDBinfo.empty())
-    {
-        error_log("DS: Missing Scripts database info from configuration file. Load database aborted.");
-        return;
-    }
-
-    //Initialize connection to DB
-    if (DSDatabase.Initialize(strDSDBinfo.c_str()))
-    {
-        outstring_log("DS: Scripts database at %s initialized.", strDSDBinfo.c_str());
-        outstring_log("");
-
-        pSystemMgr.LoadVersion();
-        pSystemMgr.LoadScriptTexts();
-        pSystemMgr.LoadScriptTextsCustom();
-        pSystemMgr.LoadScriptWaypoints();
-    }
-    else
-    {
-        error_log("DS: Unable to connect to Database. Load database aborted.");
-        return;
-    }
+void ScriptMgr::LoadDatabase()
+{
+    pSystemMgr.LoadVersion();
+    pSystemMgr.LoadScriptTexts();
+    pSystemMgr.LoadScriptTextsCustom();
+    pSystemMgr.LoadScriptWaypoints();
 }
 
 struct TSpellSummary {
@@ -58,22 +42,7 @@ struct TSpellSummary {
     uint8 Effects;                                          // set of enum SelectEffect
 }extern *SpellSummary;
 
-DIAMOND_DLL_EXPORT
-void ScriptsFree()
-{
-    // Free Spell Summary
-    delete []SpellSummary;
-
-    // Free resources before library unload
-    for(int i=0; i<MAX_SCRIPTS; ++i)
-        delete m_scripts[i];
-
-	DSDatabase.HaltDelayThread();
-    num_sc_scripts = 0;
-}
-
-DIAMOND_DLL_EXPORT
-void ScriptsInit()
+void ScriptMgr::ScriptsInit()
 {
     //Scripts startup
     outstring_log("");
@@ -85,12 +54,6 @@ void ScriptsInit()
     outstring_log("DD  D  DDD   D  DD  DD D         DD    DD  D");
     outstring_log(" DDD     DDD D   DD DD D         DD     DDD");
     outstring_log("");
-
-    //Get configuration file
-    if (!DSConfig.SetSource(_SCRIPTS_CONFIG))
-        error_log("DS: Unable to open configuration file. Database will be unaccessible. Configuration values will use default.");
-    else
-        outstring_log("DS: Using configuration file %s",_SCRIPTS_CONFIG);
 
     //Load database (must be called after DSConfig.SetSource).
     LoadDatabase();
@@ -211,22 +174,7 @@ void Script::RegisterSelf()
     }
 }
 
-//********************************
-//*** Functions to be Exported ***
-
-DIAMOND_DLL_EXPORT
-char const* ScriptsVersion()
-{
-    if (!strDSVersion.empty())
-    {
-        strDSVersion.append(_FULLVERSION);
-        return strDSVersion.c_str();
-    }
-    return _FULLVERSION;
-}
-
-DIAMOND_DLL_EXPORT
-bool GossipHello(Player* pPlayer, Creature* pCreature)
+bool ScriptMgr::GossipHello(Player* pPlayer, Creature* pCreature)
 {
     Script *tmpscript = m_scripts[pCreature->GetScriptId()];
 
@@ -238,8 +186,7 @@ bool GossipHello(Player* pPlayer, Creature* pCreature)
     return tmpscript->pGossipHello(pPlayer, pCreature);
 }
 
-DIAMOND_DLL_EXPORT
-bool GOGossipHello(Player *pPlayer, GameObject *pGo)
+bool ScriptMgr::GOGossipHello(Player *pPlayer, GameObject *pGo)
 {
     Script *tmpscript = m_scripts[pGo->GetGOInfo()->ScriptId];
 
@@ -251,8 +198,7 @@ bool GOGossipHello(Player *pPlayer, GameObject *pGo)
     return tmpscript->pGOGossipHello(pPlayer, pGo);
 }
 
-DIAMOND_DLL_EXPORT
-bool GossipSelect(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
+bool ScriptMgr::GossipSelect(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
     debug_log("DS: Gossip selection, sender: %u, action: %u", uiSender, uiAction);
 
@@ -266,8 +212,7 @@ bool GossipSelect(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 
     return tmpscript->pGossipSelect(pPlayer, pCreature, uiSender, uiAction);
 }
 
-DIAMOND_DLL_EXPORT
-bool GOGossipSelect(Player *pPlayer, GameObject *pGo, uint32 sender, uint32 action)
+bool ScriptMgr::GOGossipSelect(Player *pPlayer, GameObject *pGo, uint32 sender, uint32 action)
 {
     debug_log("DS: GO Gossip selection, sender: %u, action: %u", sender, action);
 
@@ -281,8 +226,7 @@ bool GOGossipSelect(Player *pPlayer, GameObject *pGo, uint32 sender, uint32 acti
     return tmpscript->pGOGossipSelect(pPlayer, pGo, sender, action);
 }
 
-DIAMOND_DLL_EXPORT
-bool GossipSelectWithCode(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction, const char* sCode)
+bool ScriptMgr::GossipSelectWithCode(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction, const char* sCode)
 {
     debug_log("DS: Gossip selection with code, sender: %u, action: %u", uiSender, uiAction);
 
@@ -296,8 +240,7 @@ bool GossipSelectWithCode(Player* pPlayer, Creature* pCreature, uint32 uiSender,
     return tmpscript->pGossipSelectWithCode(pPlayer, pCreature, uiSender, uiAction, sCode);
 }
 
-DIAMOND_DLL_EXPORT
-bool GOGossipSelectWithCode(Player *pPlayer, GameObject *pGo, uint32 sender, uint32 action, const char* sCode)
+bool ScriptMgr::GOGossipSelectWithCode(Player *pPlayer, GameObject *pGo, uint32 sender, uint32 action, const char* sCode)
 {
     debug_log("DS: GO Gossip selection with code, sender: %u, action: %u", sender, action);
 
@@ -311,8 +254,33 @@ bool GOGossipSelectWithCode(Player *pPlayer, GameObject *pGo, uint32 sender, uin
     return tmpscript->pGOGossipSelectWithCode(pPlayer, pGo, sender, action, sCode);
 }
 
-DIAMOND_DLL_EXPORT
-bool QuestAccept(Player* pPlayer, Creature* pCreature, const Quest* pQuest)
+bool ScriptMgr::GOSelect(Player* pPlayer, GameObject* pGO, uint32 uiSender, uint32 uiAction)
+{
+    if (!pGO)
+    return false;
+    debug_log("DS: Gossip selection, sender: %d, action: %d", uiSender, uiAction);
+
+    Script *tmpscript = m_scripts[pGO->GetGOInfo()->ScriptId];
+    if (!tmpscript || !tmpscript->pGOSelect) return false;
+
+    pPlayer->PlayerTalkClass->ClearMenus();
+    return tmpscript->pGOSelect(pPlayer, pGO, uiSender, uiAction);
+}
+
+bool ScriptMgr::GOSelectWithCode(Player* pPlayer, GameObject* pGO, uint32 uiSender, uint32 uiAction, const char* sCode)
+{
+    if (!pGO)
+    return false;
+    debug_log("DS: Gossip selection, sender: %d, action: %d",uiSender, uiAction);
+
+    Script *tmpscript = m_scripts[pGO->GetGOInfo()->ScriptId];
+    if (!tmpscript || !tmpscript->pGOSelectWithCode) return false;
+
+    pPlayer->PlayerTalkClass->ClearMenus();
+    return tmpscript->pGOSelectWithCode(pPlayer, pGO, uiSender ,uiAction, sCode);
+}
+
+bool ScriptMgr::QuestAccept(Player* pPlayer, Creature* pCreature, const Quest* pQuest)
 {
     Script *tmpscript = m_scripts[pCreature->GetScriptId()];
 
@@ -324,8 +292,7 @@ bool QuestAccept(Player* pPlayer, Creature* pCreature, const Quest* pQuest)
     return tmpscript->pQuestAccept(pPlayer, pCreature, pQuest);
 }
 
-DIAMOND_DLL_EXPORT
-bool QuestSelect(Player* pPlayer, Creature* pCreature, const Quest* pQuest)
+bool ScriptMgr::QuestSelect(Player* pPlayer, Creature* pCreature, const Quest* pQuest)
 {
     Script *tmpscript = m_scripts[pCreature->GetScriptId()];
 
@@ -337,8 +304,7 @@ bool QuestSelect(Player* pPlayer, Creature* pCreature, const Quest* pQuest)
     return tmpscript->pQuestSelect(pPlayer, pCreature, pQuest);
 }
 
-DIAMOND_DLL_EXPORT
-bool QuestComplete(Player* pPlayer, Creature* pCreature, const Quest* pQuest)
+bool ScriptMgr::QuestComplete(Player* pPlayer, Creature* pCreature, const Quest* pQuest)
 {
     Script *tmpscript = m_scripts[pCreature->GetScriptId()];
 
@@ -350,8 +316,7 @@ bool QuestComplete(Player* pPlayer, Creature* pCreature, const Quest* pQuest)
     return tmpscript->pQuestComplete(pPlayer, pCreature, pQuest);
 }
 
-DIAMOND_DLL_EXPORT
-bool ChooseReward(Player* pPlayer, Creature* pCreature, const Quest* pQuest, uint32 opt)
+bool ScriptMgr::ChooseReward(Player* pPlayer, Creature* pCreature, const Quest* pQuest, uint32 opt)
 {
     Script *tmpscript = m_scripts[pCreature->GetScriptId()];
 
@@ -363,8 +328,7 @@ bool ChooseReward(Player* pPlayer, Creature* pCreature, const Quest* pQuest, uin
     return tmpscript->pChooseReward(pPlayer, pCreature, pQuest, opt);
 }
 
-DIAMOND_DLL_EXPORT
-uint32 NPCDialogStatus(Player* pPlayer, Creature* pCreature)
+uint32 ScriptMgr::NPCDialogStatus(Player* pPlayer, Creature* pCreature)
 {
     Script *tmpscript = m_scripts[pCreature->GetScriptId()];
 
@@ -376,8 +340,7 @@ uint32 NPCDialogStatus(Player* pPlayer, Creature* pCreature)
     return tmpscript->pNPCDialogStatus(pPlayer, pCreature);
 }
 
-DIAMOND_DLL_EXPORT
-uint32 GODialogStatus(Player* pPlayer, GameObject* pGo)
+uint32 ScriptMgr::GODialogStatus(Player* pPlayer, GameObject* pGo)
 {
     Script *tmpscript = m_scripts[pGo->GetGOInfo()->ScriptId];
 
@@ -389,8 +352,7 @@ uint32 GODialogStatus(Player* pPlayer, GameObject* pGo)
     return tmpscript->pGODialogStatus(pPlayer, pGo);
 }
 
-DIAMOND_DLL_EXPORT
-bool ItemHello(Player* pPlayer, Item *_Item, const Quest* pQuest)
+bool ScriptMgr::ItemHello(Player* pPlayer, Item *_Item, const Quest* pQuest)
 {
     Script *tmpscript = m_scripts[_Item->GetProto()->ScriptId];
 
@@ -402,8 +364,7 @@ bool ItemHello(Player* pPlayer, Item *_Item, const Quest* pQuest)
     return tmpscript->pItemHello(pPlayer,_Item, pQuest);
 }
 
-DIAMOND_DLL_EXPORT
-bool ItemQuestAccept(Player* pPlayer, Item *_Item, const Quest* pQuest)
+bool ScriptMgr::ItemQuestAccept(Player* pPlayer, Item *_Item, const Quest* pQuest)
 {
     Script *tmpscript = m_scripts[_Item->GetProto()->ScriptId];
 
@@ -415,8 +376,7 @@ bool ItemQuestAccept(Player* pPlayer, Item *_Item, const Quest* pQuest)
     return tmpscript->pItemQuestAccept(pPlayer,_Item, pQuest);
 }
 
-DIAMOND_DLL_EXPORT
-bool GOHello(Player* pPlayer, GameObject* pGo)
+bool ScriptMgr::GOHello(Player* pPlayer, GameObject* pGo)
 {
     Script *tmpscript = m_scripts[pGo->GetGOInfo()->ScriptId];
 
@@ -426,8 +386,7 @@ bool GOHello(Player* pPlayer, GameObject* pGo)
     return tmpscript->pGOHello(pPlayer, pGo);
 }
 
-DIAMOND_DLL_EXPORT
-bool GOQuestAccept(Player* pPlayer, GameObject* pGo, const Quest* pQuest)
+bool ScriptMgr::GOQuestAccept(Player* pPlayer, GameObject* pGo, const Quest* pQuest)
 {
     Script *tmpscript = m_scripts[pGo->GetGOInfo()->ScriptId];
 
@@ -439,8 +398,7 @@ bool GOQuestAccept(Player* pPlayer, GameObject* pGo, const Quest* pQuest)
     return tmpscript->pGOQuestAccept(pPlayer, pGo, pQuest);
 }
 
-DIAMOND_DLL_EXPORT
-bool GOChooseReward(Player* pPlayer, GameObject* pGo, const Quest* pQuest, uint32 opt)
+bool ScriptMgr::GOChooseReward(Player* pPlayer, GameObject* pGo, const Quest* pQuest, uint32 opt)
 {
     Script *tmpscript = m_scripts[pGo->GetGOInfo()->ScriptId];
 
@@ -452,8 +410,7 @@ bool GOChooseReward(Player* pPlayer, GameObject* pGo, const Quest* pQuest, uint3
     return tmpscript->pGOChooseReward(pPlayer, pGo, pQuest,opt);
 }
 
-DIAMOND_DLL_EXPORT
-bool AreaTrigger(Player* pPlayer, AreaTriggerEntry * atEntry)
+bool ScriptMgr::AreaTrigger(Player* pPlayer, AreaTriggerEntry const* atEntry)
 {
     Script *tmpscript = m_scripts[GetAreaTriggerScriptId(atEntry->id)];
 
@@ -463,8 +420,7 @@ bool AreaTrigger(Player* pPlayer, AreaTriggerEntry * atEntry)
     return tmpscript->pAreaTrigger(pPlayer, atEntry);
 }
 
-DIAMOND_DLL_EXPORT
-CreatureAI* GetAI(Creature* pCreature)
+CreatureAI* ScriptMgr::GetAI(Creature* pCreature)
 {
     Script *tmpscript = m_scripts[pCreature->GetScriptId()];
 
@@ -474,8 +430,7 @@ CreatureAI* GetAI(Creature* pCreature)
     return tmpscript->GetAI(pCreature);
 }
 
-DIAMOND_DLL_EXPORT
-bool ItemUse(Player* pPlayer, Item* _Item, SpellCastTargets const& targets)
+bool ScriptMgr::ItemUse(Player* pPlayer, Item* _Item, SpellCastTargets const& targets)
 {
     Script *tmpscript = m_scripts[_Item->GetProto()->ScriptId];
 
@@ -485,8 +440,7 @@ bool ItemUse(Player* pPlayer, Item* _Item, SpellCastTargets const& targets)
     return tmpscript->pItemUse(pPlayer,_Item,targets);
 }
 
-DIAMOND_DLL_EXPORT
-bool EffectDummyCreature(Unit *pCaster, uint32 spellId, SpellEffectIndex effIndex, Creature *pCreatureTarget)
+bool ScriptMgr::EffectDummyCreature(Unit *pCaster, uint32 spellId, SpellEffectIndex effIndex, Creature *pCreatureTarget)
 {
     Script *tmpscript = m_scripts[pCreatureTarget->GetScriptId()];
 
@@ -496,8 +450,7 @@ bool EffectDummyCreature(Unit *pCaster, uint32 spellId, SpellEffectIndex effInde
     return tmpscript->pEffectDummyCreature(pCaster, spellId, effIndex, pCreatureTarget);
 }
 
-DIAMOND_DLL_EXPORT
-bool EffectDummyGameObj(Unit *pCaster, uint32 spellId, SpellEffectIndex effIndex, GameObject *pGameObjTarget)
+bool ScriptMgr::EffectDummyGameObj(Unit *pCaster, uint32 spellId, SpellEffectIndex effIndex, GameObject *pGameObjTarget)
 {
     Script *tmpscript = m_scripts[pGameObjTarget->GetGOInfo()->ScriptId];
 
@@ -507,8 +460,7 @@ bool EffectDummyGameObj(Unit *pCaster, uint32 spellId, SpellEffectIndex effIndex
     return tmpscript->pEffectDummyGameObj(pCaster, spellId, effIndex, pGameObjTarget);
 }
 
-DIAMOND_DLL_EXPORT
-bool EffectDummyItem(Unit *pCaster, uint32 spellId, SpellEffectIndex effIndex, Item *pItemTarget)
+bool ScriptMgr::EffectDummyItem(Unit *pCaster, uint32 spellId, SpellEffectIndex effIndex, Item *pItemTarget)
 {
     Script *tmpscript = m_scripts[pItemTarget->GetProto()->ScriptId];
 
@@ -518,8 +470,7 @@ bool EffectDummyItem(Unit *pCaster, uint32 spellId, SpellEffectIndex effIndex, I
     return tmpscript->pEffectDummyItem(pCaster, spellId, effIndex, pItemTarget);
 }
 
-DIAMOND_DLL_EXPORT
-bool EffectAuraDummy(const Aura* pAura, bool apply)
+bool ScriptMgr::EffectAuraDummy(const Aura* pAura, bool apply)
 {
     Script *tmpscript = m_scripts[((Creature*)pAura->GetTarget())->GetScriptId()];
 
@@ -529,8 +480,7 @@ bool EffectAuraDummy(const Aura* pAura, bool apply)
     return tmpscript->pEffectAuraDummy(pAura, apply);
 }
 
-DIAMOND_DLL_EXPORT
-InstanceData* CreateInstanceData(Map *map)
+InstanceData* ScriptMgr::CreateInstanceData(Map *map)
 {
     if (!map->IsDungeon())
         return NULL;

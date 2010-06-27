@@ -1,18 +1,21 @@
-
 #include "Camera.h"
 #include "GridNotifiersImpl.h"
 #include "CellImpl.h"
 #include "Log.h"
 #include "Errors.h"
+#include "Player.h"
 
-
-Camera::Camera(Player* pl) : m_owner(*pl), m_source(pl), caused_by_aura(0)
+Camera::Camera(Player* pl) : m_owner(*pl), m_source(pl)
 {
     m_source->getViewPoint().Attach(this);
 }
 
 Camera::~Camera()
 {
+    // view of camera should be already reseted to owner (RemoveFromWorld -> Event_RemovedFromWorld -> ResetView)
+    ASSERT(m_source == &m_owner);	
+
+    // for symmetry with constructor and way to make viewpoint's list empty
     m_source->getViewPoint().Detach(this);
 }
 
@@ -25,16 +28,19 @@ void Camera::UpdateForCurrentViewPoint()
 {
     m_gridRef.unlink();
 
-    if(GridType* grid = m_source->getViewPoint().m_grid)
+    if (GridType* grid = m_source->getViewPoint().m_grid)
         grid->AddWorldObject(this);
 
     m_owner.SetUInt64Value(PLAYER_FARSIGHT, (m_source == &m_owner ? 0 : m_source->GetGUID()));
     UpdateVisibilityForOwner();
 }
 
-void Camera::SetView(WorldObject *obj, uint32 aura_id)
+void Camera::SetView(WorldObject *obj)
 {
     ASSERT(obj);
+
+    if (m_source == obj)
+        return;
 
     if (!m_owner.IsInMap(obj))
     {
@@ -48,10 +54,16 @@ void Camera::SetView(WorldObject *obj, uint32 aura_id)
         return;
     }
 
-    caused_by_aura = aura_id;
-
+    // detach and deregister from active objects if there are no more reasons to be active
     m_source->getViewPoint().Detach(this);
+    if (!m_source->isActiveObject())
+        m_source->GetMap()->RemoveFromActive(m_source->GetTypeId() == TYPEID_UNIT ? (Creature*)m_source : m_source);
+
     m_source = obj;
+
+    if (!m_source->isActiveObject())
+        m_source->GetMap()->AddToActive(m_source->GetTypeId() == TYPEID_UNIT ? (Creature*)m_source : m_source);
+
     m_source->getViewPoint().Attach(this);
 
     UpdateForCurrentViewPoint();
@@ -59,26 +71,13 @@ void Camera::SetView(WorldObject *obj, uint32 aura_id)
 
 void Camera::Event_ViewPointVisibilityChanged()
 {
-    if(!m_owner.HaveAtClient(m_source))
-    {
-        if(m_source->isType(TYPEMASK_UNIT) && caused_by_aura)
-        {
-            m_owner.RemoveAurasByCasterSpell(caused_by_aura, m_owner.GetGUID());
-            ((Unit*)m_source)->RemoveAurasByCasterSpell(caused_by_aura, m_owner.GetGUID()); // ResetView called at aura remove
-        }
-        else
-            ResetView();
-    }
+    if (!m_owner.HaveAtClient(m_source))
+        ResetView();
 }
 
 void Camera::ResetView()
 {
-    m_source->getViewPoint().Detach(this);
-    m_source = &m_owner;
-    m_source->getViewPoint().Attach(this);
-
-    UpdateForCurrentViewPoint();
-    caused_by_aura = 0;
+    SetView(&m_owner);
 }
 
 void Camera::Event_AddedToWorld()
@@ -92,7 +91,7 @@ void Camera::Event_AddedToWorld()
 
 void Camera::Event_RemovedFromWorld()
 {
-    if(m_source == &m_owner)
+    if (m_source == &m_owner)
     {
         m_gridRef.unlink();
         return;
@@ -135,9 +134,8 @@ void Camera::UpdateVisibilityForOwner()
 
 ViewPoint::~ViewPoint()
 {
-    if(!m_cameras.empty())
+    if (!m_cameras.empty())
     {
-        sLog.outError("ViewPoint deconstructor called, but list of cameras is not empty");
+        sLog.outError("ViewPoint destructor called, but some cameras referenced to it");
     }
 }
-

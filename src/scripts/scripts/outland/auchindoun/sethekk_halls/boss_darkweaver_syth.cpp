@@ -55,7 +55,7 @@ EndScriptData */
 #define SPELL_SHADOW_BUFFET         33529
 #define H_SPELL_SHADOW_BUFFET       38143
 
-struct DIAMOND_DLL_DECL boss_darkweaver_sythAI : public ScriptedAI
+struct boss_darkweaver_sythAI : public ScriptedAI
 {
     boss_darkweaver_sythAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -203,7 +203,7 @@ CreatureAI* GetAI_boss_darkweaver_syth(Creature* pCreature)
 
 /* ELEMENTALS */
 
-struct DIAMOND_DLL_DECL mob_syth_fireAI : public ScriptedAI
+struct mob_syth_fireAI : public ScriptedAI
 {
     mob_syth_fireAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -254,7 +254,7 @@ CreatureAI* GetAI_mob_syth_fire(Creature* pCreature)
     return new mob_syth_fireAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL mob_syth_arcaneAI : public ScriptedAI
+struct mob_syth_arcaneAI : public ScriptedAI
 {
     mob_syth_arcaneAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -303,7 +303,7 @@ CreatureAI* GetAI_mob_syth_arcane(Creature* pCreature)
     return new mob_syth_arcaneAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL mob_syth_frostAI : public ScriptedAI
+struct mob_syth_frostAI : public ScriptedAI
 {
     mob_syth_frostAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -352,7 +352,7 @@ CreatureAI* GetAI_mob_syth_frost(Creature* pCreature)
     return new mob_syth_frostAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL mob_syth_shadowAI : public ScriptedAI
+struct mob_syth_shadowAI : public ScriptedAI
 {
     mob_syth_shadowAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

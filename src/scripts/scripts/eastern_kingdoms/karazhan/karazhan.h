@@ -48,7 +48,7 @@ enum OperaEvents
 
 #define ERROR_INST_DATA(a)          error_log("DS: Instance Data for Karazhan not set properly. Encounter for Creature Entry %u may not work properly.", a->GetEntry());
 
-class DIAMOND_DLL_DECL npc_fiendish_portalAI : public ScriptedAI
+class npc_fiendish_portalAI : public ScriptedAI
 {
     public:
         npc_fiendish_portalAI(Creature* pCreature);

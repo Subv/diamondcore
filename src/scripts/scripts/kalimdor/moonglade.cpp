@@ -112,7 +112,7 @@ enum
     NPC_ASPECT_OF_RAVEN     = 22915,
 };
 
-struct DIAMOND_DLL_DECL npc_clintar_dw_spiritAI : public npc_escortAI
+struct npc_clintar_dw_spiritAI : public npc_escortAI
 {
     npc_clintar_dw_spiritAI(Creature* pCreature) : npc_escortAI(pCreature) { Reset(); }
 

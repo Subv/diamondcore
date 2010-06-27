@@ -73,7 +73,7 @@ const float DISTANCE_KIGGLER    = 20.0f;
 const float DISTANCE_KROSH      = 30.0f;
 
 //High King Maulgar AI
-struct DIAMOND_DLL_DECL boss_high_king_maulgarAI : public ScriptedAI
+struct boss_high_king_maulgarAI : public ScriptedAI
 {
     boss_high_king_maulgarAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -258,7 +258,7 @@ struct DIAMOND_DLL_DECL boss_high_king_maulgarAI : public ScriptedAI
 };
 
 // Base AI for every council member
-struct DIAMOND_DLL_DECL Council_Base_AI : public ScriptedAI
+struct Council_Base_AI : public ScriptedAI
 {
     Council_Base_AI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -297,7 +297,7 @@ struct DIAMOND_DLL_DECL Council_Base_AI : public ScriptedAI
 };
 
 //Olm The Summoner AI
-struct DIAMOND_DLL_DECL boss_olm_the_summonerAI : public Council_Base_AI
+struct boss_olm_the_summonerAI : public Council_Base_AI
 {
     boss_olm_the_summonerAI(Creature* pCreature) : Council_Base_AI(pCreature) {Reset();}
 
@@ -357,7 +357,7 @@ struct DIAMOND_DLL_DECL boss_olm_the_summonerAI : public Council_Base_AI
 };
 
 //Kiggler The Crazed AI
-struct DIAMOND_DLL_DECL boss_kiggler_the_crazedAI : public Council_Base_AI
+struct boss_kiggler_the_crazedAI : public Council_Base_AI
 {
     boss_kiggler_the_crazedAI(Creature* pCreature) : Council_Base_AI(pCreature) {Reset();}
 
@@ -456,7 +456,7 @@ struct DIAMOND_DLL_DECL boss_kiggler_the_crazedAI : public Council_Base_AI
 };
 
 //Blindeye The Seer AI
-struct DIAMOND_DLL_DECL boss_blindeye_the_seerAI : public Council_Base_AI
+struct boss_blindeye_the_seerAI : public Council_Base_AI
 {
     boss_blindeye_the_seerAI(Creature* pCreature) : Council_Base_AI(pCreature) {Reset();}
 
@@ -516,7 +516,7 @@ struct DIAMOND_DLL_DECL boss_blindeye_the_seerAI : public Council_Base_AI
 };
 
 //Krosh Firehand AI
-struct DIAMOND_DLL_DECL boss_krosh_firehandAI : public Council_Base_AI
+struct boss_krosh_firehandAI : public Council_Base_AI
 {
     boss_krosh_firehandAI(Creature* pCreature) : Council_Base_AI(pCreature) {Reset();}
 

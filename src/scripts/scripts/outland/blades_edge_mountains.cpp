@@ -37,7 +37,7 @@ EndContentData */
 ######*/
 
 //TODO: add support for quest 10512 + creature abilities
-struct DIAMOND_DLL_DECL mobs_bladespire_ogreAI : public ScriptedAI
+struct mobs_bladespire_ogreAI : public ScriptedAI
 {
     mobs_bladespire_ogreAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -79,7 +79,7 @@ CreatureAI* GetAI_mobs_bladespire_ogre(Creature* pCreature)
 #define SPELL_MANA_BURN             38884
 #define SPELL_INTANGIBLE_PRESENCE   36513
 
-struct DIAMOND_DLL_DECL mobs_nether_drakeAI : public ScriptedAI
+struct mobs_nether_drakeAI : public ScriptedAI
 {
     mobs_nether_drakeAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 
@@ -236,7 +236,7 @@ enum
     SPELL_LASHHAN_CHANNEL   = 36904
 };
 
-struct DIAMOND_DLL_DECL npc_daranelleAI : public ScriptedAI
+struct npc_daranelleAI : public ScriptedAI
 {
     npc_daranelleAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

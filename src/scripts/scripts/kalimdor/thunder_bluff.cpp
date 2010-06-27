@@ -34,7 +34,7 @@ EndScriptData */
 #define SPELL_UPPERCUT          22916
 
 //TODO: verify abilities/timers
-struct DIAMOND_DLL_DECL npc_cairne_bloodhoofAI : public ScriptedAI
+struct npc_cairne_bloodhoofAI : public ScriptedAI
 {
     npc_cairne_bloodhoofAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 

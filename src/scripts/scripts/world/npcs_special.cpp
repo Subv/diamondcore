@@ -102,7 +102,7 @@ SpawnAssociation m_aSpawnAssociations[] =
     {22126, 22122, SPAWNTYPE_ALARMBOT}                      //Air Force Trip Wire - Rooftop (Cenarion Expedition)
 };
 
-struct DIAMOND_DLL_DECL npc_air_force_botsAI : public ScriptedAI
+struct npc_air_force_botsAI : public ScriptedAI
 {
     npc_air_force_botsAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -266,7 +266,7 @@ enum
     FACTION_CHICKEN         = 31
 };
 
-struct DIAMOND_DLL_DECL npc_chicken_cluckAI : public ScriptedAI
+struct npc_chicken_cluckAI : public ScriptedAI
 {
     npc_chicken_cluckAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -361,7 +361,7 @@ bool QuestComplete_npc_chicken_cluck(Player* pPlayer, Creature* pCreature, const
 ## npc_dancing_flames
 ######*/
 
-struct DIAMOND_DLL_DECL npc_dancing_flamesAI : public ScriptedAI
+struct npc_dancing_flamesAI : public ScriptedAI
 {
     npc_dancing_flamesAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -452,7 +452,7 @@ const uint32 HordeSoldierId[3] =
 ## npc_doctor (handles both Gustaf Vanhowzen and Gregory Victor)
 ######*/
 
-struct DIAMOND_DLL_DECL npc_doctorAI : public ScriptedAI
+struct npc_doctorAI : public ScriptedAI
 {
     npc_doctorAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -495,7 +495,7 @@ struct DIAMOND_DLL_DECL npc_doctorAI : public ScriptedAI
 ## npc_injured_patient (handles all the patients, no matter Horde or Alliance)
 #####*/
 
-struct DIAMOND_DLL_DECL npc_injured_patientAI : public ScriptedAI
+struct npc_injured_patientAI : public ScriptedAI
 {
     npc_injured_patientAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -802,7 +802,7 @@ enum
     SAY_SHAYA_GOODBYE       = -1000263,
 };
 
-struct DIAMOND_DLL_DECL npc_garments_of_questsAI : public npc_escortAI
+struct npc_garments_of_questsAI : public npc_escortAI
 {
     npc_garments_of_questsAI(Creature* pCreature) : npc_escortAI(pCreature) {Reset();}
 
@@ -985,7 +985,7 @@ CreatureAI* GetAI_npc_garments_of_quests(Creature* pCreature)
 
 #define SPELL_DEATHTOUCH                5
 
-struct DIAMOND_DLL_DECL npc_guardianAI : public ScriptedAI
+struct npc_guardianAI : public ScriptedAI
 {
     npc_guardianAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

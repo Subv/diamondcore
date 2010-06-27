@@ -69,22 +69,22 @@ void Diamond::Singleton<T, ThreadingModel, CreatePolicy, LifeTimePolicy>::Destro
 }
 
 #define INSTANTIATE_SINGLETON_1(TYPE) \
-    template class DIAMOND_DLL_DECL Diamond::Singleton<TYPE, Diamond::SingleThreaded<TYPE>, Diamond::OperatorNew<TYPE>, Diamond::ObjectLifeTime<TYPE> >; \
+    template class Diamond::Singleton<TYPE, Diamond::SingleThreaded<TYPE>, Diamond::OperatorNew<TYPE>, Diamond::ObjectLifeTime<TYPE> >; \
     template<> TYPE* Diamond::Singleton<TYPE, Diamond::SingleThreaded<TYPE>, Diamond::OperatorNew<TYPE>, Diamond::ObjectLifeTime<TYPE> >::si_instance = 0; \
     template<> bool Diamond::Singleton<TYPE, Diamond::SingleThreaded<TYPE>, Diamond::OperatorNew<TYPE>, Diamond::ObjectLifeTime<TYPE> >::si_destroyed = false
 
 #define INSTANTIATE_SINGLETON_2(TYPE, THREADINGMODEL) \
-    template class DIAMOND_DLL_DECL Diamond::Singleton<TYPE, THREADINGMODEL, Diamond::OperatorNew<TYPE>, Diamond::ObjectLifeTime<TYPE> >; \
+    template class Diamond::Singleton<TYPE, THREADINGMODEL, Diamond::OperatorNew<TYPE>, Diamond::ObjectLifeTime<TYPE> >; \
     template<> TYPE* Diamond::Singleton<TYPE, THREADINGMODEL, Diamond::OperatorNew<TYPE>, Diamond::ObjectLifeTime<TYPE> >::si_instance = 0; \
     template<> bool Diamond::Singleton<TYPE, THREADINGMODEL, Diamond::OperatorNew<TYPE>, Diamond::ObjectLifeTime<TYPE> >::si_destroyed = false
 
 #define INSTANTIATE_SINGLETON_3(TYPE, THREADINGMODEL, CREATIONPOLICY ) \
-    template class DIAMOND_DLL_DECL Diamond::Singleton<TYPE, THREADINGMODEL, CREATIONPOLICY, Diamond::ObjectLifeTime<TYPE> >; \
+    template class Diamond::Singleton<TYPE, THREADINGMODEL, CREATIONPOLICY, Diamond::ObjectLifeTime<TYPE> >; \
     template<> TYPE* Diamond::Singleton<TYPE, THREADINGMODEL, CREATIONPOLICY, Diamond::ObjectLifeTime<TYPE> >::si_instance = 0; \
     template<> bool Diamond::Singleton<TYPE, THREADINGMODEL, CREATIONPOLICY, Diamond::ObjectLifeType<TYPE> >::si_destroyed = false
 
 #define INSTANTIATE_SINGLETON_4(TYPE, THREADINGMODEL, CREATIONPOLICY, OBJECTLIFETIME) \
-    template class DIAMOND_DLL_DECL Diamond::Singleton<TYPE, THREADINGMODEL, CREATIONPOLICY, OBJECTLIFETIME >; \
+    template class Diamond::Singleton<TYPE, THREADINGMODEL, CREATIONPOLICY, OBJECTLIFETIME >; \
     template<> TYPE* Diamond::Singleton<TYPE, THREADINGMODEL, CREATIONPOLICY, OBJECTLIFETIME >::si_instance = 0; \
     template<> bool Diamond::Singleton<TYPE, THREADINGMODEL, CREATIONPOLICY, OBJECTLIFETIME >::si_destroyed = false
 

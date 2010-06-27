@@ -116,7 +116,7 @@ enum YellType
     DEATH        = 6,                                       // Used on death
 };
 
-struct DIAMOND_DLL_DECL hyjalAI : public ScriptedAI
+struct hyjalAI : public ScriptedAI
 {
     hyjalAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

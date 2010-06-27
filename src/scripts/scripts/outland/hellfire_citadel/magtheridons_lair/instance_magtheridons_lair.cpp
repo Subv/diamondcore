@@ -24,7 +24,7 @@ EndScriptData */
 #include "precompiled.h"
 #include "magtheridons_lair.h"
 
-struct DIAMOND_DLL_DECL instance_magtheridons_lair : public ScriptedInstance
+struct instance_magtheridons_lair : public ScriptedInstance
 {
     instance_magtheridons_lair(Map* pMap) : ScriptedInstance(pMap) { Initialize(); }
 

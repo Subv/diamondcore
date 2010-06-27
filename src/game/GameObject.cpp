@@ -36,7 +36,7 @@
 #include "BattleGround.h"
 #include "BattleGroundAV.h"
 #include "Util.h"
-#include "ScriptCalls.h"
+#include "ScriptMgr.h"
 
 GameObject::GameObject() : WorldObject()
 {
@@ -418,7 +418,11 @@ void GameObject::Update(uint32 /*p_time*/)
             if(!m_respawnDelayTime)
                 return;
 
-            m_respawnTime = m_spawnedByDefault ? time(NULL) + m_respawnDelayTime : 0;
+            if(!m_spawnedByDefault)
+            {
+                m_respawnTime = 0;
+                return;
+            }
 
             // since pool system can fail to roll unspawned object, this one can remain spawned, so must set respawn nevertheless
             m_respawnTime = time(NULL) + m_respawnDelayTime;
@@ -863,7 +867,7 @@ void GameObject::Use(Unit* user)
     uint32 spellId = 0;
     bool triggered = false;
 
-    if (user->GetTypeId() == TYPEID_PLAYER && Script->GOHello((Player*)user, this))
+    if (user->GetTypeId() == TYPEID_PLAYER && sScriptMgr.GOHello((Player*)user, this))
         return;
 
     switch(GetGoType())
@@ -898,7 +902,7 @@ void GameObject::Use(Unit* user)
 
             Player* player = (Player*)user;
 
-            if (!Script->GOGossipHello(player, this))
+            if (!sScriptMgr.GOGossipHello(player, this))
             {
                 player->PrepareGossipMenu(this, GetGOInfo()->questgiver.gossipID);
                 player->SendPreparedGossip(this);
@@ -1009,7 +1013,7 @@ void GameObject::Use(Unit* user)
                 }
                 else if (info->goober.gossipID)             // ...or gossip, if page does not exist
                 {
-                    if (!Script->GOGossipHello(player, this))
+                    if (!sScriptMgr.GOGossipHello(player, this))
                     {
                         player->PrepareGossipMenu(this, info->goober.gossipID);
                         player->SendPreparedGossip(this);

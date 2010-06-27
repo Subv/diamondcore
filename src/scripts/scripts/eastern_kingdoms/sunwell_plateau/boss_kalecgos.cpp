@@ -76,7 +76,7 @@ const float KALECGOS_ARENA[3] = { 1704.34f, 928.17f, 53.08f };
 
 //#define NOTIFY_SPECTRALLY_EXHAUSTED      "Your body is too exhausted to travel to the Spectral Realm."
 
-struct DIAMOND_DLL_DECL boss_kalecgosAI : public ScriptedAI
+struct boss_kalecgosAI : public ScriptedAI
 {
     boss_kalecgosAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -342,7 +342,7 @@ struct DIAMOND_DLL_DECL boss_kalecgosAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL boss_sathrovarrAI : public ScriptedAI
+struct boss_sathrovarrAI : public ScriptedAI
 {
     boss_sathrovarrAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -460,7 +460,7 @@ struct DIAMOND_DLL_DECL boss_sathrovarrAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL boss_kalecgos_humanoidAI : public ScriptedAI
+struct boss_kalecgos_humanoidAI : public ScriptedAI
 {
     boss_kalecgos_humanoidAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

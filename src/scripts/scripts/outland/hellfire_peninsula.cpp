@@ -53,7 +53,7 @@ EndContentData */
 
 #define C_AERANAS                       17085
 
-struct DIAMOND_DLL_DECL npc_aeranasAI : public ScriptedAI
+struct npc_aeranasAI : public ScriptedAI
 {
     npc_aeranasAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 
@@ -144,7 +144,7 @@ enum
     NPC_RYGA                        = 17123
 };
 
-struct DIAMOND_DLL_DECL npc_ancestral_wolfAI : public npc_escortAI
+struct npc_ancestral_wolfAI : public npc_escortAI
 {
     npc_ancestral_wolfAI(Creature* pCreature) : npc_escortAI(pCreature)
     {
@@ -223,7 +223,7 @@ enum
 };
 
 //script is basic support, details like end event are not implemented
-struct DIAMOND_DLL_DECL npc_demoniac_scryerAI : public ScriptedAI
+struct npc_demoniac_scryerAI : public ScriptedAI
 {
     npc_demoniac_scryerAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -673,7 +673,7 @@ bool GossipSelect_npc_wing_commander_brack(Player* pPlayer, Creature* pCreature,
 
 #define QUEST_ROAD_TO_FALCON_WATCH  9375
 
-struct DIAMOND_DLL_DECL npc_wounded_blood_elfAI : public npc_escortAI
+struct npc_wounded_blood_elfAI : public npc_escortAI
 {
     npc_wounded_blood_elfAI(Creature* pCreature) : npc_escortAI(pCreature) {Reset();}
 

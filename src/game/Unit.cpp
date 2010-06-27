@@ -254,7 +254,8 @@ Unit::Unit()
         m_reactiveTimer[i] = 0;
 
     m_auraUpdateMask = 0;
-    m_vehicleGUID = 0;
+    m_pVehicle = NULL;
+    m_pVehicleKit = NULL;
 }
 
 Unit::~Unit()
@@ -386,13 +387,17 @@ void Unit::SendMonsterMove(float NewPosX, float NewPosY, float NewPosZ, SplineTy
             break;
     }
 
-    data << uint32(flags);
+    data << uint32(flags);                                  // splineflags
+    		
+    if (flags & SPLINEFLAG_TRAJECTORY)
+    {
+        data << uint32(moveTime);  
+        data << float(va_arg(vargs,double));
+        data << uint32(0); // walk time after jump
+    }
+    else
+        data << uint32(moveTime);                              // Time in between points
 
-    // enable me if things goes wrong or looks ugly, it is however an old hack
-    // if(flags & SPLINEFLAG_WALKMODE)
-        // moveTime *= 1.05f;
-
-    data << uint32(moveTime);                               // Time in between points
     data << uint32(1);                                      // 1 single waypoint
     data << NewPosX << NewPosY << NewPosZ;                  // the single waypoint Point B
 
@@ -424,22 +429,71 @@ void Unit::SendMonsterMoveWithSpeed(float x, float y, float z, uint32 transitTim
     SendMonsterMove(x, y, z, SPLINETYPE_NORMAL, flags, transitTime, player);
 }
 
+void Unit::SendMonsterMoveTransport(Unit *vehicle)
+{
+    WorldPacket data(SMSG_MONSTER_MOVE_TRANSPORT, 8+8+1+1+4*3+4+1+4+4+4+4+4*3);
+    data << GetPackGUID();
+    data << vehicle->GetPackGUID();
+    data << uint8(m_movementInfo.GetTransportSeat());
+    data << uint8(0);                                       // new in 3.1
+    data << float(vehicle->GetPositionX());
+    data << float(vehicle->GetPositionY());
+    data << float(vehicle->GetPositionZ());
+    data << uint32(getMSTime());
+
+    data << uint8(4);                                       // unknown
+    data << float(0);                                       // facing angle
+
+    data << uint32(SPLINEFLAG_UNKNOWN5);
+
+    data << uint32(0);                                      // Time in between points
+    data << uint32(1);                                      // 1 single waypoint
+
+    data << float(m_movementInfo.GetTransportPos()->x);
+    data << float(m_movementInfo.GetTransportPos()->y);
+    data << float(m_movementInfo.GetTransportPos()->z);
+
+    SendMessageToSet(&data, true);
+}
+
+bool Unit::SetPosition(float x, float y, float z, float orientation, bool teleport)
+{
+    // prevent crash when a bad coord is sent by the client
+    if (!Diamond::IsValidMapCoord(x, y, z, orientation))
+    {
+        DEBUG_LOG("Unit::SetPosition(%f, %f, %f, %f, %d) .. bad coordinates for unit %d!", x, y, z, orientation, teleport, GetGUIDLow());
+        return false;
+    }
+
+    bool turn = GetOrientation() != orientation;
+    bool relocate = (teleport || GetPositionX() != x || GetPositionY() != y || GetPositionZ() != z);
+
+    if (turn)
+        RemoveAurasWithInterruptFlags(AURA_INTERRUPT_FLAG_TURNING);
+
+    if (relocate)
+    {
+        RemoveAurasWithInterruptFlags(AURA_INTERRUPT_FLAG_MOVE);
+
+        if (GetTypeId() == TYPEID_PLAYER)
+            GetMap()->PlayerRelocation((Player*)this, x, y, z, orientation);
+        else
+            GetMap()->CreatureRelocation((Creature*)this, x, y, z, orientation);
+    }
+    else if (turn)
+        SetOrientation(orientation);
+
+    if ((relocate || turn) && GetVehicleKit())
+        GetVehicleKit()->RelocatePassengers(x, y, z, orientation);
+
+    return relocate || turn;
+}
+
 void Unit::BuildHeartBeatMsg(WorldPacket *data) const
 {
-    MovementFlags move_flags = GetTypeId()==TYPEID_PLAYER
-        ? ((Player const*)this)->m_movementInfo.GetMovementFlags()
-        : MOVEFLAG_NONE;
-
-    data->Initialize(MSG_MOVE_HEARTBEAT, 32);
+    data->Initialize(MSG_MOVE_HEARTBEAT);
     *data << GetPackGUID();
-    *data << uint32(move_flags);                            // movement flags
-    *data << uint16(0);                                     // 2.3.0
-    *data << uint32(getMSTime());                           // time
-    *data << float(GetPositionX());
-    *data << float(GetPositionY());
-    *data << float(GetPositionZ());
-    *data << float(GetOrientation());
-    *data << uint32(0);
+    m_movementInfo.Write(*data);
 }
 
 void Unit::resetAttackTimer(WeaponAttackType type)
@@ -4015,7 +4069,7 @@ bool Unit::RemoveNoStackAurasDueToAura(Aura *Aur)
     SpellEffectIndex effIndex = Aur->GetEffIndex();
 
     // passive spell special case (only non stackable with ranks)
-    if(IsPassiveSpell(spellId))
+    if(IsPassiveSpell(spellProto))
     {
         if(IsPassiveSpellStackableWithRanks(spellProto))
             return true;
@@ -4038,7 +4092,7 @@ bool Unit::RemoveNoStackAurasDueToAura(Aura *Aur)
         uint32 i_spellId = i_spellProto->Id;
 
         // early checks that spellId is passive non stackable spell
-        if(IsPassiveSpell(i_spellId))
+        if(IsPassiveSpell(i_spellProto))
         {
             // passive non-stackable spells not stackable only for same caster
             if(Aur->GetCasterGUID()!=i->second->GetCasterGUID())
@@ -4531,7 +4585,20 @@ void Unit::RemoveAura(AuraMap::iterator &i, AuraRemoveMode mode)
     DEBUG_FILTER_LOG(LOG_FILTER_SPELL_CAST, "Aura %u now is remove mode %d",Aur->GetModifier()->m_auraname, mode);
 
     // some auras also need to apply modifier (on caster) on remove
-    if (mode != AURA_REMOVE_BY_DELETE || Aur->GetModifier()->m_auraname == SPELL_AURA_MOD_POSSESS)
+    if (mode == AURA_REMOVE_BY_DELETE)
+    {
+        switch (Aur->GetModifier()->m_auraname)
+        {
+            // need properly undo any auras with player-caster mover set (or will crash at next caster move packet)
+            case SPELL_AURA_MOD_POSSESS:
+            case SPELL_AURA_MOD_POSSESS_PET:
+            case SPELL_AURA_CONTROL_VEHICLE:
+                Aur->ApplyModifier(false,true);
+                break;
+            default: break;
+        }
+    }
+    else
         Aur->ApplyModifier(false,true);
 
     if (Aur->_RemoveAura())
@@ -8463,7 +8530,7 @@ bool Unit::Attack(Unit *victim, bool meleeAttack)
         return false;
 
     // player (also npc?) cannot attack on vehicle
-    if(GetTypeId()==TYPEID_PLAYER && GetVehicleGUID())
+    if(GetTypeId()==TYPEID_PLAYER && GetVehicle())
         return false;
 
     // player (also npc?) cannot attack on vehicle
@@ -8599,7 +8666,7 @@ void Unit::CombatStopWithPets(bool includingCast)
 struct IsAttackingPlayerHelper
 {
     explicit IsAttackingPlayerHelper() {}
-    bool operator()(Unit* unit) const { return unit->isAttackingPlayer(); }
+    bool operator()(Unit const* unit) const { return unit->isAttackingPlayer(); }
 };
 
 bool Unit::isAttackingPlayer() const
@@ -8665,7 +8732,7 @@ void Unit::ModifyAuraState(AuraState flag, bool apply)
                 {
                     if(itr->second.state == PLAYERSPELL_REMOVED) continue;
                     SpellEntry const *spellInfo = sSpellStore.LookupEntry(itr->first);
-                    if (!spellInfo || !IsPassiveSpell(itr->first)) continue;
+                    if (!spellInfo || !IsPassiveSpell(spellInfo)) continue;
                     if (spellInfo->CasterAuraState == flag)
                         CastSpell(this, itr->first, true, NULL);
                 }
@@ -8975,7 +9042,18 @@ int32 Unit::SpellBonusWithCoeffs(SpellEntry const *spellProto, int32 total, int3
 
         // apply ap bonus at done part calculation only (it flat total mod so common with taken)
         if (donePart && bonus->ap_bonus)
-            total += int32(bonus->ap_bonus * (GetTotalAttackPowerValue(BASE_ATTACK) + ap_benefit));
+        {
+            float ap_bonus = bonus->ap_bonus;
+
+            // Impurity
+            if (GetTypeId() == TYPEID_PLAYER && spellProto->SpellFamilyName == SPELLFAMILY_DEATHKNIGHT)
+            {
+                if (SpellEntry const* spell = ((Player*)this)->GetKnownTalentRankById(2005))
+                    ap_bonus += ((spell->CalculateSimpleValue(EFFECT_INDEX_0) * ap_bonus) / 100.0f);
+            }
+
+            total += int32(ap_bonus * (GetTotalAttackPowerValue(BASE_ATTACK) + ap_benefit));
+        }
     }
     // Default calculation
     else if (benefit)
@@ -9208,7 +9286,15 @@ uint32 Unit::SpellDamageBonusDone(Unit *pVictim, SpellEntry const *spellProto, u
             break;
         }
         case SPELLFAMILY_WARLOCK:
+        {
+            // Drain Soul
+            if (spellProto->SpellFamilyFlags & UI64LIT(0x0000000000004000))	
+            {
+                if (pVictim->GetHealth() * 100 / pVictim->GetMaxHealth() <= 25) 	  	
+                    DoneTotalMod *= 4;
+            }
             break;
+        }
         case SPELLFAMILY_PRIEST:
         {
             // Glyph of Smite
@@ -9817,7 +9903,7 @@ int32 Unit::SpellBaseHealingBonusDone(SpellSchoolMask schoolMask)
 
     AuraList const& mHealingDone = GetAurasByType(SPELL_AURA_MOD_HEALING_DONE);
     for(AuraList::const_iterator i = mHealingDone.begin();i != mHealingDone.end(); ++i)
-        if(((*i)->GetModifier()->m_miscvalue & schoolMask) != 0)
+        if(!(*i)->GetModifier()->m_miscvalue || ((*i)->GetModifier()->m_miscvalue & schoolMask) != 0)
             AdvertisedBenefit += (*i)->GetModifier()->m_amount;
 
     // Healing bonus of spirit, intellect and strength
@@ -10376,7 +10462,7 @@ float Unit::GetPPMProcChance(uint32 WeaponSpeed, float PPM) const
     return WeaponSpeed * PPM / 600.0f;                      // result is chance in percents (probability = Speed_in_sec * (PPM / 60))
 }
 
-void Unit::Mount(uint32 mount, uint32 spellId)
+void Unit::Mount(uint32 mount, uint32 spellId, uint32 vehicleId)
 {
     if (!mount)
         return;
@@ -10407,6 +10493,23 @@ void Unit::Mount(uint32 mount, uint32 spellId)
                     pet->ApplyModeFlags(PET_MODE_DISABLE_ACTIONS,true);
             }
         }
+
+        if (vehicleId)
+        {
+            if (CreateVehicleKit(vehicleId))
+            {
+                GetVehicleKit()->Reset();
+
+                // Send others that we now have a vehicle
+                WorldPacket data(SMSG_PLAYER_VEHICLE_DATA, 8+4);
+                data << GetPackGUID();
+                data << uint32(vehicleId);
+                SendMessageToSet(&data, true);
+
+                data.Initialize(SMSG_ON_CANCEL_EXPECTED_RIDE_VEHICLE_AURA, 0);
+                ((Player*)this)->GetSession()->SendPacket(&data);
+            }
+        }
     }
 }
 
@@ -10429,6 +10532,17 @@ void Unit::Unmount()
             pet->ApplyModeFlags(PET_MODE_DISABLE_ACTIONS,false);
         else
             ((Player*)this)->ResummonPetTemporaryUnSummonedIfAny();
+    }
+
+    if (GetTypeId() == TYPEID_PLAYER && GetVehicleKit())
+    {
+        // Send other players that we are no longer a vehicle
+        WorldPacket data(SMSG_PLAYER_VEHICLE_DATA, 8+4);
+        data << GetPackGUID();
+        data << uint32(0);
+        ((Player*)this)->SendMessageToSet(&data, true);
+
+        RemoveVehicleKit();
     }
 }
 
@@ -10827,6 +10941,33 @@ void Unit::SetVisibility(UnitVisibility x)
 
     if(IsInWorld())
     {
+        // some auras requires visible target
+        if(m_Visibility == VISIBILITY_GROUP_NO_DETECT || m_Visibility == VISIBILITY_OFF)
+        {   
+            static const AuraType auratypes[] = {SPELL_AURA_BIND_SIGHT, SPELL_AURA_FAR_SIGHT, SPELL_AURA_NONE};
+            for (AuraType const* type = &auratypes[0]; *type != SPELL_AURA_NONE; ++type)
+            {
+                AuraList& alist = m_modAuras[*type];
+                if(alist.empty())
+                    continue;
+
+                for (AuraList::iterator it = alist.begin(); it != alist.end();)
+                {
+                    Aura* aura = (*it);
+                    Unit* owner = aura->GetCaster();
+
+                    if (!owner || !isVisibleForOrDetect(owner,this,false))
+                    {
+                        alist.erase(it);
+                        RemoveAura(aura);
+                        it = alist.begin();
+                    }
+                    else
+                        ++it;
+                }
+            }
+        }
+
         Map *m = GetMap();
 
         if(GetTypeId()==TYPEID_PLAYER)
@@ -11179,11 +11320,12 @@ void Unit::setDeathState(DeathState s)
 
         if(IsNonMeleeSpellCasted(false))
             InterruptNonMeleeSpells(false);
+
+        ExitVehicle();
     }
 
     if (s == JUST_DIED)
     {
-        ExitVehicle();
         RemoveAllAurasOnDeath();
         RemoveGuardians();
         UnsummonAllTotems();
@@ -11197,6 +11339,9 @@ void Unit::setDeathState(DeathState s)
         // remove aurastates allowing special moves
         ClearAllReactives();
         ClearDiminishings();
+
+        if (GetVehicleKit())
+            GetVehicleKit()->Die();
     }
     else if(s == JUST_ALIVED)
     {
@@ -12080,12 +12225,16 @@ void Unit::RemoveFromWorld()
     // cleanup
     if (IsInWorld())
     {
+        if (GetVehicleKit())
+            GetVehicleKit()->Uninstall();
+
         Uncharm();
         RemoveNotOwnSingleTargetAuras();
         RemoveGuardians();
         RemoveAllGameObjects();
         RemoveAllDynObjects();
         CleanupDeletedAuras();
+        getViewPoint().Event_RemovedFromWorld();
     }
 
     Object::RemoveFromWorld();
@@ -12093,9 +12242,11 @@ void Unit::RemoveFromWorld()
 
 void Unit::CleanupsBeforeDelete()
 {
-    ExitVehicle();                                          // make sure we always leave vehicle, otherwise it will crash
     if(m_uint32Values)                                      // only for fully created object
     {
+        RemoveVehicleKit();
+        ExitVehicle();
+
         InterruptNonMeleeSpells(true);
         m_Events.KillAllEvents(false);                      // non-delatable (currently casted spells) will not deleted now but it will deleted at call in Map::RemoveAllObjectsInRemoveList
         CombatStop();
@@ -12160,6 +12311,20 @@ void CharmInfo::InitPossessCreateSpells()
             m_unit->CastSpell(m_unit, ((Creature*)m_unit)->m_spells[x], true);
         else
             AddSpellToActionBar(((Creature*)m_unit)->m_spells[x], ACT_PASSIVE);
+    }
+}
+
+void CharmInfo::InitVehicleCreateSpells()
+{
+    for(uint32 x = ACTION_BAR_INDEX_START; x < ACTION_BAR_INDEX_END; ++x)
+        SetActionBar(x, 0, ActiveStates(x + 0x8));
+
+    for(uint32 x = 0; x < CREATURE_MAX_SPELLS; ++x)
+    {
+        if (IsPassiveSpell(((Creature*)m_unit)->m_spells[x]))
+            m_unit->CastSpell(m_unit, ((Creature*)m_unit)->m_spells[x], true);
+        else
+            AddSpellToActionBar(((Creature*)m_unit)->m_spells[x], ActiveStates(x + 0x8)); // 0x8 - some flag?
     }
 }
 
@@ -12788,9 +12953,13 @@ void Unit::StopMoving()
 {
     clearUnitState(UNIT_STAT_MOVING);
 
+    // not need send any packets if not in world
+    if (!IsInWorld())
+        return;
+
     // send explicit stop packet
     // player expected for correct work SPLINEFLAG_WALKMODE
-    SendMonsterMove(GetPositionX(), GetPositionY(), GetPositionZ(), SPLINETYPE_NORMAL, GetTypeId() == TYPEID_PLAYER ? SPLINEFLAG_WALKMODE : SPLINEFLAG_NONE, 0);
+    SendMonsterMove(GetPositionX(), GetPositionY(), GetPositionZ(), SPLINETYPE_STOP, GetTypeId() == TYPEID_PLAYER ? SPLINEFLAG_WALKMODE : SPLINEFLAG_NONE, 0);
 
     // update position and orientation for near players
     WorldPacket data;
@@ -12835,7 +13004,7 @@ void Unit::SetFeared(bool apply, uint64 const& casterGUID, uint32 spellID, uint3
         }
     }
 
-    if (GetTypeId() == TYPEID_PLAYER && !GetVehicleGUID())
+    if (GetTypeId() == TYPEID_PLAYER && !GetVehicle())
         ((Player*)this)->SetClientControl(this, !apply);
 
     if (Unit* owner = GetCharmer())
@@ -12869,7 +13038,7 @@ void Unit::SetConfused(bool apply, uint64 const& casterGUID, uint32 spellID)
         }
     }
 
-    if(GetTypeId() == TYPEID_PLAYER && !GetVehicleGUID())
+    if(GetTypeId() == TYPEID_PLAYER && !GetVehicle())
         ((Player*)this)->SetClientControl(this, !apply);
 
     if (Unit* owner = GetCharmer())
@@ -13490,7 +13659,7 @@ void Unit::NearTeleportTo( float x, float y, float z, float orientation, bool ca
             if (MovementGenerator *movgen = c->GetMotionMaster()->top())
                 movgen->Interrupt(*c);
 
-        GetMap()->CreatureRelocation((Creature*)this, x, y, z, orientation);
+        SetPosition(x, y, z, orientation, true);
 
         WorldPacket data;
         BuildHeartBeatMsg(&data);
@@ -13555,123 +13724,128 @@ struct SetPvPHelper
     bool state;
 };
 
+Unit* Unit::GetVehicleBase()
+{
+    return m_pVehicle ? m_pVehicle->GetBase() : NULL;
+}
+
+Creature *Unit::GetVehicleCreatureBase()
+{
+    if (Unit *veh = GetVehicleBase())
+        if (Creature *c = veh->ToCreature())
+            return c;
+
+    return NULL;
+}
+
+bool Unit::CreateVehicleKit(uint32 vehicleId)
+{
+    VehicleEntry const *vehInfo = sVehicleStore.LookupEntry(vehicleId);
+
+    if (!vehInfo)
+        return false;
+
+    m_pVehicleKit = new VehicleKit(this, vehInfo);
+    m_updateFlag |= UPDATEFLAG_VEHICLE;
+    return true;
+}
+
+void Unit::RemoveVehicleKit()
+{
+    if (!m_pVehicleKit)
+        return;
+
+    m_pVehicleKit->Uninstall();
+    delete m_pVehicleKit;
+
+    m_pVehicleKit = NULL;
+
+    m_updateFlag &= ~UPDATEFLAG_VEHICLE;
+    RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_SPELLCLICK);
+    RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_PLAYER_VEHICLE);
+}
+
 void Unit::ChangeSeat(int8 seatId, bool next)
 {
-    Vehicle *m_vehicle = ObjectAccessor::GetVehicle(GetVehicleGUID());
-
-    if (!m_vehicle)
+    if (!m_pVehicle)
         return;
 
     if (seatId < 0)
     {
-        seatId = m_vehicle->GetNextEmptySeatNum(m_movementInfo.GetTransportSeat(), next);
+        seatId = m_pVehicle->GetNextEmptySeat(m_movementInfo.GetTransportSeat(), next);
         if (seatId < 0)
             return;
     }
-    else if (seatId == m_movementInfo.GetTransportSeat() || !m_vehicle->HasEmptySeat(seatId))
+    else if (seatId == m_movementInfo.GetTransportSeat() || !m_pVehicle->HasEmptySeat(seatId))
         return;
 
-    m_vehicle->RemovePassenger(this);
-    EnterVehicle(m_vehicle, seatId);
+    m_pVehicle->RemovePassenger(this);
+    m_pVehicle->AddPassenger(this, seatId);
 }
 
-void Unit::EnterVehicle(Vehicle *vehicle, int8 seat_id, bool force)
+void Unit::EnterVehicle(VehicleKit *vehicle, int8 seatId)
 {
-    // dont allow multiple vehicles
-    ExitVehicle();
-
-    RemoveSpellsCausingAura(SPELL_AURA_MOUNTED);
-    // NOTE : shapeshift too?
-
-    Vehicle *v = vehicle->FindFreeSeat(&seat_id, force);
-    if(!v)
+    if(!isAlive() || GetVehicleKit() == vehicle)
         return;
 
-    VehicleEntry const *ve = sVehicleStore.LookupEntry(v->GetVehicleId());
-    if(!ve)
-        return;
+    if (m_pVehicle)
+    {
+        if (m_pVehicle == vehicle)
+        {
+            if (seatId >= 0)
+                ChangeSeat(seatId);
 
-    VehicleSeatEntry const *veSeat = sVehicleSeatStore.LookupEntry(ve->m_seatID[seat_id]);
-    if(!veSeat)
-        return;
+            return;
+        }
+        else
+            ExitVehicle();
+    }
 
-    m_movementInfo.SetTransportData(v->GetGUID(),
-        (veSeat->m_attachmentOffsetX + v->GetObjectSize()) * GetFloatValue(OBJECT_FIELD_SCALE_X),
-        (veSeat->m_attachmentOffsetY + v->GetObjectSize()) * GetFloatValue(OBJECT_FIELD_SCALE_X),
-        (veSeat->m_attachmentOffsetZ + v->GetObjectSize()) * GetFloatValue(OBJECT_FIELD_SCALE_X),
-        veSeat->m_passengerYaw, v->GetCreationTime(), seat_id, veSeat->m_ID,
-        sObjectMgr.GetSeatFlags(veSeat->m_ID), v->GetVehicleFlags());
-
-    m_movementInfo.AddMovementFlag(MOVEFLAG_ONTRANSPORT);
-
-    addUnitState(UNIT_STAT_ON_VEHICLE);
     InterruptNonMeleeSpells(false);
+    RemoveSpellsCausingAura(SPELL_AURA_MOUNTED);
 
-    if(Pet *pet = GetPet())
+    Player* player = GetTypeId() == TYPEID_PLAYER ? (Player*)this : NULL;
+
+    if (player)
+    {
+        if (BattleGround *bg = player->GetBattleGround())
+            bg->EventPlayerDroppedFlag(player);
+    }
+
+    m_pVehicle = vehicle;
+
+    if (!vehicle->AddPassenger(this, seatId))
+    {
+        m_pVehicle = NULL;
+        return;
+    }
+
+    if (Pet *pet = GetPet())
         pet->Remove(PET_SAVE_AS_CURRENT);
 
-    if(GetTypeId() == TYPEID_PLAYER)
-        ((Player*)this)->SendEnterVehicle(v);
-
-    WorldPacket data(SMSG_MONSTER_MOVE_TRANSPORT, 60);
-    data << GetPackGUID();
-    data << v->GetPackGUID();
-    data << uint8(seat_id);
-    data << uint8(0);                                       // new in 3.1
-    data << v->GetPositionX() << v->GetPositionY() << v->GetPositionZ();
-    data << uint32(getMSTime());
-
-    data << uint8(4);                                       // unknown
-    data << float(0);                                       // facing angle
-
-    data << uint32(SPLINEFLAG_UNKNOWN5);
-
-    data << uint32(0);                                      // Time in between points
-    data << uint32(1);                                      // 1 single waypoint
-    data << m_movementInfo.GetTransportPos()->x;
-    data << m_movementInfo.GetTransportPos()->y;
-    data << m_movementInfo.GetTransportPos()->z;
-    SendMessageToSet(&data, true);
-
-    v->AddPassenger(this, seat_id, force);
+    if (player)
+        player->SendEnterVehicle(vehicle);
 }
 
 void Unit::ExitVehicle()
 {
-    if(uint64 vehicleGUID = GetVehicleGUID())
+    if(!m_pVehicle)
+        return;
+
+    m_pVehicle->RemovePassenger(this);
+    m_pVehicle = NULL;
+
+    if(GetTypeId() == TYPEID_PLAYER)
     {
-        float v_size = 0.0f;
-        if(Vehicle *vehicle = ObjectAccessor::GetVehicle(vehicleGUID))
-        {
-            if(m_movementInfo.GetVehicleSeatFlags() & SF_MAIN_RIDER)
-            {
-                if(vehicle->GetVehicleFlags() & VF_DESPAWN_AT_LEAVE)
-                {
-                    // will be deleted at next update
-                    vehicle->SetSpawnDuration(1);
-                }
-            }
-            v_size = vehicle->GetObjectSize();
-            vehicle->RemovePassenger(this);
-        }
-        SetVehicleGUID(0);
-
-        clearUnitState(UNIT_STAT_ON_VEHICLE);
-
-        if(GetTypeId() == TYPEID_PLAYER)
-        {
-            ((Player*)this)->ResummonPetTemporaryUnSummonedIfAny();
-            ((Player*)this)->m_movementInfo.RemoveMovementFlag(MOVEFLAG_ROOT);
-        }
-        m_movementInfo.ClearTransportData();
-        m_movementInfo.RemoveMovementFlag(MOVEFLAG_ONTRANSPORT);
-
-        float x = GetPositionX();
-        float y = GetPositionY();
-        float z = GetPositionZ() + 2.0f;
-        GetClosePoint(x, y, z, 2.0f + v_size);
-        SendMonsterMove(x, y, z, SPLINETYPE_NORMAL, SPLINEFLAG_WALKMODE, 0);
+        ((Player*)this)->ResummonPetTemporaryUnSummonedIfAny();
+        ((Player*)this)->m_movementInfo.RemoveMovementFlag(MOVEFLAG_ROOT);
     }
+
+    float x = GetPositionX();
+    float y = GetPositionY();
+    float z = GetPositionZ() + 2.0f;
+    GetClosePoint(x, y, z, 1.0f);
+    SendMonsterMove(x, y, z, SPLINETYPE_NORMAL, SPLINEFLAG_WALKMODE, 0);
 }
 
 void Unit::SetPvP( bool state )

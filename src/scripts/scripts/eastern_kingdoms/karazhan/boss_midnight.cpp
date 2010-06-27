@@ -49,7 +49,7 @@ enum
     SUMMON_ATTUMEN              = 15550
 };
 
-struct DIAMOND_DLL_DECL boss_midnightAI : public ScriptedAI
+struct boss_midnightAI : public ScriptedAI
 {
     boss_midnightAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -177,7 +177,7 @@ CreatureAI* GetAI_boss_midnight(Creature* pCreature)
     return new boss_midnightAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL boss_attumenAI : public ScriptedAI
+struct boss_attumenAI : public ScriptedAI
 {
     boss_attumenAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

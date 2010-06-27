@@ -56,7 +56,7 @@ enum
 /*######
 ## mob_ahnkahat_egg
 ######*/
-struct DIAMOND_DLL_DECL mob_ahnkahar_eggAI : public ScriptedAI
+struct mob_ahnkahar_eggAI : public ScriptedAI
 {
     mob_ahnkahar_eggAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -96,7 +96,7 @@ CreatureAI* GetAI_mob_ahnkahar_egg(Creature* pCreature)
 ## boss_nadox
 ######*/
 
-struct DIAMOND_DLL_DECL boss_nadoxAI : public ScriptedAI
+struct boss_nadoxAI : public ScriptedAI
 {
     boss_nadoxAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

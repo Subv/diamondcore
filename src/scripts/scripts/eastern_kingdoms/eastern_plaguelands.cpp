@@ -34,7 +34,7 @@ EndContentData */
 //id8531 - gibbering ghoul
 //id8532 - diseased flayer
 
-struct DIAMOND_DLL_DECL mobs_ghoul_flayerAI : public ScriptedAI
+struct mobs_ghoul_flayerAI : public ScriptedAI
 {
     mobs_ghoul_flayerAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -82,7 +82,7 @@ bool GossipSelect_npc_augustus_the_touched(Player* pPlayer, Creature* pCreature,
 
 #define SPELL_SPIRIT_SPAWNIN    17321
 
-struct DIAMOND_DLL_DECL npc_darrowshire_spiritAI : public ScriptedAI
+struct npc_darrowshire_spiritAI : public ScriptedAI
 {
     npc_darrowshire_spiritAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

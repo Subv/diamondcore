@@ -31,7 +31,7 @@ EndContentData */
 ## npc_ragged_john
 ######*/
 
-struct DIAMOND_DLL_DECL npc_ragged_johnAI : public ScriptedAI
+struct npc_ragged_johnAI : public ScriptedAI
 {
     npc_ragged_johnAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 

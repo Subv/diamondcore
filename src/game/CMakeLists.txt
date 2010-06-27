@@ -142,6 +142,9 @@ SET(game_STAT_SRCS
     Level1.cpp
     Level2.cpp
     Level3.cpp
+    LFG.h
+    LFGMgr.cpp
+    LFGMgr.h
     LFGHandler.cpp
     LootHandler.cpp
     LootMgr.cpp
@@ -168,9 +171,10 @@ SET(game_STAT_SRCS
     NPCHandler.h
     NullCreatureAI.cpp
     NullCreatureAI.h
+    Object.cpp
     ObjectAccessor.cpp
     ObjectAccessor.h
-    Object.cpp
+    ObjectFields.h
     ObjectGuid.cpp
     ObjectGuid.h
     ObjectGridLoader.cpp
@@ -209,8 +213,6 @@ SET(game_STAT_SRCS
     ReactorAI.h
     ReputationMgr.cpp
     ReputationMgr.h
-    ScriptCalls.cpp
-    ScriptCalls.h
     SharedDefines.h
     SkillHandler.cpp
     SpellAuraDefines.h
@@ -250,7 +252,6 @@ SET(game_STAT_SRCS
     UnitEvents.h
     UpdateData.cpp
     UpdateData.h
-    UpdateFields.h
     UpdateMask.h
     Vehicle.cpp
     Vehicle.h

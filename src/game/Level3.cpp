@@ -33,7 +33,7 @@
 #include "Guild.h"
 #include "ObjectAccessor.h"
 #include "MapManager.h"
-#include "ScriptCalls.h"
+#include "ScriptMgr.h"
 #include "Language.h"
 #include "GridNotifiersImpl.h"
 #include "CellImpl.h"
@@ -43,7 +43,7 @@
 #include "SkillDiscovery.h"
 #include "SkillExtraItems.h"
 #include "SystemConfig.h"
-#include "Config/ConfigEnv.h"
+#include "Config/Config.h"
 #include "Mail.h"
 #include "Util.h"
 #include "ItemEnchantmentMgr.h"
@@ -551,9 +551,6 @@ bool ChatHandler::HandleReloadAllCommand(const char*)
     HandleReloadReservedNameCommand("");
     HandleReloadStringCommand("");
     HandleReloadGameTeleCommand("");
-
-    HandleReloadVehicleDataCommand("");
-    HandleReloadVehicleSeatDataCommand("");
     return true;
 }
 
@@ -1398,25 +1395,9 @@ bool ChatHandler::HandleReloadMailLevelRewardCommand(const char* /*arg*/)
     return true;
 }
 
-bool ChatHandler::HandleReloadVehicleDataCommand(const char*)
-{
-    sLog.outString( "Re-Loading `vehicle_data` Table!" );
-    sObjectMgr.LoadVehicleData();
-    SendGlobalSysMessage("DB table `vehicle_data` reloaded.");
-    return true;
-}
-
-bool ChatHandler::HandleReloadVehicleSeatDataCommand(const char*)
-{
-    sLog.outString( "Re-Loading `vehicle_seat_data` Table!" );
-    sObjectMgr.LoadVehicleSeatData();
-    SendGlobalSysMessage("DB table `vehicle_seat_data` reloaded.");
-    return true;
-}
-
 bool ChatHandler::HandleLoadScriptsCommand(const char* args)
 {
-    if(!LoadScriptingModule(args)) return true;
+    //if(!LoadScriptingModule(args)) return true;
 
     sWorld.SendWorldText(LANG_SCRIPTS_RELOADED);
     return true;
@@ -3355,7 +3336,7 @@ void ChatHandler::ShowSpellListHelper(Player* target, SpellEntry const* spellInf
     uint32 talentCost = GetTalentSpellCost(id);
 
     bool talent = (talentCost > 0);
-    bool passive = IsPassiveSpell(id);
+    bool passive = IsPassiveSpell(spellInfo);
     bool active = target && target->HasAura(id);
 
     // unit32 used to prevent interpreting uint8 as char at output

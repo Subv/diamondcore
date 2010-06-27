@@ -32,7 +32,7 @@ EndScriptData */
 4 - Archimonde event
 */
 
-struct DIAMOND_DLL_DECL instance_mount_hyjal : public ScriptedInstance
+struct instance_mount_hyjal : public ScriptedInstance
 {
     instance_mount_hyjal(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

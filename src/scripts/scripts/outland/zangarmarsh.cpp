@@ -124,7 +124,7 @@ enum
 
 #define GOSSIP_COOSH        "You owe Sim'salabim money. Hand them over or die!"
 
-struct DIAMOND_DLL_DECL npc_cooshcooshAI : public ScriptedAI
+struct npc_cooshcooshAI : public ScriptedAI
 {
     npc_cooshcooshAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -244,7 +244,7 @@ enum
     NPC_SLAVEBINDER     = 18042
 };
 
-struct DIAMOND_DLL_DECL npc_kayra_longmaneAI : public npc_escortAI
+struct npc_kayra_longmaneAI : public npc_escortAI
 {
     npc_kayra_longmaneAI(Creature* pCreature) : npc_escortAI(pCreature) { Reset(); }
 

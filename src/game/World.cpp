@@ -22,7 +22,7 @@
 
 #include "Common.h"
 #include "Database/DatabaseEnv.h"
-#include "Config/ConfigEnv.h"
+#include "Config/Config.h"
 #include "SystemConfig.h"
 #include "Log.h"
 #include "Opcodes.h"
@@ -45,7 +45,7 @@
 #include "LootMgr.h"
 #include "ItemEnchantmentMgr.h"
 #include "MapManager.h"
-#include "ScriptCalls.h"
+#include "ScriptMgr.h"
 #include "CreatureAIRegistry.h"
 #include "Policies/SingletonImp.h"
 #include "BattleGroundMgr.h"
@@ -61,6 +61,7 @@
 #include "Util.h"
 #include "AuctionHouseBot.h"
 #include "CharacterDatabaseCleaner.h"
+#include "LFGMgr.h"
 
 INSTANTIATE_SINGLETON_1( World );
 
@@ -402,9 +403,9 @@ Weather* World::AddWeather(uint32 zone_id)
 /// Initialize config values
 void World::LoadConfigSettings(bool reload)
 {
-    if(reload)
+    if (reload)
     {
-        if(!sConfig.Reload())
+        if (!sConfig.Reload())
         {
             sLog.outError("World settings reload fail: can't read settings from %s.",sConfig.GetFilename().c_str());
             return;
@@ -413,7 +414,7 @@ void World::LoadConfigSettings(bool reload)
 
     ///- Read the version of the configuration file and warn the user in case of emptiness or mismatch
     uint32 confVersion = sConfig.GetIntDefault("ConfVersion", 0);
-    if(!confVersion)
+    if (!confVersion)
     {
         sLog.outError("*****************************************************************************");
         sLog.outError(" WARNING: WorldServer.conf does not include a ConfVersion variable.");
@@ -1057,6 +1058,9 @@ void World::SetInitialWorldSettings()
     sLog.outString( ">>> Creature Addon Data loaded" );
     sLog.outString();
 
+    sLog.outString("Loading Vehicle Accessories...");
+    sObjectMgr.LoadVehicleAccessories();                        // must be after LoadCreatureTemplates()
+
     sLog.outString( "Loading Creature Respawn Data..." );   // must be after PackInstances()
     sObjectMgr.LoadCreatureRespawnTimes();
 
@@ -1069,7 +1073,7 @@ void World::SetInitialWorldSettings()
     sLog.outString( "Loading Objects Pooling Data...");
     sPoolMgr.LoadFromDB();
 
-    sLog.outString( "Loading Game Event Data...");
+    sLog.outString( "Loading Game Event Data...");          // must be after sPoolMgr.LoadFromDB for proper load pool events
     sLog.outString();
     sGameEventMgr.LoadFromDB();
     sLog.outString( ">>> Game Event Data loaded" );
@@ -1229,6 +1233,10 @@ void World::SetInitialWorldSettings()
     sLog.outString( "Loading GM tickets...");
     sObjectMgr.LoadTickets();
 
+    ///- Initialize Looking For Group
+    sLog.outString("Starting Looking For Group System");
+    sLFGMgr.InitLFG();
+
     ///- Handle outdated emails (delete/return)
     sLog.outString( "Returning old mails..." );
     sObjectMgr.ReturnOrDeleteOldMails(false);
@@ -1247,11 +1255,6 @@ void World::SetInitialWorldSettings()
     sLog.outString( "Loading Scripts text locales..." );    // must be after Load*Scripts calls
     sObjectMgr.LoadDbScriptStrings();
 
-    sLog.outString( "Loading VehicleData..." );
-    sObjectMgr.LoadVehicleData();
-    sLog.outString( "Loading VehicleSeatData..." );
-    sObjectMgr.LoadVehicleSeatData();
-
     sLog.outString( "Loading CreatureEventAI Texts...");
     sEventAIMgr.LoadCreatureEventAI_Texts(false);       // false, will checked in LoadCreatureEventAI_Scripts
 
@@ -1261,9 +1264,8 @@ void World::SetInitialWorldSettings()
     sLog.outString( "Loading CreatureEventAI Scripts...");
     sEventAIMgr.LoadCreatureEventAI_Scripts();
 
-    sLog.outString( "Initializing Scripts..." );
-    if(!LoadScriptingModule())
-        exit(1);
+    sLog.outString( "Loading DiamondScripts..." );
+	sScriptMgr.ScriptsInit();
 
     ///- Initialize game time and timers
     sLog.outString( "DEBUG:: Initialize game time and timers" );
@@ -1483,6 +1485,8 @@ void World::Update(uint32 diff)
         m_timers[WUPDATE_DELETECHARS].Reset();
         Player::DeleteOldCharacters();
     }
+
+    sLFGMgr.Update(diff);
 
     // execute callbacks from sql queries that were queued recently
     UpdateResultQueue();
@@ -2111,6 +2115,11 @@ void World::LoadDBVersion()
 
     if(m_CreatureEventAIVersion.empty())
         m_CreatureEventAIVersion = "Unknown EventAI.";
+}
+
+void World::InsertCoreVersion()
+{
+    WorldDatabase.PExecute("UPDATE `version` SET `core_version` = '%s'", REVISION_NR);
 }
 
 void World::setConfig(eConfigUInt32Values index, char const* fieldname, uint32 defvalue)

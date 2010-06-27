@@ -70,7 +70,7 @@ enum
     QUEST_BEAT          = 1640
 };
 
-struct DIAMOND_DLL_DECL npc_bartlebyAI : public ScriptedAI
+struct npc_bartlebyAI : public ScriptedAI
 {
     npc_bartlebyAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -136,7 +136,7 @@ enum
     FACTION_HOSTILE             = 168
 };
 
-struct DIAMOND_DLL_DECL npc_dashel_stonefistAI : public ScriptedAI
+struct npc_dashel_stonefistAI : public ScriptedAI
 {
     npc_dashel_stonefistAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

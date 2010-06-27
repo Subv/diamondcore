@@ -26,7 +26,6 @@
 // Forward class definitions
 class Corpse;
 class Creature;
-class Vehicle;
 class DynamicObject;
 class GameObject;
 class Pet;
@@ -59,7 +58,7 @@ class Camera;
 // Creature used instead pet to simplify *::Visit templates (not required duplicate code for Creature->Pet case)
 typedef TYPELIST_4(Player, Creature/*pets*/, Corpse/*resurrectable*/, Camera)           AllWorldObjectTypes;
 typedef TYPELIST_4(GameObject, Creature/*except pets*/, DynamicObject, Corpse/*Bones*/) AllGridObjectTypes;
-typedef TYPELIST_5(Creature, Pet, Vehicle, GameObject, DynamicObject)                   AllMapStoredObjectTypes;
+typedef TYPELIST_4(Creature, Pet, GameObject, DynamicObject)                            AllMapStoredObjectTypes;
 
 typedef GridRefManager<Corpse>          CorpseMapType;
 typedef GridRefManager<Creature>        CreatureMapType;
@@ -75,7 +74,7 @@ typedef TypeMapContainer<AllGridObjectTypes> GridTypeMapContainer;
 typedef TypeMapContainer<AllWorldObjectTypes> WorldTypeMapContainer;
 
 template<const unsigned int LIMIT>
-struct DIAMOND_DLL_DECL CoordPair
+struct CoordPair
 {
     CoordPair(uint32 x=0, uint32 y=0) : x_coord(x), y_coord(y) {}
     CoordPair(const CoordPair<LIMIT> &obj) : x_coord(obj.x_coord), y_coord(obj.y_coord) {}

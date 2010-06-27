@@ -115,7 +115,7 @@ const float afShieldGeneratorChannelPos[4][4] =
 };
 
 //Lady Vashj AI
-struct DIAMOND_DLL_DECL boss_lady_vashjAI : public ScriptedAI
+struct boss_lady_vashjAI : public ScriptedAI
 {
     boss_lady_vashjAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -491,7 +491,7 @@ struct DIAMOND_DLL_DECL boss_lady_vashjAI : public ScriptedAI
 
 //Enchanted Elemental
 //If one of them reaches Vashj he will increase her damage done by 5%.
-struct DIAMOND_DLL_DECL mob_enchanted_elementalAI : public ScriptedAI
+struct mob_enchanted_elementalAI : public ScriptedAI
 {
     mob_enchanted_elementalAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -527,7 +527,7 @@ struct DIAMOND_DLL_DECL mob_enchanted_elementalAI : public ScriptedAI
 
 //Tainted Elemental
 //This mob has 7,900 life, doesn't move, and shoots Poison Bolts at one person anywhere in the area, doing 3,000 nature damage and placing a posion doing 2,000 damage every 2 seconds. He will switch targets often, or sometimes just hang on a single player, but there is nothing you can do about it except heal the damage and kill the Tainted Elemental
-struct DIAMOND_DLL_DECL mob_tainted_elementalAI : public ScriptedAI
+struct mob_tainted_elementalAI : public ScriptedAI
 {
     mob_tainted_elementalAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -566,7 +566,7 @@ struct DIAMOND_DLL_DECL mob_tainted_elementalAI : public ScriptedAI
 
 //Toxic Sporebat
 //Toxic Spores: Used in m_uiPhase 3 by the Spore Bats, it creates a contaminated green patch of ground, dealing about 2775-3225 nature damage every second to anyone who stands in it.
-struct DIAMOND_DLL_DECL mob_toxic_sporebatAI : public ScriptedAI
+struct mob_toxic_sporebatAI : public ScriptedAI
 {
     mob_toxic_sporebatAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -664,7 +664,7 @@ CreatureAI* GetAI_mob_coilfang_strider(Creature* pCreature)
 }
 
 //can probably be removed
-struct DIAMOND_DLL_DECL mob_shield_generator_channelAI : public ScriptedAI
+struct mob_shield_generator_channelAI : public ScriptedAI
 {
     mob_shield_generator_channelAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

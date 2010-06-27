@@ -18,6 +18,7 @@
 
 #include "Common.h"
 #include "Database/DatabaseEnv.h"
+#include "Config/Config.h"
 #include "WorldPacket.h"
 #include "Opcodes.h"
 #include "Log.h"
@@ -51,7 +52,7 @@
 #include "VMapFactory.h"
 #include "Util.h"
 #include "TemporarySummon.h"
-#include "ScriptCalls.h"
+#include "ScriptMgr.h"
 #include "SkillDiscovery.h"
 #include "Formulas.h"
 #include "GridNotifiers.h"
@@ -2519,11 +2520,11 @@ void Spell::EffectDummy(SpellEffectIndex eff_idx)
     // Script based implementation. Must be used only for not good for implementation in core spell effects
     // So called only for not processed cases
     if (gameObjTarget)
-        Script->EffectDummyGameObj(m_caster, m_spellInfo->Id, eff_idx, gameObjTarget);
+        sScriptMgr.EffectDummyGameObj(m_caster, m_spellInfo->Id, eff_idx, gameObjTarget);
     else if (unitTarget && unitTarget->GetTypeId()==TYPEID_UNIT)
-        Script->EffectDummyCreature(m_caster, m_spellInfo->Id, eff_idx, (Creature*)unitTarget);
+        sScriptMgr.EffectDummyCreature(m_caster, m_spellInfo->Id, eff_idx, (Creature*)unitTarget);
     else if (itemTarget)
-        Script->EffectDummyItem(m_caster, m_spellInfo->Id, eff_idx, itemTarget);
+        sScriptMgr.EffectDummyItem(m_caster, m_spellInfo->Id, eff_idx, itemTarget);
 }
 
 void Spell::EffectTriggerSpellWithValue(SpellEffectIndex eff_idx)
@@ -2791,7 +2792,15 @@ void Spell::EffectJump(SpellEffectIndex eff_idx)
         return;
     }
 
-    m_caster->NearTeleportTo(x, y, z, o, true);
+    // m_caster->NearTeleportTo(x, y, z, o, true);
+	    float speedZ;
+    if (m_spellInfo->EffectMiscValue[eff_idx])
+        speedZ = float(m_spellInfo->EffectMiscValue[eff_idx])/7.8f;
+    else if (m_spellInfo->EffectMiscValueB[eff_idx])
+        speedZ = float(m_spellInfo->EffectMiscValueB[eff_idx])/7.8f;
+    else
+        speedZ = 10.0f;
+    m_caster->GetMotionMaster()->MoveJump(x, y, z, speedZ);
 }
 
 void Spell::EffectTeleportUnits(SpellEffectIndex eff_idx)
@@ -3887,8 +3896,7 @@ void Spell::EffectSummonType(SpellEffectIndex eff_idx)
                     break;
                 case SUMMON_PROP_TYPE_SIEGE_VEH:
                 case SUMMON_PROP_TYPE_DRAKE_VEH:
-                    // TODO
-                    EffectSummonVehicle(eff_idx);
+                    DoSummonVehicle(eff_idx, summon_prop->FactionId);
                     break;
                 default:
                     sLog.outError("EffectSummonType: Unhandled summon type %u", summon_prop->Type);
@@ -3922,8 +3930,7 @@ void Spell::EffectSummonType(SpellEffectIndex eff_idx)
         }
         case SUMMON_PROP_GROUP_VEHICLE:
         {
-            // TODO
-            EffectSummonVehicle(eff_idx);
+            DoSummonVehicle(eff_idx, summon_prop->FactionId);
             break;
         }
         default:
@@ -3931,6 +3938,7 @@ void Spell::EffectSummonType(SpellEffectIndex eff_idx)
             break;
     }
 }
+
 void Spell::DoSummon(SpellEffectIndex eff_idx)
 {
     if (m_caster->GetPetGUID())
@@ -4473,6 +4481,46 @@ void Spell::DoSummonGuardian(SpellEffectIndex eff_idx, uint32 forceFaction)
     }
 }
 
+void Spell::DoSummonVehicle(SpellEffectIndex eff_idx, uint32 forceFaction)
+{
+    uint32 creature_entry = m_spellInfo->EffectMiscValue[eff_idx];
+    if (!creature_entry)
+        return;
+
+    float px, py, pz;
+    // If dest location if present
+    if (m_targets.m_targetMask & TARGET_FLAG_DEST_LOCATION)
+    {
+        // Summon unit in dest location
+        px = m_targets.m_destX;
+        py = m_targets.m_destY;
+        pz = m_targets.m_destZ;
+    }
+    // Summon if dest location not present near caster
+    else
+        m_caster->GetClosePoint(px,py,pz,3.0f);
+
+    int32 duration = GetSpellMaxDuration(m_spellInfo);
+
+    TempSummonType summonType = (duration <= 0) ? TEMPSUMMON_DEAD_DESPAWN : TEMPSUMMON_TIMED_OR_DEAD_DESPAWN;
+
+    Creature *pVehicle = m_caster->SummonCreature(creature_entry, px, py, pz, m_caster->GetOrientation(), summonType, duration);
+    if (!pVehicle)
+        return;
+
+    pVehicle->SetUInt32Value(UNIT_CREATED_BY_SPELL, m_spellInfo->Id);
+    pVehicle->SetCreatorGUID(m_caster->GetGUID());
+
+    if(forceFaction)
+        pVehicle->setFaction(forceFaction);
+
+    if (damage)
+    {
+        if(SpellEntry const* pSpellProto = sSpellStore.LookupEntry(damage))
+            m_caster->CastSpell(pVehicle, pSpellProto, true);
+    }
+}
+
 void Spell::EffectTeleUnitsFaceCaster(SpellEffectIndex eff_idx)
 {
     if (!unitTarget)
@@ -4579,10 +4627,6 @@ void Spell::EffectEnchantItemPerm(SpellEffectIndex eff_idx)
 
     // add new enchanting if equipped
     item_owner->ApplyEnchantment(itemTarget,PERM_ENCHANTMENT_SLOT,true);
-
-    // update trade window for show enchantment for caster in trade window
-    if (m_targets.m_targetMask & TARGET_FLAG_TRADE_ITEM)
-        p_caster->GetSession()->SendUpdateTrade();
 }
 
 void Spell::EffectEnchantItemPrismatic(SpellEffectIndex eff_idx)
@@ -4641,10 +4685,6 @@ void Spell::EffectEnchantItemPrismatic(SpellEffectIndex eff_idx)
 
     // add new enchanting if equipped
     item_owner->ApplyEnchantment(itemTarget,PRISMATIC_ENCHANTMENT_SLOT,true);
-
-    // update trade window for show enchantment for caster in trade window
-    if (m_targets.m_targetMask & TARGET_FLAG_TRADE_ITEM)
-        p_caster->GetSession()->SendUpdateTrade();
 }
 
 void Spell::EffectEnchantItemTmp(SpellEffectIndex eff_idx)
@@ -4772,10 +4812,6 @@ void Spell::EffectEnchantItemTmp(SpellEffectIndex eff_idx)
 
     // add new enchanting if equipped
     item_owner->ApplyEnchantment(itemTarget, TEMP_ENCHANTMENT_SLOT, true);
-
-    // update trade window for show enchantment for caster in trade window
-    if (m_targets.m_targetMask & TARGET_FLAG_TRADE_ITEM)
-        p_caster->GetSession()->SendUpdateTrade();
 }
 
 void Spell::EffectTameCreature(SpellEffectIndex /*eff_idx*/)
@@ -6607,7 +6643,8 @@ void Spell::EffectAddComboPoints(SpellEffectIndex /*eff_idx*/)
     {
         if(((Creature*)m_caster)->isVehicle())
             ((Player*)m_caster->GetCharmer())->AddComboPoints(unitTarget, damage);
-    }else
+    }
+    else
         ((Player*)m_caster)->AddComboPoints(unitTarget, damage);
 }
 
@@ -7870,42 +7907,6 @@ void Spell::EffectRenamePet(SpellEffectIndex /*eff_idx*/)
         return;
 
     unitTarget->RemoveByteFlag(UNIT_FIELD_BYTES_2, 2, UNIT_CAN_BE_RENAMED);
-}
-
-void Spell::EffectSummonVehicle(SpellEffectIndex eff_idx)
-{
-    uint32 creature_entry = m_spellInfo->EffectMiscValue[eff_idx];
-    if(!creature_entry)
-        return;
-
-    float px, py, pz;
-    // If dest location if present
-    if (m_targets.m_targetMask & TARGET_FLAG_DEST_LOCATION)
-    {
-        // Summon unit in dest location
-        px = m_targets.m_destX;
-        py = m_targets.m_destY;
-        pz = m_targets.m_destZ;
-    }
-    // Summon if dest location not present near caster
-    else
-        m_caster->GetClosePoint(px,py,pz,3.0f);
-
-    Vehicle *v = m_caster->SummonVehicle(creature_entry, px, py, pz, m_caster->GetOrientation());
-    if(!v)
-        return;
-
-    v->SetUInt32Value(UNIT_CREATED_BY_SPELL, m_spellInfo->Id);
-    v->SetCreatorGUID(m_caster->GetGUID());
-
-    if(damage)
-    {
-        m_caster->CastSpell(v, damage, true);
-        m_caster->EnterVehicle(v, 0);
-    }
-    int32 duration = GetSpellMaxDuration(m_spellInfo);
-    if(duration > 0)
-        v->SetSpawnDuration(duration);
 }
 
 void Spell::EffectDamageBuilding(SpellEffectIndex eff_idx)

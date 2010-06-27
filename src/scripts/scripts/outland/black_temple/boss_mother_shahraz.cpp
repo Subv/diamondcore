@@ -76,7 +76,7 @@ static Locations TeleportPoint[]=
     {965.997f, 278.398f, 195.777f}
 };
 
-struct DIAMOND_DLL_DECL boss_shahrazAI : public ScriptedAI
+struct boss_shahrazAI : public ScriptedAI
 {
     boss_shahrazAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

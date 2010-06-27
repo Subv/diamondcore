@@ -22,7 +22,7 @@ enum
 };
 
 
-struct DIAMOND_DLL_DECL boss_toravonAI : public ScriptedAI
+struct boss_toravonAI : public ScriptedAI
 {
     boss_toravonAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

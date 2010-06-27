@@ -1080,6 +1080,29 @@ struct ItemSetEntry
     uint32    required_skill_value;                         // 36       m_requiredSkillRank
 };
 
+struct LFGDungeonEntry
+{
+    uint32  ID;                                             // 0
+    //char*   name[16];                                       // 1-17 Name lang
+    uint32  minlevel;                                       // 18
+    uint32  maxlevel;                                       // 19
+    uint32  reclevel;                                       // 20      
+    uint32  recminlevel;                                    // 21
+    uint32  recmaxlevel;                                    // 22
+    uint32  map;                                            // 23
+    uint32  heroic;                                         // 24
+    //uint32  unk;                                            // 25
+    uint32  type;                                           // 26
+    //uint32  unk2;                                           // 27
+    //char*   unk3;                                           // 28
+    uint32  expansion;                                      // 29
+    //uint32  unk4;                                           // 30
+    uint32  grouptype;                                      // 31
+    //char*   desc[16];                                       // 32-47 Description
+    // Helpers
+    uint32 Entry() const { return ID + (type << 24); }
+};
+
 #define MAX_LOCK_CASE 8
 
 struct LockEntry
@@ -1689,6 +1712,8 @@ struct TotemCategoryEntry
     uint32    categoryMask;                                 // 3 (compatibility mask for same type: different for totems, compatible from high to low for rods)
 };
 
+#define MAX_SEAT 8
+
 struct VehicleEntry
 {
     uint32  m_ID;                                           // 0
@@ -1697,7 +1722,7 @@ struct VehicleEntry
     float   m_pitchSpeed;                                   // 3
     float   m_pitchMin;                                     // 4
     float   m_pitchMax;                                     // 5
-    uint32  m_seatID[8];                                    // 6-13
+    uint32  m_seatID[MAX_SEAT];                             // 6-13
     float   m_mouseLookOffsetPitch;                         // 14
     float   m_cameraFadeDistScalarMin;                      // 15
     float   m_cameraFadeDistScalarMax;                      // 16
@@ -1721,7 +1746,7 @@ struct VehicleEntry
     uint32  m_uiLocomotionType;                             // 34
     float   m_msslTrgtImpactTexRadius;                      // 35
     uint32  m_uiSeatIndicatorType;                          // 36
-    uint32  m_powerType;                                    // 37, new in 3.1                                                        // 37, new in 3.1
+    uint32  m_powerType;                                    // 37, new in 3.1
                                                             // 38, new in 3.1
                                                             // 39, new in 3.1
 };

@@ -52,7 +52,7 @@ enum
     SPELL_STUNNED       = 28630
 };
 
-struct DIAMOND_DLL_DECL npc_draenei_survivorAI : public ScriptedAI
+struct npc_draenei_survivorAI : public ScriptedAI
 {
     npc_draenei_survivorAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -192,7 +192,7 @@ enum
 
 #define GOSSIP_FIGHT        "Traitor! You will be brought to justice!"
 
-struct DIAMOND_DLL_DECL npc_engineer_spark_overgrindAI : public ScriptedAI
+struct npc_engineer_spark_overgrindAI : public ScriptedAI
 {
     npc_engineer_spark_overgrindAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -289,7 +289,7 @@ bool GossipSelect_npc_engineer_spark_overgrind(Player* pPlayer, Creature* pCreat
 ## npc_injured_draenei
 ######*/
 
-struct DIAMOND_DLL_DECL npc_injured_draeneiAI : public ScriptedAI
+struct npc_injured_draeneiAI : public ScriptedAI
 {
     npc_injured_draeneiAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -333,7 +333,7 @@ CreatureAI* GetAI_npc_injured_draenei(Creature* pCreature)
 
 #define QUEST_A_CRY_FOR_HELP    9528
 
-struct DIAMOND_DLL_DECL npc_magwinAI : public npc_escortAI
+struct npc_magwinAI : public npc_escortAI
 {
     npc_magwinAI(Creature* pCreature) : npc_escortAI(pCreature) {Reset();}
 

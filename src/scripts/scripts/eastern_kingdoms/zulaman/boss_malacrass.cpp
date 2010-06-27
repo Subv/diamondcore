@@ -123,7 +123,7 @@ SpawnGroup m_auiSpawnEntry[] =
     {24246, 24247},                                         //Darkheart / Koragg
 };
 
-struct DIAMOND_DLL_DECL boss_malacrassAI : public ScriptedAI
+struct boss_malacrassAI : public ScriptedAI
 {
     boss_malacrassAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -275,7 +275,7 @@ CreatureAI* GetAI_boss_malacrass(Creature* pCreature)
 }
 
 //common AI for adds
-struct DIAMOND_DLL_DECL boss_malacrass_addAI : public ScriptedAI
+struct boss_malacrass_addAI : public ScriptedAI
 {
     boss_malacrass_addAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -359,7 +359,7 @@ enum
     SPELL_CLEAVE    = 15496
 };
 
-struct DIAMOND_DLL_DECL mob_thurgAI : public boss_malacrass_addAI
+struct mob_thurgAI : public boss_malacrass_addAI
 {
     mob_thurgAI(Creature* pCreature) : boss_malacrass_addAI(pCreature) { Reset(); }
 
@@ -418,7 +418,7 @@ enum
 
 const float RANGE_FRIENDLY_TARGET = 40.0;
 
-struct DIAMOND_DLL_DECL mob_alyson_antilleAI : public boss_malacrass_addAI
+struct mob_alyson_antilleAI : public boss_malacrass_addAI
 {
     mob_alyson_antilleAI(Creature* pCreature) : boss_malacrass_addAI(pCreature) { Reset(); }
 
@@ -527,7 +527,7 @@ enum
     SPELL_FIREBOLT = 43584
 };
 
-struct DIAMOND_DLL_DECL mob_gazakrothAI : public boss_malacrass_addAI
+struct mob_gazakrothAI : public boss_malacrass_addAI
 {
     mob_gazakrothAI(Creature* pCreature) : boss_malacrass_addAI(pCreature){ Reset(); }
 
@@ -581,7 +581,7 @@ enum
     SPELL_THUNDERCLAP  = 43583
 };
 
-struct DIAMOND_DLL_DECL mob_lord_raadanAI : public boss_malacrass_addAI
+struct mob_lord_raadanAI : public boss_malacrass_addAI
 {
     mob_lord_raadanAI(Creature* pCreature) : boss_malacrass_addAI(pCreature) { Reset(); }
 
@@ -634,7 +634,7 @@ enum
     SPELL_PSYCHIC_WAIL = 43590
 };
 
-struct DIAMOND_DLL_DECL mob_darkheartAI : public boss_malacrass_addAI
+struct mob_darkheartAI : public boss_malacrass_addAI
 {
     mob_darkheartAI(Creature* pCreature) : boss_malacrass_addAI(pCreature) { Reset(); }
 
@@ -677,7 +677,7 @@ enum
     SPELL_VENOM_SPIT = 43579
 };
 
-struct DIAMOND_DLL_DECL mob_slitherAI : public boss_malacrass_addAI
+struct mob_slitherAI : public boss_malacrass_addAI
 {
     mob_slitherAI(Creature* pCreature) : boss_malacrass_addAI(pCreature) { Reset(); }
 
@@ -732,7 +732,7 @@ enum
     SPELL_VOLATILE_INFECTION = 43586
 };
 
-struct DIAMOND_DLL_DECL mob_fenstalkerAI : public boss_malacrass_addAI
+struct mob_fenstalkerAI : public boss_malacrass_addAI
 {
     mob_fenstalkerAI(Creature* pCreature) : boss_malacrass_addAI(pCreature) { Reset(); }
 
@@ -771,7 +771,7 @@ enum
     SPELL_MIGHTY_BLOW = 43592,
 };
 
-struct DIAMOND_DLL_DECL mob_koraggAI : public boss_malacrass_addAI
+struct mob_koraggAI : public boss_malacrass_addAI
 {
     mob_koraggAI(Creature* pCreature) : boss_malacrass_addAI(pCreature) { Reset(); }
 

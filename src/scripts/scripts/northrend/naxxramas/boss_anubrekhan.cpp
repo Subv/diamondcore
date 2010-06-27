@@ -50,7 +50,7 @@ enum
     NPC_CRYPT_GUARD             = 16573
 };
 
-struct DIAMOND_DLL_DECL boss_anubrekhanAI : public ScriptedAI
+struct boss_anubrekhanAI : public ScriptedAI
 {
     boss_anubrekhanAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

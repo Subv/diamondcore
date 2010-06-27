@@ -30,7 +30,7 @@ enum
     SPELL_BLOODLUST                 = 6742
 };
 
-struct DIAMOND_DLL_DECL boss_houndmaster_lokseyAI : public ScriptedAI
+struct boss_houndmaster_lokseyAI : public ScriptedAI
 {
     boss_houndmaster_lokseyAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

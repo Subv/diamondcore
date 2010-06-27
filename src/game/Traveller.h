@@ -29,7 +29,7 @@
 #define PLAYER_FLIGHT_SPEED        32.0f
 
 template<class T>
-struct DIAMOND_DLL_DECL Traveller
+struct Traveller
 {
     T &i_traveller;
     Traveller(T &t) : i_traveller(t) {}
@@ -55,6 +55,7 @@ struct DIAMOND_DLL_DECL Traveller
     void Relocation(float x, float y, float z, float orientation) {}
     void Relocation(float x, float y, float z) { Relocation(x, y, z, i_traveller.GetOrientation()); }
     void MoveTo(float x, float y, float z, uint32 t) {}
+    void Stop() {}
 };
 
 template<class T>
@@ -82,7 +83,7 @@ inline float Traveller<Creature>::Speed()
 template<>
 inline void Traveller<Creature>::Relocation(float x, float y, float z, float orientation)
 {
-    i_traveller.GetMap()->CreatureRelocation(&i_traveller, x, y, z, orientation);
+    i_traveller.SetPosition(x, y, z, orientation);
 }
 
 template<>
@@ -102,7 +103,13 @@ inline float Traveller<Creature>::GetMoveDestinationTo(float x, float y, float z
 template<>
 inline void Traveller<Creature>::MoveTo(float x, float y, float z, uint32 t)
 {
-    i_traveller.AI_SendMoveToPacket(x, y, z, t, i_traveller.GetSplineFlags(), SPLINETYPE_NORMAL);
+    i_traveller.SendMonsterMove(x, y, z, SPLINETYPE_NORMAL, i_traveller.GetSplineFlags(), t);
+}
+
+template<>
+inline void Traveller<Creature>::Stop()
+{
+    i_traveller.SendMonsterMove(i_traveller.GetPositionX(), i_traveller.GetPositionY(), i_traveller.GetPositionZ(), SPLINETYPE_STOP, i_traveller.GetSplineFlags(), 0);
 }
 
 // specialization for players
@@ -131,7 +138,7 @@ inline float Traveller<Player>::GetMoveDestinationTo(float x, float y, float z)
 template<>
 inline void Traveller<Player>::Relocation(float x, float y, float z, float orientation)
 {
-    i_traveller.GetMap()->PlayerRelocation(&i_traveller, x, y, z, orientation);
+    i_traveller.SetPosition(x, y, z, orientation);
 }
 
 template<>
@@ -139,6 +146,13 @@ inline void Traveller<Player>::MoveTo(float x, float y, float z, uint32 t)
 {
     //Only send SPLINEFLAG_WALKMODE, client has strange issues with other move flags
     i_traveller.SendMonsterMove(x, y, z, SPLINETYPE_NORMAL, SPLINEFLAG_WALKMODE, t);
+}
+
+template<>
+inline void Traveller<Player>::Stop()
+{
+    //Only send SPLINEFLAG_WALKMODE, client has strange issues with other move flags
+    i_traveller.SendMonsterMove(i_traveller.GetPositionX(), i_traveller.GetPositionY(), i_traveller.GetPositionZ(), SPLINETYPE_STOP, SPLINEFLAG_WALKMODE, 0);
 }
 
 typedef Traveller<Creature> CreatureTraveller;

@@ -24,7 +24,7 @@ EndScriptData */
 #include "precompiled.h"
 #include "mechanar.h"
 
-struct DIAMOND_DLL_DECL instance_mechanar : public ScriptedInstance
+struct instance_mechanar : public ScriptedInstance
 {
     instance_mechanar(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

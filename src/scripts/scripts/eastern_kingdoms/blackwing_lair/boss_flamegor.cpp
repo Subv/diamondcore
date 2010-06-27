@@ -32,7 +32,7 @@ enum
     SPELL_FRENZY                = 23342                     //This spell periodically triggers fire nova
 };
 
-struct DIAMOND_DLL_DECL boss_flamegorAI : public ScriptedAI
+struct boss_flamegorAI : public ScriptedAI
 {
     boss_flamegorAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

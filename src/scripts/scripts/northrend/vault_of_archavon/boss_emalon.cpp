@@ -44,7 +44,7 @@ enum
 ## npc_tempest_minion
 ######*/
 
-struct DIAMOND_DLL_DECL npc_tempest_minionAI : public ScriptedAI
+struct npc_tempest_minionAI : public ScriptedAI
 {
     npc_tempest_minionAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -199,7 +199,7 @@ struct DIAMOND_DLL_DECL npc_tempest_minionAI : public ScriptedAI
 ## boss_emalon
 ######*/
 
-struct DIAMOND_DLL_DECL boss_emalonAI : public ScriptedAI
+struct boss_emalonAI : public ScriptedAI
 {
     boss_emalonAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -338,7 +338,7 @@ struct DIAMOND_DLL_DECL boss_emalonAI : public ScriptedAI
 ## npc_tempest_warder
 ######*/
 
-struct DIAMOND_DLL_DECL npc_tempest_warderAI : public ScriptedAI
+struct npc_tempest_warderAI : public ScriptedAI
 {
     npc_tempest_warderAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

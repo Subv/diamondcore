@@ -37,7 +37,7 @@ EndContentData */
 #define SPELL_PUSH_MOJO             43923
 #define ENTRY_FOREST_FROG           24396
 
-struct DIAMOND_DLL_DECL npc_forest_frogAI : public ScriptedAI
+struct npc_forest_frogAI : public ScriptedAI
 {
     npc_forest_frogAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -116,7 +116,7 @@ enum
 
 #define GOSSIP_ITEM_BEGIN   "Thanks for the concern, but we intend to explore Zul'Aman."
 
-struct DIAMOND_DLL_DECL npc_harrison_jones_zaAI : public npc_escortAI
+struct npc_harrison_jones_zaAI : public npc_escortAI
 {
     npc_harrison_jones_zaAI(Creature* pCreature) : npc_escortAI(pCreature)
     {

@@ -55,7 +55,7 @@ enum Brutallus
     SPELL_BERSERK                   = 26662
 };
 
-struct DIAMOND_DLL_DECL boss_brutallusAI : public ScriptedAI
+struct boss_brutallusAI : public ScriptedAI
 {
     boss_brutallusAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -192,7 +192,7 @@ CreatureAI* GetAI_boss_brutallus(Creature* pCreature)
     return new boss_brutallusAI(pCreature);
 }
 
-bool AreaTrigger_at_madrigosa(Player* pPlayer, AreaTriggerEntry* pAt)
+bool AreaTrigger_at_madrigosa(Player* pPlayer, AreaTriggerEntry const* pAt)
 {
     if (ScriptedInstance* pInstance = (ScriptedInstance*)pPlayer->GetInstanceData())
     {

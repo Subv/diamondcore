@@ -42,7 +42,7 @@ bool GOHello_go_gundrak_altar(Player* pPlayer, GameObject* pGo)
     return true;
 }
 
-struct DIAMOND_DLL_DECL instance_gundrak : public ScriptedInstance
+struct instance_gundrak : public ScriptedInstance
 {
     instance_gundrak(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

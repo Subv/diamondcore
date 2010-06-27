@@ -82,7 +82,7 @@ class ACTIVE_OBJECT,
 class WORLD_OBJECT_TYPES,
 class GRID_OBJECT_TYPES
 >
-class DIAMOND_DLL_DECL NGrid
+class NGrid
 {
     public:
 
@@ -109,7 +109,7 @@ class DIAMOND_DLL_DECL NGrid
         }
 
         const uint32& GetGridId() const { return i_gridId; }
-        void SetGridId(const uint32 id) const { i_gridId = id; }
+        void SetGridId(const uint32 id) { i_gridId = id; }
         grid_state_t GetGridState() const { return i_cellstate; }
         void SetGridState(grid_state_t s) { i_cellstate = s; }
         uint32 getX() const { return i_x; }

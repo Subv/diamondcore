@@ -50,7 +50,7 @@ uint32 m_auiSpellSummonShade[]=
     SPELL_SUMMONSHADE_1, SPELL_SUMMONSHADE_2, SPELL_SUMMONSHADE_3
 };
 
-struct DIAMOND_DLL_DECL boss_taerarAI : public ScriptedAI
+struct boss_taerarAI : public ScriptedAI
 {
     boss_taerarAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -196,7 +196,7 @@ struct DIAMOND_DLL_DECL boss_taerarAI : public ScriptedAI
 };
 
 // Shades of Taerar Script
-struct DIAMOND_DLL_DECL boss_shadeoftaerarAI : public ScriptedAI
+struct boss_shadeoftaerarAI : public ScriptedAI
 {
     boss_shadeoftaerarAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

@@ -39,7 +39,7 @@ enum
     SPELL_HOLYGROUND        = 29512
 };
 
-struct DIAMOND_DLL_DECL boss_maiden_of_virtueAI : public ScriptedAI
+struct boss_maiden_of_virtueAI : public ScriptedAI
 {
     boss_maiden_of_virtueAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

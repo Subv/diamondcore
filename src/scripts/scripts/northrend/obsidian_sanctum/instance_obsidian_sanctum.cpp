@@ -28,7 +28,7 @@ EndScriptData */
 0 - Sartharion
 */
 
-struct DIAMOND_DLL_DECL instance_obsidian_sanctum : public ScriptedInstance
+struct instance_obsidian_sanctum : public ScriptedInstance
 {
     instance_obsidian_sanctum(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

@@ -42,7 +42,7 @@ bool GOHello_go_containment_sphere(Player* pPlayer, GameObject* pGo)
     return false;
 }
 
-struct DIAMOND_DLL_DECL instance_nexus : public ScriptedInstance
+struct instance_nexus : public ScriptedInstance
 {
     instance_nexus(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

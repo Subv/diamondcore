@@ -5,9 +5,6 @@
 #ifndef SC_SYSTEM_H
 #define SC_SYSTEM_H
 
-extern DatabaseType DSDatabase;
-extern std::string  strDSVersion;                          //version info from database
-
 #define TEXT_SOURCE_RANGE -1000000                          //the amount of entries each text source has available
 
 //TODO: find better namings and definitions.

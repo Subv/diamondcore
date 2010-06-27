@@ -135,7 +135,7 @@ float hatcherway_r[5][3] =
     {-34.29f, 1095.22f, 19.0f}
 };
 
-struct DIAMOND_DLL_DECL boss_janalaiAI : public ScriptedAI
+struct boss_janalaiAI : public ScriptedAI
 {
     boss_janalaiAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -559,7 +559,7 @@ CreatureAI* GetAI_boss_janalaiAI(Creature* pCreature)
     return new boss_janalaiAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL mob_jandalai_firebombAI : public ScriptedAI
+struct mob_jandalai_firebombAI : public ScriptedAI
 {
     mob_jandalai_firebombAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -577,7 +577,7 @@ CreatureAI* GetAI_mob_jandalai_firebombAI(Creature* pCreature)
     return new mob_jandalai_firebombAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL mob_amanishi_hatcherAI : public ScriptedAI
+struct mob_amanishi_hatcherAI : public ScriptedAI
 {
     mob_amanishi_hatcherAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -702,7 +702,7 @@ CreatureAI* GetAI_mob_amanishi_hatcherAI(Creature* pCreature)
     return new mob_amanishi_hatcherAI(pCreature);
 }
 
-struct DIAMOND_DLL_DECL mob_hatchlingAI : public ScriptedAI
+struct mob_hatchlingAI : public ScriptedAI
 {
     mob_hatchlingAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

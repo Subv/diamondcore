@@ -19,19 +19,20 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+#include "Common.h"
 #include <Policies/Singleton.h>
 #include "Platform/Define.h"
 
-class DOTCONFDocument;
+class ACE_Configuration_Heap;
 
-class DIAMOND_DLL_SPEC Config
+class Config
 {
     public:
 
         Config();
         ~Config();
 
-        bool SetSource(const char *file, bool ignorecase = true);
+        bool SetSource(const char *file);
         bool Reload();
 
         std::string GetStringDefault(const char* name, const char* def);
@@ -44,8 +45,7 @@ class DIAMOND_DLL_SPEC Config
     private:
 
         std::string mFilename;
-        bool mIgnoreCase;
-        DOTCONFDocument *mConf;
+        ACE_Configuration_Heap *mConf;
 };
 
 #define sConfig Diamond::Singleton<Config>::Instance()

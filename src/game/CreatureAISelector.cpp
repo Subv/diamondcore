@@ -22,7 +22,7 @@
 #include "NullCreatureAI.h"
 #include "Policies/SingletonImp.h"
 #include "MovementGenerator.h"
-#include "ScriptCalls.h"
+#include "ScriptMgr.h"
 #include "Pet.h"
 
 INSTANTIATE_SINGLETON_1(CreatureAIRegistry);
@@ -34,7 +34,7 @@ namespace FactorySelector
     {
         // Allow scripting AI for normal creatures and not controlled pets (guardians and mini-pets)
         if ((!creature->isPet() || !((Pet*)creature)->isControlled()) && !creature->isCharmed())
-            if(CreatureAI* scriptedAI = Script->GetAI(creature))
+			if(CreatureAI* scriptedAI = sScriptMgr.GetAI(creature))
                 return scriptedAI;
 
         CreatureAIRegistry &ai_registry(CreatureAIRepository::Instance());
@@ -47,7 +47,7 @@ namespace FactorySelector
         // excplicit check for isControlled() and owner type to allow guardian, mini-pets and pets controlled by NPCs to be scripted by EventAI
         Unit *owner=NULL;
         if ((creature->isPet() && ((Pet*)creature)->isControlled() &&
-            ((owner=creature->GetOwner()) && owner->GetTypeId()==TYPEID_PLAYER)) || (creature->isCharmed() && !creature->isVehicle()))
+            ((owner=creature->GetOwner()) && owner->GetTypeId()==TYPEID_PLAYER)) || creature->isCharmed() && !creature->isVehicle())
             ai_factory = ai_registry.GetRegistryItem("PetAI");
         else if (creature->isTotem())
             ai_factory = ai_registry.GetRegistryItem("TotemAI");
@@ -90,7 +90,8 @@ namespace FactorySelector
     {
         MovementGeneratorRegistry &mv_registry(MovementGeneratorRepository::Instance());
         ASSERT( creature->GetCreatureInfo() != NULL );
-        const MovementGeneratorCreator *mv_factory = mv_registry.GetRegistryItem( creature->GetDefaultMovementType());
+        MovementGeneratorCreator const * mv_factory = mv_registry.GetRegistryItem(
+            IS_PLAYER_GUID(creature->GetOwnerGUID()) ? FOLLOW_MOTION_TYPE : creature->GetDefaultMovementType());
 
         /* if( mv_factory == NULL  )
         {

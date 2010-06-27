@@ -25,19 +25,19 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -45,62 +45,61 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\..\bin\win32_debug\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\Scripts__$(Platform)_$(Configuration)\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\..\bin\x64_debug\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\Scripts__$(Platform)_$(Configuration)\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\..\bin\win32_release\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\Scripts__$(Platform)_$(Configuration)\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\..\bin\x64_release\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\Scripts__$(Platform)_$(Configuration)\</IntDir>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\scripts__$(Platform)_$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\scripts__$(Platform)_$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\scripts__$(Platform)_$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\scripts__$(Platform)_$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\scripts__$(Platform)_$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\scripts__$(Platform)_$(Configuration)\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\scripts__$(Platform)_$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\scripts__$(Platform)_$(Configuration)\</IntDir>
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
+    <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
+    <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
+      <AdditionalOptions>/Zm116 %(AdditionalOptions)</AdditionalOptions>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\dep\include\;..\..\src\shared\;..\..\src\framework\;..\..\src\game\;..\..\src\scripts\include\;..\..\src\scripts\base\;..\..\dep\ACE_wrappers\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;DIAMOND_DEBUG;_WINDOWS;_USRDLL;SCRIPT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;DIAMOND_DEBUG;_WINDOWS;_LIB;SCRIPT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>precompiled.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>.\scripts__$(Platform)_$(Configuration)\scripts.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\scripts__$(Platform)_$(Configuration)\</AssemblerListingLocation>
+      <ObjectFileName>.\scripts__$(Platform)_$(Configuration)\</ObjectFileName>
+      <ProgramDataBaseFileName>.\scripts__$(Platform)_$(Configuration)\</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
-    <Link>
-      <AdditionalDependencies>worldserver.lib;ACEd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)Scripts.dll</OutputFile>
-      <AdditionalLibraryDirectories>.\worldserver__Win32_Debug;..\..\dep\lib\win32_debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(OutDir)Scripts.pdb</ProgramDatabaseFile>
-      <SubSystem>Windows</SubSystem>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-      <ImportLibrary>$(OutDir)Scripts.lib</ImportLibrary>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Link>
+    <Lib>
+      <OutputFile>.\scripts__$(Platform)_$(Configuration)\scripts.lib</OutputFile>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
@@ -109,56 +108,42 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\dep\include\;..\..\src\shared\;..\..\src\framework\;..\..\src\game\;..\..\src\scripts\include\;..\..\src\scripts\base\;..\..\dep\ACE_wrappers\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;_DEBUG;DIAMOND_DEBUG;_WINDOWS;_USRDLL;SCRIPT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;DIAMOND_DEBUG;_WINDOWS;_LIB;SCRIPT;SCRIPT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>precompiled.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>.\scripts__$(Platform)_$(Configuration)\scripts.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\scripts__$(Platform)_$(Configuration)\</AssemblerListingLocation>
+      <ObjectFileName>.\scripts__$(Platform)_$(Configuration)\</ObjectFileName>
+      <ProgramDataBaseFileName>.\scripts__$(Platform)_$(Configuration)\</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-    <Link>
-      <AdditionalDependencies>worldserver.lib;ACEd.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)Scripts.dll</OutputFile>
-      <AdditionalLibraryDirectories>.\worldserver__x64_Debug;..\..\dep\lib\x64_Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ProgramDatabaseFile>$(OutDir)Scripts.pdb</ProgramDatabaseFile>
-      <SubSystem>Windows</SubSystem>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-      <ImportLibrary>$(OutDir)Scripts.lib</ImportLibrary>
-      <TargetMachine>MachineX64</TargetMachine>
-    </Link>
+    <Lib>
+      <OutputFile>.\scripts__$(Platform)_$(Configuration)\scripts.lib</OutputFile>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/MP /Zm111 %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>..\..\dep\include\;..\..\src\shared\;..\..\src\framework\;..\..\src\game\;..\..\src\scripts\include\;..\..\src\scripts\base\;..\..\dep\ACE_wrappers\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;SCRIPT;_SECURE_SCL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;DIAMOND_DEBUG;_WINDOWS;_LIB;SCRIPT;_SECURE_SCL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>precompiled.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>.\scripts__$(Platform)_$(Configuration)\scripts.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\scripts__$(Platform)_$(Configuration)\</AssemblerListingLocation>
+      <ObjectFileName>.\scripts__$(Platform)_$(Configuration)\</ObjectFileName>
+      <ProgramDataBaseFileName>.\scripts__$(Platform)_$(Configuration)\</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
-    <Link>
-      <AdditionalDependencies>worldserver.lib;ACE.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)Scripts.dll</OutputFile>
-      <AdditionalLibraryDirectories>.\worldserver__Win32_Release;..\..\dep\lib\win32_release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <OptimizeReferences>true</OptimizeReferences>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-      <ImportLibrary>$(OutDir)Scripts.lib</ImportLibrary>
-      <TargetMachine>MachineX86</TargetMachine>
-    </Link>
+    <Lib>
+      <OutputFile>.\scripts__$(Platform)_$(Configuration)\scripts.lib</OutputFile>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
@@ -167,28 +152,21 @@
     <ClCompile>
       <AdditionalOptions>/MP %(AdditionalOptions)</AdditionalOptions>
       <AdditionalIncludeDirectories>..\..\dep\include\;..\..\src\shared\;..\..\src\framework\;..\..\src\game\;..\..\src\scripts\include\;..\..\src\scripts\base\;..\..\dep\ACE_wrappers\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;SCRIPT;_SECURE_SCL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;DIAMOND_DEBUG;_WINDOWS;_LIB;SCRIPT;_SECURE_SCL=0;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>false</MinimalRebuild>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>precompiled.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>.\scripts__$(Platform)_$(Configuration)\scripts.pch</PrecompiledHeaderOutputFile>
+      <AssemblerListingLocation>.\scripts__$(Platform)_$(Configuration)\</AssemblerListingLocation>
+      <ObjectFileName>.\scripts__$(Platform)_$(Configuration)\</ObjectFileName>
+      <ProgramDataBaseFileName>.\scripts__$(Platform)_$(Configuration)\</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
-    <Link>
-      <AdditionalDependencies>worldserver.lib;ACE.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>$(OutDir)Scripts.dll</OutputFile>
-      <AdditionalLibraryDirectories>.\worldserver__x64_Release;..\..\dep\lib\x64_release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
-      <SubSystem>Windows</SubSystem>
-      <OptimizeReferences>true</OptimizeReferences>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <DataExecutionPrevention>
-      </DataExecutionPrevention>
-      <ImportLibrary>$(OutDir)Scripts.lib</ImportLibrary>
-      <TargetMachine>MachineX64</TargetMachine>
-    </Link>
+    <Lib>
+      <OutputFile>.\scripts__$(Platform)_$(Configuration)\scripts.lib</OutputFile>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\scripts\base\escort_ai.cpp" />
@@ -333,8 +311,8 @@
     <ClCompile Include="..\..\src\scripts\scripts\eastern_kingdoms\sunwell_plateau\boss_kalecgos.cpp" />
     <ClCompile Include="..\..\src\scripts\scripts\eastern_kingdoms\sunwell_plateau\instance_sunwell_plateau.cpp" />
     <ClCompile Include="..\..\src\scripts\scripts\eastern_kingdoms\uldaman\boss_ironaya.cpp" />
-    <ClCompile Include="..\..\src\scripts\scripts\eastern_kingdoms\uldaman\uldaman.cpp" />
     <ClCompile Include="..\..\src\scripts\scripts\eastern_kingdoms\uldaman\instance_uldaman.cpp" />
+    <ClCompile Include="..\..\src\scripts\scripts\eastern_kingdoms\uldaman\uldaman.cpp" />
     <ClCompile Include="..\..\src\scripts\scripts\eastern_kingdoms\zulaman\boss_akilzon.cpp" />
     <ClCompile Include="..\..\src\scripts\scripts\eastern_kingdoms\zulaman\boss_halazzi.cpp" />
     <ClCompile Include="..\..\src\scripts\scripts\eastern_kingdoms\zulaman\boss_janalai.cpp" />
@@ -505,18 +483,8 @@
     <ClCompile Include="..\..\src\scripts\scripts\northrend\vault_of_archavon\instance_vault_of_archavon.cpp" />
     <ClCompile Include="..\..\src\scripts\scripts\northrend\violet_hold\instance_violet_hold.cpp" />
     <ClCompile Include="..\..\src\scripts\scripts\northrend\violet_hold\violet_hold.cpp" />
-    <ClCompile Include="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\blood_prince_council.cpp" />
-    <ClCompile Include="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\boss_blood_queen_lanathel.cpp" />
-    <ClCompile Include="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\boss_deathbringer_saurfang.cpp" />
-    <ClCompile Include="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\boss_festergut.cpp" />
-    <ClCompile Include="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\boss_lady_deathwhisper.cpp" />
-    <ClCompile Include="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\boss_lord_marrowgar.cpp" />
-    <ClCompile Include="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\boss_proffesor_putricide.cpp" />
-    <ClCompile Include="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\boss_rotface.cpp" />
-    <ClCompile Include="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\boss_sindragosa.cpp" />
-    <ClCompile Include="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\boss_the_lich_king.cpp" />
-    <ClCompile Include="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\boss_valithria_dreamwalker.cpp" />
-    <ClCompile Include="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\gunship_battle.cpp" />
+    <ClCompile Include="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\icecrown_teleport.cpp" />
+    <ClCompile Include="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\instance_icecrown_citadel.cpp" />
     <ClCompile Include="..\..\src\scripts\scripts\northrend\icecrown_citadel\frozen_halls\pit_of_saron\boss_forgemaster_gafrost.cpp" />
     <ClCompile Include="..\..\src\scripts\scripts\northrend\icecrown_citadel\frozen_halls\pit_of_saron\boss_krick_and_ick.cpp" />
     <ClCompile Include="..\..\src\scripts\scripts\northrend\icecrown_citadel\frozen_halls\pit_of_saron\boss_scourgelord_tyrannus.cpp" />
@@ -668,6 +636,7 @@
     <ClInclude Include="..\..\src\scripts\scripts\northrend\utgarde_keep\utgarde_pinnacle\utgarde_pinnacle.h" />
     <ClInclude Include="..\..\src\scripts\scripts\northrend\vault_of_archavon\vault_of_archavon.h" />
     <ClInclude Include="..\..\src\scripts\scripts\northrend\violet_hold\violet_hold.h" />
+    <ClInclude Include="..\..\src\scripts\scripts\northrend\icecrown_citadel\icecrown_citadel\icecrown_citadel.h" />
     <ClInclude Include="..\..\src\scripts\scripts\outland\auchindoun\sethekk_halls\sethekk_halls.h" />
     <ClInclude Include="..\..\src\scripts\scripts\outland\auchindoun\shadow_labyrinth\shadow_labyrinth.h" />
     <ClInclude Include="..\..\src\scripts\scripts\outland\black_temple\black_temple.h" />
@@ -692,8 +661,8 @@
     <ClInclude Include="..\..\src\scripts\ScriptMgr.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="worldserver.vcxproj">
-      <Project>{a3a04e47-43a2-4c08-90b3-029cef558594}</Project>
+    <ProjectReference Include="game.vcxproj">
+      <Project>{1dc6c4da-a028-41f3-877d-d5400c594f88}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
   </ItemGroup>

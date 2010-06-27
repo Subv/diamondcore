@@ -21,7 +21,7 @@
 
 #include "Common.h"
 #include "ByteBuffer.h"
-#include "UpdateFields.h"
+#include "ObjectFields.h"
 #include "UpdateData.h"
 #include "ObjectGuid.h"
 #include "Camera.h"
@@ -69,7 +69,6 @@ class Unit;
 class Map;
 class UpdateMask;
 class InstanceData;
-class Vehicle;
 
 typedef UNORDERED_MAP<Player*, UpdateData> UpdateDataMapType;
 
@@ -86,7 +85,7 @@ struct WorldLocation
         : mapid(loc.mapid), coord_x(loc.coord_x), coord_y(loc.coord_y), coord_z(loc.coord_z), orientation(loc.orientation) {}
 };
 
-class DIAMOND_DLL_SPEC Object
+class Object
 {
     public:
         virtual ~Object ( );
@@ -109,11 +108,11 @@ class DIAMOND_DLL_SPEC Object
             m_inWorld = false;
         }
 
-        ObjectGuid const& GetObjectGuid() const { return *reinterpret_cast<ObjectGuid const*>(&GetUInt64Value(0)); }
-
-        const uint64& GetGUID() const { return GetUInt64Value(0); }
-        uint32 GetGUIDLow() const { return GUID_LOPART(GetUInt64Value(0)); }
+        ObjectGuid const& GetObjectGuid() const { return GetGuidValue(OBJECT_FIELD_GUID); }
+        const uint64& GetGUID() const { return GetUInt64Value(OBJECT_FIELD_GUID); }
+        uint32 GetGUIDLow() const { return GUID_LOPART(GetUInt64Value(OBJECT_FIELD_GUID)); }
         PackedGuid const& GetPackGUID() const { return m_PackGUID; }
+
         uint32 GetEntry() const { return GetUInt32Value(OBJECT_FIELD_ENTRY); }
         void SetEntry(uint32 entry) { SetUInt32Value(OBJECT_FIELD_ENTRY, entry); }
 
@@ -172,6 +171,8 @@ class DIAMOND_DLL_SPEC Object
             return *(((uint16*)&m_uint32Values[ index ])+offset);
         }
 
+        ObjectGuid const& GetGuidValue( uint16 index ) const { return *reinterpret_cast<ObjectGuid const*>(&GetUInt64Value(index)); }
+
         void SetInt32Value(  uint16 index,        int32  value );
         void SetUInt32Value( uint16 index,       uint32  value );
         void SetUInt64Value( uint16 index, const uint64 &value );
@@ -179,6 +180,7 @@ class DIAMOND_DLL_SPEC Object
         void SetByteValue(   uint16 index, uint8 offset, uint8 value );
         void SetUInt16Value( uint16 index, uint8 offset, uint16 value );
         void SetInt16Value(  uint16 index, uint8 offset, int16 value ) { SetUInt16Value(index,offset,(uint16)value); }
+        void SetGuidValue( uint16 index, ObjectGuid const& value ) { SetUInt64Value(index, value.GetRawValue()); }
         void SetStatFloatValue( uint16 index, float value);
         void SetStatInt32Value( uint16 index, int32 value);
 
@@ -277,6 +279,7 @@ class DIAMOND_DLL_SPEC Object
 
         virtual bool hasQuest(uint32 /* quest_id */) const { return false; }
         virtual bool hasInvolvedQuest(uint32 /* quest_id */) const { return false; }
+        Creature* ToCreature(){ if (GetTypeId() == TYPEID_UNIT) return reinterpret_cast<Creature*>(this); else return NULL; }
     protected:
 
         Object ( );
@@ -323,7 +326,7 @@ class DIAMOND_DLL_SPEC Object
 
 struct WorldObjectChangeAccumulator;
 
-class DIAMOND_DLL_SPEC WorldObject : public Object
+class WorldObject : public Object
 {
     friend struct WorldObjectChangeAccumulator;
 
@@ -480,7 +483,8 @@ class DIAMOND_DLL_SPEC WorldObject : public Object
 
         Creature* SummonCreature(uint32 id, float x, float y, float z, float ang,TempSummonType spwtype,uint32 despwtime);
 		GameObject* SummonGameobject(uint32 id, float x, float y, float z, float angle, uint32 despwtime);
-        Vehicle* SummonVehicle(uint32 id, float x, float y, float z, float ang, uint32 vehicleId = NULL);
+
+        bool isActiveObject() const { return m_isActiveObject || m_viewPoint.hasViewers(); }
 
         ViewPoint& getViewPoint() { return m_viewPoint; }
     protected:
@@ -493,6 +497,7 @@ class DIAMOND_DLL_SPEC WorldObject : public Object
         void SetLocationInstanceId(uint32 _instanceId) { m_InstanceId = _instanceId; }
 
         std::string m_name;
+        bool m_isActiveObject;
 
     private:
         Map * m_currMap;                                    //current object's Map location

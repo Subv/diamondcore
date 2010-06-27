@@ -47,7 +47,7 @@ enum SCEquip
     EQUIP_UNEQUIP   = 0
 };
 
-struct DIAMOND_DLL_DECL ScriptedAI : public CreatureAI
+struct ScriptedAI : public CreatureAI
 {
     explicit ScriptedAI(Creature* pCreature);
     ~ScriptedAI() {}
@@ -181,12 +181,15 @@ struct DIAMOND_DLL_DECL ScriptedAI : public CreatureAI
 
     bool EnterEvadeIfOutOfCombatArea(const uint32 uiDiff);
 
+	Creature* me;
+
     private:
         bool   m_bCombatMovement;
         uint32 m_uiEvadeCheckCooldown;
+		
 };
 
-struct DIAMOND_DLL_DECL Scripted_NoMovementAI : public ScriptedAI
+struct Scripted_NoMovementAI : public ScriptedAI
 {
     Scripted_NoMovementAI(Creature* pCreature) : ScriptedAI(pCreature) {}
 

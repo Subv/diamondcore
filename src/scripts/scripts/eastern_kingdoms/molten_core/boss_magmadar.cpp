@@ -34,7 +34,7 @@ enum
     SPELL_LAVABOMB_ALT          = 19428                     //This is the spell that the lava bomb casts
 };
 
-struct DIAMOND_DLL_DECL boss_magmadarAI : public ScriptedAI
+struct boss_magmadarAI : public ScriptedAI
 {
     boss_magmadarAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

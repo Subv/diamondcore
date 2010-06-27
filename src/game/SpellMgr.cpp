@@ -62,9 +62,19 @@ int32 GetSpellMaxDuration(SpellEntry const *spellInfo)
 
 uint32 GetSpellCastTime(SpellEntry const* spellInfo, Spell const* spell)
 {
-    // some triggered spells have data only usable for client
-    if (spell && spell->IsTriggeredSpellWithRedundentData())
-        return 0;
+    if (spell)
+    {
+        // some triggered spells have data only usable for client
+        if (spell->IsTriggeredSpellWithRedundentData())
+            return 0;
+
+        // spell targeted to non-trading trade slot item instant at trade success apply
+        if (spell->GetCaster()->GetTypeId()==TYPEID_PLAYER)
+            if (TradeData* my_trade = ((Player*)(spell->GetCaster()))->GetTradeData())
+                if (Item* nonTrade = my_trade->GetTraderData()->GetItem(TRADE_SLOT_NONTRADED))
+                    if (nonTrade == spell->m_targets.getItemTarget())
+                        return 0;
+    }
 
     SpellCastTimesEntry const *spellCastTimeEntry = sSpellCastTimesStore.LookupEntry(spellInfo->CastingTimeIndex);
 
@@ -272,6 +282,11 @@ bool IsPassiveSpell(uint32 spellId)
     SpellEntry const *spellInfo = sSpellStore.LookupEntry(spellId);
     if (!spellInfo)
         return false;
+    return IsPassiveSpell(spellInfo);
+}
+
+bool IsPassiveSpell(SpellEntry const *spellInfo)
+{
     return (spellInfo->Attributes & SPELL_ATTR_PASSIVE) != 0;
 }
 
@@ -996,8 +1011,46 @@ void SpellMgr::LoadSpellTargetPositions()
 
 struct DoSpellProcEvent
 {
-    DoSpellProcEvent(SpellProcEventEntry const& _spe) : spe(_spe) {}
-    void operator() (uint32 spell_id) { sSpellMgr.mSpellProcEventMap[spell_id] = spe; }
+    DoSpellProcEvent(SpellProcEventMap& _spe_map, SpellProcEventEntry const& _spe) : spe_map(_spe_map), spe(_spe) {}
+    void operator() (uint32 spell_id)
+    {
+        // add ranks only for not filled data (some ranks have ppm data different for ranks for example)
+        SpellProcEventMap::const_iterator spellItr = spe_map.find(spell_id);
+        if (spellItr == spe_map.end())
+            spe_map[spell_id] = spe;
+        // if custom rank data added then it must be same except ppm
+        else
+        {
+            SpellProcEventEntry const& r_spe = spellItr->second;
+            if (spe.schoolMask != r_spe.schoolMask)
+                sLog.outErrorDb("Spell %u listed in `spell_proc_event` as custom rank have different schoolMask from first rank in chain", spell_id);
+
+            if (spe.spellFamilyName != r_spe.spellFamilyName)
+                sLog.outErrorDb("Spell %u listed in `spell_proc_event` as custom rank have different spellFamilyName from first rank in chain", spell_id);
+
+            if (spe.spellFamilyMask != r_spe.spellFamilyMask)
+                sLog.outErrorDb("Spell %u listed in `spell_proc_event` as custom rank have different spellFamilyMask from first rank in chain", spell_id);
+
+            if (spe.spellFamilyMask2 != r_spe.spellFamilyMask2)
+                sLog.outErrorDb("Spell %u listed in `spell_proc_event` as custom rank have different spellFamilyMask2 from first rank in chain", spell_id);
+
+            if (spe.procFlags != r_spe.procFlags)
+                sLog.outErrorDb("Spell %u listed in `spell_proc_event` as custom rank have different procFlags from first rank in chain", spell_id);
+
+            if (spe.procEx != r_spe.procEx)
+                sLog.outErrorDb("Spell %u listed in `spell_proc_event` as custom rank have different procEx from first rank in chain", spell_id);
+
+            // only ppm allowed has been different from first rank
+
+            if (spe.customChance != r_spe.customChance)
+                sLog.outErrorDb("Spell %u listed in `spell_proc_event` as custom rank have different customChance from first rank in chain", spell_id);
+
+            if (spe.cooldown != r_spe.cooldown)
+                sLog.outErrorDb("Spell %u listed in `spell_proc_event` as custom rank have different cooldown from first rank in chain", spell_id);
+        }
+    }
+
+    SpellProcEventMap& spe_map;
     SpellProcEventEntry const& spe;
 };
 
@@ -1015,7 +1068,12 @@ void SpellMgr::LoadSpellProcEvents()
         return;
     }
 
+    std::set<uint32> firstRankSpells;
+    std::set<uint32> firstRankSpellsWithCustomRanks;
+
     uint32 customProc = 0;
+    uint32 customRank = 0;
+
     do
     {
         Field *fields = result->Fetch();
@@ -1026,15 +1084,6 @@ void SpellMgr::LoadSpellProcEvents()
         if (!spell)
         {
             sLog.outErrorDb("Spell %u listed in `spell_proc_event` does not exist", entry);
-            continue;
-        }
-
-        uint32 first_id = GetFirstSpellInChain(entry);
-
-        if ( first_id != entry )
-        {
-            sLog.outErrorDb("Spell %u listed in `spell_proc_event` is not first rank (%u) in chain", entry, first_id);
-            // prevent loading since it won't have an effect anyway
             continue;
         }
 
@@ -1050,13 +1099,34 @@ void SpellMgr::LoadSpellProcEvents()
         spe.customChance    = fields[9].GetFloat();
         spe.cooldown        = fields[10].GetUInt32();
 
+        uint32 first_id = GetFirstSpellInChain(entry);
+
+        // most spell ranks expected same data
+        if(first_id)
+        {
+            firstRankSpells.insert(first_id);
+
+            if ( first_id != entry)
+            {
+                // let have independent data in table for spells with ppm rates (exist rank dependent ppm rate spells)
+                if (!spe.ppmRate)
+                {
+                    sLog.outErrorDb("Spell %u listed in `spell_proc_event` is not first rank (%u) in chain", entry, first_id);
+                    // prevent loading since it won't have an effect anyway
+                    continue;
+                }
+                // for later check that first rank als added
+                else
+                {
+                    firstRankSpellsWithCustomRanks.insert(first_id);
+                    ++customRank;
+                }
+            }
+        }
+
         mSpellProcEventMap[entry] = spe;
 
         bool isCustom = false;
-
-        // also add to high ranks
-        DoSpellProcEvent worker(spe);
-        doForHighRanks(entry,worker);
 
         if (spe.procFlags == 0)
         {
@@ -1099,13 +1169,26 @@ void SpellMgr::LoadSpellProcEvents()
             ++count;
     } while( result->NextRow() );
 
+    // check that first rank added for custom ranks
+    for(std::set<uint32>::const_iterator itr = firstRankSpellsWithCustomRanks.begin(); itr != firstRankSpellsWithCustomRanks.end(); ++itr)
+        if (mSpellProcEventMap.find(*itr) == mSpellProcEventMap.end())
+            sLog.outErrorDb("Spell %u must be listed in `spell_proc_event` as first rank for listed custom ranks of spell but not found!", *itr);
+
+    // fill absent non first ranks data base at first rank data
+    for(std::set<uint32>::const_iterator itr = firstRankSpells.begin(); itr != firstRankSpells.end(); ++itr)
+    {
+        SpellProcEventMap::const_iterator speItr = mSpellProcEventMap.find(*itr);
+        if (speItr != mSpellProcEventMap.end())
+        {
+            DoSpellProcEvent worker(mSpellProcEventMap, speItr->second);
+            doForHighRanks(speItr->first,worker);
+        }
+    }
+
     delete result;
 
     sLog.outString();
-    if (customProc)
-        sLog.outString( ">> Loaded %u extra spell proc event conditions +%u custom",  count, customProc );
-    else
-        sLog.outString( ">> Loaded %u extra spell proc event conditions", count );
+    sLog.outString( ">> Loaded %u extra spell proc event conditions +%u custom proc (inc. +%u custom ranks)",  count, customProc, customRank );
 }
 
 struct DoSpellProcItemEnchant
@@ -1469,7 +1552,7 @@ bool SpellMgr::IsRankSpellDueToSpell(SpellEntry const *spellInfo_1,uint32 spellI
 
 bool SpellMgr::canStackSpellRanks(SpellEntry const *spellInfo)
 {
-    if(IsPassiveSpell(spellInfo->Id))                       // ranked passive spell
+    if(IsPassiveSpell(spellInfo))                           // ranked passive spell
         return false;
     if(spellInfo->powerType != POWER_MANA && spellInfo->powerType != POWER_HEALTH)
         return false;
@@ -2073,37 +2156,44 @@ bool SpellMgr::IsSkillBonusSpell(uint32 spellId) const
     return false;
 }
 
-SpellEntry const* SpellMgr::SelectAuraRankForPlayerLevel(SpellEntry const* spellInfo, uint32 playerLevel) const
+SpellEntry const* SpellMgr::SelectAuraRankForLevel(SpellEntry const* spellInfo, uint32 level) const
 {
-    // ignore passive spells
-    if(IsPassiveSpell(spellInfo->Id))
+    // fast case
+    if (level + 10 >= spellInfo->spellLevel)
+        return spellInfo;
+
+    // ignore selection for passive spells
+    if (IsPassiveSpell(spellInfo))
         return spellInfo;
 
     bool needRankSelection = false;
     for(int i = 0; i < MAX_EFFECT_INDEX; ++i)
     {
-        if (IsPositiveEffect(spellInfo->Id, SpellEffectIndex(i)) && (
-            spellInfo->Effect[i] == SPELL_EFFECT_APPLY_AURA ||
+        // for simple aura in check apply to any non caster based targets, in rank search mode to any explicit targets
+        if (((spellInfo->Effect[i] == SPELL_EFFECT_APPLY_AURA && 
+            (IsExplicitPositiveTarget(spellInfo->EffectImplicitTargetA[i]) ||
+            IsAreaEffectPossitiveTarget(Targets(spellInfo->EffectImplicitTargetA[i])))) ||
             spellInfo->Effect[i] == SPELL_EFFECT_APPLY_AREA_AURA_PARTY ||
-            spellInfo->Effect[i] == SPELL_EFFECT_APPLY_AREA_AURA_RAID))
+            spellInfo->Effect[i] == SPELL_EFFECT_APPLY_AREA_AURA_RAID) &&
+            IsPositiveEffect(spellInfo->Id, SpellEffectIndex(i)))
         {
             needRankSelection = true;
             break;
         }
     }
 
-    // not required
-    if(!needRankSelection)
+    // not required (rank check more slow so check it here)
+    if (!needRankSelection || GetSpellRank(spellInfo->Id) == 0)
         return spellInfo;
 
     for(uint32 nextSpellId = spellInfo->Id; nextSpellId != 0; nextSpellId = GetPrevSpellInChain(nextSpellId))
     {
         SpellEntry const *nextSpellInfo = sSpellStore.LookupEntry(nextSpellId);
-        if(!nextSpellInfo)
+        if (!nextSpellInfo)
             break;
 
         // if found appropriate level
-        if(playerLevel + 10 >= nextSpellInfo->spellLevel)
+        if (level + 10 >= spellInfo->spellLevel)
             return nextSpellInfo;
 
         // one rank less then
@@ -2118,8 +2208,42 @@ void SpellMgr::LoadSpellChains()
     mSpellChains.clear();                                   // need for reload case
     mSpellChainsNext.clear();                               // need for reload case
 
+    // load known data for talents
+    for (unsigned int i = 0; i < sTalentStore.GetNumRows(); ++i)
+    {
+        TalentEntry const *talentInfo = sTalentStore.LookupEntry(i);
+        if (!talentInfo)
+            continue;
+
+        // not add ranks for 1 ranks talents (if exist non ranks spells then it will included in table data)
+        if (!talentInfo->RankID[1])
+            continue;
+
+        for (int j = 0; j < MAX_TALENT_RANK; j++)
+        {
+            uint32 spell_id = talentInfo->RankID[j];
+            if (!spell_id)
+                continue;
+
+            if (!sSpellStore.LookupEntry(spell_id))
+            {
+                //sLog.outErrorDb("Talent %u not exist as spell",spell_id);
+                continue;
+            }
+
+            SpellChainNode node;
+            node.prev  = (j > 0) ? talentInfo->RankID[j-1] : 0;
+            node.first = talentInfo->RankID[0];
+            node.rank  = j+1;
+            node.req   = 0;
+
+            mSpellChains[spell_id] = node;
+        }
+    }
+
+    // load custom case
     QueryResult *result = WorldDatabase.Query("SELECT spell_id, prev_spell, first_spell, rank, req_spell FROM spell_chain");
-    if(result == NULL)
+    if (!result)
     {
         sLog.outString( ">> Loaded 0 spell chain records" );
         return;
@@ -2138,9 +2262,15 @@ void SpellMgr::LoadSpellChains()
         node.rank  = fields[3].GetUInt8();
         node.req   = fields[4].GetUInt32();
 
-        if(!sSpellStore.LookupEntry(spell_id))
+        if (!sSpellStore.LookupEntry(spell_id))
         {
             sLog.outErrorDb("Spell %u listed in `spell_chain` does not exist",spell_id);
+            continue;
+        }
+
+        if (mSpellChains.find(spell_id) != mSpellChains.end())
+        {
+            sLog.outErrorDb("Spell %u already added (talent?) and non need in `spell_chain`",spell_id);
             continue;
         }
 
@@ -2212,12 +2342,6 @@ void SpellMgr::LoadSpellChains()
 
         mSpellChains[spell_id] = node;
 
-        if(node.prev)
-            mSpellChainsNext.insert(SpellChainMapNext::value_type(node.prev,spell_id));
-
-        if(node.req)
-            mSpellChainsNext.insert(SpellChainMapNext::value_type(node.req,spell_id));
-
         ++count;
     } while( result->NextRow() );
 
@@ -2269,6 +2393,19 @@ void SpellMgr::LoadSpellChains()
                     i_req->second.prev,i_req->second.first,i_req->second.rank,i_req->second.req);
             }
         }
+    }
+
+	// fill next rank cache
+    for(SpellChainMap::const_iterator i = mSpellChains.begin(); i != mSpellChains.end(); ++i)
+    {
+        uint32 spell_id = i->first;
+        SpellChainNode const& node = i->second;
+
+        if(node.prev)
+            mSpellChainsNext.insert(SpellChainMapNext::value_type(node.prev,spell_id));
+
+        if(node.req)
+            mSpellChainsNext.insert(SpellChainMapNext::value_type(node.req,spell_id));
     }
 
     sLog.outString( ">> Loaded %u spell chain records", count );
@@ -2383,7 +2520,7 @@ void SpellMgr::LoadSpellLearnSpells()
                 // talent or passive spells or skill-step spells auto-casted and not need dependent learning,
                 // pet teaching spells don't must be dependent learning (casted)
                 // other required explicit dependent learning
-                dbc_node.autoLearned = entry->EffectImplicitTargetA[i]==TARGET_PET || GetTalentSpellCost(spell) > 0 || IsPassiveSpell(spell) || IsSpellHaveEffect(entry,SPELL_EFFECT_SKILL_STEP);
+                dbc_node.autoLearned = entry->EffectImplicitTargetA[i]==TARGET_PET || GetTalentSpellCost(spell) > 0 || IsPassiveSpell(entry) || IsSpellHaveEffect(entry,SPELL_EFFECT_SKILL_STEP);
 
                 SpellLearnSpellMapBounds db_node_bounds = GetSpellLearnSpellMapBounds(spell);
 
@@ -2699,7 +2836,7 @@ bool LoadPetDefaultSpells_helper(CreatureInfo const* cInfo, PetDefaultSpellsEntr
 
 void SpellMgr::LoadPetDefaultSpells()
 {
-    ASSERT(MAX_CREATURE_SPELL_DATA_SLOT==CREATURE_MAX_SPELLS);
+    //ASSERT(MAX_CREATURE_SPELL_DATA_SLOT==CREATURE_MAX_SPELLS);
 
     mPetDefaultSpellsMap.clear();
 

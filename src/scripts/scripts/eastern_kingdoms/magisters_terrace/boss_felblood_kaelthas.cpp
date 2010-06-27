@@ -74,7 +74,7 @@ float KaelLocations[3][2]=
 
 #define LOCATION_Z                  -16.727455f
 
-struct DIAMOND_DLL_DECL boss_felblood_kaelthasAI : public ScriptedAI
+struct boss_felblood_kaelthasAI : public ScriptedAI
 {
     boss_felblood_kaelthasAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -418,7 +418,7 @@ struct DIAMOND_DLL_DECL boss_felblood_kaelthasAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL mob_felkael_phoenixAI : public ScriptedAI
+struct mob_felkael_phoenixAI : public ScriptedAI
 {
     mob_felkael_phoenixAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -528,7 +528,7 @@ struct DIAMOND_DLL_DECL mob_felkael_phoenixAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL mob_felkael_phoenix_eggAI : public ScriptedAI
+struct mob_felkael_phoenix_eggAI : public ScriptedAI
 {
     mob_felkael_phoenix_eggAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -553,7 +553,7 @@ struct DIAMOND_DLL_DECL mob_felkael_phoenix_eggAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL mob_arcane_sphereAI : public ScriptedAI
+struct mob_arcane_sphereAI : public ScriptedAI
 {
     mob_arcane_sphereAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

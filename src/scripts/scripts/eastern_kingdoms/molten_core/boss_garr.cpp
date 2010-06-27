@@ -32,7 +32,7 @@ EndScriptData */
 #define SPELL_ERUPTION              19497
 #define SPELL_IMMOLATE              20294
 
-struct DIAMOND_DLL_DECL boss_garrAI : public ScriptedAI
+struct boss_garrAI : public ScriptedAI
 {
     boss_garrAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -72,7 +72,7 @@ struct DIAMOND_DLL_DECL boss_garrAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL mob_fireswornAI : public ScriptedAI
+struct mob_fireswornAI : public ScriptedAI
 {
     mob_fireswornAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

@@ -27,7 +27,7 @@ class Player;
 class GameObject;
 class Creature;
 
-class DIAMOND_DLL_SPEC InstanceData
+class InstanceData
 {
     public:
 
@@ -56,6 +56,8 @@ class DIAMOND_DLL_SPEC InstanceData
 
         //Called when a player successfully enters the instance (after really added to map)
         virtual void OnPlayerEnter(Player *) {}
+
+		void HandleGameObject(uint64 GUID, bool open, GameObject *go = NULL);
 
         //Called when a gameobject is created
         virtual void OnObjectCreate(GameObject *) {}

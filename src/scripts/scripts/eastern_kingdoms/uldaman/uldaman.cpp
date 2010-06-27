@@ -34,7 +34,7 @@ EndContentData */
 
 #define SPELL_CSLUMBER        3636
 
-struct DIAMOND_DLL_DECL mob_jadespine_basiliskAI : public ScriptedAI
+struct mob_jadespine_basiliskAI : public ScriptedAI
 {
     mob_jadespine_basiliskAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

@@ -24,7 +24,7 @@ EndScriptData */
 #include "precompiled.h"
 #include "utgarde_pinnacle.h"
 
-struct DIAMOND_DLL_DECL instance_pinnacle : public ScriptedInstance
+struct instance_pinnacle : public ScriptedInstance
 {
     instance_pinnacle(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

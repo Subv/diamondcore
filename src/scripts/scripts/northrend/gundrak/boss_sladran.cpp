@@ -59,7 +59,7 @@ enum
 /*######
 ## mob_sladran_summon_target
 ######*/
-struct DIAMOND_DLL_DECL mob_sladran_summon_targetAI : public ScriptedAI
+struct mob_sladran_summon_targetAI : public ScriptedAI
 {
     mob_sladran_summon_targetAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -97,7 +97,7 @@ CreatureAI* GetAI_mob_sladran_summon_target(Creature* pCreature)
 /*######
 ## boss_sladran
 ######*/
-struct DIAMOND_DLL_DECL boss_sladranAI : public ScriptedAI
+struct boss_sladranAI : public ScriptedAI
 {
     boss_sladranAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

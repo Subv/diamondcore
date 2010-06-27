@@ -54,7 +54,7 @@ EndContentData */
 
 #define C_COUNCIL_ENFORCER      17023
 
-struct DIAMOND_DLL_DECL npc_medivh_bmAI : public ScriptedAI
+struct npc_medivh_bmAI : public ScriptedAI
 {
     npc_medivh_bmAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -244,7 +244,7 @@ static Wave PortalWaves[]=
     {NPC_EXECU, NPC_VANQU, NPC_CHRON, NPC_ASSAS}
 };
 
-struct DIAMOND_DLL_DECL npc_time_riftAI : public ScriptedAI
+struct npc_time_riftAI : public ScriptedAI
 {
     npc_time_riftAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

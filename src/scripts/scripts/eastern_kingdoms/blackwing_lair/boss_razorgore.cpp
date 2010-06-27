@@ -37,7 +37,7 @@ enum
     SPELL_CONFLAGRATION  = 23023
 };
 
-struct DIAMOND_DLL_DECL boss_razorgoreAI : public ScriptedAI
+struct boss_razorgoreAI : public ScriptedAI
 {
     boss_razorgoreAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

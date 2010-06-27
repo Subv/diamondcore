@@ -29,7 +29,7 @@
 namespace Diamond
 {
     template<typename MUTEX>
-    class DIAMOND_DLL_DECL GeneralLock
+    class GeneralLock
     {
         public:
 
@@ -52,7 +52,7 @@ namespace Diamond
     };
 
     template<class T>
-    class DIAMOND_DLL_DECL SingleThreaded
+    class SingleThreaded
     {
         public:
 
@@ -72,7 +72,7 @@ namespace Diamond
     };
 
     template<class T, class MUTEX>
-    class DIAMOND_DLL_DECL ObjectLevelLockable
+    class ObjectLevelLockable
     {
         public:
 
@@ -107,7 +107,7 @@ namespace Diamond
     };
 
     template<class T, class MUTEX>
-    class DIAMOND_DLL_DECL ClassLevelLockable
+    class ClassLevelLockable
     {
         public:
 
@@ -152,6 +152,6 @@ namespace Diamond
 template<class T, class MUTEX> MUTEX Diamond::ClassLevelLockable<T, MUTEX>::si_mtx;
 
 #define INSTANTIATE_CLASS_MUTEX(CTYPE, MUTEX) \
-    template class DIAMOND_DLL_DECL Diamond::ClassLevelLockable<CTYPE, MUTEX>
+    template class Diamond::ClassLevelLockable<CTYPE, MUTEX>
 
 #endif

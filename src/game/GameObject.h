@@ -576,7 +576,7 @@ class Unit;
 // 5 sec for bobber catch
 #define FISHING_BOBBER_READY_TIME 5
 
-class DIAMOND_DLL_SPEC GameObject : public WorldObject
+class GameObject : public WorldObject
 {
     public:
         explicit GameObject();
@@ -612,9 +612,9 @@ class DIAMOND_DLL_SPEC GameObject : public WorldObject
         void SetOwnerGUID(uint64 owner)
         {
             m_spawnedByDefault = false;                     // all object with owner is despawned after delay
-            SetUInt64Value(OBJECT_FIELD_CREATED_BY, owner);
+            SetUInt64Value(GAMEOBJECT_CREATED_BY, owner);
         }
-        uint64 GetOwnerGUID() const { return GetUInt64Value(OBJECT_FIELD_CREATED_BY); }
+        uint64 GetOwnerGUID() const { return GetUInt64Value(GAMEOBJECT_CREATED_BY); }
         Unit* GetOwner() const;
 
         void SetSpellId(uint32 id)
@@ -703,7 +703,6 @@ class DIAMOND_DLL_SPEC GameObject : public WorldObject
 
         GridReference<GameObject> &GetGridRef() { return m_gridRef; }
 
-        bool isActiveObject() const { return false; }
         uint64 GetRotation() const { return m_rotation; }
         void DealSiegeDamage(uint32 damage);
     protected:

@@ -31,7 +31,7 @@ EndScriptData */
 #define SPELL_ANTI_AOE     68595
 #define SPELL_PVP_TRINKET  65547
 
-struct DIAMOND_DLL_DECL boss_faction_championsAI : public ScriptedAI
+struct boss_faction_championsAI : public ScriptedAI
 {
     boss_faction_championsAI(Creature* pCreature, uint32 aitype) : ScriptedAI(pCreature) 
     {
@@ -219,7 +219,7 @@ struct DIAMOND_DLL_DECL boss_faction_championsAI : public ScriptedAI
 #define SPELL_THORNS           66068
 #define SPELL_NATURE_GRASP     66071 //1 min cd, self buff
 
-struct DIAMOND_DLL_DECL mob_toc_druidAI : public boss_faction_championsAI
+struct mob_toc_druidAI : public boss_faction_championsAI
 {
     mob_toc_druidAI(Creature* pCreature) : boss_faction_championsAI(pCreature, AI_HEALER) {Init();}
 
@@ -273,7 +273,7 @@ struct DIAMOND_DLL_DECL mob_toc_druidAI : public boss_faction_championsAI
 #define SPELL_EARTH_SHIELD         66063
 #define SPELL_EARTH_SHOCK          65973
 
-struct DIAMOND_DLL_DECL mob_toc_shamanAI : public boss_faction_championsAI
+struct mob_toc_shamanAI : public boss_faction_championsAI
 {
     mob_toc_shamanAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_HEALER) {Init();}
 
@@ -323,7 +323,7 @@ struct DIAMOND_DLL_DECL mob_toc_shamanAI : public boss_faction_championsAI
 #define SPELL_HAND_OF_PROTECTION 66009
 #define SPELL_HAMMER_OF_JUSTICE  66613
 
-struct DIAMOND_DLL_DECL mob_toc_paladinAI : public boss_faction_championsAI
+struct mob_toc_paladinAI : public boss_faction_championsAI
 {
     mob_toc_paladinAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_HEALER) {Init();}
 
@@ -376,7 +376,7 @@ struct DIAMOND_DLL_DECL mob_toc_paladinAI : public boss_faction_championsAI
 #define SPELL_PSYCHIC_SCREAM   65543
 #define SPELL_MANA_BURN        66100
 
-struct DIAMOND_DLL_DECL mob_toc_priestAI : public boss_faction_championsAI
+struct mob_toc_priestAI : public boss_faction_championsAI
 {
     mob_toc_priestAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_HEALER) {Init();}
 
@@ -430,7 +430,7 @@ struct DIAMOND_DLL_DECL mob_toc_priestAI : public boss_faction_championsAI
 #define SPELL_DISPERSION       65544
 #define SPELL_SHADOWFORM       16592
 
-struct DIAMOND_DLL_DECL mob_toc_shadow_priestAI : public boss_faction_championsAI
+struct mob_toc_shadow_priestAI : public boss_faction_championsAI
 {
     mob_toc_shadow_priestAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_RANGED) {Init();}
 
@@ -491,7 +491,7 @@ struct DIAMOND_DLL_DECL mob_toc_shadow_priestAI : public boss_faction_championsA
 #define SPELL_Unstable_Affliction  65812
 #define H_SPELL_Unstable_Affliction 68155 //15s
 
-struct DIAMOND_DLL_DECL mob_toc_warlockAI : public boss_faction_championsAI
+struct mob_toc_warlockAI : public boss_faction_championsAI
 {
     mob_toc_warlockAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_RANGED) {Init();}
 
@@ -545,7 +545,7 @@ struct DIAMOND_DLL_DECL mob_toc_warlockAI : public boss_faction_championsAI
 #define SPELL_Ice_Block        65802 //5min
 #define SPELL_Polymorph        65801 //15s
 
-struct DIAMOND_DLL_DECL mob_toc_mageAI : public boss_faction_championsAI
+struct mob_toc_mageAI : public boss_faction_championsAI
 {
     mob_toc_mageAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_RANGED) {Init();}
 
@@ -601,7 +601,7 @@ struct DIAMOND_DLL_DECL mob_toc_mageAI : public boss_faction_championsAI
 #define SPELL_WING_CLIP        66207 //6s
 #define SPELL_Wyvern_Sting     65877 //60s
 
-struct DIAMOND_DLL_DECL mob_toc_hunterAI : public boss_faction_championsAI
+struct mob_toc_hunterAI : public boss_faction_championsAI
 {
     mob_toc_hunterAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_RANGED) {Init();}
 
@@ -653,7 +653,7 @@ struct DIAMOND_DLL_DECL mob_toc_hunterAI : public boss_faction_championsAI
 #define SPELL_Starfire         65854
 #define SPELL_Wrath            65862
 
-struct DIAMOND_DLL_DECL mob_toc_boomkinAI : public boss_faction_championsAI
+struct mob_toc_boomkinAI : public boss_faction_championsAI
 {
     mob_toc_boomkinAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_RANGED) {Init();}
 
@@ -708,7 +708,7 @@ struct DIAMOND_DLL_DECL mob_toc_boomkinAI : public boss_faction_championsAI
 #define SPELL_SHATTERING_THROW     65940
 #define SPELL_RETALIATION          65932
 
-struct DIAMOND_DLL_DECL mob_toc_warriorAI : public boss_faction_championsAI
+struct mob_toc_warriorAI : public boss_faction_championsAI
 {
     mob_toc_warriorAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_MELEE) {Init();}
 
@@ -743,7 +743,7 @@ struct DIAMOND_DLL_DECL mob_toc_warriorAI : public boss_faction_championsAI
 #define SPELL_Icy_Touch          66021  //8sec
 #define SPELL_Strangulate        66018 //2min
 
-struct DIAMOND_DLL_DECL mob_toc_dkAI : public boss_faction_championsAI
+struct mob_toc_dkAI : public boss_faction_championsAI
 {
     mob_toc_dkAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_MELEE) {Init();}
 
@@ -783,7 +783,7 @@ struct DIAMOND_DLL_DECL mob_toc_dkAI : public boss_faction_championsAI
 #define SPELL_HEMORRHAGE           65954
 #define SPELL_EVISCERATE           65957
 
-struct DIAMOND_DLL_DECL mob_toc_rogueAI : public boss_faction_championsAI
+struct mob_toc_rogueAI : public boss_faction_championsAI
 {
     mob_toc_rogueAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_MELEE) {Init();}
 
@@ -822,7 +822,7 @@ struct DIAMOND_DLL_DECL mob_toc_rogueAI : public boss_faction_championsAI
 #define SPELL_LAVA_LASH        65974
 #define SPELL_STORMSTRIKE      65970
 
-struct DIAMOND_DLL_DECL mob_toc_enh_shamanAI : public boss_faction_championsAI
+struct mob_toc_enh_shamanAI : public boss_faction_championsAI
 {
     mob_toc_enh_shamanAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_MELEE) {Init();}
 
@@ -854,7 +854,7 @@ struct DIAMOND_DLL_DECL mob_toc_enh_shamanAI : public boss_faction_championsAI
 #define SPELL_REPENTANCE           66008 //60sec cd
 #define SPELL_Seal_of_Command      66004 //no cd
 
-struct DIAMOND_DLL_DECL mob_toc_retro_paladinAI : public boss_faction_championsAI
+struct mob_toc_retro_paladinAI : public boss_faction_championsAI
 {
     mob_toc_retro_paladinAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_MELEE) {Init();}
 
@@ -890,7 +890,7 @@ struct DIAMOND_DLL_DECL mob_toc_retro_paladinAI : public boss_faction_championsA
 #define SPELL_WPET0 67518
 #define SPELL_WPET1 67519
 
-struct DIAMOND_DLL_DECL mob_toc_pet_warlockAI : public boss_faction_championsAI
+struct mob_toc_pet_warlockAI : public boss_faction_championsAI
 {
     mob_toc_pet_warlockAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_MELEE) {Init();}
 
@@ -911,7 +911,7 @@ struct DIAMOND_DLL_DECL mob_toc_pet_warlockAI : public boss_faction_championsAI
 };
 
 #define SPELL_HPET0 67793
-struct DIAMOND_DLL_DECL mob_toc_pet_hunterAI : public boss_faction_championsAI
+struct mob_toc_pet_hunterAI : public boss_faction_championsAI
 {
     mob_toc_pet_hunterAI(Creature *pCreature) : boss_faction_championsAI(pCreature, AI_MELEE) {Init();}
 

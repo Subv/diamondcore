@@ -48,7 +48,7 @@ enum
 
 };
 
-struct DIAMOND_DLL_DECL npc_aged_dying_ancient_kodoAI : public ScriptedAI
+struct npc_aged_dying_ancient_kodoAI : public ScriptedAI
 {
     npc_aged_dying_ancient_kodoAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 

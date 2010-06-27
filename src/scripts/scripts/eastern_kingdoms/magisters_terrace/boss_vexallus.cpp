@@ -57,7 +57,7 @@ enum
     INTERVAL_SWITCH                 = 6
 };
 
-struct DIAMOND_DLL_DECL boss_vexallusAI : public ScriptedAI
+struct boss_vexallusAI : public ScriptedAI
 {
     boss_vexallusAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -188,7 +188,7 @@ CreatureAI* GetAI_boss_vexallus(Creature* pCreature)
     return new boss_vexallusAI(pCreature);
 };
 
-struct DIAMOND_DLL_DECL mob_pure_energyAI : public ScriptedAI
+struct mob_pure_energyAI : public ScriptedAI
 {
     mob_pure_energyAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

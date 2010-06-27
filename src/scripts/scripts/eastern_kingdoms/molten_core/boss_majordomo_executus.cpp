@@ -50,7 +50,7 @@ EndScriptData */
 #define ENTRY_FLAMEWALKER_HEALER    11663
 #define ENTRY_FLAMEWALKER_ELITE     11664
 
-struct DIAMOND_DLL_DECL boss_majordomoAI : public ScriptedAI
+struct boss_majordomoAI : public ScriptedAI
 {
     boss_majordomoAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

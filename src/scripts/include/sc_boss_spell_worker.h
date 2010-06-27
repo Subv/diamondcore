@@ -83,14 +83,14 @@ struct SpellTable
     int32  textEntry;                                  // Text entry from script_text for this spell
 };
 
-class DIAMOND_DLL_DECL BossAura : public Aura
+class BossAura : public Aura
 {
     public:
         BossAura(const SpellEntry *spell, SpellEffectIndex effect, int32 *basepoints, Unit *target, Unit *caster) : Aura(spell, effect, basepoints, target, caster)
             {}
 };
 
-class DIAMOND_DLL_DECL BossSpellWorker
+class BossSpellWorker
 {
     public:
         explicit BossSpellWorker(ScriptedAI* bossAI);

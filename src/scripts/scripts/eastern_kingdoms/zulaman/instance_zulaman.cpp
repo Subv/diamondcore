@@ -24,7 +24,7 @@ EndScriptData */
 #include "precompiled.h"
 #include "zulaman.h"
 
-struct DIAMOND_DLL_DECL instance_zulaman : public ScriptedInstance
+struct instance_zulaman : public ScriptedInstance
 {
     instance_zulaman(Map* pMap) : ScriptedInstance(pMap) {Initialize();}
 

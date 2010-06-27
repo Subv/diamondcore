@@ -85,7 +85,7 @@ enum
     AREA_MERCHANT_COAST         = 391
 };
 
-struct DIAMOND_DLL_DECL npc_giltharesAI : public npc_escortAI
+struct npc_giltharesAI : public npc_escortAI
 {
     npc_giltharesAI(Creature* pCreature) : npc_escortAI(pCreature) { Reset(); }
 
@@ -200,7 +200,7 @@ enum
     SPELL_FOLLY         = 10137,
 };
 
-struct DIAMOND_DLL_DECL npc_taskmaster_fizzuleAI : public ScriptedAI
+struct npc_taskmaster_fizzuleAI : public ScriptedAI
 {
     npc_taskmaster_fizzuleAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -306,7 +306,7 @@ float AffrayChallengerLoc[6][4]=
     {-1677.0f, -4334.0f, 2.79f, 1.66f}
 };
 
-struct DIAMOND_DLL_DECL npc_twiggy_flatheadAI : public ScriptedAI
+struct npc_twiggy_flatheadAI : public ScriptedAI
 {
     npc_twiggy_flatheadAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -465,7 +465,7 @@ CreatureAI* GetAI_npc_twiggy_flathead(Creature* pCreature)
     return new npc_twiggy_flatheadAI(pCreature);
 }
 
-bool AreaTrigger_at_twiggy_flathead(Player* pPlayer, AreaTriggerEntry* pAt)
+bool AreaTrigger_at_twiggy_flathead(Player* pPlayer, AreaTriggerEntry const* pAt)
 {
     if (!pPlayer->isDead() && pPlayer->GetQuestStatus(QUEST_AFFRAY) == QUEST_STATUS_INCOMPLETE)
     {
@@ -510,7 +510,7 @@ enum
     NPC_MERCENARY       = 3282
 };
 
-struct DIAMOND_DLL_DECL npc_wizzlecranks_shredderAI : public npc_escortAI
+struct npc_wizzlecranks_shredderAI : public npc_escortAI
 {
     npc_wizzlecranks_shredderAI(Creature* pCreature) : npc_escortAI(pCreature)
     {

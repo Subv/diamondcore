@@ -33,7 +33,7 @@ enum
     //SPELL_FIRE_SHIELD           = 0                       //should supposedly have some aura, but proper spell not found
 };
 
-struct DIAMOND_DLL_DECL boss_vectusAI : public ScriptedAI
+struct boss_vectusAI : public ScriptedAI
 {
     boss_vectusAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

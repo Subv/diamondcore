@@ -48,7 +48,7 @@ enum
     SPELL_TWISTEDREFLECTION         = 21063
 };
 
-struct DIAMOND_DLL_DECL boss_doomlordkazzakAI : public ScriptedAI
+struct boss_doomlordkazzakAI : public ScriptedAI
 {
     boss_doomlordkazzakAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

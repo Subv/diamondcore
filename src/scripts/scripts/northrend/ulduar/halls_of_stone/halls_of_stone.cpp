@@ -101,7 +101,7 @@ enum
 ## npc_brann_hos
 ######*/
 
-struct DIAMOND_DLL_DECL npc_brann_hosAI : public npc_escortAI
+struct npc_brann_hosAI : public npc_escortAI
 {
     npc_brann_hosAI(Creature* pCreature) : npc_escortAI(pCreature)
     {

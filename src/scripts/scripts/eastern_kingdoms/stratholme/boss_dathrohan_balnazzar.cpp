@@ -63,7 +63,7 @@ SummonDef m_aSummonPoint[]=
     {3457.338f, -3073.979f, 135.002f, 3.784f}               //G2 back, right
 };
 
-struct DIAMOND_DLL_DECL boss_dathrohan_balnazzarAI : public ScriptedAI
+struct boss_dathrohan_balnazzarAI : public ScriptedAI
 {
     boss_dathrohan_balnazzarAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

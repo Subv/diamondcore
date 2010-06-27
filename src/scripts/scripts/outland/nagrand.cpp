@@ -39,7 +39,7 @@ EndContentData */
 ## mob_shattered_rumbler - this should be done with ACID
 ######*/
 
-struct DIAMOND_DLL_DECL mob_shattered_rumblerAI : public ScriptedAI
+struct mob_shattered_rumblerAI : public ScriptedAI
 {
     bool Spawn;
 
@@ -83,7 +83,7 @@ CreatureAI* GetAI_mob_shattered_rumbler(Creature* pCreature)
 #define SPELL_VISUAL_SLEEP  16093
 #define SPELL_SPEAR_THROW   32248
 
-struct DIAMOND_DLL_DECL mob_lumpAI : public ScriptedAI
+struct mob_lumpAI : public ScriptedAI
 {
     mob_lumpAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -220,7 +220,7 @@ bool GossipSelect_mob_lump(Player* pPlayer, Creature* pCreature, uint32 uiSender
 # mob_sunspring_villager - should be done with ACID
 ####*/
 
-struct DIAMOND_DLL_DECL mob_sunspring_villagerAI : public ScriptedAI
+struct mob_sunspring_villagerAI : public ScriptedAI
 {
     mob_sunspring_villagerAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 
@@ -510,7 +510,7 @@ enum
 static float m_afAmbushA[]= {-1568.805786f, 8533.873047f, 1.958f};
 static float m_afAmbushB[]= {-1491.554321f, 8506.483398f, 1.248f};
 
-struct DIAMOND_DLL_DECL npc_maghar_captiveAI : public npc_escortAI
+struct npc_maghar_captiveAI : public npc_escortAI
 {
     npc_maghar_captiveAI(Creature* pCreature) : npc_escortAI(pCreature) { Reset(); }
 
@@ -650,7 +650,7 @@ enum
     QUEST_VISIT_WITH_ANCESTORS  = 10085
 };
 
-struct DIAMOND_DLL_DECL npc_creditmarker_visit_with_ancestorsAI : public ScriptedAI
+struct npc_creditmarker_visit_with_ancestorsAI : public ScriptedAI
 {
     npc_creditmarker_visit_with_ancestorsAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 

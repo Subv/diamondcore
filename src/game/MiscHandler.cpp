@@ -33,7 +33,7 @@
 #include "UpdateData.h"
 #include "LootMgr.h"
 #include "Chat.h"
-#include "ScriptCalls.h"
+#include "ScriptMgr.h"
 #include <zlib/zlib.h>
 #include "ObjectAccessor.h"
 #include "Object.h"
@@ -266,7 +266,7 @@ void WorldSession::HandleLogoutRequestOpcode( WorldPacket & /*recv_data*/ )
     //Can not logout if...
     if( GetPlayer()->isInCombat() ||                        //...is in combat
         GetPlayer()->duel         ||                        //...is in Duel
-        GetPlayer()->GetVehicleGUID() ||                    //...is in vehicle
+        GetPlayer()->GetVehicle() ||                        //...is in vehicle
                                                             //...is jumping ...is falling
         GetPlayer()->m_movementInfo.HasMovementFlag(MovementFlags(MOVEFLAG_FALLING | MOVEFLAG_FALLINGFAR)))
     {
@@ -708,7 +708,7 @@ void WorldSession::HandleAreaTriggerOpcode(WorldPacket & recv_data)
         return;
     }
 
-    if(Script->scriptAreaTrigger(pl, atEntry))
+	if(sScriptMgr.AreaTrigger(pl, atEntry))
         return;
 
     uint32 quest_id = sObjectMgr.GetQuestForAreaTrigger( Trigger_ID );
@@ -1294,10 +1294,10 @@ void WorldSession::HandleFarSightOpcode( WorldPacket & recv_data )
             //WorldPacket data(SMSG_CLEAR_FAR_SIGHT_IMMEDIATE, 0)
             //SendPacket(&data);
             //_player->SetUInt64Value(PLAYER_FARSIGHT, 0);
-            DEBUG_LOG("Removed FarSight from player %u", _player->GetGUIDLow());
+            DEBUG_LOG("Removed FarSight from %s", _player->GetObjectGuid().GetString().c_str());
             break;
         case 1:
-            DEBUG_LOG("Added FarSight (GUID:%u TypeId:%u) to player %u", GUID_LOPART(_player->GetFarSight()), GuidHigh2TypeId(GUID_HIPART(_player->GetFarSight())), _player->GetGUIDLow());
+            DEBUG_LOG("Added FarSight %s to %s", _player->GetFarSightGuid().GetString().c_str(), _player->GetObjectGuid().GetString().c_str());
             break;
     }
 }

@@ -18,6 +18,7 @@
 
 #include "InstanceData.h"
 #include "Database/DatabaseEnv.h"
+#include "GameObject.h"
 #include "Map.h"
 #include "Log.h"
 
@@ -27,6 +28,16 @@ void InstanceData::SaveToDB()
     std::string data = Save();
     CharacterDatabase.escape_string(data);
     CharacterDatabase.PExecute("UPDATE instance SET data = '%s' WHERE id = '%d'", data.c_str(), instance->GetInstanceId());
+}
+
+void InstanceData::HandleGameObject(uint64 GUID, bool open, GameObject *go)
+{
+    if (!go)
+        go = instance->GetGameObject(GUID);
+    if (go)
+        go->SetGoState(open ? GO_STATE_ACTIVE : GO_STATE_READY);
+    else
+        debug_log("DC: InstanceData: HandleGameObject failed");
 }
 
 bool InstanceData::CheckAchievementCriteriaMeet( uint32 criteria_id, Player const* /*source*/, Unit const* /*target*/ /*= NULL*/, uint32 /*miscvalue1*/ /*= 0*/ )

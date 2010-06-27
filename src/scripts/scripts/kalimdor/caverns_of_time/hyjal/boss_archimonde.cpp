@@ -114,7 +114,7 @@ struct mob_ancient_wispAI : public ScriptedAI
 
 /* This script is merely a placeholder for the Doomfire that triggers Doomfire spell. It will
    MoveChase the Doomfire Spirit always, until despawn (AttackStart is called upon it's spawn) */
-struct DIAMOND_DLL_DECL mob_doomfireAI : public ScriptedAI
+struct mob_doomfireAI : public ScriptedAI
 {
     mob_doomfireAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 
@@ -126,7 +126,7 @@ struct DIAMOND_DLL_DECL mob_doomfireAI : public ScriptedAI
 
 /* This is the script for the Doomfire Spirit Mob. This mob simply follow players or
    travels in random directions if target cannot be found. */
-struct DIAMOND_DLL_DECL mob_doomfire_targettingAI : public ScriptedAI
+struct mob_doomfire_targettingAI : public ScriptedAI
 {
     mob_doomfire_targettingAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 
@@ -178,7 +178,7 @@ struct DIAMOND_DLL_DECL mob_doomfire_targettingAI : public ScriptedAI
    For Doomfire, we summon a mob (Doomfire Spirit) for the Doomfire mob to follow. It's spirit will
    randomly select it's target to follow and then we create the random movement making it unpredictable. */
 
-struct DIAMOND_DLL_DECL boss_archimondeAI : public ScriptedAI
+struct boss_archimondeAI : public ScriptedAI
 {
     boss_archimondeAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

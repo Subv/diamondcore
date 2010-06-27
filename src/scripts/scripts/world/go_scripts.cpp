@@ -420,6 +420,25 @@ bool GOHello_go_tele_to_violet_stand(Player* pPlayer, GameObject* pGo)
     return true;
 }
 
+/*######
+## go_bristlelimb_cage
+#####*/
+
+enum Prophecy
+{
+	QUEST_PROPHECY_OF_AKIDA = 9544
+};
+
+bool GOHello_go_bristlelimb_cage(Player* p, GameObject* g)
+{
+    if (p->GetQuestStatus(QUEST_PROPHECY_OF_AKIDA == QUEST_STATUS_INCOMPLETE))
+    {
+        g->UseDoorOrButton();
+        p->KilledMonsterCredit(17375, 0);
+    }
+    return true;
+}
+
 void AddSC_go_scripts()
 {
     Script *newscript;
@@ -517,5 +536,10 @@ void AddSC_go_scripts()
     newscript = new Script;
     newscript->Name = "go_tele_to_violet_stand";
     newscript->pGOHello =           &GOHello_go_tele_to_violet_stand;
+    newscript->RegisterSelf();
+
+    newscript = new Script;
+    newscript->Name = "go_bristlelimb_cage";
+    newscript->pGOHello =           &GOHello_go_bristlelimb_cage;
     newscript->RegisterSelf();
 }

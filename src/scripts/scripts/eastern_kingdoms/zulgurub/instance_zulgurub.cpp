@@ -24,7 +24,7 @@ EndScriptData */
 #include "precompiled.h"
 #include "zulgurub.h"
 
-struct DIAMOND_DLL_DECL instance_zulgurub : public ScriptedInstance
+struct instance_zulgurub : public ScriptedInstance
 {
     instance_zulgurub(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

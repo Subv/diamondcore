@@ -66,7 +66,7 @@ const float SMALL_PORTAL_RADIUS         = 12.6f;
 const float LARGE_PORTAL_RADIUS         = 26.0f;
 const float PORTAL_Z                    = 17.005f;
 
-struct DIAMOND_DLL_DECL boss_high_astromancer_solarianAI : public ScriptedAI
+struct boss_high_astromancer_solarianAI : public ScriptedAI
 {
     boss_high_astromancer_solarianAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -385,7 +385,7 @@ struct DIAMOND_DLL_DECL boss_high_astromancer_solarianAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL mob_solarium_priestAI : public ScriptedAI
+struct mob_solarium_priestAI : public ScriptedAI
 {
     mob_solarium_priestAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

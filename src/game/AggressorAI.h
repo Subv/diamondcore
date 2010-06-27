@@ -21,10 +21,11 @@
 
 #include "CreatureAI.h"
 #include "Timer.h"
+#include "Vehicle.h"
 
 class Creature;
 
-class DIAMOND_DLL_DECL AggressorAI : public CreatureAI
+class AggressorAI : public CreatureAI
 {
     enum AggressorState
     {

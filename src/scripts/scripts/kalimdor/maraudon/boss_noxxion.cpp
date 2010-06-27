@@ -26,7 +26,7 @@ EndScriptData */
 #define SPELL_TOXICVOLLEY           21687
 #define SPELL_UPPERCUT              22916
 
-struct DIAMOND_DLL_DECL boss_noxxionAI : public ScriptedAI
+struct boss_noxxionAI : public ScriptedAI
 {
     boss_noxxionAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

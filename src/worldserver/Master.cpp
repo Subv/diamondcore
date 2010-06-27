@@ -26,11 +26,11 @@
 #include "Timer.h"
 #include "Policies/SingletonImp.h"
 #include "SystemConfig.h"
-#include "Config/ConfigEnv.h"
+#include "Config/Config.h"
 #include "Database/DatabaseEnv.h"
 #include "CliRunnable.h"
 #include "RASocket.h"
-#include "ScriptCalls.h"
+#include "ScriptMgr.h"
 #include "Util.h"
 
 #include <ace/OS_NS_signal.h>
@@ -402,10 +402,6 @@ int Master::Run()
         delete cliThread;
     }
 
-    // for some unknown reason, unloading scripts here and not in worldrunnable
-    // fixes a memory leak related to detaching threads from the module
-    UnloadScriptingModule();
-
     ///- Exit the process with specified return value
     return World::GetExitCode();
 }
@@ -493,6 +489,7 @@ bool Master::_StartDB()
     clearOnlineAccounts();
 
     sWorld.LoadDBVersion();
+    sWorld.InsertCoreVersion();
 
     sLog.outString("Using World DB: %s", sWorld.GetDBVersion());
     sLog.outString("Using creature EventAI: %s", sWorld.GetCreatureEventAIVersion());

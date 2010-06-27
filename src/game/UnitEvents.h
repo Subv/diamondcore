@@ -67,7 +67,7 @@ enum UNIT_EVENT_TYPE
 
 //==============================================================
 
-class DIAMOND_DLL_SPEC UnitBaseEvent
+class UnitBaseEvent
 {
     private:
         uint32 iType;
@@ -82,7 +82,7 @@ class DIAMOND_DLL_SPEC UnitBaseEvent
 
 //==============================================================
 
-class DIAMOND_DLL_SPEC ThreatRefStatusChangeEvent : public UnitBaseEvent
+class ThreatRefStatusChangeEvent : public UnitBaseEvent
 {
     private:
         HostileReference* iHostileReference;
@@ -119,7 +119,7 @@ class DIAMOND_DLL_SPEC ThreatRefStatusChangeEvent : public UnitBaseEvent
 
 //==============================================================
 
-class DIAMOND_DLL_SPEC ThreatManagerEvent : public ThreatRefStatusChangeEvent
+class ThreatManagerEvent : public ThreatRefStatusChangeEvent
 {
     private:
         ThreatContainer* iThreatContainer;

@@ -150,7 +150,6 @@ class ChatHandler
         bool HandleDebugSetAuraStateCommand(const char * args);
         bool HandleDebugSetItemValueCommand(const char * args);
         bool HandleDebugSetValueCommand(const char* args);
-        bool HandleDebugSpawnVehicle(const char * args);
         bool HandleDebugSpellCheckCommand(const char* args);
         bool HandleDebugUpdateCommand(const char* args);
         bool HandleDebugUpdateWorldStateCommand(const char* args);
@@ -427,8 +426,6 @@ class ChatHandler
         bool HandleReloadSpellTargetPositionCommand(const char* args);
         bool HandleReloadSpellThreatsCommand(const char* args);
         bool HandleReloadSpellPetAurasCommand(const char* args);
-        bool HandleReloadVehicleDataCommand(const char* args);
-        bool HandleReloadVehicleSeatDataCommand(const char* args);
 
         bool HandleResetAchievementsCommand(const char * args);
         bool HandleResetAllCommand(const char * args);
@@ -557,6 +554,7 @@ class ChatHandler
         uint32    extractSpellIdFromLink(char* text);
         uint64    extractGuidFromLink(char* text);
         GameTele const* extractGameTeleFromLink(char* text);
+        bool      extractLocationFromLink(char* text, uint32& mapid, float& x, float& y, float& z);
         std::string extractPlayerNameFromLink(char* text);
         // select by arg (name/link) or in-game selection online/offline player
         bool extractPlayerTarget(char* args, Player** player, uint64* player_guid = NULL, std::string* player_name = NULL);
@@ -579,6 +577,8 @@ class ChatHandler
         void HandleCharacterLevel(Player* player, uint64 player_guid, uint32 oldlevel, uint32 newlevel);
         void HandleLearnSkillRecipesHelper(Player* player,uint32 skill_id);
         void ShowSpellListHelper(Player* target, SpellEntry const* spellInfo, LocaleConstant loc);
+        bool HandleGoHelper(Player* _player, uint32 mapid, float x, float y, float const* zPtr = NULL);
+
 
         /**
          * Stores informations about a deleted character

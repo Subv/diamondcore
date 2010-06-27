@@ -47,7 +47,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP /Zm200"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\shared\vmap;..\..\dep\ACE_wrappers"
+				AdditionalIncludeDirectories="..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\shared\vmap;..\..\src\scripts;..\..\dep\ACE_wrappers"
 				PreprocessorDefinitions="WIN32;_DEBUG;DIAMOND_DEBUG;_LIB;"
 				StringPooling="false"
 				MinimalRebuild="false"
@@ -130,7 +130,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP /bigobj /Zm200"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\shared\vmap;..\..\dep\ACE_wrappers"
+				AdditionalIncludeDirectories="..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\shared\vmap;..\..\src\scripts;..\..\dep\ACE_wrappers"
 				PreprocessorDefinitions="WIN32;_DEBUG;DIAMOND_DEBUG;_LIB;"
 				StringPooling="false"
 				MinimalRebuild="false"
@@ -213,7 +213,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP /Zm200"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\shared\vmap;..\..\dep\ACE_wrappers"
+				AdditionalIncludeDirectories="..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\shared\vmap;..\..\src\scripts;..\..\dep\ACE_wrappers"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_SECURE_SCL=0"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -295,7 +295,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP /bigobj /Zm200"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\shared\vmap;..\..\dep\ACE_wrappers"
+				AdditionalIncludeDirectories="..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\shared\vmap;..\..\src\scripts;..\..\dep\ACE_wrappers"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_SECURE_SCL=0"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -377,7 +377,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\shared\vmap;..\..\dep\ACE_wrappers"
+				AdditionalIncludeDirectories="..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\shared\vmap;..\..\src\scripts;..\..\dep\ACE_wrappers"
 				PreprocessorDefinitions="WIN32;_DEBUG;DIAMOND_DEBUG;_LIB;"
 				StringPooling="false"
 				MinimalRebuild="false"
@@ -458,7 +458,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP /bigobj"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\shared\vmap;..\..\dep\ACE_wrappers"
+				AdditionalIncludeDirectories="..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\shared\vmap;..\..\src\scripts;..\..\dep\ACE_wrappers"
 				PreprocessorDefinitions="WIN32;_DEBUG;DIAMOND_DEBUG;_LIB;"
 				StringPooling="false"
 				MinimalRebuild="false"
@@ -807,7 +807,19 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\game\LFG.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\game\LFGHandler.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\game\LFGMgr.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\src\game\LFGMgr.h"
 				>
 			</File>
 			<File
@@ -908,14 +920,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\game\QuestHandler.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\game\ScriptCalls.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\game\ScriptCalls.h"
 				>
 			</File>
 			<File
@@ -1335,6 +1339,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\game\ObjectFields.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\game\ObjectGuid.cpp"
 				>
 			</File>
@@ -1456,10 +1464,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\game\UnitEvents.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\game\UpdateFields.h"
 				>
 			</File>
 			<File

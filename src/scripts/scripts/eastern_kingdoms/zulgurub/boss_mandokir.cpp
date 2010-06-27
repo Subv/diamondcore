@@ -85,7 +85,7 @@ static SpawnLocations aSpirits[]=
 };
 
 
-struct DIAMOND_DLL_DECL boss_mandokirAI : public ScriptedAI
+struct boss_mandokirAI : public ScriptedAI
 {
     boss_mandokirAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -323,7 +323,7 @@ struct DIAMOND_DLL_DECL boss_mandokirAI : public ScriptedAI
 };
 
 //Ohgan
-struct DIAMOND_DLL_DECL mob_ohganAI : public ScriptedAI
+struct mob_ohganAI : public ScriptedAI
 {
     mob_ohganAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

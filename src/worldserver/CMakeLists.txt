@@ -36,6 +36,7 @@ SET_TARGET_PROPERTIES(WorldServer PROPERTIES LINK_FLAGS "${WorldServer_LINK_FLAG
 target_link_libraries(
 WorldServer
 game
+scripts
 shared
 zlib
 framework
@@ -48,7 +49,6 @@ g3dlite
 ${READLINE_LIBRARY}
 ${TERMCAP_LIBRARY}
 gomp
-${SCRIPT_LIB}
 ${MYSQL_LIBRARIES}
 ${POSTGRESQL_LIBRARIES}
 ${SSLLIB}

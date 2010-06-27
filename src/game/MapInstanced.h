@@ -23,7 +23,7 @@
 #include "InstanceSaveMgr.h"
 #include "DBCEnums.h"
 
-class DIAMOND_DLL_DECL MapInstanced : public Map
+class MapInstanced : public Map
 {
     friend class MapManager;
     public:

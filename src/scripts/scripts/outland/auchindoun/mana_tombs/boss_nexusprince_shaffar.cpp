@@ -50,7 +50,7 @@ enum
     NPC_BEACON                      = 18431
 };
 
-struct DIAMOND_DLL_DECL boss_nexusprince_shaffarAI : public ScriptedAI
+struct boss_nexusprince_shaffarAI : public ScriptedAI
 {
     boss_nexusprince_shaffarAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -191,7 +191,7 @@ enum
     SPELL_ETHEREAL_APPRENTICE       = 32372                 // Summon 18430
 };
 
-struct DIAMOND_DLL_DECL mob_ethereal_beaconAI : public ScriptedAI
+struct mob_ethereal_beaconAI : public ScriptedAI
 {
     mob_ethereal_beaconAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

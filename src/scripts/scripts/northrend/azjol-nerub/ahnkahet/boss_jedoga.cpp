@@ -48,7 +48,7 @@ enum
 ## boss_jedoga
 ######*/
 
-struct DIAMOND_DLL_DECL boss_jedogaAI : public ScriptedAI
+struct boss_jedogaAI : public ScriptedAI
 {
     boss_jedogaAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

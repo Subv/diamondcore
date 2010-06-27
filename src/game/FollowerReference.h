@@ -24,7 +24,7 @@
 class TargetedMovementGeneratorBase;
 class Unit;
 
-class DIAMOND_DLL_SPEC FollowerReference : public Reference<Unit, TargetedMovementGeneratorBase>
+class FollowerReference : public Reference<Unit, TargetedMovementGeneratorBase>
 {
     protected:
         void targetObjectBuildLink();

@@ -53,7 +53,7 @@ EndScriptData */
 #define LOCY                            -264.02f
 #define LOCZ                            17.08f
 
-struct DIAMOND_DLL_DECL boss_grandmaster_vorpilAI : public ScriptedAI
+struct boss_grandmaster_vorpilAI : public ScriptedAI
 {
     boss_grandmaster_vorpilAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

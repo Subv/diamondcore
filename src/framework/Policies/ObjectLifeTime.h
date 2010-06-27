@@ -26,10 +26,10 @@ typedef void (* Destroyer)(void);
 
 namespace Diamond
 {
-    void DIAMOND_DLL_SPEC at_exit(void (*func)());
+    void at_exit(void (*func)());
 
     template<class T>
-    class DIAMOND_DLL_DECL ObjectLifeTime
+    class ObjectLifeTime
     {
         public:
 
@@ -38,7 +38,7 @@ namespace Diamond
                 at_exit(destroyer);
             }
 
-            DECLSPEC_NORETURN static void OnDeadReference() ATTR_NORETURN;
+            static void OnDeadReference() ATTR_NORETURN;
     };
 
     template <class T>

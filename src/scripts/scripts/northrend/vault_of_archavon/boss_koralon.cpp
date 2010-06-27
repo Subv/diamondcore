@@ -18,7 +18,7 @@
 #define SP_CINDER       66684
 #define H_SP_CINDER     67332
 
-struct DIAMOND_DLL_DECL boss_koralonAI : public ScriptedAI
+struct boss_koralonAI : public ScriptedAI
 {
     boss_koralonAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

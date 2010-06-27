@@ -63,7 +63,7 @@ enum
 };
 
 //Original Leotheras the Blind AI
-struct DIAMOND_DLL_DECL boss_leotheras_the_blindAI : public ScriptedAI
+struct boss_leotheras_the_blindAI : public ScriptedAI
 {
     boss_leotheras_the_blindAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -275,7 +275,7 @@ struct DIAMOND_DLL_DECL boss_leotheras_the_blindAI : public ScriptedAI
 };
 
 //Leotheras the Blind Demon Form AI
-struct DIAMOND_DLL_DECL boss_leotheras_the_blind_demonformAI : public ScriptedAI
+struct boss_leotheras_the_blind_demonformAI : public ScriptedAI
 {
     boss_leotheras_the_blind_demonformAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

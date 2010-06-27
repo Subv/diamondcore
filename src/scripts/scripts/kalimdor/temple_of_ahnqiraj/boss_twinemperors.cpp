@@ -57,7 +57,7 @@ EndScriptData */
 #define SPELL_BLIZZARD              26607
 #define SPELL_ARCANEBURST           568
 
-struct DIAMOND_DLL_DECL boss_twinemperorsAI : public ScriptedAI
+struct boss_twinemperorsAI : public ScriptedAI
 {
     ScriptedInstance* m_pInstance;
     uint32 Heal_Timer;
@@ -428,7 +428,7 @@ struct DIAMOND_DLL_DECL boss_twinemperorsAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL boss_veknilashAI : public boss_twinemperorsAI
+struct boss_veknilashAI : public boss_twinemperorsAI
 {
     bool IAmVeklor() {return false;}
     boss_veknilashAI(Creature* pCreature) : boss_twinemperorsAI(pCreature)
@@ -504,7 +504,7 @@ struct DIAMOND_DLL_DECL boss_veknilashAI : public boss_twinemperorsAI
     }
 };
 
-struct DIAMOND_DLL_DECL boss_veklorAI : public boss_twinemperorsAI
+struct boss_veklorAI : public boss_twinemperorsAI
 {
     bool IAmVeklor() {return true;}
     boss_veklorAI(Creature* pCreature) : boss_twinemperorsAI(pCreature)

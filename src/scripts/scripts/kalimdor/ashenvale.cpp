@@ -79,7 +79,7 @@ static float m_afSecondNagaCoord[3][3]=
 
 static float m_fVorshaCoord[] = {3633.056885f, 1172.924072f, -5.388f};
 
-struct DIAMOND_DLL_DECL npc_muglashAI : public npc_escortAI
+struct npc_muglashAI : public npc_escortAI
 {
     npc_muglashAI(Creature* pCreature) : npc_escortAI(pCreature)
     {
@@ -250,7 +250,7 @@ enum
     NPC_T_PATHFINDER        = 3926
 };
 
-struct DIAMOND_DLL_DECL npc_ruul_snowhoofAI : public npc_escortAI
+struct npc_ruul_snowhoofAI : public npc_escortAI
 {
     npc_ruul_snowhoofAI(Creature* pCreature) : npc_escortAI(pCreature) { Reset(); }
 
@@ -324,7 +324,7 @@ enum
     NPC_SILVERWING_WARRIOR      = 12897
 };
 
-struct DIAMOND_DLL_DECL npc_torekAI : public npc_escortAI
+struct npc_torekAI : public npc_escortAI
 {
     npc_torekAI(Creature* pCreature) : npc_escortAI(pCreature) {Reset();}
 

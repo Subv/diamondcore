@@ -50,7 +50,7 @@ enum
     NPC_YSIDA                   = 16031
 };
 
-struct DIAMOND_DLL_DECL instance_stratholme : public ScriptedInstance
+struct instance_stratholme : public ScriptedInstance
 {
     instance_stratholme(Map* pMap) : ScriptedInstance(pMap) {Initialize();};
 

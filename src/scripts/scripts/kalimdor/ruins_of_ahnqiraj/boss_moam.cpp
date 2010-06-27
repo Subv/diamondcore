@@ -41,7 +41,7 @@ enum
     PHASE_ENERGIZING         = 1
 };
 
-struct DIAMOND_DLL_DECL boss_moamAI : public ScriptedAI
+struct boss_moamAI : public ScriptedAI
 {
     boss_moamAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

@@ -115,7 +115,7 @@ Location m_afBrokenWP[]=
     {491.136353f, 427.868774f, LOC_LOW_Z, 3.519748f}
 };
 
-struct DIAMOND_DLL_DECL boss_shade_of_akamaAI : public ScriptedAI
+struct boss_shade_of_akamaAI : public ScriptedAI
 {
     boss_shade_of_akamaAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -400,7 +400,7 @@ struct DIAMOND_DLL_DECL boss_shade_of_akamaAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL npc_akamaAI : public ScriptedAI
+struct npc_akamaAI : public ScriptedAI
 {
     npc_akamaAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -725,7 +725,7 @@ bool GossipSelect_npc_akama(Player* pPlayer, Creature* pCreature, uint32 uiSende
     return true;
 }
 
-struct DIAMOND_DLL_DECL mob_ashtongue_channelerAI : public ScriptedAI
+struct mob_ashtongue_channelerAI : public ScriptedAI
 {
     mob_ashtongue_channelerAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -781,7 +781,7 @@ struct DIAMOND_DLL_DECL mob_ashtongue_channelerAI : public ScriptedAI
     }
 };
 
-struct DIAMOND_DLL_DECL mob_ashtongue_sorcererAI : public ScriptedAI
+struct mob_ashtongue_sorcererAI : public ScriptedAI
 {
     mob_ashtongue_sorcererAI(Creature* pCreature) : ScriptedAI(pCreature)
     {

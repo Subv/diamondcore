@@ -98,7 +98,7 @@ enum SpecialSurprise
     NPC_PLAGUEFIST              = 29053
 };
 
-struct DIAMOND_DLL_DECL npc_a_special_surpriseAI : public ScriptedAI
+struct npc_a_special_surpriseAI : public ScriptedAI
 {
     npc_a_special_surpriseAI(Creature *pCreature) : ScriptedAI(pCreature) { Reset(); }
 
@@ -521,7 +521,7 @@ int32 m_auiRandomSay[] =
 
 #define GOSSIP_ACCEPT_DUEL      "I challenge you, death knight!"
 
-struct DIAMOND_DLL_DECL npc_death_knight_initiateAI : public ScriptedAI
+struct npc_death_knight_initiateAI : public ScriptedAI
 {
     npc_death_knight_initiateAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 
@@ -670,7 +670,7 @@ enum eKoltira
     MODEL_DEATH_KNIGHT_MOUNT        = 25278
 };
 
-struct DIAMOND_DLL_DECL npc_koltira_deathweaverAI : public npc_escortAI
+struct npc_koltira_deathweaverAI : public npc_escortAI
 {
     npc_koltira_deathweaverAI(Creature *pCreature) : npc_escortAI(pCreature) { Reset(); }
 
@@ -886,7 +886,7 @@ DisplayToSpell m_aDisplayToSpell[] =
 ## npc_unworthy_initiate_anchor
 ######*/
 
-struct DIAMOND_DLL_DECL npc_unworthy_initiate_anchorAI : public ScriptedAI
+struct npc_unworthy_initiate_anchorAI : public ScriptedAI
 {
     npc_unworthy_initiate_anchorAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -924,7 +924,7 @@ CreatureAI* GetAI_npc_unworthy_initiate_anchor(Creature* pCreature)
 ## npc_unworthy_initiate
 ######*/
 
-struct DIAMOND_DLL_DECL npc_unworthy_initiateAI : public ScriptedAI
+struct npc_unworthy_initiateAI : public ScriptedAI
 {
     npc_unworthy_initiateAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
@@ -1150,7 +1150,7 @@ enum win_friends
     SPELL_PERSUASIVE_STRIKE           = 52781
 };
 
-struct DIAMOND_DLL_DECL npc_crusade_persuadedAI : public ScriptedAI
+struct npc_crusade_persuadedAI : public ScriptedAI
 {
     npc_crusade_persuadedAI(Creature *pCreature) : ScriptedAI(pCreature)
     {
@@ -1295,7 +1295,7 @@ enum darkrider
     SPELL_DEATH_RACE_COMPLETE   = 52361
 };
 // 52693
-struct DIAMOND_DLL_DECL mob_dark_rider_of_acherusAI : public ScriptedAI
+struct mob_dark_rider_of_acherusAI : public ScriptedAI
 {
     mob_dark_rider_of_acherusAI(Creature *pCreature) : ScriptedAI(pCreature)
     {
@@ -1366,7 +1366,7 @@ enum scarletminer
     NPC_SCARLET_GHOUL                   = 28845
 };
 
-struct DIAMOND_DLL_DECL mob_scarlet_minerAI : public ScriptedAI
+struct mob_scarlet_minerAI : public ScriptedAI
 {
     mob_scarlet_minerAI(Creature *pCreature) : ScriptedAI(pCreature)
     {
@@ -1411,7 +1411,7 @@ enum scarletcourier
     NPC_SCARLET_COURIER                = 29076
 };
 
-struct DIAMOND_DLL_DECL mob_scarlet_courierAI : public ScriptedAI
+struct mob_scarlet_courierAI : public ScriptedAI
 {
     mob_scarlet_courierAI(Creature *pCreature) : ScriptedAI(pCreature)
     {
@@ -1479,7 +1479,7 @@ struct DIAMOND_DLL_DECL mob_scarlet_courierAI : public ScriptedAI
         DoMeleeAttackIfReady();
     }
 };
-struct DIAMOND_DLL_DECL mob_scarlet_courier_controllerAI : public ScriptedAI
+struct mob_scarlet_courier_controllerAI : public ScriptedAI
 {
     mob_scarlet_courier_controllerAI(Creature *pCreature) : ScriptedAI(pCreature)
     {
@@ -1525,7 +1525,7 @@ enum valroth
     SPELL_SUMMON_VALROTH_REMAINS      = 52929
 };
 
-struct DIAMOND_DLL_DECL mob_high_inquisitor_valrothAI : public ScriptedAI
+struct mob_high_inquisitor_valrothAI : public ScriptedAI
 {
     mob_high_inquisitor_valrothAI(Creature *pCreature) : ScriptedAI(pCreature)
     {
@@ -1845,7 +1845,7 @@ static Locations LightofDawnLoc[]=
     {2273.972f, -5257.676f, 78.862f, 0}      // 29 Lich king moves forward
 };
 
-struct DIAMOND_DLL_DECL npc_highlord_darion_mograineAI : public npc_escortAI
+struct npc_highlord_darion_mograineAI : public npc_escortAI
 {
     npc_highlord_darion_mograineAI(Creature *pCreature) : npc_escortAI(pCreature)
     {
@@ -3218,7 +3218,7 @@ bool GossipSelect_npc_highlord_darion_mograine(Player* pPlayer, Creature* pCreat
 /*######
 ## npc the lich king in dawn of light
 ######*/
-struct DIAMOND_DLL_DECL npc_the_lich_king_tirion_dawnAI : public ScriptedAI
+struct npc_the_lich_king_tirion_dawnAI : public ScriptedAI
 {
     npc_the_lich_king_tirion_dawnAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
     void Reset() {}

@@ -36,7 +36,7 @@ enum
     SPELL_CORRUPTIONOFEARTH = 24910
 };
 
-struct DIAMOND_DLL_DECL boss_emerissAI : public ScriptedAI
+struct boss_emerissAI : public ScriptedAI
 {
     boss_emerissAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

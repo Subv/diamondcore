@@ -26,7 +26,7 @@
 #define MAX_CONF_WAYPOINTS 24
 
 template<class T>
-class DIAMOND_DLL_SPEC ConfusedMovementGenerator
+class ConfusedMovementGenerator
 : public MovementGeneratorMedium< T, ConfusedMovementGenerator<T> >
 {
     public:

@@ -69,7 +69,7 @@ enum
 
 #define GOSSIP_ITEM_MOONSTONE   "Hand over the Southfury moonstone and I'll let you go."
 
-struct DIAMOND_DLL_DECL npc_rizzle_sprysprocketAI : public npc_escortAI
+struct npc_rizzle_sprysprocketAI : public npc_escortAI
 {
     npc_rizzle_sprysprocketAI(Creature* pCreature) : npc_escortAI(pCreature)
     {
@@ -203,7 +203,7 @@ bool GossipSelect_npc_rizzle_sprysprocket(Player* pPlayer, Creature* pCreature, 
     return true;
 }
 
-struct DIAMOND_DLL_DECL npc_depth_chargeAI : public ScriptedAI
+struct npc_depth_chargeAI : public ScriptedAI
 {
     npc_depth_chargeAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 
@@ -243,7 +243,7 @@ bool GOHello_go_southfury_moonstone(Player* pPlayer, GameObject* pGo)
 ## mobs_spitelashes
 ######*/
 
-struct DIAMOND_DLL_DECL mobs_spitelashesAI : public ScriptedAI
+struct mobs_spitelashesAI : public ScriptedAI
 {
     mobs_spitelashesAI(Creature* pCreature) : ScriptedAI(pCreature) {Reset();}
 

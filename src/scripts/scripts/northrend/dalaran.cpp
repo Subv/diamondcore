@@ -37,7 +37,7 @@ enum
     AREA_ID_SILVER_ENCLAVE  = 4740
 };
 
-struct DIAMOND_DLL_DECL npc_dalaran_guardian_mageAI : public ScriptedAI
+struct npc_dalaran_guardian_mageAI : public ScriptedAI
 {
     npc_dalaran_guardian_mageAI(Creature* pCreature) : ScriptedAI(pCreature) { Reset(); }
 

@@ -25,7 +25,7 @@
 class Creature;
 class Spell;
 
-class DIAMOND_DLL_DECL PetAI : public CreatureAI
+class PetAI : public CreatureAI
 {
     public:
 
