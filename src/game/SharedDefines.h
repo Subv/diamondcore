@@ -2709,8 +2709,8 @@ enum TradeStatus
     TRADE_STATUS_ONLY_CONJURED  = 22                        // You can only trade conjured items... (cross realm BG related).
 };
 
-// We support only WoW:WotLK 3.3.5.12213
-#define EXPECTED_DIAMOND_CLIENT_BUILD        {12213, 0}
+// We support only WoW:WotLK 3.3.5.12340
+#define EXPECTED_DIAMOND_CLIENT_BUILD        {12340, 0}
 
 // Max expansion level. Support WotLK (Expansion 2).
 #define MAX_EXPANSION 2
