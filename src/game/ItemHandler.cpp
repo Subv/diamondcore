@@ -332,26 +332,24 @@ void WorldSession::HandleItemQuerySingleOpcode( WorldPacket & recv_data )
         {
             data << pProto->ItemStat[i].ItemStatType;
             data << pProto->ItemStat[i].ItemStatValue;
-            data << uint32(0);
-            data << uint32(0);
         }
         data << pProto->ScalingStatDistribution;            // scaling stats distribution
         data << pProto->ScalingStatValue;                   // some kind of flags used to determine stat values column
-        //for(int i = 0; i < MAX_ITEM_PROTO_DAMAGES; ++i)
-        //{
-        //    data << pProto->Damage[i].DamageMin;
-        //    data << pProto->Damage[i].DamageMax;
-        //    data << pProto->Damage[i].DamageType;
-        //}
+        for(int i = 0; i < MAX_ITEM_PROTO_DAMAGES; ++i)
+        {
+            data << pProto->Damage[i].DamageMin;
+            data << pProto->Damage[i].DamageMax;
+            data << pProto->Damage[i].DamageType;
+        }
 
         // resistances (7)
-        //data << pProto->Armor;
-        //data << pProto->HolyRes;
-        //data << pProto->FireRes;
-        //data << pProto->NatureRes;
-        //data << pProto->FrostRes;
-        //data << pProto->ShadowRes;
-        //data << pProto->ArcaneRes;
+        data << pProto->Armor;
+        data << pProto->HolyRes;
+        data << pProto->FireRes;
+        data << pProto->NatureRes;
+        data << pProto->FrostRes;
+        data << pProto->ShadowRes;
+        data << pProto->ArcaneRes;
 
         data << pProto->Delay;
         data << pProto->AmmoType;
@@ -416,14 +414,13 @@ void WorldSession::HandleItemQuerySingleOpcode( WorldPacket & recv_data )
             data << pProto->Socket[s].Color;
             data << pProto->Socket[s].Content;
         }
-        data << pProto->socketBonus;
-        data << pProto->GemProperties;
-        data << pProto->RequiredDisenchantSkill;
-        data << pProto->ArmorDamageModifier;
-        data << pProto->Duration;                           // added in 2.4.2.8209, duration (seconds)
-        data << pProto->ItemLimitCategory;                  // WotLK, ItemLimitCategory
-        data << pProto->HolidayId;                          // Holiday.dbc?
-        data << float(0);
+        data << uint32(pProto->socketBonus);
+        data << uint32(pProto->GemProperties);
+        data << int32(pProto->RequiredDisenchantSkill);
+        data << float(pProto->ArmorDamageModifier);
+        data << uint32(pProto->Duration);                   // added in 2.4.2.8209, duration (seconds)
+        data << uint32(pProto->ItemLimitCategory);          // WotLK, ItemLimitCategory
+        data << uint32(pProto->HolidayId);                  // Holiday.dbc?
         SendPacket( &data );
     }
     else

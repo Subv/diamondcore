@@ -1,1 +1,1 @@
-UPDATE `gameobject_template` SET `Scriptname`= 'go_bristlelimb_cage' WHERE `entry`= 181714;
+UPDATE `gameobject_template` SET `Scriptname= 'go_bristlelimb_cage' WHERE `entry`= 181714;
