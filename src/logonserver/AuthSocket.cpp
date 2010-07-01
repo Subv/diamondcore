@@ -273,7 +273,7 @@ void AuthSocket::SendProof(Sha1Hash sha)
 {
     switch(_build)
     {
-        case 12266:                                         // We support only 4.0.0.12266
+        case 12319:                                         // We support only 4.0.0.12319
         {
             sAuthLogonProof_S proof;
             memcpy(proof.M2, sha.GetDigest(), 20);
@@ -856,7 +856,7 @@ void AuthSocket::LoadRealmlist(ByteBuffer &pkt, uint32 acctid)
 {
     switch(_build)
     {
-        case 12266:                                         // We support only 4.0.0.12266
+        case 12319:                                         // We support only 4.0.0.12319
         {
             pkt << uint32(0);
             pkt << uint16(sRealmList.size());
