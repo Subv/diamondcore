@@ -284,7 +284,6 @@ void Object::BuildMovementUpdate(ByteBuffer * data, uint16 updateFlags) const
                         }
                     }
                 }
-
                 if(unit->GetVehicle())
                    unit->m_movementInfo.AddMovementFlag(MOVEFLAG_ONTRANSPORT);
             }

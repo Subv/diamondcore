@@ -31,9 +31,9 @@ INSTANTIATE_SINGLETON_1( RealmList );
 
 extern DatabaseType loginDatabase;
 
-// We support only WoW:WotLK 3.3.5.12340
+// We support only WoW:Catalysm 4.0.0.12266
 static RealmBuildInfo ExpectedRealmdClientBuilds[] = {
-    {12340, 3, 3, 5, 'a'},                                  // Only 12340
+    {12319, 4, 0, 0, ' '},                                  // Only 12266
     {0,     0, 0, 0, ' '}                                   // terminator
 };
 

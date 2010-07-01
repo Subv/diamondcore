@@ -1338,7 +1338,6 @@ void InitOpcodeTable()
 
 #if 0
 =
-OpcodeHandler opcodeTable[NUM_MSG_TYPES] =
 {
     /*0x000*/ { "MSG_NULL_ACTION",                              STATUS_NEVER,    &WorldSession::Handle_NULL                     },
     /*0x001*/ { "CMSG_BOOTME",                                  STATUS_NEVER,    &WorldSession::Handle_NULL                     },
@@ -1833,7 +1832,7 @@ OpcodeHandler opcodeTable[NUM_MSG_TYPES] =
     /*0x1EA*/ { "SMSG_ITEM_TIME_UPDATE",                        STATUS_NEVER,    &WorldSession::Handle_ServerSide               },
     /*0x1EB*/ { "SMSG_ITEM_ENCHANT_TIME_UPDATE",                STATUS_NEVER,    &WorldSession::Handle_ServerSide               },
     /*0x1EC*/ { "SMSG_AUTH_CHALLENGE",                          STATUS_NEVER,    &WorldSession::Handle_ServerSide               },
-    /*0x1ED*/ { "CMSG_AUTH_SESSION",                            STATUS_NEVER,    &WorldSession::Handle_EarlyProccess            },
+	/*0x1ED*/ { "CMSG_AUTH_SESSION",                            STATUS_NEVER,    &WorldSession::Handle_EarlyProccess            },
     /*0x1EE*/ { "SMSG_AUTH_RESPONSE",                           STATUS_NEVER,    &WorldSession::Handle_ServerSide               },
     /*0x1EF*/ { "MSG_GM_SHOWLABEL",                             STATUS_NEVER,    &WorldSession::Handle_NULL                     },
     /*0x1F0*/ { "CMSG_PET_CAST_SPELL",                          STATUS_LOGGEDIN, &WorldSession::HandlePetCastSpellOpcode        },
@@ -2648,3 +2647,4 @@ OpcodeHandler opcodeTable[NUM_MSG_TYPES] =
     /*0x519*/ { "UMSG_UNKNOWN_1305",                            STATUS_NEVER,    &WorldSession::Handle_NULL                     },
     /*0x51A*/ { "UMSG_UNKNOWN_1306",                            STATUS_NEVER,    &WorldSession::Handle_NULL                     },
 };
+#endif
