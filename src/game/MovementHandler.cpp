@@ -352,6 +352,15 @@ void WorldSession::HandleMovementOpcodes( WorldPacket & recv_data )
             }
         }
     }
+    else                                                    // creature charmed
+    {
+        if(mover->IsInWorld())
+		{
+            mover->GetMap()->CreatureRelocation((Creature*)mover, movementInfo.GetPos()->x, movementInfo.GetPos()->y, movementInfo.GetPos()->z, movementInfo.GetPos()->o);
+			if(((Creature*)mover)->isVehicle())
+                ((Vehicle*)mover)->RellocatePassengers(mover->GetMap());
+		}
+    }
 }
 
 void WorldSession::HandleForceSpeedChangeAck(WorldPacket &recv_data)
@@ -433,6 +442,11 @@ void WorldSession::HandleSetActiveMoverOpcode(WorldPacket &recv_data)
     uint64 guid;
     recv_data >> guid;
 
+    if(_player->m_mover->GetGUID() != guid)
+    {
+        sLog.outError("HandleSetActiveMoverOpcode: incorrect mover guid: mover is " I64FMT " and should be " I64FMT, _player->m_mover->GetGUID(), guid);
+        return;
+	}
     if (!GetPlayer()->IsInWorld())
         return;
     if (Unit *pMover = ObjectAccessor::GetUnit(*GetPlayer(), guid))

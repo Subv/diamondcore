@@ -614,7 +614,7 @@ void Aura::Update(uint32 diff)
             if(Unit* caster = GetCaster())
             {
                 Powers powertype = Powers(m_spellProto->powerType);
-                int32 manaPerSecond = m_spellProto->manaPerSecond + m_spellProto->manaPerSecondPerLevel * caster->getLevel();
+                int32 manaPerSecond = m_spellProto->manaPerSecond;
                 m_timeCla = 1*IN_MILLISECONDS;
                 if (manaPerSecond)
                 {
@@ -3324,7 +3324,16 @@ void Aura::HandleAuraTransform(bool apply, bool Real)
                         // Dranei Female
                         case 16126: target->SetDisplayId(17828); break;
                         // Dranei Male
-                        case 16125: target->SetDisplayId(17827); break;
+                        case 16125: m_target->SetDisplayId(17827); break;
+						// Need Fix
+						// Worg Male
+						case 29422: m_target->SetDisplayId(29422); break;
+						// Worg Female
+						case 29423: m_target->SetDisplayId(29423); break;
+						// Goblin Male
+						case 6894: m_target->SetDisplayId(6894); break;
+						// Goblin Female
+						case 6895: m_target->SetDisplayId(6895); break;
                         default: break;
                     }
                     break;
@@ -4229,6 +4238,10 @@ void Aura::HandleAuraModRoot(bool apply, bool Real)
     // only at real add/remove aura
     if(!Real)
         return;
+	
+	if(m_spellProto->Id == 69001)  
+		if(!m_target->HasFlag(UNIT_FIELD_FLAGS_2,0x80000))     
+			m_target->SetFlag(UNIT_FIELD_FLAGS_2,0x80000);
 
     Unit *target = GetTarget();
 
