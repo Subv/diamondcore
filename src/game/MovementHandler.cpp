@@ -352,15 +352,6 @@ void WorldSession::HandleMovementOpcodes( WorldPacket & recv_data )
             }
         }
     }
-    else                                                    // creature charmed
-    {
-        if(mover->IsInWorld())
-		{
-            mover->GetMap()->CreatureRelocation((Creature*)mover, movementInfo.GetPos()->x, movementInfo.GetPos()->y, movementInfo.GetPos()->z, movementInfo.GetPos()->o);
-			if(((Creature*)mover)->isVehicle())
-                ((Vehicle*)mover)->RellocatePassengers(mover->GetMap());
-		}
-    }
 }
 
 void WorldSession::HandleForceSpeedChangeAck(WorldPacket &recv_data)

@@ -902,8 +902,8 @@ void InitOpcodeTable()
     OPCODE( SMSG_ARENA_TEAM_STATS,                        STATUS_NEVER,    &WorldSession::Handle_ServerSide               );
     OPCODE( CMSG_LFG_JOIN,                                STATUS_LOGGEDIN, &WorldSession::HandleLfgJoinOpcode             );
     OPCODE( CMSG_LFG_LEAVE,                               STATUS_LOGGEDIN, &WorldSession::HandleLfgLeaveOpcode            );
-    OPCODE( CMSG_SEARCH_LFG_JOIN,                         STATUS_LOGGEDIN, &WorldSession::HandleSearchLfgJoinOpcode       );
-    OPCODE( CMSG_SEARCH_LFG_LEAVE,                        STATUS_LOGGEDIN, &WorldSession::HandleSearchLfgLeaveOpcode      );
+    OPCODE( CMSG_SEARCH_LFG_JOIN,                         STATUS_LOGGEDIN, &WorldSession::Handle_NULL                     );
+    OPCODE( CMSG_SEARCH_LFG_LEAVE,                        STATUS_LOGGEDIN, &WorldSession::Handle_NULL                     );
     OPCODE( SMSG_UPDATE_LFG_LIST,                         STATUS_NEVER,    &WorldSession::Handle_ServerSide               );
     OPCODE( SMSG_LFG_PROPOSAL_UPDATE,                     STATUS_NEVER,    &WorldSession::Handle_ServerSide               );
     OPCODE( CMSG_LFG_PROPOSAL_RESULT,                     STATUS_LOGGEDIN, &WorldSession::Handle_NULL                     );
