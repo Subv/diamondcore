@@ -176,6 +176,7 @@ bool VehicleKit::AddPassenger(Unit *unit, int8 seatId)
                 pl->SetGroupUpdateFlag(GROUP_UPDATE_VEHICLE);
         }
     }
+
     if(unit->GetTypeId() == TYPEID_PLAYER)
     {
         Player* pl = (Player*)unit;
