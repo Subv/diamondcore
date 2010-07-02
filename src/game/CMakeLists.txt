@@ -88,6 +88,7 @@ SET(game_STAT_SRCS
     DBCfmt.h
     DBCStores.cpp
     DBCStores.h
+    DBCStructure.cpp
     DBCStructure.h
     debugcmds.cpp
     DestinationHolder.cpp
