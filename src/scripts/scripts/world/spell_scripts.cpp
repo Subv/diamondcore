@@ -478,9 +478,9 @@ bool EffectDummyCreature_spell_dummy_npc(Unit* pCaster, uint32 uiSpellId, SpellE
                         case NPC_SENTRY_BOT:        newSpellId = SPELL_SUMMON_SENTRY_BOT; break;
                     }
 
-                    if (const SpellEffectEntry const* spellEffect = GetSpellEffectStore()->LookupEntry(newSpellEff))
+                    if (const SpellEffectEntry* spellEffect = GetSpellEffectStore()->LookupEntry(newSpellEff))
                     {
-                        const SpellEntry const* spell = GetSpellStore()->LookupEntry(newSpellId);
+                        const SpellEntry* spell = GetSpellStore()->LookupEntry(newSpellId);
                         pCaster->CastSpell(pCreatureTarget, spell->Id, true);
 
                         if (Pet* pPet = pCaster->FindGuardianWithEntry(spellEffect->EffectMiscValue))
