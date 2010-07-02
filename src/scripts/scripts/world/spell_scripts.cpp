@@ -467,6 +467,7 @@ bool EffectDummyCreature_spell_dummy_npc(Unit* pCaster, uint32 uiSpellId, SpellE
                 if (pCreatureTarget->isDead())
                 {
                     uint32 newSpellId = 0;
+                    uint32 newSpellEff = 0;
 
                     switch(pCreatureTarget->GetEntry())
                     {
@@ -477,7 +478,7 @@ bool EffectDummyCreature_spell_dummy_npc(Unit* pCaster, uint32 uiSpellId, SpellE
                         case NPC_SENTRY_BOT:        newSpellId = SPELL_SUMMON_SENTRY_BOT; break;
                     }
 
-                    if (const SpellEffectEntry const* spellEffect = GetSpellEffectStore()->LookupEntry(newSpellId))
+                    if (const SpellEffectEntry const* spellEffect = GetSpellEffectStore()->LookupEntry(newSpellEff))
                     {
                         const SpellEntry const* spell = GetSpellStore()->LookupEntry(newSpellId);
                         pCaster->CastSpell(pCreatureTarget, spell->Id, true);
