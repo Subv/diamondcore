@@ -152,9 +152,9 @@ struct boss_nothAI : public ScriptedAI
             m_pInstance->SetData(TYPE_NOTH, FAIL);
     }
 
-    void SpellHit(Unit* pCaster, const SpellEntry* pSpell)
+    void SpellHit(Unit* pCaster, const SpellEffectEntry* pSpell)
     {
-        if (pCaster == m_creature && pSpell->Effect[EFFECT_INDEX_0] == SPELL_EFFECT_LEAP)
+        if (pCaster == m_creature && pSpell->Effect == SPELL_EFFECT_LEAP)
             DoCastSpellIfCan(m_creature, m_bIsRegularMode ? SPELL_CRIPPLE : SPELL_CRIPPLE_H);
     }
 

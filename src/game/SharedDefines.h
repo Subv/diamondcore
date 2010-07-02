@@ -535,6 +535,7 @@ enum Team
 
 enum SpellEffects
 {
+    SPELL_EFFECT_NONE                      = 0,
     SPELL_EFFECT_INSTAKILL                 = 1,
     SPELL_EFFECT_SCHOOL_DAMAGE             = 2,
     SPELL_EFFECT_DUMMY                     = 3,
@@ -1045,6 +1046,7 @@ enum WeaponAttackType
 
 enum Targets
 {
+    TARGET_NONE                        = 0,
     TARGET_SELF                        = 1,
     TARGET_RANDOM_ENEMY_CHAIN_IN_AREA  = 2,                 // only one spell has that, but regardless, it's a target type after all
     TARGET_RANDOM_FRIEND_CHAIN_IN_AREA = 3,

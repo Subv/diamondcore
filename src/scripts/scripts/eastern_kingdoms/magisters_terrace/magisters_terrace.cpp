@@ -86,14 +86,14 @@ struct npc_kalecgosAI : public ScriptedAI
         if (lList.isEmpty())
             return;
 
-        SpellEntry const* pSpell = GetSpellStore()->LookupEntry(SPELL_ORB_KILL_CREDIT);
+        SpellEffectEntry const* pSpell = GetSpellEffectStore()->LookupEntry(SPELL_ORB_KILL_CREDIT);
 
         for(Map::PlayerList::const_iterator i = lList.begin(); i != lList.end(); ++i)
         {
             if (Player* pPlayer = i->getSource())
             {
-                if (pSpell && pSpell->EffectMiscValue[0])
-                    pPlayer->KilledMonsterCredit(pSpell->EffectMiscValue[0], 0);
+                if (pSpell && pSpell->EffectMiscValue)
+                    pPlayer->KilledMonsterCredit(pSpell->EffectMiscValue, 0);
             }
         }
     }

@@ -159,13 +159,13 @@ struct boss_halazziAI : public ScriptedAI
         }
     }
 
-    void SpellHit(Unit* pCaster, const SpellEntry* pSpell)
+    void SpellHit(Unit* pCaster, const SpellEffectEntry* pSpell)
     {
-        if (pSpell->EffectApplyAuraName[0] != SPELL_AURA_TRANSFORM)
+        if (pSpell->EffectApplyAuraName != SPELL_AURA_TRANSFORM)
             return;
 
         // possibly hack and health should be set by Aura::HandleAuraTransform()
-        if (const CreatureInfo* pInfo = GetCreatureTemplateStore(pSpell->EffectMiscValue[0]))
+        if (const CreatureInfo* pInfo = GetCreatureTemplateStore(pSpell->EffectMiscValue))
             DoUpdateStats(pInfo);
 
         if (m_uiPhase == PHASE_TOTEM)

@@ -61,7 +61,7 @@ void ScriptMgr::ScriptsInit()
     outstring_log("DS: Loading Scripts");
 
     for(int i=0; i<MAX_SCRIPTS; ++i)
-        m_scripts[i]=NULL;
+        m_scripts[i] = NULL;
 
     FillSpellSummary();
 

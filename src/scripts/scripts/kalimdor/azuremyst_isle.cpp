@@ -101,7 +101,7 @@ struct npc_draenei_survivorAI : public ScriptedAI
         }
     }
 
-    void SpellHit(Unit* pCaster, const SpellEntry* pSpell)
+    void SpellHit(Unit* pCaster, const SpellClassOptionsEntry* pSpell)
     {
         if (pSpell->SpellFamilyFlags2 & 0x080000000)
         {

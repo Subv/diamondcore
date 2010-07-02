@@ -58,6 +58,7 @@ static WMOAreaInfoByTripple sWMOAreaInfoByTripple;
 DBCStorage <AchievementEntry> sAchievementStore(Achievementfmt);
 DBCStorage <AchievementCriteriaEntry> sAchievementCriteriaStore(AchievementCriteriafmt);
 DBCStorage <AreaTriggerEntry> sAreaTriggerStore(AreaTriggerEntryfmt);
+DBCStorage <ArmorLocationEntry> sArmorLocationStore(ArmorLocationfmt);
 DBCStorage <AuctionHouseEntry> sAuctionHouseStore(AuctionHouseEntryfmt);
 DBCStorage <BankBagSlotPricesEntry> sBankBagSlotPricesStore(BankBagSlotPricesEntryfmt);
 DBCStorage <BattlemasterListEntry> sBattlemasterListStore(BattlemasterListEntryfmt);
@@ -104,8 +105,19 @@ DBCStorage <GtRegenMPPerSptEntry>         sGtRegenMPPerSptStore(GtRegenMPPerSptf
 DBCStorage <HolidaysEntry>                sHolidaysStore(Holidaysfmt);
 
 DBCStorage <ItemEntry>                    sItemStore(Itemfmt);
+DBCStorage <ItemArmorQualityEntry>        sItemArmorQualityStore(ItemArmorQualityfmt);
+DBCStorage <ItemArmorShieldEntry>         sItemArmorShieldStore(ItemArmorShieldfmt);
+DBCStorage <ItemArmorTotalEntry>          sItemArmorTotalStore(ItemArmorTotalfmt);
 DBCStorage <ItemBagFamilyEntry>           sItemBagFamilyStore(ItemBagFamilyfmt);
 //DBCStorage <ItemCondExtCostsEntry> sItemCondExtCostsStore(ItemCondExtCostsEntryfmt);
+DBCStorage <ItemDamageEntry>              sItemDamageAmmoStore(ItemDamagefmt);
+DBCStorage <ItemDamageEntry>              sItemDamageOneHandStore(ItemDamagefmt);
+DBCStorage <ItemDamageEntry>              sItemDamageOneHandCasterStore(ItemDamagefmt);
+DBCStorage <ItemDamageEntry>              sItemDamageRangedStore(ItemDamagefmt);
+DBCStorage <ItemDamageEntry>              sItemDamageThrownStore(ItemDamagefmt);
+DBCStorage <ItemDamageEntry>              sItemDamageTwoHandStore(ItemDamagefmt);
+DBCStorage <ItemDamageEntry>              sItemDamageTwoHandCasterStore(ItemDamagefmt);
+DBCStorage <ItemDamageEntry>              sItemDamageWandStore(ItemDamagefmt);
 //DBCStorage <ItemDisplayInfoEntry> sItemDisplayInfoStore(ItemDisplayTemplateEntryfmt); -- not used currently
 DBCStorage <ItemExtendedCostEntry> sItemExtendedCostStore(ItemExtendedCostEntryfmt);
 DBCStorage <ItemLimitCategoryEntry> sItemLimitCategoryStore(ItemLimitCategoryEntryfmt);
@@ -146,6 +158,25 @@ DBCStorage <SpellEntry> sSpellStore(SpellEntryfmt);
 SpellCategoryStore sSpellCategoryStore;
 PetFamilySpellsStore sPetFamilySpellsStore;
 
+DBCStorage <SpellAuraOptionsEntry> sSpellAuraOptionsStore(SpellAuraOptionsEntryfmt);
+DBCStorage <SpellAuraRestrictionsEntry> sSpellAuraRestrictionsStore(SpellAuraRestrictionsEntryfmt);
+DBCStorage <SpellCastingRequirementsEntry> sSpellCastingRequirementsStore(SpellCastingRequirementsEntryfmt);
+DBCStorage <SpellCategoriesEntry> sSpellCategoriesStore(SpellCategoriesEntryfmt);
+DBCStorage <SpellClassOptionsEntry> sSpellClassOptionsStore(SpellClassOptionsEntryfmt);
+DBCStorage <SpellCooldownsEntry> sSpellCooldownsStore(SpellCooldownsEntryfmt);
+DBCStorage <SpellEffectEntry> sSpellEffectStore(SpellEffectEntryfmt);
+DBCStorage <SpellEquippedItemsEntry> sSpellEquippedItemsStore(SpellEquippedItemsEntryfmt);
+DBCStorage <SpellInterruptsEntry> sSpellInterruptsStore(SpellInterruptsEntryfmt);
+DBCStorage <SpellLevelsEntry> sSpellLevelsStore(SpellLevelsEntryfmt);
+DBCStorage <SpellPowerEntry> sSpellPowerStore(SpellPowerEntryfmt);
+DBCStorage <SpellReagentsEntry> sSpellReagentsStore(SpellReagentsEntryfmt);
+DBCStorage <SpellScalingEntry> sSpellScalingStore(SpellScalingEntryfmt);
+DBCStorage <SpellShapeshiftEntry> sSpellShapeshiftStore(SpellShapeshiftEntryfmt);
+DBCStorage <SpellTargetRestrictionsEntry> sSpellTargetRestrictionsStore(SpellTargetRestrictionsEntryfmt);
+DBCStorage <SpellTotemsEntry> sSpellTotemsStore(SpellTotemsEntryfmt);
+
+SpellEffectMap sSpellEffectMap;
+
 DBCStorage <SpellCastTimesEntry> sSpellCastTimesStore(SpellCastTimefmt);
 DBCStorage <SpellDifficultyEntry> sSpellDifficultyStore(SpellDifficultyfmt);
 DBCStorage <SpellDurationEntry> sSpellDurationStore(SpellDurationfmt);
@@ -153,7 +184,7 @@ DBCStorage <SpellFocusObjectEntry> sSpellFocusObjectStore(SpellFocusObjectfmt);
 DBCStorage <SpellRadiusEntry> sSpellRadiusStore(SpellRadiusfmt);
 DBCStorage <SpellRangeEntry> sSpellRangeStore(SpellRangefmt);
 DBCStorage <SpellRuneCostEntry> sSpellRuneCostStore(SpellRuneCostfmt);
-DBCStorage <SpellShapeshiftEntry> sSpellShapeshiftStore(SpellShapeshiftfmt);
+DBCStorage <SpellShapeshiftFormEntry> sSpellShapeshiftFormStore(SpellShapeshiftFormfmt);
 DBCStorage <StableSlotPricesEntry> sStableSlotPricesStore(StableSlotPricesfmt);
 DBCStorage <SummonPropertiesEntry> sSummonPropertiesStore(SummonPropertiesfmt);
 DBCStorage <TalentEntry> sTalentStore(TalentEntryfmt);
@@ -473,16 +504,43 @@ void LoadDBCStores(const std::string& dataPath)
     LoadDBC(availableDbcLocales,bad_dbc_files,sSpellStore,               dbcPath,"Spell.dbc");
     for(uint32 i = 1; i < sSpellStore.GetNumRows(); ++i)
     {
-        SpellEntry const * spell = sSpellStore.LookupEntry(i);
-        if(spell && spell->Category)
-            sSpellCategoryStore[spell->Category].insert(i);
+        if(SpellEntry const * spell = sSpellStore.LookupEntry(i))
+        {
+            if(SpellCategoriesEntry const* category = spell->GetSpellCategories())
+                if(uint32 cat = category->Category)
+                    sSpellCategoryStore[cat].insert(i);
 
-        // DBC not support uint64 fields but SpellEntry have SpellFamilyFlags mapped at 2 uint32 fields
-        // uint32 field already converted to bigendian if need, but must be swapped for correct uint64 bigendian view
-        #if DIAMOND_ENDIAN == DIAMOND_BIGENDIAN
-        std::swap(*((uint32*)(&spell->SpellFamilyFlags)),*(((uint32*)(&spell->SpellFamilyFlags))+1));
-        #endif
+            // DBC not support uint64 fields but SpellEntry have SpellFamilyFlags mapped at 2 uint32 fields
+            // uint32 field already converted to bigendian if need, but must be swapped for correct uint64 bigendian view
+            #if DIAMOND_ENDIAN == DIAMOND_BIGENDIAN
+            std::swap(*((uint32*)(&spell->SpellFamilyFlags)),*(((uint32*)(&spell->SpellFamilyFlags))+1));
+            #endif
+        }
     }
+
+    LoadDBC(availableDbcLocales,bad_dbc_files,sSpellAuraOptionsStore,    dbcPath,"SpellAuraOptions.dbc");
+    LoadDBC(availableDbcLocales,bad_dbc_files,sSpellAuraRestrictionsStore, dbcPath,"SpellAuraRestrictions.dbc");
+    LoadDBC(availableDbcLocales,bad_dbc_files,sSpellCastingRequirementsStore, dbcPath,"SpellCastingRequirements.dbc");
+    LoadDBC(availableDbcLocales,bad_dbc_files,sSpellCategoriesStore,     dbcPath,"SpellCategories.dbc");
+    LoadDBC(availableDbcLocales,bad_dbc_files,sSpellClassOptionsStore,   dbcPath,"SpellClassOptions.dbc");
+    LoadDBC(availableDbcLocales,bad_dbc_files,sSpellCooldownsStore,      dbcPath,"SpellCooldowns.dbc");
+    LoadDBC(availableDbcLocales,bad_dbc_files,sSpellEffectStore,         dbcPath,"SpellEffect.dbc");
+
+    for(uint32 i = 1; i < sSpellEffectStore.GetNumRows(); ++i)
+    {
+        if(SpellEffectEntry const *spellEffect = sSpellEffectStore.LookupEntry(i))
+            sSpellEffectMap[spellEffect->EffectSpellId].effects[spellEffect->EffectIndex] = spellEffect;
+    }
+
+    LoadDBC(availableDbcLocales,bad_dbc_files,sSpellEquippedItemsStore,  dbcPath,"SpellEquippedItems.dbc");
+    LoadDBC(availableDbcLocales,bad_dbc_files,sSpellInterruptsStore,     dbcPath,"SpellInterrupts.dbc");
+    LoadDBC(availableDbcLocales,bad_dbc_files,sSpellLevelsStore,         dbcPath,"SpellLevels.dbc");
+    LoadDBC(availableDbcLocales,bad_dbc_files,sSpellPowerStore,          dbcPath,"SpellPower.dbc");
+    LoadDBC(availableDbcLocales,bad_dbc_files,sSpellReagentsStore,       dbcPath,"SpellReagents.dbc");
+    LoadDBC(availableDbcLocales,bad_dbc_files,sSpellScalingStore,        dbcPath,"SpellScaling.dbc");
+    LoadDBC(availableDbcLocales,bad_dbc_files,sSpellShapeshiftStore,     dbcPath,"SpellShapeshift.dbc");
+    LoadDBC(availableDbcLocales,bad_dbc_files,sSpellTargetRestrictionsStore, dbcPath,"SpellTargetRestrictions.dbc");
+    LoadDBC(availableDbcLocales,bad_dbc_files,sSpellTotemsStore,         dbcPath,"SpellTotems.dbc");
 
     for (uint32 j = 0; j < sSkillLineAbilityStore.GetNumRows(); ++j)
     {
@@ -591,8 +649,9 @@ void LoadDBCStores(const std::string& dataPath)
         for(uint32 i = 1; i < sSpellStore.GetNumRows (); ++i)
             if(SpellEntry const* sInfo = sSpellStore.LookupEntry (i))
                 for(int j=0; j < MAX_EFFECT_INDEX; ++j)
-                    if(sInfo->Effect[j]==123 /*SPELL_EFFECT_SEND_TAXI*/)
-                        spellPaths.insert(sInfo->EffectMiscValue[j]);
+                    if(SpellEffectEntry const* effect = sInfo->GetSpellEffect(SpellEffectIndex(j)))
+                        if(effect->Effect==123 /*SPELL_EFFECT_SEND_TAXI*/)
+                            spellPaths.insert(effect->EffectMiscValue);
 
         memset(sTaxiNodesMask,0,sizeof(sTaxiNodesMask));
         memset(sOldContinentsNodesMask,0,sizeof(sTaxiNodesMask));
@@ -704,6 +763,15 @@ TalentSpellPos const* GetTalentSpellPos(uint32 spellId)
         return NULL;
 
     return &itr->second;
+}
+
+SpellEffectEntry const* GetSpellEffectEntry(uint32 spellId, SpellEffectIndex effect)
+{
+    SpellEffectMap::const_iterator itr = sSpellEffectMap.find(spellId);
+    if(itr == sSpellEffectMap.end())
+        return NULL;
+
+    return itr->second.effects[effect];
 }
 
 uint32 GetTalentSpellCost(TalentSpellPos const* pos)
@@ -940,6 +1008,8 @@ bool IsPointInAreaTriggerZone(AreaTriggerEntry const* atEntry, uint32 mapid, flo
 // script support functions
 DBCStorage <SoundEntriesEntry>  const* GetSoundEntriesStore()   { return &sSoundEntriesStore;   }
 DBCStorage <SpellEntry>         const* GetSpellStore()          { return &sSpellStore;          }
+DBCStorage <SpellEffectEntry>   const* GetSpellEffectStore()    { return &sSpellEffectStore;    }
+DBCStorage <SpellCategoriesEntry> const* GetSpellCategoryStore()  { return &sSpellCategoriesStore; }
 DBCStorage <SpellRangeEntry>    const* GetSpellRangeStore()     { return &sSpellRangeStore;     }
 DBCStorage <FactionEntry>       const* GetFactionStore()        { return &sFactionStore;        }
 DBCStorage <ItemEntry>          const* GetItemDisplayStore()    { return &sItemStore;           }

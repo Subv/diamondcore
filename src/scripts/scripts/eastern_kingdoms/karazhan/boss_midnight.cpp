@@ -209,7 +209,7 @@ struct boss_attumenAI : public ScriptedAI
         DoScriptText(urand(0, 1) ? SAY_KILL1 : SAY_KILL2, m_creature);
     }
 
-    void SpellHit(Unit* pSource, const SpellEntry* pSpell)
+    void SpellHit(Unit* pSource, const SpellCategoriesEntry* pSpell)
     {
         if (pSpell->Mechanic == MECHANIC_DISARM)
             DoScriptText(SAY_DISARMED, m_creature);

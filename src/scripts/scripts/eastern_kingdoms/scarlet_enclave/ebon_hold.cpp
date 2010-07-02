@@ -1371,12 +1371,12 @@ struct mob_scarlet_minerAI : public ScriptedAI
     mob_scarlet_minerAI(Creature *pCreature) : ScriptedAI(pCreature)
     {
         // hack spell 52481
-        SpellEntry *TempSpell = (SpellEntry*)GetSpellStore()->LookupEntry(SPELL_GIFT_OF_THE_HARVESTER_MISSILE);
-        if (TempSpell && TempSpell->EffectImplicitTargetB[0] != 16)
+        SpellEffectEntry *TempSpell = (SpellEffectEntry*)GetSpellEffectStore()->LookupEntry(SPELL_GIFT_OF_THE_HARVESTER_MISSILE);
+        if (TempSpell && TempSpell->EffectImplicitTargetB != 16)
         {
-            TempSpell->EffectImplicitTargetB[0] = 16;
-            TempSpell->EffectImplicitTargetB[1] = 87;
-            TempSpell->EffectImplicitTargetB[2] = 16;
+            TempSpell->EffectImplicitTargetB = 16;
+            TempSpell->EffectImplicitTargetB = 87;
+            TempSpell->EffectImplicitTargetB = 16;
         }
     }
 

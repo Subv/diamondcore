@@ -224,9 +224,10 @@ struct aqsentinelAI : public ScriptedAI
     void GainSentinelAbility(uint32 id)
     {
         const SpellEntry *spell = GetSpellStore()->LookupEntry(id);
+		const SpellEffectEntry *spellEff = GetSpellEffectStore()->LookupEntry(id);
         for (int i=0; i<3; ++i)
         {
-            if (!spell->Effect[i])
+            if (!spellEff->Effect)
                 continue;
             SentinelAbilityAura *a = new SentinelAbilityAura(this, (SpellEntry *)spell, id, SpellEffectIndex(i));
             m_creature->AddAura(a);

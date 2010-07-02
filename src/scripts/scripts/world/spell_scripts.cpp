@@ -477,11 +477,12 @@ bool EffectDummyCreature_spell_dummy_npc(Unit* pCaster, uint32 uiSpellId, SpellE
                         case NPC_SENTRY_BOT:        newSpellId = SPELL_SUMMON_SENTRY_BOT; break;
                     }
 
-                    if (const SpellEntry* pSpell = GetSpellStore()->LookupEntry(newSpellId))
+                    if (const SpellEffectEntry const* spellEffect = GetSpellEffectStore()->LookupEntry(newSpellId))
                     {
-                        pCaster->CastSpell(pCreatureTarget, pSpell->Id, true);
+                        const SpellEntry const* spell = GetSpellStore()->LookupEntry(newSpellId);
+                        pCaster->CastSpell(pCreatureTarget, spell->Id, true);
 
-                        if (Pet* pPet = pCaster->FindGuardianWithEntry(pSpell->EffectMiscValue[uiEffIndex]))
+                        if (Pet* pPet = pCaster->FindGuardianWithEntry(spellEffect->EffectMiscValue))
                             pPet->CastSpell(pCaster, SPELL_REPROGRAM_KILL_CREDIT, true);
 
                         pCreatureTarget->ForcedDespawn();

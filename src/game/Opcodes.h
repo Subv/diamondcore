@@ -602,9 +602,9 @@ enum Opcodes
     CMSG_GUILD_SET_OFFICER_NOTE                     = 0x235,
     SMSG_LOGIN_VERIFY_WORLD                         = 0x5612,    // 22034 - 4.0.0.12164
     CMSG_CLEAR_EXPLORATION                          = 0x237,
-    CMSG_SEND_MAIL                                  = 0x238,
+    CMSG_SEND_MAIL                                  = 0x9224,    // 37412 - 4.0.0.12319
     SMSG_SEND_MAIL_RESULT                           = 0x001A,    // 26    - 4.0.0.12164
-    CMSG_GET_MAIL_LIST                              = 0x23A,
+    CMSG_GET_MAIL_LIST                              = 0xD262,    // 53858 - 4.0.0.12319
     SMSG_MAIL_LIST_RESULT                           = 0x5224,    // 21028 - 4.0.0.12164
     CMSG_BATTLEFIELD_LIST                           = 0x9620,    // 38432 - 4.0.0.12164
     SMSG_BATTLEFIELD_LIST                           = 0x1678,    // 5752  - 4.0.0.12164
@@ -615,12 +615,12 @@ enum Opcodes
     CMSG_TAXIENABLENODE                             = 0x242,
     CMSG_ITEM_TEXT_QUERY                            = 0x0456,    // 1110  - 4.0.0.12164
     SMSG_ITEM_TEXT_QUERY_RESPONSE                   = 0xD252,    // 53842 - 4.0.0.12164
-    CMSG_MAIL_TAKE_MONEY                            = 0x245,
-    CMSG_MAIL_TAKE_ITEM                             = 0x246,
+    CMSG_MAIL_TAKE_MONEY                            = 0x020E,    // 526   - 4.0.0.12319
+    CMSG_MAIL_TAKE_ITEM                             = 0xC216,    // 49686 - 4.0.0.12319
     CMSG_MAIL_MARK_AS_READ                          = 0x247,
-    CMSG_MAIL_RETURN_TO_SENDER                      = 0x248,
-    CMSG_MAIL_DELETE                                = 0x249,
-    CMSG_MAIL_CREATE_TEXT_ITEM                      = 0x24A,
+    CMSG_MAIL_RETURN_TO_SENDER                      = 0xC648,    // 50760 - 4.0.0.12319
+    CMSG_MAIL_DELETE                                = 0x0240,    // 576   - 4.0.0.12319
+    CMSG_MAIL_CREATE_TEXT_ITEM                      = 0xD46E,    // 54382 - 4.0.0.12319
     SMSG_SPELLLOGMISS                               = 0x67C,     // 1660  - 4.0.0.12164
     SMSG_SPELLLOGEXECUTE                            = 0x140E,    // 5134  - 4.0.0.12164
     SMSG_DEBUGAURAPROC                              = 0x24D,
@@ -915,7 +915,7 @@ enum Opcodes
     CMSG_LFD_PLAYER_LOCK_INFO_REQUEST               = 0x8440,    // 33856 - 4.0.0.12164, CMSG RequestLFDPlayerLockInfo
     SMSG_LFG_PLAYER_INFO                            = 0x8062,    // 32866 - 4.0.0.12164,  SMSG uint8, for(uint8) { uint32, uint8, uint32, uint32, uint32, uint32, uint8, for(uint8) {uint32,uint32, uint32}}, uint32, for(uint32) {uint32,uint32}
     CMSG_LFG_TELEPORT                               = 0x370,     // CMSG LFGTeleport
-    CMSG_LFD_PARTY_LOCK_INFO_REQUEST                = 0x371,     // CMSG RequestLFDPartyLockInfo
+    CMSG_LFD_PARTY_LOCK_INFO_REQUEST                = 0x126C,    // 4716  - 4.0.0.12319, CMSG RequestLFDPartyLockInfo
     SMSG_LFG_PARTY_INFO                             = 0xD646,    // 54854 - 4.0.0.12164, SMSG uint8, for(uint8) uint64
     SMSG_TITLE_EARNED                               = 0x3D69,    // 15721 - 4.0.0.12065
     CMSG_SET_TITLE                                  = 0x374,
@@ -1001,7 +1001,7 @@ enum Opcodes
     SMSG_CHEAT_PLAYER_LOOKUP                        = 0x3C4,
     SMSG_KICK_REASON                                = 0x5666,    // 22118 - 4.0.0.12164
     MSG_RAID_READY_CHECK_FINISHED                   = 0xD452,    // 54354 - 4.0.0.12164
-    CMSG_COMPLAIN                                   = 0x3C7,
+    CMSG_COMPLAIN                                   = 0x0054,    // 84    - 4.0.0.12319
     SMSG_COMPLAIN_RESULT                            = 0x5476,    // 21622 - 4.0.0.12164
     SMSG_FEATURE_SYSTEM_STATUS                      = 0x9244,    // 37444 - 4.0.0.12164
     CMSG_GM_SHOW_COMPLAINTS                         = 0x3CA,

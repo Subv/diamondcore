@@ -219,14 +219,14 @@ int32 GetUnlearnCostLow(Player* pPlayer)                    //blacksmith
 
 bool EquippedOk(Player* pPlayer, uint32 spellId)
 {
-    SpellEntry const* spell = GetSpellStore()->LookupEntry(spellId);
+    SpellEffectEntry const* spell = GetSpellEffectStore()->LookupEntry(spellId);
 
     if (!spell)
         return false;
 
     for(int i=0; i<3; ++i)
     {
-        uint32 reqSpell = spell->EffectTriggerSpell[i];
+        uint32 reqSpell = spell->EffectTriggerSpell;
         if (!reqSpell)
             continue;
 
