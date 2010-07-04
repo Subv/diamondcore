@@ -55,7 +55,8 @@ enum Races
     //RACE_TAUNKA         = 19,
     //RACE_NORTHREND_SKELETON = 20,
     //RACE_ICE_TROLL      = 21
-    RACE_WORGEN         = 22
+    RACE_WORGEN         = 22,
+	//RACE_GILNEAN      = 23  // Human
 };
 
 // max+1 for player race

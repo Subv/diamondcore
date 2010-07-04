@@ -787,14 +787,6 @@ void Spell::EffectDummy(SpellEffectEntry const* effect)
 {
     if (!unitTarget && !gameObjTarget && !itemTarget)
         return;
-	
-	if(m_spellInfo->Id == 68996)    
-	{      
-		if(!m_caster->HasFlag(UNIT_FIELD_FLAGS_2,0x80000))
-			m_caster->CastSpell(m_caster, 69001, true);
-
-		m_caster->RemoveFlag(UNIT_FIELD_FLAGS_2,0x80000);
-	}
 
     // selection by spell family
     switch(m_spellInfo->GetSpellFamilyName())
@@ -1797,7 +1789,12 @@ void Spell::EffectDummy(SpellEffectEntry const* effect)
                     m_caster->CastSpell(m_caster, spell_id, true);
                     return;
                 }
-            }
+				case 68996:
+                {
+                    m_caster->ToggleFlag(UNIT_FIELD_FLAGS_2,  0x00080000);
+                    return;
+                }
+			}
             break;
         }
         case SPELLFAMILY_MAGE:
@@ -3020,15 +3017,6 @@ void Spell::EffectApplyAura(SpellEffectEntry const* effect)
         else
             return;
     }
-	
-	//Darkflight
-	if(m_spellInfo->Id == 68992)
-	{
-		if(unitTarget->HasFlag(UNIT_FIELD_FLAGS_2,0x80000))
-			return;
-		
-		unitTarget->CastSpell(unitTarget, 69001, true);
-	}
 
     DEBUG_FILTER_LOG(LOG_FILTER_SPELL_CAST, "Spell: Aura is: %u", effect->EffectApplyAuraName);
 

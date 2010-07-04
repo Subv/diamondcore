@@ -1733,6 +1733,7 @@ struct SpellEntry
     uint32 GetChannelInterruptFlags() const;
     uint32 GetManaCostPerLevel() const;
     uint32 GetCasterAuraState() const;
+    uint32 GetTargets() const;
 
     private:
     // prevent creating custom entries (copy data from original in fact)
