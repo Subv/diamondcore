@@ -244,9 +244,7 @@ int WorldSocket::open (void *a)
     m_Address = remote_addr.get_host_addr ();
 
     // Send startup packet.
-    WorldPacket packet (SMSG_AUTH_CHALLENGE, 24);
-    // packet << uint32(1);                                    // 1...31
-    //packet << m_Seed;
+    WorldPacket packet (SMSG_AUTH_CHALLENGE, 37);
 
     BigNumber seed1;
     seed1.SetRand(16 * 8);
@@ -257,7 +255,7 @@ int WorldSocket::open (void *a)
     packet.append(seed2.AsByteArray(16), 16);               // new encryption seeds
 
 	packet << uint8( 1 );
-	packet << m_Seed;
+	packet << uint32(m_Seed);
 
     if (SendPacket (packet) == -1)
         return -1;
@@ -746,9 +744,6 @@ int WorldSocket::HandleAuthSession (WorldPacket& recvPacket)
     // NOTE: ATM the socket is singlethread, have this in mind ...
     uint8 digest[20];
     uint32 clientSeed;
-    uint32 unk2;
-	uint8 unk3;
-    uint64 unk4;
     uint16 ClientBuild;
     uint32 id, security;
     uint8 expansion = 0;
@@ -756,24 +751,23 @@ int WorldSocket::HandleAuthSession (WorldPacket& recvPacket)
     std::string account;
     Sha1Hash sha1;
     BigNumber v, s, g, N;
-    WorldPacket packet, SendAddonPacked;
+    WorldPacket packet;
 
     BigNumber K;
 
     // Read the content of the packet
     recvPacket.read (digest, 20);
-	recvPacket >> unk4;
-    recvPacket >> unk2;
+    recvPacket.read_skip<uint64>();
+    recvPacket.read_skip<uint32>();
     recvPacket >> clientSeed;
 	recvPacket >> ClientBuild;
-	recvPacket >> unk3;
+    recvPacket.read_skip<uint8>();
     recvPacket >> account;
+    recvPacket.read_skip<uint32>();                         // addon data size
 
-    DEBUG_LOG ("WorldSocket::HandleAuthSession: client %u, unk2 %u, account %s, unk3 %u, clientseed %u",
+    DEBUG_LOG ("WorldSocket::HandleAuthSession: client %u, account %s, clientseed %X",
                 ClientBuild,
-                unk2,
-                account.c_str (),
-                unk3,
+                account.c_str(),
                 clientSeed);
 
     // Check the version of client trying to connect
