@@ -26,8 +26,12 @@
 
 enum PowerType
 {
-    POWER_PYRITE    = 41,
-    POWER_STEAM     = 61
+    POWER_PYRITE        = 41,
+    POWER_STEAM         = 61,
+    POWER_TYPE_HEAT     = 101, // Gunship Cannon
+    POWER_TYPE_OOZE     = 121, // Mutated Abomination
+    POWER_TYPE_BLOOD    = 141, // Deathbringer Saurfang
+    POWER_TYPE_142      = 142, // Soo-holu
 };
 
 struct VehicleSeat
