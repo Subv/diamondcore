@@ -577,8 +577,11 @@ class ChatHandler
         void HandleCharacterLevel(Player* player, uint64 player_guid, uint32 oldlevel, uint32 newlevel);
         void HandleLearnSkillRecipesHelper(Player* player,uint32 skill_id);
         void ShowSpellListHelper(Player* target, SpellEntry const* spellInfo, LocaleConstant loc);
-        bool HandleGoHelper(Player* _player, uint32 mapid, float x, float y, float const* zPtr = NULL);
-
+        bool HandleGoHelper(Player* _player, uint32 mapid, float x, float y, float const* zPtr = NULL, float const* ortPtr = NULL);
+        template<typename T>
+        void ShowNpcOrGoSpawnInformation(uint32 guid);
+        template <typename T>
+        std::string PrepareStringNpcOrGoSpawnInformation(uint32 guid);
 
         /**
          * Stores informations about a deleted character
@@ -632,6 +635,7 @@ class CliHandler : public ChatHandler
         Print* m_print;
 };
 
-char const *fmtstring( char const *format, ... );
+
+
 
 #endif
