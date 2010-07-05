@@ -1,20 +1,20 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
+* Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
 
 #include "Common.h"
 #include "Item.h"
@@ -172,60 +172,60 @@ bool ItemCanGoIntoBag(ItemPrototype const *pProto, ItemPrototype const *pBagProt
 
     switch(pBagProto->Class)
     {
-        case ITEM_CLASS_CONTAINER:
-            switch(pBagProto->SubClass)
-            {
-                case ITEM_SUBCLASS_CONTAINER:
-                    return true;
-                case ITEM_SUBCLASS_SOUL_CONTAINER:
-                    if(!(pProto->BagFamily & BAG_FAMILY_MASK_SOUL_SHARDS))
-                        return false;
-                    return true;
-                case ITEM_SUBCLASS_HERB_CONTAINER:
-                    if(!(pProto->BagFamily & BAG_FAMILY_MASK_HERBS))
-                        return false;
-                    return true;
-                case ITEM_SUBCLASS_ENCHANTING_CONTAINER:
-                    if(!(pProto->BagFamily & BAG_FAMILY_MASK_ENCHANTING_SUPP))
-                        return false;
-                    return true;
-                case ITEM_SUBCLASS_MINING_CONTAINER:
-                    if(!(pProto->BagFamily & BAG_FAMILY_MASK_MINING_SUPP))
-                        return false;
-                    return true;
-                case ITEM_SUBCLASS_ENGINEERING_CONTAINER:
-                    if(!(pProto->BagFamily & BAG_FAMILY_MASK_ENGINEERING_SUPP))
-                        return false;
-                    return true;
-                case ITEM_SUBCLASS_GEM_CONTAINER:
-                    if(!(pProto->BagFamily & BAG_FAMILY_MASK_GEMS))
-                        return false;
-                    return true;
-                case ITEM_SUBCLASS_LEATHERWORKING_CONTAINER:
-                    if(!(pProto->BagFamily & BAG_FAMILY_MASK_LEATHERWORKING_SUPP))
-                        return false;
-                    return true;
-                case ITEM_SUBCLASS_INSCRIPTION_CONTAINER:
-                    if(!(pProto->BagFamily & BAG_FAMILY_MASK_INSCRIPTION_SUPP))
-                        return false;
-                    return true;
-                default:
-                    return false;
-            }
-        case ITEM_CLASS_QUIVER:
-            switch(pBagProto->SubClass)
-            {
-                case ITEM_SUBCLASS_QUIVER:
-                    if(!(pProto->BagFamily & BAG_FAMILY_MASK_ARROWS))
-                        return false;
-                    return true;
-                case ITEM_SUBCLASS_AMMO_POUCH:
-                    if(!(pProto->BagFamily & BAG_FAMILY_MASK_BULLETS))
-                        return false;
-                    return true;
-                default:
-                    return false;
-            }
+    case ITEM_CLASS_CONTAINER:
+        switch(pBagProto->SubClass)
+        {
+        case ITEM_SUBCLASS_CONTAINER:
+            return true;
+        case ITEM_SUBCLASS_SOUL_CONTAINER:
+            if(!(pProto->BagFamily & BAG_FAMILY_MASK_SOUL_SHARDS))
+                return false;
+            return true;
+        case ITEM_SUBCLASS_HERB_CONTAINER:
+            if(!(pProto->BagFamily & BAG_FAMILY_MASK_HERBS))
+                return false;
+            return true;
+        case ITEM_SUBCLASS_ENCHANTING_CONTAINER:
+            if(!(pProto->BagFamily & BAG_FAMILY_MASK_ENCHANTING_SUPP))
+                return false;
+            return true;
+        case ITEM_SUBCLASS_MINING_CONTAINER:
+            if(!(pProto->BagFamily & BAG_FAMILY_MASK_MINING_SUPP))
+                return false;
+            return true;
+        case ITEM_SUBCLASS_ENGINEERING_CONTAINER:
+            if(!(pProto->BagFamily & BAG_FAMILY_MASK_ENGINEERING_SUPP))
+                return false;
+            return true;
+        case ITEM_SUBCLASS_GEM_CONTAINER:
+            if(!(pProto->BagFamily & BAG_FAMILY_MASK_GEMS))
+                return false;
+            return true;
+        case ITEM_SUBCLASS_LEATHERWORKING_CONTAINER:
+            if(!(pProto->BagFamily & BAG_FAMILY_MASK_LEATHERWORKING_SUPP))
+                return false;
+            return true;
+        case ITEM_SUBCLASS_INSCRIPTION_CONTAINER:
+            if(!(pProto->BagFamily & BAG_FAMILY_MASK_INSCRIPTION_SUPP))
+                return false;
+            return true;
+        default:
+            return false;
+        }
+    case ITEM_CLASS_QUIVER:
+        switch(pBagProto->SubClass)
+        {
+        case ITEM_SUBCLASS_QUIVER:
+            if(!(pProto->BagFamily & BAG_FAMILY_MASK_ARROWS))
+                return false;
+            return true;
+        case ITEM_SUBCLASS_AMMO_POUCH:
+            if(!(pProto->BagFamily & BAG_FAMILY_MASK_BULLETS))
+                return false;
+            return true;
+        default:
+            return false;
+        }
     }
     return false;
 }
@@ -270,24 +270,24 @@ uint32 ItemPrototype::GetArmor() const
 
     switch(SubClass)
     {
-        case ITEM_SUBCLASS_ARMOR_CLOTH:
-            iatMult = iat->Value[0];
-            alMult = al->Value[0];
-            break;
-        case ITEM_SUBCLASS_ARMOR_LEATHER:
-            iatMult = iat->Value[1];
-            alMult = al->Value[1];
-            break;
-        case ITEM_SUBCLASS_ARMOR_MAIL:
-            iatMult = iat->Value[2];
-            alMult = al->Value[2];
-            break;
-        case ITEM_SUBCLASS_ARMOR_PLATE:
-            iatMult = iat->Value[3];
-            alMult = al->Value[3];
-            break;
-        default:
-            return 0;
+    case ITEM_SUBCLASS_ARMOR_CLOTH:
+        iatMult = iat->Value[0];
+        alMult = al->Value[0];
+        break;
+    case ITEM_SUBCLASS_ARMOR_LEATHER:
+        iatMult = iat->Value[1];
+        alMult = al->Value[1];
+        break;
+    case ITEM_SUBCLASS_ARMOR_MAIL:
+        iatMult = iat->Value[2];
+        alMult = al->Value[2];
+        break;
+    case ITEM_SUBCLASS_ARMOR_PLATE:
+        iatMult = iat->Value[3];
+        alMult = al->Value[3];
+        break;
+    default:
+        return 0;
     }
 
     return uint32(floor(iaq->Value[Quality] * iatMult * alMult + 0.5f));
@@ -306,45 +306,45 @@ float ItemPrototype::getDPS() const
 
         switch(InventoryType)
         {
-            case INVTYPE_WEAPON:
-            case INVTYPE_WEAPONMAINHAND:
-            case INVTYPE_WEAPONOFFHAND:
-                if(Faction & 0x200)                         // caster weapon flag
-                    id = sItemDamageOneHandCasterStore.LookupEntry(ItemLevel);
-                else
-                    id = sItemDamageOneHandStore.LookupEntry(ItemLevel);
+        case INVTYPE_WEAPON:
+        case INVTYPE_WEAPONMAINHAND:
+        case INVTYPE_WEAPONOFFHAND:
+            if(Faction & 0x200)                         // caster weapon flag
+                id = sItemDamageOneHandCasterStore.LookupEntry(ItemLevel);
+            else
+                id = sItemDamageOneHandStore.LookupEntry(ItemLevel);
+            break;
+        case INVTYPE_2HWEAPON:
+            if(Faction & 0x200)                         // caster weapon flag
+                id = sItemDamageTwoHandCasterStore.LookupEntry(ItemLevel);
+            else
+                id = sItemDamageTwoHandStore.LookupEntry(ItemLevel);
+            break;
+        case INVTYPE_AMMO:
+            id = sItemDamageAmmoStore.LookupEntry(ItemLevel);
+            break;
+        case INVTYPE_RANGED:
+        case INVTYPE_THROWN:
+        case INVTYPE_RANGEDRIGHT:
+            switch(SubClass)
+            {
+            case ITEM_SUBCLASS_WEAPON_BOW:
+            case ITEM_SUBCLASS_WEAPON_GUN:
+            case ITEM_SUBCLASS_WEAPON_CROSSBOW:
+                id = sItemDamageRangedStore.LookupEntry(ItemLevel);
                 break;
-            case INVTYPE_2HWEAPON:
-                if(Faction & 0x200)                         // caster weapon flag
-                    id = sItemDamageTwoHandCasterStore.LookupEntry(ItemLevel);
-                else
-                    id = sItemDamageTwoHandStore.LookupEntry(ItemLevel);
+            case ITEM_SUBCLASS_WEAPON_THROWN:
+                id = sItemDamageThrownStore.LookupEntry(ItemLevel);
                 break;
-            case INVTYPE_AMMO:
-                id = sItemDamageAmmoStore.LookupEntry(ItemLevel);
-                break;
-            case INVTYPE_RANGED:
-            case INVTYPE_THROWN:
-            case INVTYPE_RANGEDRIGHT:
-                switch(SubClass)
-                {
-                    case ITEM_SUBCLASS_WEAPON_BOW:
-                    case ITEM_SUBCLASS_WEAPON_GUN:
-                    case ITEM_SUBCLASS_WEAPON_CROSSBOW:
-                        id = sItemDamageRangedStore.LookupEntry(ItemLevel);
-                        break;
-                    case ITEM_SUBCLASS_WEAPON_THROWN:
-                        id = sItemDamageThrownStore.LookupEntry(ItemLevel);
-                        break;
-                    case ITEM_SUBCLASS_WEAPON_WAND:
-                        id = sItemDamageWandStore.LookupEntry(ItemLevel);
-                        break;
-                    default:
-                        break;
-                }
+            case ITEM_SUBCLASS_WEAPON_WAND:
+                id = sItemDamageWandStore.LookupEntry(ItemLevel);
                 break;
             default:
                 break;
+            }
+            break;
+        default:
+            break;
         }
 
         if(!id)
@@ -421,7 +421,7 @@ void Item::SaveToDB()
     uint32 guid = GetGUIDLow();
     switch (uState)
     {
-        case ITEM_NEW:
+    case ITEM_NEW:
         {
             std::string text = m_text;
             CharacterDatabase.escape_string(text);
@@ -433,7 +433,7 @@ void Item::SaveToDB()
             ss << "', '" << text << "')";
             CharacterDatabase.Execute( ss.str().c_str() );
         } break;
-        case ITEM_CHANGED:
+    case ITEM_CHANGED:
         {
             std::string text = m_text;
             CharacterDatabase.escape_string(text);
@@ -449,7 +449,7 @@ void Item::SaveToDB()
             if(HasFlag(ITEM_FIELD_FLAGS, ITEM_FLAGS_WRAPPED))
                 CharacterDatabase.PExecute("UPDATE character_gifts SET guid = '%u' WHERE item_guid = '%u'", GUID_LOPART(GetOwnerGUID()),GetGUIDLow());
         } break;
-        case ITEM_REMOVED:
+    case ITEM_REMOVED:
         {
             CharacterDatabase.PExecute("DELETE FROM item_instance WHERE guid = '%u'", guid);
             if(HasFlag(ITEM_FIELD_FLAGS, ITEM_FLAGS_WRAPPED))
@@ -457,8 +457,8 @@ void Item::SaveToDB()
             delete this;
             return;
         }
-        case ITEM_UNCHANGED:
-            break;
+    case ITEM_UNCHANGED:
+        break;
     }
     SetState(ITEM_UNCHANGED);
 }
@@ -599,20 +599,20 @@ uint32 Item::GetSkill()
 
     switch (proto->Class)
     {
-        case ITEM_CLASS_WEAPON:
-            if( proto->SubClass >= MAX_ITEM_SUBCLASS_WEAPON )
-                return 0;
-            else
-                return item_weapon_skills[proto->SubClass];
-
-        case ITEM_CLASS_ARMOR:
-            if( proto->SubClass >= MAX_ITEM_SUBCLASS_ARMOR )
-                return 0;
-            else
-                return item_armor_skills[proto->SubClass];
-
-        default:
+    case ITEM_CLASS_WEAPON:
+        if( proto->SubClass >= MAX_ITEM_SUBCLASS_WEAPON )
             return 0;
+        else
+            return item_weapon_skills[proto->SubClass];
+
+    case ITEM_CLASS_ARMOR:
+        if( proto->SubClass >= MAX_ITEM_SUBCLASS_ARMOR )
+            return 0;
+        else
+            return item_armor_skills[proto->SubClass];
+
+    default:
+        return 0;
     }
 }
 
@@ -622,36 +622,36 @@ uint32 Item::GetSpell()
 
     switch (proto->Class)
     {
-        case ITEM_CLASS_WEAPON:
-            switch (proto->SubClass)
-            {
-                case ITEM_SUBCLASS_WEAPON_AXE:     return  196;
-                case ITEM_SUBCLASS_WEAPON_AXE2:    return  197;
-                case ITEM_SUBCLASS_WEAPON_BOW:     return  264;
-                case ITEM_SUBCLASS_WEAPON_GUN:     return  266;
-                case ITEM_SUBCLASS_WEAPON_MACE:    return  198;
-                case ITEM_SUBCLASS_WEAPON_MACE2:   return  199;
-                case ITEM_SUBCLASS_WEAPON_POLEARM: return  200;
-                case ITEM_SUBCLASS_WEAPON_SWORD:   return  201;
-                case ITEM_SUBCLASS_WEAPON_SWORD2:  return  202;
-                case ITEM_SUBCLASS_WEAPON_STAFF:   return  227;
-                case ITEM_SUBCLASS_WEAPON_DAGGER:  return 1180;
-                case ITEM_SUBCLASS_WEAPON_THROWN:  return 2567;
-                case ITEM_SUBCLASS_WEAPON_SPEAR:   return 3386;
-                case ITEM_SUBCLASS_WEAPON_CROSSBOW:return 5011;
-                case ITEM_SUBCLASS_WEAPON_WAND:    return 5009;
-                default: return 0;
-            }
-        case ITEM_CLASS_ARMOR:
-            switch(proto->SubClass)
-            {
-                case ITEM_SUBCLASS_ARMOR_CLOTH:    return 9078;
-                case ITEM_SUBCLASS_ARMOR_LEATHER:  return 9077;
-                case ITEM_SUBCLASS_ARMOR_MAIL:     return 8737;
-                case ITEM_SUBCLASS_ARMOR_PLATE:    return  750;
-                case ITEM_SUBCLASS_ARMOR_SHIELD:   return 9116;
-                default: return 0;
-            }
+    case ITEM_CLASS_WEAPON:
+        switch (proto->SubClass)
+        {
+        case ITEM_SUBCLASS_WEAPON_AXE:     return  196;
+        case ITEM_SUBCLASS_WEAPON_AXE2:    return  197;
+        case ITEM_SUBCLASS_WEAPON_BOW:     return  264;
+        case ITEM_SUBCLASS_WEAPON_GUN:     return  266;
+        case ITEM_SUBCLASS_WEAPON_MACE:    return  198;
+        case ITEM_SUBCLASS_WEAPON_MACE2:   return  199;
+        case ITEM_SUBCLASS_WEAPON_POLEARM: return  200;
+        case ITEM_SUBCLASS_WEAPON_SWORD:   return  201;
+        case ITEM_SUBCLASS_WEAPON_SWORD2:  return  202;
+        case ITEM_SUBCLASS_WEAPON_STAFF:   return  227;
+        case ITEM_SUBCLASS_WEAPON_DAGGER:  return 1180;
+        case ITEM_SUBCLASS_WEAPON_THROWN:  return 2567;
+        case ITEM_SUBCLASS_WEAPON_SPEAR:   return 3386;
+        case ITEM_SUBCLASS_WEAPON_CROSSBOW:return 5011;
+        case ITEM_SUBCLASS_WEAPON_WAND:    return 5009;
+        default: return 0;
+        }
+    case ITEM_CLASS_ARMOR:
+        switch(proto->SubClass)
+        {
+        case ITEM_SUBCLASS_ARMOR_CLOTH:    return 9078;
+        case ITEM_SUBCLASS_ARMOR_LEATHER:  return 9077;
+        case ITEM_SUBCLASS_ARMOR_MAIL:     return 8737;
+        case ITEM_SUBCLASS_ARMOR_PLATE:    return  750;
+        case ITEM_SUBCLASS_ARMOR_SHIELD:   return 9116;
+        default: return 0;
+        }
     }
     return 0;
 }
@@ -903,7 +903,7 @@ bool Item::IsFitToSpellRequirements(SpellEntry const* spellInfo) const
     // Only check for item enchantments (TARGET_FLAG_ITEM), all other spells are either NPC spells
     // or spells where slot requirements are already handled with AttributesEx3 fields
     // and special code (Titan's Grip, Windfury Attack). Check clearly not applicable for Lava Lash.
-    if(equippedItems->EquippedItemInventoryTypeMask != 0 && (equippedItems->Targets & TARGET_FLAG_ITEM))    // 0 == any inventory type
+    if(equippedItems->EquippedItemInventoryTypeMask != 0 && (spellInfo->GetTargets() & TARGET_FLAG_ITEM))    // 0 == any inventory type
     {
         if((equippedItems->EquippedItemInventoryTypeMask  & (1 << proto->InventoryType)) == 0)
             return false;                                   // inventory type not present in mask
@@ -1184,12 +1184,12 @@ bool ItemRequiredTarget::IsFitToRequirements( Unit* pUnitTarget ) const
 
     switch(m_uiType)
     {
-        case ITEM_TARGET_TYPE_CREATURE:
-            return pUnitTarget->isAlive();
-        case ITEM_TARGET_TYPE_DEAD:
-            return !pUnitTarget->isAlive();
-        default:
-            return false;
+    case ITEM_TARGET_TYPE_CREATURE:
+        return pUnitTarget->isAlive();
+    case ITEM_TARGET_TYPE_DEAD:
+        return !pUnitTarget->isAlive();
+    default:
+        return false;
     }
 }
 
