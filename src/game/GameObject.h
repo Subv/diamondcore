@@ -660,6 +660,8 @@ class GameObject : public WorldObject
         uint8 GetGoAnimProgress() const { return GetByteValue(GAMEOBJECT_BYTES_1, 3); }
         void SetGoAnimProgress(uint8 animprogress) { SetByteValue(GAMEOBJECT_BYTES_1, 3, animprogress); }
 
+        float GetObjectBoundingRadius() const;              // overwrite WorldObject version
+
         void Use(Unit* user);
 
         LootState getLootState() const { return m_lootState; }

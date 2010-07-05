@@ -1,4 +1,3 @@
-
 #ifndef _CAMERA_H
 #define _CAMERA_H
 
@@ -61,37 +60,28 @@ class ViewPoint
     friend class Camera;
 
     std::list<Camera*> m_cameras;
-    std::list<Camera*>::iterator camera_iter;
+
     GridType * m_grid;
-    
+
     void Attach(Camera* c) { m_cameras.push_back(c); }
 
-    void Detach(Camera* c)
-    {
-        if (camera_iter != m_cameras.end() && *camera_iter == c)     // detach called during the loop
-            camera_iter = m_cameras.erase(camera_iter);
-        else
-            m_cameras.remove(c);
-    }
+    void Detach(Camera* c) { m_cameras.remove(c); }
 
     void CameraCall(void (Camera::*handler)())
     {
         if (!m_cameras.empty())
         {
-            for(camera_iter = m_cameras.begin(); camera_iter != m_cameras.end(); ++camera_iter)
+            for(std::list<Camera*>::iterator itr = m_cameras.begin(); itr != m_cameras.end();)
             {
-                ((*camera_iter)->*handler)();
-
-                // can be end() after handler
-                if (camera_iter == m_cameras.end())
-                    break;
+                Camera *c = *(itr++);
+                (c->*handler)();
             }
         }
     }
 
 public:
 
-    ViewPoint() : m_grid(0), camera_iter(m_cameras.end()) {}
+    ViewPoint() : m_grid(0) {}
     ~ViewPoint();
 
     bool hasViewers() const { return !m_cameras.empty(); }
@@ -125,7 +115,5 @@ public:
         CameraCall(&Camera::UpdateVisibilityForOwner);
     }
 };
-
-
 
 #endif

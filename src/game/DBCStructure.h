@@ -388,7 +388,6 @@ struct AchievementCriteriaEntry
             uint32  goldInCopper;                           // 4
         } quest_reward_money;
 
-
         // ACHIEVEMENT_CRITERIA_TYPE_LOOT_MONEY             = 67
         struct
         {
@@ -509,7 +508,6 @@ struct AreaTableEntry
     DBCString area_name;                                    // 11
     uint32  team;                                           // 12
                                                             // 13-20 unknown
-
 };
 
 struct AreaGroupEntry
@@ -639,7 +637,7 @@ struct ChrClassesEntry
 {
     uint32  ClassID;                                        // 0
     uint32  powerType;                                      // 1
-    
+
     DBCString name;                                         // 3 unused
     //char*       nameFemale;                               // 4 unused, if different from base (male) case
     //char*       nameNeutralGender;                        // 5 unused, if different from base (male) case
@@ -872,7 +870,8 @@ struct GameObjectDisplayInfoEntry
     uint32      Displayid;                                  // 0        m_ID
     // char* filename;                                      // 1
     // uint32 unknown2[10];                                 // 2-11     unknown data
-    // float  unknown12[6];                                 // 12-17    unknown data
+    float  unknown12;                                       // 12-17    unknown size data, use first value as interact dist, mostly in hacks way
+    // float  unknown13[5];                                 // 12-17    unknown size data
     // uint32 unknown18;                                    // 18       unknown data
 };
 
@@ -1444,7 +1443,7 @@ struct SpellAuraOptionsEntry
 // SpellAuraRestrictions.dbc
 struct SpellAuraRestrictionsEntry
 {
-    //uint32    Id;  
+    //uint32    Id;
     uint32    CasterAuraState;                              // 21       m_casterAuraState
     uint32    TargetAuraState;                              // 22       m_targetAuraState
     uint32    CasterAuraStateNot;                           // 23       m_excludeCasterAuraState
@@ -1773,9 +1772,9 @@ struct SpellRangeEntry
     float     minRangeFriendly;                             // 2
     float     maxRange;                                     // 3
     float     maxRangeFriendly;                             // 4
-    //uint32                                                // 5
-    //char*                                                 // 6
-    //char*                                                 // 7
+    //uint32                                                                                     // 5
+    //char*                                                                                       // 6
+    //char*                                                                                       // 7
 };
 
 struct SpellRuneCostEntry
