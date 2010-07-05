@@ -1061,7 +1061,6 @@ void ObjectMgr::LoadCreatureModelInfo()
         }
         else
             sLog.outErrorDb("Table `creature_model_info` expect have data for character race %u male model id %u", race, raceEntry->model_m);
-
     }
 
     sLog.outString( ">> Loaded %u creature model based info", sCreatureModelStorage.RecordCount );
@@ -1081,7 +1080,7 @@ void ObjectMgr::LoadCreatures()
 
     if(!result)
     {
-        sLog.outErrorDb(">> Loaded 0 creature.");
+        sLog.outString(">> Loaded 0 creature.");
         return;
     }
 
@@ -1219,7 +1218,6 @@ void ObjectMgr::LoadCreatures()
             AddCreatureToGrid(guid, &data);
 
         ++count;
-
     } while (result->NextRow());
 
     delete result;
@@ -1272,7 +1270,7 @@ void ObjectMgr::LoadGameobjects()
 
     if(!result)
     {
-        sLog.outErrorDb(">> Loaded 0 gameobjects.");
+        sLog.outString(">> Loaded 0 gameobjects.");
         return;
     }
 
@@ -1388,7 +1386,6 @@ void ObjectMgr::LoadGameobjects()
         if (gameEvent == 0 && PoolId == 0)                  // if not this is to be managed by GameEvent System or Pool system
             AddGameobjectToGrid(guid, &data);
         ++count;
-
     } while (result->NextRow());
 
     delete result;
@@ -2179,7 +2176,7 @@ void ObjectMgr::LoadVehicleAccessories()
 
     if (!result)
     {
-        sLog.outErrorDb(">> Loaded 0 vehicle accessories.");
+        sLog.outString(">> Loaded 0 vehicle accessories.");
         return;
     }
     do
@@ -2223,7 +2220,7 @@ void ObjectMgr::LoadItemRequiredTarget()
 
     if (!result)
     {
-        sLog.outErrorDb(">> Loaded 0 ItemRequiredTarget.");
+        sLog.outString(">> Loaded 0 ItemRequiredTarget.");
         return;
     }
     do
@@ -4619,7 +4616,6 @@ void ObjectMgr::LoadPageTextLocales()
                 data.Text[idx] = str;
             }
         }
-
     } while (result->NextRow());
 
     delete result;
@@ -4951,7 +4947,6 @@ void ObjectMgr::LoadQuestAreaTriggers()
         }
 
         mQuestAreaTriggerMap[trigger_ID] = quest_ID;
-
     } while( result->NextRow() );
 
     delete result;
@@ -5455,7 +5450,6 @@ void ObjectMgr::LoadAreaTriggerTeleports()
         }
 
         mAreaTriggers[Trigger_ID] = at;
-
     } while( result->NextRow() );
 
     delete result;
@@ -5714,7 +5708,6 @@ void ObjectMgr::LoadGameObjectLocales()
                 }
             }
         }
-
     } while (result->NextRow());
 
     delete result;
@@ -5806,7 +5799,6 @@ void ObjectMgr::LoadGameobjectInfo()
         GameObjectInfo const* goInfo = sGOStorage.LookupEntry<GameObjectInfo>(id);
         if (!goInfo)
             continue;
-
 
         if (goInfo->size <= 0.0f)                           // prevent use too small scales
         {
@@ -6111,7 +6103,7 @@ void ObjectMgr::LoadReputationOnKill()
 
     if(!result)
     {
-        sLog.outErrorDb(">> Loaded 0 creature award reputation definitions.");
+        sLog.outString(">> Loaded 0 creature award reputation definitions.");
         return;
     }
     do
@@ -6178,7 +6170,7 @@ void ObjectMgr::LoadPointsOfInterest()
 
     if(!result)
     {
-        sLog.outErrorDb(">> Loaded 0 Points of Interest definitions.");
+        sLog.outString(">> Loaded 0 Points of Interest definitions.");
         return;
     }
     do
@@ -6222,7 +6214,7 @@ void ObjectMgr::LoadQuestPOI()
 
     if(!result)
     {
-        sLog.outErrorDb(">> Loaded 0 quest POI definitions.");
+        sLog.outString(">> Loaded 0 quest POI definitions.");
         return;
     }
     do
@@ -6289,7 +6281,7 @@ void ObjectMgr::LoadNPCSpellClickSpells()
 
     if(!result)
     {
-        sLog.outErrorDb(">> Loaded 0 spellclick spells.");
+        sLog.outString(">> Loaded 0 spellclick spells.");
         return;
     }
     do
@@ -6322,7 +6314,6 @@ void ObjectMgr::LoadNPCSpellClickSpells()
                 sLog.outErrorDb("Table npc_spellclick_spells references unknown start quest %u. Skipping entry.", quest_start);
                 continue;
             }
-
         }
 
         bool quest_start_active = fields[3].GetBool();
@@ -6336,7 +6327,6 @@ void ObjectMgr::LoadNPCSpellClickSpells()
                 sLog.outErrorDb("Table npc_spellclick_spells references unknown end quest %u. Skipping entry.", quest_end);
                 continue;
             }
-
         }
 
         uint8 castFlags = fields[5].GetUInt8();
@@ -6368,7 +6358,7 @@ void ObjectMgr::LoadWeatherZoneChances()
 
     if(!result)
     {
-        sLog.outErrorDb(">> Loaded 0 weather definitions.");
+        sLog.outString(">> Loaded 0 weather definitions.");
         return;
     }
     do
@@ -6498,7 +6488,7 @@ void ObjectMgr::LoadQuestRelationsHelper(QuestRelations& map,char const* table)
 
     if(!result)
     {
-        sLog.outErrorDb(">> Loaded 0 quest relations from %s.",table,table);
+        sLog.outString(">> Loaded 0 quest relations from %s.",table,table);
         return;
     }
     do
@@ -7687,7 +7677,6 @@ void ObjectMgr::LoadTrainerSpell()
             data.trainerType = 2;
 
         ++count;
-
     } while (result->NextRow());
     delete result;
 
@@ -7728,7 +7717,6 @@ void ObjectMgr::LoadVendors()
 
         vList.AddItem(item_id,maxcount,incrtime,ExtendedCost);
         ++count;
-
     } while (result->NextRow());
     delete result;
 
@@ -7737,7 +7725,6 @@ void ObjectMgr::LoadVendors()
 
 void ObjectMgr::LoadNpcTextId()
 {
-
     m_mCacheNpcTextIdMap.clear();
 
     QueryResult* result = WorldDatabase.Query("SELECT npc_guid, textid FROM npc_gossip");
@@ -7769,7 +7756,6 @@ void ObjectMgr::LoadNpcTextId()
 
         m_mCacheNpcTextIdMap[guid] = textid ;
         ++count;
-
     } while (result->NextRow());
     delete result;
 
@@ -7951,7 +7937,6 @@ void ObjectMgr::LoadGossipMenuItems()
         m_mGossipMenuItemsMap.insert(GossipMenuItemsMap::value_type(gMenuItem.menu_id, gMenuItem));
 
         ++count;
-
     }
     while(result->NextRow());
 
@@ -8274,7 +8259,6 @@ void ObjectMgr::LoadTickets()
         ++count;
 
         m_GMTicketList.push_back(ticket);
-
     } while (result->NextRow());
 
     result = CharacterDatabase.PQuery("SELECT MAX(guid) from gm_tickets");
@@ -8376,7 +8360,7 @@ bool FindCreatureData::operator()( CreatureDataPair const& dataPair )
         i_mapDist = new_dist;
     }
 
-    // skip not spawned (in any state), 
+    // skip not spawned (in any state),
     uint16 pool_id = sPoolMgr.IsPartOfAPool<Creature>(dataPair.first);
     if (pool_id && !sPoolMgr.IsSpawnedObject<Creature>(dataPair.first))
         return false;
