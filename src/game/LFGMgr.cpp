@@ -407,7 +407,7 @@ void LFGMgr::UpdateRoleCheck(Group *grp, Player *plr /* = NULL*/)
         pRoleCheck->cancelTime = time_t(time(NULL)) + LFG_TIME_ROLECHECK;
         pRoleCheck->result = LFG_ROLECHECK_INITIALITING;
         pRoleCheck->leader = plr->GetGUID();
-        
+
         for (GroupReference *itr = grp->GetFirstMember(); itr != NULL; itr = itr->next())
             if (Player *plrg = itr->getSource())
                 pRoleCheck->roles[plrg->GetGUID()] = 0;
@@ -575,7 +575,7 @@ void LFGMgr::UpdateRoleCheck(Group *grp, Player *plr /* = NULL*/)
 /// </summary>
 /// <param name="grp">Group</param>
 /// <returns>bool</returns>
-bool LFGMgr::CheckGroupRoles(LfgRolesMap &groles)
+bool LFGMgr::CheckGroupRoles(LfgRolesMap &groles, bool removeLeaderFlag /*= true*/)
 {
     if (!groles.size())
         return false;
@@ -589,15 +589,20 @@ bool LFGMgr::CheckGroupRoles(LfgRolesMap &groles)
     uint64 guid = 0;
     uint8 role = 0;
 
+    if (removeLeaderFlag)
+        for (LfgRolesMap::iterator it = groles.begin(); it != groles.end(); ++it)
+            it->second &= ~ROLE_LEADER;
+
     for (LfgRolesMap::const_iterator it = groles.begin(); it != groles.end(); ++it)
     {
         guid = it->first;
         role = it->second;
 
-        if (role == ROLE_NONE || role == ROLE_LEADER)
+        if (role == ROLE_NONE)
             return false;
 
         if (role & ROLE_TANK)
+        {
             if (!tank)
             {
                 tguid = guid;
@@ -608,10 +613,12 @@ bool LFGMgr::CheckGroupRoles(LfgRolesMap &groles)
                 if (groles[tguid] == ROLE_TANK)
                     tguid = guid;
                 groles[tguid] -= ROLE_TANK;
-                return CheckGroupRoles(groles);
+                return CheckGroupRoles(groles, false);
             }
+        }
 
         if (role & ROLE_HEALER)
+        {
             if (!healer)
             {
                 hguid = guid;
@@ -622,10 +629,12 @@ bool LFGMgr::CheckGroupRoles(LfgRolesMap &groles)
                 if (groles[hguid] == ROLE_HEALER)
                     hguid = guid;
                 groles[hguid] -= ROLE_HEALER;
-                return CheckGroupRoles(groles);
+                return CheckGroupRoles(groles, false);
             }
+        }
 
         if (role & ROLE_DAMAGE)
+        {
             if (damage < 3)
             {
                 if (!damage)
@@ -637,13 +646,15 @@ bool LFGMgr::CheckGroupRoles(LfgRolesMap &groles)
                 if (groles[dguid] == ROLE_DAMAGE)
                     dguid = guid;
                 groles[dguid] -= ROLE_DAMAGE;
-                return CheckGroupRoles(groles);
+                if (!CheckGroupRoles(groles, false))
+                    groles[dguid] += ROLE_DAMAGE;
+                else
+                    return true;
             }
+        }
     }
     return true;
 }
-
-
 
 // --------------------------------------------------------------------------//
 // Packet Functions
@@ -683,7 +694,7 @@ void LFGMgr::BuildLfgRoleCheck(WorldPacket &data, LfgRoleCheck *pRoleCheck)
         data << uint8(plr->getLevel());                     // Level
     else
         data << uint8(0);
-    
+
     for (LfgRolesMap::const_iterator itPlayers = pRoleCheck->roles.begin(); itPlayers != pRoleCheck->roles.end(); ++itPlayers)
     {
         if (itPlayers->first == pRoleCheck->leader)
@@ -828,9 +839,6 @@ void LFGMgr::BuildPlayerLockDungeonBlock(WorldPacket &data, LfgLockStatusSet *lo
     lockSet->clear();
     delete lockSet;
 }
-
-
-
 
 // --------------------------------------------------------------------------//
 // Auxiliar Functions
