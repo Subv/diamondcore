@@ -356,7 +356,7 @@ enum Opcodes
     CMSG_INSTANCE_LOCK_WARNING_RESPONSE             = 0xC618,    // 50712 - 4.0.0.12319
     CMSG_UNUSED2                                    = 0x140,
     CMSG_ATTACKSWING                                = 0x141,
-    CMSG_ATTACKSTOP                                 = 0x142,
+    CMSG_ATTACKSTOP                                 = 0xD228,    // 53800 - 4.0.0.12319
     SMSG_ATTACKSTART                                = 0xD248,    // 53832 - 4.0.0.12319
     SMSG_ATTACKSTOP                                 = 0xC40C,    // 50188 - 4.0.0.12319
     SMSG_ATTACKSWING_NOTINRANGE                     = 0x547A,    // 21626 - 4.0.0.12319
