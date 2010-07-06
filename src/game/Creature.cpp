@@ -269,6 +269,7 @@ bool Creature::InitEntry(uint32 Entry, uint32 team, const CreatureData *data )
     SetNativeDisplayId(display_id);
 
     SetByteValue(UNIT_FIELD_BYTES_0, 2, minfo->gender);
+    SetByteValue(UNIT_FIELD_BYTES_0, 3, uint8(cinfo->powerType));
 
     // Load creature equipment
     if (!data || data->equipmentId == 0)
@@ -522,7 +523,6 @@ void Creature::Update(uint32 diff)
             break;
     }
 }
-
 
 void Creature::StartGroupLoot( Group* group, uint32 timer )
 {
@@ -858,7 +858,6 @@ void Creature::PrepareBodyLootState()
     RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_SKINNABLE);
 }
 
-
 /**
  * Return original player who tap creature, it can be different from player/group allowed to loot so not use it for loot code
  */
@@ -1074,19 +1073,34 @@ void Creature::SelectLevel(const CreatureInfo *cinfo, float percentHealth, float
     else
         SetHealthPercent(percentHealth);
 
-    // mana
-    uint32 minmana = std::min(cinfo->maxmana, cinfo->minmana);
-    uint32 maxmana = std::max(cinfo->maxmana, cinfo->minmana);
-    uint32 mana = minmana + uint32(rellevel * (maxmana - minmana));
+    Powers powerType = Powers(cinfo->powerType);
+    uint32 maxPower = 0;
+    uint32 power = 0;
 
-    SetCreateMana(mana);
-    SetMaxPower(POWER_MANA, mana);                          //MAX Mana
-    SetPower(POWER_MANA, mana);
+    switch(powerType)
+    {
+        case POWER_MANA:
+        {
+            uint32 minmana = std::min(cinfo->maxmana, cinfo->minmana);
+            uint32 maxmana = std::max(cinfo->maxmana, cinfo->minmana);
+            maxPower = minmana + uint32(rellevel * (maxmana - minmana));
+            power = maxPower;
+            SetCreateMana(maxPower);
+            break;
+        }
+        case POWER_ENERGY:
+        {
+            maxPower = uint32(GetCreatePowers(powerType) * cinfo->power_mod);
+            power = 0;
+            break;
+        }
+    }
 
-    // TODO: set UNIT_FIELD_POWER*, for some creature class case (energy, etc)
+    SetMaxPower(powerType, maxPower);
+    SetPower(powerType, power);
+    SetModifierValue(UnitMods(UNIT_MOD_MANA + powerType), BASE_VALUE, float(maxPower));
 
     SetModifierValue(UNIT_MOD_HEALTH, BASE_VALUE, float(health));
-    SetModifierValue(UNIT_MOD_MANA, BASE_VALUE, float(mana));
 
     // damage
     float damagemod = _GetDamageMod(rank);

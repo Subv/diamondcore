@@ -43,7 +43,6 @@ class SQLStorage
             init(_entry_field, sqlname);
         }
 
-
         ~SQLStorage()
         {
             Free();
