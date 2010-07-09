@@ -185,7 +185,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP /Zm111"
 				AdditionalIncludeDirectories="..\..\dep\include\;..\..\src\shared\;..\..\src\framework\;..\..\src\game\;..\..\src\scripts\include\;..\..\src\scripts\base\;..\..\dep\ACE_wrappers\"
-				PreprocessorDefinitions="WIN32;_DEBUG;DIAMOND_DEBUG;_WINDOWS;_LIB;SCRIPT;_SECURE_SCL=0"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;SCRIPT;_SECURE_SCL=0"
 				MinimalRebuild="false"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="2"
