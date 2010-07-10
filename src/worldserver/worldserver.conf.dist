@@ -3,7 +3,7 @@
 ######################################
 
 [WorldServerConf]
-ConfVersion = 4
+ConfVersion = 171
 
 ###################################################################################################################
 # CONNECTIONS AND DIRECTORIES
@@ -128,6 +128,9 @@ BindIP = "0.0.0.0"
 #        Default: 1 (only save on logout)
 #                 0 (save on every player save)
 #
+#    MMap.Enable
+#        Enable/Disable MMap file check
+#
 #    vmap.enableLOS
 #    vmap.enableHeight
 #        Enable/Disable VMmap support for line of sight and height calculation
@@ -197,6 +200,7 @@ ChangeWeatherInterval = 600000
 PlayerSave.Interval = 90000
 PlayerSave.Stats.MinLevel = 0
 PlayerSave.Stats.SaveOnlyOnLogout = 1
+MMap.Enable = 0
 vmap.enableLOS = 0
 vmap.enableHeight = 0
 vmap.ignoreMapIds = "369"
