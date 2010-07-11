@@ -249,6 +249,7 @@ SET(game_STAT_SRCS
     Traveller.h
     Unit.cpp
     Unit.h
+    UnitAuraProcHandler.cpp
     UnitEvents.h
     UpdateData.cpp
     UpdateData.h
