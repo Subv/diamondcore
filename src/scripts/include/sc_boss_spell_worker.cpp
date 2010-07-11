@@ -38,7 +38,7 @@ void BossSpellWorker::_resetTimer(uint8 m_uiSpellIdx)
     if (m_BossSpell[m_uiSpellIdx].m_uiSpellTimerMin[currentDifficulty] != m_BossSpell[m_uiSpellIdx].m_uiSpellTimerMax[currentDifficulty])
             m_uiSpell_Timer[m_uiSpellIdx] = urand(0,m_BossSpell[m_uiSpellIdx].m_uiSpellTimerMax[currentDifficulty]);
                 else m_uiSpell_Timer[m_uiSpellIdx] = m_BossSpell[m_uiSpellIdx].m_uiSpellTimerMin[currentDifficulty];
-    if (m_BossSpell[m_uiSpellIdx].m_uiSpellTimerMin[currentDifficulty] == 0 
+    if (m_BossSpell[m_uiSpellIdx].m_uiSpellTimerMin[currentDifficulty] == 0
         && m_BossSpell[m_uiSpellIdx].m_uiSpellTimerMax[currentDifficulty] >= HOUR*IN_MILLISECONDS)
             m_uiSpell_Timer[m_uiSpellIdx] = 0;
 };
@@ -96,7 +96,6 @@ void BossSpellWorker::LoadSpellTable()
             if (bossEntry != bossID) error_db_log("BSW: Unknown error while load boss_spell_table");
 
             ++uiCount;
-
         } while (Result->NextRow());
 
         _bossSpellCount = uiCount;
@@ -139,8 +138,7 @@ CanCastResult BossSpellWorker::_BSWSpellSelector(uint8 m_uiSpellIdx, Unit* pTarg
         debug_log("BSW: Casting spell number %u type %u",pSpell->m_uiSpellEntry[currentDifficulty], pSpell->m_CastTarget);
 
         switch (pSpell->m_CastTarget) {
-
-            case DO_NOTHING: 
+            case DO_NOTHING:
                    return CAST_OK;
 
             case CAST_ON_SELF:
@@ -174,7 +172,7 @@ CanCastResult BossSpellWorker::_BSWSpellSelector(uint8 m_uiSpellIdx, Unit* pTarg
 
             case APPLY_AURA_SELF:
                    if (spell = (SpellEntry *)GetSpellStore()->LookupEntry(pSpell->m_uiSpellEntry[currentDifficulty]))
-                          if(boss->AddAura(new BossAura(spell, EFFECT_INDEX_0, &pSpell->varData, boss, boss)))
+                          //if(boss->AddAura(new BossAura(spell, EFFECT_INDEX_0, &pSpell->varData, boss, boss)))
                               return CAST_OK;
                           else return CAST_FAIL_OTHER;
                    break;
@@ -182,7 +180,7 @@ CanCastResult BossSpellWorker::_BSWSpellSelector(uint8 m_uiSpellIdx, Unit* pTarg
             case APPLY_AURA_TARGET:
                    if (!pTarget) return CAST_FAIL_OTHER;
                    if (spell = (SpellEntry *)GetSpellStore()->LookupEntry(pSpell->m_uiSpellEntry[currentDifficulty]))
-                          if (pTarget->AddAura(new BossAura(spell, EFFECT_INDEX_0, &pSpell->varData, pTarget, pTarget)))
+                         // if (pTarget->AddAura(new BossAura(spell, EFFECT_INDEX_0, &pSpell->varData, pTarget, pTarget)))
                               return CAST_OK;
                           else return CAST_FAIL_OTHER;
                    break;
@@ -257,8 +255,6 @@ CanCastResult BossSpellWorker::_BSWCastOnTarget(Unit* pTarget, uint8 m_uiSpellId
     return CAST_FAIL_OTHER;
 };
 
-
-
 bool BossSpellWorker::isSummon(uint8 m_uiSpellIdx)
 {
     if (_bossSpellCount == 0) return false;
@@ -280,7 +276,6 @@ bool BossSpellWorker::_hasAura(uint8 m_uiSpellIdx, Unit* pTarget)
     SpellTable* pSpell = &m_BossSpell[m_uiSpellIdx];
 
     return (pTarget->HasAura(pSpell->m_uiSpellEntry[currentDifficulty]));
-
 };
 
 uint8 BossSpellWorker::FindSpellIDX(uint32 SpellID)
@@ -391,7 +386,7 @@ bool BossSpellWorker::_doRemove(uint8 m_uiSpellIdx, Unit* pTarget, SpellEffectIn
         debug_log("BSW: Removing effect of spell %u type %u",pSpell->m_uiSpellEntry[currentDifficulty], pSpell->m_CastTarget);
 
         switch (pSpell->m_CastTarget) {
-                case DO_NOTHING: 
+                case DO_NOTHING:
                                  return true;
                 case SUMMON_NORMAL:
                 case SUMMON_TEMP:
@@ -431,7 +426,7 @@ bool BossSpellWorker::_doRemove(uint8 m_uiSpellIdx, Unit* pTarget, SpellEffectIn
               if (pTarget->isAlive()) {
                   if ( pTarget->HasAura(pSpell->m_uiSpellEntry[currentDifficulty]) &&
                        pTarget->GetAura(pSpell->m_uiSpellEntry[currentDifficulty], index)->GetStackAmount() > 1) {
-                           if (pTarget->GetAura(pSpell->m_uiSpellEntry[currentDifficulty], index)->modStackAmount(-1)) 
+                           if (pTarget->GetAura(pSpell->m_uiSpellEntry[currentDifficulty], index))
                                          return true;
                                else return false;
                                }
@@ -585,6 +580,5 @@ Unit* BossSpellWorker::SelectLowHPFriendly(float fRange, uint32 uiMinHPDiff)
 
     return pUnit;
 }
-
 
 #endif

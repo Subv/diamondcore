@@ -86,7 +86,7 @@ struct SpellTable
 class BossAura : public Aura
 {
     public:
-        BossAura(const SpellEntry *spell, SpellEffectIndex effect, int32 *basepoints, Unit *target, Unit *caster) : Aura(spell, effect, basepoints, target, caster)
+        BossAura(const SpellEntry *spell, SpellEffectIndex effect, int32 *basepoints, Unit *target, Unit *caster) : Aura(spell, effect, basepoints, holder, target, caster)
             {}
 };
 
@@ -220,6 +220,7 @@ class BossSpellWorker
         void          _fillEmptyDataField();
 
 // Constants from CreatureAI()
+
            ScriptedAI* bossAI;
            Creature* boss;
            uint32 bossID;

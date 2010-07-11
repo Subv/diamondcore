@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50141
 File Encoding         : 65001
 
-Date: 2010-06-21 18:10:57
+Date: 2010-07-11 19:32:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -279,13 +279,19 @@ CREATE TABLE `character_aura` (
   `guid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Global Unique Identifier',
   `caster_guid` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'Full Global Unique Identifier',
   `spell` int(11) unsigned NOT NULL DEFAULT '0',
-  `effect_index` int(11) unsigned NOT NULL DEFAULT '0',
   `stackcount` int(11) NOT NULL DEFAULT '1',
-  `amount` int(11) NOT NULL DEFAULT '0',
-  `maxduration` int(11) NOT NULL DEFAULT '0',
-  `remaintime` int(11) NOT NULL DEFAULT '0',
   `remaincharges` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`guid`,`spell`,`effect_index`)
+  `basepoints0` int(11) NOT NULL DEFAULT '0',
+  `basepoints1` int(11) NOT NULL DEFAULT '0',
+  `basepoints2` int(11) NOT NULL DEFAULT '0',
+  `maxduration0` int(11) NOT NULL DEFAULT '0',
+  `maxduration1` int(11) NOT NULL DEFAULT '0',
+  `maxduration2` int(11) NOT NULL DEFAULT '0',
+  `remaintime0` int(11) NOT NULL DEFAULT '0',
+  `remaintime1` int(11) NOT NULL DEFAULT '0',
+  `remaintime2` int(11) NOT NULL DEFAULT '0',
+  `effIndexMask` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`guid`,`spell`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='Player System';
 
 -- ----------------------------
@@ -1322,13 +1328,19 @@ CREATE TABLE `pet_aura` (
   `guid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT 'Global Unique Identifier',
   `caster_guid` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT 'Full Global Unique Identifier',
   `spell` int(11) unsigned NOT NULL DEFAULT '0',
-  `effect_index` int(11) unsigned NOT NULL DEFAULT '0',
   `stackcount` int(11) NOT NULL DEFAULT '1',
-  `amount` int(11) NOT NULL DEFAULT '0',
-  `maxduration` int(11) NOT NULL DEFAULT '0',
-  `remaintime` int(11) NOT NULL DEFAULT '0',
   `remaincharges` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`guid`,`spell`,`effect_index`)
+  `basepoints0` int(11) NOT NULL DEFAULT '0',
+  `basepoints1` int(11) NOT NULL DEFAULT '0',
+  `basepoints2` int(11) NOT NULL DEFAULT '0',
+  `maxduration0` int(11) NOT NULL DEFAULT '0',
+  `maxduration1` int(11) NOT NULL DEFAULT '0',
+  `maxduration2` int(11) NOT NULL DEFAULT '0',
+  `remaintime0` int(11) NOT NULL DEFAULT '0',
+  `remaintime1` int(11) NOT NULL DEFAULT '0',
+  `remaintime2` int(11) NOT NULL DEFAULT '0',
+  `effIndexMask` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`guid`,`spell`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC COMMENT='Pet System';
 
 -- ----------------------------

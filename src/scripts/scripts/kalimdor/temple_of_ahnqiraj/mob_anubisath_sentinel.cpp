@@ -229,7 +229,7 @@ struct aqsentinelAI : public ScriptedAI
             if (!spell->Effect[i])
                 continue;
             SentinelAbilityAura *a = new SentinelAbilityAura(this, (SpellEntry *)spell, id, SpellEffectIndex(i));
-            m_creature->AddAura(a);
+            //m_creature->AddAura(a);
         }
     }
 
@@ -310,7 +310,7 @@ Unit* SentinelAbilityAura::GetTriggerTarget() const
 }
 
 SentinelAbilityAura::SentinelAbilityAura(aqsentinelAI *abilityOwner, SpellEntry *spell, uint32 ability, SpellEffectIndex eff)
-: Aura(spell, eff, NULL, abilityOwner->m_creature, abilityOwner->m_creature, NULL)
+: Aura(spell, eff, NULL, holder, abilityOwner->m_creature, abilityOwner->m_creature, NULL)
 {
     aOwner = abilityOwner;
     abilityId = ability;
