@@ -1086,7 +1086,7 @@ void AuctionHouseBot::Initialize()
         sLog.outString("loaded %d purple items", purpleItemsBin.size());
         sLog.outString("loaded %d orange items", orangeItemsBin.size());
         sLog.outString("loaded %d yellow items", yellowItemsBin.size());
-    }d
+    }
 }
 
 void AuctionHouseBot::Commands(uint32 command, uint32 ahMapID, uint32 col, char* args)
