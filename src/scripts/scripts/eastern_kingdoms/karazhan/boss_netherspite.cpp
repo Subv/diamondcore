@@ -111,7 +111,7 @@ struct boss_netherspiteAI : public ScriptedAI
     {
         m_bIsEnraged    = false;
         m_uiActivePhase = BEAM_PHASE;
-        
+
         m_uiEnrageTimer       = MINUTE*9*IN_MILLISECONDS;
         m_uiVoidZoneTimer     = 15000;
         m_uiPhaseSwitchTimer  = MINUTE*IN_MILLISECONDS;
@@ -186,7 +186,7 @@ struct boss_netherspiteAI : public ScriptedAI
         {
             if (m_uiVoidZoneTimer < uiDiff)
             {
-                if (Unit* pTarget = SelectUnit(SELECT_TARGET_RANDOM, 0))
+                if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                     DoCastSpellIfCan(pTarget, SPELL_VOID_ZONE, true);
                 
                 m_uiVoidZoneTimer = 15000;
@@ -199,7 +199,7 @@ struct boss_netherspiteAI : public ScriptedAI
         {
             if (m_uiNetherbreathTimer < uiDiff)
             {
-                if (Unit* pTarget = SelectUnit(SELECT_TARGET_RANDOM, 0))
+                if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                     DoCastSpellIfCan(pTarget, SPELL_NETHERBREATH);
            
                 m_uiNetherbreathTimer = urand(4000, 5000);

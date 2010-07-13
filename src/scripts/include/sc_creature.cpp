@@ -175,7 +175,7 @@ void ScriptedAI::DoPlaySoundToSet(WorldObject* pSource, uint32 uiSoundId)
 
     if (!GetSoundEntriesStore()->LookupEntry(uiSoundId))
     {
-        error_log("DS: Invalid soundId %u used in DoPlaySoundToSet (Source: TypeId %u, GUID %u)", uiSoundId, pSource->GetTypeId(), pSource->GetGUIDLow());
+        error_log("SD2: Invalid soundId %u used in DoPlaySoundToSet (Source: TypeId %u, GUID %u)", uiSoundId, pSource->GetTypeId(), pSource->GetGUIDLow());
         return;
     }
 
@@ -185,37 +185,6 @@ void ScriptedAI::DoPlaySoundToSet(WorldObject* pSource, uint32 uiSoundId)
 Creature* ScriptedAI::DoSpawnCreature(uint32 uiId, float fX, float fY, float fZ, float fAngle, uint32 uiType, uint32 uiDespawntime)
 {
     return m_creature->SummonCreature(uiId,m_creature->GetPositionX()+fX, m_creature->GetPositionY()+fY, m_creature->GetPositionZ()+fZ, fAngle, (TempSummonType)uiType, uiDespawntime);
-}
-
-Unit* ScriptedAI::SelectUnit(SelectAggroTarget target, uint32 uiPosition)
-{
-    //ThreatList m_threatlist;
-    ThreatList const& threatlist = m_creature->getThreatManager().getThreatList();
-    ThreatList::const_iterator itr = threatlist.begin();
-    ThreatList::const_reverse_iterator ritr = threatlist.rbegin();
-
-    if (uiPosition >= threatlist.size() || threatlist.empty())
-        return NULL;
-
-    switch (target)
-    {
-        case SELECT_TARGET_RANDOM:
-            advance(itr, uiPosition +  (rand() % (threatlist.size() - uiPosition)));
-            return Unit::GetUnit((*m_creature),(*itr)->getUnitGuid());
-            break;
-
-        case SELECT_TARGET_TOPAGGRO:
-            advance(itr, uiPosition);
-            return Unit::GetUnit((*m_creature),(*itr)->getUnitGuid());
-            break;
-
-        case SELECT_TARGET_BOTTOMAGGRO:
-            advance(ritr, uiPosition);
-            return Unit::GetUnit((*m_creature),(*ritr)->getUnitGuid());
-            break;
-    }
-
-    return NULL;
 }
 
 SpellEntry const* ScriptedAI::SelectSpell(Unit* pTarget, int32 uiSchool, int32 uiMechanic, SelectTarget selectTargets, uint32 uiPowerCostMin, uint32 uiPowerCostMax, float fRangeMin, float fRangeMax, SelectEffect selectEffects)
@@ -420,7 +389,7 @@ void ScriptedAI::DoResetThreat()
 {
     if (!m_creature->CanHaveThreatList() || m_creature->getThreatManager().isThreatListEmpty())
     {
-        error_log("DS: DoResetThreat called for creature that either cannot have threat list or has empty threat list (m_creature entry = %d)", m_creature->GetEntry());
+        error_log("SD2: DoResetThreat called for creature that either cannot have threat list or has empty threat list (m_creature entry = %d)", m_creature->GetEntry());
         return;
     }
 
@@ -439,7 +408,7 @@ void ScriptedAI::DoTeleportPlayer(Unit* pUnit, float fX, float fY, float fZ, flo
     if (!pUnit || pUnit->GetTypeId() != TYPEID_PLAYER)
     {
         if (pUnit)
-            error_log("DS: Creature " UI64FMTD " (Entry: %u) Tried to teleport non-player unit (Type: %u GUID: " UI64FMTD ") to x: %f y:%f z: %f o: %f. Aborted.", m_creature->GetGUID(), m_creature->GetEntry(), pUnit->GetTypeId(), pUnit->GetGUID(), fX, fY, fZ, fO);
+            error_log("SD2: Creature " UI64FMTD " (Entry: %u) Tried to teleport non-player unit (Type: %u GUID: " UI64FMTD ") to x: %f y:%f z: %f o: %f. Aborted.", m_creature->GetGUID(), m_creature->GetEntry(), pUnit->GetTypeId(), pUnit->GetGUID(), fX, fY, fZ, fO);
 
         return;
     }
@@ -449,61 +418,36 @@ void ScriptedAI::DoTeleportPlayer(Unit* pUnit, float fX, float fY, float fZ, flo
 
 Unit* ScriptedAI::DoSelectLowestHpFriendly(float fRange, uint32 uiMinHPDiff)
 {
-    CellPair p(Diamond::ComputeCellPair(m_creature->GetPositionX(), m_creature->GetPositionY()));
-    Cell cell(p);
-    cell.data.Part.reserved = ALL_DISTRICT;
-    cell.SetNoCreate();
-
     Unit* pUnit = NULL;
 
     Diamond::MostHPMissingInRange u_check(m_creature, fRange, uiMinHPDiff);
     Diamond::UnitLastSearcher<Diamond::MostHPMissingInRange> searcher(m_creature, pUnit, u_check);
 
-    /*
-    typedef TYPELIST_4(GameObject, Creature*except pets*, DynamicObject, Corpse*Bones*) AllGridObjectTypes;
-    This means that if we only search grid then we cannot possibly return pets or players so this is safe
-    */
-    TypeContainerVisitor<Diamond::UnitLastSearcher<Diamond::MostHPMissingInRange>, GridTypeMapContainer >  grid_unit_searcher(searcher);
-
-    cell.Visit(p, grid_unit_searcher, *(m_creature->GetMap()), *m_creature, fRange);
+    Cell::VisitGridObjects(m_creature, searcher, fRange);
 
     return pUnit;
 }
 
 std::list<Creature*> ScriptedAI::DoFindFriendlyCC(float fRange)
 {
-    CellPair p(Diamond::ComputeCellPair(m_creature->GetPositionX(), m_creature->GetPositionY()));
-    Cell cell(p);
-    cell.data.Part.reserved = ALL_DISTRICT;
-    cell.SetNoCreate();
-
     std::list<Creature*> pList;
 
     Diamond::FriendlyCCedInRange u_check(m_creature, fRange);
     Diamond::CreatureListSearcher<Diamond::FriendlyCCedInRange> searcher(m_creature, pList, u_check);
 
-    TypeContainerVisitor<Diamond::CreatureListSearcher<Diamond::FriendlyCCedInRange>, GridTypeMapContainer >  grid_creature_searcher(searcher);
-
-    cell.Visit(p, grid_creature_searcher, *(m_creature->GetMap()), *m_creature, fRange);
+    Cell::VisitGridObjects(m_creature, searcher, fRange);
 
     return pList;
 }
 
 std::list<Creature*> ScriptedAI::DoFindFriendlyMissingBuff(float fRange, uint32 uiSpellId)
 {
-    CellPair p(Diamond::ComputeCellPair(m_creature->GetPositionX(), m_creature->GetPositionY()));
-    Cell cell(p);
-    cell.data.Part.reserved = ALL_DISTRICT;
-    cell.SetNoCreate();
-
     std::list<Creature*> pList;
 
     Diamond::FriendlyMissingBuffInRange u_check(m_creature, fRange, uiSpellId);
     Diamond::CreatureListSearcher<Diamond::FriendlyMissingBuffInRange> searcher(m_creature, pList, u_check);
 
-    TypeContainerVisitor<Diamond::CreatureListSearcher<Diamond::FriendlyMissingBuffInRange>, GridTypeMapContainer >  grid_creature_searcher(searcher);
-
-    cell.Visit(p, grid_creature_searcher, *(m_creature->GetMap()), *m_creature, fRange);
+    Cell::VisitGridObjects(m_creature, searcher, fRange);
 
     return pList;
 }
@@ -512,19 +456,10 @@ Player* ScriptedAI::GetPlayerAtMinimumRange(float fMinimumRange)
 {
     Player* pPlayer = NULL;
 
-    CellPair pair(Diamond::ComputeCellPair(m_creature->GetPositionX(), m_creature->GetPositionY()));
-    Cell cell(pair);
-    cell.data.Part.reserved = ALL_DISTRICT;
-    cell.SetNoCreate();
+    Diamond::AnyPlayerInObjectRangeCheck check(m_creature, fMinimumRange);
+    Diamond::PlayerSearcher<Diamond::AnyPlayerInObjectRangeCheck> searcher(m_creature, pPlayer, check);
 
-    PlayerAtMinimumRangeAway check(m_creature, fMinimumRange);
-    Diamond::PlayerSearcher<PlayerAtMinimumRangeAway> searcher(m_creature, pPlayer, check);
-    TypeContainerVisitor<Diamond::PlayerSearcher<PlayerAtMinimumRangeAway>, GridTypeMapContainer> visitor(searcher);
-
-    Map * map = m_creature->GetMap();
-    //lets limit the maximum player search distance to speed up calculations...
-    const float fMaxSearchDst = map->GetVisibilityDistance() > MAX_PLAYER_STEALTH_DETECT_RANGE ? MAX_PLAYER_STEALTH_DETECT_RANGE : map->GetVisibilityDistance();
-    cell.Visit(pair, visitor, *map, *m_creature, fMaxSearchDst);
+    Cell::VisitWorldObjects(m_creature, searcher, fMinimumRange);
 
     return pPlayer;
 }
@@ -598,7 +533,7 @@ bool ScriptedAI::EnterEvadeIfOutOfCombatArea(const uint32 uiDiff)
                 return false;
             break;
         default:
-            error_log("DS: EnterEvadeIfOutOfCombatArea used for creature entry %u, but does not have any definition.", m_creature->GetEntry());
+            error_log("SD2: EnterEvadeIfOutOfCombatArea used for creature entry %u, but does not have any definition.", m_creature->GetEntry());
             return false;
     }
 

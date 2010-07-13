@@ -144,7 +144,7 @@ struct instance_nexus : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        debug_log("DS: Instance Nexus: SetData received for type %u with data %u", uiType, uiData);
+        debug_log("SD2: Instance Nexus: SetData received for type %u with data %u", uiType, uiData);
 
         switch(uiType)
         {
@@ -176,7 +176,7 @@ struct instance_nexus : public ScriptedInstance
                 m_auiEncounter[3] = uiData;
                 break;
             default:
-                error_log("DS: Instance Nexus: ERROR SetData = %u for type %u does not exist/not implemented.", uiType, uiData);
+                error_log("SD2: Instance Nexus: ERROR SetData = %u for type %u does not exist/not implemented.", uiType, uiData);
                 break;
         }
 

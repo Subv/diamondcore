@@ -111,7 +111,8 @@ struct npc_muglashAI : public npc_escortAI
             if (urand(0, 1))
                 return;
 
-            DoScriptText(SAY_MUG_ON_GUARD, m_creature);
+            if (Player* pPlayer = GetPlayerForEscort())
+                DoScriptText(SAY_MUG_ON_GUARD, m_creature, pPlayer);
         }
     }
 

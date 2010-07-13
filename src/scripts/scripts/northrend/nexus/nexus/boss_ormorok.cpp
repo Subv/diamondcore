@@ -102,7 +102,7 @@ struct boss_ormorokAI : public ScriptedAI
 
     void JustSummoned(Creature* pSummoned)
     {
-        if (Unit* pTarget = SelectUnit(SELECT_TARGET_RANDOM, 1))
+        if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 1))
             pSummoned->AI()->AttackStart(pTarget);
     }
 

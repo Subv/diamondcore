@@ -105,7 +105,7 @@ struct boss_nexusprince_shaffarAI : public ScriptedAI
         {
             pSummoned->CastSpell(pSummoned,SPELL_ETHEREAL_BEACON_VISUAL,false);
 
-            if (Unit* pTarget = SelectUnit(SELECT_TARGET_RANDOM,0))
+            if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
                 pSummoned->AI()->AttackStart(pTarget);
         }
     }

@@ -172,7 +172,7 @@ struct instance_magisters_terrace : public ScriptedInstance
             {
                 if (FelCrystals.empty())
                 {
-                    error_log("DS: Magisters Terrace: No Fel Crystals loaded in Inst Data");
+                    error_log("SD2: Magisters Terrace: No Fel Crystals loaded in Inst Data");
                     return 0;
                 }
 

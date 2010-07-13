@@ -55,7 +55,6 @@ void ScriptMgr::ScriptsInit()
     outstring_log(" DDD     DDD D   DD DD D         DD     DDD");
     outstring_log("");
 
-    //Load database (must be called after DSConfig.SetSource).
     LoadDatabase();
 
     outstring_log("DS: Loading Scripts");
@@ -154,6 +153,33 @@ void DoScriptText(int32 iTextEntry, WorldObject* pSource, Unit* pTarget)
             pSource->MonsterYellToZone(iTextEntry, pData->uiLanguage, pTarget ? pTarget->GetGUID() : 0);
             break;
     }
+}
+
+char const* GetScriptText(int32 iTextEntry, Player* pPlayer)
+{
+    if (iTextEntry >= 0)
+    {
+        error_log("SD2: GetScriptText attempts to process text entry %i, but text entry must be negative.", iTextEntry);
+        return NULL;
+    }
+
+    const StringTextData* pData = pSystemMgr.GetTextData(iTextEntry);
+
+    if (!pData)
+    {
+        error_log("SD2: GetScriptText could not find text entry %i.", iTextEntry);
+        return NULL;
+    }
+
+    debug_log("SD2: GetScriptText: text entry=%i, Sound=%u, Type=%u, Language=%u, Emote=%u",
+        iTextEntry, pData->uiSoundId, pData->uiType, pData->uiLanguage, pData->uiEmote);
+
+    int currentLocaleIdx;
+
+    if (pPlayer && pPlayer->IsInWorld()) currentLocaleIdx = pPlayer->GetSession()->GetSessionDbLocaleIndex();
+        else currentLocaleIdx = LOCALE_enUS;
+
+    return sObjectMgr.GetString(iTextEntry,currentLocaleIdx);
 }
 
 //*********************************

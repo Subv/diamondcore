@@ -64,7 +64,7 @@ struct boss_selin_fireheartAI : public ScriptedAI
             for(uint8 i = 0; i < size; ++i)
             {
                 uint64 guid = m_pInstance->GetData64(DATA_FEL_CRYSTAL);
-                debug_log("DS: Selin: Adding Fel Crystal " UI64FMTD " to list", guid);
+                debug_log("SD2: Selin: Adding Fel Crystal " UI64FMTD " to list", guid);
                 Crystals.push_back(guid);
             }
         }
@@ -214,7 +214,7 @@ struct boss_selin_fireheartAI : public ScriptedAI
             else
             {
                 // Make an error message in case something weird happened here
-                error_log("DS: Selin Fireheart unable to drain crystal as the crystal is either dead or despawned");
+                error_log("SD2: Selin Fireheart unable to drain crystal as the crystal is either dead or despawned");
                 DrainingCrystal = false;
             }
         }
@@ -253,7 +253,7 @@ struct boss_selin_fireheartAI : public ScriptedAI
             {
                 if (DrainLifeTimer < diff)
                 {
-                    if (Unit* pTarget = SelectUnit(SELECT_TARGET_RANDOM, 0))
+                    if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                         DoCastSpellIfCan(pTarget, SPELL_DRAIN_LIFE);
 
                     DrainLifeTimer = 10000;
@@ -264,7 +264,7 @@ struct boss_selin_fireheartAI : public ScriptedAI
                 {
                     if (DrainManaTimer < diff)
                     {
-                        if (Unit* pTarget = SelectUnit(SELECT_TARGET_RANDOM, 1))
+                        if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 1))
                             DoCastSpellIfCan(pTarget, SPELL_DRAIN_MANA);
 
                         DrainManaTimer = 10000;

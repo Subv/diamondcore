@@ -162,8 +162,7 @@ src/shared
 src/framework 
 src/shared/Database 
 src/shared/vmap
-src/shared/pathfinding
-src/game 
+src/main
 src/scripts
 src/scripts/base
 src/scripts/include

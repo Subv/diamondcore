@@ -49,7 +49,7 @@ EndScriptData */
 #define SAY_ZERE_SPECIAL1       -1564080
 #define SAY_ZERE_SPECIAL2       -1564084
 
-#define ERROR_INST_DATA           "DS ERROR: Instance Data for Black Temple not set properly; Illidari Council event will not function properly."
+#define ERROR_INST_DATA           "SD2 ERROR: Instance Data for Black Temple not set properly; Illidari Council event will not function properly."
 
 struct CouncilYells
 {
@@ -506,7 +506,7 @@ struct boss_gathios_the_shattererAI : public boss_illidari_councilAI
 
         if (HammerOfJusticeTimer < diff)
         {
-            if (Unit* target = SelectUnit(SELECT_TARGET_RANDOM, 0))
+            if (Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
             {
                 // is in ~10-40 yd range
                 if (m_creature->IsInRange(target, 10.0f, 40.0f, false))
@@ -604,7 +604,7 @@ struct boss_high_nethermancer_zerevorAI : public boss_illidari_councilAI
 
         if (BlizzardTimer < diff)
         {
-            if (Unit* target = SelectUnit(SELECT_TARGET_RANDOM, 0))
+            if (Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
             {
                 DoCastSpellIfCan(target, SPELL_BLIZZARD);
                 BlizzardTimer = urand(45000, 90000);
@@ -615,7 +615,7 @@ struct boss_high_nethermancer_zerevorAI : public boss_illidari_councilAI
 
         if (FlamestrikeTimer < diff)
         {
-            if (Unit* target = SelectUnit(SELECT_TARGET_RANDOM, 0))
+            if (Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
             {
                 DoCastSpellIfCan(target, SPELL_FLAMESTRIKE);
                 FlamestrikeTimer = urand(55000, 100000);
@@ -660,7 +660,7 @@ struct boss_lady_malandeAI : public boss_illidari_councilAI
 
         if (EmpoweredSmiteTimer < diff)
         {
-            if (Unit* target = SelectUnit(SELECT_TARGET_RANDOM, 0))
+            if (Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
             {
                 DoCastSpellIfCan(target, SPELL_EMPOWERED_SMITE);
                 EmpoweredSmiteTimer = 38000;
@@ -676,7 +676,7 @@ struct boss_lady_malandeAI : public boss_illidari_councilAI
 
         if (DivineWrathTimer < diff)
         {
-            if (Unit* target = SelectUnit(SELECT_TARGET_RANDOM, 0))
+            if (Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
             {
                 DoCastSpellIfCan(target, SPELL_DIVINE_WRATH);
                 DivineWrathTimer = urand(40000, 80000);
@@ -749,7 +749,7 @@ struct boss_veras_darkshadowAI : public boss_illidari_councilAI
 
             if (VanishTimer < diff)                         // Disappear and stop attacking, but follow a random unit
             {
-                if (Unit* target = SelectUnit(SELECT_TARGET_RANDOM, 0))
+                if (Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                 {
                     VanishTimer = 30000;
                     AppearEnvenomTimer= 28000;

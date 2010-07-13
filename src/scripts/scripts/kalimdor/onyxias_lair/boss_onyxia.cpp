@@ -59,7 +59,7 @@ enum
     //SPELL_BREATH                = 21131,                  // 8x in "array", different initial cast than the other arrays
 
     SPELL_BELLOWINGROAR         = 18431,
-    SPELL_HEATED_GROUND         = 22191,
+    SPELL_HEATED_GROUND         = 22191,                    // make server crash
 
     SPELL_SUMMONWHELP           = 17646,
     SPELL_SUMMONGUARD           = 68968,
@@ -166,8 +166,10 @@ struct boss_onyxiaAI : public ScriptedAI
 
     void JustSummoned(Creature *pSummoned)
     {
-        pSummoned->GetMotionMaster()->MovePoint(0, SpawnLocs[3][0], SpawnLocs[3][1], SpawnLocs[3][2]);
-        pSummoned->SetInCombatWithZone();
+        if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
+            pSummoned->AI()->AttackStart(pTarget);
+
+        ++m_uiSummonCount;
     }
 
     void KilledUnit(Unit* pVictim)
@@ -186,8 +188,7 @@ struct boss_onyxiaAI : public ScriptedAI
         {
             if (m_pPointData)
             {
-                m_creature->GetMap()->CreatureRelocation(m_creature, m_pPointData->fX, m_pPointData->fY, m_pPointData->fZ, 0.0f);
-                m_creature->SendMonsterMove(m_pPointData->fX, m_pPointData->fY, m_pPointData->fZ, SPLINETYPE_NORMAL, m_creature->GetSplineFlags(), 1);
+                m_creature->MonsterMove(m_pPointData->fX, m_pPointData->fY, m_pPointData->fZ, 1);
             }
         }
     }
@@ -345,8 +346,8 @@ struct boss_onyxiaAI : public ScriptedAI
             {
                 if (m_creature->GetMotionMaster()->GetCurrentMovementGeneratorType() != POINT_MOTION_TYPE)
                 {
-                    if (Unit* pTarget = SelectUnit(SELECT_TARGET_RANDOM, 0))
-                        DoCastSpellIfCan(pTarget, Regular ? SPELL_FIREBALL : H_SPELL_FIREBALL);
+                    if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
+                        DoCastSpellIfCan(pTarget, SPELL_FIREBALL);
 
                     m_uiEngulfingFlamesTimer = 8000;
                 }

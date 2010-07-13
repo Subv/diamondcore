@@ -114,6 +114,7 @@ class ScriptMgr
 
 //Generic scripting text function
 void DoScriptText(int32 textEntry, WorldObject* pSource, Unit* target = NULL);
+char const* GetScriptText(int32 iTextEntry, Player* pPlayer = NULL);
 
 #if COMPILER == COMPILER_GNU
 #define FUNC_PTR(name,callconvention,returntype,parameters)    typedef returntype(*name)parameters __attribute__ ((callconvention));
@@ -121,7 +122,7 @@ void DoScriptText(int32 textEntry, WorldObject* pSource, Unit* target = NULL);
 #define FUNC_PTR(name, callconvention, returntype, parameters)    typedef returntype(callconvention *name)parameters;
 #endif
 
-QueryResult* strDSPquery(char*);
+//QueryResult* strDSPquery(char*);
 
 // The path to config files
 #define SYSCONFDIR ""

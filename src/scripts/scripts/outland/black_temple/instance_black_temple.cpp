@@ -168,17 +168,17 @@ struct instance_black_temple : public ScriptedInstance
     {
         if (m_auiEncounter[2] == DONE && m_auiEncounter[3] == DONE && m_auiEncounter[4] == DONE && m_auiEncounter[5] == DONE)
         {
-            debug_log("DS: Black Temple: door to Mother Shahraz can open");
+            debug_log("SD2: Black Temple: door to Mother Shahraz can open");
             return true;
         }
 
-        debug_log("DS: Black Temple: Door data to Mother Shahraz requested, cannot open yet (Encounter data: %u %u %u %u)",m_auiEncounter[2],m_auiEncounter[3],m_auiEncounter[4],m_auiEncounter[5]);
+        debug_log("SD2: Black Temple: Door data to Mother Shahraz requested, cannot open yet (Encounter data: %u %u %u %u)",m_auiEncounter[2],m_auiEncounter[3],m_auiEncounter[4],m_auiEncounter[5]);
         return false;
     }
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        debug_log("DS: Instance Black Temple: SetData received for type %u with data %u",uiType,uiData);
+        debug_log("SD2: Instance Black Temple: SetData received for type %u with data %u",uiType,uiData);
 
         switch(uiType)
         {
@@ -223,7 +223,7 @@ struct instance_black_temple : public ScriptedInstance
             case TYPE_COUNCIL:    m_auiEncounter[7] = uiData; break;
             case TYPE_ILLIDAN:    m_auiEncounter[8] = uiData; break;
             default:
-                error_log("DS: Instance Black Temple: ERROR SetData = %u for type %u does not exist/not implemented.",uiType,uiData);
+                error_log("SD2: Instance Black Temple: ERROR SetData = %u for type %u does not exist/not implemented.",uiType,uiData);
                 break;
         }
 

@@ -29,8 +29,8 @@ enum
 
     NPC_THRALL                  = 34994,
     NPC_PROUDMOORE              = 34992,
-    NPC_PORTAL                  = 19224,
     NPC_TRIGGER                 = 22517,
+    NPC_WILFRED_PORTAL          = 35651,
 
     NPC_ICEHOWL                 = 34797,
     NPC_GORMOK                  = 34796,
@@ -39,27 +39,35 @@ enum
 
     NPC_JARAXXUS                = 34780,
 
-    NPC_CRUSADER_1_1            = 34460,
-    NPC_CRUSADER_1_2            = 34463,
-    NPC_CRUSADER_1_3            = 34461,
-    NPC_CRUSADER_1_4            = 34471,
-    NPC_CRUSADER_1_5            = 34475,
-    NPC_CRUSADER_1_6            = 34472,
-    NPC_CRUSADER_1_7            = 34467,
-    NPC_CRUSADER_1_8            = 34468,
-    NPC_CRUSADER_1_9            = 34473,
-    NPC_CRUSADER_1_10           = 34474,
+    NPC_CRUSADER_1_1            = 34460, //Druid
+    NPC_CRUSADER_1_2            = 34463, //Shaman
+    NPC_CRUSADER_1_3            = 34461, //DK
+    NPC_CRUSADER_1_4            = 34472, //Rogue
+    NPC_CRUSADER_1_5            = 34475, //Warrior
+    NPC_CRUSADER_1_6            = 34471, //Retro pal
+    NPC_CRUSADER_1_7            = 34473, //Shadow priest
+    NPC_CRUSADER_1_8            = 34468, //Mage
+    NPC_CRUSADER_1_9            = 34467, //Hunter
+    NPC_CRUSADER_1_10           = 34474, //Warlock
+    NPC_CRUSADER_1_11           = 34470, //Enh shaman
+    NPC_CRUSADER_1_12           = 34466, //Priest
+    NPC_CRUSADER_1_13           = 34465, //Holy paladin
+    NPC_CRUSADER_1_14           = 34469, //Moonkin
 
-    NPC_CRUSADER_2_1            = 34453,
-    NPC_CRUSADER_2_2            = 34455,
-    NPC_CRUSADER_2_3            = 34458,
-    NPC_CRUSADER_2_4            = 34454,
-    NPC_CRUSADER_2_5            = 34451,
-    NPC_CRUSADER_2_6            = 34456,
-    NPC_CRUSADER_2_7            = 34441,
-    NPC_CRUSADER_2_8            = 34449,
-    NPC_CRUSADER_2_9            = 34448,
-    NPC_CRUSADER_2_10           = 34450,
+    NPC_CRUSADER_2_1            = 34451, //Druid
+    NPC_CRUSADER_2_2            = 34455, //Shaman
+    NPC_CRUSADER_2_3            = 34458, //DK
+    NPC_CRUSADER_2_4            = 34454, //Rogue
+    NPC_CRUSADER_2_5            = 34453, //Warrior
+    NPC_CRUSADER_2_6            = 34456, //Retro pal
+    NPC_CRUSADER_2_7            = 34441, //Shadow Priest
+    NPC_CRUSADER_2_8            = 34449, //Mage
+    NPC_CRUSADER_2_9            = 34448, //Hunter
+    NPC_CRUSADER_2_10           = 34450, //Warlock
+    NPC_CRUSADER_2_11           = 34444, //Enh shaman
+    NPC_CRUSADER_2_12           = 34447, //Priest
+    NPC_CRUSADER_2_13           = 34445, //Holy paladin
+    NPC_CRUSADER_2_14           = 34459, //Moonkin
 
     NPC_CRUSADER_0_1            = 35465,
     NPC_CRUSADER_0_2            = 35610,
@@ -99,12 +107,7 @@ enum
 
     DATA_HEALTH_EYDIS           = 201,
     DATA_HEALTH_FJOLA           = 202,
-    DATA_CASTING_EYDIS          = 203,
-    DATA_CASTING_FJOLA          = 204,
-
-    SPELL_WILFRED_PORTAL        = 68424,
-    SPELL_JARAXXUS_CHAINS       = 67924,
-    NPC_WILFRED_POTAL           = 35651,
+    DATA_CASTING_VALKYRS        = 203,
 
     DESPAWN_TIME                = 300000,
 

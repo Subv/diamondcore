@@ -186,7 +186,7 @@ struct instance_blackrock_depths : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        debug_log("DS: Instance Blackrock Depths: SetData update (Type: %u Data %u)", uiType, uiData);
+        debug_log("SD2: Instance Blackrock Depths: SetData update (Type: %u Data %u)", uiType, uiData);
 
         switch(uiType)
         {

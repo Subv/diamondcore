@@ -69,7 +69,7 @@ struct instance_old_hillsbrad : public ScriptedInstance
             }
         }
 
-        debug_log("DS: Instance Old Hillsbrad: GetPlayerInMap, but PlayerList is empty!");
+        debug_log("SD2: Instance Old Hillsbrad: GetPlayerInMap, but PlayerList is empty!");
         return NULL;
     }
 
@@ -106,7 +106,7 @@ struct instance_old_hillsbrad : public ScriptedInstance
 
         if (!pPlayer)
         {
-            debug_log("DS: Instance Old Hillsbrad: SetData (Type: %u Data %u) cannot find any pPlayer.", uiType, uiData);
+            debug_log("SD2: Instance Old Hillsbrad: SetData (Type: %u Data %u) cannot find any pPlayer.", uiType, uiData);
             return;
         }
 
@@ -122,7 +122,7 @@ struct instance_old_hillsbrad : public ScriptedInstance
                     ++m_uiBarrelCount;
                     DoUpdateWorldState(WORLD_STATE_OH, m_uiBarrelCount);
 
-                    debug_log("DS: Instance Old Hillsbrad: go_barrel_old_hillsbrad count %u", m_uiBarrelCount);
+                    debug_log("SD2: Instance Old Hillsbrad: go_barrel_old_hillsbrad count %u", m_uiBarrelCount);
 
                     m_auiEncounter[0] = IN_PROGRESS;
 
@@ -144,7 +144,7 @@ struct instance_old_hillsbrad : public ScriptedInstance
                         ++m_uiThrallEventCount;
                         m_auiEncounter[1] = NOT_STARTED;
 
-                        debug_log("DS: Instance Old Hillsbrad: Thrall event failed %u times. Resetting all sub-events.", m_uiThrallEventCount);
+                        debug_log("SD2: Instance Old Hillsbrad: Thrall event failed %u times. Resetting all sub-events.", m_uiThrallEventCount);
 
                         m_auiEncounter[2] = NOT_STARTED;
                         m_auiEncounter[3] = NOT_STARTED;
@@ -158,30 +158,30 @@ struct instance_old_hillsbrad : public ScriptedInstance
                         m_auiEncounter[3] = uiData;
                         m_auiEncounter[4] = uiData;
                         m_auiEncounter[5] = uiData;
-                        debug_log("DS: Instance Old Hillsbrad: Thrall event failed %u times. Reset instance required.", m_uiThrallEventCount);
+                        debug_log("SD2: Instance Old Hillsbrad: Thrall event failed %u times. Reset instance required.", m_uiThrallEventCount);
                     }
                 }
                 else
                     m_auiEncounter[1] = uiData;
 
-                debug_log("DS: Instance Old Hillsbrad: Thrall escort event adjusted to data %u.",uiData);
+                debug_log("SD2: Instance Old Hillsbrad: Thrall escort event adjusted to data %u.",uiData);
                 break;
             }
             case TYPE_THRALL_PART1:
                 m_auiEncounter[2] = uiData;
-                debug_log("DS: Instance Old Hillsbrad: Thrall event part I adjusted to data %u.",uiData);
+                debug_log("SD2: Instance Old Hillsbrad: Thrall event part I adjusted to data %u.",uiData);
                 break;
             case TYPE_THRALL_PART2:
                 m_auiEncounter[3] = uiData;
-                debug_log("DS: Instance Old Hillsbrad: Thrall event part II adjusted to data %u.",uiData);
+                debug_log("SD2: Instance Old Hillsbrad: Thrall event part II adjusted to data %u.",uiData);
                 break;
             case TYPE_THRALL_PART3:
                 m_auiEncounter[4] = uiData;
-                debug_log("DS: Instance Old Hillsbrad: Thrall event part III adjusted to data %u.",uiData);
+                debug_log("SD2: Instance Old Hillsbrad: Thrall event part III adjusted to data %u.",uiData);
                 break;
             case TYPE_THRALL_PART4:
                 m_auiEncounter[5] = uiData;
-                debug_log("DS: Instance Old Hillsbrad: Thrall event part IV adjusted to data %u.",uiData);
+                debug_log("SD2: Instance Old Hillsbrad: Thrall event part IV adjusted to data %u.",uiData);
                 break;
         }
     }

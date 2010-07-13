@@ -122,7 +122,7 @@ struct instance_stratholme : public ScriptedInstance
             return true;
         }
 
-        debug_log("DS: Instance Stratholme: Cannot open slaugther square yet.");
+        debug_log("SD2: Instance Stratholme: Cannot open slaugther square yet.");
         return false;
     }
 
@@ -185,7 +185,7 @@ struct instance_stratholme : public ScriptedInstance
                         if (m_auiEncounter[0] == IN_PROGRESS || m_auiEncounter[0] == FAIL)
                             break;
                         m_uiBaronRun_Timer = 2700000;
-                        debug_log("DS: Instance Stratholme: Baron run in progress.");
+                        debug_log("SD2: Instance Stratholme: Baron run in progress.");
                         break;
                     case FAIL:
                         //may add code to remove aura from players, but in theory the time should be up already and removed.
@@ -246,15 +246,15 @@ struct instance_stratholme : public ScriptedInstance
                         if (Creature* pBaron = instance->GetCreature(m_uiBaronGUID))
                             pBaron->SummonCreature(NPC_RAMSTEIN, 4032.84f, -3390.24f, 119.73f, 4.71f, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN,1800000);
 
-                        debug_log("DS: Instance Stratholme: Ramstein spawned.");
+                        debug_log("SD2: Instance Stratholme: Ramstein spawned.");
                     }
                     else
-                        debug_log("DS: Instance Stratholme: %u Abomnation left to kill.", uiCount);
+                        debug_log("SD2: Instance Stratholme: %u Abomnation left to kill.", uiCount);
                 }
                 if (uiData == DONE)
                 {
                     m_uiSlaugtherSquare_Timer = 300000;
-                    debug_log("DS: Instance Stratholme: Slaugther event will continue in 5 minutes.");
+                    debug_log("SD2: Instance Stratholme: Slaugther event will continue in 5 minutes.");
                 }
                 m_auiEncounter[4] = uiData;
                 break;
@@ -350,7 +350,7 @@ struct instance_stratholme : public ScriptedInstance
                     SetData(TYPE_BARON_RUN, FAIL);
 
                 m_uiBaronRun_Timer = 0;
-                debug_log("DS: Instance Stratholme: Baron run event reached end. Event has state %u.",GetData(TYPE_BARON_RUN));
+                debug_log("SD2: Instance Stratholme: Baron run event reached end. Event has state %u.",GetData(TYPE_BARON_RUN));
             }
             else
                 m_uiBaronRun_Timer -= uiDiff;
@@ -368,7 +368,7 @@ struct instance_stratholme : public ScriptedInstance
                     UpdateGoState(m_uiZiggurat4GUID,GO_STATE_ACTIVE,false);
                     UpdateGoState(m_uiZiggurat5GUID,GO_STATE_ACTIVE,false);
 
-                    debug_log("DS: Instance Stratholme: Black guard sentries spawned. Opening gates to baron.");
+                    debug_log("SD2: Instance Stratholme: Black guard sentries spawned. Opening gates to baron.");
                 }
                 m_uiSlaugtherSquare_Timer = 0;
             }

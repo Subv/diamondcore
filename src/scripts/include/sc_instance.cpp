@@ -22,7 +22,7 @@ void ScriptedInstance::DoUseDoorOrButton(uint64 uiGuid, uint32 uiWithRestoreTime
                 pGo->ResetDoorOrButton();
         }
         else
-            error_log("DS: Script call DoUseDoorOrButton, but gameobject entry %u is type %u.",pGo->GetEntry(),pGo->GetGoType());
+            error_log("SD2: Script call DoUseDoorOrButton, but gameobject entry %u is type %u.",pGo->GetEntry(),pGo->GetGoType());
     }
 }
 
@@ -55,5 +55,5 @@ void ScriptedInstance::DoUpdateWorldState(uint32 uiStateId, uint32 uiStateData)
         }
     }
     else
-        debug_log("DS: DoUpdateWorldState attempt send data but no players in map.");
+        debug_log("SD2: DoUpdateWorldState attempt send data but no players in map.");
 }

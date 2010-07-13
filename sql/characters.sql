@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50141
 File Encoding         : 65001
 
-Date: 2010-07-11 19:32:46
+Date: 2010-07-13 22:24:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,6 +29,9 @@ CREATE TABLE `account_data` (
 -- ----------------------------
 -- Records of account_data
 -- ----------------------------
+INSERT INTO `account_data` VALUES ('1', '0', '1279052634', 0x53455420666C61676765645475746F7269616C732022760123234D23232523232623232423234323235B23234523232B23232C23233B23234B23235A23233123233A23233923234923234423233023234A23235623233823232823235923232A23232923235C220A5345542063616D65726144697374616E63654D6178466163746F72202231220A5345542074616C656E744672616D6553686F776E202231220A);
+INSERT INTO `account_data` VALUES ('1', '2', '1279052635', 0x42494E44494E474D4F444520300D0A62696E64205A204E4F4E450D0A62696E64205550204D4F5645464F52574152440D0A62696E642057204D4F5645464F52574152440D0A62696E64205920544F47474C455348454154480D0A);
+INSERT INTO `account_data` VALUES ('1', '4', '1279052636', 0x4D4143524F203120226C6F2220494E565F4D6973635F5175657374696F6E4D61726B0D0A2F6C6F676F75740D0A454E440D0A);
 
 -- ----------------------------
 -- Table structure for `arena_team`
@@ -319,6 +322,19 @@ CREATE TABLE `character_battleground_data` (
 
 -- ----------------------------
 -- Records of character_battleground_data
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `character_battleground_random`
+-- ----------------------------
+DROP TABLE IF EXISTS `character_battleground_random`;
+CREATE TABLE `character_battleground_random` (
+  `guid` int(11) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`guid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of character_battleground_random
 -- ----------------------------
 
 -- ----------------------------
@@ -1187,77 +1203,77 @@ CREATE TABLE `instance_reset` (
 -- ----------------------------
 -- Records of instance_reset
 -- ----------------------------
-INSERT INTO `instance_reset` VALUES ('249', '0', '1272081600');
-INSERT INTO `instance_reset` VALUES ('249', '1', '1272081600');
-INSERT INTO `instance_reset` VALUES ('269', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('309', '0', '1271736000');
-INSERT INTO `instance_reset` VALUES ('409', '0', '1272081600');
-INSERT INTO `instance_reset` VALUES ('469', '0', '1272081600');
-INSERT INTO `instance_reset` VALUES ('509', '0', '1271736000');
-INSERT INTO `instance_reset` VALUES ('531', '0', '1272081600');
-INSERT INTO `instance_reset` VALUES ('532', '0', '1272081600');
-INSERT INTO `instance_reset` VALUES ('533', '0', '1272081600');
-INSERT INTO `instance_reset` VALUES ('533', '1', '1272081600');
-INSERT INTO `instance_reset` VALUES ('534', '0', '1272081600');
-INSERT INTO `instance_reset` VALUES ('540', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('542', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('543', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('544', '0', '1272081600');
-INSERT INTO `instance_reset` VALUES ('545', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('546', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('547', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('548', '0', '1272081600');
-INSERT INTO `instance_reset` VALUES ('550', '0', '1272081600');
-INSERT INTO `instance_reset` VALUES ('552', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('553', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('554', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('555', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('556', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('557', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('558', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('560', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('564', '0', '1272081600');
-INSERT INTO `instance_reset` VALUES ('565', '0', '1272081600');
-INSERT INTO `instance_reset` VALUES ('568', '0', '1271736000');
-INSERT INTO `instance_reset` VALUES ('574', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('575', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('576', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('578', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('580', '0', '1272081600');
-INSERT INTO `instance_reset` VALUES ('585', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('595', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('598', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('599', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('600', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('601', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('602', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('603', '0', '1272081600');
-INSERT INTO `instance_reset` VALUES ('603', '1', '1272081600');
-INSERT INTO `instance_reset` VALUES ('604', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('608', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('615', '0', '1272081600');
-INSERT INTO `instance_reset` VALUES ('615', '1', '1272081600');
-INSERT INTO `instance_reset` VALUES ('616', '0', '1272081600');
-INSERT INTO `instance_reset` VALUES ('616', '1', '1272081600');
-INSERT INTO `instance_reset` VALUES ('619', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('624', '0', '1272081600');
-INSERT INTO `instance_reset` VALUES ('624', '1', '1272081600');
-INSERT INTO `instance_reset` VALUES ('631', '0', '1272081600');
-INSERT INTO `instance_reset` VALUES ('631', '1', '1272081600');
-INSERT INTO `instance_reset` VALUES ('631', '2', '1272081600');
-INSERT INTO `instance_reset` VALUES ('631', '3', '1272081600');
-INSERT INTO `instance_reset` VALUES ('632', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('649', '0', '1272081600');
-INSERT INTO `instance_reset` VALUES ('649', '1', '1272081600');
-INSERT INTO `instance_reset` VALUES ('649', '2', '1272081600');
-INSERT INTO `instance_reset` VALUES ('649', '3', '1272081600');
-INSERT INTO `instance_reset` VALUES ('650', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('658', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('668', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('724', '0', '1271563200');
-INSERT INTO `instance_reset` VALUES ('724', '1', '1271563200');
-INSERT INTO `instance_reset` VALUES ('724', '2', '1271563200');
-INSERT INTO `instance_reset` VALUES ('724', '3', '1271563200');
+INSERT INTO `instance_reset` VALUES ('249', '0', '1279339200');
+INSERT INTO `instance_reset` VALUES ('249', '1', '1279339200');
+INSERT INTO `instance_reset` VALUES ('269', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('309', '0', '1279252800');
+INSERT INTO `instance_reset` VALUES ('409', '0', '1279339200');
+INSERT INTO `instance_reset` VALUES ('469', '0', '1279339200');
+INSERT INTO `instance_reset` VALUES ('509', '0', '1279252800');
+INSERT INTO `instance_reset` VALUES ('531', '0', '1279339200');
+INSERT INTO `instance_reset` VALUES ('532', '0', '1279339200');
+INSERT INTO `instance_reset` VALUES ('533', '0', '1279339200');
+INSERT INTO `instance_reset` VALUES ('533', '1', '1279339200');
+INSERT INTO `instance_reset` VALUES ('534', '0', '1279339200');
+INSERT INTO `instance_reset` VALUES ('540', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('542', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('543', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('544', '0', '1279339200');
+INSERT INTO `instance_reset` VALUES ('545', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('546', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('547', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('548', '0', '1279339200');
+INSERT INTO `instance_reset` VALUES ('550', '0', '1279339200');
+INSERT INTO `instance_reset` VALUES ('552', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('553', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('554', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('555', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('556', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('557', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('558', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('560', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('564', '0', '1279339200');
+INSERT INTO `instance_reset` VALUES ('565', '0', '1279339200');
+INSERT INTO `instance_reset` VALUES ('568', '0', '1279252800');
+INSERT INTO `instance_reset` VALUES ('574', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('575', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('576', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('578', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('580', '0', '1279339200');
+INSERT INTO `instance_reset` VALUES ('585', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('595', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('598', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('599', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('600', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('601', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('602', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('603', '0', '1279339200');
+INSERT INTO `instance_reset` VALUES ('603', '1', '1279339200');
+INSERT INTO `instance_reset` VALUES ('604', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('608', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('615', '0', '1279339200');
+INSERT INTO `instance_reset` VALUES ('615', '1', '1279339200');
+INSERT INTO `instance_reset` VALUES ('616', '0', '1279339200');
+INSERT INTO `instance_reset` VALUES ('616', '1', '1279339200');
+INSERT INTO `instance_reset` VALUES ('619', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('624', '0', '1279339200');
+INSERT INTO `instance_reset` VALUES ('624', '1', '1279339200');
+INSERT INTO `instance_reset` VALUES ('631', '0', '1279339200');
+INSERT INTO `instance_reset` VALUES ('631', '1', '1279339200');
+INSERT INTO `instance_reset` VALUES ('631', '2', '1279339200');
+INSERT INTO `instance_reset` VALUES ('631', '3', '1279339200');
+INSERT INTO `instance_reset` VALUES ('632', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('649', '0', '1279339200');
+INSERT INTO `instance_reset` VALUES ('649', '1', '1279339200');
+INSERT INTO `instance_reset` VALUES ('649', '2', '1279339200');
+INSERT INTO `instance_reset` VALUES ('649', '3', '1279339200');
+INSERT INTO `instance_reset` VALUES ('650', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('658', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('668', '1', '1279080000');
+INSERT INTO `instance_reset` VALUES ('724', '0', '1279425600');
+INSERT INTO `instance_reset` VALUES ('724', '1', '1279425600');
+INSERT INTO `instance_reset` VALUES ('724', '2', '1279425600');
+INSERT INTO `instance_reset` VALUES ('724', '3', '1279425600');
 
 -- ----------------------------
 -- Table structure for `item_instance`
@@ -1421,11 +1437,12 @@ CREATE TABLE `saved_variables` (
   `NextArenaPointDistributionTime` bigint(40) unsigned NOT NULL DEFAULT '0',
   `NextDailyQuestResetTime` bigint(40) unsigned NOT NULL DEFAULT '0',
   `NextWeeklyQuestResetTime` bigint(40) unsigned NOT NULL DEFAULT '0',
+  `NextRandomBGResetTime` bigint(40) unsigned NOT NULL DEFAULT '0',
   `cleaning_flags` int(11) unsigned NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='Variable Saves';
 
 -- ----------------------------
 -- Records of saved_variables
 -- ----------------------------
-INSERT INTO `saved_variables` VALUES ('0', '1271563200', '0', '15');
-INSERT INTO `saved_variables` VALUES ('0', '0', '1271822400', '15');
+INSERT INTO `saved_variables` VALUES ('0', '1279080000', '1279080000', '1279080000', '0');
+INSERT INTO `saved_variables` VALUES ('0', '1279080000', '1279080000', '1279080000', '0');

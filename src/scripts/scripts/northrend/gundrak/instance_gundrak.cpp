@@ -158,7 +158,7 @@ struct instance_gundrak : public ScriptedInstance
     
     void SetData(uint32 uiType, uint32 uiData)
     {
-        debug_log("DS: Instance Gundrak: SetData received for type %u with data %u",uiType,uiData);
+        debug_log("SD2: Instance Gundrak: SetData received for type %u with data %u",uiType,uiData);
 
         switch(uiType)
         {
@@ -205,7 +205,7 @@ struct instance_gundrak : public ScriptedInstance
                     DoUseDoorOrButton(m_uiEckUnderwaterDoorGUID);
                 break;
             default:
-                error_log("DS: Instance Gundrak: ERROR SetData = %u for type %u does not exist/not implemented.",uiType,uiData);
+                error_log("SD2: Instance Gundrak: ERROR SetData = %u for type %u does not exist/not implemented.",uiType,uiData);
                 break;
         }
 

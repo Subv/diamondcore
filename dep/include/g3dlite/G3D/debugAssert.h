@@ -37,9 +37,9 @@
 #endif
 
 #ifdef G3D_LINUX
-#if NEEDED
     // Needed so we can define a global display
     // pointer for debugAssert.
+#if SOMEONE_MADE_THIS_USEFUL
     #include <X11/Xlib.h>
     #include <X11/Xutil.h>
     #include <X11/Xatom.h>
@@ -180,7 +180,7 @@ namespace _internal {
 namespace G3D {  namespace _internal {
 
 #ifdef G3D_LINUX
-#if NEEDED
+#if SOMEONE_MADE_THIS_USEFUL
     /**
      A pointer to the X11 display.  Initially NULL.  If set to a
      non-null value (e.g. by SDLWindow), debugAssert attempts to use

@@ -56,7 +56,7 @@ struct instance_pinnacle : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        debug_log("DS: Instance Pinnacle: SetData received for type %u with data %u", uiType, uiData);
+        debug_log("SD2: Instance Pinnacle: SetData received for type %u with data %u", uiType, uiData);
 
         switch(uiType)
         {
@@ -76,7 +76,7 @@ struct instance_pinnacle : public ScriptedInstance
                 m_auiEncounter[3] = uiData;
                 break;
             default:
-                error_log("DS: Instance Pinnacle: SetData = %u for type %u does not exist/not implemented.", uiType, uiData);
+                error_log("SD2: Instance Pinnacle: SetData = %u for type %u does not exist/not implemented.", uiType, uiData);
                 break;
         }
 

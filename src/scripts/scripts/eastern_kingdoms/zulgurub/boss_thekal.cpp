@@ -203,7 +203,7 @@ struct boss_thekalAI : public ScriptedAI
         {
             if (Charge_Timer < diff)
             {
-                if (Unit* target = SelectUnit(SELECT_TARGET_RANDOM,0))
+                if (Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
                 {
                     DoCastSpellIfCan(target,SPELL_CHARGE);
                     DoResetThreat();

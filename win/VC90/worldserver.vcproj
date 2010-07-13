@@ -48,8 +48,8 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\..\dep\include\gsoap;..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\game;..\..\src\scripts;..\..\src\worldserver;..\..\dep\ACE_wrappers"
-				PreprocessorDefinitions=";WIN32;NDEBUG;_CONSOLE;ENABLE_CLI;_SECURE_SCL=0"
+				AdditionalIncludeDirectories="..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\main;..\..\src\scripts;..\..\src\server\world;..\..\dep\ACE_wrappers"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;ENABLE_CLI;_SECURE_SCL=0"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -117,7 +117,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy ..\..\dep\lib\$(PlatformName)_$(ConfigurationName)\*.dll ..\..\bin\$(PlatformName)_$(ConfigurationName)&#x0D;&#x0A;copy ..\..\src\worldserver\worldserver.conf.dist ..\..\bin\$(PlatformName)_$(ConfigurationName)\WorldServer.conf&#x0D;&#x0A;"
+				CommandLine="copy ..\..\dep\lib\$(PlatformName)_$(ConfigurationName)\*.dll ..\..\bin\$(PlatformName)_$(ConfigurationName)&#x0D;&#x0A;copy ..\..\src\server\world\worldserver.conf.dist ..\..\bin\$(PlatformName)_$(ConfigurationName)\WorldServer.conf&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -150,8 +150,8 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\..\dep\include\gsoap;..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\game;..\..\src\scripts;..\..\src\worldserver;..\..\dep\ACE_wrappers"
-				PreprocessorDefinitions="VERSION=&quot;0.16.0-DEV&quot;;WIN32;NDEBUG;_CONSOLE;ENABLE_CLI;_SECURE_SCL=0"
+				AdditionalIncludeDirectories="..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\main;..\..\src\scripts;..\..\src\server\world;..\..\dep\ACE_wrappers"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;ENABLE_CLI;_SECURE_SCL=0"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -218,7 +218,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy ..\..\dep\lib\$(PlatformName)_$(ConfigurationName)\*.dll ..\..\bin\$(PlatformName)_$(ConfigurationName)&#x0D;&#x0A;copy ..\..\src\worldserver\worldserver.conf.dist ..\..\bin\$(PlatformName)_$(ConfigurationName)\WorldServer.conf&#x0D;&#x0A;"
+				CommandLine="copy ..\..\dep\lib\$(PlatformName)_$(ConfigurationName)\*.dll ..\..\bin\$(PlatformName)_$(ConfigurationName)&#x0D;&#x0A;copy ..\..\src\server\world\worldserver.conf.dist ..\..\bin\$(PlatformName)_$(ConfigurationName)\WorldServer.conf&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -250,8 +250,8 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\dep\include\gsoap;..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\game;..\..\src\scripts;..\..\src\worldserver;..\..\dep\ACE_wrappers"
-				PreprocessorDefinitions="VERSION=&quot;0.16.0-DEV&quot;;WIN32;_DEBUG;DIAMOND_DEBUG;_CONSOLE;ENABLE_CLI"
+				AdditionalIncludeDirectories="..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\main;..\..\src\scripts;..\..\src\server\world;..\..\dep\ACE_wrappers"
+				PreprocessorDefinitions="WIN32;_DEBUG;DIAMOND_DEBUG;_CONSOLE;ENABLE_CLI"
 				IgnoreStandardIncludePath="false"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -320,7 +320,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy ..\..\dep\lib\$(PlatformName)_$(ConfigurationName)\*.dll ..\..\bin\$(PlatformName)_$(ConfigurationName)&#x0D;&#x0A;copy ..\..\src\worldserver\worldserver.conf.dist ..\..\bin\$(PlatformName)_$(ConfigurationName)\WorldServer.conf&#x0D;&#x0A;"
+				CommandLine="copy ..\..\dep\lib\$(PlatformName)_$(ConfigurationName)\*.dll ..\..\bin\$(PlatformName)_$(ConfigurationName)&#x0D;&#x0A;copy ..\..\src\server\world\worldserver.conf.dist ..\..\bin\$(PlatformName)_$(ConfigurationName)\WorldServer.conf&#x0D;&#x0A;"
 			/>
 		</Configuration>
 		<Configuration
@@ -353,8 +353,8 @@
 				Name="VCCLCompilerTool"
 				AdditionalOptions="/MP"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\dep\include\gsoap;..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\game;..\..\src\scripts;..\..\src\worldserver;..\..\dep\ACE_wrappers"
-				PreprocessorDefinitions="VERSION=&quot;0.16.0-DEV&quot;;WIN32;_DEBUG;DIAMOND_DEBUG;_CONSOLE;ENABLE_CLI"
+				AdditionalIncludeDirectories="..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\main;..\..\src\scripts;..\..\src\server\world;..\..\dep\ACE_wrappers"
+				PreprocessorDefinitions="WIN32;_DEBUG;DIAMOND_DEBUG;_CONSOLE;ENABLE_CLI"
 				IgnoreStandardIncludePath="false"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -422,211 +422,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
-				CommandLine="copy ..\..\dep\lib\$(PlatformName)_$(ConfigurationName)\*.dll ..\..\bin\$(PlatformName)_$(ConfigurationName)&#x0D;&#x0A;copy ..\..\src\worldserver\worldserver.conf.dist ..\..\bin\$(PlatformName)_$(ConfigurationName)\WorldServer.conf&#x0D;&#x0A;"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Debug_NoPCH|Win32"
-			OutputDirectory=".\worldserver__$(PlatformName)_$(ConfigurationName)"
-			IntermediateDirectory=".\worldserver__$(PlatformName)_$(ConfigurationName)"
-			ConfigurationType="1"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				TypeLibraryName=".\worldserver__$(PlatformName)_$(ConfigurationName)\worldserver.tlb"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
-				Optimization="0"
-				AdditionalIncludeDirectories="..\..\dep\include\gsoap;..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\game;..\..\src\scripts;..\..\src\worldserver;..\..\dep\ACE_wrappers"
-				PreprocessorDefinitions="VERSION=&quot;0.16.0-DEV&quot;;WIN32;_DEBUG;DIAMOND_DEBUG;_CONSOLE;ENABLE_CLI"
-				IgnoreStandardIncludePath="false"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
-				EnableFunctionLevelLinking="true"
-				RuntimeTypeInfo="true"
-				PrecompiledHeaderFile=".\worldserver__$(PlatformName)_$(ConfigurationName)\worldserver.pch"
-				AssemblerListingLocation=".\worldserver__$(PlatformName)_$(ConfigurationName)\"
-				ObjectFile=".\worldserver__$(PlatformName)_$(ConfigurationName)\"
-				ProgramDataBaseFileName=".\worldserver__$(PlatformName)_$(ConfigurationName)\"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="3"
-				CallingConvention="0"
-				CompileAs="0"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
-				Culture="1033"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalOptions="/MACHINE:I386"
-				AdditionalDependencies="libmySQL.lib libeay32.lib ws2_32.lib winmm.lib odbc32.lib odbccp32.lib advapi32.lib dbghelp.lib framework.lib msvcrtd.lib"
-				OutputFile="..\..\bin\$(PlatformName)_$(ConfigurationName)\WorldServer.exe"
-				Version=""
-				LinkIncremental="1"
-				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;..\..\dep\lib\$(PlatformName)_debug&quot;;&quot;.\framework__$(PlatformName)_$(ConfigurationName)&quot;"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="..\..\bin\$(PlatformName)_$(ConfigurationName)\worldserver.pdb"
-				GenerateMapFile="true"
-				MapFileName="..\..\bin\$(PlatformName)_$(ConfigurationName)\worldserver.map"
-				SubSystem="1"
-				StackReserveSize="4194304"
-				LargeAddressAware="2"
-				RandomizedBaseAddress="1"
-				FixedBaseAddress="1"
-				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)\worldserver.lib"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="copy ..\..\dep\lib\$(PlatformName)_$(ConfigurationName)\*.dll ..\..\bin\$(PlatformName)_$(ConfigurationName)&#x0D;&#x0A;copy ..\..\src\worldserver\worldserver.conf.dist ..\..\bin\$(PlatformName)_$(ConfigurationName)\WorldServer.conf&#x0D;&#x0A;"
-			/>
-		</Configuration>
-		<Configuration
-			Name="Debug_NoPCH|x64"
-			OutputDirectory=".\worldserver__$(PlatformName)_$(ConfigurationName)"
-			IntermediateDirectory=".\worldserver__$(PlatformName)_$(ConfigurationName)"
-			ConfigurationType="1"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				TargetEnvironment="3"
-				TypeLibraryName=".\worldserver__$(PlatformName)_$(ConfigurationName)\worldserver.tlb"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				AdditionalOptions="/MP"
-				Optimization="0"
-				AdditionalIncludeDirectories="..\..\dep\include\gsoap;..\..\dep\include;..\..\src\framework;..\..\src\shared;..\..\src\game;..\..\src\scripts;..\..\src\worldserver;..\..\dep\ACE_wrappers"
-				PreprocessorDefinitions="VERSION=&quot;0.16.0-DEV&quot;;WIN32;_DEBUG;DIAMOND_DEBUG;_CONSOLE;ENABLE_CLI"
-				IgnoreStandardIncludePath="false"
-				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
-				EnableFunctionLevelLinking="true"
-				RuntimeTypeInfo="true"
-				PrecompiledHeaderFile=".\worldserver__$(PlatformName)_$(ConfigurationName)\worldserver.pch"
-				AssemblerListingLocation=".\worldserver__$(PlatformName)_$(ConfigurationName)\"
-				ObjectFile=".\worldserver__$(PlatformName)_$(ConfigurationName)\"
-				ProgramDataBaseFileName=".\worldserver__$(PlatformName)_$(ConfigurationName)\"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
-				Detect64BitPortabilityProblems="false"
-				DebugInformationFormat="3"
-				CallingConvention="0"
-				CompileAs="0"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				PreprocessorDefinitions="_DEBUG"
-				Culture="1033"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLinkerTool"
-				AdditionalDependencies="libmySQL.lib libeay32.lib ws2_32.lib winmm.lib odbc32.lib odbccp32.lib advapi32.lib dbghelp.lib framework.lib msvcrtd.lib"
-				OutputFile="..\..\bin\$(PlatformName)_$(ConfigurationName)\WorldServer.exe"
-				Version=""
-				LinkIncremental="1"
-				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;..\..\dep\lib\$(PlatformName)_debug&quot;;&quot;.\framework__$(PlatformName)_$(ConfigurationName)&quot;"
-				GenerateDebugInformation="true"
-				ProgramDatabaseFile="..\..\bin\$(PlatformName)_$(ConfigurationName)\worldserver.pdb"
-				GenerateMapFile="true"
-				MapFileName="..\..\bin\$(PlatformName)_$(ConfigurationName)\worldserver.map"
-				SubSystem="1"
-				StackReserveSize="4194304"
-				RandomizedBaseAddress="1"
-				FixedBaseAddress="1"
-				DataExecutionPrevention="0"
-				ImportLibrary="$(OutDir)\worldserver.lib"
-				TargetMachine="17"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCManifestTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCAppVerifierTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-				CommandLine="copy ..\..\dep\lib\$(PlatformName)_$(ConfigurationName)\*.dll ..\..\bin\$(PlatformName)_$(ConfigurationName)&#x0D;&#x0A;copy ..\..\src\worldserver\worldserver.conf.dist ..\..\bin\$(PlatformName)_$(ConfigurationName)\WorldServer.conf&#x0D;&#x0A;"
+				CommandLine="copy ..\..\dep\lib\$(PlatformName)_$(ConfigurationName)\*.dll ..\..\bin\$(PlatformName)_$(ConfigurationName)&#x0D;&#x0A;copy ..\..\src\server\world\worldserver.conf.dist ..\..\bin\$(PlatformName)_$(ConfigurationName)\WorldServer.conf&#x0D;&#x0A;"
 			/>
 		</Configuration>
 	</Configurations>
@@ -635,35 +431,35 @@
 	<Files>
 
 		<File
-			RelativePath="..\..\src\worldserver\CliRunnable.cpp"
+			RelativePath="..\..\src\server\world\CliRunnable.cpp"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\worldserver\CliRunnable.h"
+			RelativePath="..\..\src\server\world\CliRunnable.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\worldserver\Main.cpp"
+			RelativePath="..\..\src\server\world\Main.cpp"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\worldserver\worldserver.rc"
+			RelativePath="..\..\src\server\world\worldserver.rc"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\worldserver\Master.cpp"
+			RelativePath="..\..\src\server\world\Master.cpp"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\worldserver\Master.h"
+			RelativePath="..\..\src\server\world\Master.h"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\worldserver\RASocket.cpp"
+			RelativePath="..\..\src\server\world\RASocket.cpp"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\worldserver\RASocket.h"
+			RelativePath="..\..\src\server\world\RASocket.h"
 			>
 		</File>
 
@@ -676,11 +472,11 @@
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\worldserver\WorldRunnable.cpp"
+			RelativePath="..\..\src\server\world\WorldRunnable.cpp"
 			>
 		</File>
 		<File
-			RelativePath="..\..\src\worldserver\WorldRunnable.h"
+			RelativePath="..\..\src\server\world\WorldRunnable.h"
 			>
 		</File>
 	</Files>

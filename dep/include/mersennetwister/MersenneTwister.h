@@ -118,7 +118,10 @@ public:
 	// Saving and loading generator state
 	void save( uint32* saveArray ) const;  // to array of size SAVE
 	void load( uint32 *const loadArray );  // from such array
-
+    /* DiamondCore not use streams for random values output
+	friend std::ostream& operator<<( std::ostream& os, const MTRand& mtrand );
+	friend std::istream& operator>>( std::istream& is, MTRand& mtrand );
+    */
 protected:
 	void initialize( const uint32 oneSeed );
 	void reload();
@@ -348,3 +351,43 @@ inline void MTRand::load( uint32 *const loadArray )
 }
 
 #endif  // MERSENNETWISTER_H
+
+// Change log:
+//
+// v0.1 - First release on 15 May 2000
+//      - Based on code by Makoto Matsumoto, Takuji Nishimura, and Shawn Cokus
+//      - Translated from C to C++
+//      - Made completely ANSI compliant
+//      - Designed convenient interface for initialization, seeding, and
+//        obtaining numbers in default or user-defined ranges
+//      - Added automatic seeding from /dev/urandom or time() and clock()
+//      - Provided functions for saving and loading generator state
+//
+// v0.2 - Fixed bug which reloaded generator one step too late
+//
+// v0.3 - Switched to clearer, faster reload() code from Matthew Bellew
+//
+// v0.4 - Removed trailing newline in saved generator format to be consistent
+//        with output format of built-in types
+//
+// v0.5 - Improved portability by replacing static const int's with enum's and
+//        clarifying return values in seed(); suggested by Eric Heimburg
+//      - Removed MAXINT constant; use 0xffffffffUL instead
+//
+// v0.6 - Eliminated seed overflow when uint32 is larger than 32 bits
+//      - Changed integer [0,n] generator to give better uniformity
+//
+// v0.7 - Fixed operator precedence ambiguity in reload()
+//      - Added access for real numbers in (0,1) and (0,n)
+//
+// v0.8 - Included time.h header to properly support time_t and clock_t
+//
+// v1.0 - Revised seeding to match 26 Jan 2002 update of Nishimura and Matsumoto
+//      - Allowed for seeding with arrays of any length
+//      - Added access for real numbers in [0,1) with 53-bit resolution
+//      - Added access for real numbers from normal (Gaussian) distributions
+//      - Increased overall speed by optimizing twist()
+//      - Doubled speed of integer [0,n] generation
+//      - Fixed out-of-range number generation on 64-bit machines
+//      - Improved portability by substituting literal constants for long enum's
+//      - Changed license from GNU LGPL to BSD

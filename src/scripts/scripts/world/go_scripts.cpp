@@ -163,7 +163,7 @@ bool GOHello_go_ethereum_prison(Player* pPlayer, GameObject* pGo)
                 if (uiSpell)
                     pCreature->CastSpell(pPlayer,uiSpell,false);
                 else
-                    error_log("DS: go_ethereum_prison summoned creature (entry %u) but faction (%u) are not expected by script.",pCreature->GetEntry(),pCreature->getFaction());
+                    error_log("SD2: go_ethereum_prison summoned creature (entry %u) but faction (%u) are not expected by script.",pCreature->GetEntry(),pCreature->getFaction());
             }
         }
     }
@@ -289,38 +289,6 @@ bool GOHello_go_sacred_fire_of_life(Player* pPlayer, GameObject* pGO)
 }
 
 /*######
-## go_school_of_red_snapper
-######*/
-
-enum
-{
-    ITEM_RED_SNAPPER        = 23614,
-    NPC_ANGRY_MURLOC        = 17102,
-    SPELL_SUMMON_TEST       = 49214                         // ! Just wrong spell name? It summon correct creature (17102)
-};
-
-bool GOHello_go_school_of_red_snapper(Player* pPlayer, GameObject* pGo)
-{
-    if (!urand(0, 2))
-    {
-        // pPlayer->CastSpell(pPlayer, SPELL_SUMMON_TEST, true);
-
-        if (Creature *Murloc = pPlayer->SummonCreature(NPC_ANGRY_MURLOC, pPlayer->GetPositionX(), pPlayer->GetPositionY()+20.0f, pPlayer->GetPositionZ(), 0.0f, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 10000))
-            Murloc->AI()->AttackStart(pPlayer);
-    }
-    else
-    {
-        if (Item* pItem = pPlayer->StoreNewItemInInventorySlot(ITEM_RED_SNAPPER, 1))
-            pPlayer->SendNewItem(pItem, 1, true, false);
-    }
-
-    // not nice, need more research on how this kind of GO behave and how it must be handled in DiamondCore in such cases.
-    pGo->Delete();
-
-    return true;
-}
-
-/*######
 ## go_shrine_of_the_birds
 ######*/
 
@@ -339,7 +307,7 @@ bool GOHello_go_shrine_of_the_birds(Player* pPlayer, GameObject* pGo)
     uint32 uiBirdEntry = 0;
 
     float fX,fY,fZ;
-    pGo->GetClosePoint(fX,fY,fZ,pGo->GetObjectBoundingRadius(),INTERACTION_DISTANCE);
+    pGo->GetClosePoint(fX, fY, fZ, pGo->GetObjectBoundingRadius(), INTERACTION_DISTANCE);
 
     switch(pGo->GetEntry())
     {
@@ -420,23 +388,22 @@ bool GOHello_go_tele_to_violet_stand(Player* pPlayer, GameObject* pGo)
     return true;
 }
 
-/*######
-## go_bristlelimb_cage
-#####*/
-
-enum Prophecy
+enum
 {
-	QUEST_PROPHECY_OF_AKIDA = 9544
+    NPC_ZELEMAR_THE_WRATHFULL = 17830,
+    SAY_AGGRO                 = -1000579
 };
 
-bool GOHello_go_bristlelimb_cage(Player* p, GameObject* g)
+float Position[4] = {-327.99f, 221.74f, -20.31f, 3.87f}; 
+
+bool GOHello_go_blood_filled_orb(Player* pPlayer, GameObject* pGo)
 {
-    if (p->GetQuestStatus(QUEST_PROPHECY_OF_AKIDA == QUEST_STATUS_INCOMPLETE))
+    if (Creature* pZelemar = pGo->SummonCreature(NPC_ZELEMAR_THE_WRATHFULL, Position[0], Position[1], Position[2], Position[3], TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 30000))
     {
-        g->UseDoorOrButton();
-        p->KilledMonsterCredit(17375, 0);
+        DoScriptText(SAY_AGGRO, pZelemar);
+        pZelemar->AI()->AttackStart(pPlayer);     
     }
-    return true;
+    return false;
 }
 
 void AddSC_go_scripts()
@@ -509,11 +476,6 @@ void AddSC_go_scripts()
     newscript->RegisterSelf();
 
     newscript = new Script;
-    newscript->Name = "go_school_of_red_snapper";
-    newscript->pGOHello =           &GOHello_go_school_of_red_snapper;
-    newscript->RegisterSelf();
-
-    newscript = new Script;
     newscript->Name = "go_shrine_of_the_birds";
     newscript->pGOHello =           &GOHello_go_shrine_of_the_birds;
     newscript->RegisterSelf();
@@ -539,7 +501,7 @@ void AddSC_go_scripts()
     newscript->RegisterSelf();
 
     newscript = new Script;
-    newscript->Name = "go_bristlelimb_cage";
-    newscript->pGOHello =           &GOHello_go_bristlelimb_cage;
+    newscript->Name = "go_blood_filled_orb";
+    newscript->pGOHello =           &GOHello_go_blood_filled_orb;
     newscript->RegisterSelf();
 }

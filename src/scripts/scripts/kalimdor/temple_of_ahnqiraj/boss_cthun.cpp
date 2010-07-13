@@ -140,7 +140,7 @@ struct eye_of_cthunAI : public ScriptedAI
 
         m_pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
         if (!m_pInstance)
-            error_log("DS: No Instance eye_of_cthunAI");
+            error_log("SD2: No Instance eye_of_cthunAI");
 
         Reset();
     }
@@ -198,7 +198,7 @@ struct eye_of_cthunAI : public ScriptedAI
         if (Spawned)
         {
             Unit* target;
-            target = SelectUnit(SELECT_TARGET_RANDOM,0);
+            target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0);
 
             if (target)
                 Spawned->AI()->AttackStart(target);
@@ -224,7 +224,7 @@ struct eye_of_cthunAI : public ScriptedAI
                 {
                     //SPELL_GREEN_BEAM
                     Unit* target = NULL;
-                    target = SelectUnit(SELECT_TARGET_RANDOM,0);
+                    target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0);
                     if (target)
                     {
                         m_creature->InterruptNonMeleeSpells(false);
@@ -242,7 +242,7 @@ struct eye_of_cthunAI : public ScriptedAI
                 if (ClawTentacleTimer < diff)
                 {
                     Unit* target = NULL;
-                    target = SelectUnit(SELECT_TARGET_RANDOM,0);
+                    target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0);
                     if (target)
                     {
                         Creature* Spawned = NULL;
@@ -287,7 +287,7 @@ struct eye_of_cthunAI : public ScriptedAI
 
                     //Select random target for dark beam to start on
                     Unit* target = NULL;
-                    target = SelectUnit(SELECT_TARGET_RANDOM,0);
+                    target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0);
 
                     if (target)
                     {
@@ -440,7 +440,7 @@ struct cthunAI : public ScriptedAI
 
         m_pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
         if (!m_pInstance)
-            error_log("DS: No Instance eye_of_cthunAI");
+            error_log("SD2: No Instance eye_of_cthunAI");
 
         Reset();
     }
@@ -972,7 +972,7 @@ struct eye_tentacleAI : public ScriptedAI
         if (MindflayTimer < diff)
         {
             Unit* target = NULL;
-            target = SelectUnit(SELECT_TARGET_RANDOM,0);
+            target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0);
             if (target && !target->HasAura(SPELL_DIGESTIVE_ACID, EFFECT_INDEX_0))
                 DoCastSpellIfCan(target,SPELL_MIND_FLAY);
 
@@ -1033,7 +1033,7 @@ struct claw_tentacleAI : public ScriptedAI
             //Dissapear and reappear at new position
             m_creature->SetVisibility(VISIBILITY_OFF);
 
-            Unit* target = SelectUnit(SELECT_TARGET_RANDOM,0);
+            Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0);
             if (!target)
             {
                 m_creature->DealDamage(m_creature, m_creature->GetMaxHealth(), NULL, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NONE, NULL, false);
@@ -1128,7 +1128,7 @@ struct giant_claw_tentacleAI : public ScriptedAI
             //Dissapear and reappear at new position
             m_creature->SetVisibility(VISIBILITY_OFF);
 
-            Unit* target = SelectUnit(SELECT_TARGET_RANDOM, 0);
+            Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
 
             if (!target)
             {
@@ -1219,7 +1219,7 @@ struct giant_eye_tentacleAI : public ScriptedAI
         //BeamTimer
         if (BeamTimer < diff)
         {
-            Unit* target = SelectUnit(SELECT_TARGET_RANDOM,0);
+            Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0);
             if (target && !target->HasAura(SPELL_DIGESTIVE_ACID, EFFECT_INDEX_0))
                 DoCastSpellIfCan(target,SPELL_GREEN_BEAM);
 
@@ -1258,7 +1258,7 @@ void flesh_tentacleAI::JustDied(Unit* killer)
 {
     if (!Parent)
     {
-        error_log("DS: flesh_tentacle: No Parent variable");
+        error_log("SD2: flesh_tentacle: No Parent variable");
         return;
     }
 
@@ -1266,7 +1266,7 @@ void flesh_tentacleAI::JustDied(Unit* killer)
 
     if (Cthun)
         ((cthunAI*)(Cthun->AI()))->FleshTentcleKilled();
-    else error_log("DS: flesh_tentacle: No Cthun");
+    else error_log("SD2: flesh_tentacle: No Cthun");
 }
 
 //GetAIs

@@ -171,7 +171,7 @@ struct boss_malacrassAI : public ScriptedAI
         //it's empty, so first time
         if (m_lAddsEntryList.empty())
         {
-            //fill list with entries FROM creature_spawns array
+            //fill list with entries from creature array
             for(uint8 i = 0; i < MAX_ACTIVE_ADDS; ++i)
                 m_lAddsEntryList.push_back(rand()%2 ? m_auiSpawnEntry[i].m_uiCreatureEntry : m_auiSpawnEntry[i].m_uiCreatureEntryAlt);
 
@@ -503,7 +503,7 @@ struct mob_alyson_antilleAI : public boss_malacrass_addAI
             if (!lTempList.empty())
                 pTarget = *(lTempList.begin());
             else
-                pTarget = SelectUnit(SELECT_TARGET_RANDOM, 0);
+                pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
 
             if (pTarget)
                 DoCastSpellIfCan(pTarget, SPELL_DISPEL_MAGIC);
@@ -710,7 +710,7 @@ struct mob_slitherAI : public boss_malacrass_addAI
 
         if (m_uiVenomSpitTimer < uiDiff)
         {
-            if (Unit* pVictim = SelectUnit(SELECT_TARGET_RANDOM, 0))
+            if (Unit* pVictim = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                 DoCastSpellIfCan(pVictim, SPELL_VENOM_SPIT);
 
             m_uiVenomSpitTimer = 2500;
@@ -799,7 +799,7 @@ struct mob_koraggAI : public boss_malacrass_addAI
 
         if (m_uiColdStareTimer < uiDiff)
         {
-            if (Unit* pVictim = SelectUnit(SELECT_TARGET_RANDOM, 0))
+            if (Unit* pVictim = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                 DoCastSpellIfCan(pVictim, SPELL_COLD_STARE);
 
             m_uiColdStareTimer = 12000;

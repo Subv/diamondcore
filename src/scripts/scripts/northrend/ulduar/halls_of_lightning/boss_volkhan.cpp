@@ -198,7 +198,7 @@ struct boss_volkhanAI : public ScriptedAI
         {
             m_lGolemGUIDList.push_back(pSummoned->GetGUID());
 
-            if (Unit* pTarget = SelectUnit(SELECT_TARGET_RANDOM, 0))
+            if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                 pSummoned->AI()->AttackStart(pTarget);
 
             //why healing when just summoned?
@@ -336,8 +336,7 @@ bool EffectDummyCreature_npc_volkhan_anvil(Unit* pCaster, uint32 uiSpellId, Spel
         if (pCaster->GetMotionMaster()->GetCurrentMovementGeneratorType() == CHASE_MOTION_TYPE)
             pCaster->GetMotionMaster()->MovementExpired();
 
-        ((Creature*)pCaster)->GetMap()->CreatureRelocation((Creature*)pCaster, fX, fY, fZ, pCreatureTarget->GetOrientation());
-        ((Creature*)pCaster)->SendMonsterMove(fX, fY, fZ, SPLINETYPE_NORMAL, ((Creature*)pCaster)->GetSplineFlags(), 1);
+        ((Creature*)pCaster)->MonsterMove(fX, fY, fZ, 1);
 
         pCreatureTarget->CastSpell(pCaster, SPELL_TEMPER_DUMMY, false);
 

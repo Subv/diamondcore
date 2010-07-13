@@ -347,7 +347,7 @@ struct npc_twiggy_flatheadAI : public ScriptedAI
             return true;
         }
 
-        debug_log("DS: npc_twiggy_flathead event already in progress, need to wait.");
+        debug_log("SD2: npc_twiggy_flathead event already in progress, need to wait.");
         return false;
     }
 
@@ -358,7 +358,7 @@ struct npc_twiggy_flatheadAI : public ScriptedAI
             Creature* pCreature = m_creature->SummonCreature(NPC_AFFRAY_CHALLENGER, AffrayChallengerLoc[i][0], AffrayChallengerLoc[i][1], AffrayChallengerLoc[i][2], AffrayChallengerLoc[i][3], TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 600000);
             if (!pCreature)
             {
-                debug_log("DS: npc_twiggy_flathead event cannot summon challenger as expected.");
+                debug_log("SD2: npc_twiggy_flathead event cannot summon challenger as expected.");
                 continue;
             }
 

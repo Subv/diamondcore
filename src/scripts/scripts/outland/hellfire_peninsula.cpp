@@ -151,7 +151,7 @@ struct npc_ancestral_wolfAI : public npc_escortAI
         if (pCreature->GetOwner() && pCreature->GetOwner()->GetTypeId() == TYPEID_PLAYER)
             Start(false, false, pCreature->GetOwner()->GetGUID());
         else
-            error_log("DS: npc_ancestral_wolf can not obtain owner or owner is not a player.");
+            error_log("SD2: npc_ancestral_wolf can not obtain owner or owner is not a player.");
 
         Reset();
     }

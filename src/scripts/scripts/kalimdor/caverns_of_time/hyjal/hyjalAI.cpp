@@ -252,7 +252,7 @@ void hyjalAI::SummonNextWave()
 
     if (!pWaveData)
     {
-        error_log("DS: hyjalAI not able to obtain wavedata for SummonNextWave.");
+        error_log("SD2: hyjalAI not able to obtain wavedata for SummonNextWave.");
         return;
     }
 
@@ -283,7 +283,7 @@ void hyjalAI::SummonNextWave()
         else
         {
             m_uiNextWaveTimer = 15000;
-            debug_log("DS: HyjalAI: debug mode is enabled. Next Wave in 15 seconds");
+            debug_log("SD2: HyjalAI: debug mode is enabled. Next Wave in 15 seconds");
         }
     }
     else
@@ -477,7 +477,7 @@ void hyjalAI::UpdateAI(const uint32 uiDiff)
                 switch(m_aSpells[i].m_pType)
                 {
                     case TARGETTYPE_SELF:   pTarget = m_creature; break;
-                    case TARGETTYPE_RANDOM: pTarget = SelectUnit(SELECT_TARGET_RANDOM, 0); break;
+                    case TARGETTYPE_RANDOM: pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0); break;
                     case TARGETTYPE_VICTIM: pTarget = m_creature->getVictim(); break;
                 }
 

@@ -61,7 +61,7 @@ struct instance_ramparts : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        debug_log("DS: Instance Ramparts: SetData received for type %u with data %u",uiType,uiData);
+        debug_log("SD2: Instance Ramparts: SetData received for type %u with data %u",uiType,uiData);
 
         switch(uiType)
         {

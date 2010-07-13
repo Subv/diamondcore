@@ -98,7 +98,7 @@ struct boss_marliAI : public ScriptedAI
         std::list<GameObject*> lSpiderEggs;
         GetGameObjectListWithEntryInGrid(lSpiderEggs, m_creature, GO_EGG, DEFAULT_VISIBILITY_INSTANCE);
         if (lSpiderEggs.empty())
-            debug_log("DS: boss_marli, no Eggs with the entry %u were found", GO_EGG);
+            debug_log("SD2: boss_marli, no Eggs with the entry %u were found", GO_EGG);
         else
         {
             for(std::list<GameObject*>::iterator iter = lSpiderEggs.begin(); iter != lSpiderEggs.end(); ++iter)
@@ -136,7 +136,7 @@ struct boss_marliAI : public ScriptedAI
         std::list<GameObject*> lEggs;
         GetGameObjectListWithEntryInGrid(lEggs, m_creature, GO_EGG, DEFAULT_VISIBILITY_INSTANCE);
         if (lEggs.empty())
-            debug_log("DS: boss_marli, no Eggs with the entry %i were found", GO_EGG);
+            debug_log("SD2: boss_marli, no Eggs with the entry %i were found", GO_EGG);
         else
         {
             lEggs.sort(ObjectDistanceOrder(m_creature));
@@ -153,7 +153,7 @@ struct boss_marliAI : public ScriptedAI
     {
         if (pSummoned->GetEntry() == NPC_SPAWN_OF_MARLI)
         {
-            if (Unit* pTarget = SelectUnit(SELECT_TARGET_RANDOM,0))
+            if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
                 pSummoned->AI()->AttackStart(pTarget);
         }
     }
@@ -216,7 +216,7 @@ struct boss_marliAI : public ScriptedAI
             if (m_bHasWebbed && m_uiCharge_Timer < uiDiff)
             {   
                 //Shouldn't be random target but highestaggro not Webbed player
-                if (Unit* pTarget = SelectUnit(SELECT_TARGET_RANDOM,0))
+                if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
                 {
                     DoCastSpellIfCan(pTarget, SPELL_CHARGE);
                     DoResetThreat();
@@ -229,7 +229,7 @@ struct boss_marliAI : public ScriptedAI
                         while (i < 5)                               // max 3 tries to get a random target with power_mana
                         {
                             ++i;                                    //not aggro leader
-                            pTarget = SelectUnit(SELECT_TARGET_RANDOM,0);
+                            pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0);
                             if (pTarget && pTarget->getPowerType() == POWER_MANA)
                                 i=5;
                         }

@@ -217,7 +217,7 @@ bool GOHello_go_strange_gong(Player* pPlayer, GameObject* pGo)
         if (Creature* pCreature = (Creature*)Unit::GetUnit(*pPlayer,pInstance->GetData64(DATA_HARRISON)))
             ((npc_harrison_jones_zaAI*)pCreature->AI())->SetHoldState(false);
         else
-            error_log("DS: Instance Zulaman: go_strange_gong failed");
+            error_log("SD2: Instance Zulaman: go_strange_gong failed");
 
         pGo->SetFlag(GAMEOBJECT_FLAGS, GO_FLAG_UNK1);
         return false;

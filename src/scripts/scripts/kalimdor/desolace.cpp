@@ -92,7 +92,7 @@ struct npc_aged_dying_ancient_kodoAI : public ScriptedAI
 
     void UpdateAI(const uint32 diff)
     {
-        //timer should always be == 0 unless we already updated entry of creature. Then not expect this updated to ever be in combat.
+        //timer should always be == 0 unless we already updated entry of creature_spawns. Then not expect this updated to ever be in combat.
         if (m_uiDespawnTimer && m_uiDespawnTimer <= diff)
         {
             if (!m_creature->getVictim() && m_creature->isAlive())

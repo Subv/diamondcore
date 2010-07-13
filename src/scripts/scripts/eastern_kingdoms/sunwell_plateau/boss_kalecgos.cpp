@@ -84,7 +84,7 @@ struct boss_kalecgosAI : public ScriptedAI
 
         /*if (pCreature->getFaction() != 14)
         {
-            error_db_log("DS: creature entry %u has faction %u but spellId %u requires different.", pCreature->GetEntry(), pCreature->getFaction(), SPELL_SPECTRAL_REALM_FORCE_FACTION);
+            error_db_log("SD2: creature entry %u has faction %u but spellId %u requires different.", pCreature->GetEntry(), pCreature->getFaction(), SPELL_SPECTRAL_REALM_FORCE_FACTION);
             pCreature->setFaction(14);
         }*/
 
@@ -204,7 +204,7 @@ struct boss_kalecgosAI : public ScriptedAI
 
     void BeginOutro()
     {
-        debug_log("DS: KALEC: Beginning Outro");
+        debug_log("SD2: KALEC: Beginning Outro");
 
         if (!m_pInstance)
             return;
@@ -280,7 +280,7 @@ struct boss_kalecgosAI : public ScriptedAI
         {
             if (m_uiExitTimer <= diff)
             {
-                debug_log("DS: KALEC: Exiting the arena");
+                debug_log("SD2: KALEC: Exiting the arena");
 
                 float x, y, z;
                 m_creature->GetRandomPoint(m_creature->GetPositionX(), m_creature->GetPositionY(), m_creature->GetPositionZ(), 30, x, y, z);
@@ -320,7 +320,7 @@ struct boss_kalecgosAI : public ScriptedAI
 
         if (m_uiWildMagicTimer < diff)
         {
-            if (Unit* target = SelectUnit(SELECT_TARGET_RANDOM, 0))
+            if (Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                 DoCastSpellIfCan(target, WildMagic[rand()%6]);
 
             m_uiWildMagicTimer = 19000;
@@ -441,7 +441,7 @@ struct boss_sathrovarrAI : public ScriptedAI
 
         if (CurseOfBoundlessAgonyTimer < diff)
         {
-            if (Unit* pTarget = SelectUnit(SELECT_TARGET_RANDOM, 0))
+            if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                 DoCastSpellIfCan(pTarget, SPELL_CURSE_OF_BOUNDLESS_AGONY);
 
             CurseOfBoundlessAgonyTimer = 35000;
@@ -554,7 +554,7 @@ bool GOHello_go_spectral_rift(Player* pPlayer, GameObject* pGo)
         {
             if (pSath->isAlive())
             {
-                debug_log("DS: Adding %s in pSath' threatlist", pPlayer->GetName());
+                debug_log("SD2: Adding %s in pSath' threatlist", pPlayer->GetName());
                 pSath->AddThreat(pPlayer);
             }
         }
@@ -567,7 +567,7 @@ bool GOHello_go_spectral_rift(Player* pPlayer, GameObject* pGo)
                 if (HostileReference* pRef = pKalecgos->getThreatManager().getOnlineContainer().getReferenceByTarget(pPlayer))
                 {
                     pRef->removeReference();
-                    debug_log("DS: Deleting %s from pKalecgos's threatlist", pPlayer->GetName());
+                    debug_log("SD2: Deleting %s from pKalecgos's threatlist", pPlayer->GetName());
                 }
             }
         }*/

@@ -187,13 +187,13 @@ struct boss_shade_of_akamaAI : public ScriptedAI
 
     void IncrementDeathCount(uint64 uiGuid = 0)               // If guid is set, will remove it from list of sorcerer
     {
-        debug_log("DS: Increasing Death Count for Shade of Akama encounter");
+        debug_log("SD2: Increasing Death Count for Shade of Akama encounter");
         ++m_uiDeathCount;
 
         if (uiGuid)
         {
             if (m_lSorcerersGUIDList.empty())
-                error_log("DS: boss_shade_of_akamaAI attempt to remove guid " UI64FMTD " from Sorcerers list but list is already empty", uiGuid);
+                error_log("SD2: boss_shade_of_akamaAI attempt to remove guid " UI64FMTD " from Sorcerers list but list is already empty", uiGuid);
             else
                 m_lSorcerersGUIDList.remove(uiGuid);
         }
@@ -268,7 +268,7 @@ struct boss_shade_of_akamaAI : public ScriptedAI
             }
         }
         else
-            error_log("DS: boss_shade_of_akamaAI not able to respawn channelers, list is empty.");
+            error_log("SD2: boss_shade_of_akamaAI not able to respawn channelers, list is empty.");
     }
 
     void PrepareChannelers()
@@ -284,13 +284,13 @@ struct boss_shade_of_akamaAI : public ScriptedAI
             for(std::list<Creature*>::iterator itr = lChannelerList.begin(); itr != lChannelerList.end(); ++itr)
             {
                 m_lChannelersGUIDList.push_back((*itr)->GetGUID());
-                debug_log("DS: boss_shade_of_akamaAI found channeler " UI64FMTD ". Adding to list", (*itr)->GetGUID());
+                debug_log("SD2: boss_shade_of_akamaAI found channeler " UI64FMTD ". Adding to list", (*itr)->GetGUID());
 
                 (*itr)->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
             }
         }
         else
-            error_log("DS: boss_shade_of_akamaAI unable to find any channelers.");
+            error_log("SD2: boss_shade_of_akamaAI unable to find any channelers.");
     }
 
     void KilledUnit(Unit* pVictim)
@@ -762,7 +762,7 @@ struct mob_ashtongue_channelerAI : public ScriptedAI
                 if (boss_shade_of_akamaAI* pShadeAI = dynamic_cast<boss_shade_of_akamaAI*>(pShade->AI()))
                     pShadeAI->IncrementDeathCount();
                 else
-                    error_log("DS: mob_ashtongue_channelerAI dead but unable to increment DeathCount for Shade of Akama.");
+                    error_log("SD2: mob_ashtongue_channelerAI dead but unable to increment DeathCount for Shade of Akama.");
             }
         }
     }
@@ -815,7 +815,7 @@ struct mob_ashtongue_sorcererAI : public ScriptedAI
                 if (boss_shade_of_akamaAI* pShadeAI = dynamic_cast<boss_shade_of_akamaAI*>(pShade->AI()))
                     pShadeAI->IncrementDeathCount(m_creature->GetGUID());
                 else
-                    error_log("DS: mob_ashtongue_sorcererAI dead but unable to increment DeathCount for Shade of Akama.");
+                    error_log("SD2: mob_ashtongue_sorcererAI dead but unable to increment DeathCount for Shade of Akama.");
             }
         }
     }

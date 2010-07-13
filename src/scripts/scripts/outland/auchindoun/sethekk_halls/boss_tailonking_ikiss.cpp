@@ -147,7 +147,7 @@ struct boss_talon_king_ikissAI : public ScriptedAI
         {
             //second top aggro target in normal, random target in heroic correct?
             Unit *target = NULL;
-            if (m_bIsRegularMode ? target = SelectUnit(SELECT_TARGET_TOPAGGRO, 1) : target = SelectUnit(SELECT_TARGET_RANDOM, 0))
+            if (m_bIsRegularMode ? target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_TOPAGGRO, 1) : target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                 DoCastSpellIfCan(target, m_bIsRegularMode ? SPELL_POLYMORPH : H_SPELL_POLYMORPH);
             Sheep_Timer = urand(15000, 17500);
         }else Sheep_Timer -= diff;
@@ -172,7 +172,7 @@ struct boss_talon_king_ikissAI : public ScriptedAI
         {
             DoScriptText(EMOTE_ARCANE_EXP, m_creature);
 
-            if (Unit *target = SelectUnit(SELECT_TARGET_RANDOM,0))
+            if (Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
             {
                 if (m_creature->IsNonMeleeSpellCasted(false))
                     m_creature->InterruptNonMeleeSpells(false);
@@ -184,8 +184,7 @@ struct boss_talon_king_ikissAI : public ScriptedAI
                 float Y = target->GetPositionY();
                 float Z = target->GetPositionZ();
 
-                m_creature->GetMap()->CreatureRelocation(m_creature,X,Y,Z,0.0f);
-                m_creature->SendMonsterMove(X, Y, Z, SPLINETYPE_NORMAL, SPLINEFLAG_WALKMODE, 1);
+                m_creature->MonsterMove(X, Y, Z, 1);
 
                 DoCastSpellIfCan(target,SPELL_BLINK_TELEPORT);
                 Blink = true;

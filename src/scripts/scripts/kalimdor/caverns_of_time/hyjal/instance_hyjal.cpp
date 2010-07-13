@@ -172,7 +172,7 @@ struct instance_mount_hyjal : public ScriptedInstance
                 break;
         }
 
-        debug_log("DS: Instance Hyjal: Instance data updated for event %u (Data=%u)", uiType, uiData);
+        debug_log("SD2: Instance Hyjal: Instance data updated for event %u (Data=%u)", uiType, uiData);
 
         if (uiData == DONE)
         {

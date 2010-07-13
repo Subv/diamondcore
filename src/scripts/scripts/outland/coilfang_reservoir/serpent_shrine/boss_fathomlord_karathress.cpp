@@ -139,7 +139,7 @@ struct boss_fathomlord_karathressAI : public ScriptedAI
                 uiSpell = SPELL_POWER_OF_CARIBDIS;
                 break;
             default:
-                error_log("DS: invalid advisor (id %u) for karathress!", uiAdvisor);
+                error_log("SD2: invalid advisor (id %u) for karathress!", uiAdvisor);
                 break;
         }
 
@@ -219,7 +219,7 @@ struct boss_fathomlord_karathressAI : public ScriptedAI
         if (m_uiCataclysmicBolt_Timer < uiDiff)
         {
             //select a random unit other than the main tank
-            Unit* pTarget = SelectUnit(SELECT_TARGET_RANDOM, 1);
+            Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 1);
 
             //if there aren't other units, cast on the tank
             if (!pTarget)
@@ -398,7 +398,7 @@ struct boss_fathomguard_sharkkisAI : public Advisor_Base_AI
         //m_uiHurlTrident_Timer
         if (m_uiHurlTrident_Timer < uiDiff)
         {
-            if (Unit* pTarget = SelectUnit(SELECT_TARGET_RANDOM,0))
+            if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
             {
                 if (!m_creature->IsWithinDist(pTarget,ATTACK_DISTANCE))
                     DoCastSpellIfCan(pTarget, SPELL_HURL_TRIDENT);

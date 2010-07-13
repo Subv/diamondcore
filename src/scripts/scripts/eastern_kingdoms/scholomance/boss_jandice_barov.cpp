@@ -113,7 +113,7 @@ struct boss_jandicebarovAI : public ScriptedAI
             Unit* target = NULL;
             for(int i = 0; i < 10; ++i)
             {
-                target = SelectUnit(SELECT_TARGET_RANDOM,0);
+                target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0);
                 SummonIllusions(target);
             }
             Invisible = true;
