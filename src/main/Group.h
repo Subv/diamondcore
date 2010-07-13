@@ -19,6 +19,7 @@
 #ifndef DIAMOND_GROUP_H
 #define DIAMOND_GROUP_H
 
+#include "Database/DatabaseEnv.h"
 #include "GroupReference.h"
 #include "GroupRefManager.h"
 #include "BattleGround.h"
