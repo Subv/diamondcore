@@ -562,6 +562,6 @@ SET(SCRIPT_LIB_SRCS
     system/ScriptLoader.h
     system/system.cpp
     system/system.h
-
+)
 add_library(scripts STATIC ${SCRIPT_LIB_SRCS})
 
