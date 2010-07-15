@@ -34,7 +34,7 @@ enum PetType
 
 extern char const* petTypeSuffix[MAX_PET_TYPE];
 
-#define MAX_PET_STABLES         4
+#define MAX_PET_STABLES         20
 
 // stored in character_pet.slot
 enum PetSaveMode

@@ -690,18 +690,10 @@ void WorldSession::HandleBuyStableSlot( WorldPacket & recv_data )
 
     if(GetPlayer()->m_stableSlots < MAX_PET_STABLES)
     {
-        StableSlotPricesEntry const *SlotPrice = sStableSlotPricesStore.LookupEntry(GetPlayer()->m_stableSlots+1);
-        if(_player->GetMoney() >= SlotPrice->Price)
-        {
-            ++GetPlayer()->m_stableSlots;
-            _player->ModifyMoney(-int32(SlotPrice->Price));
-            data << uint8(0x0A);                            // success buy
-        }
-        else
-            data << uint8(0x06);
-    }
-    else
-        data << uint8(0x06);
+		// Slot prices should implent in a db table?! 
+		// Comming in a few hours/days
+		return;
+	}
 
     SendPacket(&data);
 }
