@@ -94,7 +94,7 @@ enum Opcodes
     SMSG_AUTH_SRP6_RESPONSE                         = 0x039,
 	SMSG_CHAR_CREATE                                = 0xC634,    // 50740 - 4.0.0.12319
     SMSG_CHAR_ENUM                                  = 0xD07E,    // 53374 - 4.0.0.12319
-    SMSG_CHAR_DELETE                                = 0x8012,    // 32786 - 4.0.0.12319
+    SMSG_CHAR_DELETE                                = 0x8012,    // 32786 - 4.0.0.12479
     CMSG_PLAYER_LOGIN                               = 0x5066,    // 20582 - 4.0.0.12319
     SMSG_NEW_WORLD                                  = 0x0412,    // 1042  - 4.0.0.12319
     SMSG_TRANSFER_PENDING                           = 0xD468,    // 54376 - 4.0.0.12319
@@ -332,7 +332,7 @@ enum Opcodes
     SMSG_SET_PROFICIENCY                            = 0x041E,    // 1054  - 4.0.0.12319
     CMSG_SET_ACTION_BUTTON                          = 0x8460,    // 33888 - 4.0.0.12319
     SMSG_ACTION_BUTTONS                             = 0x146E,    // 5230  - 4.0.0.12319
-    SMSG_INITIAL_SPELLS                             = 0x9618,    // 38424 - 4.0.0.12319
+    SMSG_INITIAL_SPELLS                             = 0x406C,    // 16492 - 4.0.0.12479
     SMSG_LEARNED_SPELL                              = 0x244,     // 580   - 4.0.0.12319
     SMSG_SUPERCEDED_SPELL                           = 0x466A,    // 18026 - 4.0.0.12319
     CMSG_NEW_SPELL_SLOT                             = 0x012E,    // 302   - 4.0.0.12319
@@ -349,7 +349,7 @@ enum Opcodes
     SMSG_PET_CAST_FAILED                            = 0x447A,    // 17530 - 4.0.0.12319
     MSG_CHANNEL_START                               = 0x5448,    // 21576 - 4.0.0.12319
     MSG_CHANNEL_UPDATE                              = 0x8622,    // 34338 - 4.0.0.12319
-    CMSG_CANCEL_CHANNELLING                         = 0xC47A,    // 50298 - 4.0.0.12319
+    CMSG_CANCEL_CHANNELLING                         = 0x0244,    // 580   - 4.0.0.12479
     SMSG_AI_REACTION                                = 0x4238,    // 16952 - 4.0.0.12319
     CMSG_SET_SELECTION                              = 0x13D,
     CMSG_EQUIPMENT_SET_DELETE                       = 0x8420,    // 33824 - 4.0.0.12319
@@ -378,7 +378,7 @@ enum Opcodes
     SMSG_BINDPOINTUPDATE                            = 0xD276,    // 53878 - 4.0.0.12319
     CMSG_GETDEATHBINDZONE                           = 0x156,
     SMSG_BINDZONEREPLY                              = 0x5406,    // 21510 - 4.0.0.12319
-    SMSG_PLAYERBOUND                                = 0xD02C,    // 53292 - 4.0.0.12319
+    SMSG_PLAYERBOUND                                = 0xD008,    // 53256 - 4.0.0.12479
     SMSG_CLIENT_CONTROL_UPDATE                      = 0x256,     // 598   - 4.0.0.12319
     CMSG_REPOP_REQUEST                              = 0x15A,
     SMSG_RESURRECT_REQUEST                          = 0x9466,    // 37990 - 4.0.0.12319
@@ -417,7 +417,7 @@ enum Opcodes
     CMSG_GOSSIP_SELECT_OPTION                       = 0x5020,    // 20512 - 4.0.0.12319
     SMSG_GOSSIP_MESSAGE                             = 0x4214,    // 16916 - 4.0.0.12319
     SMSG_GOSSIP_COMPLETE                            = 0x8636,    // 34358 - 4.0.0.12319
-    CMSG_NPC_TEXT_QUERY                             = 0xC242,    // 49730 - 4.0.0.12319
+    CMSG_NPC_TEXT_QUERY                             = 0x466E,    // 18030 - 4.0.0.12479
     SMSG_NPC_TEXT_UPDATE                            = 0xD01E,    // 53278 - 4.0.0.12319
     SMSG_NPC_WONT_TALK                              = 0x181,
     CMSG_QUESTGIVER_STATUS_QUERY                    = 0x182,
@@ -488,14 +488,14 @@ enum Opcodes
     CMSG_OFFER_PETITION                             = 0x1C3,
     CMSG_TURN_IN_PETITION                           = 0x827A,    // 33402 - 4.0.0.12319
     SMSG_TURN_IN_PETITION_RESULTS                   = 0x1474,    // 5236  - 4.0.0.12319
-    CMSG_PETITION_QUERY                             = 0x1232,    // 4658  - 4.0.0.12319
+    CMSG_PETITION_QUERY                             = 0x164A,    // 5706  - 4.0.0.12479
     SMSG_PETITION_QUERY_RESPONSE                    = 0xD61A,    // 54810 - 4.0.0.12319
     SMSG_FISH_NOT_HOOKED                            = 0xD66C,    // 54892 - 4.0.0.12319
     SMSG_FISH_ESCAPED                               = 0xC25E,    // 49758 - 4.0.0.12319
     CMSG_BUG                                        = 0x1CA,
-    SMSG_NOTIFICATION                               = 0x1458,    // 5208  - 4.0.0.12319
+    SMSG_NOTIFICATION                               = 0x1442,    // 5186  - 4.0.0.12479
     CMSG_PLAYED_TIME                                = 0x560E,    // 22030 - 4.0.0.12319
-    SMSG_PLAYED_TIME                                = 0x442C,    // 17452 - 4.0.0.12319
+    SMSG_PLAYED_TIME                                = 0x1218,    // 4632  - 4.0.0.12479
     CMSG_QUERY_TIME                                 = 0xF967,    // 63847 - 4.0.0.12065
     SMSG_QUERY_TIME_RESPONSE                        = 0x125A,    // 4698  - 4.0.0.12319
     SMSG_LOG_XPGAIN                                 = 0x8FE9,    // 36841 - 4.0.0.12065
@@ -518,7 +518,7 @@ enum Opcodes
     SMSG_COOLDOWN_CHEAT                             = 0xD650,    // 54864 - 4.0.0.12319
     SMSG_SPELL_DELAYED                              = 0x9208,    // 37384 - 4.0.0.12319
     CMSG_QUEST_POI_QUERY                            = 0x1E3,
-    SMSG_QUEST_POI_QUERY_RESPONSE                   = 0xD266,    // 53862 - 4.0.0.12319
+    SMSG_QUEST_POI_QUERY_RESPONSE                   = 0xC41E,    // 50206 - 4.0.0.12479
     CMSG_GHOST                                      = 0x1E5,
     CMSG_GM_INVIS                                   = 0x1E6,
     SMSG_INVALID_PROMOTION_CODE                     = 0xF9E4,    // 63972 - 4.0.0.12065
@@ -528,7 +528,7 @@ enum Opcodes
     SMSG_ITEM_ENCHANT_TIME_UPDATE                   = 0x5668,    // 22120 - 4.0.0.12319
 	SMSG_AUTH_CHALLENGE                             = 0x8924,    // 35108 - 4.0.0.12319
     CMSG_AUTH_SESSION                               = 0xA000,    // 40960 - 4.0.0.12319
-    SMSG_AUTH_RESPONSE                              = 0x442,     // 1090  - 4.0.0.12319
+    SMSG_AUTH_RESPONSE                              = 0x5220,    // 21024 - 4.0.0.12479
     MSG_GM_SHOWLABEL                                = 0x1EF,
     CMSG_PET_CAST_SPELL                             = 0x965A,    // 38490 - 4.0.0.12319
     MSG_SAVE_GUILD_EMBLEM                           = 0x863C,    // 34364 - 4.0.0.12319
@@ -536,7 +536,7 @@ enum Opcodes
     SMSG_PLAY_SPELL_VISUAL                          = 0xC222,    // 49698 - 4.0.0.12319
     CMSG_ZONEUPDATE                                 = 0x526E,    // 21102 - 4.0.0.12319
     SMSG_PARTYKILLLOG                               = 0x9608,    // 38408 - 4.0.0.12319
-    SMSG_COMPRESSED_UPDATE_OBJECT                   = 0x9468,    // 37992 - 4.0.0.12319
+    SMSG_COMPRESSED_UPDATE_OBJECT                   = 0x1242,    // 4674  - 4.0.0.12479
     SMSG_PLAY_SPELL_IMPACT                          = 0x001C,    // 28    - 4.0.0.12319
     SMSG_EXPLORATION_EXPERIENCE                     = 0x863A,    // 34362 - 4.0.0.12319
     CMSG_GM_SET_SECURITY_GROUP                      = 0x1F9,
@@ -600,7 +600,7 @@ enum Opcodes
     CMSG_GUILD_DEL_RANK                             = 0x233,
     CMSG_GUILD_SET_PUBLIC_NOTE                      = 0x234,
     CMSG_GUILD_SET_OFFICER_NOTE                     = 0x235,
-    SMSG_LOGIN_VERIFY_WORLD                         = 0x5612,    // 22034 - 4.0.0.12319
+    SMSG_LOGIN_VERIFY_WORLD                         = 0x424A,    // 16970 - 4.0.0.12479
     CMSG_CLEAR_EXPLORATION                          = 0x237,
     CMSG_SEND_MAIL                                  = 0x9224,    // 37412 - 4.0.0.12319
     SMSG_SEND_MAIL_RESULT                           = 0x001A,    // 26    - 4.0.0.12319
@@ -613,7 +613,7 @@ enum Opcodes
     SMSG_BATTLEFIELD_LOSE_OBSOLETE                  = 0xC27A,    // 49786 - 4.0.0.12319
     CMSG_TAXICLEARNODE                              = 0x241,
     CMSG_TAXIENABLENODE                             = 0x242,
-    CMSG_ITEM_TEXT_QUERY                            = 0x0456,    // 1110  - 4.0.0.12319
+    CMSG_ITEM_TEXT_QUERY                            = 0x1006,    // 4102  - 4.0.0.12479
     SMSG_ITEM_TEXT_QUERY_RESPONSE                   = 0xD252,    // 53842 - 4.0.0.12319
     CMSG_MAIL_TAKE_MONEY                            = 0x020E,    // 526   - 4.0.0.12319
     CMSG_MAIL_TAKE_ITEM                             = 0xC216,    // 49686 - 4.0.0.12319
@@ -742,7 +742,7 @@ enum Opcodes
     MSG_PETITION_RENAME                             = 0x4078,    // 16504 - 4.0.0.12319
 	SMSG_INIT_WORLD_STATES                          = 0x8406,    // 33798 - 4.0.0.12319
 	SMSG_UPDATE_WORLD_STATE                         = 0x4672,    // 18034 - 4.0.0.12319
-    CMSG_ITEM_NAME_QUERY                            = 0xD40E,    // 54286 - 4.0.0.12319
+    CMSG_ITEM_NAME_QUERY                            = 0x0424,    // 1060  - 4.0.0.12479
     SMSG_ITEM_NAME_QUERY_RESPONSE                   = 0x104A,    // 4170  - 4.0.0.12319
     SMSG_PET_ACTION_FEEDBACK                        = 0x5068,    // 20584 - 4.0.0.12319
     CMSG_CHAR_RENAME                                = 0x2C7,
@@ -756,7 +756,7 @@ enum Opcodes
     CMSG_MOVE_FEATHER_FALL_ACK                      = 0x4412,    // 17426 - 4.0.0.12319
     CMSG_MOVE_WATER_WALK_ACK                        = 0x0658,    // 1624  - 4.0.0.12319
     CMSG_MOVE_NOT_ACTIVE_MOVER                      = 0x2D1,
-    SMSG_PLAY_SOUND                                 = 0x0278,    // 632   - 4.0.0.12319
+    SMSG_PLAY_SOUND                                 = 0x8406,    // 33798 - 4.0.0.12479
     CMSG_BATTLEFIELD_STATUS                         = 0x023A,    // 570   - 4.0.0.12319
     SMSG_BATTLEFIELD_STATUS                         = 0xD016,    // 53270 - 4.0.0.12319
     CMSG_BATTLEFIELD_PORT                           = 0x2D5,
@@ -785,7 +785,7 @@ enum Opcodes
     SMSG_BATTLEGROUND_PLAYER_JOINED                 = 0x865C,    // 34396 - 4.0.0.12319
     SMSG_BATTLEGROUND_PLAYER_LEFT                   = 0x4052,    // 16466 - 4.0.0.12319
     CMSG_BATTLEMASTER_JOIN                          = 0x2EE,
-    SMSG_ADDON_INFO                                 = 0xD074,    // 53364 - 4.0.0.12319
+    SMSG_ADDON_INFO                                 = 0x4022,    // 16418 - 4.0.0.12479
     CMSG_PET_UNLEARN                                = 0x2F0,
     SMSG_PET_UNLEARN_CONFIRM                        = 0x2F1,
     SMSG_PARTY_MEMBER_STATS_FULL                    = 0x1212,    // 4626  - 4.0.0.12319
@@ -797,7 +797,7 @@ enum Opcodes
     CMSG_MINIGAME_MOVE                              = 0x802C,    // 32812 - 4.0.0.12319
     SMSG_MINIGAME_MOVE_FAILED                       = 0x2F9,
     SMSG_RAID_INSTANCE_MESSAGE                      = 0xD969,    // 55657 - 4.0.0.12065
-    SMSG_COMPRESSED_MOVES                           = 0xD240,    // 53824 - 4.0.0.12319
+    SMSG_COMPRESSED_MOVES                           = 0x162E,    // 5678  - 4.0.0.12479
     CMSG_GUILD_INFO_TEXT                            = 0x2FC,
     SMSG_CHAT_RESTRICTED                            = 0x8034,    // 32820 - 4.0.0.12319
     SMSG_SPLINE_SET_RUN_SPEED                       = 0x901A,    // 36890 - 4.0.0.12319
@@ -877,7 +877,7 @@ enum Opcodes
     CMSG_ARENA_TEAM_CREATE                          = 0x348,
     SMSG_ARENA_TEAM_COMMAND_RESULT                  = 0x864C,    // 34380 - 4.0.0.12319
     UMSG_UPDATE_ARENA_TEAM_OBSOLETE                 = 0x9258,    // 37464 - 4.0.0.12319
-    CMSG_ARENA_TEAM_QUERY                           = 0x5276,    // 21110 - 4.0.0.12319
+    CMSG_ARENA_TEAM_QUERY                           = 0xC272,    // 49778 - 4.0.0.12479
     SMSG_ARENA_TEAM_QUERY_RESPONSE                  = 0x4262,    // 16994 - 4.0.0.12319
     CMSG_ARENA_TEAM_ROSTER                          = 0x34D,
     SMSG_ARENA_TEAM_ROSTER                          = 0x140C,    // 5132  - 4.0.0.12319
@@ -938,11 +938,11 @@ enum Opcodes
     SMSG_SPLINE_SET_FLIGHT_SPEED                    = 0x220,     // 544   - 4.0.0.12319
     SMSG_SPLINE_SET_FLIGHT_BACK_SPEED               = 0x964E,    // 38478 - 4.0.0.12319
     CMSG_MAELSTROM_INVALIDATE_CACHE                 = 0x387,
-    SMSG_FLIGHT_SPLINE_SYNC                         = 0x1238,    // 4664  - 4.0.0.12319
+    SMSG_FLIGHT_SPLINE_SYNC                         = 0xC064,    // 49252 - 4.0.0.12479
     CMSG_SET_TAXI_BENCHMARK_MODE                    = 0x9242,    // 37442 - 4.0.0.12319
     SMSG_JOINED_BATTLEGROUND_QUEUE                  = 0x38A,
     SMSG_REALM_SPLIT                                = 0x527C,    // 21116 - 4.0.0.12319
-    CMSG_REALM_SPLIT                                = 0x8014,    // 32788 - 4.0.0.12319
+    CMSG_REALM_SPLIT                                = 0x0246,    // 582   - 4.0.0.12479
     CMSG_MOVE_CHNG_TRANSPORT                        = 0x38D,
     MSG_PARTY_ASSIGNMENT                            = 0x4246,    // 16966 - 4.0.0.12319
     SMSG_OFFER_PETITION_ERROR                       = 0x806E,    // 32878 - 4.0.0.12319
@@ -999,7 +999,7 @@ enum Opcodes
     CMSG_CHEAT_PLAYER_LOGIN                         = 0x3C2,
     CMSG_CHEAT_PLAYER_LOOKUP                        = 0x3C3,
     SMSG_CHEAT_PLAYER_LOOKUP                        = 0x3C4,
-    SMSG_KICK_REASON                                = 0x5666,    // 22118 - 4.0.0.12319
+    SMSG_KICK_REASON                                = 0x4048,    // 16456 - 4.0.0.12479
     MSG_RAID_READY_CHECK_FINISHED                   = 0xD452,    // 54354 - 4.0.0.12319
     CMSG_COMPLAIN                                   = 0x0054,    // 84    - 4.0.0.12319
     SMSG_COMPLAIN_RESULT                            = 0x5476,    // 21622 - 4.0.0.12319
@@ -1061,7 +1061,7 @@ enum Opcodes
     CMSG_MAELSTROM_RENAME_GUILD                     = 0x400,
     CMSG_GET_MIRRORIMAGE_DATA                       = 0x401,
     SMSG_MIRRORIMAGE_DATA                           = 0xD034,    // 53300 - 4.0.0.12319
-    SMSG_FORCE_DISPLAY_UPDATE                       = 0xC03C,    // 49212 - 4.0.0.12319
+    SMSG_FORCE_DISPLAY_UPDATE                       = 0x962C,    // 38444 - 4.0.0.12479
     SMSG_SPELL_CHANCE_RESIST_PUSHBACK               = 0x404,
     CMSG_IGNORE_DIMINISHING_RETURNS_CHEAT           = 0x405,
     SMSG_IGNORE_DIMINISHING_RETURNS_CHEAT           = 0x147C,    // 5244  - 4.0.0.12319
@@ -1139,7 +1139,7 @@ enum Opcodes
     CMSG_STOP_DANCE                                 = 0x540C,    // 21516 - 4.0.0.12319
     SMSG_STOP_DANCE                                 = 0xD600,    // 54784 - 4.0.0.12319
     CMSG_SYNC_DANCE                                 = 0x450,
-    CMSG_DANCE_QUERY                                = 0x4024,    // 16420 - 4.0.0.12319
+    CMSG_DANCE_QUERY                                = 0x527E,    // 21118 - 4.0.0.12479
     SMSG_DANCE_QUERY_RESPONSE                       = 0x866C,    // 34412 - 4.0.0.12319
     SMSG_INVALIDATE_DANCE                           = 0xD604,    // 54788 - 4.0.0.12319
     CMSG_DELETE_DANCE                               = 0x454,
@@ -1185,7 +1185,7 @@ enum Opcodes
     SMSG_SET_PHASE_SHIFT                            = 0x47C,
     SMSG_ALL_ACHIEVEMENT_DATA                       = 0x47D,
     CMSG_FORCE_SAY_CHEAT                            = 0x47E,
-    SMSG_HEALTH_UPDATE                              = 0x8660,    // 34400 - 4.0.0.12319
+    SMSG_HEALTH_UPDATE                              = 0xD234,    // 53812 - 4.0.0.12479
     SMSG_POWER_UPDATE                               = 0xD040,    // 53312 - 4.0.0.12319
     CMSG_GAMEOBJ_REPORT_USE                         = 0x481,
     SMSG_HIGHEST_THREAT_UPDATE                      = 0x902A,    // 36906 - 4.0.0.12319
@@ -1229,7 +1229,7 @@ enum Opcodes
     CMSG_UNKNOWN_1192                               = 0x4A8,     // cmsg uint64
     CMSG_EJECT_PASSENGER                            = 0x4A9,     // cmsg uint64
     SMSG_PET_GUIDS                                  = 0x905E,    // 36958 - 4.0.0.12319, shifted+5
-    SMSG_CLIENTCACHE_VERSION                        = 0x9650,    // 38480 - 4.0.0.12319, shifted+5
+    SMSG_CLIENTCACHE_VERSION                        = 0x120E,    // 4622  - 4.0.0.12479, shifted+5
     UMSG_UNKNOWN_1196                               = 0x4AC,     // not found
     UMSG_UNKNOWN_1197                               = 0x4AD,     // not found
     UMSG_UNKNOWN_1198                               = 0x4AE,     // not found
@@ -1313,7 +1313,7 @@ enum Opcodes
     SMSG_UNKNOWN_1276                               = 0xC214,    // 49684 - 4.0.0.12319
     SMSG_LOOT_SLOT_CHANGED                          = 0xC032,    // 49202 - 4.0.0.12319, EVENT_LOOT_SLOT_CHANGED
     UMSG_UNKNOWN_1278                               = 0x4FE,     // not found 10596
-	CMSG_READY_FOR_ACCOUNT_DATA_TIMES               = 0xC426,    // 50214 - 4.0.0.12319
+	CMSG_READY_FOR_ACCOUNT_DATA_TIMES               = 0x0620,    // 1568  - 4.0.0.12479
     CMSG_QUERY_QUESTS_COMPLETED                     = 0x500,     // lua: QueryQuestsCompleted
     SMSG_QUERY_QUESTS_COMPLETED_RESPONSE            = 0x4646,    // 17990 - 4.0.0.12319, response to CMSG_QUERY_QUESTS_COMPLETED
     CMSG_GM_REPORT_LAG                              = 0x502,     // lua: GMReportLag
