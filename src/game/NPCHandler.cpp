@@ -686,14 +686,15 @@ void WorldSession::HandleBuyStableSlot( WorldPacket & recv_data )
     if(GetPlayer()->hasUnitState(UNIT_STAT_DIED))
         GetPlayer()->RemoveSpellsCausingAura(SPELL_AURA_FEIGN_DEATH);
 
-    WorldPacket data(SMSG_STABLE_RESULT, 200);
+    WorldPacket data(SMSG_STABLE_RESULT, 1);
+	data << uint8(0x0A);
 
-    if(GetPlayer()->m_stableSlots < MAX_PET_STABLES)
+    /*if(GetPlayer()->m_stableSlots < MAX_PET_STABLES)
     {
 		// Slot prices should implent in a db table?! 
 		// Comming in a few hours/days
 		return;
-	}
+	}*/
 
     SendPacket(&data);
 }

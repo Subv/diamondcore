@@ -757,8 +757,8 @@ struct CreatureTypeEntry
 struct CurrencyTypesEntry
 {
     //uint32    ID;                                         // 0        not used
-    uint32    Category;                                     // 1        may be category
-    //char *name;                                           // 2
+    //uint32    Category;                                   // 1        may be category
+	//char *name;                                           // 2
     //char *iconName;                                       // 3
     //uint32                                                // 4
     //uint32                                                // 5
@@ -766,7 +766,7 @@ struct CurrencyTypesEntry
     //uint32                                                // 7
     //uint32                                                // 8
     //uint32                                                // 9
-    //uint32                                                // 10
+    //char* name                                            // 10
 };
 
 struct DurabilityCostsEntry
@@ -1287,25 +1287,23 @@ struct ScalingStatValuesEntry
     uint32  Id;                                             // 0
     uint32  Level;                                          // 1
     uint32  dpsMod[6];                                      // 2-7 DPS mod for level
-	uint32  spellBonus;                                     // 8 spell power for level
-	uint32  ssdMultiplier2;                                 // 9 there's data from 3.1 dbc ssdMultiplier[3]
-	uint32  ssdMultiplier1;                                 // 10 Multiplier for ScalingStatDistribution
-    uint32  ssdMultiplier3;                                 // 11 3.3
-	uint32  ssdMultiplier[2];                               // 12-13 Multiplier for ScalingStatDistribution
+    uint32  spellBonus;                                     // 8 spell power for level
+    uint32  ssdMultiplier[5];                               // 9-13 Multiplier for ScalingStatDistribution
     uint32  armorMod[4];                                    // 14-17 Armor for level
     uint32  armorMod2[4];                                   // 18-21 Armor for level
-    //uint32[24]                                            // 22-45
-	//uint32 unk2;                                          // 46 unk, probably also Armor for level (flag 0x80000?)
+    //uint32 trash[24];                                     // 22-45
+    //uint32 unk2;                                          // 46 unk, probably also Armor for level (flag 0x80000?)
 
     uint32  getssdMultiplier(uint32 mask) const
     {
         if (mask & 0x4001F)
         {
-            if(mask & 0x00000001) return ssdMultiplier1;
-            if(mask & 0x00000002) return ssdMultiplier[0];
-            if(mask & 0x00000004) return ssdMultiplier[1];
-            if(mask & 0x00000008) return ssdMultiplier2;
-            if(mask & 0x00040000) return ssdMultiplier3;
+            if(mask & 0x00000001) return ssdMultiplier[1];
+            if(mask & 0x00000002) return ssdMultiplier[2]; // 0 and 1 were duplicated
+            if(mask & 0x00000004) return ssdMultiplier[3];
+            if(mask & 0x00000008) return ssdMultiplier[0];
+            if(mask & 0x00000010) return ssdMultiplier[4];
+            if(mask & 0x00040000) return ssdMultiplier[2]; // 4.0.0
         }
         return 0;
     }
