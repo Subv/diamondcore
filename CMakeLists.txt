@@ -148,6 +148,7 @@ src/shared
 src/framework 
 src/shared/Database 
 src/shared/vmap
+src/server
 src/main
 src/scripts
 src/scripts/base
