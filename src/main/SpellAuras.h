@@ -363,6 +363,7 @@ class Aura
         void HandlePhase(bool Apply, bool Real);
         void HandleModTargetArmorPct(bool Apply, bool Real);
         void HandleAuraModAllCritChance(bool Apply, bool Real);
+        void HandleAuraMirrorImage(bool Apply, bool Real);
         void HandleAllowOnlyAbility(bool Apply, bool Real);
 
         virtual ~Aura();

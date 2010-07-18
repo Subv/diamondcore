@@ -311,6 +311,7 @@ struct PlayerInfo
     float positionX;
     float positionY;
     float positionZ;
+    float orientation;
     uint16 displayId_m;
     uint16 displayId_f;
     PlayerCreateInfoItems item;
@@ -1212,7 +1213,7 @@ class Player : public Unit
         uint8 CanBankItem( uint8 bag, uint8 slot, ItemPosCountVec& dest, Item *pItem, bool swap, bool not_loading = true ) const;
         uint8 CanUseItem( Item *pItem, bool not_loading = true ) const;
         bool HasItemTotemCategory( uint32 TotemCategory ) const;
-        bool CanUseItem( ItemPrototype const *pItem );
+        uint8 CanUseItem( ItemPrototype const *pItem ) const;
         uint8 CanUseAmmo( uint32 item ) const;
         Item* StoreNewItem( ItemPosCountVec const& pos, uint32 item, bool update,int32 randomPropertyId = 0 );
         Item* StoreItem( ItemPosCountVec const& pos, Item *pItem, bool update );
@@ -2164,7 +2165,8 @@ class Player : public Unit
         bool CanFly() const { return m_CanFly;  }
         void SetCanFly(bool CanFly) { m_CanFly=CanFly; }
         bool IsFlying() const { return m_movementInfo.HasMovementFlag(MOVEFLAG_FLYING); }
-        bool IsKnowHowFlyIn(uint32 mapid, uint32 zone, uint32 area) const;
+        bool IsFreeFlying() const { return HasAuraType(SPELL_AURA_MOD_FLIGHT_SPEED_MOUNTED) || HasAuraType(SPELL_AURA_FLY); }
+        bool CanStartFlyInArea(uint32 mapid, uint32 zone, uint32 area) const;
 
         void SetClientControl(Unit* target, uint8 allowMove);
         void SetMover(Unit* target) { m_mover = target ? target : this; }
