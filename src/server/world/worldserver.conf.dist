@@ -71,6 +71,17 @@ BindIP = "0.0.0.0"
 LoadScripts = 1
 
 ###################################################################################################################
+# DEBUG COMMAND SETTINGS
+#
+#    Debug.Play.Sound.All.Enable
+#        Enable or disable playing sounds to all players if you use .debug play sound
+#        Default: 0 - Don't play to all
+#                 1 - Play to all
+###################################################################################################################
+
+Debug.Play.Sound.All.Enable = 0
+
+###################################################################################################################
 # PERFORMANCE SETINGS
 #
 #    UseProcessors

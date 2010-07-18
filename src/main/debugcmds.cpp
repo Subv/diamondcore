@@ -17,6 +17,7 @@
  */
 
 #include "Common.h"
+#include "Config/Config.h"
 #include "Database/DatabaseEnv.h"
 #include "WorldPacket.h"
 #include "Vehicle.h"
@@ -290,10 +291,13 @@ bool ChatHandler::HandleDebugPlaySoundCommand(const char* args)
         return false;
     }
 
-    if (m_session->GetPlayer()->GetSelection())
-        unit->PlayDistanceSound(dwSoundId,m_session->GetPlayer());
-    else
-        unit->PlayDirectSound(dwSoundId,m_session->GetPlayer());
+	bool playall = sConfig.GetBoolDefault("Debug.Play.Sound.All.Enable", true);
+
+	if (playall)
+		unit->PlayDirectSound(dwSoundId,m_session->GetPlayer());
+	else
+		unit->PlayDistanceSound(dwSoundId,m_session->GetPlayer());
+        
 
     PSendSysMessage(LANG_YOU_HEAR_SOUND, dwSoundId);
     return true;

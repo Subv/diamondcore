@@ -2626,7 +2626,7 @@ void Map::ScriptsProcess()
 
                 // when script called for item spell casting then target == (unit or GO) and source is player
                 WorldObject* worldObject;
-                Player* player;
+                Player* player = NULL;
 
                 if (target->GetTypeId() == TYPEID_PLAYER)
                 {
