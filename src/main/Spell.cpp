@@ -1560,7 +1560,7 @@ void Spell::SetTargetMap(SpellEffectIndex effIndex, uint32 targetMode, UnitList&
                 case 70834:                                 // Bone Storm
                 case 70835:                                 // Bone Storm
                 case 70836:                                 // Bone Storm
-                    radius = ATTACK_DISTANCE + 1;
+                    radius = DEFAULT_VISIBILITY_INSTANCE;
                     break;
                 case 72350:                                 // Fury of Frostmourne
                 case 72351:                                 // Fury of Frostmourne 
@@ -2047,6 +2047,11 @@ void Spell::SetTargetMap(SpellEffectIndex effIndex, uint32 targetMode, UnitList&
                 uint32 count = CalculateDamage(EFFECT_INDEX_2,m_caster); // stored in dummy effect, affected by mods
 
                 FillRaidOrPartyHealthPriorityTargets(targetUnitMap, m_caster, target, radius, count, true, false, true);
+            }
+            // Item - Icecrown 25 Heroic/Normal Healer Trinket 2
+            else if (m_spellInfo->Id == 71641 || m_spellInfo->Id == 71610)
+            {
+                FillRaidOrPartyHealthPriorityTargets(targetUnitMap, m_caster, m_caster, radius, 1, true, false, false);
             }
             else
                 FillAreaTargets(targetUnitMap, m_targets.m_destX, m_targets.m_destY, radius, PUSH_DEST_CENTER, SPELL_TARGETS_FRIENDLY);
@@ -2702,6 +2707,19 @@ void Spell::prepare(SpellCastTargets const* targets, Aura* triggeredByAura)
     if(m_caster->IsNonMeleeSpellCasted(false, true, true) && m_cast_count)
     {
         SendCastResult(SPELL_FAILED_SPELL_IN_PROGRESS);
+        finish(false);
+        return;
+    }
+
+    if(uint8 result = sObjectMgr.IsSpellDisabled(m_spellInfo->Id))
+    {
+        if(m_caster->GetTypeId() == TYPEID_PLAYER)
+        {
+            sLog.outDebug("Player %s cast a spell %u which was disabled by server administrator",   m_caster->GetName(), m_spellInfo->Id);
+            if(result == 2)
+            sLog.outChar("Player %s cast a spell %u which was disabled by server administrator and marked as CheatSpell",   m_caster->GetName(), m_spellInfo->Id);
+        }
+        SendCastResult(SPELL_FAILED_SPELL_UNAVAILABLE);
         finish(false);
         return;
     }
@@ -5104,6 +5122,17 @@ SpellCastResult Spell::CheckCast(bool strict)
 
                 break;
             }
+            case SPELL_EFFECT_SUMMON_OBJECT_SLOT1:
+            case SPELL_EFFECT_SUMMON_OBJECT_SLOT2:
+            case SPELL_EFFECT_SUMMON_OBJECT_SLOT3:
+            case SPELL_EFFECT_SUMMON_OBJECT_SLOT4:
+            {
+                if (m_caster->GetTypeId() == TYPEID_PLAYER)
+                    if (((Player*)m_caster)->HasMovementFlag(MOVEFLAG_ONTRANSPORT))
+                        return SPELL_FAILED_CANT_DO_THAT_RIGHT_NOW;
+                    
+                break;
+            }
             case SPELL_EFFECT_SUMMON_PET:
             {
                 if(m_caster->GetPetGUID())                  //let warlock do a replacement summon
@@ -5167,9 +5196,14 @@ SpellCastResult Spell::CheckCast(bool strict)
 
                 // not allow use this effect at battleground until battleground start
                 if(m_caster->GetTypeId() == TYPEID_PLAYER)
+                {
                     if(BattleGround const *bg = ((Player*)m_caster)->GetBattleGround())
                         if(bg->GetStatus() != STATUS_IN_PROGRESS)
                             return SPELL_FAILED_TRY_AGAIN;
+
+                    if(((Player*)m_caster)->HasMovementFlag(MOVEFLAG_ONTRANSPORT))
+                        return SPELL_FAILED_CANT_DO_THAT_RIGHT_NOW;
+                }
                 break;
             }
             case SPELL_EFFECT_STEAL_BENEFICIAL_BUFF:

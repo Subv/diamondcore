@@ -592,6 +592,7 @@ class ObjectMgr
 
         WorldSafeLocsEntry const *GetClosestGraveYard(float x, float y, float z, uint32 MapId, uint32 team);
         bool AddGraveYardLink(uint32 id, uint32 zone, uint32 team, bool inDB = true);
+        void RemoveGraveYardLink(uint32 id, uint32 zone, uint32 team, bool inDB = false);
         void LoadGraveyardZones();
         GraveYardData const* FindGraveYardData(uint32 id, uint32 zone);
 
@@ -899,6 +900,8 @@ class ObjectMgr
         void RemoveCreatureFromGrid(uint32 guid, CreatureData const* data);
         void AddGameobjectToGrid(uint32 guid, GameObjectData const* data);
         void RemoveGameobjectFromGrid(uint32 guid, GameObjectData const* data);
+        uint32 AddGOData(uint32 entry, uint32 map, float x, float y, float z, float o, uint32 spawntimedelay = 0, float rotation0 = 0, float rotation1 = 0, float rotation2 = 0, float rotation3 = 0);
+        uint32 AddCreData(uint32 entry, uint32 team, uint32 map, float x, float y, float z, float o, uint32 spawntimedelay = 0);
 
         // reserved names
         void LoadReservedPlayersNames();
@@ -910,6 +913,20 @@ class ObjectMgr
         static bool IsValidCharterName( const std::string& name );
 
         static bool CheckDeclinedNames(std::wstring mainpart, DeclinedName const& names);
+
+        void LoadSpellDisabledEntrys();
+        uint8 IsSpellDisabled(uint32 spellid)
+        {
+            uint8 result=0;
+            SpellDisabledMap::const_iterator itr = m_spell_disabled.find(spellid);
+            if(itr != m_spell_disabled.end())
+            {
+                result=1;
+                if(itr->second != 0)
+                    result=2;
+            }
+            return result;
+        }
 
         int GetIndexForLocale(LocaleConstant loc);
         LocaleConstant GetLocaleForIndex(int i);
@@ -960,9 +977,9 @@ class ObjectMgr
 
             return &iter->second;
         }
-        void AddVendorItem(uint32 entry,uint32 item, uint32 maxcount, uint32 incrtime, int32 ExtendedCost);
+        void AddVendorItem(uint32 entry,uint32 item, uint32 maxcount, uint32 incrtime, uint32 ExtendedCost);
         bool RemoveVendorItem(uint32 entry,uint32 item);
-        bool IsVendorItemValid( uint32 vendor_entry, uint32 item, uint32 maxcount, uint32 ptime, int32 ExtendedCost, Player* pl = NULL, std::set<uint32>* skip_vendors = NULL ) const;
+        bool IsVendorItemValid( uint32 vendor_entry, uint32 item, uint32 maxcount, uint32 ptime, uint32 ExtendedCost, Player* pl = NULL, std::set<uint32>* skip_vendors = NULL ) const;
 
         void LoadScriptNames();
         ScriptNameMap &GetScriptNames() { return m_scriptNames; }
@@ -1064,6 +1081,9 @@ class ObjectMgr
         //character reserved names
         typedef std::set<std::wstring> ReservedNamesMap;
         ReservedNamesMap    m_ReservedNames;
+
+        typedef UNORDERED_MAP<uint32, uint32> SpellDisabledMap;
+        SpellDisabledMap  m_spell_disabled;
 
         GraveYardMap        mGraveYardMap;
 

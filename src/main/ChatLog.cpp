@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005,2006,2007 MaNGOS <http://www.mangosproject.org/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -726,7 +726,7 @@ void ChatLog::ChatBadLexicsAction(Player* player, std::string& msg)
     if (LexicsCutterNoActionOnGM && player->GetSession()->GetSecurity()) return;
 
     // special action
-    const SpellEntry* sl;
+    const SpellEntry* sl = 0;
 
     switch (LexicsCutterAction)
     {

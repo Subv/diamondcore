@@ -41,6 +41,7 @@
 #include "Util.h"
 #include "Totem.h"
 #include "BattleGround.h"
+#include "OutdoorPvP.h"
 #include "InstanceSaveMgr.h"
 #include "GridNotifiersImpl.h"
 #include "CellImpl.h"
@@ -933,6 +934,10 @@ uint32 Unit::DealDamage(Unit *pVictim, uint32 damage, CleanDamage const* cleanDa
 
             he->DuelComplete(DUEL_INTERUPTED);
         }
+
+        if (player_tap && this != pVictim)
+            if (OutdoorPvP * pvp = player_tap->GetOutdoorPvP())
+                pvp->HandleKill(player_tap, pVictim);
 
         // battleground things (do this at the end, so the death state flag will be properly set to handle in the bg->handlekill)
         if(pVictim->GetTypeId() == TYPEID_PLAYER && ((Player*)pVictim)->InBattleGround())
@@ -4571,7 +4576,7 @@ void Unit::RemoveNotOwnSingleTargetAuras(uint32 newPhase)
             if(!newPhase)
             {
                 RemoveSpellAuraHolder(iter->second);
-                m_spellAuraHolders.begin();
+                iter = m_spellAuraHolders.begin();
             }
             else
             {
@@ -4579,7 +4584,7 @@ void Unit::RemoveNotOwnSingleTargetAuras(uint32 newPhase)
                 if(!caster || !caster->InSamePhase(newPhase))
                 {
                     RemoveSpellAuraHolder(iter->second);
-                    m_spellAuraHolders.begin();
+                    iter = m_spellAuraHolders.begin();
                 }
                 else
                     ++iter;
@@ -9647,15 +9652,22 @@ void Unit::ProcDamageAndSpellFor( bool isVictim, Unit * pTarget, uint32 procFlag
                             (spellProcEvent->spellFamilyMask2[i] & procSpell->SpellFamilyFlags2) == 0)
                             continue;
                     }
-                    else if (!spellProcEvent->schoolMask && !triggeredByAura->isAffectedOnSpell(procSpell))
+                    else if (!spellProcEvent->schoolMask && !triggeredByAura->CanProcFrom(procSpell))
                         continue;
                 }
-                else if (!triggeredByAura->isAffectedOnSpell(procSpell))
+                else if (!triggeredByAura->CanProcFrom(procSpell))
                     continue;
             }
 
-            if (!(*this.*AuraProcHandler[auraModifier->m_auraname])(pTarget, damage, triggeredByAura, procSpell, procFlag, procExtra, cooldown))
-                procSuccess = false;
+            SpellAuraProcResult procResult = (*this.*AuraProcHandler[auraModifier->m_auraname])(pTarget, damage, triggeredByAura, procSpell, procFlag, procExtra, cooldown);
+            switch (procResult)
+            {
+                case SPELL_AURA_PROC_CANT_TRIGGER:
+                    continue;
+                case SPELL_AURA_PROC_FAILED:
+                    procSuccess = false;
+                    break;
+            }
 
             anyAuraProc = true;
             triggeredByAura->SetInUse(false);

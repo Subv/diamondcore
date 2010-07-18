@@ -55,6 +55,7 @@ class Vehicle;
 class InstanceSave;
 class Spell;
 class Item;
+class OutdoorPvP;
 
 typedef std::deque<Mail*> PlayerMails;
 
@@ -1680,7 +1681,8 @@ class Player : public Unit
         static bool IsActionButtonDataValid(uint8 button, uint32 action, uint8 type, Player* player, bool msg = true);
         ActionButton* addActionButton(uint8 spec, uint8 button, uint32 action, uint8 type);
         void removeActionButton(uint8 spec, uint8 button);
-        void SendInitialActionButtons() const;
+        void SendActionButtons(uint32 state) const;
+        void SendInitialActionButtons() const { SendActionButtons(1); }
         ActionButton const* GetActionButton(uint8 button);
 
         PvPInfo pvpInfo;
@@ -1906,6 +1908,7 @@ class Player : public Unit
 
         static uint32 TeamForRace(uint8 race);
         uint32 GetTeam() const { return m_team; }
+        TeamId GetTeamId() const { return m_team == ALLIANCE ? TEAM_ALLIANCE : TEAM_HORDE; }
         static uint32 getFactionForRace(uint8 race);
         void setFactionForRace(uint8 race);
 
@@ -2118,6 +2121,14 @@ class Player : public Unit
 
         bool GetRandomWinner() { return m_IsBGRandomWinner; }
         void SetRandomWinner(bool isWinner);
+
+        /*********************************************************/
+        /***               OUTDOOR PVP SYSTEM                  ***/
+        /*********************************************************/
+
+        OutdoorPvP * GetOutdoorPvP() const;
+        // returns true if the player is in active state for outdoor pvp objective capturing, false otherwise
+        bool IsOutdoorPvPActive();
 
         /*********************************************************/
         /***                    REST SYSTEM                    ***/

@@ -38,6 +38,7 @@
 #include "Creature.h"
 #include "Formulas.h"
 #include "BattleGround.h"
+#include "OutdoorPvPMgr.h"
 #include "CreatureAI.h"
 #include "ScriptMgr.h"
 #include "Util.h"
@@ -907,6 +908,29 @@ bool Aura::isAffectedOnSpell(SpellEntry const *spell) const
         return true;
     if (ptr[2] & spell->SpellFamilyFlags2)
         return true;
+    return false;
+}
+
+bool Aura::CanProcFrom(SpellEntry const *spell) const
+{
+    // Check EffectClassMask
+    uint32 const *ptr = getAuraSpellClassMask();
+
+    // if no class mask defined - allow proc
+    if (!((uint64*)ptr)[0] && !ptr[2])
+        return true;
+    else
+    {
+        // Check family name
+        if (spell->SpellFamilyName != GetSpellProto()->SpellFamilyName)
+            return false;
+
+        if (((uint64*)ptr)[0] & spell->SpellFamilyFlags)
+            return true;
+
+        if (ptr[2] & spell->SpellFamilyFlags2)
+            return true;
+    }
     return false;
 }
 
@@ -2169,10 +2193,14 @@ void Aura::HandleAuraDummy(bool apply, bool Real)
             }
             case 58600:                                     // Restricted Flight Area
             {
-                // Remove Flight Auras
-                target->CastSpell(target, 58601, true);
-                // Parachute
-                target->CastSpell(target, 45472, true);
+                AreaTableEntry const* area = GetAreaEntryByAreaID(target->GetAreaId());
+
+                // Dalaran restricted flight zone (recheck before apply unmount)
+                if (area && target->GetTypeId() == TYPEID_PLAYER && (area->flags & AREA_FLAG_CANNOT_FLY) &&
+                    ((Player*)target)->IsFreeFlying() && !((Player*)target)->isGameMaster())
+                {
+                    target->CastSpell(target, 58601, true); // Remove Flight Auras (also triggered Parachute (45472))
+                }
                 return;
             }
         }
@@ -4392,6 +4420,8 @@ void Aura::HandleAuraModEffectImmunity(bool apply, bool /*Real*/)
     {
         if( BattleGround *bg = ((Player*)target)->GetBattleGround() )
             bg->EventPlayerDroppedFlag(((Player*)target));
+        else
+            sOutdoorPvPMgr.HandleDropFlag((Player*)target,GetSpellProto()->Id);
     }
 
     target->ApplySpellImmune(GetId(), IMMUNITY_EFFECT, m_modifier.m_miscvalue, apply);

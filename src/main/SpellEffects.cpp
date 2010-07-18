@@ -46,6 +46,8 @@
 #include "BattleGround.h"
 #include "BattleGroundEY.h"
 #include "BattleGroundWS.h"
+#include "OutdoorPvPMgr.h"
+#include "VMapFactory.h"
 #include "Language.h"
 #include "SocialMgr.h"
 #include "VMapFactory.h"
@@ -390,6 +392,16 @@ void Spell::EffectSchoolDMG(SpellEffectIndex effect_idx)
                     {
                         float distance = unitTarget->GetDistance2d(m_caster); 
                         damage *= exp(-distance/(5.0f*m_caster->GetObjectScale()));
+                        break;
+                    }
+                    // Bone Storm
+                    case 69075:
+                    case 70834:
+                    case 70835:
+                    case 70836:
+                    {
+                        float distance = unitTarget->GetDistance2d(m_caster); 
+                        damage *= exp(-distance/(10.0f));
                         break;
                     }
                 }
@@ -3743,6 +3755,12 @@ void Spell::EffectOpenLock(SpellEffectIndex eff_idx)
                 return;
             }
         }
+        // TODO: Add script for spell 41920 - Filling, becouse server it freze when use this spell
+        // handle outdoor pvp object opening, return true if go was registered for handling
+        // these objects must have been spawned by outdoorpvp!
+        else if(gameObjTarget->GetGOInfo()->type == GAMEOBJECT_TYPE_GOOBER && sOutdoorPvPMgr.HandleOpenGo(player, gameObjTarget->GetGUID()))
+            return;
+
         lockId = goInfo->GetLockId();
         guid = gameObjTarget->GetGUID();
     }

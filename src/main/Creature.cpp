@@ -38,6 +38,7 @@
 #include "WaypointMovementGenerator.h"
 #include "InstanceData.h"
 #include "BattleGroundMgr.h"
+#include "OutdoorPvPMgr.h"
 #include "Spell.h"
 #include "Util.h"
 #include "GridNotifiers.h"
@@ -74,7 +75,7 @@ bool VendorItemData::RemoveItem( uint32 item_id )
     return found;
 }
 
-VendorItem const* VendorItemData::FindItemCostPair(uint32 item_id, int32 extendedCost) const
+VendorItem const* VendorItemData::FindItemCostPair(uint32 item_id, uint32 extendedCost) const
 {
     for(VendorItemList::const_iterator i = m_items.begin(); i != m_items.end(); ++i )
         if((*i)->item == item_id && (*i)->ExtendedCost == extendedCost)
@@ -146,7 +147,12 @@ void Creature::AddToWorld()
 {
     ///- Register the creature for guid lookup
     if(!IsInWorld() && GetObjectGuid().GetHigh() == HIGHGUID_UNIT)
+    {
+        if(m_zoneScript)
+            m_zoneScript->OnCreatureCreate(this, true);
+
         GetMap()->GetObjectsStore().insert<Creature>(GetGUID(), (Creature*)this);
+    }
 
     Unit::AddToWorld();
 }
@@ -155,7 +161,12 @@ void Creature::RemoveFromWorld()
 {
     ///- Remove the creature from the accessor
     if(IsInWorld() && GetObjectGuid().GetHigh() == HIGHGUID_UNIT)
+    {
+        if(m_zoneScript)
+            m_zoneScript->OnCreatureCreate(this, false);
+
         GetMap()->GetObjectsStore().erase<Creature>(GetGUID(), (Creature*)NULL);
+    }
 
     Unit::RemoveFromWorld();
 }
@@ -1102,6 +1113,14 @@ float Creature::GetSpellDamageMod(int32 Rank)
 
 bool Creature::CreateFromProto(uint32 guidlow, uint32 Entry, uint32 team, const CreatureData *data)
 {
+    SetZoneScript();
+    if(m_zoneScript && data)
+    {
+        Entry = m_zoneScript->GetCreatureEntry(guidlow, data);
+        if(!Entry)
+            return false;
+    }
+
     CreatureInfo const *cinfo = ObjectMgr::GetCreatureTemplate(Entry);
     if(!cinfo)
     {

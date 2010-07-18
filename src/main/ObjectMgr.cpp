@@ -1303,6 +1303,111 @@ void ObjectMgr::RemoveCreatureFromGrid(uint32 guid, CreatureData const* data)
     }
 }
 
+uint32 ObjectMgr::AddGOData(uint32 entry, uint32 mapId, float x, float y, float z, float o, uint32 spawntimedelay, float rotation0, float rotation1, float rotation2, float rotation3)
+{
+    GameObjectInfo const* goinfo = GetGameObjectInfo(entry);
+    if (!goinfo)
+        return 0;
+
+    //Map* map = const_cast<Map*>(MapManager::Instance().CreateBaseMap(mapId));
+    Map * map = const_cast<Map*>(sMapMgr.CreateBaseMap(mapId));
+    if(!map)
+        return 0;
+
+    uint32 guid = GenerateLowGuid(HIGHGUID_GAMEOBJECT);
+    GameObjectData& data = NewGOData(guid);
+    data.id             = entry;
+    data.mapid          = mapId;
+    data.posX           = x;
+    data.posY           = y;
+    data.posZ           = z;
+    data.orientation    = o;
+    data.rotation0      = rotation0;
+    data.rotation1      = rotation1;
+    data.rotation2      = rotation2;
+    data.rotation3      = rotation3;
+    data.spawntimesecs  = spawntimedelay;
+    data.animprogress   = 100;
+    data.spawnMask      = 1;
+    data.go_state       = GO_STATE_READY;
+    data.phaseMask      = PHASEMASK_NORMAL;
+    data.artKit         = goinfo->type == GAMEOBJECT_TYPE_CAPTURE_POINT ? 21 : 0;
+    data.dbData = false;
+
+    AddGameobjectToGrid(guid, &data);
+
+    // Spawn if necessary (loaded grids only)
+    // We use spawn coords to spawn
+    if(!map->Instanceable() && map->IsLoaded(x, y))
+    {
+        GameObject *go = new GameObject;
+        if (!go->LoadFromDB(guid, map))
+        {
+            sLog.outError("AddGOData: cannot add gameobject entry %u to map", entry);
+            delete go;
+            return 0;
+        }
+        map->Add(go);
+    }
+
+    sLog.outDebug("AddGOData: dbguid %u entry %u map %u x %f y %f z %f o %f", guid, entry, mapId, x, y, z, o);
+
+    return guid;
+}
+
+uint32 ObjectMgr::AddCreData(uint32 entry, uint32 team, uint32 mapId, float x, float y, float z, float o, uint32 spawntimedelay)
+{
+    CreatureInfo const *cInfo = GetCreatureTemplate(entry);
+    if(!cInfo)
+        return 0;
+
+    uint32 level = cInfo->minlevel == cInfo->maxlevel ? cInfo->minlevel : urand(cInfo->minlevel, cInfo->maxlevel); // Only used for extracting creature base stats
+    //CreatureBaseStats const* stats = objmgr.GetCreatureBaseStats(level, cInfo->unit_class);
+
+    uint32 guid = GenerateLowGuid(HIGHGUID_UNIT);
+    CreatureData& data = NewOrExistCreatureData(guid);
+    data.id = entry;
+    data.mapid = mapId;
+    data.displayid = 0;
+    data.equipmentId = cInfo->equipmentId;
+    data.posX = x;
+    data.posY = y;
+    data.posZ = z;
+    data.orientation = o;
+    data.spawntimesecs = spawntimedelay;
+    data.spawndist = 0;
+    data.currentwaypoint = 0;
+    data.curhealth = 1;
+    data.curmana = 1;
+    data.is_dead = false;
+    data.movementType = cInfo->MovementType;
+    data.spawnMask = 1;
+    data.phaseMask = PHASEMASK_NORMAL;
+    data.dbData = false;
+
+    AddCreatureToGrid(guid, &data);
+
+    // Spawn if necessary (loaded grids only)
+    //if(Map* map = const_cast<Map*>(MapManager::Instance().CreateBaseMap(mapId)))
+    if(Map * map = const_cast<Map*>(sMapMgr.CreateBaseMap(mapId)))
+    {
+        // We use spawn coords to spawn
+        if(!map->Instanceable() && !map->IsRemovalGrid(x, y))
+        {
+            Creature* creature = new Creature;
+            if(!creature->LoadFromDB(guid, map))
+            {
+                sLog.outError("AddCreature: cannot add creature entry %u to map", entry);
+                delete creature;
+                return 0;
+            }
+            map->Add(creature);
+        }
+    }
+
+    return guid;
+}
+
 void ObjectMgr::LoadGameobjects()
 {
     uint32 count = 0;
@@ -1393,10 +1498,10 @@ void ObjectMgr::LoadGameobjects()
         if (data.spawnMask & ~spawnMasks[data.mapid])
             sLog.outErrorDb("Table `gameobject_spawns` have gameobject (GUID: %u Entry: %u) that have wrong spawn mask %u including not supported difficulty modes for map (Id: %u), skip", guid, data.id, data.spawnMask, data.mapid);
 
-        if (data.spawntimesecs == 0 && gInfo->IsDespawnAtAction())
-        {
-            sLog.outErrorDb("Table `gameobject_spawns` have gameobject (GUID: %u Entry: %u) with `spawntimesecs` (0) value, but gameobejct marked as despawnable at action.", guid, data.id);
-        }
+        //if (data.spawntimesecs == 0 && gInfo->IsDespawnAtAction())
+        //{
+        //    sLog.outErrorDb("Table `gameobject_spawns` have gameobject (GUID: %u Entry: %u) with `spawntimesecs` (0) value, but gameobejct marked as despawnable at action.", guid, data.id);
+        //}
 
         data.animprogress   = fields[12].GetUInt32();
 
@@ -5612,6 +5717,53 @@ bool ObjectMgr::AddGraveYardLink(uint32 id, uint32 zoneId, uint32 team, bool inD
     return true;
 }
 
+void ObjectMgr::RemoveGraveYardLink(uint32 id, uint32 zoneId, uint32 team, bool inDB)
+{
+    GraveYardMap::iterator graveLow  = mGraveYardMap.lower_bound(zoneId);
+    GraveYardMap::iterator graveUp   = mGraveYardMap.upper_bound(zoneId);
+    if(graveLow==graveUp)
+    {
+        //sLog.outErrorDb("Table `game_graveyard_zone` incomplete: Zone %u Team %u does not have a linked graveyard.",zoneId,team);
+        return;
+    }
+
+    bool found = false;
+
+    GraveYardMap::iterator itr;
+
+    for (itr = graveLow; itr != graveUp; ++itr)
+    {
+        GraveYardData & data = itr->second;
+
+        // skip not matching safezone id
+        if(data.safeLocId != id)
+            continue;
+
+        // skip enemy faction graveyard at same map (normal area, city, or battleground)
+        // team == 0 case can be at call from .neargrave
+        if(data.team != 0 && team != 0 && data.team != team)
+            continue;
+
+        found = true;
+        break;
+    }
+
+    // no match, return
+    if(!found)
+        return;
+
+    // remove from links
+    mGraveYardMap.erase(itr);
+
+    // remove link from DB
+    if(inDB)
+    {
+        WorldDatabase.PExecute("DELETE FROM game_graveyard_zone WHERE id = '%u' AND ghost_zone = '%u' AND faction = '%u'",id,zoneId,team);
+    }
+
+    return;
+}
+
 void ObjectMgr::LoadAreaTriggerTeleports()
 {
     mAreaTriggers.clear();                                  // need for reload case
@@ -7394,6 +7546,46 @@ const char *ObjectMgr::GetString(int32 entry, int locale_idx) const
     return "<error>";
 }
 
+void ObjectMgr::LoadSpellDisabledEntrys()
+{
+    m_spell_disabled.clear();                                // need for reload case
+    QueryResult *result = WorldDatabase.Query("SELECT entry, ischeat_spell FROM spell_disabled where active=1");
+
+    uint32 total_count = 0;
+    uint32 cheat_spell_count=0;
+
+    if( !result )
+    {
+        //barGoLink bar( 1 );
+        //bar.step();
+
+        sLog.outString();
+        sLog.outString( ">> Loaded %u disabled spells", total_count );
+        return;
+    }
+
+    //barGoLink bar( result->GetRowCount() );
+
+    Field* fields;
+    do
+    {
+        //bar.step();
+        fields = result->Fetch();
+        uint32 spellid = fields[0].GetUInt32();
+        bool ischeater = fields[1].GetBool();
+        m_spell_disabled[spellid] = ischeater;
+        ++total_count;
+        if(ischeater)
+        ++cheat_spell_count;
+
+    } while ( result->NextRow() );
+
+    delete result;
+
+    sLog.outString();
+    sLog.outString( ">> Loaded %u disabled spells ( %u - is cheaters spells)", total_count, cheat_spell_count);
+}
+
 void ObjectMgr::LoadFishingBaseSkillLevel()
 {
     mFishingBaseForArea.clear();                            // for reload case
@@ -8190,7 +8382,7 @@ void ObjectMgr::LoadVendors()
         uint32 item_id      = fields[1].GetUInt32();
         uint32 maxcount     = fields[2].GetUInt32();
         uint32 incrtime     = fields[3].GetUInt32();
-        int32  ExtendedCost = fields[4].GetInt32();
+        uint32 ExtendedCost = fields[4].GetUInt32();
 
         if(!IsVendorItemValid(entry,item_id,maxcount,incrtime,ExtendedCost,NULL,&skip_vendors))
             continue;
@@ -8468,12 +8660,12 @@ void ObjectMgr::LoadGossipMenuItems()
     sLog.outString(">> Loaded %u gossip_menu_option entries", count);
 }
 
-void ObjectMgr::AddVendorItem( uint32 entry,uint32 item, uint32 maxcount, uint32 incrtime, int32 extendedcost )
+void ObjectMgr::AddVendorItem( uint32 entry,uint32 item, uint32 maxcount, uint32 incrtime, uint32 extendedcost )
 {
     VendorItemData& vList = m_mCacheVendorItemMap[entry];
     vList.AddItem(item,maxcount,incrtime,extendedcost);
 
-    WorldDatabase.PExecuteLog("INSERT INTO npc_vendor (entry,item,maxcount,incrtime,extendedcost) VALUES('%u','%u','%u','%u','%i')",entry, item, maxcount,incrtime,extendedcost);
+    WorldDatabase.PExecuteLog("INSERT INTO npc_vendor (entry,item,maxcount,incrtime,extendedcost) VALUES('%u','%u','%u','%u','%u')",entry, item, maxcount,incrtime,extendedcost);
 }
 
 bool ObjectMgr::RemoveVendorItem( uint32 entry,uint32 item )
@@ -8489,7 +8681,7 @@ bool ObjectMgr::RemoveVendorItem( uint32 entry,uint32 item )
     return true;
 }
 
-bool ObjectMgr::IsVendorItemValid( uint32 vendor_entry, uint32 item_id, uint32 maxcount, uint32 incrtime, int32 ExtendedCost, Player* pl, std::set<uint32>* skip_vendors ) const
+bool ObjectMgr::IsVendorItemValid( uint32 vendor_entry, uint32 item_id, uint32 maxcount, uint32 incrtime, uint32 ExtendedCost, Player* pl, std::set<uint32>* skip_vendors ) const
 {
     CreatureInfo const* cInfo = GetCreatureTemplate(vendor_entry);
     if(!cInfo)
@@ -8521,18 +8713,18 @@ bool ObjectMgr::IsVendorItemValid( uint32 vendor_entry, uint32 item_id, uint32 m
         if(pl)
             ChatHandler(pl).PSendSysMessage(LANG_ITEM_NOT_FOUND, item_id);
         else
-            sLog.outErrorDb("Table `npc_vendor` for vendor (Entry: %u) contain nonexistent item (%u), ignoring",vendor_entry,item_id);
+            sLog.outErrorDb("Table `npc_vendor` for vendor (Entry: %u) contain nonexistent item (%u), ignoring",
+                vendor_entry, item_id);
         return false;
     }
 
-    uint32 extCostId = std::abs(ExtendedCost);              // negative exclude for vendor price money part
-
-    if(extCostId && !sItemExtendedCostStore.LookupEntry(extCostId))
+    if(ExtendedCost && !sItemExtendedCostStore.LookupEntry(ExtendedCost))
     {
         if(pl)
-            ChatHandler(pl).PSendSysMessage(LANG_EXTENDED_COST_NOT_EXIST,extCostId);
+            ChatHandler(pl).PSendSysMessage(LANG_EXTENDED_COST_NOT_EXIST,ExtendedCost);
         else
-            sLog.outErrorDb("Table `npc_vendor` contain item (Entry: %u) with wrong ExtendedCost (%u) for vendor (%u), ignoring",item_id,extCostId,vendor_entry);
+            sLog.outErrorDb("Table `npc_vendor` contain item (Entry: %u) with wrong ExtendedCost (%u) for vendor (%u), ignoring",
+                item_id, ExtendedCost, vendor_entry);
         return false;
     }
 
@@ -8541,7 +8733,8 @@ bool ObjectMgr::IsVendorItemValid( uint32 vendor_entry, uint32 item_id, uint32 m
         if(pl)
             ChatHandler(pl).PSendSysMessage("MaxCount!=0 (%u) but IncrTime==0", maxcount);
         else
-            sLog.outErrorDb( "Table `npc_vendor` has `maxcount` (%u) for item %u of vendor (Entry: %u) but `incrtime`=0, ignoring", maxcount, item_id, vendor_entry);
+            sLog.outErrorDb( "Table `npc_vendor` has `maxcount` (%u) for item %u of vendor (Entry: %u) but `incrtime`=0, ignoring",
+                maxcount, item_id, vendor_entry);
         return false;
     }
     else if(maxcount==0 && incrtime > 0)
@@ -8549,7 +8742,8 @@ bool ObjectMgr::IsVendorItemValid( uint32 vendor_entry, uint32 item_id, uint32 m
         if(pl)
             ChatHandler(pl).PSendSysMessage("MaxCount==0 but IncrTime<>=0");
         else
-            sLog.outErrorDb( "Table `npc_vendor` has `maxcount`=0 for item %u of vendor (Entry: %u) but `incrtime`<>0, ignoring", item_id, vendor_entry);
+            sLog.outErrorDb( "Table `npc_vendor` has `maxcount`=0 for item %u of vendor (Entry: %u) but `incrtime`<>0, ignoring",
+                item_id, vendor_entry);
         return false;
     }
 

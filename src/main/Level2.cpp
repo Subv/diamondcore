@@ -1160,7 +1160,7 @@ bool ChatHandler::HandleNpcAddVendorItemCommand(const char* args)
         incrtime = atol(fincrtime);
 
     char* fextendedcost = strtok(NULL, " ");                //add ExtendedCost, default: 0
-    int32 extendedcost = fextendedcost ? atol(fextendedcost) : 0;
+    uint32 extendedcost = fextendedcost ? atol(fextendedcost) : 0;
 
     Creature* vendor = getSelectedCreature();
 
@@ -2267,7 +2267,7 @@ bool ChatHandler::HandleGoTicketCommand(const char * args)
     mapid = ticket->map;
 
     Player* _player = m_session->GetPlayer();
-    if (_player->isInFlight())
+	if (_player->IsTaxiFlying())
     {
         _player->GetMotionMaster()->MovementExpired();
         //_player->CleanupAfterTaxiFlight();

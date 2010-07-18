@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2005,2006,2007 MaNGOS <http://www.mangosproject.org/>
+ * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#ifndef MANGOSSERVER_CHATLEXICSCUTTER_H
-#define MANGOSSERVER_CHATLEXICSCUTTER_H
+#ifndef DIAMOND_CHATLEXICSCUTTER_H
+#define DIAMOND_CHATLEXICSCUTTER_H
 
 typedef std::vector< std::string > LC_AnalogVector;
 typedef std::map< std::string, LC_AnalogVector > LC_AnalogMap;
