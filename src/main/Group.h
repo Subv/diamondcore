@@ -367,7 +367,7 @@ class Group
         void NeedBeforeGreed(WorldObject* object, Loot *loot);
         void MasterLoot(WorldObject* object, Loot *loot);
         bool CountRollVote(Player *player, ObjectGuid const& lootedTarget, uint32 itemSlot, RollVote vote);
-        void StartLootRool(Creature* lootTarget, LootMethod method, Loot* loot, uint8 itemSlot, uint32 maxEnchantingSkill);
+        void StartLootRool(WorldObject* lootTarget, LootMethod method, Loot* loot, uint8 itemSlot, uint32 maxEnchantingSkill);
         void EndRoll();
 
         void LinkMember(GroupReference *pRef) { m_memberMgr.insertFirst(pRef); }

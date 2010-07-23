@@ -7249,6 +7249,9 @@ void Player::_ApplyItemBonuses(ItemPrototype const *proto, uint8 slot, bool appl
             case ITEM_MOD_BLOCK_VALUE:
                 HandleBaseModValue(SHIELD_BLOCK_VALUE, FLAT_MOD, float(val), apply);
                 break;
+            case ITEM_MOD_SPELL_PENETRATION:
+                ApplyModInt32Value(PLAYER_FIELD_MOD_TARGET_RESISTANCE, int32(-val), apply);
+                break;
             // depricated item mods
             case ITEM_MOD_FERAL_ATTACK_POWER:
             case ITEM_MOD_SPELL_HEALING_DONE:
@@ -7987,46 +7990,48 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type)
                     loot->clear();
                     loot->FillLoot(lootid, LootTemplates_Gameobject, this, false);
                     loot->generateMoneyLoot(go->GetGOInfo()->MinMoneyLoot, go->GetGOInfo()->MaxMoneyLoot);
-
-                    if (Group* group = this->GetGroup())
-                    {
-                            if (go->GetGoType() == GAMEOBJECT_TYPE_CHEST)
-                            {
-                                if (go->GetGOInfo()->chest.groupLootRules == 1)
-                                {
-                                    group->UpdateLooterGuid(go,true);
-
-                                    switch (group->GetLootMethod())
-                                    {
-                                    case GROUP_LOOT:
-                                        // GroupLoot delete items over threshold (threshold even not implemented), and roll them. Items with quality<threshold, round robin
-                                        group->GroupLoot(go, loot);
-                                        permission = GROUP_PERMISSION;
-                                        break;
-                                    case NEED_BEFORE_GREED:
-                                        group->NeedBeforeGreed(go, loot);
-                                        permission = GROUP_PERMISSION;
-                                        break;
-                                    case MASTER_LOOT:
-                                        group->MasterLoot(go, loot);
-                                        permission = MASTER_PERMISSION;
-                                        break;
-                                    default:
-                                        break;
-                                    }
-                                }
-                            }
-                        }
                 }
+
+                if (Group* group = this->GetGroup())
+                {
+                    if (go->GetGoType() == GAMEOBJECT_TYPE_CHEST)
+                    {
+                        if (go->GetGOInfo()->chest.groupLootRules == 1  || sWorld.getConfig(CONFIG_BOOL_LOOT_CHESTS_IGNORE_DB))
+                        {
+                            group->UpdateLooterGuid(go,true);
+                            switch (group->GetLootMethod())
+                            {
+                                case GROUP_LOOT:
+                                // GroupLoot delete items over threshold (threshold even not implemented), and roll them. Items with quality<threshold, round robin
+                                     group->GroupLoot(go, loot);
+                                     permission = GROUP_PERMISSION;
+                                     break;
+                                case NEED_BEFORE_GREED:
+                                     group->NeedBeforeGreed(go, loot);
+                                     permission = GROUP_PERMISSION;
+                                     break;
+                                case MASTER_LOOT:
+                                     group->MasterLoot(go, loot);
+                                     permission = MASTER_PERMISSION;
+                                     break;
+                                default:
+                                     break;
+                             }
+                         }
+                         else
+                             permission = GROUP_PERMISSION;
+                     }
+                 }
 
                 if (loot_type == LOOT_FISHING)
                     go->getFishLoot(loot,this);
 
                 go->SetLootState(GO_ACTIVATED);
             }
+
             if ((go->getLootState() == GO_ACTIVATED) && (go->GetGoType() == GAMEOBJECT_TYPE_CHEST))
             {
-                if (go->GetGOInfo()->chest.groupLootRules == 1)
+                if (go->GetGOInfo()->chest.groupLootRules == 1 || sWorld.getConfig(CONFIG_BOOL_LOOT_CHESTS_IGNORE_DB))
                 {
                     if(Group* group = GetGroup())
                     {
@@ -8047,7 +8052,16 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type)
                         else
                             permission = NONE_PERMISSION;
                     }
-                }
+               }
+               else
+                   permission = ALL_PERMISSION;
+            }
+            // the player whose group may loot the corpse
+            Player* recipient = go->GetLootRecipient();
+            if (!recipient)
+            {
+                go->SetLootRecipient(this);
+                recipient = this;
             }
             break;
         }
@@ -11053,11 +11067,14 @@ uint8 Player::CanUseItem( ItemPrototype const *pProto ) const
 
     if( pProto )
     {
+        if(!sWorld.getConfig(CONFIG_BOOL_ALLOW_TWO_SIDE_INTERACTION_GROUP))
+        {
         if ((pProto->Flags2 & ITEM_FLAGS2_HORDE_ONLY) && GetTeam() != HORDE)
             return EQUIP_ERR_YOU_CAN_NEVER_USE_THAT_ITEM;
 
         if ((pProto->Flags2 & ITEM_FLAGS2_ALLIANCE_ONLY) && GetTeam() != ALLIANCE)
             return EQUIP_ERR_YOU_CAN_NEVER_USE_THAT_ITEM;
+        }
 
         if ((pProto->AllowableClass & getClassMask()) == 0 || (pProto->AllowableRace & getRaceMask()) == 0)
             return EQUIP_ERR_YOU_CAN_NEVER_USE_THAT_ITEM;
@@ -22571,6 +22588,11 @@ Object* Player::GetObjectByTypeMask(ObjectGuid guid, TypeMask typemask)
     }
 
     return NULL;
+}
+
+void Player::CompletedAchievement(AchievementEntry const* entry)
+{
+  GetAchievementMgr().CompletedAchievement(entry);
 }
 
 void Player::SetRestType( RestType n_r_type, uint32 areaTriggerId /*= 0*/)

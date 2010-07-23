@@ -179,5 +179,6 @@ DBCStorage <FactionEntry>               const* GetFactionStore();
 DBCStorage <ItemEntry>                  const* GetItemDisplayStore();
 DBCStorage <CreatureDisplayInfoEntry>   const* GetCreatureDisplayStore();
 DBCStorage <EmotesEntry>                const* GetEmotesStore();
+DBCStorage <AchievementEntry>           const* GetAchievementStore();
 DBCStorage <EmotesTextEntry>            const* GetEmotesTextStore();
 #endif

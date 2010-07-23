@@ -365,6 +365,7 @@ class Aura
         void HandleAuraModAllCritChance(bool Apply, bool Real);
         void HandleAuraMirrorImage(bool Apply, bool Real);
         void HandleAllowOnlyAbility(bool Apply, bool Real);
+		void HandleAuraLinked(bool Apply, bool Real);
 
         virtual ~Aura();
 

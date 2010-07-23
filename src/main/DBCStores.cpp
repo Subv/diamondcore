@@ -959,4 +959,5 @@ DBCStorage <FactionEntry>       const* GetFactionStore()        { return &sFacti
 DBCStorage <ItemEntry>          const* GetItemDisplayStore()    { return &sItemStore;           }
 DBCStorage <CreatureDisplayInfoEntry> const* GetCreatureDisplayStore() { return &sCreatureDisplayInfoStore; }
 DBCStorage <EmotesEntry>        const* GetEmotesStore()         { return &sEmotesStore;         }
+DBCStorage <AchievementEntry>   const* GetAchievementStore()    { return &sAchievementStore;    }
 DBCStorage <EmotesTextEntry>    const* GetEmotesTextStore()     { return &sEmotesTextStore;     }
