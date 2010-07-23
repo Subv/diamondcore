@@ -2267,7 +2267,7 @@ bool ChatHandler::HandleGoTicketCommand(const char * args)
     mapid = ticket->map;
 
     Player* _player = m_session->GetPlayer();
-	if (_player->IsTaxiFlying())
+    if (_player->IsTaxiFlying())
     {
         _player->GetMotionMaster()->MovementExpired();
         //_player->CleanupAfterTaxiFlight();

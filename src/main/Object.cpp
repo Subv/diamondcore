@@ -1921,7 +1921,7 @@ void WorldObject::PlayDirectSound( uint32 sound_id, Player* target /*= NULL*/ )
     WorldPacket data(SMSG_PLAY_SOUND, 4);
     data << uint32(sound_id);
 
-	sWorld.SendGlobalMessage(&data);
+    sWorld.SendGlobalMessage(&data);
 }
 
 void WorldObject::UpdateObjectVisibility()

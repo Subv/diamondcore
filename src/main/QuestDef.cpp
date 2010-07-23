@@ -236,7 +236,7 @@ uint32 Quest::XPValue(Player *pPlayer) const
         if (const QuestXPLevel* pXPData = sQuestXPLevelStore.LookupEntry(baseLevel))
         {
             uint32 rawXP = xpMultiplier * pXPData->xpIndex[RewXPId] / 10;
-			
+            
             realXP = ((rawXP + 2) / 5 * 5);
         }
 

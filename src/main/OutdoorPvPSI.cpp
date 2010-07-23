@@ -36,9 +36,9 @@ OutdoorPvPSI::OutdoorPvPSI()
 
 void OutdoorPvPSI::FillInitialWorldStates(WorldPacket& data, uint32& count)
 {
-	FillInitialWorldState(data, count, SI_GATHERED_A,     m_Gathered_A);
-	FillInitialWorldState(data, count, SI_GATHERED_H,     m_Gathered_H);
-	FillInitialWorldState(data, count, SI_SILITHYST_MAX,  SI_MAX_RESOURCES);
+    FillInitialWorldState(data, count, SI_GATHERED_A,     m_Gathered_A);
+    FillInitialWorldState(data, count, SI_GATHERED_H,     m_Gathered_H);
+    FillInitialWorldState(data, count, SI_SILITHYST_MAX,  SI_MAX_RESOURCES);
 }
 
 void OutdoorPvPSI::SendRemoveWorldStates(Player *plr)

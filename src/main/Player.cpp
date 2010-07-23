@@ -3630,12 +3630,14 @@ void Player::removeSpell(uint32 spell_id, bool disabled, bool learn_low_rank, bo
         }
     }
 
-    if (m_canTitanGrip)
+    if (CanTitanGrip())
     {
         SpellEntry const *spellInfo = sSpellStore.LookupEntry(spell_id);
         if (IsSpellHaveEffect(spellInfo, SPELL_EFFECT_TITAN_GRIP))
         {
-            m_canTitanGrip = false;
+            SetCanTitanGrip(false);
+            // Remove Titan's Grip damage penalty now
+            RemoveAurasDueToSpell(49152);
             if(sWorld.getConfig(CONFIG_BOOL_OFFHAND_CHECK_AT_TALENTS_RESET))
                 AutoUnequipOffhandIfNeed();
         }
@@ -6358,16 +6360,27 @@ ReputationRank Player::GetReputationRank(uint32 faction) const
 }
 
 //Calculate total reputation percent player gain with quest/creature level
-int32 Player::CalculateReputationGain(uint32 creatureOrQuestLevel, int32 rep, int32 faction, bool for_quest)
+int32 Player::CalculateReputationGain(uint32 creatureOrQuestLevel, int32 rep, int32 faction, bool for_quest, bool noQuestBonus)
 {
     float percent = 100.0f;
+
+    // Get the generic rate first
+    if (const RepRewardRate *repData = sObjectMgr.GetRepRewardRate(faction))
+     {
+        float repRate = for_quest ? repData->quest_rate : repData->creature_rate;
+        percent *= repRate;
+        
+        // for custom, a rate of 0.0 will totally disable reputation gain for this faction/type
+        if (repRate <= 0.0f)
+            percent = repRate;
+    }
 
     float rate = for_quest ? sWorld.getConfig(CONFIG_FLOAT_RATE_REPUTATION_LOWLEVEL_QUEST) : sWorld.getConfig(CONFIG_FLOAT_RATE_REPUTATION_LOWLEVEL_KILL);
 
     if (rate != 1.0f && creatureOrQuestLevel <= Diamond::XP::GetGrayLevel(getLevel()))
         percent *= rate;
 
-    float repMod = (float)GetTotalAuraModifier(SPELL_AURA_MOD_REPUTATION_GAIN);
+    float repMod = noQuestBonus ? 0.0f : (float)GetTotalAuraModifier(SPELL_AURA_MOD_REPUTATION_GAIN);
 
     if (!for_quest)
         repMod += GetTotalAuraModifierByMiscValue(SPELL_AURA_MOD_FACTION_REPUTATION_GAIN, faction);
@@ -6386,6 +6399,7 @@ void Player::RewardReputation(Unit *pVictim, float rate)
     if(!pVictim || pVictim->GetTypeId() == TYPEID_PLAYER)
         return;
 
+    // used current difficulty creature entry instead normal version (GetEntry())
     ReputationOnKillEntry const* Rep = sObjectMgr.GetReputationOnKilEntry(((Creature*)pVictim)->GetCreatureInfo()->Entry);
 
     if(!Rep)
@@ -6464,11 +6478,10 @@ void Player::RewardReputation(Quest const *pQuest)
         if (!pQuest->RewRepFaction[i])
             continue;
 
-        // For future, this row should be used as "override". Example quests are 10298 and 10870.
-        // Typically, no diplomacy mod must apply to the final value (flat). Note the formula must be (finalValue = DBvalue/100)
+        // No diplomacy mod are applied to the final value (flat). Note the formula (finalValue = DBvalue/100)
         if (pQuest->RewRepValue[i])
         {
-            int32 rep = CalculateReputationGain(GetQuestLevelForPlayer(pQuest), pQuest->RewRepValue[i], pQuest->RewRepFaction[i], true);
+            int32 rep = CalculateReputationGain(GetQuestLevelForPlayer(pQuest), pQuest->RewRepValue[i]/100, pQuest->RewRepFaction[i], true, true);
 
             if (FactionEntry const* factionEntry = sFactionStore.LookupEntry(pQuest->RewRepFaction[i]))
                 GetReputationMgr().ModifyReputation(factionEntry, rep);
@@ -7972,7 +7985,8 @@ void Player::SendLoot(ObjectGuid guid, LootType loot_type)
 
             loot = &go->loot;
 
-            if (go->getLootState() == GO_READY)
+            // generate loot only if ready for open and spawned in world
+            if (go->getLootState() == GO_READY && go->isSpawned())
             {
                 uint32 lootid =  go->GetGOInfo()->GetLootId();
                 if ((go->GetEntry() == BG_AV_OBJECTID_MINE_N || go->GetEntry() == BG_AV_OBJECTID_MINE_S))
@@ -8874,14 +8888,7 @@ void Player::SendPetSkillWipeConfirm()
     data << uint32(pet->resetTalentsCost());
     GetSession()->SendPacket( &data );
 }
-
-void Player::LearnDualSpec(uint64 guid)
-{
-    CastSpell(this, 63680, true, NULL, NULL, guid);
-    CastSpell(this, 63624, true, NULL, NULL, guid);
-    sLog.outDetail("Player (GUID %u) get dual specialization",guid);
-}
-
+    
 /*********************************************************/
 /***                    STORAGE SYSTEM                 ***/
 /*********************************************************/
@@ -11416,6 +11423,9 @@ Item* Player::EquipItem( uint16 pos, Item *pItem, bool update )
 
         return pItem2;
     }
+    // Apply Titan's Grip damage penalty if necessary
+    if ((slot == EQUIPMENT_SLOT_MAINHAND || slot == EQUIPMENT_SLOT_OFFHAND) && CanTitanGrip() && HasTwoHandWeaponInOneHand() && !HasAura(49152))
+        CastSpell(this, 49152, true);
 
     // only for full equip instead adding to stack
     GetAchievementMgr().UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_EQUIP_ITEM, pItem->GetEntry());
@@ -11439,6 +11449,9 @@ void Player::QuickEquipItem( uint16 pos, Item *pItem)
             pItem->AddToWorld();
             pItem->SendCreateUpdateToPlayer( this );
         }
+        // Apply Titan's Grip damage penalty if necessary
+        if ((slot == EQUIPMENT_SLOT_MAINHAND || slot == EQUIPMENT_SLOT_OFFHAND) && CanTitanGrip() && HasTwoHandWeaponInOneHand() && !HasAura(49152))
+            CastSpell(this, 49152, true);
 
         GetAchievementMgr().UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_EQUIP_ITEM, pItem->GetEntry());
         GetAchievementMgr().UpdateAchievementCriteria(ACHIEVEMENT_CRITERIA_TYPE_EQUIP_EPIC_ITEM, slot+1);
@@ -11548,7 +11561,12 @@ void Player::RemoveItem( uint8 bag, uint8 slot, bool update )
             SetUInt64Value(PLAYER_FIELD_INV_SLOT_HEAD + (slot * 2), 0);
 
             if ( slot < EQUIPMENT_SLOT_END )
+            {
                 SetVisibleItemSlot(slot, NULL);
+                // Remove Titan's Grip damage penalty if necessary
+                if ((slot == EQUIPMENT_SLOT_MAINHAND || slot == EQUIPMENT_SLOT_OFFHAND) && CanTitanGrip() && !HasTwoHandWeaponInOneHand())
+                    RemoveAurasDueToSpell(49152);
+            }
         }
         else
         {
@@ -13307,8 +13325,26 @@ void Player::OnGossipSelect(WorldObject* pSource, uint32 gossipListId, uint32 me
             GetSession()->SendTrainerList(guid);
             break;
         case GOSSIP_OPTION_LEARNDUALSPEC:
-            LearnDualSpec(guid);
-            PlayerTalkClass->CloseGossip();
+            if(GetSpecsCount() == 1 && !(getLevel() < 40)) //Level added manually, in original patch it was in config !
+            {
+                if (GetMoney() < 10000000) //same: it was in config, 1000g default, change it if you want
+                {
+                    SendBuyError( BUY_ERR_NOT_ENOUGHT_MONEY, 0, 0, 0);
+                    PlayerTalkClass->CloseGossip();
+                    break;
+                }
+                else
+                {
+                    ModifyMoney(-10000000); //same: here too
+
+                    // Cast spells that teach dual spec
+                    // Both are also ImplicitTarget self and must be cast by player
+                    this->CastSpell(this,63680,true,NULL,NULL,this->GetGUID());
+                    this->CastSpell(this,63624,true,NULL,NULL,this->GetGUID());
+                    // Should show another Gossip text with "Congratulations..."
+                    PlayerTalkClass->CloseGossip();
+                }
+            }
             break;
         case GOSSIP_OPTION_UNLEARNTALENTS:
             PlayerTalkClass->CloseGossip();
@@ -13337,7 +13373,7 @@ void Player::OnGossipSelect(WorldObject* pSource, uint32 gossipListId, uint32 me
             GetSession()->SendTabardVendorActivate(guid);
             break;
         case GOSSIP_OPTION_AUCTIONEER:
-            GetSession()->SendAuctionHello(guid, ((Creature*)pSource));
+            GetSession()->SendAuctionHello(((Creature*)pSource));
             break;
         case GOSSIP_OPTION_SPIRITGUIDE:
             PrepareGossipMenu(pSource);
@@ -19942,7 +19978,7 @@ void Player::SendInitialPacketsBeforeAddToMap()
     // SMSG_POWER_UPDATE
 
     // set fly flag if in fly form or taxi flight to prevent visually drop at ground in showup moment
-    if(HasAuraType(SPELL_AURA_MOD_FLIGHT_SPEED_MOUNTED) || HasAuraType(SPELL_AURA_FLY) || IsTaxiFlying())
+    if (IsFreeFlying() || IsTaxiFlying())
         m_movementInfo.AddMovementFlag(MOVEFLAG_FLYING);
 
     SetMover(this);
@@ -20234,59 +20270,59 @@ void Player::learnSkillRewardedSpells(uint32 skill_id, uint32 skill_value )
 
 void Player::SendAurasForTarget(Unit *target)
 {
-    if(target->GetVisibleAuras()->empty())                  // speedup things
-        return;
-
     WorldPacket data(SMSG_AURA_UPDATE_ALL);
     data << target->GetPackGUID();
 
-    Unit::VisibleAuraMap const *visibleAuras = target->GetVisibleAuras();
-    for(Unit::VisibleAuraMap::const_iterator itr = visibleAuras->begin(); itr != visibleAuras->end(); ++itr)
+    if(!target->GetVisibleAuras()->empty())                  // speedup things
     {
-        SpellAuraHolderBounds bounds = target->GetSpellAuraHolderBounds(itr->second);
-        for (SpellAuraHolderMap::const_iterator iter = bounds.first; iter != bounds.second; ++iter)
+        Unit::VisibleAuraMap const *visibleAuras = target->GetVisibleAuras();
+        for(Unit::VisibleAuraMap::const_iterator itr = visibleAuras->begin(); itr != visibleAuras->end(); ++itr)
         {
-            SpellAuraHolder *holder = iter->second;
-            data << uint8(holder->GetAuraSlot());
-            data << uint32(holder->GetId());
-
-            if(holder->GetId())
+            SpellAuraHolderBounds bounds = target->GetSpellAuraHolderBounds(itr->second);
+            for (SpellAuraHolderMap::const_iterator iter = bounds.first; iter != bounds.second; ++iter)
             {
-                uint8 auraFlags = holder->GetAuraFlags();
-                // flags
-                data << uint8(auraFlags);
-                // level
-                data << uint8(holder->GetAuraLevel());
-                // charges
-                if (holder->GetAuraCharges())
-                    data << uint8(holder->GetAuraCharges() * holder->GetStackAmount());
-                else
-                    data << uint8(holder->GetStackAmount());
+                SpellAuraHolder *holder = iter->second;
+                data << uint8(holder->GetAuraSlot());
+                data << uint32(holder->GetId());
 
-                if(!(auraFlags & AFLAG_NOT_CASTER))     // packed GUID of caster
+                if(holder->GetId())
                 {
-                    data.appendPackGUID(holder->GetCasterGUID());
-                }
+                    uint8 auraFlags = holder->GetAuraFlags();
+                    // flags
+                    data << uint8(auraFlags);
+                    // level
+                    data << uint8(holder->GetAuraLevel());
+                    // charges
+                    if (holder->GetAuraCharges())
+                        data << uint8(holder->GetAuraCharges() * holder->GetStackAmount());
+                    else
+                        data << uint8(holder->GetStackAmount());
 
-                if(auraFlags & AFLAG_DURATION)          // include aura duration
-                {
-                    // take highest - to display icon even if stun fades
-                    uint32 max_duration = 0;
-                    uint32 duration = 0;
-                    for (int32 i = 0; i < MAX_EFFECT_INDEX; ++i)
+                    if(!(auraFlags & AFLAG_NOT_CASTER))     // packed GUID of caster
                     {
-                        if (Aura *aura = holder->GetAuraByEffectIndex(SpellEffectIndex(i)))
-                        {
-                            if (uint32(aura->GetAuraMaxDuration()) > max_duration)
-                            {
-                                max_duration = aura->GetAuraMaxDuration();
-                                duration = aura->GetAuraDuration();
-                            }
-                        }
+                        data.appendPackGUID(holder->GetCasterGUID());
                     }
 
-                    data << uint32(max_duration);
-                    data << uint32(duration);
+                    if(auraFlags & AFLAG_DURATION)          // include aura duration
+                    {
+                        // take highest - to display icon even if stun fades
+                        uint32 max_duration = 0;
+                        uint32 duration = 0;
+                        for (int32 i = 0; i < MAX_EFFECT_INDEX; ++i)
+                        {
+                            if (Aura *aura = holder->GetAuraByEffectIndex(SpellEffectIndex(i)))
+                            {
+                                if (uint32(aura->GetAuraMaxDuration()) > max_duration)
+                                {
+                                    max_duration = aura->GetAuraMaxDuration();
+                                    duration = aura->GetAuraDuration();
+                                }
+                            }
+                        }
+
+                        data << uint32(max_duration);
+                        data << uint32(duration);
+                    }
                 }
             }
         }
@@ -20741,7 +20777,8 @@ void Player::RewardSinglePlayerAtKill(Unit* pVictim)
 
         // normal creature (not pet/etc) can be only in !PvP case
         if(pVictim->GetTypeId()==TYPEID_UNIT)
-            KilledMonster(((Creature*)pVictim)->GetCreatureInfo(), pVictim->GetObjectGuid());
+            if(CreatureInfo const* normalInfo = ObjectMgr::GetCreatureTemplate(pVictim->GetEntry()))
+                KilledMonster(normalInfo, pVictim->GetObjectGuid());
     }
 }
 

@@ -659,7 +659,7 @@ void Spell::EffectSchoolDMG(SpellEffectIndex effect_idx)
                         // Eviscerate and Envenom Bonus Damage (item set effect)
                         if(m_caster->GetDummyAura(37169))
                             damage += combo*40;
-							
+                            
                         // Apply spell mods
                         if (Player* modOwner = m_caster->GetSpellModOwner())
                             modOwner->ApplySpellMod(m_spellInfo->Id, SPELLMOD_DAMAGE, damage);
@@ -2409,6 +2409,23 @@ void Spell::EffectDummy(SpellEffectIndex eff_idx)
                 if (!unitTarget || unitTarget->getPowerType()!=POWER_MANA)
                     return;
                 m_caster->CastCustomSpell(unitTarget, 52032, &damage, 0, 0, true, 0, 0, m_originalCasterGUID);
+                return;
+            }
+            // Flametongue Weapon Proc, Ranks
+            if (m_spellInfo->SpellFamilyFlags & UI64LIT(0x0000000000200000))
+            {
+                if (!m_CastItem)
+                {
+                    sLog.outError("Spell::EffectDummy: spell %i requires cast Item", m_spellInfo->Id);
+                    return;
+                }
+                // found spelldamage coefficients of 0.381% per 0.1 speed and 15.244 per 4.0 speed
+                // but own calculation say 0.385 gives at most one point difference to published values
+                int32 spellDamage = m_caster->SpellBaseDamageBonusDone(GetSpellSchoolMask(m_spellInfo));
+                float weaponSpeed = (1.0f/IN_MILLISECONDS) * m_CastItem->GetProto()->Delay;
+                int32 totalDamage = int32((damage + 3.85f * spellDamage) * 0.01 * weaponSpeed);
+
+                m_caster->CastCustomSpell(unitTarget, 10444, &totalDamage, NULL, NULL, true, m_CastItem);
                 return;
             }
             if (m_spellInfo->Id == 39610)                   // Mana Tide Totem effect
@@ -5229,7 +5246,7 @@ void Spell::EffectWeaponDmg(SpellEffectIndex eff_idx)
                     // and no need to cast over max stack amount
                     m_caster->CastSpell(unitTarget, 58567, true);
                     if (Aura *aura = m_caster->GetDummyAura(58388))
-		                m_caster->CastSpell (unitTarget, 58567, true);
+                        m_caster->CastSpell (unitTarget, 58567, true);
             }
             break;
         }
@@ -6871,7 +6888,7 @@ void Spell::EffectScriptEffect(SpellEffectIndex eff_idx)
             break;
         }
     }
-	
+    
 
     // normal DB scripted effect
     if (!unitTarget)
@@ -7718,7 +7735,7 @@ void Spell::EffectDispelMechanic(SpellEffectIndex eff_idx)
         next = iter;
         ++next;
         SpellEntry const *spell = iter->second->GetSpellProto();
-        if (spell->Mechanic == mechanic || iter->second->HasAuraAndMechanicEffect(mechanic))
+        if (iter->second->HasMechanic(mechanic))
         {
             unitTarget->RemoveAurasDueToSpell(spell->Id);
             if (Auras.empty())
@@ -8164,10 +8181,18 @@ void Spell::EffectActivateRune(SpellEffectIndex eff_idx)
     }
 }
 
-void Spell::EffectTitanGrip(SpellEffectIndex /*eff_idx*/)
+void Spell::EffectTitanGrip(SpellEffectIndex eff_idx)
 {
+    // Make sure "Titan's Grip" (49152) penalty spell does not silently change
+    if (m_spellInfo->EffectMiscValue[eff_idx] != 49152)
+        sLog.outError("Spell::EffectTitanGrip: Spell %u has unexpected EffectMiscValue '%u'", m_spellInfo->Id, m_spellInfo->EffectMiscValue[eff_idx]);
     if (unitTarget && unitTarget->GetTypeId() == TYPEID_PLAYER)
-        ((Player*)unitTarget)->SetCanTitanGrip(true);
+    {
+        Player *plr = (Player*)m_caster;
+        plr->SetCanTitanGrip(true);
+        if (plr->HasTwoHandWeaponInOneHand() && !plr->HasAura(49152))
+            plr->CastSpell(plr, 49152, true);
+    }
 }
 
 void Spell::EffectRenamePet(SpellEffectIndex /*eff_idx*/)

@@ -237,6 +237,14 @@ struct MailLevelReward
 typedef std::list<MailLevelReward> MailLevelRewardList;
 typedef UNORDERED_MAP<uint8,MailLevelRewardList> MailLevelRewardMap;
 
+// We assume the rate is in general the same for all three types below, but chose to keep three for scalability and customization
+struct RepRewardRate
+{
+    float quest_rate;                                       // We allow rate = 0.0 in database. For this case, it means that
+    float creature_rate;                                    // no reputation are given at all for this faction/rate type.
+    float spell_rate;                                       // not implemented yet (SPELL_EFFECT_REPUTATION)
+};
+
 struct ReputationOnKillEntry
 {
     uint32 repfaction1;
@@ -478,7 +486,9 @@ class ObjectMgr
 
         typedef UNORDERED_MAP<uint32, uint32> AreaTriggerScriptMap;
 
+        typedef UNORDERED_MAP<uint32, RepRewardRate > RepRewardRateMap;
         typedef UNORDERED_MAP<uint32, ReputationOnKillEntry> RepOnKillMap;
+
         typedef UNORDERED_MAP<uint32, PointOfInterest> PointOfInterestMap;
 
         typedef UNORDERED_MAP<uint32, WeatherZoneChances> WeatherZoneMap;
@@ -609,6 +619,15 @@ class ObjectMgr
 
         uint32 GetAreaTriggerScriptId(uint32 trigger_id);
 
+        RepRewardRate const* GetRepRewardRate(uint32 factionId) const
+        {
+            RepRewardRateMap::const_iterator itr = m_RepRewardRateMap.find(factionId);
+            if (itr != m_RepRewardRateMap.end())
+                return &itr->second;
+
+            return NULL;
+        }
+
         ReputationOnKillEntry const* GetReputationOnKilEntry(uint32 id) const
         {
             RepOnKillMap::const_iterator itr = mRepOnKill.find(id);
@@ -704,7 +723,9 @@ class ObjectMgr
         void LoadCorpses();
         void LoadFishingBaseSkillLevel();
 
+        void LoadReputationRewardRate();
         void LoadReputationOnKill();
+
         void LoadPointsOfInterest();
         void LoadQuestPOI();
 
@@ -721,7 +742,7 @@ class ObjectMgr
         void LoadVendors();
         void LoadTrainerSpell();
 
-		void LoadTickets();
+        void LoadTickets();
 
         std::string GeneratePetName(uint32 entry);
         uint32 GetBaseXP(uint32 level) const;
@@ -746,7 +767,7 @@ class ObjectMgr
         //uint32 GenerateItemTextID() { return m_ItemGuids.Generate(); }
         uint32 GenerateMailID() { return m_MailIds.Generate(); }
         uint32 GeneratePetNumber() { return m_PetNumbers.Generate(); }
-		uint64 m_GMticketid;
+        uint64 m_GMticketid;
 
         typedef std::multimap<int32, uint32> ExclusiveQuestGroups;
         ExclusiveQuestGroups mExclusiveQuestGroups;
@@ -1008,7 +1029,7 @@ class ObjectMgr
             return GossipMenuItemsMapBounds(m_mGossipMenuItemsMap.lower_bound(uiMenuId),m_mGossipMenuItemsMap.upper_bound(uiMenuId));
         }
 
-		GM_Ticket *GetGMTicket(uint64 ticketGuid)
+        GM_Ticket *GetGMTicket(uint64 ticketGuid)
         {
             for (GmTicketList::const_iterator i = m_GMTicketList.begin(); i != m_GMTicketList.end(); ++i)
                 if ((*i) && (*i)->guid == ticketGuid)
@@ -1025,7 +1046,7 @@ class ObjectMgr
             return NULL;
         }
 
-		void AddOrUpdateGMTicket(GM_Ticket &ticket, bool create = false);
+        void AddOrUpdateGMTicket(GM_Ticket &ticket, bool create = false);
         void _AddOrUpdateGMTicket(GM_Ticket &ticket);
         void RemoveGMTicket(uint64 ticketGuid, int64 source = -1, bool permanently = false);
         void RemoveGMTicket(GM_Ticket *ticket, int64 source = -1, bool permanently = false);
@@ -1068,6 +1089,7 @@ class ObjectMgr
         AreaTriggerMap      mAreaTriggers;
         AreaTriggerScriptMap  mAreaTriggerScripts;
 
+        RepRewardRateMap    m_RepRewardRateMap;
         RepOnKillMap        mRepOnKill;
 
         GossipMenusMap      m_mGossipMenusMap;

@@ -291,12 +291,12 @@ bool ChatHandler::HandleDebugPlaySoundCommand(const char* args)
         return false;
     }
 
-	bool playall = sConfig.GetBoolDefault("Debug.Play.Sound.All.Enable", true);
+    bool playall = sConfig.GetBoolDefault("Debug.Play.Sound.All.Enable", true);
 
-	if (playall)
-		unit->PlayDirectSound(dwSoundId,m_session->GetPlayer());
-	else
-		unit->PlayDistanceSound(dwSoundId,m_session->GetPlayer());
+    if (playall)
+        unit->PlayDirectSound(dwSoundId,m_session->GetPlayer());
+    else
+        unit->PlayDistanceSound(dwSoundId,m_session->GetPlayer());
         
 
     PSendSysMessage(LANG_YOU_HEAR_SOUND, dwSoundId);

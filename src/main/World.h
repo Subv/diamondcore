@@ -192,6 +192,8 @@ enum eConfigUInt32Values
 enum eConfigInt32Values
 {
     CONFIG_INT32_DEATH_SICKNESS_LEVEL = 0,
+    CONFIG_INT32_ARENA_STARTRATING,
+    CONFIG_INT32_ARENA_STARTPERSONALRATING,
     CONFIG_INT32_VALUE_COUNT
 };
 
@@ -624,7 +626,7 @@ class World
         char const* GetDBVersion() { return m_DBVersion.c_str(); }
         char const* GetCreatureEventAIVersion() { return m_CreatureEventAIVersion.c_str(); }
 
-		// Insert Core version in version table
+        // Insert Core version in version table
         void InsertCoreVersion();
 
         //used Script version

@@ -299,9 +299,9 @@ bool IsNoStackAuraDueToAura(uint32 spellId_1, uint32 spellId_2)
 
     for (int32 i = 0; i < MAX_EFFECT_INDEX; ++i)
     {
-        for (int32 j = 0; i < MAX_EFFECT_INDEX; ++j)
+        for (int32 j = 0; j < MAX_EFFECT_INDEX; ++j)
         {
-            if (spellInfo_1->Effect[i] == spellInfo_2->Effect[j] 
+            if (spellInfo_1->Effect[i] == spellInfo_2->Effect[j]
                 && spellInfo_1->EffectApplyAuraName[i] == spellInfo_2->EffectApplyAuraName[j]
                 && spellInfo_1->EffectMiscValue[i] == spellInfo_2->EffectMiscValue[j]
                 && spellInfo_1->EffectItemType[i] == spellInfo_2->EffectItemType[j])
@@ -2093,7 +2093,7 @@ bool SpellMgr::IsNoStackSpellDueToSpell(uint32 spellId_1, uint32 spellId_2) cons
             // Blessing of Sanctuary (multi-family check, some from 16 spell icon spells)
             if (spellInfo_2->Id == 67480 && spellInfo_1->Id == 20911)
                 return false;
-				
+                
             // Inner Fire and Consecration
             if(spellInfo_2->SpellFamilyName == SPELLFAMILY_PRIEST)
                 if(spellInfo_1->SpellIconID == 51 && spellInfo_2->SpellIconID == 51)
@@ -2285,7 +2285,7 @@ SpellEntry const* SpellMgr::SelectAuraRankForLevel(SpellEntry const* spellInfo, 
     for(int i = 0; i < MAX_EFFECT_INDEX; ++i)
     {
         // for simple aura in check apply to any non caster based targets, in rank search mode to any explicit targets
-        if (((spellInfo->Effect[i] == SPELL_EFFECT_APPLY_AURA && 
+        if (((spellInfo->Effect[i] == SPELL_EFFECT_APPLY_AURA &&
             (IsExplicitPositiveTarget(spellInfo->EffectImplicitTargetA[i]) ||
             IsAreaEffectPossitiveTarget(Targets(spellInfo->EffectImplicitTargetA[i])))) ||
             spellInfo->Effect[i] == SPELL_EFFECT_APPLY_AREA_AURA_PARTY ||

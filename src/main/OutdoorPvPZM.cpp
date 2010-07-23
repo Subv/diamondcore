@@ -40,14 +40,14 @@ void OPvPCapturePointZM_Beacon::FillInitialWorldStates(WorldPacket& data, uint32
     data << uint32(ZMBeaconInfo[m_TowerType].map_tower_a) << uint32(bool(m_TowerState & ZM_TOWERSTATE_A));
     data << uint32(ZMBeaconInfo[m_TowerType].ui_tower_h) << uint32(bool(m_TowerState & ZM_TOWERSTATE_H));
     data << uint32(ZMBeaconInfo[m_TowerType].map_tower_h) << uint32(bool(m_TowerState & ZM_TOWERSTATE_H));
-	
-	
-	FillInitialWorldState(data, count, ZMBeaconInfo[m_TowerType].ui_tower_n,   bool(m_TowerState & ZM_TOWERSTATE_N));
-	FillInitialWorldState(data, count, ZMBeaconInfo[m_TowerType].map_tower_n,  bool(m_TowerState & ZM_TOWERSTATE_N));
-	FillInitialWorldState(data, count, ZMBeaconInfo[m_TowerType].ui_tower_a,   bool(m_TowerState & ZM_TOWERSTATE_A));
-	FillInitialWorldState(data, count, ZMBeaconInfo[m_TowerType].map_tower_a,  bool(m_TowerState & ZM_TOWERSTATE_A));
-	FillInitialWorldState(data, count, ZMBeaconInfo[m_TowerType].ui_tower_h,   bool(m_TowerState & ZM_TOWERSTATE_H));
-	FillInitialWorldState(data, count, ZMBeaconInfo[m_TowerType].map_tower_h,  bool(m_TowerState & ZM_TOWERSTATE_H));
+    
+    
+    FillInitialWorldState(data, count, ZMBeaconInfo[m_TowerType].ui_tower_n,   bool(m_TowerState & ZM_TOWERSTATE_N));
+    FillInitialWorldState(data, count, ZMBeaconInfo[m_TowerType].map_tower_n,  bool(m_TowerState & ZM_TOWERSTATE_N));
+    FillInitialWorldState(data, count, ZMBeaconInfo[m_TowerType].ui_tower_a,   bool(m_TowerState & ZM_TOWERSTATE_A));
+    FillInitialWorldState(data, count, ZMBeaconInfo[m_TowerType].map_tower_a,  bool(m_TowerState & ZM_TOWERSTATE_A));
+    FillInitialWorldState(data, count, ZMBeaconInfo[m_TowerType].ui_tower_h,   bool(m_TowerState & ZM_TOWERSTATE_H));
+    FillInitialWorldState(data, count, ZMBeaconInfo[m_TowerType].map_tower_h,  bool(m_TowerState & ZM_TOWERSTATE_H));
 }
 
 void OPvPCapturePointZM_Beacon::UpdateTowerState()
@@ -279,14 +279,14 @@ void OPvPCapturePointZM_GraveYard::UpdateTowerState()
 
 void OPvPCapturePointZM_GraveYard::FillInitialWorldStates(WorldPacket& data, uint32& count)
 {
-	FillInitialWorldState(data, count, ZM_MAP_GRAVEYARD_N,   bool(m_GraveYardState & ZM_GRAVEYARD_N));
-	FillInitialWorldState(data, count, ZM_MAP_GRAVEYARD_H,   bool(m_GraveYardState & ZM_GRAVEYARD_H));
-	FillInitialWorldState(data, count, ZM_MAP_GRAVEYARD_A,   bool(m_GraveYardState & ZM_GRAVEYARD_A));
-	
-	FillInitialWorldState(data, count, ZM_MAP_ALLIANCE_FLAG_READY,     m_BothControllingFaction == ALLIANCE);
-	FillInitialWorldState(data, count, ZM_MAP_ALLIANCE_FLAG_NOT_READY, m_BothControllingFaction != ALLIANCE);
-	FillInitialWorldState(data, count, ZM_MAP_HORDE_FLAG_READY,        m_BothControllingFaction == HORDE);
-	FillInitialWorldState(data, count, ZM_MAP_HORDE_FLAG_NOT_READY,    m_BothControllingFaction != HORDE);
+    FillInitialWorldState(data, count, ZM_MAP_GRAVEYARD_N,   bool(m_GraveYardState & ZM_GRAVEYARD_N));
+    FillInitialWorldState(data, count, ZM_MAP_GRAVEYARD_H,   bool(m_GraveYardState & ZM_GRAVEYARD_H));
+    FillInitialWorldState(data, count, ZM_MAP_GRAVEYARD_A,   bool(m_GraveYardState & ZM_GRAVEYARD_A));
+    
+    FillInitialWorldState(data, count, ZM_MAP_ALLIANCE_FLAG_READY,     m_BothControllingFaction == ALLIANCE);
+    FillInitialWorldState(data, count, ZM_MAP_ALLIANCE_FLAG_NOT_READY, m_BothControllingFaction != ALLIANCE);
+    FillInitialWorldState(data, count, ZM_MAP_HORDE_FLAG_READY,        m_BothControllingFaction == HORDE);
+    FillInitialWorldState(data, count, ZM_MAP_HORDE_FLAG_NOT_READY,    m_BothControllingFaction != HORDE);
 }
 
 void OPvPCapturePointZM_GraveYard::SetBeaconState(uint32 controlling_faction)

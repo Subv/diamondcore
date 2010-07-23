@@ -852,7 +852,7 @@ enum Strings
 
     // FREE IDS                           1329-9999
 
-	// Ticket Strings 2000-2029
+    // Ticket Strings 2000-2029
     LANG_COMMAND_TICKETNEW              = 1300,
     LANG_COMMAND_TICKETUPDATED          = 1301,
     LANG_COMMAND_TICKETPLAYERABANDON    = 1302,
@@ -880,9 +880,9 @@ enum Strings
     LANG_COMMAND_TICKETLISTADDCOMMENT   = 1324,
     LANG_COMMAND_TICKETLISTAGECREATE    = 1325,
 
-	LANG_TICKET_REQ                     = 1327,
+    LANG_TICKET_REQ                     = 1327,
 
-	LANG_AUTO_BROADCAST                 = 1328,
+    LANG_AUTO_BROADCAST                 = 1328,
 
     // Use for not-in-offcial-sources patches
     //                                    10000-10999

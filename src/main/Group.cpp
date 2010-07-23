@@ -632,7 +632,7 @@ void Group::SendLootAllPassed(Roll const& r)
 void Group::GroupLoot(WorldObject* object, Loot *loot)
 {
     uint32 maxEnchantingSkill = GetMaxSkillValueForGroup(SKILL_ENCHANTING);
-	Creature *creature = 0;
+    Creature *creature = 0;
 
     for(uint8 itemSlot = 0; itemSlot < loot->items.size(); ++itemSlot)
     {
@@ -655,7 +655,7 @@ void Group::GroupLoot(WorldObject* object, Loot *loot)
 void Group::NeedBeforeGreed(WorldObject* object, Loot *loot)
 {
     uint32 maxEnchantingSkill = GetMaxSkillValueForGroup(SKILL_ENCHANTING);
-	Creature *creature = 0;
+    Creature *creature = 0;
 
     for(uint8 itemSlot = 0; itemSlot < loot->items.size(); ++itemSlot)
     {
@@ -1898,7 +1898,8 @@ static void RewardGroupAtKill_helper(Player* pGroupGuy, Unit* pVictim, uint32 co
         {
             // normal creature (not pet/etc) can be only in !PvP case
             if(pVictim->GetTypeId()==TYPEID_UNIT)
-                pGroupGuy->KilledMonster(((Creature*)pVictim)->GetCreatureInfo(), pVictim->GetObjectGuid());
+                if(CreatureInfo const* normalInfo = ObjectMgr::GetCreatureTemplate(pVictim->GetEntry()))
+                    pGroupGuy->KilledMonster(normalInfo, pVictim->GetObjectGuid());
         }
     }
 }

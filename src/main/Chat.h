@@ -39,6 +39,13 @@ class ChatCommand
         ChatCommand *      ChildCommands;
 };
 
+enum ChatCommandSearchResult
+{
+    CHAT_COMMAND_OK,                                        // found accessible command by command string
+    CHAT_COMMAND_UNKNOWN,                                   // first level command not found
+    CHAT_COMMAND_UNKNOWN_SUBCOMMAND,                        // command found but some level subcommand not find in subcommand list
+};
+
 class ChatHandler
 {
     public:
@@ -67,9 +74,10 @@ class ChatHandler
         void SendSysMessage(          int32     entry);
         void PSendSysMessage(         const char *format, ...) ATTR_PRINTF(2,3);
         void PSendSysMessage(         int32     entry, ...  );
-		std::string PGetParseString(int32 entry, ...);
+        std::string PGetParseString(int32 entry, ...);
 
-        int ParseCommands(const char* text);
+        bool ParseCommands(const char* text);
+        ChatCommand const* FindCommand(char const* text);
 
         bool isValidChatMessage(const char* msg);
         bool HasSentErrorMessage() { return sentErrorMessage;}
@@ -91,13 +99,15 @@ class ChatHandler
         bool HasLowerSecurityAccount(WorldSession* target, uint32 account, bool strong = false);
 
         void SendGlobalSysMessage(const char *str);
-		void SendGlobalGMSysMessage(const char *str);
+        void SendGlobalGMSysMessage(const char *str);
 
-        bool SetDataForCommandInTable(ChatCommand *table, const char* text, uint32 security, std::string const& help, std::string const& fullcommand );
-        bool ExecuteCommandInTable(ChatCommand *table, const char* text, const std::string& fullcommand);
+        bool SetDataForCommandInTable(ChatCommand *table, const char* text, uint32 security, std::string const& help);
+        void ExecuteCommand(const char* text);
         bool ShowHelpForCommand(ChatCommand *table, const char* cmd);
-        bool ShowHelpForSubCommands(ChatCommand *table, char const* cmd, char const* subcmd);
+        bool ShowHelpForSubCommands(ChatCommand *table, char const* cmd);
+        ChatCommandSearchResult FindCommand(ChatCommand* table, char const*& text, ChatCommand*& command, ChatCommand** parentCommand = NULL, std::string* cmdNamePtr = NULL, bool allAvailable = false);
 
+        void CheckIntergrity(ChatCommand *table, ChatCommand *parentCommand);
         ChatCommand* getCommandTable();
 
         bool HandleAccountCommand(const char* args);
@@ -184,7 +194,7 @@ class ChatHandler
         bool HandleGameObjectTargetCommand(const char* args);
         bool HandleGameObjectTurnCommand(const char* args);
 
-		// Ticketsystem
+        // Ticketsystem
         bool HandleGMTicketListCommand(const char* args);
         bool HandleGMTicketListOnlineCommand(const char* args);
         bool HandleGMTicketListClosedCommand(const char* args);
@@ -215,7 +225,7 @@ class ChatHandler
         bool HandleGoXYZCommand(const char* args);
         bool HandleGoZoneXYCommand(const char* args);
 
-		bool HandleGoTicketCommand(const char* args);
+        bool HandleGoTicketCommand(const char* args);
 
         bool HandleGuildCreateCommand(const char* args);
         bool HandleGuildInviteCommand(const char* args);
@@ -292,7 +302,7 @@ class ChatHandler
         bool HandleModifyArenaCommand(const char* args);
         bool HandleModifyPhaseCommand(const char* args);
         bool HandleModifyGenderCommand(const char* args);
-		bool HandleModifyMirrorCommand(const char* args);
+        bool HandleModifyMirrorCommand(const char* args);
 
         //-----------------------Npc Commands-----------------------
         bool HandleNpcAddCommand(const char* args);
@@ -408,6 +418,7 @@ class ChatHandler
         bool HandleReloadQuestStartScriptsCommand(const char* args);
         bool HandleReloadQuestTemplateCommand(const char* args);
         bool HandleReloadReservedNameCommand(const char*);
+        bool HandleReloadReputationRewardRateCommand(const char* args);
         bool HandleReloadSkillDiscoveryTemplateCommand(const char* args);
         bool HandleReloadSkillExtraItemTemplateCommand(const char* args);
         bool HandleReloadSkillFishingBaseLevelCommand(const char* args);
@@ -530,6 +541,7 @@ class ChatHandler
         bool HandleCombatStopCommand(const char *args);
         bool HandleFlushArenaPointsCommand(const char *args);
         bool HandleRepairitemsCommand(const char* args);
+        bool HandleStableCommand(const char* args);
         bool HandleWaterwalkCommand(const char* args);
         bool HandleQuitCommand(const char* args);
 

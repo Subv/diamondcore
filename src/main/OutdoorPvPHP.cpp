@@ -285,7 +285,7 @@ void OPvPCapturePointHP::FillInitialWorldStates(WorldPacket& data, uint32& count
                        FillInitialWorldState(data, count, HP_MAP_H[m_TowerType],        0);
             break;
         case OBJECTIVESTATE_HORDE:
-        case OBJECTIVESTATE_HORDE_ALLIANCE_CHALLENGE:			
+        case OBJECTIVESTATE_HORDE_ALLIANCE_CHALLENGE:            
                        FillInitialWorldState(data, count, HP_MAP_N[m_TowerType],        0);
                        FillInitialWorldState(data, count, HP_MAP_A[m_TowerType],        0);
                        FillInitialWorldState(data, count, HP_MAP_H[m_TowerType],        1);

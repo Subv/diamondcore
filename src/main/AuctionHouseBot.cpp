@@ -38,7 +38,7 @@ void AuctionHouseBot::addNewAuctions(Player *AHBplayer, AHBConfig *config)
     if (!AHBSeller)
         return;
     AuctionHouseEntry const* ahEntry = sAuctionMgr.GetAuctionHouseEntry(config->GetAHFID());
-    AuctionHouseObject* auctionHouse = sAuctionMgr.GetAuctionsMap(config->GetAHFID());
+    AuctionHouseObject* auctionHouse = sAuctionMgr.GetAuctionsMap(ahEntry);
     uint32 items = 0;
     uint32 minItems = config->GetMinItems();
     uint32 maxItems = config->GetMaxItems();
@@ -313,33 +313,33 @@ void AuctionHouseBot::addNewAuctions(Player *AHBplayer, AHBConfig *config)
         switch (prototype->Bonding)
         {
                 case NO_BIND:
-		        buyBondingK = No_Bind;
-		        break;
+                buyBondingK = No_Bind;
+                break;
                 case BIND_WHEN_PICKED_UP:
-		        buyBondingK = Bind_When_Picked_Up;
-		        break;
+                buyBondingK = Bind_When_Picked_Up;
+                break;
                 case BIND_WHEN_EQUIPED:
-		        buyBondingK = Bind_When_Equipped;
-		        break;
+                buyBondingK = Bind_When_Equipped;
+                break;
                 case BIND_WHEN_USE:
-		        buyBondingK = Bind_When_Use;
-		        break;
+                buyBondingK = Bind_When_Use;
+                break;
                 case BIND_QUEST_ITEM:
-		        buyBondingK = Bind_Quest_Item;
-		        break;
+                buyBondingK = Bind_Quest_Item;
+                break;
                 default:
-			buyBondingK = 1;
-	}
+            buyBondingK = 1;
+    }
 
         switch (SellMethod)
         {
         case 0:
-	    if ( prototype->SellPrice > 8 )
+        if ( prototype->SellPrice > 8 )
             buyoutPrice  = prototype->SellPrice * item->GetCount();
             else buyoutPrice  = prototype->BuyPrice * item->GetCount() / 8 ;
             break;
         case 1:
-	    if ( prototype->BuyPrice > 1)
+        if ( prototype->BuyPrice > 1)
             buyoutPrice  = prototype->BuyPrice * item->GetCount();
             else buyoutPrice  = prototype->SellPrice * item->GetCount() * 8 ;
             break;
@@ -448,7 +448,8 @@ void AuctionHouseBot::addNewAuctionBuyerBotBid(Player *AHBplayer, AHBConfig *con
         return;
 
     // Fetches content of selected AH
-    AuctionHouseObject* auctionHouse = sAuctionMgr.GetAuctionsMap(config->GetAHFID());
+    AuctionHouseEntry const* ahEntry = sAuctionMgr.GetAuctionHouseEntry(config->GetAHFID());
+    AuctionHouseObject* auctionHouse = sAuctionMgr.GetAuctionsMap(ahEntry);
     vector<uint32> possibleBids;
 
     for (AuctionHouseObject::AuctionEntryMap::const_iterator itr = auctionHouse->GetAuctionsBegin();itr != auctionHouse->GetAuctionsEnd();++itr)
@@ -550,23 +551,23 @@ void AuctionHouseBot::addNewAuctionBuyerBotBid(Player *AHBplayer, AHBConfig *con
         long double bidMax = 0;
         
         long double protoSellPrice = prototype->SellPrice;
-	long double protoBuyPrice  = prototype->BuyPrice;
+    long double protoBuyPrice  = prototype->BuyPrice;
 
-	if ( protoSellPrice <= 10000 && protoBuyPrice  <= 10000) // вещи меньше 1г не рассматриваем
-	{
-	continue;
-	}
+    if ( protoSellPrice <= 10000 && protoBuyPrice  <= 10000) // вещи меньше 1г не рассматриваем
+    {
+    continue;
+    }
 
-	if (protoBuyPrice <= 1)
-	{
-	protoBuyPrice = protoSellPrice * 8 ;
-	}
-	
-	if (protoSellPrice <= 1)
-	{
-	protoSellPrice = protoBuyPrice / 8 ;
-	}
-	
+    if (protoBuyPrice <= 1)
+    {
+    protoBuyPrice = protoSellPrice * 8 ;
+    }
+    
+    if (protoSellPrice <= 1)
+    {
+    protoSellPrice = protoBuyPrice / 8 ;
+    }
+    
         // check that bid has acceptable value and take bid based on vendorprice, stacksize and quality
         switch (BuyMethod)
         {
@@ -1135,7 +1136,8 @@ void AuctionHouseBot::Commands(uint32 command, uint32 ahMapID, uint32 col, char*
     {
     case 0:     //ahexpire
         {
-            AuctionHouseObject* auctionHouse = sAuctionMgr.GetAuctionsMap(config->GetAHFID());
+            AuctionHouseEntry const* ahEntry = sAuctionMgr.GetAuctionHouseEntry(config->GetAHFID());
+            AuctionHouseObject* auctionHouse = sAuctionMgr.GetAuctionsMap(ahEntry);
 
             AuctionHouseObject::AuctionEntryMap::iterator itr;
             itr = auctionHouse->GetAuctionsBegin();
