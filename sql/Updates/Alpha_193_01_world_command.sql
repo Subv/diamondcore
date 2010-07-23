@@ -1,0 +1,1 @@
+INSERT INTO `command` (`name`, `security`, `help`) VALUES ('modify mirror', '2', 'Syntax: .modify mirror');

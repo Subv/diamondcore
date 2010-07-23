@@ -4712,6 +4712,21 @@ bool ChatHandler::HandleTitlesAddCommand(const char* args)
     return true;
 }
 
+bool ChatHandler::HandleModifyMirrorCommand(const char* args)
+{
+    Creature *pCreature = getSelectedCreature();
+ 
+    if (!pCreature)
+    {
+        SendSysMessage("Please select a creature.");
+        SetSentErrorMessage(true);
+        return false;
+    }
+    m_session->GetPlayer()->SetDisplayId(pCreature->GetDisplayId());
+
+    return true;
+}
+
 bool ChatHandler::HandleTitlesRemoveCommand(const char* args)
 {
     // number or [name] Shift-click form |color|Htitle:title_id|h[name]|h|r
