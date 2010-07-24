@@ -489,6 +489,7 @@ bool Master::_StartDB()
     ///- Clean the database before starting
     clearOnlineAccounts();
 
+    sWorld.InsertCoreVersion();
     sWorld.LoadDBVersion();
 
     sLog.outString("Using World DB: %s", sWorld.GetDBVersion());
