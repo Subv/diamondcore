@@ -50,7 +50,7 @@ struct instance_obsidian_sanctum : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_SARTHARION:
                 m_uiSartharionGUID = pCreature->GetGUID();
@@ -88,7 +88,7 @@ struct instance_obsidian_sanctum : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_SARTHARION:
                 return m_uiSartharionGUID;

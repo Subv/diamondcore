@@ -39,16 +39,16 @@ struct instance_pit_of_saron : public ScriptedInstance
 
     void OpenDoor(uint64 guid)
     {
-        if(!guid) return;
+        if (!guid) return;
         GameObject* pGo = instance->GetGameObject(guid);
-        if(pGo) pGo->SetGoState(GO_STATE_ACTIVE);
+        if (pGo) pGo->SetGoState(GO_STATE_ACTIVE);
     }
 
     void CloseDoor(uint64 guid)
     {
-        if(!guid) return;
+        if (!guid) return;
         GameObject* pGo = instance->GetGameObject(guid);
-        if(pGo) pGo->SetGoState(GO_STATE_READY);
+        if (pGo) pGo->SetGoState(GO_STATE_READY);
     }
 
     void Initialize()
@@ -67,7 +67,7 @@ struct instance_pit_of_saron : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_GAFROST:  m_uiGafrostGUID = pCreature->GetGUID(); break;
             case NPC_KRICK:    m_uiKrickGUID = pCreature->GetGUID(); break;
@@ -79,13 +79,13 @@ struct instance_pit_of_saron : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        //switch(pGo->GetEntry())
+        //switch (pGo->GetEntry())
         //{
         //}
     }
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_GAFROST:  m_auiEncounter[0] = uiData; break;
             case TYPE_KRICK:    m_auiEncounter[1] = uiData; break;
@@ -99,7 +99,7 @@ struct instance_pit_of_saron : public ScriptedInstance
 
             std::ostringstream saveStream;
 
-            for(uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
+            for (uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
                 saveStream << m_auiEncounter[i] << " ";
 
             strSaveData = saveStream.str();
@@ -116,7 +116,7 @@ struct instance_pit_of_saron : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_GAFROST:   return m_auiEncounter[0];
             case TYPE_KRICK:     return m_auiEncounter[1];
@@ -128,7 +128,7 @@ struct instance_pit_of_saron : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case NPC_GAFROST:  return m_uiGafrostGUID;
             case NPC_KRICK:    return m_uiKrickGUID;
@@ -151,7 +151,7 @@ struct instance_pit_of_saron : public ScriptedInstance
 
         std::istringstream loadStream(chrIn);
 
-        for(uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
         {
             loadStream >> m_auiEncounter[i];
 

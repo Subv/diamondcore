@@ -236,7 +236,7 @@ struct boss_janalaiAI : public ScriptedAI
 
     void JustSummoned(Creature* pSummoned)
     {
-        switch(pSummoned->GetEntry())
+        switch (pSummoned->GetEntry())
         {
             case NPC_AMANI_HATCHER_1:
                 m_uiHatcher1GUID = pSummoned->GetGUID();
@@ -302,7 +302,7 @@ struct boss_janalaiAI : public ScriptedAI
         //float fX, fY, fZ;
         //float fRadius = 5.0f;
 
-        for(uint8 i = 0; i < uiMaxBombs; ++i)
+        for (uint8 i = 0; i < uiMaxBombs; ++i)
         {
             m_creature->CastSpell(m_creature, m_auiSpellFireBombSummon[i], true);
 
@@ -332,7 +332,7 @@ struct boss_janalaiAI : public ScriptedAI
         if (m_lBombsGUIDList.empty())
             return;
 
-        for(std::list<uint64>::iterator itr = m_lBombsGUIDList.begin(); itr != m_lBombsGUIDList.end(); ++itr)
+        for (std::list<uint64>::iterator itr = m_lBombsGUIDList.begin(); itr != m_lBombsGUIDList.end(); ++itr)
         {
             if (Unit* pUnit = Unit::GetUnit(*m_creature,*itr))
             {
@@ -351,7 +351,7 @@ struct boss_janalaiAI : public ScriptedAI
 
         if (!m_lEggsRemainingList.empty())
         {
-            for(std::list<Creature*>::iterator itr = m_lEggsRemainingList.begin(); itr != m_lEggsRemainingList.end(); ++itr)
+            for (std::list<Creature*>::iterator itr = m_lEggsRemainingList.begin(); itr != m_lEggsRemainingList.end(); ++itr)
             {
                 if ((*itr)->isAlive())
                     (*itr)->CastSpell((*itr), SPELL_SUMMON_DRAGONHAWK, true);
@@ -364,13 +364,13 @@ struct boss_janalaiAI : public ScriptedAI
 
             if (uint32 uiEggsRemaining_Right = m_pInstance->GetData(DATA_J_EGGS_RIGHT))
             {
-                for(uint32 i = 0; i < uiEggsRemaining_Right; ++i)
+                for (uint32 i = 0; i < uiEggsRemaining_Right; ++i)
                     m_pInstance->SetData(DATA_J_EGGS_RIGHT, SPECIAL);
             }
 
             if (uint32 uiEggsRemaining_Left = m_pInstance->GetData(DATA_J_EGGS_LEFT))
             {
-                for(uint32 i = 0; i < uiEggsRemaining_Left; ++i)
+                for (uint32 i = 0; i < uiEggsRemaining_Left; ++i)
                     m_pInstance->SetData(DATA_J_EGGS_LEFT, SPECIAL);
             }
         }
@@ -469,7 +469,7 @@ struct boss_janalaiAI : public ScriptedAI
         {
             if (m_uiBombSequenzeTimer < diff)
             {
-                switch(m_uiBombPhase)
+                switch (m_uiBombPhase)
                 {
                     case 0:
                         m_creature->CastSpell(m_creature,SPELL_FIRE_BOMB_CHANNEL,true);
@@ -640,7 +640,7 @@ struct mob_amanishi_hatcherAI : public ScriptedAI
     {
         uint32 uiSaveRightOrLeft = m_creature->GetEntry() == NPC_AMANI_HATCHER_1 ? DATA_J_EGGS_RIGHT : DATA_J_EGGS_LEFT;
 
-        for(uint32 i = 0; i < uiCount; ++i)
+        for (uint32 i = 0; i < uiCount; ++i)
         {
             if (Creature* pEgg = GetClosestCreatureWithEntry(m_creature, NPC_EGG, 40.0f))
                 pEgg->CastSpell(pEgg, SPELL_SUMMON_DRAGONHAWK, true);

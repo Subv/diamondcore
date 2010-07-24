@@ -42,7 +42,7 @@ struct instance_pinnacle : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_DOOR_SKADI:
                 m_uiSkadiDoorGUID = pGo->GetGUID();
@@ -58,7 +58,7 @@ struct instance_pinnacle : public ScriptedInstance
     {
         debug_log("SD2: Instance Pinnacle: SetData received for type %u with data %u", uiType, uiData);
 
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_SVALA:
                 m_auiEncounter[0] = uiData;
@@ -97,7 +97,7 @@ struct instance_pinnacle : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_SVALA:
                 return m_auiEncounter[0];
@@ -130,7 +130,7 @@ struct instance_pinnacle : public ScriptedInstance
         std::istringstream loadStream(chrIn);
         loadStream >> m_auiEncounter[0] >> m_auiEncounter[1] >> m_auiEncounter[2] >> m_auiEncounter[3];
 
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
         {
             if (m_auiEncounter[i] == IN_PROGRESS)
                 m_auiEncounter[i] = NOT_STARTED;

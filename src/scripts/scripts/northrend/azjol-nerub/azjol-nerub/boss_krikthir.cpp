@@ -164,9 +164,9 @@ struct boss_krikthirAI : public ScriptedAI
         if (uiCurseFatigueTimer <= diff)
         {
             //WowWiki say "Curse of Fatigue-Kirk'thir will cast Curse of Fatigue on 2-3 targets periodically."
-            if(Unit *pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
+            if (Unit *pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                DoCast(pTarget, SPELL_CURSE_OF_FATIGUE);
-            if(Unit *pTarget_1 = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
+            if (Unit *pTarget_1 = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                DoCast(pTarget_1, SPELL_CURSE_OF_FATIGUE);
 
             uiCurseFatigueTimer = 10000;

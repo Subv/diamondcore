@@ -175,7 +175,7 @@ struct boss_lady_blaumeuxAI : public ScriptedAI
             m_creature->AddThreat(pWho);
             m_creature->SetInCombatWith(pWho);
             pWho->SetInCombatWith(m_creature);
-            if(Chase)
+            if (Chase)
             {
                 m_creature->GetMotionMaster()->MoveChase(pWho);
                 Chase = false;
@@ -189,7 +189,7 @@ struct boss_lady_blaumeuxAI : public ScriptedAI
         float neardist = 0.0f;
         Map* pMap = m_creature->GetMap();
         Map::PlayerList const &lPlayers = pMap->GetPlayers();
-        for(Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
+        for (Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
         {
             Player* pPlayer = itr->getSource();
             if (!pPlayer)
@@ -214,7 +214,7 @@ struct boss_lady_blaumeuxAI : public ScriptedAI
             return;
 
         AttackStart(pWho);
-        if(pWho->IsWithinDist(m_creature, 40))
+        if (pWho->IsWithinDist(m_creature, 40))
             DoCast(pWho, m_bIsRegularMode ? SPELL_SHADOW_BOLT : H_SPELL_SHADOW_BOLT);
         else
             DoCast(pWho, SPELL_UNYILDING_PAIN);
@@ -322,7 +322,7 @@ struct boss_rivendare_naxxAI : public ScriptedAI
 
     void Aggro(Unit *who)
     {
-        switch(rand()%3)
+        switch (rand()%3)
         {
             case 0: DoScriptText(SAY_RIVE_AGGRO1, m_creature); break;
             case 1: DoScriptText(SAY_RIVE_AGGRO2, m_creature); break;
@@ -339,7 +339,7 @@ struct boss_rivendare_naxxAI : public ScriptedAI
 
     void KilledUnit(Unit* Victim)
     {
-        switch(rand()%2)
+        switch (rand()%2)
         {
             case 0: DoScriptText(SAY_RIVE_SLAY1, m_creature); break;
             case 1: DoScriptText(SAY_RIVE_SLAY2, m_creature); break;
@@ -582,7 +582,7 @@ struct boss_sir_zeliekAI : public ScriptedAI
         float neardist = 0.0f;
         Map* pMap = m_creature->GetMap();
         Map::PlayerList const &lPlayers = pMap->GetPlayers();
-        for(Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
+        for (Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
         {
             Player* pPlayer = itr->getSource();
             if (!pPlayer)
@@ -603,7 +603,7 @@ struct boss_sir_zeliekAI : public ScriptedAI
             m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
         
         AttackStart(pWho);
-        if(pWho->IsWithinDist(m_creature, 40))
+        if (pWho->IsWithinDist(m_creature, 40))
             DoCast(pWho, m_bIsRegularMode ? SPELL_HOLY_BOLT : H_SPELL_HOLY_BOLT);
         else
             DoCast(pWho, SPELL_CONDEMNATION);
@@ -620,7 +620,7 @@ struct boss_sir_zeliekAI : public ScriptedAI
             m_creature->AddThreat(pWho);
             m_creature->SetInCombatWith(pWho);
             pWho->SetInCombatWith(m_creature);
-            if(Chase)
+            if (Chase)
             {
                 m_creature->GetMotionMaster()->MoveChase(pWho);
                 Chase = false;

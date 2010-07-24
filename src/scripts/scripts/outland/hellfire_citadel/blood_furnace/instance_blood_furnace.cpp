@@ -80,7 +80,7 @@ struct instance_blood_furnace : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case 17381: m_uiMakerGUID = pCreature->GetGUID(); break;
             case 17380: m_uiBroggokGUID = pCreature->GetGUID(); break;
@@ -131,7 +131,7 @@ struct instance_blood_furnace : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_THE_MAKER:            return m_uiMakerGUID;
             case DATA_BROGGOK:              return m_uiBroggokGUID;
@@ -150,7 +150,7 @@ struct instance_blood_furnace : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_THE_MAKER_EVENT:
                 if (uiData == IN_PROGRESS)
@@ -205,7 +205,7 @@ struct instance_blood_furnace : public ScriptedInstance
 
     uint32 GetData(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case TYPE_THE_MAKER_EVENT:  return m_auiEncounter[0];
             case TYPE_BROGGOK_EVENT:    return m_auiEncounter[1];
@@ -233,7 +233,7 @@ struct instance_blood_furnace : public ScriptedInstance
         std::istringstream loadStream(in);
         loadStream >> m_auiEncounter[0] >> m_auiEncounter[1] >> m_auiEncounter[2];
 
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
             if (m_auiEncounter[i] == IN_PROGRESS || m_auiEncounter[i] == FAIL)
                 m_auiEncounter[i] = NOT_STARTED;
 

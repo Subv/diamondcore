@@ -73,7 +73,7 @@ class ViewPoint
     {
         if (!m_cameras.empty())
         {
-            for(std::list<Camera*>::iterator itr = m_cameras.begin(); itr != m_cameras.end();)
+            for (std::list<Camera*>::iterator itr = m_cameras.begin(); itr != m_cameras.end();)
             {
                 Camera *c = *(itr++);
                 (c->*handler)();

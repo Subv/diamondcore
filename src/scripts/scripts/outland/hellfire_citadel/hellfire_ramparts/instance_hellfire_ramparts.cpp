@@ -52,7 +52,7 @@ struct instance_ramparts : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case 185168: m_uiChestNGUID = pGo->GetGUID(); break;
             case 185169: m_uiChestHGUID = pGo->GetGUID(); break;
@@ -63,7 +63,7 @@ struct instance_ramparts : public ScriptedInstance
     {
         debug_log("SD2: Instance Ramparts: SetData received for type %u with data %u",uiType,uiData);
 
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_VAZRUDEN:
                 if (uiData == DONE && m_auiEncounter[1] == DONE)

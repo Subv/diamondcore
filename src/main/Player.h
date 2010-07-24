@@ -232,16 +232,16 @@ struct Glyph
 
     void SetId(uint32 newId)
     {
-        if(newId == id)
+        if (newId == id)
             return;
 
-        if(id == 0 && uState == GLYPH_UNCHANGED)            // not exist yet in db and already saved
+        if (id == 0 && uState == GLYPH_UNCHANGED)            // not exist yet in db and already saved
         {
             uState = GLYPH_NEW;
         }
         else if (newId == 0)
         {
-            if(uState == GLYPH_NEW)                         // delete before add new -> no change
+            if (uState == GLYPH_NEW)                         // delete before add new -> no change
                 uState = GLYPH_UNCHANGED;
             else                                            // delete existing data
                 uState = GLYPH_DELETED;
@@ -281,7 +281,7 @@ struct PlayerClassInfo
 
 struct PlayerLevelInfo
 {
-    PlayerLevelInfo() { for(int i=0; i < MAX_STATS; ++i ) stats[i] = 0; }
+    PlayerLevelInfo() { for (int i=0; i < MAX_STATS; ++i ) stats[i] = 0; }
 
     uint8 stats[MAX_STATS];
 };
@@ -379,7 +379,7 @@ struct Runes
 
     void SetRuneState(uint8 index, bool set = true)
     {
-        if(set)
+        if (set)
             runeState |= (1 << index);                      // usable
         else
             runeState &= ~(1 << index);                     // on cooldown
@@ -713,7 +713,7 @@ struct EquipmentSet
 {
     EquipmentSet() : Guid(0), state(EQUIPMENT_SET_NEW)
     {
-        for(int i = 0; i < EQUIPMENT_SLOT_END; ++i)
+        for (int i = 0; i < EQUIPMENT_SLOT_END; ++i)
             Items[i] = 0;
     }
 
@@ -1096,18 +1096,18 @@ class Player : public Unit
                                                             // mount_id can be used in scripting calls
         void ContinueTaxiFlight();
         bool isAcceptTickets() const { return GetSession()->GetSecurity() >= SEC_GAMEMASTER && (m_ExtraFlags & PLAYER_EXTRA_GM_ACCEPT_TICKETS); }
-        void SetAcceptTicket(bool on) { if(on) m_ExtraFlags |= PLAYER_EXTRA_GM_ACCEPT_TICKETS; else m_ExtraFlags &= ~PLAYER_EXTRA_GM_ACCEPT_TICKETS; }
+        void SetAcceptTicket(bool on) { if (on) m_ExtraFlags |= PLAYER_EXTRA_GM_ACCEPT_TICKETS; else m_ExtraFlags &= ~PLAYER_EXTRA_GM_ACCEPT_TICKETS; }
         bool isAcceptWhispers() const { return m_ExtraFlags & PLAYER_EXTRA_ACCEPT_WHISPERS; }
-        void SetAcceptWhispers(bool on) { if(on) m_ExtraFlags |= PLAYER_EXTRA_ACCEPT_WHISPERS; else m_ExtraFlags &= ~PLAYER_EXTRA_ACCEPT_WHISPERS; }
+        void SetAcceptWhispers(bool on) { if (on) m_ExtraFlags |= PLAYER_EXTRA_ACCEPT_WHISPERS; else m_ExtraFlags &= ~PLAYER_EXTRA_ACCEPT_WHISPERS; }
         bool isGameMaster() const { return m_ExtraFlags & PLAYER_EXTRA_GM_ON; }
         void SetGameMaster(bool on);
         bool isGMChat() const { return GetSession()->GetSecurity() >= SEC_MODERATOR && (m_ExtraFlags & PLAYER_EXTRA_GM_CHAT); }
-        void SetGMChat(bool on) { if(on) m_ExtraFlags |= PLAYER_EXTRA_GM_CHAT; else m_ExtraFlags &= ~PLAYER_EXTRA_GM_CHAT; }
+        void SetGMChat(bool on) { if (on) m_ExtraFlags |= PLAYER_EXTRA_GM_CHAT; else m_ExtraFlags &= ~PLAYER_EXTRA_GM_CHAT; }
         bool isTaxiCheater() const { return m_ExtraFlags & PLAYER_EXTRA_TAXICHEAT; }
-        void SetTaxiCheater(bool on) { if(on) m_ExtraFlags |= PLAYER_EXTRA_TAXICHEAT; else m_ExtraFlags &= ~PLAYER_EXTRA_TAXICHEAT; }
+        void SetTaxiCheater(bool on) { if (on) m_ExtraFlags |= PLAYER_EXTRA_TAXICHEAT; else m_ExtraFlags &= ~PLAYER_EXTRA_TAXICHEAT; }
         bool isGMVisible() const { return !(m_ExtraFlags & PLAYER_EXTRA_GM_INVISIBLE); }
         void SetGMVisible(bool on);
-        void SetPvPDeath(bool on) { if(on) m_ExtraFlags |= PLAYER_EXTRA_PVP_DEATH; else m_ExtraFlags &= ~PLAYER_EXTRA_PVP_DEATH; }
+        void SetPvPDeath(bool on) { if (on) m_ExtraFlags |= PLAYER_EXTRA_PVP_DEATH; else m_ExtraFlags &= ~PLAYER_EXTRA_PVP_DEATH; }
 
         void GiveXP(uint32 xp, Unit* victim);
         void GiveLevel(uint32 level);
@@ -1197,7 +1197,7 @@ class Player : public Unit
         }
         uint8 CanStoreItem( uint8 bag, uint8 slot, ItemPosCountVec& dest, Item *pItem, bool swap = false ) const
         {
-            if(!pItem)
+            if (!pItem)
                 return EQUIP_ERR_ITEM_NOT_FOUND;
             uint32 count = pItem->GetCount();
             return _CanStoreItem( bag, slot, dest, pItem->GetEntry(), count, pItem, swap, NULL );
@@ -1489,13 +1489,13 @@ void RewardRage( uint32 damage, uint32 weaponSpeedHitFactor, bool attacker );
         uint32 GetMoney() const { return GetUInt32Value (PLAYER_FIELD_COINAGE); }
         void ModifyMoney( int32 d )
         {
-            if(d < 0)
+            if (d < 0)
                 SetMoney (GetMoney() > uint32(-d) ? GetMoney() + d : 0);
             else
                 SetMoney (GetMoney() < uint32(MAX_MONEY_AMOUNT - d) ? GetMoney() + d : MAX_MONEY_AMOUNT);
 
             // "At Gold Limit"
-            if(GetMoney() >= MAX_MONEY_AMOUNT)
+            if (GetMoney() >= MAX_MONEY_AMOUNT)
                 SendEquipError(EQUIP_ERR_TOO_MUCH_GOLD,NULL,NULL);
         }
         void SetMoney( uint32 value )
@@ -1717,7 +1717,7 @@ void RewardRage( uint32 damage, uint32 weaponSpeedHitFactor, bool attacker );
         void DuelComplete(DuelCompleteType type);
         void SendDuelCountdown(uint32 counter);
 
-        bool IsGroupVisibleFor(Player* p) const;
+        bool IsGroupVisiblefor (Player* p) const;
         bool IsInSameGroupWith(Player const* p) const;
         bool IsInSameRaidWith(Player const* p) const { return p==this || (GetGroup() != NULL && GetGroup() == p->GetGroup()); }
         void UninviteFromGroup();
@@ -2226,7 +2226,7 @@ void RewardRage( uint32 damage, uint32 weaponSpeedHitFactor, bool attacker );
         bool HaveAtClient(WorldObject const* u) { return u==this || m_clientGUIDs.find(u->GetGUID())!=m_clientGUIDs.end(); }
 
         bool IsVisibleInGridForPlayer(Player* pl) const;
-        bool IsVisibleGloballyFor(Player* pl) const;
+        bool IsVisibleGloballyfor (Player* pl) const;
 
         void UpdateVisibilityOf(WorldObject const* viewPoint, WorldObject* target);
 
@@ -2677,18 +2677,18 @@ template <class T> T Player::ApplySpellMod(uint32 spellId, SpellModOp op, T &bas
     {
         SpellModifier *mod = *itr;
 
-        if(!IsAffectedBySpellmod(spellInfo,mod,spell))
+        if (!IsAffectedBySpellmod(spellInfo,mod,spell))
             continue;
         if (mod->type == SPELLMOD_FLAT)
             totalflat += mod->value;
         else if (mod->type == SPELLMOD_PCT)
         {
             // skip percent mods for null basevalue (most important for spell mods with charges )
-            if(basevalue == T(0))
+            if (basevalue == T(0))
                 continue;
 
             // special case (skip >10sec spell casts for instant cast setting)
-            if( mod->op==SPELLMOD_CASTING_TIME  && basevalue >= T(10*IN_MILLISECONDS) && mod->value <= -100)
+            if ( mod->op==SPELLMOD_CASTING_TIME  && basevalue >= T(10*IN_MILLISECONDS) && mod->value <= -100)
                 continue;
 
             totalpct += mod->value;
@@ -2701,7 +2701,7 @@ template <class T> T Player::ApplySpellMod(uint32 spellId, SpellModOp op, T &bas
             {
                 mod->charges = -1;
                 mod->lastAffected = spell;
-                if(!mod->lastAffected)
+                if (!mod->lastAffected)
                     mod->lastAffected = FindCurrentSpellBySpellId(spellId);
                 ++m_SpellModRemoveCount;
             }
@@ -2717,7 +2717,7 @@ template<typename Func>
 void Player::CallForAllControlledUnits(Func const& func, bool withTotems, bool withGuardians, bool withCharms, bool withMiniPet)
 {
     if (withMiniPet)
-        if(Unit* mini = GetMiniPet())
+        if (Unit* mini = GetMiniPet())
             func(mini);
 
     Unit::CallForAllControlledUnits(func,withTotems,withGuardians,withCharms);
@@ -2727,7 +2727,7 @@ template<typename Func>
 bool Player::CheckAllControlledUnits(Func const& func, bool withTotems, bool withGuardians, bool withCharms, bool withMiniPet) const
 {
     if (withMiniPet)
-        if(Unit const* mini = GetMiniPet())
+        if (Unit const* mini = GetMiniPet())
             if (func(mini))
                 return true;
 

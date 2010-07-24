@@ -97,7 +97,7 @@ class ChatLog : public Diamond::Singleton<ChatLog, Diamond::ClassLevelLockable<C
 
         void OpenAllFiles();
         void CloseAllFiles();
-        void CheckDateSwitch();
+        void CheckDateswitch ();
 
         void WriteInitStamps();
         void OutTimestamp(FILE *file);

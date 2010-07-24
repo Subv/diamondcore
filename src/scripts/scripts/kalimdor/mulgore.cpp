@@ -107,7 +107,7 @@ struct npc_kyle_the_frenziedAI : public ScriptedAI
                 m_uiEventTimer = 5000;
                 ++m_uiEventPhase;
 
-                switch(m_uiEventPhase)
+                switch (m_uiEventPhase)
                 {
                     case 1:
                         if (Unit* pUnit = Unit::GetUnit(*m_creature,m_uiPlayerGUID))

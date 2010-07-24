@@ -48,9 +48,9 @@ void BattleGroundDS::Update(uint32 diff)
     if (GetStatus() == STATUS_IN_PROGRESS)
     {
         // knockback
-        if(m_uiKnockback < diff)
+        if (m_uiKnockback < diff)
         {
-            for(BattleGroundPlayerMap::const_iterator itr = GetPlayers().begin(); itr != GetPlayers().end(); ++itr)
+            for (BattleGroundPlayerMap::const_iterator itr = GetPlayers().begin(); itr != GetPlayers().end(); ++itr)
             {
                 Player * plr = sObjectMgr.GetPlayer(itr->first);
                 if (plr && plr->IsWithinLOS(1214,765,14) && plr->GetDistance2d(1214,765) <= 50)
@@ -127,7 +127,7 @@ void BattleGroundDS::HandleAreaTrigger(Player *Source, uint32 Trigger)
     if (GetStatus() != STATUS_IN_PROGRESS)
         return;
 
-    switch(Trigger)
+    switch (Trigger)
     {
         case 5347:
         case 5348:

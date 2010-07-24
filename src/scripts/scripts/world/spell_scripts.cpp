@@ -59,7 +59,7 @@ enum
 
 bool EffectDummyGameObj_spell_dummy_go(Unit* pCaster, uint32 uiSpellId, SpellEffectIndex uiEffIndex, GameObject* pGOTarget)
 {
-    switch(uiSpellId)
+    switch (uiSpellId)
     {
         case SPELL_ANUNIAQS_NET:
         {
@@ -236,7 +236,7 @@ enum
 
 bool EffectAuraDummy_spell_aura_dummy_npc(const Aura* pAura, bool bApply)
 {
-    switch(pAura->GetId())
+    switch (pAura->GetId())
     {
         case SPELL_HEALING_SALVE:
         {
@@ -334,7 +334,7 @@ bool EffectAuraDummy_spell_aura_dummy_npc(const Aura* pAura, bool bApply)
 
 bool EffectDummyCreature_spell_dummy_npc(Unit* pCaster, uint32 uiSpellId, SpellEffectIndex uiEffIndex, Creature* pCreatureTarget)
 {
-    switch(uiSpellId)
+    switch (uiSpellId)
     {
         case SPELL_ADMINISTER_ANTIDOTE:
         {
@@ -374,11 +374,11 @@ bool EffectDummyCreature_spell_dummy_npc(Unit* pCaster, uint32 uiSpellId, SpellE
                 if (pCreatureTarget->getStandState() == UNIT_STAND_STATE_STAND)
                     return true;
 
-                switch(urand(1,2))
+                switch (urand(1,2))
                 {
                     case 1:
                     {
-                        switch(urand(1,3))
+                        switch (urand(1,3))
                         {
                             case 1: DoScriptText(SAY_RAND_ATTACK1, pCreatureTarget); break;
                             case 2: DoScriptText(SAY_RAND_ATTACK2, pCreatureTarget); break;
@@ -391,7 +391,7 @@ bool EffectDummyCreature_spell_dummy_npc(Unit* pCaster, uint32 uiSpellId, SpellE
                     }
                     case 2:
                     {
-                        switch(urand(1,3))
+                        switch (urand(1,3))
                         {
                             case 1: DoScriptText(SAY_RAND_WORK1, pCreatureTarget); break;
                             case 2: DoScriptText(SAY_RAND_WORK2, pCreatureTarget); break;
@@ -495,7 +495,7 @@ bool EffectDummyCreature_spell_dummy_npc(Unit* pCaster, uint32 uiSpellId, SpellE
             {
                 uint32 uiNewEntry = 0;
 
-                switch(pCreatureTarget->GetEntry())
+                switch (pCreatureTarget->GetEntry())
                 {
                     case NPC_REANIMATED_FROSTWYRM:  uiNewEntry = NPC_WEAK_REANIMATED_FROSTWYRM; break;
                     case NPC_TURGID:                uiNewEntry = NPC_WEAK_TURGID; break;
@@ -566,7 +566,7 @@ bool EffectDummyCreature_spell_dummy_npc(Unit* pCaster, uint32 uiSpellId, SpellE
                 {
                     uint32 newSpellId = 0;
 
-                    switch(pCreatureTarget->GetEntry())
+                    switch (pCreatureTarget->GetEntry())
                     {
                         case NPC_COLLECT_A_TRON:    newSpellId = SPELL_SUMMON_COLLECT_A_TRON; break;
                         case NPC_DEFENDO_TANK:      newSpellId = SPELL_SUMMON_DEFENDO_TANK; break;

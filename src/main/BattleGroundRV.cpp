@@ -48,9 +48,9 @@ void BattleGroundRV::Update(uint32 diff)
     if (GetStatus() == STATUS_IN_PROGRESS)
     {
         // teleport buggers
-        if(m_uiTeleport < diff)
+        if (m_uiTeleport < diff)
         {
-            for(BattleGroundPlayerMap::const_iterator itr = GetPlayers().begin(); itr != GetPlayers().end(); ++itr)
+            for (BattleGroundPlayerMap::const_iterator itr = GetPlayers().begin(); itr != GetPlayers().end(); ++itr)
             {
                 Player * plr = sObjectMgr.GetPlayer(itr->first);
                 if (plr && plr->GetPositionZ() < 27)
@@ -127,7 +127,7 @@ void BattleGroundRV::HandleAreaTrigger(Player * Source, uint32 Trigger)
     if (GetStatus() != STATUS_IN_PROGRESS)
         return;
 
-    switch(Trigger)
+    switch (Trigger)
     {
         case 5224:
         case 5226:

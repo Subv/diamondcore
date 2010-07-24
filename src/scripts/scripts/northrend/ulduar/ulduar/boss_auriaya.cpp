@@ -39,17 +39,17 @@ struct boss_auriayaAI : public ScriptedAI
         TerrifyTimer = 30000 + rand()%15000;
         SwarmTimer = 10000;
 
-        if(pInstance) pInstance->SetData(TYPE_AURIAYA, NOT_STARTED);
+        if (pInstance) pInstance->SetData(TYPE_AURIAYA, NOT_STARTED);
     }
 
     void Aggro(Unit *who) 
     {
-        if(pInstance) pInstance->SetData(TYPE_AURIAYA, IN_PROGRESS);
+        if (pInstance) pInstance->SetData(TYPE_AURIAYA, IN_PROGRESS);
     }
 
     void JustDied(Unit *killer)
     {
-        if(pInstance) pInstance->SetData(TYPE_AURIAYA, DONE);
+        if (pInstance) pInstance->SetData(TYPE_AURIAYA, DONE);
     }
 
     void UpdateAI(const uint32 diff)
@@ -61,7 +61,7 @@ struct boss_auriayaAI : public ScriptedAI
         {
             Unit *defender = DoSpawnCreature(CR_FERAL_DEFENDER, 0, 0, 0, 0, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 10000);
             Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-            if(defender && target && target->isAlive())
+            if (defender && target && target->isAlive())
                 defender->AddThreat(target, 1.0f);
             DefenderTimer = 45000;
         }
@@ -77,16 +77,16 @@ struct boss_auriayaAI : public ScriptedAI
         if (SwarmTimer < diff)
         {
             Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-            if(target && target->isAlive())
+            if (target && target->isAlive())
             {
                 DoCast(target, SP_GUARDIAN_SWARM);
                 /*Creature *add = NULL;
-                for(int i=0; i<16; i++)
+                for (int i=0; i<16; i++)
                 {
                     add = DoSpawnCreature(CR_SWARMING_GUARDIAN, 
                         target->GetPositionX(), target->GetPositionY(), target->GetPositionZ(), 0,
                         TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 10000);
-                    if(add) add->AddThreat(target, 1.0f);
+                    if (add) add->AddThreat(target, 1.0f);
                 }*/
             }
 

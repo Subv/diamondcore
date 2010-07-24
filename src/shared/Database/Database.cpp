@@ -34,9 +34,9 @@ bool Database::Initialize(const char *)
     // (See method: PExecuteLog)
     m_logSQL = sConfig.GetBoolDefault("LogSQL", false);
     m_logsDir = sConfig.GetStringDefault("LogsDir","");
-    if(!m_logsDir.empty())
+    if (!m_logsDir.empty())
     {
-        if((m_logsDir.at(m_logsDir.length()-1)!='/') && (m_logsDir.at(m_logsDir.length()-1)!='\\'))
+        if ((m_logsDir.at(m_logsDir.length()-1)!='/') && (m_logsDir.at(m_logsDir.length()-1)!='\\'))
             m_logsDir.append("/");
     }
 
@@ -54,7 +54,7 @@ void Database::ThreadEnd()
 
 void Database::escape_string(std::string& str)
 {
-    if(str.empty())
+    if (str.empty())
         return;
 
     char* buf = new char[str.size()*2+1];
@@ -74,13 +74,13 @@ bool Database::PExecuteLog(const char * format,...)
     int res = vsnprintf( szQuery, MAX_QUERY_LEN, format, ap );
     va_end(ap);
 
-    if(res==-1)
+    if (res==-1)
     {
         sLog.outError("SQL Query truncated (and not execute) for format: %s",format);
         return false;
     }
 
-    if( m_logSQL )
+    if ( m_logSQL )
     {
         time_t curr;
         tm local;
@@ -115,7 +115,7 @@ void Database::SetResultQueue(SqlResultQueue * queue)
 
 QueryResult* Database::PQuery(const char *format,...)
 {
-    if(!format) return NULL;
+    if (!format) return NULL;
 
     va_list ap;
     char szQuery [MAX_QUERY_LEN];
@@ -123,7 +123,7 @@ QueryResult* Database::PQuery(const char *format,...)
     int res = vsnprintf( szQuery, MAX_QUERY_LEN, format, ap );
     va_end(ap);
 
-    if(res==-1)
+    if (res==-1)
     {
         sLog.outError("SQL Query truncated (and not execute) for format: %s",format);
         return false;
@@ -134,7 +134,7 @@ QueryResult* Database::PQuery(const char *format,...)
 
 QueryNamedResult* Database::PQueryNamed(const char *format,...)
 {
-    if(!format) return NULL;
+    if (!format) return NULL;
 
     va_list ap;
     char szQuery [MAX_QUERY_LEN];
@@ -142,7 +142,7 @@ QueryNamedResult* Database::PQueryNamed(const char *format,...)
     int res = vsnprintf( szQuery, MAX_QUERY_LEN, format, ap );
     va_end(ap);
 
-    if(res==-1)
+    if (res==-1)
     {
         sLog.outError("SQL Query truncated (and not execute) for format: %s",format);
         return false;
@@ -162,7 +162,7 @@ bool Database::PExecute(const char * format,...)
     int res = vsnprintf( szQuery, MAX_QUERY_LEN, format, ap );
     va_end(ap);
 
-    if(res==-1)
+    if (res==-1)
     {
         sLog.outError("SQL Query truncated (and not execute) for format: %s",format);
         return false;
@@ -182,7 +182,7 @@ bool Database::DirectPExecute(const char * format,...)
     int res = vsnprintf( szQuery, MAX_QUERY_LEN, format, ap );
     va_end(ap);
 
-    if(res==-1)
+    if (res==-1)
     {
         sLog.outError("SQL Query truncated (and not execute) for format: %s",format);
         return false;

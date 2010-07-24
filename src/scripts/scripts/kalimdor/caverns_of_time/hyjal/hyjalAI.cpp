@@ -97,7 +97,7 @@ void hyjalAI::Reset()
     m_uiEnemyCount = 0;
 
     // Set base area based on creature entry
-    switch(m_creature->GetEntry())
+    switch (m_creature->GetEntry())
     {
         case NPC_JAINA:
             m_uiBase = BASE_ALLY;
@@ -157,7 +157,7 @@ void hyjalAI::JustReachedHome()
 
 void hyjalAI::Aggro(Unit *who)
 {
-    for(uint8 i = 0; i < MAX_SPELL; ++i)
+    for (uint8 i = 0; i < MAX_SPELL; ++i)
         if (m_aSpells[i].m_uiCooldown)
             m_uiSpellTimer[i] = m_aSpells[i].m_uiCooldown;
 
@@ -258,7 +258,7 @@ void hyjalAI::SummonNextWave()
 
     m_uiEnemyCount = m_pInstance->GetData(DATA_TRASH);
 
-    for(uint8 i = 0; i < MAX_WAVE_MOB; ++i)
+    for (uint8 i = 0; i < MAX_WAVE_MOB; ++i)
     {
         if (pWaveData->m_auiMobEntry[i])
             SpawnCreatureForWave(pWaveData->m_auiMobEntry[i]);
@@ -398,7 +398,7 @@ void hyjalAI::UpdateAI(const uint32 uiDiff)
 
             if (!lWaveMobGUIDList.empty())
             {
-                for(std::list<uint64>::iterator itr = lWaveMobGUIDList.begin(); itr != lWaveMobGUIDList.end(); ++itr)
+                for (std::list<uint64>::iterator itr = lWaveMobGUIDList.begin(); itr != lWaveMobGUIDList.end(); ++itr)
                 {
                     if (Creature* pTemp = m_pInstance->instance->GetCreature(*itr))
                     {
@@ -423,7 +423,7 @@ void hyjalAI::UpdateAI(const uint32 uiDiff)
 
     if (m_uiCheckTimer < uiDiff)
     {
-        for(uint8 i = 0; i < 2; ++i)
+        for (uint8 i = 0; i < 2; ++i)
         {
             if (m_uiBossGUID[i])
             {
@@ -463,7 +463,7 @@ void hyjalAI::UpdateAI(const uint32 uiDiff)
     if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
         return;
 
-    for(uint8 i = 0; i < MAX_SPELL; ++i)
+    for (uint8 i = 0; i < MAX_SPELL; ++i)
     {
         if (m_aSpells[i].m_uiSpellId)
         {
@@ -474,7 +474,7 @@ void hyjalAI::UpdateAI(const uint32 uiDiff)
 
                 Unit* pTarget = NULL;
 
-                switch(m_aSpells[i].m_pType)
+                switch (m_aSpells[i].m_pType)
                 {
                     case TARGETTYPE_SELF:   pTarget = m_creature; break;
                     case TARGETTYPE_RANDOM: pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0); break;

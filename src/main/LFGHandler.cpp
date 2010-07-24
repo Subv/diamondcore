@@ -116,7 +116,7 @@ void WorldSession::SendLfgUpdatePlayer(uint8 updateType)
     bool queued = false;
     bool extrainfo = false;
 
-    switch(updateType)
+    switch (updateType)
     {
     case LFG_UPDATETYPE_JOIN_PROPOSAL:
     case LFG_UPDATETYPE_ADDED_TO_QUEUE:
@@ -154,7 +154,7 @@ void WorldSession::SendLfgUpdateParty(uint8 updateType)
     bool extrainfo = false;
     bool queued = false;
 
-    switch(updateType)
+    switch (updateType)
     {
     case LFG_UPDATETYPE_JOIN_PROPOSAL:
         extrainfo = true;

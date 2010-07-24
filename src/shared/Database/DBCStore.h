@@ -79,7 +79,7 @@ class DBCStorage
         {
             DBCFileLoader dbc;
             // Check if load was sucessful, only then continue
-            if(!dbc.Load(fn, fmt))
+            if (!dbc.Load(fn, fmt))
                 return false;
 
             uint32 sqlRecordCount = 0;
@@ -132,7 +132,7 @@ class DBCStorage
                         if (!fields)
                             fields = result->Fetch();
 
-                        if(sql->indexPos >= 0)
+                        if (sql->indexPos >= 0)
                         {
                             uint32 id = fields[sql->sqlIndexPos].GetUInt32();
                             if (indexTable[id])
@@ -151,7 +151,7 @@ class DBCStorage
                         {
                             if ((*sql->formatString)[columnNumber] == FT_SQL_ABSENT)
                             {
-                                switch(fmt[columnNumber])
+                                switch (fmt[columnNumber])
                                 {
                                     case FT_FLOAT:
                                         *((float*)(&sqlDataTable[offset]))= 0.0f;
@@ -176,7 +176,7 @@ class DBCStorage
                             else if ((*sql->formatString)[columnNumber] == FT_SQL_PRESENT)
                             {
                                 bool validSqlColumn = true;
-                                switch(fmt[columnNumber])
+                                switch (fmt[columnNumber])
                                 {
                                     case FT_FLOAT:
                                         *((float*)(&sqlDataTable[offset]))=fields[sqlColumnNumber].GetFloat();
@@ -227,12 +227,12 @@ class DBCStorage
         bool LoadStringsFrom(char const* fn)
         {
             // DBC must be already loaded using Load
-            if(!indexTable)
+            if (!indexTable)
                 return false;
 
             DBCFileLoader dbc;
             // Check if load was successful, only then continue
-            if(!dbc.Load(fn, fmt))
+            if (!dbc.Load(fn, fmt))
                 return false;
 
             // load strings from another locale dbc data

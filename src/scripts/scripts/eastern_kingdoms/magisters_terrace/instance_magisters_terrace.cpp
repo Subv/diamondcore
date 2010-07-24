@@ -77,7 +77,7 @@ struct instance_magisters_terrace : public ScriptedInstance
 
     bool IsEncounterInProgress() const
     {
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
             if (m_auiEncounter[i] == IN_PROGRESS)
                 return true;
         return false;
@@ -85,7 +85,7 @@ struct instance_magisters_terrace : public ScriptedInstance
 
     uint32 GetData(uint32 identifier)
     {
-        switch(identifier)
+        switch (identifier)
         {
             case DATA_SELIN_EVENT:          return m_auiEncounter[0];
             case DATA_VEXALLUS_EVENT:       return m_auiEncounter[1];
@@ -99,7 +99,7 @@ struct instance_magisters_terrace : public ScriptedInstance
 
     void SetData(uint32 identifier, uint32 data)
     {
-        switch(identifier)
+        switch (identifier)
         {
             case DATA_SELIN_EVENT:
                 m_auiEncounter[0] = data;
@@ -130,7 +130,7 @@ struct instance_magisters_terrace : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case 24723: m_uiSelinGUID = pCreature->GetGUID(); break;
             case 24560: m_uiDelrissaGUID = pCreature->GetGUID(); break;
@@ -140,7 +140,7 @@ struct instance_magisters_terrace : public ScriptedInstance
 
     void OnObjectCreate(GameObject* go)
     {
-        switch(go->GetEntry())
+        switch (go->GetEntry())
         {
             case 187896:  m_uiVexallusDoorGUID = go->GetGUID();       break;
             //SunwellRaid Gate 02
@@ -156,7 +156,7 @@ struct instance_magisters_terrace : public ScriptedInstance
 
     uint64 GetData64(uint32 identifier)
     {
-        switch(identifier)
+        switch (identifier)
         {
             case DATA_SELIN:                return m_uiSelinGUID;
             case DATA_DELRISSA:             return m_uiDelrissaGUID;

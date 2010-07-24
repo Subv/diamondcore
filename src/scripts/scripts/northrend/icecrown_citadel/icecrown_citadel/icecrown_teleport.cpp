@@ -53,11 +53,11 @@ static t_Locations PortalLoc[]=
 
 bool GOGossipSelect_go_icecrown_teleporter(Player *pPlayer, GameObject* pGo, uint32 sender, uint32 action)
 {
-    if(sender != GOSSIP_SENDER_MAIN) return false;
+    if (sender != GOSSIP_SENDER_MAIN) return false;
 
-    if(!pPlayer->getAttackers().empty()) return false;
+    if (!pPlayer->getAttackers().empty()) return false;
 
-    if(action >= 0 && action <= PORTALS_COUNT)
+    if (action >= 0 && action <= PORTALS_COUNT)
     pPlayer->TeleportTo(MAP_NUM, PortalLoc[action].x, PortalLoc[action].y, PortalLoc[action].z, 0);
     if (PortalLoc[action].spellID !=0 ) 
            if (SpellEntry const* spell = (SpellEntry *)GetSpellStore()->LookupEntry(PortalLoc[action].spellID))
@@ -100,7 +100,7 @@ bool GOGossipHello_go_icecrown_teleporter(Player *pPlayer, GameObject* pGo)
                       break;
     };
 
-    for(uint8 i = 0; i < PORTALS_COUNT; i++) {
+    for (uint8 i = 0; i < PORTALS_COUNT; i++) {
     if (PortalLoc[i].active == true && (PortalLoc[i].state == true || pInstance->GetData(TYPE_TELEPORT) >= PortalLoc[i].encounter) || pPlayer->isGameMaster())
              pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_TAXI, PortalLoc[i].name[_locale], GOSSIP_SENDER_MAIN, i);
     };
@@ -111,7 +111,7 @@ bool GOGossipHello_go_icecrown_teleporter(Player *pPlayer, GameObject* pGo)
 bool GOGossipHello_go_plague_sigil(Player *player, GameObject* pGo)
 {
     instance_icecrown_spire* pInstance = (instance_icecrown_spire*)pGo->GetInstanceData();
-    if(!pInstance) return false;
+    if (!pInstance) return false;
 
     if (pInstance->GetData(TYPE_FESTERGUT) == DONE
         && pInstance->GetData(TYPE_ROTFACE) == DONE)
@@ -126,7 +126,7 @@ bool GOGossipHello_go_plague_sigil(Player *player, GameObject* pGo)
 bool GOGossipHello_go_bloodwing_sigil(Player *player, GameObject* pGo)
 {
     instance_icecrown_spire* pInstance = (instance_icecrown_spire*)pGo->GetInstanceData();
-    if(!pInstance) return false;
+    if (!pInstance) return false;
 
     if (pInstance->GetData(TYPE_PUTRICIDE) == DONE)
             pInstance->OpenDoor(pInstance->GetData64(GO_BLOODWING_DOOR));
@@ -137,7 +137,7 @@ bool GOGossipHello_go_bloodwing_sigil(Player *player, GameObject* pGo)
 bool GOGossipHello_go_frostwing_sigil(Player *player, GameObject* pGo)
 {
     instance_icecrown_spire* pInstance = (instance_icecrown_spire*)pGo->GetInstanceData();
-    if(!pInstance) return false;
+    if (!pInstance) return false;
 
     if (pInstance->GetData(TYPE_LANATHEL) == DONE)
         pInstance->OpenDoor(pInstance->GetData64(GO_FROSTWING_DOOR));

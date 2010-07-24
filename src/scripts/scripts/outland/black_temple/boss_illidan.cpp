@@ -417,7 +417,7 @@ struct npc_akama_illidanAI : public ScriptedAI
             if (pGate && !pGate->GetGoState())
                 pGate->SetGoState(GO_STATE_READY);
 
-            for(uint8 i = DATA_GAMEOBJECT_ILLIDAN_DOOR_R; i < DATA_GAMEOBJECT_ILLIDAN_DOOR_L + 1; ++i)
+            for (uint8 i = DATA_GAMEOBJECT_ILLIDAN_DOOR_R; i < DATA_GAMEOBJECT_ILLIDAN_DOOR_L + 1; ++i)
             {
                 if (GameObject* pDoor = m_pInstance->instance->GetGameObject(m_pInstance->GetData64(i)))
                     pDoor->SetGoState(GO_STATE_ACTIVE);
@@ -427,7 +427,7 @@ struct npc_akama_illidanAI : public ScriptedAI
         IllidanGUID = 0;
         PlayerGUID  = 0;
         ChannelGUID = 0;
-        for(uint8 i = 0; i < 2; ++i) SpiritGUID[i] = 0;
+        for (uint8 i = 0; i < 2; ++i) SpiritGUID[i] = 0;
 
         ChannelTimer = 0;
         ChannelCount = 0;
@@ -522,7 +522,7 @@ struct npc_akama_illidanAI : public ScriptedAI
 
                 float PosX, PosY, PosZ;
                 m_creature->GetPosition(PosX, PosY, PosZ);
-                for(uint8 i = 0; i < 2; ++i)
+                for (uint8 i = 0; i < 2; ++i)
                 {
                     Creature* Spirit = m_creature->SummonCreature(SpiritSpawns[i].id, SpiritSpawns[i].x, SpiritSpawns[i].y, SpiritSpawns[i].z, 0, TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN, 360000);
                     if (Spirit)
@@ -548,13 +548,13 @@ struct npc_akama_illidanAI : public ScriptedAI
         if (WayPoint->id != id)
             return;
 
-        switch(id)
+        switch (id)
         {
             case 6:
                 if (!IsReturningToIllidan)
                 {
                     // open the doors that close the summit
-                    for(uint32 i = DATA_GAMEOBJECT_ILLIDAN_DOOR_R; i < DATA_GAMEOBJECT_ILLIDAN_DOOR_L+1; ++i)
+                    for (uint32 i = DATA_GAMEOBJECT_ILLIDAN_DOOR_R; i < DATA_GAMEOBJECT_ILLIDAN_DOOR_L+1; ++i)
                     {
                         if (GameObject* pDoor = m_pInstance->instance->GetGameObject(m_pInstance->GetData64(i)))
                             pDoor->SetGoState(GO_STATE_ACTIVE);
@@ -639,7 +639,7 @@ struct npc_akama_illidanAI : public ScriptedAI
                 {
                     if (TalkTimer < diff)
                     {
-                        switch(TalkCount)
+                        switch (TalkCount)
                         {
                             case 0:
                                 DoScriptText(SAY_AKAMA_MINION, Illidan);
@@ -696,14 +696,14 @@ struct npc_akama_illidanAI : public ScriptedAI
         {
             if (ChannelTimer < diff)
             {
-                switch(ChannelCount)
+                switch (ChannelCount)
                 {
                     case 3:
                         if (!DoorOpen)
                         {
                             m_creature->InterruptNonMeleeSpells(true);
 
-                            for(uint8 i = 0; i < 2; ++i)
+                            for (uint8 i = 0; i < 2; ++i)
                             {
                                 if (SpiritGUID[i])
                                 {
@@ -734,7 +734,7 @@ struct npc_akama_illidanAI : public ScriptedAI
                                 ChannelTarget->setDeathState(JUST_DIED);
                             ChannelGUID = 0;
                         }
-                        for(uint8 i = 0; i < 2; ++i)
+                        for (uint8 i = 0; i < 2; ++i)
                         {
                             if (SpiritGUID[i])
                             {
@@ -767,7 +767,7 @@ struct npc_akama_illidanAI : public ScriptedAI
                             {
                                 m_creature->InterruptNonMeleeSpells(true);
 
-                                for(uint8 i = 0; i < 2; ++i)
+                                for (uint8 i = 0; i < 2; ++i)
                                 {
                                     if (SpiritGUID[i])
                                     {
@@ -840,7 +840,7 @@ struct boss_illidan_stormrageAI : public ScriptedAI
     {
         m_pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
 
-        for(uint8 i = 0; i < 2; ++i)
+        for (uint8 i = 0; i < 2; ++i)
         {
             FlameGUID[i] = 0;
             GlaiveGUID[i] = 0;
@@ -903,7 +903,7 @@ struct boss_illidan_stormrageAI : public ScriptedAI
         Phase = PHASE_NORMAL;
 
         // Check if any flames/glaives are alive/existing. Kill if alive and set GUIDs to 0
-        for(uint8 i = 0; i < 2; ++i)
+        for (uint8 i = 0; i < 2; ++i)
         {
             if (Unit* Flame = Unit::GetUnit((*m_creature), FlameGUID[i]))
             {
@@ -1017,7 +1017,7 @@ struct boss_illidan_stormrageAI : public ScriptedAI
         if (!who || m_creature->getVictim() || IsTalking || m_creature->HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE))
             return;
 
-        if (who->isTargetableForAttack() && who->isInAccessablePlaceFor(m_creature) && m_creature->IsHostileTo(who))
+        if (who->isTargetableForAttack() && who->isInAccessablePlacefor (m_creature) && m_creature->IsHostileTo(who))
         {
             if (!m_creature->canFly() && m_creature->GetDistanceZ(who) > CREATURE_Z_ATTACK_RANGE)
                 return;
@@ -1045,7 +1045,7 @@ struct boss_illidan_stormrageAI : public ScriptedAI
         // Completed
         m_pInstance->SetData(TYPE_ILLIDAN, DONE);
 
-        for(uint8 i = DATA_GAMEOBJECT_ILLIDAN_DOOR_R; i < DATA_GAMEOBJECT_ILLIDAN_DOOR_L + 1; ++i)
+        for (uint8 i = DATA_GAMEOBJECT_ILLIDAN_DOOR_R; i < DATA_GAMEOBJECT_ILLIDAN_DOOR_L + 1; ++i)
         {
             // Open Doors
             if (GameObject* pDoor = m_pInstance->instance->GetGameObject(m_pInstance->GetData64(i)))
@@ -1104,7 +1104,7 @@ struct boss_illidan_stormrageAI : public ScriptedAI
         float final_Y = EyeBlast[final].y;
         float final_Z = EyeBlast[final].z;
 
-        for(uint8 i = 0; i < 2; ++i)
+        for (uint8 i = 0; i < 2; ++i)
         {
             Creature* Trigger = NULL;
             Trigger = m_creature->SummonCreature(DEMON_FIRE, initial_X, initial_Y, initial_Z, 0, TEMPSUMMON_TIMED_DESPAWN, 20000);
@@ -1279,7 +1279,7 @@ struct boss_illidan_stormrageAI : public ScriptedAI
         m_creature->AddSplineFlag(SPLINEFLAG_NO_SPLINE);
 
         m_creature->GetMotionMaster()->MovePoint(0, CENTER_X, CENTER_Y, CENTER_Z);
-        for(uint8 i = 0; i < 2; ++i)
+        for (uint8 i = 0; i < 2; ++i)
         {
             Creature* Glaive = m_creature->SummonCreature(BLADE_OF_AZZINOTH, GlaivePosition[i].x, GlaivePosition[i].y, GlaivePosition[i].z, 0, TEMPSUMMON_CORPSE_DESPAWN, 0);
             if (Glaive)
@@ -1306,7 +1306,7 @@ struct boss_illidan_stormrageAI : public ScriptedAI
         // since they are now channeling the flames (or will be)
         SetEquipmentSlots(false, EQUIP_UNEQUIP, EQUIP_UNEQUIP, EQUIP_NO_CHANGE);
 
-        for(uint8 i = 0; i < 2; ++i)
+        for (uint8 i = 0; i < 2; ++i)
         {
             Creature* Glaive = NULL;
             Glaive = ((Creature*)Unit::GetUnit((*m_creature), GlaiveGUID[i]));
@@ -1322,7 +1322,7 @@ struct boss_illidan_stormrageAI : public ScriptedAI
     {
         DoScriptText(SAY_SUMMONFLAMES, m_creature);
 
-        for(uint8 i = 0; i < 2; ++i)
+        for (uint8 i = 0; i < 2; ++i)
         {
             Creature* Flame = NULL;
             Creature* Glaive = NULL;
@@ -1429,7 +1429,7 @@ struct boss_illidan_stormrageAI : public ScriptedAI
         {
             if (TalkTimer < diff)
             {
-                switch(TalkCount)                           // This is only for specialized cases
+                switch (TalkCount)                           // This is only for specialized cases
                 {
                     case 0:
                         // Time to stand up!
@@ -1653,7 +1653,7 @@ struct boss_illidan_stormrageAI : public ScriptedAI
                     if (CheckFlamesTimer <= diff)
                     {
                         // Check if flames are dead or non-existant. If so, set GUID to 0.
-                        for(uint8 i = 0; i < 2; ++i)
+                        for (uint8 i = 0; i < 2; ++i)
                         {
                             if (FlameGUID[i])
                             {
@@ -1682,7 +1682,7 @@ struct boss_illidan_stormrageAI : public ScriptedAI
                     {
                                                             // Interrupt any spells we might be doing *cough* DArk Barrage *cough*
                         m_creature->InterruptNonMeleeSpells(false);
-                        for(uint8 i = 0; i < 2; ++i)
+                        for (uint8 i = 0; i < 2; ++i)
                         {
                             if (GlaiveGUID[i])
                             {
@@ -1809,7 +1809,7 @@ struct boss_illidan_stormrageAI : public ScriptedAI
             {
                 m_creature->InterruptNonMeleeSpells(false);
                 Creature* ShadowDemon = NULL;
-                for(uint8 i = 0; i < 4; ++i)
+                for (uint8 i = 0; i < 4; ++i)
                 {
                     Unit* target = NULL;
                     target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0);
@@ -1912,7 +1912,7 @@ void npc_akama_illidanAI::BeginEvent(uint64 PlayerGUID)
 
     if (m_pInstance)
     {
-        for(uint8 i = DATA_GAMEOBJECT_ILLIDAN_DOOR_R; i < DATA_GAMEOBJECT_ILLIDAN_DOOR_L+1; ++i)
+        for (uint8 i = DATA_GAMEOBJECT_ILLIDAN_DOOR_R; i < DATA_GAMEOBJECT_ILLIDAN_DOOR_L+1; ++i)
         {
             if (GameObject* pDoor = m_pInstance->instance->GetGameObject(m_pInstance->GetData64(i)))
                 pDoor->SetGoState(GO_STATE_READY);
@@ -2345,7 +2345,7 @@ CreatureAI* GetAI_npc_akama_at_illidan(Creature* pCreature)
 {
     npc_akama_illidanAI* Akama_AI = new npc_akama_illidanAI(pCreature);
 
-    for(uint8 i = 0; i < 13; ++i)
+    for (uint8 i = 0; i < 13; ++i)
         Akama_AI->AddWaypoint(i, AkamaWP[i].x, AkamaWP[i].y, AkamaWP[i].z);
 
     return ((CreatureAI*)Akama_AI);

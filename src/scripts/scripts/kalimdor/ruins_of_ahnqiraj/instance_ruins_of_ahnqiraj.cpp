@@ -65,7 +65,7 @@ struct instance_ruins_of_ahnqiraj : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_OSSIRIAN:        m_uiOssirianGUID  = pCreature->GetGUID(); break;
             case NPC_BURU:            m_uiBuruGUID      = pCreature->GetGUID(); break;
@@ -84,7 +84,7 @@ struct instance_ruins_of_ahnqiraj : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_OSSIRIAN_CRYSTAL: pGo->SetFlag(GAMEOBJECT_FLAGS, GO_FLAG_INTERACT_COND); break; //to make them unusable temporarily
         }
@@ -106,7 +106,7 @@ struct instance_ruins_of_ahnqiraj : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_OSSIRIAN:  return m_uiOssirianGUID;
             case DATA_BURU:      return m_uiBuruGUID;
@@ -126,7 +126,7 @@ struct instance_ruins_of_ahnqiraj : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_RAJAXX:
                 m_auiEncounter[0] = uiData;
@@ -164,7 +164,7 @@ struct instance_ruins_of_ahnqiraj : public ScriptedInstance
 
         loadStream >> m_auiEncounter[0] >> m_auiEncounter[1];
 
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
         {
             if (m_auiEncounter[i] == IN_PROGRESS)
                 m_auiEncounter[i] = NOT_STARTED;
@@ -180,7 +180,7 @@ struct instance_ruins_of_ahnqiraj : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_RAJAXX:
                 return m_auiEncounter[0];

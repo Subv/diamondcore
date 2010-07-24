@@ -114,7 +114,7 @@ struct npc_manaforge_control_consoleAI : public ScriptedAI
             Unit* pPlayer = Unit::GetUnit((*m_creature), m_uiPlayerGUID);
             if (pPlayer && pPlayer->GetTypeId() == TYPEID_PLAYER)
             {
-                switch(m_creature->GetEntry())
+                switch (m_creature->GetEntry())
                 {
                     case NPC_BNAAR_C_CONSOLE:
                         ((Player*)pPlayer)->FailQuest(QUEST_SHUTDOWN_BNAAR_ALDOR);
@@ -147,7 +147,7 @@ struct npc_manaforge_control_consoleAI : public ScriptedAI
     {
         Creature* pAdd = NULL;
 
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_BNAAR_C_CONSOLE:
                 if (urand(0, 1))
@@ -204,7 +204,7 @@ struct npc_manaforge_control_consoleAI : public ScriptedAI
     {
         Creature* pAdd = NULL;
 
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_BNAAR_C_CONSOLE:
                 if (pAdd = m_creature->SummonCreature(NPC_SUNFURY_TECH, 2946.52f, 4201.42f, 163.47f, 3.54f, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 120000))
@@ -249,7 +249,7 @@ struct npc_manaforge_control_consoleAI : public ScriptedAI
             if (pPlayer->GetTypeId() != TYPEID_PLAYER)
                 return;
 
-            switch(m_uiPhase)
+            switch (m_uiPhase)
             {
                 case 1:
                     DoScriptText(EMOTE_START, m_creature, pPlayer);
@@ -321,7 +321,7 @@ bool GOHello_go_manaforge_control_console(Player* pPlayer, GameObject* pGo)
 
     Creature* pManaforge = NULL;
 
-    switch(pGo->GetAreaId())
+    switch (pGo->GetAreaId())
     {
         case 3726:                                          // b'naar
             if ((pPlayer->GetQuestStatus(QUEST_SHUTDOWN_BNAAR_ALDOR) == QUEST_STATUS_INCOMPLETE
@@ -535,7 +535,7 @@ struct npc_commander_dawnforgeAI : public ScriptedAI
                 m_uiPhaseTimer = 6000;
                 break;
             case 6:
-                switch(m_uiPhaseSubphase)
+                switch (m_uiPhaseSubphase)
                 {
                     case 0:
                         TurnToPathaleonsImage();
@@ -551,7 +551,7 @@ struct npc_commander_dawnforgeAI : public ScriptedAI
                 }
                 break;
             case 7:
-                switch(m_uiPhaseSubphase)
+                switch (m_uiPhaseSubphase)
                 {
                     case 0:
                         DoScriptText(SAY_PATHALEON_THE_CALCULATOR_IMAGE_2, pPathaleon);
@@ -711,7 +711,7 @@ struct npc_bessyAI : public npc_escortAI
 
     void WaypointReached(uint32 uiPointId)
     {
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 3:
                 m_creature->SummonCreature(NPC_TORMENTED_SOUL, 2449.67f, 2183.11f, 96.85f, 6.20f, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 25000);

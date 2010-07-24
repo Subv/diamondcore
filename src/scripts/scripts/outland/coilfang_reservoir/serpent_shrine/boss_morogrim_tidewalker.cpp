@@ -112,7 +112,7 @@ struct boss_morogrim_tidewalkerAI : public ScriptedAI
 
     void KilledUnit(Unit* pVictim)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_SLAY1, m_creature); break;
             case 1: DoScriptText(SAY_SLAY2, m_creature); break;
@@ -196,13 +196,13 @@ struct boss_morogrim_tidewalkerAI : public ScriptedAI
             if (m_uiWateryGrave_Timer < uiDiff)
             {
                 //Teleport 4 players under the waterfalls
-                for(uint8 i = 0; i < 4; ++i)
+                for (uint8 i = 0; i < 4; ++i)
                 {
                     Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 1);
 
                     if (pTarget && pTarget->GetTypeId() == TYPEID_PLAYER && !pTarget->HasAuraType(SPELL_AURA_MOD_STUN) && pTarget->IsWithinDistInMap(m_creature, 45.0f))
                     {
-                        switch(i)
+                        switch (i)
                         {
                             case 0: pTarget->CastSpell(pTarget,SPELL_WATERY_GRAVE_1,false); break;
                             case 1: pTarget->CastSpell(pTarget,SPELL_WATERY_GRAVE_2,false); break;
@@ -261,7 +261,7 @@ struct mob_water_globuleAI : public ScriptedAI
         if (!pWho || m_creature->getVictim())
             return;
 
-        if (pWho->isTargetableForAttack() && pWho->isInAccessablePlaceFor(m_creature) && m_creature->IsHostileTo(pWho))
+        if (pWho->isTargetableForAttack() && pWho->isInAccessablePlacefor (m_creature) && m_creature->IsHostileTo(pWho))
         {
             //no attack radius check - it attacks the first target that moves in his los
             pWho->RemoveSpellsCausingAura(SPELL_AURA_MOD_STEALTH);

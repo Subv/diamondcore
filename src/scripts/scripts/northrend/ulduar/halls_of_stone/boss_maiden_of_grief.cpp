@@ -71,7 +71,7 @@ struct boss_maiden_of_griefAI : public ScriptedAI
         m_uiStorm_Timer = 10000 + rand()%5000;
         m_uiShockSorrow_Timer = 20000 + rand()%5000;
 
-        if(m_pInstance)
+        if (m_pInstance)
             m_pInstance->SetData(TYPE_GRIEF, NOT_STARTED);
     }
 
@@ -79,13 +79,13 @@ struct boss_maiden_of_griefAI : public ScriptedAI
     {
         DoScriptText(SAY_AGGRO, m_creature);
 
-        if(m_pInstance)
+        if (m_pInstance)
             m_pInstance->SetData(TYPE_GRIEF, IN_PROGRESS);
     }
 
     void KilledUnit(Unit* pVictim)
     {
-        switch(rand()%4)
+        switch (rand()%4)
         {
             case 0: DoScriptText(SAY_SLAY_1, m_creature); break;
             case 1: DoScriptText(SAY_SLAY_2, m_creature); break;

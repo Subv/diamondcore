@@ -113,7 +113,7 @@ struct instance_culling_of_stratholme : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_CHROMI01: 
                          pCreature->SetActiveObjectState(true);
@@ -241,14 +241,14 @@ struct instance_culling_of_stratholme : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_QUEST:
                 m_auiEncounter[0] = uiData;
                 break; 
             case TYPE_CRATES_COUNT:
                 m_uiCratesCount = m_uiCratesCount + uiData;
-                if(m_uiCratesCount == 5)
+                if (m_uiCratesCount == 5)
                 {
                    m_auiEncounter[0] = DONE;
                    ChromiWhispers();
@@ -269,9 +269,9 @@ struct instance_culling_of_stratholme : public ScriptedInstance
                 break;
             case TYPE_BONUS:
                 m_auiEncounter[5] = uiData;
-                if(uiData == IN_PROGRESS)
+                if (uiData == IN_PROGRESS)
                 {
-                  if(Creature* Corruptor = instance->GetCreature(m_uiCorruptorGUID))
+                  if (Creature* Corruptor = instance->GetCreature(m_uiCorruptorGUID))
                      Corruptor->SetPhaseMask(1, true);
                   DoUpdateWorldState(WORLD_STATE_COS_TIME_ON, 1);
                   DoUpdateWorldState(WORLD_STATE_COS_TIME_COUNT, 25);  
@@ -293,7 +293,7 @@ struct instance_culling_of_stratholme : public ScriptedInstance
 
     void SetData64(uint32 uiData, uint64 uiGuid)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case NPC_SALRAMM:
                 m_uiSalrammGUID = uiGuid;
@@ -306,7 +306,7 @@ struct instance_culling_of_stratholme : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_QUEST:
                 return m_auiEncounter[0];
@@ -328,7 +328,7 @@ struct instance_culling_of_stratholme : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case NPC_FORRESTER: return m_uiForrestenGUID;
             case NPC_JAMES: return m_uiJamesGUID;
@@ -360,18 +360,18 @@ struct instance_culling_of_stratholme : public ScriptedInstance
 
     void Update(uint32 uiDiff)
     {
-       if(m_auiEncounter[5] == IN_PROGRESS)
+       if (m_auiEncounter[5] == IN_PROGRESS)
        {
-         if(m_uiHeroicTimer < uiDiff)
+         if (m_uiHeroicTimer < uiDiff)
          {
              m_auiEncounter[5] = FAIL;
              DoUpdateWorldState(WORLD_STATE_COS_TIME_ON, 0);
-             if(Creature* Corruptor = instance->GetCreature(m_uiCorruptorGUID))
+             if (Creature* Corruptor = instance->GetCreature(m_uiCorruptorGUID))
                Corruptor->SetPhaseMask(0, true);
 
          }else m_uiHeroicTimer -= uiDiff;
 
-         if(m_uiHeroicTimer < m_uiLastTimer - 60000)
+         if (m_uiHeroicTimer < m_uiLastTimer - 60000)
          {
             m_uiLastTimer = m_uiHeroicTimer;
             uint32 tMinutes = m_uiHeroicTimer / 60000;

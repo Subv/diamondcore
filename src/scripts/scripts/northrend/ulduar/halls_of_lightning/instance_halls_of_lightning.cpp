@@ -65,7 +65,7 @@ struct instance_halls_of_lightning : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_BJARNGRIM:
                 m_uiGeneralBjarngrimGUID = pCreature->GetGUID();
@@ -84,7 +84,7 @@ struct instance_halls_of_lightning : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_VOLKHAN_DOOR:
                 m_uiVolkhanDoorGUID = pGo->GetGUID();
@@ -109,7 +109,7 @@ struct instance_halls_of_lightning : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_BJARNGRIM:
                 m_auiEncounter[0] = uiData;
@@ -158,7 +158,7 @@ struct instance_halls_of_lightning : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_BJARNGRIM:
                 return m_auiEncounter[0];
@@ -174,7 +174,7 @@ struct instance_halls_of_lightning : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_BJARNGRIM:
                 return m_uiGeneralBjarngrimGUID;
@@ -201,7 +201,7 @@ struct instance_halls_of_lightning : public ScriptedInstance
         std::istringstream loadStream(in);
         loadStream >> m_auiEncounter[0] >> m_auiEncounter[1] >> m_auiEncounter[2] >> m_auiEncounter[3];
 
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
         {
             if (m_auiEncounter[i] == IN_PROGRESS)
                 m_auiEncounter[i] = NOT_STARTED;

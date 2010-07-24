@@ -182,7 +182,7 @@ void SystemMgr::LoadScriptWaypoints()
 
     if (pResult)
     {
-		uint32 uiNodeCount = 0;
+        uint32 uiNodeCount = 0;
 
         do
         {

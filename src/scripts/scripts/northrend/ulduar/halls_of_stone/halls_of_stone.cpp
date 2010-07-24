@@ -184,7 +184,7 @@ struct mob_tribuna_controllerAI : public ScriptedAI
         if (!m_lKaddrakGUIDList.empty())
         {
             uint32 uiPositionCounter = 0;
-            for(std::list<Creature*>::iterator itr = m_lKaddrakGUIDList.begin(); itr != m_lKaddrakGUIDList.end(); ++itr)
+            for (std::list<Creature*>::iterator itr = m_lKaddrakGUIDList.begin(); itr != m_lKaddrakGUIDList.end(); ++itr)
             {
                 if ((*itr)->isAlive())
                 {
@@ -214,7 +214,7 @@ struct mob_tribuna_controllerAI : public ScriptedAI
             {
                 if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                     if (!m_lKaddrakGUIDList.empty())
-                        for(std::list<Creature*>::iterator itr = m_lKaddrakGUIDList.begin(); itr != m_lKaddrakGUIDList.end(); ++itr)
+                        for (std::list<Creature*>::iterator itr = m_lKaddrakGUIDList.begin(); itr != m_lKaddrakGUIDList.end(); ++itr)
                             if ((*itr)->isAlive())
                                 (*itr)->CastSpell(pTarget, m_bIsRegularMode ? SPELL_GLARE_OF_THE_TRIBUNAL_H : SPELL_GLARE_OF_THE_TRIBUNAL, true);
 
@@ -298,7 +298,7 @@ struct npc_brann_hosAI : public npc_escortAI
 
             DespawnDwarf();
 
-            if(m_pInstance)
+            if (m_pInstance)
                 m_pInstance->SetData(TYPE_BRANN, NOT_STARTED);
         }
     }
@@ -322,7 +322,7 @@ struct npc_brann_hosAI : public npc_escortAI
 
     void WaypointReached(uint32 uiPointId)
     {
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 7:
                 if (Creature* pCreature = GetClosestCreatureWithEntry(m_creature, NPC_TRIBUNAL_OF_THE_AGES, 100.0f))
@@ -355,7 +355,7 @@ struct npc_brann_hosAI : public npc_escortAI
 
     void KilledUnit(Unit* pVictim)
     {
-        switch(rand()%3)
+        switch (rand()%3)
         {
             case 0: DoScriptText(SAY_KILL_1, m_creature); break;
             case 1: DoScriptText(SAY_KILL_2, m_creature); break;
@@ -373,7 +373,7 @@ struct npc_brann_hosAI : public npc_escortAI
         if (m_lDwarfGUIDList.empty())
             return;
 
-        for(std::list<uint64>::iterator itr = m_lDwarfGUIDList.begin(); itr != m_lDwarfGUIDList.end(); ++itr)
+        for (std::list<uint64>::iterator itr = m_lDwarfGUIDList.begin(); itr != m_lDwarfGUIDList.end(); ++itr)
         {
             if (Creature* pTemp = (Creature*)Unit::GetUnit(*m_creature, *itr))
             {
@@ -387,7 +387,7 @@ struct npc_brann_hosAI : public npc_escortAI
 
     void SpawnDwarf(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case 1:
             {
@@ -424,7 +424,7 @@ struct npc_brann_hosAI : public npc_escortAI
     {
         if (m_uiPhase_timer < uiDiff)
         {
-            switch(m_uiStep)
+            switch (m_uiStep)
             {
                 case 0: // unused
                     break;

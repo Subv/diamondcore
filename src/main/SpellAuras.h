@@ -95,11 +95,11 @@ class SpellAuraHolder
 
         void SetInUse(bool state)
         {
-            if(state)
+            if (state)
                 ++m_in_use;
             else
             {
-                if(m_in_use)
+                if (m_in_use)
                     --m_in_use;
             }
         }
@@ -188,15 +188,15 @@ typedef void(Aura::*pAuraHandler)(bool Apply, bool Real);
 // Real == true at aura add/remove
 // Real == false at aura mod unapply/reapply; when adding/removing dependent aura/item/stat mods
 //
-// Code in aura handler can be guarded by if(Real) check if it should execution only at real add/remove of aura
+// Code in aura handler can be guarded by if (Real) check if it should execution only at real add/remove of aura
 //
-// MAIN RULE: Code MUST NOT be guarded by if(Real) check if it modifies any stats
+// MAIN RULE: Code MUST NOT be guarded by if (Real) check if it modifies any stats
 //      (percent auras, stats mods, etc)
-// Second rule: Code must be guarded by if(Real) check if it modifies object state (start/stop attack, send packets to client, etc)
+// Second rule: Code must be guarded by if (Real) check if it modifies object state (start/stop attack, send packets to client, etc)
 //
-// Other case choice: each code line moved under if(Real) check is DiamondCore speedup,
-//      each setting object update field code line moved under if(Real) check is significant DiamondCore speedup, and less server->client data sends
-//      each packet sending code moved under if(Real) check is _large_ DiamondCore speedup, and lot less server->client data sends
+// Other case choice: each code line moved under if (Real) check is DiamondCore speedup,
+//      each setting object update field code line moved under if (Real) check is significant DiamondCore speedup, and less server->client data sends
+//      each packet sending code moved under if (Real) check is _large_ DiamondCore speedup, and lot less server->client data sends
 
 class Aura
 {
@@ -401,7 +401,7 @@ class Aura
             m_modifier.m_amount = damage;
             SetAuraMaxDuration(maxduration);
             SetAuraDuration(duration);
-            if(uint32 maxticks = GetAuraMaxTicks())
+            if (uint32 maxticks = GetAuraMaxTicks())
                 m_periodicTick = maxticks - m_duration / m_modifier.periodictime;
         }
 
@@ -414,11 +414,11 @@ class Aura
 
         void SetInUse(bool state)
         {
-            if(state)
+            if (state)
                 ++m_in_use;
             else
             {
-                if(m_in_use)
+                if (m_in_use)
                     --m_in_use;
             }
         }

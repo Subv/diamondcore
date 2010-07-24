@@ -123,7 +123,7 @@ struct boss_xevozzAI : public ScriptedAI
         if (assistList.empty())
             return;
 
-        for(std::list<Creature*>::iterator iter = assistList.begin(); iter != assistList.end(); ++iter)
+        for (std::list<Creature*>::iterator iter = assistList.begin(); iter != assistList.end(); ++iter)
             (*iter)->DealDamage((*iter), (*iter)->GetHealth(), NULL, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, NULL, false);
     }
 
@@ -209,7 +209,7 @@ struct boss_xevozzAI : public ScriptedAI
 
     void KilledUnit(Unit* pVictim)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_SLAY_1, m_creature);break;
             case 1: DoScriptText(SAY_SLAY_2, m_creature);break;

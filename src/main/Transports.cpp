@@ -33,7 +33,7 @@ void MapManager::LoadTransports()
 
     uint32 count = 0;
 
-    if( !result )
+    if ( !result )
     {
         //barGoLink bar( 1 );
         //bar.step();
@@ -59,14 +59,14 @@ void MapManager::LoadTransports()
 
         const GameObjectInfo *goinfo = ObjectMgr::GetGameObjectInfo(entry);
 
-        if(!goinfo)
+        if (!goinfo)
         {
             sLog.outErrorDb("Transport ID:%u, Name: %s, will not be loaded, gameobject_template missing", entry, name.c_str());
             delete t;
             continue;
         }
 
-        if(goinfo->type != GAMEOBJECT_TYPE_MO_TRANSPORT)
+        if (goinfo->type != GAMEOBJECT_TYPE_MO_TRANSPORT)
         {
             sLog.outErrorDb("Transport ID:%u, Name: %s, will not be loaded, gameobject_template type wrong", entry, name.c_str());
             delete t;
@@ -77,7 +77,7 @@ void MapManager::LoadTransports()
 
         std::set<uint32> mapsUsed;
 
-        if(!t->GenerateWaypoints(goinfo->moTransport.taxiPathId, mapsUsed))
+        if (!t->GenerateWaypoints(goinfo->moTransport.taxiPathId, mapsUsed))
             // skip transports with empty waypoints list
         {
             sLog.outErrorDb("Transport (path id %u) path size = 0. Transport ignored, check DBC files or transport GO data0 field.",goinfo->moTransport.taxiPathId);
@@ -90,7 +90,7 @@ void MapManager::LoadTransports()
         x = t->m_WayPoints[0].x; y = t->m_WayPoints[0].y; z = t->m_WayPoints[0].z; mapid = t->m_WayPoints[0].mapid; o = 1;
 
         // creates the Gameobject
-        if(!t->Create(entry, mapid, x, y, z, o, 100, 0))
+        if (!t->Create(entry, mapid, x, y, z, o, 100, 0))
         {
             delete t;
             continue;
@@ -114,7 +114,7 @@ void MapManager::LoadTransports()
 
     // check transport data DB integrity
     result = WorldDatabase.Query("SELECT gameobject_spawns.guid, gameobject_spawns.id, transports.name FROM gameobject_spawns, transports WHERE gameobject_spawns.id = transports.entry");
-    if(result)                                              // wrong data found
+    if (result)                                              // wrong data found
     {
         do
         {
@@ -141,7 +141,7 @@ bool Transport::Create(uint32 guidlow, uint32 mapid, float x, float y, float z, 
     Relocate(x,y,z,ang);
     // instance id and phaseMask isn't set to values different from std.
 
-    if(!IsPositionValid())
+    if (!IsPositionValid())
     {
         sLog.outError("Transport (GUID: %u) not created. Suggested coordinates isn't valid (X: %f Y: %f)",
             guidlow,x,y);
@@ -174,7 +174,7 @@ bool Transport::Create(uint32 guidlow, uint32 mapid, float x, float y, float z, 
     SetGoType(GameobjectTypes(goinfo->type));
 
     SetGoAnimProgress(animprogress);
-    if(dynflags)
+    if (dynflags)
         SetUInt32Value(GAMEOBJECT_DYNAMIC, MAKE_PAIR32(0, dynflags));
 
     SetName(goinfo->name);
@@ -256,7 +256,7 @@ bool Transport::GenerateWaypoints(uint32 pathid, std::set<uint32> &mapids)
         if (keyFrames[i].node->actionFlag == 2)
         {
             // remember first stop frame
-            if(firstStop == -1)
+            if (firstStop == -1)
                 firstStop = i;
             lastStop = i;
         }
@@ -430,13 +430,13 @@ void Transport::TeleportTransport(uint32 newMapid, float x, float y, float z)
     Map const* oldMap = GetMap();
     Relocate(x, y, z);
 
-    for(PlayerSet::iterator itr = m_passengers.begin(); itr != m_passengers.end();)
+    for (PlayerSet::iterator itr = m_passengers.begin(); itr != m_passengers.end();)
     {
         PlayerSet::iterator it2 = itr;
         ++itr;
 
         Player *plr = *it2;
-        if(!plr)
+        if (!plr)
         {
             m_passengers.erase(it2);
             continue;
@@ -459,7 +459,7 @@ void Transport::TeleportTransport(uint32 newMapid, float x, float y, float z)
     Map * newMap = sMapMgr.CreateMap(newMapid, this);
     SetMap(newMap);
 
-    if(oldMap != newMap)
+    if (oldMap != newMap)
     {
         UpdateForMap(oldMap);
         UpdateForMap(newMap);
@@ -510,7 +510,7 @@ void Transport::Update(uint32 /*p_time*/)
         }
 
         /*
-        for(PlayerSet::const_iterator itr = m_passengers.begin(); itr != m_passengers.end();)
+        for (PlayerSet::const_iterator itr = m_passengers.begin(); itr != m_passengers.end();)
         {
             PlayerSet::const_iterator it2 = itr;
             ++itr;
@@ -530,14 +530,14 @@ void Transport::Update(uint32 /*p_time*/)
 void Transport::UpdateForMap(Map const* targetMap)
 {
     Map::PlayerList const& pl = targetMap->GetPlayers();
-    if(pl.isEmpty())
+    if (pl.isEmpty())
         return;
 
-    if(GetMapId()==targetMap->GetId())
+    if (GetMapId()==targetMap->GetId())
     {
-        for(Map::PlayerList::const_iterator itr = pl.begin(); itr != pl.end(); ++itr)
+        for (Map::PlayerList::const_iterator itr = pl.begin(); itr != pl.end(); ++itr)
         {
-            if(this != itr->getSource()->GetTransport())
+            if (this != itr->getSource()->GetTransport())
             {
                 UpdateData transData;
                 BuildCreateUpdateBlockForPlayer(&transData, itr->getSource());
@@ -554,8 +554,8 @@ void Transport::UpdateForMap(Map const* targetMap)
         WorldPacket out_packet;
         transData.BuildPacket(&out_packet);
 
-        for(Map::PlayerList::const_iterator itr = pl.begin(); itr != pl.end(); ++itr)
-            if(this != itr->getSource()->GetTransport())
+        for (Map::PlayerList::const_iterator itr = pl.begin(); itr != pl.end(); ++itr)
+            if (this != itr->getSource()->GetTransport())
                 itr->getSource()->SendDirectMessage(&out_packet);
     }
 }

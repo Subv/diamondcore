@@ -76,7 +76,7 @@ struct instance_temple_of_ahnqiraj : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_VEM:
                 m_auiEncounter[0] = uiData;
@@ -100,7 +100,7 @@ struct instance_temple_of_ahnqiraj : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_VEM:
                 return m_auiEncounter[0];
@@ -116,7 +116,7 @@ struct instance_temple_of_ahnqiraj : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_SKERAM:
                 return m_uiSkeramGUID;

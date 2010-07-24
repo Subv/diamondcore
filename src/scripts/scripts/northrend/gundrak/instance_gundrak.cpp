@@ -31,7 +31,7 @@ bool GOHello_go_gundrak_altar(Player* pPlayer, GameObject* pGo)
     if (!pInstance)
         return false;
 
-    switch(pGo->GetEntry())
+    switch (pGo->GetEntry())
     {
         case GO_ALTAR_OF_SLADRAN:  pInstance->SetData(TYPE_SLADRAN, SPECIAL);  break;
         case GO_ALTAR_OF_MOORABI:  pInstance->SetData(TYPE_MOORABI, SPECIAL);  break;
@@ -86,7 +86,7 @@ struct instance_gundrak : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_SLADRAN: m_uiSladranGUID = pCreature->GetGUID(); break;
         }
@@ -94,7 +94,7 @@ struct instance_gundrak : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_ECK_DOOR:
                 m_uiEckDoorGUID = pGo->GetGUID();
@@ -160,7 +160,7 @@ struct instance_gundrak : public ScriptedInstance
     {
         debug_log("SD2: Instance Gundrak: SetData received for type %u with data %u",uiType,uiData);
 
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_SLADRAN:
                 m_auiEncounter[0] = uiData;
@@ -242,7 +242,7 @@ struct instance_gundrak : public ScriptedInstance
         std::istringstream loadStream(chrIn);
         loadStream >> m_auiEncounter[0] >> m_auiEncounter[1] >> m_auiEncounter[2] >> m_auiEncounter[3] >> m_auiEncounter[4];
 
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
         {
             if (m_auiEncounter[i] == IN_PROGRESS)
                 m_auiEncounter[i] = NOT_STARTED;
@@ -253,7 +253,7 @@ struct instance_gundrak : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_SLADRAN:
                 return m_auiEncounter[0];
@@ -271,7 +271,7 @@ struct instance_gundrak : public ScriptedInstance
 
     uint64 GetData64(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case NPC_SLADRAN:
                 return m_uiSladranGUID;

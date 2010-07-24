@@ -74,7 +74,7 @@ struct boss_victor_nefariusAI : public ScriptedAI
         NefarianGUID = 0;
         Reset();
         srand(time(NULL));
-        switch(urand(0, 19))
+        switch (urand(0, 19))
         {
             case 0:
                 DrakType1 = CREATURE_BRONZE_DRAKANOID;
@@ -354,7 +354,7 @@ bool GossipHello_boss_victor_nefarius(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_boss_victor_nefarius(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_2, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);

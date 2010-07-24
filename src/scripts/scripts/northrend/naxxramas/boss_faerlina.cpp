@@ -81,7 +81,7 @@ struct boss_faerlinaAI : public ScriptedAI
 
     void Aggro(Unit* pWho)
     {
-        switch(urand(0, 3))
+        switch (urand(0, 3))
         {
             case 0: DoScriptText(SAY_AGGRO1, m_creature); break;
             case 1: DoScriptText(SAY_AGGRO2, m_creature); break;
@@ -131,7 +131,7 @@ struct boss_faerlinaAI : public ScriptedAI
         m_creature->SummonCreature(NPC_WORSHIPPER, 3344.3, -3618.31, 261.08, 4.69494, TEMPSUMMON_CORPSE_DESPAWN, 0);
         m_creature->SummonCreature(NPC_WORSHIPPER, 3356.71, -3620.05, 261.08, 4.57276, TEMPSUMMON_CORPSE_DESPAWN, 0);
         m_creature->SummonCreature(NPC_WORSHIPPER, 3350.26, -3619.11, 261.08, 4.67748, TEMPSUMMON_CORPSE_DESPAWN, 0);
-        if(!m_bIsRegularMode)
+        if (!m_bIsRegularMode)
         {
             m_creature->SummonCreature(NPC_FOLLOWER, 3359.8, -3620.47, 260.996, 4.59711, TEMPSUMMON_CORPSE_DESPAWN, 0);
             m_creature->SummonCreature(NPC_FOLLOWER, 3347.17, -3618.95, 260.997, 4.6678, TEMPSUMMON_CORPSE_DESPAWN, 0);
@@ -144,7 +144,7 @@ struct boss_faerlinaAI : public ScriptedAI
         GetCreatureListWithEntryInGrid(pWorshippers, m_creature, NPC_WORSHIPPER, DEFAULT_VISIBILITY_INSTANCE);
 
         if (!pWorshippers.empty())
-            for(std::list<Creature*>::iterator itr = pWorshippers.begin(); itr != pWorshippers.end(); ++itr)
+            for (std::list<Creature*>::iterator itr = pWorshippers.begin(); itr != pWorshippers.end(); ++itr)
             {
                 (*itr)->ForcedDespawn();
             }
@@ -153,7 +153,7 @@ struct boss_faerlinaAI : public ScriptedAI
         GetCreatureListWithEntryInGrid(pFollower, m_creature, NPC_FOLLOWER, DEFAULT_VISIBILITY_INSTANCE);
 
         if (!pFollower.empty())
-            for(std::list<Creature*>::iterator iter = pFollower.begin(); iter != pFollower.end(); ++iter)
+            for (std::list<Creature*>::iterator iter = pFollower.begin(); iter != pFollower.end(); ++iter)
             {
                 (*iter)->ForcedDespawn();
             }

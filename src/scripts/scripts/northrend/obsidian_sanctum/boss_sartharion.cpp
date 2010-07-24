@@ -545,7 +545,7 @@ struct boss_sartharionAI : public ScriptedAI
         if (m_uiFlameTsunamiTimer < uiDiff)
         {
             SendFlameTsunami();
-            switch(urand(0, 3))
+            switch (urand(0, 3))
             {
                case 0: DoScriptText(SAY_SARTHARION_SPECIAL_1, m_creature); break;
                case 1: DoScriptText(SAY_SARTHARION_SPECIAL_2, m_creature); break;
@@ -856,7 +856,7 @@ struct dummy_dragonAI : public ScriptedAI
         if (GameObject* pPortal = GetClosestGameObjectWithEntry(m_creature, GO_TWILIGHT_PORTAL, 100.0f))
         {
             Creature* pAcolyte = NULL;
-            switch(m_creature->GetEntry())
+            switch (m_creature->GetEntry())
             {
                 case NPC_TENEBRON:
                     iTextId = WHISPER_HATCH_EGGS;
@@ -973,7 +973,7 @@ struct dummy_dragonAI : public ScriptedAI
     {
         int32 iTextId = 0;
 
-        switch(m_creature->GetEntry())
+        switch (m_creature->GetEntry())
         {
             case NPC_TENEBRON:
             {
@@ -1587,10 +1587,10 @@ struct mob_fire_cycloneAI : public ScriptedAI
     {
         if (pSummoned->GetEntry() == NPC_LAVA_BLAZE)
         {
-          if(m_pInstance)
-            if(Creature* pSartharion = m_pInstance->instance->GetCreature(m_pInstance->GetData64(DATA_SARTHARION)))
-              if(pSartharion->isAlive())
-                if(((boss_sartharionAI*)pSartharion->AI())->m_bIsSoftEnraged != true)
+          if (m_pInstance)
+            if (Creature* pSartharion = m_pInstance->instance->GetCreature(m_pInstance->GetData64(DATA_SARTHARION)))
+              if (pSartharion->isAlive())
+                if (((boss_sartharionAI*)pSartharion->AI())->m_bIsSoftEnraged != true)
                 {
                   switch (urand(0, 9))
                   { 
@@ -1615,7 +1615,7 @@ struct mob_fire_cycloneAI : public ScriptedAI
 
     void UpdateAI(const uint32 uiDiff)
     {
-      if(m_pInstance && m_pInstance->GetData(TYPE_SARTHARION_EVENT) != IN_PROGRESS) return;
+      if (m_pInstance && m_pInstance->GetData(TYPE_SARTHARION_EVENT) != IN_PROGRESS) return;
 
         if (m_bLavaStrikeAllowed)
         {

@@ -70,16 +70,16 @@ struct instance_ulduar : public ScriptedInstance
     
     void OpenDoor(uint64 guid)
     {
-        if(!guid) return;
+        if (!guid) return;
         GameObject* pGo = instance->GetGameObject(guid);
-        if(pGo) pGo->SetGoState(GO_STATE_ACTIVE);
+        if (pGo) pGo->SetGoState(GO_STATE_ACTIVE);
     }
 
     void CloseDoor(uint64 guid)
     {
-        if(!guid) return;
+        if (!guid) return;
         GameObject* pGo = instance->GetGameObject(guid);
-        if(pGo) pGo->SetGoState(GO_STATE_READY);
+        if (pGo) pGo->SetGoState(GO_STATE_READY);
     }
 
     void Initialize()
@@ -121,7 +121,7 @@ struct instance_ulduar : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case 32930: mKologarnGUID = pCreature->GetGUID();break;
             case 32933: mKologarnLeftArmGUID = pCreature->GetGUID();break;
@@ -134,34 +134,34 @@ struct instance_ulduar : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             //LOOT CACHES:
             //Cache of Living Stone (Kologarn)
-            case 195046: if(Regular) mKologarnCacheGUID = pGo->GetGUID(); break;
-            case 195047: if(!Regular) mKologarnCacheGUID = pGo->GetGUID(); break;
+            case 195046: if (Regular) mKologarnCacheGUID = pGo->GetGUID(); break;
+            case 195047: if (!Regular) mKologarnCacheGUID = pGo->GetGUID(); break;
             //Cache of Winter (Hodir)
-            case 194307: if(Regular) mHodirCacheGUID = pGo->GetGUID(); break;
-            case 194308: if(!Regular) mHodirCacheGUID = pGo->GetGUID(); break;
+            case 194307: if (Regular) mHodirCacheGUID = pGo->GetGUID(); break;
+            case 194308: if (!Regular) mHodirCacheGUID = pGo->GetGUID(); break;
             //Rare Cache of Winter (Hodir hard)
-            case 194200: if(Regular) mHodirRareCacheGUID = pGo->GetGUID(); break;
-            case 194201: if(!Regular) mHodirRareCacheGUID = pGo->GetGUID(); break;
+            case 194200: if (Regular) mHodirRareCacheGUID = pGo->GetGUID(); break;
+            case 194201: if (!Regular) mHodirRareCacheGUID = pGo->GetGUID(); break;
             //Thorim's cache
-            case 194312: if(Regular) mThorimCacheGUID = pGo->GetGUID(); break;
-            case 194314: if(!Regular) mThorimCacheGUID = pGo->GetGUID(); break;
+            case 194312: if (Regular) mThorimCacheGUID = pGo->GetGUID(); break;
+            case 194314: if (!Regular) mThorimCacheGUID = pGo->GetGUID(); break;
             //Thorim's cache (hard)
-            case 194313: if(Regular) mThorimHardCacheGUID = pGo->GetGUID(); break;
-            case 194315: if(!Regular) mThorimHardCacheGUID = pGo->GetGUID(); break;
+            case 194313: if (Regular) mThorimHardCacheGUID = pGo->GetGUID(); break;
+            case 194315: if (!Regular) mThorimHardCacheGUID = pGo->GetGUID(); break;
             //Cache of Innovation (Mimiron)
-            case 194789: if(Regular) mMimironCacheGUID = pGo->GetGUID(); break;
-            case 194956: if(!Regular) mMimironCacheGUID = pGo->GetGUID(); break;
+            case 194789: if (Regular) mMimironCacheGUID = pGo->GetGUID(); break;
+            case 194956: if (!Regular) mMimironCacheGUID = pGo->GetGUID(); break;
             //Cache of Innovation (Mimiron hard)
             //Gift of Freya
-            case 194324: if(Regular) mFreyaCacheGUID = pGo->GetGUID(); break;
-            case 194328: if(!Regular) mFreyaCacheGUID = pGo->GetGUID(); break;
+            case 194324: if (Regular) mFreyaCacheGUID = pGo->GetGUID(); break;
+            case 194328: if (!Regular) mFreyaCacheGUID = pGo->GetGUID(); break;
             //Gift of the Observer
-            case 194822: if(Regular) mAlgalonCacheGUID = pGo->GetGUID(); break;
-            case 194823: if(!Regular) mAlgalonCacheGUID = pGo->GetGUID(); break;
+            case 194822: if (Regular) mAlgalonCacheGUID = pGo->GetGUID(); break;
+            case 194823: if (!Regular) mAlgalonCacheGUID = pGo->GetGUID(); break;
 
             //DOORS:
             case 194631: mXT002DoorGUID = pGo->GetGUID(); break;
@@ -176,22 +176,22 @@ struct instance_ulduar : public ScriptedInstance
     void SetData(uint32 uiType, uint32 uiData)
     {
         bool needSave = false;
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_FLAME_LEVIATHAN:
-                if(uiData == IN_PROGRESS)
+                if (uiData == IN_PROGRESS)
                 {
                     mLeviathanReached = 1;
                     needSave = true;
                 }
-                if(uiData == DONE) mEncounter[0] = uiData; 
+                if (uiData == DONE) mEncounter[0] = uiData; 
                 break;
             case TYPE_IGNIS:
-                if(uiData == DONE) mEncounter[1] = uiData; break;
+                if (uiData == DONE) mEncounter[1] = uiData; break;
             case TYPE_RAZORSCALE:
-                if(uiData == DONE) mEncounter[2] = uiData; break;
+                if (uiData == DONE) mEncounter[2] = uiData; break;
             case TYPE_XT002: 
-                if(uiData == IN_PROGRESS)
+                if (uiData == IN_PROGRESS)
                 {
                     mXT002Reached = 1;
                     needSave = true;
@@ -204,18 +204,18 @@ struct instance_ulduar : public ScriptedInstance
                     }
                 break;
             case TYPE_IRON_COUNCIL:
-                if(uiData == DONE) mEncounter[4] = uiData; break;
+                if (uiData == DONE) mEncounter[4] = uiData; break;
             case TYPE_KOLOGARN:
-                if(uiData == DONE) { DoRespawnGameObject(mKologarnCacheGUID, DAY);
+                if (uiData == DONE) { DoRespawnGameObject(mKologarnCacheGUID, DAY);
                 if (GameObject* pBridge = instance->GetGameObject(m_uiKologarnBridgeGUID))
                         pBridge->SetGoState(GO_STATE_ACTIVE);
                 mEncounter[5] = uiData;
                 }
                 break;
             case TYPE_AURIAYA:          
-                if(uiData == DONE) mEncounter[6] = uiData; break;
+                if (uiData == DONE) mEncounter[6] = uiData; break;
             case TYPE_HODIR:
-                if(uiData == DONE) 
+                if (uiData == DONE) 
                 {
                     DoRespawnGameObject(mHodirCacheGUID, DAY);
                     OpenDoor(mHodirFrozenDoorGUID);
@@ -223,12 +223,12 @@ struct instance_ulduar : public ScriptedInstance
                     //Unlock Ancient Gate of the Keepers
                     //TODO: onscreen notification
                     ++KeepersKilled;
-                    if(KeepersKilled > 3) OpenDoor(mAncientGateGUID);
+                    if (KeepersKilled > 3) OpenDoor(mAncientGateGUID);
                     mEncounter[7] = uiData; 
                 }
                 break;
             case TYPE_FREYA:
-                if(uiData == DONE) 
+                if (uiData == DONE) 
                 {
                     DoRespawnGameObject(mFreyaCacheGUID, DAY);
                     //Unlock Ancient Gate of the Keepers
@@ -239,57 +239,57 @@ struct instance_ulduar : public ScriptedInstance
                     }
                 break;
             case TYPE_THORIM:
-                if(uiData == DONE)
+                if (uiData == DONE)
                 {
                     DoRespawnGameObject(mThorimCacheGUID, DAY);
                     //Unlock Ancient Gate of the Keepers
                     //TODO: onscreen notification
                     ++KeepersKilled;
-                    if(KeepersKilled >3 ) OpenDoor(mAncientGateGUID);
+                    if (KeepersKilled >3 ) OpenDoor(mAncientGateGUID);
                 mEncounter[9] = uiData; 
                 }
                 break;
             case TYPE_MIMIRON:
-                if(uiData == IN_PROGRESS)
+                if (uiData == IN_PROGRESS)
                 {
                     mMimironReached = 1;
                     needSave = true;
                 }
-                if(uiData == DONE)
+                if (uiData == DONE)
                 {
                     DoRespawnGameObject(mMimironCacheGUID, DAY);
                     //Unlock Ancient Gate of the Keepers
                     //TODO: onscreen notification
                     ++KeepersKilled;
-                    if(KeepersKilled > 3) OpenDoor(mAncientGateGUID);
+                    if (KeepersKilled > 3) OpenDoor(mAncientGateGUID);
                     mEncounter[10] = uiData; 
                 }
                 break;
             case TYPE_VEZAX:            
-                if(uiData == DONE) mEncounter[11] = uiData; break;
+                if (uiData == DONE) mEncounter[11] = uiData; break;
             case TYPE_YOGG_SARON:       
-                if(uiData == DONE) mEncounter[12] = uiData; break;
+                if (uiData == DONE) mEncounter[12] = uiData; break;
             case TYPE_ALGALON:
-                if(uiData == DONE) {DoRespawnGameObject(mAlgalonCacheGUID, DAY);
+                if (uiData == DONE) {DoRespawnGameObject(mAlgalonCacheGUID, DAY);
                 mEncounter[13] = uiData;} 
                 break;
 
             //Hard Modes
             case TYPE_HODIR_HARD:
-                if(uiData == DONE) 
+                if (uiData == DONE) 
                 {
                     DoRespawnGameObject(mHodirRareCacheGUID, DAY);
                     DoRespawnGameObject(mHodirCacheGUID, DAY);
                     OpenDoor(mHodirFrozenDoorGUID);
                     ++KeepersKilled;
-                    if(KeepersKilled > 3) OpenDoor(mAncientGateGUID);
+                    if (KeepersKilled > 3) OpenDoor(mAncientGateGUID);
                     mEncounter[7] = uiData;
                 }
                 break;
             case TYPE_THORIM_HARD:
-                if(uiData == DONE) { DoRespawnGameObject(mThorimHardCacheGUID, DAY);
+                if (uiData == DONE) { DoRespawnGameObject(mThorimHardCacheGUID, DAY);
                 ++KeepersKilled;
-                if(KeepersKilled > 3) OpenDoor(mAncientGateGUID);
+                if (KeepersKilled > 3) OpenDoor(mAncientGateGUID);
                 mEncounter[9] = uiData;}
                 break;
         }
@@ -321,7 +321,7 @@ struct instance_ulduar : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_FLAME_LEVIATHAN:  return mEncounter[0];
             case TYPE_IGNIS:            return mEncounter[1];
@@ -349,7 +349,7 @@ struct instance_ulduar : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case NPC_STEELBREAKER:          return mSteelbreakerGUID;
             case NPC_MOLGEIM:               return mMolgeimGUID;
@@ -379,7 +379,7 @@ struct instance_ulduar : public ScriptedInstance
             >> mEncounter[12] >> mEncounter[13] >> mEncounter[14] >> mLeviathanReached
             >> mXT002Reached >> mMimironReached >> KeepersKilled;
 
-        for(uint8 i = 0; i < ENCOUNTERS; ++i)
+        for (uint8 i = 0; i < ENCOUNTERS; ++i)
             if (mEncounter[i] == IN_PROGRESS)
                 mEncounter[i] = NOT_STARTED;
 

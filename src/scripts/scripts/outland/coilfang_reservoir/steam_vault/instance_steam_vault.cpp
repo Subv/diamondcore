@@ -80,7 +80,7 @@ struct instance_steam_vault : public ScriptedInstance
 
     bool IsEncounterInProgress() const
     {
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
             if (m_auiEncounter[i] == IN_PROGRESS)
                 return true;
 
@@ -89,7 +89,7 @@ struct instance_steam_vault : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case 17797: m_uiThespiaGUID = pCreature->GetGUID(); break;
             case 17796: m_uiMekgineerGUID = pCreature->GetGUID(); break;
@@ -99,7 +99,7 @@ struct instance_steam_vault : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case MAIN_CHAMBERS_DOOR: m_uiMainChambersDoor = pGo->GetGUID(); break;
             case ACCESS_PANEL_HYDRO: m_uiAccessPanelHydro = pGo->GetGUID(); break;
@@ -109,7 +109,7 @@ struct instance_steam_vault : public ScriptedInstance
 
     void SetData(uint32 type, uint32 data)
     {
-        switch(type)
+        switch (type)
         {
             case TYPE_HYDROMANCER_THESPIA:
                 if (data == SPECIAL)
@@ -154,7 +154,7 @@ struct instance_steam_vault : public ScriptedInstance
 
     uint32 GetData(uint32 type)
     {
-        switch(type)
+        switch (type)
         {
             case TYPE_HYDROMANCER_THESPIA:
                 return m_auiEncounter[0];
@@ -170,7 +170,7 @@ struct instance_steam_vault : public ScriptedInstance
 
     uint64 GetData64(uint32 data)
     {
-        switch(data)
+        switch (data)
         {
             case DATA_THESPIA:
                 return m_uiThespiaGUID;

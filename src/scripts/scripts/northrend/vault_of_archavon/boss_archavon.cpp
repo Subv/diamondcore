@@ -89,19 +89,19 @@ struct boss_archavonAI : public ScriptedAI
         m_uiImpaleAfterStompTimer = 1000;
         m_bImpaleInProgress = false;
 
-        if(m_pInstance)
+        if (m_pInstance)
             m_pInstance->SetData(TYPE_ARCHAVON, NOT_STARTED);
     }
 
     void Aggro(Unit *pWho)
     {
-        if(m_pInstance)
+        if (m_pInstance)
             m_pInstance->SetData(TYPE_ARCHAVON, IN_PROGRESS);
     }
 
     void JustDied(Unit* pKiller)
     {
-        if(m_pInstance)
+        if (m_pInstance)
             m_pInstance->SetData(TYPE_ARCHAVON, DONE);
     }
 

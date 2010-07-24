@@ -80,7 +80,7 @@ struct boss_rotfaceAI : public BSWScriptedAI
 
     void Reset()
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         pInstance->SetData(TYPE_ROTFACE, NOT_STARTED);
         stage = 0;
         intro = false;
@@ -93,7 +93,7 @@ struct boss_rotfaceAI : public BSWScriptedAI
     void MoveInLineOfSight(Unit* pWho) 
     {
         ScriptedAI::MoveInLineOfSight(pWho);
-        if(!pInstance || intro) return;
+        if (!pInstance || intro) return;
         if (pWho->GetTypeId() != TYPEID_PLAYER) return;
 
         pInstance->SetData(TYPE_EVENT, 600);
@@ -115,14 +115,14 @@ struct boss_rotfaceAI : public BSWScriptedAI
 
     void Aggro(Unit *who) 
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         pInstance->SetData(TYPE_ROTFACE, IN_PROGRESS);
         DoScriptText(-1631221,m_creature,who);
     }
 
     void JustDied(Unit *killer)
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         pInstance->SetData(TYPE_ROTFACE, DONE);
         DoScriptText(-1631224,m_creature, killer);
     }
@@ -130,7 +130,7 @@ struct boss_rotfaceAI : public BSWScriptedAI
     void UpdateAI(const uint32 diff)
     {
 
-    if(!pInstance) return;
+    if (!pInstance) return;
 
     if (!pet) {
               if (Creature* pGuard = (Creature*)Unit::GetUnit((*m_creature),pInstance->GetData64(NPC_PRECIOUS)))
@@ -165,7 +165,7 @@ struct boss_rotfaceAI : public BSWScriptedAI
                 doCast(SPELL_SLIME_SPRAY);
 
         if (timedQuery(SPELL_MUTATED_INFECTION_AURA, diff))
-            for(uint8 i = 0; i < MAX_INFECTION_TARGETS; ++i)
+            for (uint8 i = 0; i < MAX_INFECTION_TARGETS; ++i)
                if (InfectionTarget[i] && InfectionTarget[i]->isAlive() && InfectionTarget[i]->IsInMap(m_creature))
                   if (!hasAura(SPELL_MUTATED_INFECTION_AURA,InfectionTarget[i]))
                   {
@@ -179,7 +179,7 @@ struct boss_rotfaceAI : public BSWScriptedAI
         if (timedQuery(SPELL_MUTATED_INFECTION, diff))
             if (Unit* pTarget = doSelectRandomPlayer(SPELL_MUTATED_INFECTION_AURA, false, 60.0f))
                 {
-                    for(uint8 i = 0; i < MAX_INFECTION_TARGETS; ++i)
+                    for (uint8 i = 0; i < MAX_INFECTION_TARGETS; ++i)
                        if (!InfectionTarget[i])
                            {
                               InfectionTarget[i] = pTarget;

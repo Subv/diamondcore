@@ -113,7 +113,7 @@ LFGMgr::~LFGMgr()
         delete *it;
     m_RewardDoneList.clear();
 
-    for(LFGQueueMap::iterator it = m_Queues.begin(); it != m_Queues.end(); ++it)
+    for (LFGQueueMap::iterator it = m_Queues.begin(); it != m_Queues.end(); ++it)
         delete it->second;
     m_Queues.clear();
 
@@ -478,7 +478,7 @@ void LFGMgr::UpdateRoleCheck(Group *grp, Player *plr /* = NULL*/)
             session->SendLfgRoleChosen(plr->GetGUID(), plr->m_lookingForGroup.roles);
         session->SendPacket(&data);
 
-        switch(pRoleCheck->result)
+        switch (pRoleCheck->result)
         {
         case LFG_ROLECHECK_INITIALITING:
             continue;
@@ -1017,7 +1017,7 @@ LfgDungeonSet* LFGMgr::GetRandomDungeons(uint8 level, uint8 expansion)
 LfgReward* LFGMgr::GetRandomDungeonReward(uint32 dungeon, bool done, uint8 level)
 {
     uint8 index = 0;
-    switch((dungeon & 0x00FFFFFF))                          // Get dungeon id from dungeon entry
+    switch ((dungeon & 0x00FFFFFF))                          // Get dungeon id from dungeon entry
     {
     case LFG_RANDOM_CLASSIC:
         if (level < 15)

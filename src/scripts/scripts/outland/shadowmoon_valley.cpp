@@ -426,7 +426,7 @@ bool GossipHello_npc_murkblood_overseer(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_npc_murkblood_overseer(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "How dare you question an overseer of the Dragonmaw!", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
@@ -482,7 +482,7 @@ bool GossipHello_npc_neltharaku(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_npc_neltharaku(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "But you are dragons! How could orcs do this to you?", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
@@ -535,7 +535,7 @@ bool GossipHello_npc_oronok_tornheart(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_npc_oronok_tornheart(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_TRADE:
             pPlayer->SEND_VENDORLIST(pCreature->GetGUID());
@@ -636,7 +636,7 @@ struct npc_wildaAI : public npc_escortAI
         if (!pPlayer)
             return;
 
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 13:
                 DoScriptText(SAY_WIL_PROGRESS1, m_creature, pPlayer);
@@ -697,7 +697,7 @@ struct npc_wildaAI : public npc_escortAI
     //this is very unclear, random say without no real relevance to script/event
     void DoRandomSay()
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_WIL_PROGRESS2, m_creature); break;
             case 1: DoScriptText(SAY_WIL_PROGRESS4, m_creature); break;
@@ -724,7 +724,7 @@ struct npc_wildaAI : public npc_escortAI
         if (pWho->GetTypeId() != TYPEID_PLAYER)
         {
             //appears to be random
-            switch(urand(0, 3))
+            switch (urand(0, 3))
             {
                 case 0: DoScriptText(SAY_WIL_AGGRO1, m_creature, pWho); break;
                 case 1: DoScriptText(SAY_WIL_AGGRO2, m_creature, pWho); break;
@@ -942,7 +942,7 @@ struct mob_torlothAI : public ScriptedAI
 
         m_uiAnimationTimer = TorlothAnim[m_uiAnimationCount].uiTimer;
 
-        switch(m_uiAnimationCount)
+        switch (m_uiAnimationCount)
         {
             case 0:
                 m_creature->SetStandState(UNIT_STAND_STATE_KNEEL);
@@ -1085,7 +1085,7 @@ struct npc_lord_illidan_stormrageAI : public Scripted_NoMovementAI
         uint8 uiFelguardCount = 0;
         uint8 uiDreadlordCount = 0;
 
-        for(uint8 i = 0; i < uiCount; ++i)
+        for (uint8 i = 0; i < uiCount; ++i)
         {
             float fLocX, fLocY, fLocZ, fOrient;
             fLocX = SpawnLocation[uiLocIndex + i].fLocX;
@@ -1170,7 +1170,7 @@ struct npc_lord_illidan_stormrageAI : public Scripted_NoMovementAI
             uint8 uiDeadMemberCount = 0;
             uint8 uiFailedMemberCount = 0;
 
-            for(GroupReference* pRef = pEventGroup->GetFirstMember(); pRef != NULL; pRef = pRef->next())
+            for (GroupReference* pRef = pEventGroup->GetFirstMember(); pRef != NULL; pRef = pRef->next())
             {
                 if (Player* pMember = pRef->getSource())
                 {
@@ -1201,7 +1201,7 @@ struct npc_lord_illidan_stormrageAI : public Scripted_NoMovementAI
 
             if (pEventGroup->GetMembersCount() == uiDeadMemberCount)
             {
-                for(GroupReference* pRef = pEventGroup->GetFirstMember(); pRef != NULL; pRef = pRef->next())
+                for (GroupReference* pRef = pEventGroup->GetFirstMember(); pRef != NULL; pRef = pRef->next())
                 {
                     if (Player* pMember = pRef->getSource())
                     {

@@ -80,7 +80,7 @@ struct boss_jaraxxusAI : public BSWScriptedAI
     uint8 m_volcanoCount;
 
     void Reset() {
-        if(!m_pInstance) return;
+        if (!m_pInstance) return;
         m_pInstance->SetData(TYPE_JARAXXUS, NOT_STARTED);
 //        SetEquipmentSlots(false, EQUIP_MAIN, EQUIP_OFFHAND, EQUIP_RANGED);
         m_portalsCount = 1;

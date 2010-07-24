@@ -25,7 +25,7 @@
 
 char const* ObjectGuid::GetTypeName(HighGuid high)
 {
-    switch(high)
+    switch (high)
     {
         case HIGHGUID_ITEM:         return "Item";
         case HIGHGUID_PLAYER:       return "Player";

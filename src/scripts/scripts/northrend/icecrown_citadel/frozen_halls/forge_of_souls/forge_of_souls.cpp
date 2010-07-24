@@ -65,14 +65,14 @@ bool StartEvent;
 
     void Reset()
     {
-            if(m_pInstance) 
-               if(m_pInstance->GetData(TYPE_DEVOURER) == DONE)
+            if (m_pInstance) 
+               if (m_pInstance->GetData(TYPE_DEVOURER) == DONE)
                    m_creature->SetVisibility(VISIBILITY_OFF);
             m_creature->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_QUESTGIVER);
             m_creature->SetFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
             Step = 0;
             StepTimer = 100;
-            if(m_pInstance->GetData(TYPE_INTRO) == DONE)
+            if (m_pInstance->GetData(TYPE_INTRO) == DONE)
             {
               m_creature->RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
               Step = 8;
@@ -83,34 +83,34 @@ bool StartEvent;
     {
          DoMeleeAttackIfReady();
 
-         if(!m_pInstance) return;
+         if (!m_pInstance) return;
 
-         if(StartEvent != true) return;
+         if (StartEvent != true) return;
 
-         if(StepTimer < diff)
+         if (StepTimer < diff)
            {
-             switch(Step)
+             switch (Step)
                {
                 case 0:
                     m_pInstance->SetData(TYPE_INTRO, DONE);
                     m_creature->RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_QUESTGIVER);
                     m_creature->RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
-                    if(m_creature->GetEntry() == npc_jaina)
+                    if (m_creature->GetEntry() == npc_jaina)
                       {
                        DoScriptText(SAY_JAINA_FS01, m_creature);
                        StepTimer = 7000;
                       }
-                    if(m_creature->GetEntry() == npc_sylvana)
+                    if (m_creature->GetEntry() == npc_sylvana)
                        StepTimer = 100;
                     ++Step;
                     break;
                 case 1:
-                    if(m_creature->GetEntry() == npc_jaina)
+                    if (m_creature->GetEntry() == npc_jaina)
                       {
                        DoScriptText(SAY_JAINA_FS02, m_creature);
                        StepTimer = 9000;
                       } 
-                    if(m_creature->GetEntry() == npc_sylvana)
+                    if (m_creature->GetEntry() == npc_sylvana)
                       {
                        DoScriptText(SAY_SYLVANA_FS01, m_creature);
                        StepTimer = 12000;
@@ -118,12 +118,12 @@ bool StartEvent;
                     ++Step;
                     break;
                 case 2:
-                    if(m_creature->GetEntry() == npc_jaina)
+                    if (m_creature->GetEntry() == npc_jaina)
                       {
                        DoScriptText(SAY_JAINA_FS03, m_creature);
                        StepTimer = 8000;
                       }
-                    if(m_creature->GetEntry() == npc_sylvana)
+                    if (m_creature->GetEntry() == npc_sylvana)
                       {
                        DoScriptText(SAY_SYLVANA_FS02, m_creature);
                        StepTimer = 11000;
@@ -131,12 +131,12 @@ bool StartEvent;
                     ++Step;
                     break;
                 case 3:
-                    if(m_creature->GetEntry() == npc_jaina)
+                    if (m_creature->GetEntry() == npc_jaina)
                       {
                        DoScriptText(SAY_JAINA_FS04, m_creature);
                        StepTimer = 10000;
                       }
-                    if(m_creature->GetEntry() == npc_sylvana)
+                    if (m_creature->GetEntry() == npc_sylvana)
                       {
                        DoScriptText(SAY_SYLVANA_FS03, m_creature);
                        StepTimer = 11000;
@@ -144,12 +144,12 @@ bool StartEvent;
                     ++Step;
                     break;
                 case 4:
-                    if(m_creature->GetEntry() == npc_jaina)
+                    if (m_creature->GetEntry() == npc_jaina)
                       {
                        DoScriptText(SAY_JAINA_FS05, m_creature);
                        StepTimer = 8000;
                       }
-                    if(m_creature->GetEntry() == npc_sylvana)
+                    if (m_creature->GetEntry() == npc_sylvana)
                       {
                        DoScriptText(SAY_SYLVANA_FS04, m_creature);
                        StepTimer = 12000;
@@ -157,12 +157,12 @@ bool StartEvent;
                     ++Step;
                     break;
                 case 5:
-                    if(m_creature->GetEntry() == npc_jaina)
+                    if (m_creature->GetEntry() == npc_jaina)
                       {
                        DoScriptText(SAY_JAINA_FS06, m_creature);
                        StepTimer = 12000;
                       }
-                    if(m_creature->GetEntry() == npc_sylvana)
+                    if (m_creature->GetEntry() == npc_sylvana)
                       {
                        DoScriptText(SAY_SYLVANA_FS05, m_creature);
                        StepTimer = 7000;
@@ -170,12 +170,12 @@ bool StartEvent;
                     ++Step;
                     break;
                 case 6:
-                    if(m_creature->GetEntry() == npc_jaina)
+                    if (m_creature->GetEntry() == npc_jaina)
                       {
                        DoScriptText(SAY_JAINA_FS07, m_creature);
                        StepTimer = 7000;
                       }
-                    if(m_creature->GetEntry() == npc_sylvana)
+                    if (m_creature->GetEntry() == npc_sylvana)
                       {
                        DoScriptText(SAY_SYLVANA_FS06, m_creature);
                        StepTimer = 4000;
@@ -183,7 +183,7 @@ bool StartEvent;
                     ++Step;
                     break;
                 case 7:
-                    if(m_creature->GetEntry() == npc_jaina)
+                    if (m_creature->GetEntry() == npc_jaina)
                       {
                        DoScriptText(SAY_JAINA_FS08, m_creature);
                        StepTimer = 5000;
@@ -199,14 +199,14 @@ bool GossipHello_npc_jaina_and_sylvana_FSintro(Player* pPlayer, Creature* pCreat
 {
            if (pCreature->isQuestGiver())
              pPlayer->PrepareQuestMenu( pCreature->GetGUID());
-            switch(pCreature->GetEntry())
+            switch (pCreature->GetEntry())
               {
                 case 37597:
-                  if(((npc_jaina_and_sylvana_FSintroAI*)pCreature->AI())->StartEvent != true)
+                  if (((npc_jaina_and_sylvana_FSintroAI*)pCreature->AI())->StartEvent != true)
                     pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "What would you have of me, My Lady?", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF);
                   break;
                 case 37596:
-                  if(((npc_jaina_and_sylvana_FSintroAI*)pCreature->AI())->StartEvent != true)
+                  if (((npc_jaina_and_sylvana_FSintroAI*)pCreature->AI())->StartEvent != true)
                     pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "What would you have of me, Banshee Queen?", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF);
                   break;
                }
@@ -262,13 +262,13 @@ uint32 uiSummon_counter;
         if (m_pInstance->GetData(TYPE_DEVOURER) == DONE)
         {
 
-         if(m_pInstance->GetData64(DATA_LIDER) == 1 && m_creature->GetEntry() == npc_sylvana_extro) return;
+         if (m_pInstance->GetData64(DATA_LIDER) == 1 && m_creature->GetEntry() == npc_sylvana_extro) return;
 
-         if(m_pInstance->GetData64(DATA_LIDER) == 2 && m_creature->GetEntry() == npc_jaina_extro) return;
+         if (m_pInstance->GetData64(DATA_LIDER) == 2 && m_creature->GetEntry() == npc_jaina_extro) return;
 
-         if(StepTimer < diff)
+         if (StepTimer < diff)
            {
-             switch(Step)
+             switch (Step)
                {
                 case 0:
                   m_creature->SetVisibility(VISIBILITY_ON);
@@ -279,7 +279,7 @@ uint32 uiSummon_counter;
                   ++Step;
                   break;
                 case 1:
-                    if(m_creature->GetEntry() == npc_jaina_extro)
+                    if (m_creature->GetEntry() == npc_jaina_extro)
                     {
                         StepTimer = 100;
                         if (uiSummon_counter < 4)
@@ -288,7 +288,7 @@ uint32 uiSummon_counter;
                             {
                                 pTemp->RemoveSplineFlag(SPLINEFLAG_WALKMODE);
                                 pTemp->SetUInt64Value(UNIT_FIELD_TARGET, m_creature->GetGUID());
-                                switch(uiSummon_counter)
+                                switch (uiSummon_counter)
                                  {
                                    case 0:
                                      pTemp->GetMotionMaster()->MovePoint(0, 5659.251f, 2472.017f, 708.696f);
@@ -312,7 +312,7 @@ uint32 uiSummon_counter;
                             Step++;
                         }
                     }
-                    if(m_creature->GetEntry() == npc_sylvana_extro)
+                    if (m_creature->GetEntry() == npc_sylvana_extro)
                     {
                         StepTimer = 100;
                         if (uiSummon_counter < 4)
@@ -321,7 +321,7 @@ uint32 uiSummon_counter;
                             {
                                 pTemp->RemoveSplineFlag(SPLINEFLAG_WALKMODE);
                                 pTemp->SetUInt64Value(UNIT_FIELD_TARGET, m_creature->GetGUID());
-                                switch(uiSummon_counter)
+                                switch (uiSummon_counter)
                                  {
                                    case 0:
                                      pTemp->GetMotionMaster()->MovePoint(0, 5659.251f, 2472.017f, 708.696f);
@@ -347,7 +347,7 @@ uint32 uiSummon_counter;
                     }
                     break;
                 case 2:
-                    if(m_creature->GetEntry() == npc_jaina_extro)
+                    if (m_creature->GetEntry() == npc_jaina_extro)
                     {
                         StepTimer = 100;
                         if (uiSummon_counter < 4)
@@ -356,7 +356,7 @@ uint32 uiSummon_counter;
                             {
                                 pTemp->RemoveSplineFlag(SPLINEFLAG_WALKMODE);
                                 pTemp->SetUInt64Value(UNIT_FIELD_TARGET, m_creature->GetGUID());
-                                switch(uiSummon_counter)
+                                switch (uiSummon_counter)
                                  {
                                    case 0:
                                      pTemp->GetMotionMaster()->MovePoint(0, 5661.508f, 2473.066f, 708.696f);
@@ -380,7 +380,7 @@ uint32 uiSummon_counter;
                             Step++;
                         }
                     }
-                    if(m_creature->GetEntry() == npc_sylvana_extro)
+                    if (m_creature->GetEntry() == npc_sylvana_extro)
                     {
                         StepTimer = 100;
                         if (uiSummon_counter < 4)
@@ -389,7 +389,7 @@ uint32 uiSummon_counter;
                             {
                                 pTemp->RemoveSplineFlag(SPLINEFLAG_WALKMODE);
                                 pTemp->SetUInt64Value(UNIT_FIELD_TARGET, m_creature->GetGUID());
-                                switch(uiSummon_counter)
+                                switch (uiSummon_counter)
                                  {
                                    case 0:
                                      pTemp->GetMotionMaster()->MovePoint(0, 5661.508f, 2473.066f, 708.696f);
@@ -415,7 +415,7 @@ uint32 uiSummon_counter;
                     }
                     break;
                 case 3:
-                    if(m_creature->GetEntry() == npc_jaina_extro)
+                    if (m_creature->GetEntry() == npc_jaina_extro)
                     {
                         StepTimer = 100;
                         if (uiSummon_counter < 4)
@@ -424,7 +424,7 @@ uint32 uiSummon_counter;
                             {
                                 pTemp->RemoveSplineFlag(SPLINEFLAG_WALKMODE);
                                 pTemp->SetUInt64Value(UNIT_FIELD_TARGET, m_creature->GetGUID());
-                                switch(uiSummon_counter)
+                                switch (uiSummon_counter)
                                  {
                                    case 0:
                                      pTemp->GetMotionMaster()->MovePoint(0, 5664.265f, 2473.974f, 708.696f);
@@ -449,7 +449,7 @@ uint32 uiSummon_counter;
                             Step++;
                         }
                     }
-                    if(m_creature->GetEntry() == npc_sylvana_extro)
+                    if (m_creature->GetEntry() == npc_sylvana_extro)
                     {
                         StepTimer = 100;
                         if (uiSummon_counter < 4)
@@ -458,7 +458,7 @@ uint32 uiSummon_counter;
                             {
                                 pTemp->RemoveSplineFlag(SPLINEFLAG_WALKMODE);
                                 pTemp->SetUInt64Value(UNIT_FIELD_TARGET, m_creature->GetGUID());
-                                switch(uiSummon_counter)
+                                switch (uiSummon_counter)
                                  {
                                    case 0:
                                      pTemp->GetMotionMaster()->MovePoint(0, 5664.265f, 2473.974f, 708.696f);
@@ -485,12 +485,12 @@ uint32 uiSummon_counter;
                     }
                     break;
                 case 4:
-                  if(m_creature->GetEntry() == npc_jaina_extro)
+                  if (m_creature->GetEntry() == npc_jaina_extro)
                   {
                     DoScriptText(SAY_JAINA_FS09_EXTRO, m_creature);
                     StepTimer = 6000;
                   }
-                  if(m_creature->GetEntry() == npc_sylvana_extro)
+                  if (m_creature->GetEntry() == npc_sylvana_extro)
                   {
                     DoScriptText(SAY_SYLVANA_FS07_EXTRO, m_creature);
                     StepTimer = 3000;

@@ -163,7 +163,7 @@ struct npc_barnesAI : public npc_escortAI
         if (!m_pInstance)
             return;
 
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 0:
                 m_creature->CastSpell(m_creature, SPELL_TUXEDO, false);
@@ -197,7 +197,7 @@ struct npc_barnesAI : public npc_escortAI
     {
         int32 iTextId = 0;
 
-        switch(m_uiEventId)
+        switch (m_uiEventId)
         {
             case EVENT_OZ:
                 if (aOzDialogue[uiCount].iTextId)
@@ -229,10 +229,10 @@ struct npc_barnesAI : public npc_escortAI
     {
         debug_log("SD2: Barnes Opera Event - Introduction complete - preparing encounter %d", m_uiEventId);
 
-        switch(m_uiEventId)
+        switch (m_uiEventId)
         {
             case EVENT_OZ:
-                for(int i=0; i < 4; ++i)
+                for (int i=0; i < 4; ++i)
                     m_creature->SummonCreature(aSpawns_OZ[i].uiEntry, aSpawns_OZ[i].fPosX, SPAWN_Y, SPAWN_Z, SPAWN_O, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, HOUR*2*IN_MILLISECONDS);
                 break;
             case EVENT_HOOD:
@@ -285,7 +285,7 @@ struct npc_barnesAI : public npc_escortAI
                         return;
 
                     m_bRaidWiped = true;
-                    for(Map::PlayerList::const_iterator i = PlayerList.begin();i != PlayerList.end(); ++i)
+                    for (Map::PlayerList::const_iterator i = PlayerList.begin();i != PlayerList.end(); ++i)
                     {
                         if (i->getSource()->isAlive() && !i->getSource()->isGameMaster())
                         {
@@ -347,7 +347,7 @@ bool GossipSelect_npc_barnes(Player* pPlayer, Creature* pCreature, uint32 uiSend
 {
     npc_barnesAI* pBarnesAI = dynamic_cast<npc_barnesAI*>(pCreature->AI());
 
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, OZ_GOSSIP2, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);

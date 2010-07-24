@@ -174,7 +174,7 @@ struct npc_ancestral_wolfAI : public npc_escortAI
 
     void WaypointReached(uint32 uiPointId)
     {
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 0:
                 DoScriptText(EMOTE_WOLF_LIFT_HEAD, m_creature);
@@ -252,7 +252,7 @@ struct npc_demoniac_scryerAI : public ScriptedAI
 
         float fAngle;
 
-        switch(m_uiButtressCount)
+        switch (m_uiButtressCount)
         {
             case 1: fAngle = 0.0f; break;
             case 2: fAngle = M_PI_F+M_PI_F/2; break;
@@ -483,7 +483,7 @@ bool GossipHello_npc_tracy_proudwell(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_npc_tracy_proudwell(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_TRACY_PROUDWELL_ITEM2, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 2);
@@ -528,7 +528,7 @@ bool GossipHello_npc_trollbane(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_npc_trollbane(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_TROLLBANE_ITEM2, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 2);
@@ -639,7 +639,7 @@ bool GossipHello_npc_wing_commander_brack(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_npc_wing_commander_brack(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->CLOSE_GOSSIP_MENU();

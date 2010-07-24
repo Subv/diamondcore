@@ -203,7 +203,7 @@ struct boss_reliquary_of_soulsAI : public ScriptedAI
 
     void MoveInLineOfSight(Unit *who)
     {
-        if (who->isTargetableForAttack() && who->isInAccessablePlaceFor(m_creature) && m_creature->IsHostileTo(who))
+        if (who->isTargetableForAttack() && who->isInAccessablePlacefor (m_creature) && m_creature->IsHostileTo(who))
         {
             float attackRadius = m_creature->GetAttackDistance(who);
             if (m_creature->IsWithinDistInMap(who, attackRadius) && m_creature->GetDistanceZ(who) <= CREATURE_Z_ATTACK_RANGE && m_creature->IsWithinLOSInMap(who))
@@ -593,7 +593,7 @@ struct boss_essence_of_sufferingAI : public ScriptedAI
 
     void KilledUnit(Unit *victim)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SUFF_SAY_SLAY1, m_creature); break;
             case 1: DoScriptText(SUFF_SAY_SLAY2, m_creature); break;
@@ -729,7 +729,7 @@ struct boss_essence_of_desireAI : public ScriptedAI
 
     void KilledUnit(Unit *victim)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(DESI_SAY_SLAY1, m_creature); break;
             case 1: DoScriptText(DESI_SAY_SLAY2, m_creature); break;
@@ -742,7 +742,7 @@ struct boss_essence_of_desireAI : public ScriptedAI
         if (!who || m_creature->getVictim())
             return;
 
-        if (who->isTargetableForAttack() && who->isInAccessablePlaceFor(m_creature) && m_creature->IsHostileTo(who))
+        if (who->isTargetableForAttack() && who->isInAccessablePlacefor (m_creature) && m_creature->IsHostileTo(who))
         {
             float attackRadius = m_creature->GetAttackDistance(who);
             if (m_creature->IsWithinDistInMap(who, attackRadius) && m_creature->GetDistanceZ(who) <= CREATURE_Z_ATTACK_RANGE && m_creature->IsWithinLOSInMap(who))
@@ -833,7 +833,7 @@ struct boss_essence_of_angerAI : public ScriptedAI
         if (!who || m_creature->getVictim())
             return;
 
-        if (who->isTargetableForAttack() && who->isInAccessablePlaceFor(m_creature) && m_creature->IsHostileTo(who))
+        if (who->isTargetableForAttack() && who->isInAccessablePlacefor (m_creature) && m_creature->IsHostileTo(who))
         {
             float attackRadius = m_creature->GetAttackDistance(who);
             if (m_creature->IsWithinDistInMap(who, attackRadius) && m_creature->GetDistanceZ(who) <= CREATURE_Z_ATTACK_RANGE && m_creature->IsWithinLOSInMap(who))
@@ -899,7 +899,7 @@ struct boss_essence_of_angerAI : public ScriptedAI
 
         if (SpiteTimer < diff)
         {
-            for(uint8 i = 0; i < 4; ++i)
+            for (uint8 i = 0; i < 4; ++i)
             {
                 if (Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                     DoCastSpellIfCan(target, SPELL_SPITE);

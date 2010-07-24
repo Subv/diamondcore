@@ -115,7 +115,7 @@ public:
     AHBConfig(uint32 ahid)
     {
         AHID = ahid;
-        switch(ahid)
+        switch (ahid)
         {
         case 2:
             AHFID = 55;
@@ -228,7 +228,7 @@ public:
     }
     uint32 GetPercentages(uint32 color)
     {
-        switch(color)
+        switch (color)
         {
         case AHB_GREY_TG:
             return percentGreyTradeGoods;
@@ -279,7 +279,7 @@ public:
     }
     void SetMinPrice(uint32 color, uint32 value)
     {
-        switch(color)
+        switch (color)
         {
         case AHB_GREY:
             minPriceGrey = value;
@@ -308,7 +308,7 @@ public:
     }
     uint32 GetMinPrice(uint32 color)
     {
-        switch(color)
+        switch (color)
         {
         case AHB_GREY:
             {
@@ -389,7 +389,7 @@ public:
     }
     void SetMaxPrice(uint32 color, uint32 value)
     {
-        switch(color)
+        switch (color)
         {
         case AHB_GREY:
             maxPriceGrey = value;
@@ -418,7 +418,7 @@ public:
     }
     uint32 GetMaxPrice(uint32 color)
     {
-        switch(color)
+        switch (color)
         {
         case AHB_GREY:
             {
@@ -485,7 +485,7 @@ public:
     }
     void SetMinBidPrice(uint32 color, uint32 value)
     {
-        switch(color)
+        switch (color)
         {
         case AHB_GREY:
             minBidPriceGrey = value;
@@ -514,7 +514,7 @@ public:
     }
     uint32 GetMinBidPrice(uint32 color)
     {
-        switch(color)
+        switch (color)
         {
         case AHB_GREY:
             {
@@ -581,7 +581,7 @@ public:
     }
     void SetMaxBidPrice(uint32 color, uint32 value)
     {
-        switch(color)
+        switch (color)
         {
         case AHB_GREY:
             maxBidPriceGrey = value;
@@ -610,7 +610,7 @@ public:
     }
     uint32 GetMaxBidPrice(uint32 color)
     {
-        switch(color)
+        switch (color)
         {
         case AHB_GREY:
             {
@@ -677,7 +677,7 @@ public:
     }
     void SetMaxStack(uint32 color, uint32 value)
     {
-        switch(color)
+        switch (color)
         {
         case AHB_GREY:
             maxStackGrey = value;
@@ -706,7 +706,7 @@ public:
     }
     uint32 GetMaxStack(uint32 color)
     {
-        switch(color)
+        switch (color)
         {
         case AHB_GREY:
             {
@@ -752,7 +752,7 @@ public:
     }
     void SetBuyerPrice(uint32 color, uint32 value)
     {
-        switch(color)
+        switch (color)
         {
         case AHB_GREY:
             buyerPriceGrey = value;
@@ -781,7 +781,7 @@ public:
     }
     uint32 GetBuyerPrice(uint32 color)
     {
-        switch(color)
+        switch (color)
         {
         case AHB_GREY:
             return buyerPriceGrey;
@@ -849,7 +849,7 @@ public:
     }
     uint32 GetPercents(uint32 color)
     {
-        switch(color)
+        switch (color)
         {
         case AHB_GREY_TG:
             return greytgp;

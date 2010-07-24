@@ -62,7 +62,7 @@ struct instance_old_hillsbrad : public ScriptedInstance
 
         if (!players.isEmpty())
         {
-            for(Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
+            for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
             {
                 if (Player* plr = itr->getSource())
                     return plr;
@@ -79,7 +79,7 @@ struct instance_old_hillsbrad : public ScriptedInstance
 
         if (!players.isEmpty())
         {
-            for(Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
+            for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
             {
                 if (Player* pPlayer = itr->getSource())
                     pPlayer->KilledMonsterCredit(NPC_LODGE_QUEST_TRIGGER, 0);
@@ -89,7 +89,7 @@ struct instance_old_hillsbrad : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_THRALL:
                 m_uiThrallGUID = pCreature->GetGUID();
@@ -110,7 +110,7 @@ struct instance_old_hillsbrad : public ScriptedInstance
             return;
         }
 
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_BARREL_DIVERSION:
             {
@@ -188,7 +188,7 @@ struct instance_old_hillsbrad : public ScriptedInstance
 
     uint32 GetData(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case TYPE_BARREL_DIVERSION:
                 return m_auiEncounter[0];
@@ -208,7 +208,7 @@ struct instance_old_hillsbrad : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_THRALL:
                 return m_uiThrallGUID;

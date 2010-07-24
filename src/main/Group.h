@@ -148,7 +148,7 @@ class Roll : public LootValidatorRef
         void targetObjectBuildLink();
 
         void CalculateCommonVoteMask(uint32 max_enchanting_skill);
-        RollVoteMask GetVoteMaskFor(Player* player) const;
+        RollVoteMask GetVoteMaskfor (Player* player) const;
 
         ObjectGuid lootedTargetGUID;
         uint32 itemid;
@@ -240,9 +240,9 @@ class Group
         bool IsLeader(const uint64& guid) const { return (GetLeaderGUID() == guid); }
         uint64 GetMemberGUID(const std::string& name)
         {
-            for(member_citerator itr = m_memberSlots.begin(); itr != m_memberSlots.end(); ++itr)
+            for (member_citerator itr = m_memberSlots.begin(); itr != m_memberSlots.end(); ++itr)
             {
-                if(itr->name == name)
+                if (itr->name == name)
                 {
                     return itr->guid;
                 }
@@ -252,7 +252,7 @@ class Group
         bool IsAssistant(uint64 guid) const
         {
             member_citerator mslot = _getMemberCSlot(guid);
-            if(mslot==m_memberSlots.end())
+            if (mslot==m_memberSlots.end())
                 return false;
 
             return mslot->assistant;
@@ -263,7 +263,7 @@ class Group
         bool SameSubGroup(uint64 guid1,const uint64& guid2) const
         {
             member_citerator mslot2 = _getMemberCSlot(guid2);
-            if(mslot2==m_memberSlots.end())
+            if (mslot2==m_memberSlots.end())
                 return false;
 
             return SameSubGroup(guid1,&*mslot2);
@@ -272,7 +272,7 @@ class Group
         bool SameSubGroup(uint64 guid1, MemberSlot const* slot2) const
         {
             member_citerator mslot1 = _getMemberCSlot(guid1);
-            if(mslot1==m_memberSlots.end() || !slot2)
+            if (mslot1==m_memberSlots.end() || !slot2)
                 return false;
 
             return (mslot1->group==slot2->group);
@@ -292,7 +292,7 @@ class Group
         uint8  GetMemberGroup(uint64 guid) const
         {
             member_citerator mslot = _getMemberCSlot(guid);
-            if(mslot==m_memberSlots.end())
+            if (mslot==m_memberSlots.end())
                 return MAX_RAID_SUBGROUPS + 1;
 
             return mslot->group;
@@ -312,25 +312,25 @@ class Group
 
         void SetAssistant(uint64 guid, bool state)
         {
-            if(!isRaidGroup())
+            if (!isRaidGroup())
                 return;
-            if(_setAssistantFlag(guid, state))
+            if (_setAssistantFlag(guid, state))
                 SendUpdate();
         }
         void SetMainTank(uint64 guid)
         {
-            if(!isRaidGroup())
+            if (!isRaidGroup())
                 return;
 
-            if(_setMainTank(guid))
+            if (_setMainTank(guid))
                 SendUpdate();
         }
         void SetMainAssistant(uint64 guid)
         {
-            if(!isRaidGroup())
+            if (!isRaidGroup())
                 return;
 
-            if(_setMainAssistant(guid))
+            if (_setMainAssistant(guid))
                 SendUpdate();
         }
 
@@ -408,7 +408,7 @@ class Group
 
         member_citerator _getMemberCSlot(uint64 Guid) const
         {
-            for(member_citerator itr = m_memberSlots.begin(); itr != m_memberSlots.end(); ++itr)
+            for (member_citerator itr = m_memberSlots.begin(); itr != m_memberSlots.end(); ++itr)
             {
                 if (itr->guid == Guid)
                     return itr;
@@ -418,7 +418,7 @@ class Group
 
         member_witerator _getMemberWSlot(uint64 Guid)
         {
-            for(member_witerator itr = m_memberSlots.begin(); itr != m_memberSlots.end(); ++itr)
+            for (member_witerator itr = m_memberSlots.begin(); itr != m_memberSlots.end(); ++itr)
             {
                 if (itr->guid == Guid)
                     return itr;

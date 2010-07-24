@@ -186,7 +186,7 @@ struct instance_naxxramas : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_ANUB_REKHAN: m_uiAnubRekhanGUID = pCreature->GetGUID(); break;
             case NPC_FAERLINA:    m_uiFaerlinanGUID = pCreature->GetGUID();  break;
@@ -211,7 +211,7 @@ struct instance_naxxramas : public ScriptedInstance
             return;
         }
 
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_ARAC_ANUB_DOOR:
                 m_uiAnubDoorGUID = pGo->GetGUID();
@@ -353,7 +353,7 @@ struct instance_naxxramas : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             /*case DATA_HEIGAN_ERUPT:
                 HeiganErupt(uiData); */
@@ -511,12 +511,12 @@ struct instance_naxxramas : public ScriptedInstance
             SetData(TYPE_FOUR_HORSEMEN, DONE);
     
 /*            AchievementEntry const *AchievHorsemen = GetAchievementStore()->LookupEntry(instance->IsRegularDifficulty() ? ACHIEVEMENT_HORSEMEN : H_ACHIEVEMENT_HORSEMEN);
-            if(AchievHorsemen && this)
+            if (AchievHorsemen && this)
             {
                 Map::PlayerList const &lPlayers = instance->GetPlayers();
                 if (!lPlayers.isEmpty())
                 {
-                    for(Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
+                    for (Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
                     {
                         if (Player* pPlayer = itr->getSource())
                             pPlayer->GetAchievementMgr().CompletedAchievement(AchievHorsemen);
@@ -565,7 +565,7 @@ struct instance_naxxramas : public ScriptedInstance
             >> m_auiEncounter[8] >> m_auiEncounter[9] >> m_auiEncounter[10] >> m_auiEncounter[11]
             >> m_auiEncounter[12] >> m_auiEncounter[13] >> m_auiEncounter[14];
 
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
         {
             if (m_auiEncounter[i] == IN_PROGRESS)
                 m_auiEncounter[i] = NOT_STARTED;
@@ -576,7 +576,7 @@ struct instance_naxxramas : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_ANUB_REKHAN:
                 return m_auiEncounter[0];
@@ -614,7 +614,7 @@ struct instance_naxxramas : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case NPC_ANUB_REKHAN:
                 return m_uiAnubRekhanGUID;
@@ -651,12 +651,12 @@ struct instance_naxxramas : public ScriptedInstance
                 if (BlaumeuxDead && RivendareDead && ZeliekDead && KorthazzDead)
                 {
 /*                    AchievementEntry const *AchievHorsemen = GetAchievementStore()->LookupEntry(instance->IsRegularDifficulty() ? ACHIEVEMENT_TOGETHER : H_ACHIEVEMENT_TOGETHER);
-                    if(AchievHorsemen && this)
+                    if (AchievHorsemen && this)
                     {
                         Map::PlayerList const &lPlayers = instance->GetPlayers();
                         if (!lPlayers.isEmpty())
                         {
-                            for(Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
+                            for (Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
                             {
                                 if (Player* pPlayer = itr->getSource())
                                       pPlayer->GetAchievementMgr().CompletedAchievement(AchievHorsemen);

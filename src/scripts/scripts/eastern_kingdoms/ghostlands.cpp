@@ -140,7 +140,7 @@ struct npc_ranger_lilathaAI : public npc_escortAI
         if (!pPlayer)
             return;
 
-        switch(i)
+        switch (i)
         {
             case 0:
                 if (GameObject* pGoTemp = GetClosestGameObjectWithEntry(m_creature, GO_CAGE, 10.0f))

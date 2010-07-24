@@ -58,7 +58,7 @@ struct mob_spire_frostwyrmAI : public BSWScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        switch(stage)
+        switch (stage)
         {
             case 0: {
                     timedCast(SPELL_SOUL_FEAST, diff);
@@ -102,12 +102,12 @@ struct mob_frost_giantAI : public BSWScriptedAI
 
     void Aggro(Unit *who)
     {
-        if(pInstance) pInstance->SetData(TYPE_FLIGHT_WAR, IN_PROGRESS);
+        if (pInstance) pInstance->SetData(TYPE_FLIGHT_WAR, IN_PROGRESS);
     }
 
     void JustDied(Unit *killer)
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         if (killer->GetTypeId() == TYPEID_PLAYER)
               pInstance->SetData(TYPE_FLIGHT_WAR, DONE);
     }
@@ -129,7 +129,7 @@ struct mob_frost_giantAI : public BSWScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        switch(stage)
+        switch (stage)
         {
             case 0: {
                     timedCast(SPELL_SOUL_FEAST, diff);

@@ -209,7 +209,7 @@ struct boss_halazziAI : public ScriptedAI
 
                 uint32 uiSpellId;
 
-                switch(m_uiPhaseCounter)
+                switch (m_uiPhaseCounter)
                 {
                     case 3: uiSpellId = SPELL_TRANSFORM_TO_LYNX_75; break;
                     case 2: uiSpellId = SPELL_TRANSFORM_TO_LYNX_50; break;

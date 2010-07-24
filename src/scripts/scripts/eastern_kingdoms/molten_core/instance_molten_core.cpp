@@ -68,7 +68,7 @@ struct instance_molten_core : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case 176951:                                    //Sulfuron
                 m_uiRuneKoroGUID = pGo->GetGUID();
@@ -99,7 +99,7 @@ struct instance_molten_core : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_LUCIFRON:
                 m_uiLucifronGUID = pCreature->GetGUID();
@@ -139,7 +139,7 @@ struct instance_molten_core : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_SULFURON:
                 m_auiEncounter[0] = uiData;
@@ -205,7 +205,7 @@ struct instance_molten_core : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_SULFURON:
                 return m_auiEncounter[0];
@@ -233,7 +233,7 @@ struct instance_molten_core : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_SULFURON:
                 return m_uiSulfuronGUID;
@@ -264,7 +264,7 @@ struct instance_molten_core : public ScriptedInstance
             >> m_auiEncounter[4] >> m_auiEncounter[5] >> m_auiEncounter[6] >> m_auiEncounter[7]
             >> m_auiEncounter[8] >> m_auiEncounter[9];
 
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
             if (m_auiEncounter[i] == IN_PROGRESS)           // Do not load an encounter as "In Progress" - reset it instead.
                 m_auiEncounter[i] = NOT_STARTED;
 

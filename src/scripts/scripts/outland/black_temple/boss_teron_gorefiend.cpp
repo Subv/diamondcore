@@ -246,7 +246,7 @@ struct boss_teron_gorefiendAI : public ScriptedAI
     void MoveInLineOfSight(Unit* pWho)
     {
         if (m_pInstance && m_pInstance->GetData(TYPE_GOREFIEND)!= IN_PROGRESS && !m_bIntro && pWho->GetTypeId() == TYPEID_PLAYER && pWho->isTargetableForAttack() &&
-            m_creature->IsHostileTo(pWho) && pWho->isInAccessablePlaceFor(m_creature))
+            m_creature->IsHostileTo(pWho) && pWho->isInAccessablePlacefor (m_creature))
         {
             if (m_creature->IsWithinDistInMap(pWho, VISIBLE_RANGE) && m_creature->IsWithinLOSInMap(pWho))
             {
@@ -325,7 +325,7 @@ struct boss_teron_gorefiendAI : public ScriptedAI
                 pGhost->DealDamage(pGhost, pGhost->GetHealth(), NULL, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, NULL,
             false);
             }*/
-            for(uint8 i = 0; i < 4; ++i)
+            for (uint8 i = 0; i < 4; ++i)
             {
                 float fX = CalculateRandomLocation(pGhost->GetPositionX(), 10);
                 float fY = CalculateRandomLocation(pGhost->GetPositionY(), 10);
@@ -378,7 +378,7 @@ struct boss_teron_gorefiendAI : public ScriptedAI
         if (m_uiSummonShadowsTimer < uiDiff)
         {
             //MindControlGhost();
-            for(uint8 i = 0; i < 2; ++i)
+            for (uint8 i = 0; i < 2; ++i)
             {
                 float fX = CalculateRandomLocation(m_creature->GetPositionX(), 10);
 

@@ -60,7 +60,7 @@ struct instance_utgarde_keep : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_KELESETH: m_uiKelesethGUID = pCreature->GetGUID(); break;
             case NPC_SKARVALD: m_uiSkarvaldGUID = pCreature->GetGUID(); break;
@@ -70,7 +70,7 @@ struct instance_utgarde_keep : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_BELLOW_1:
                 m_uiBellow1GUID = pGo->GetGUID();
@@ -107,7 +107,7 @@ struct instance_utgarde_keep : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case GO_BELLOW_1:
                 m_auiEncounter[0] = uiData;
@@ -141,7 +141,7 @@ struct instance_utgarde_keep : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case NPC_KELESETH:
                 return m_uiKelesethGUID;
@@ -178,7 +178,7 @@ struct instance_utgarde_keep : public ScriptedInstance
         std::istringstream loadStream(in);
         loadStream >> m_auiEncounter[0] >> m_auiEncounter[1] >> m_auiEncounter[2];
 
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
         {
             if (m_auiEncounter[i] == IN_PROGRESS)
                 m_auiEncounter[i] = NOT_STARTED;

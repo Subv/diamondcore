@@ -97,7 +97,7 @@ struct boss_anubrekhanAI : public ScriptedAI
 
     void Aggro(Unit* pWho)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_AGGRO1, m_creature); break;
             case 1: DoScriptText(SAY_AGGRO2, m_creature); break;
@@ -127,7 +127,7 @@ struct boss_anubrekhanAI : public ScriptedAI
     {
         if (!m_bHasTaunted && m_creature->IsWithinDistInMap(pWho, 60.0f))
         {
-            switch(urand(0, 4))
+            switch (urand(0, 4))
             {
                 case 0: DoScriptText(SAY_GREET, m_creature); break;
                 case 1: DoScriptText(SAY_TAUNT1, m_creature); break;
@@ -147,7 +147,7 @@ struct boss_anubrekhanAI : public ScriptedAI
         GetCreatureListWithEntryInGrid(m_pSmall, m_creature, NPC_SMALL_SPAWN, DEFAULT_VISIBILITY_INSTANCE);
 
         if (!m_pSmall.empty())
-            for(std::list<Creature*>::iterator itr = m_pSmall.begin(); itr != m_pSmall.end(); ++itr)
+            for (std::list<Creature*>::iterator itr = m_pSmall.begin(); itr != m_pSmall.end(); ++itr)
             {
                 (*itr)->ForcedDespawn();
             }
@@ -156,7 +156,7 @@ struct boss_anubrekhanAI : public ScriptedAI
         GetCreatureListWithEntryInGrid(m_pGuard, m_creature, NPC_CRYPT_GUARD, DEFAULT_VISIBILITY_INSTANCE);
 
         if (!m_pGuard.empty())
-            for(std::list<Creature*>::iterator iter = m_pGuard.begin(); iter != m_pGuard.end(); ++iter)
+            for (std::list<Creature*>::iterator iter = m_pGuard.begin(); iter != m_pGuard.end(); ++iter)
             {
                 (*iter)->ForcedDespawn();
             }
@@ -164,7 +164,7 @@ struct boss_anubrekhanAI : public ScriptedAI
     void StartSummonGuard()
     {
         m_creature->SummonCreature(NPC_CRYPT_GUARD, 3307, -3465, 287, 3.5, TEMPSUMMON_CORPSE_DESPAWN, 0);
-        if(!m_bIsRegularMode)
+        if (!m_bIsRegularMode)
             m_creature->SummonCreature(NPC_CRYPT_GUARD, 3304, -3490, 287, 2.5, TEMPSUMMON_CORPSE_DESPAWN, 0);
         
     }

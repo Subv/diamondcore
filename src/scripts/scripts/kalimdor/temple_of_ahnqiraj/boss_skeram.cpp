@@ -96,7 +96,7 @@ struct boss_skeramAI : public ScriptedAI
 
     void KilledUnit(Unit* victim)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_SLAY1, m_creature); break;
             case 1: DoScriptText(SAY_SLAY2, m_creature); break;
@@ -114,7 +114,7 @@ struct boss_skeramAI : public ScriptedAI
     {
         if (IsImage || Images75)
             return;
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_AGGRO1, m_creature); break;
             case 1: DoScriptText(SAY_AGGRO2, m_creature); break;
@@ -158,7 +158,7 @@ struct boss_skeramAI : public ScriptedAI
         if (Blink_Timer < diff)
         {
             //DoCastSpellIfCan(m_creature, SPELL_BLINK);
-            switch(urand(0, 2))
+            switch (urand(0, 2))
             {
                 case 0:
                     m_creature->GetMap()->CreatureRelocation(m_creature, -8340.782227f, 2083.814453f, 125.648788f, 0.0f);
@@ -219,7 +219,7 @@ struct boss_skeramAI : public ScriptedAI
 
         ov_mycoordinates *bossc=place1, *i1=place2, *i2=place3;
 
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0:
                 bossc = place1;

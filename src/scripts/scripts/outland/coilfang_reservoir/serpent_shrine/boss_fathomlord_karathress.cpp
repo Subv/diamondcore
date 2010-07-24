@@ -100,7 +100,7 @@ struct boss_fathomlord_karathressAI : public ScriptedAI
         m_uiEnrage_Timer               = 600000;
         m_bBlessingOfTides_MobsChecked = false;
 
-        for(uint8 i = 0; i < MAX_ADVISORS; ++i)
+        for (uint8 i = 0; i < MAX_ADVISORS; ++i)
         {
             if (Creature* pAdvisor = (Creature*)Unit::GetUnit(*m_creature, m_auiAdvisorsGUID[i]))
             {
@@ -124,7 +124,7 @@ struct boss_fathomlord_karathressAI : public ScriptedAI
         int32  iSayGainAbility = 0;
         uint32 uiSpell = 0;
 
-        switch(uiAdvisor)
+        switch (uiAdvisor)
         {
             case DATA_SHARKKIS:
                 iSayGainAbility = SAY_GAIN_ABILITY1;
@@ -172,7 +172,7 @@ struct boss_fathomlord_karathressAI : public ScriptedAI
 
     void KilledUnit(Unit* pVictim)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_SLAY1, m_creature); break;
             case 1: DoScriptText(SAY_SLAY2, m_creature); break;
@@ -233,7 +233,7 @@ struct boss_fathomlord_karathressAI : public ScriptedAI
         //hp under 75%
         if (!m_bBlessingOfTides_MobsChecked && m_creature->GetHealthPercent() < 75.0f)
         {
-            for(uint8 i = 0; i < MAX_ADVISORS; ++i)
+            for (uint8 i = 0; i < MAX_ADVISORS; ++i)
             {
                 if (Unit* pAdvisor = Unit::GetUnit(*m_creature, m_auiAdvisorsGUID[i]))
                 {
@@ -539,7 +539,7 @@ struct boss_fathomguard_caribdisAI : public Advisor_Base_AI
 
             if (m_pInstance)
             {
-                switch(urand(0, 3))
+                switch (urand(0, 3))
                 {
                     case 0: pUnit = Unit::GetUnit((*m_creature), m_pInstance->GetData64(DATA_KARATHRESS)); break;
                     case 1: pUnit = Unit::GetUnit((*m_creature), m_pInstance->GetData64(DATA_SHARKKIS)); break;

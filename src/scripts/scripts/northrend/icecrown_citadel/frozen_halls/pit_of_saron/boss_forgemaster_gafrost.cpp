@@ -45,17 +45,17 @@ struct boss_forgemaster_gafrostAI : public ScriptedAI
 
     void Reset()
     {
-        if(pInstance) pInstance->SetData(TYPE_GAFROST, NOT_STARTED);
+        if (pInstance) pInstance->SetData(TYPE_GAFROST, NOT_STARTED);
     }
 
     void Aggro(Unit *who) 
     {
-        if(pInstance) pInstance->SetData(TYPE_GAFROST, IN_PROGRESS);
+        if (pInstance) pInstance->SetData(TYPE_GAFROST, IN_PROGRESS);
     }
 
     void JustDied(Unit *killer)
     {
-        if(pInstance) pInstance->SetData(TYPE_GAFROST, DONE);
+        if (pInstance) pInstance->SetData(TYPE_GAFROST, DONE);
     }
 
     void UpdateAI(const uint32 diff)

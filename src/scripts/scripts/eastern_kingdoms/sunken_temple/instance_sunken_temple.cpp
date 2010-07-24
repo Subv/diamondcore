@@ -38,7 +38,7 @@ void instance_sunken_temple::Initialize()
 
 void instance_sunken_temple::OnObjectCreate(GameObject* pGo)
 {
-    switch(pGo->GetEntry())
+    switch (pGo->GetEntry())
     {
         case GO_JAMMALAIN_BARRIER:
             m_uiJammalainBarrierGUID = pGo->GetGUID();
@@ -51,7 +51,7 @@ void instance_sunken_temple::OnObjectCreate(GameObject* pGo)
 
 void instance_sunken_temple::OnCreatureCreate(Creature* pCreature)
 {
-    switch(pCreature->GetEntry())
+    switch (pCreature->GetEntry())
     {
         case NPC_ZOLO:
         case NPC_GASHER:
@@ -66,7 +66,7 @@ void instance_sunken_temple::OnCreatureCreate(Creature* pCreature)
 
 void instance_sunken_temple::SetData(uint32 uiType, uint32 uiData)
 {
-    switch(uiType)
+    switch (uiType)
     {
         case TYPE_ATALARION:
             m_auiEncounter[0] = uiData;
@@ -118,7 +118,7 @@ void instance_sunken_temple::Load(const char* chrIn)
     std::istringstream loadStream(chrIn);
     loadStream >> m_auiEncounter[0] >> m_auiEncounter[1] >> m_auiEncounter[2] >> m_auiEncounter[3];
 
-    for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+    for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
     {
         if (m_auiEncounter[i] == IN_PROGRESS)
             m_auiEncounter[i] = NOT_STARTED;
@@ -129,7 +129,7 @@ void instance_sunken_temple::Load(const char* chrIn)
 
 uint32 instance_sunken_temple::GetData(uint32 uiType)
 {
-    switch(uiType)
+    switch (uiType)
     {
         case TYPE_ATALARION:
             return m_auiEncounter[0];

@@ -162,7 +162,7 @@ struct boss_dredAI : public ScriptedAI
         //Call For Raptor - spawn
         if (CallForRaptorSpawn_Timer < uiDiff && CallForRaptorSpawn_Check == 1)
         {    
-            switch(urand(0, 1))
+            switch (urand(0, 1))
             {
                 case 0:
                 {

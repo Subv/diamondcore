@@ -104,14 +104,14 @@ struct npc_kerlonianAI : public FollowerAI
     {
         SetFollowPaused(true);
 
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(EMOTE_KER_SLEEP_1, m_creature); break;
             case 1: DoScriptText(EMOTE_KER_SLEEP_2, m_creature); break;
             case 2: DoScriptText(EMOTE_KER_SLEEP_3, m_creature); break;
         }
 
-        switch(urand(0, 3))
+        switch (urand(0, 3))
         {
             case 0: DoScriptText(SAY_KER_SLEEP_1, m_creature); break;
             case 1: DoScriptText(SAY_KER_SLEEP_2, m_creature); break;
@@ -215,7 +215,7 @@ struct npc_prospector_remtravelAI : public npc_escortAI
         if (!pPlayer)
             return;
 
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 0:
                 DoScriptText(SAY_REM_START, m_creature, pPlayer);

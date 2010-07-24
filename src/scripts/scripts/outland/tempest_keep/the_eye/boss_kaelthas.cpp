@@ -354,7 +354,7 @@ struct boss_kaelthasAI : public ScriptedAI
 
     void PrepareAdvisors()
     {
-        for(uint8 i = 0; i < MAX_ADVISORS; ++i)
+        for (uint8 i = 0; i < MAX_ADVISORS; ++i)
         {
             if (Creature* pCreature = (Creature*)Unit::GetUnit((*m_creature), m_auiAdvisorGuid[i]))
             {
@@ -411,7 +411,7 @@ struct boss_kaelthasAI : public ScriptedAI
     void MoveInLineOfSight(Unit* pWho)
     {
         if (m_creature->CanInitiateAttack() && pWho->isTargetableForAttack() &&
-            m_creature->IsHostileTo(pWho) && pWho->isInAccessablePlaceFor(m_creature))
+            m_creature->IsHostileTo(pWho) && pWho->isInAccessablePlacefor (m_creature))
         {
             if (!m_creature->canFly() && m_creature->GetDistanceZ(pWho) > CREATURE_Z_ATTACK_RANGE)
                 return;
@@ -444,7 +444,7 @@ struct boss_kaelthasAI : public ScriptedAI
 
     void KilledUnit(Unit* pUnit)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_SLAY1, m_creature); break;
             case 1: DoScriptText(SAY_SLAY2, m_creature); break;
@@ -480,7 +480,7 @@ struct boss_kaelthasAI : public ScriptedAI
         if (m_pInstance)
             m_pInstance->SetData(TYPE_KAELTHAS_PHASE, PHASE_6_COMPLETE);
 
-        for(uint8 i = 0; i < MAX_ADVISORS; ++i)
+        for (uint8 i = 0; i < MAX_ADVISORS; ++i)
         {
             if (Unit* pAdvisor = Unit::GetUnit((*m_creature), m_auiAdvisorGuid[i]))
                 pAdvisor->DealDamage(pAdvisor, pAdvisor->GetMaxHealth(), NULL, DIRECT_DAMAGE, SPELL_SCHOOL_MASK_NORMAL, NULL, false);
@@ -498,7 +498,7 @@ struct boss_kaelthasAI : public ScriptedAI
                 Creature* pAdvisor = NULL;
 
                 //Subphase switch
-                switch(m_uiPhaseSubphase)
+                switch (m_uiPhaseSubphase)
                 {
                     //Subphase 1 - Start
                     case 0:
@@ -913,7 +913,7 @@ struct boss_kaelthasAI : public ScriptedAI
                     //m_uiGravityLapse_Timer
                     if (m_uiGravityLapse_Timer < uiDiff)
                     {
-                        switch(m_uiGravityLapse_Phase)
+                        switch (m_uiGravityLapse_Phase)
                         {
                             case 0:
                             {

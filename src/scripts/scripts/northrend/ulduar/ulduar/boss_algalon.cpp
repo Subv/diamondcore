@@ -25,19 +25,19 @@ struct boss_algalonAI : public ScriptedAI
 
     void Reset()
     {
-        if(pInstance) pInstance->SetData(TYPE_ALGALON, NOT_STARTED);
+        if (pInstance) pInstance->SetData(TYPE_ALGALON, NOT_STARTED);
         QuantumStrikeTimer = 4000 + rand()%10000;
         EnrageTimer = 360000; //6 minutes
     }
 
     void Aggro(Unit *who) 
     {
-        if(pInstance) pInstance->SetData(TYPE_ALGALON, IN_PROGRESS);
+        if (pInstance) pInstance->SetData(TYPE_ALGALON, IN_PROGRESS);
     }
 
     void JustDied(Unit *killer)
     {
-        if(pInstance) pInstance->SetData(TYPE_ALGALON, DONE);
+        if (pInstance) pInstance->SetData(TYPE_ALGALON, DONE);
     }
 
     void UpdateAI(const uint32 diff)
@@ -45,14 +45,14 @@ struct boss_algalonAI : public ScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        if(QuantumStrikeTimer < diff)
+        if (QuantumStrikeTimer < diff)
         {
             DoCast(m_creature->getVictim(), Regular ? SP_QUANTUM_STRIKE : H_SP_QUANTUM_STRIKE);
             QuantumStrikeTimer = 4000 + rand()%10000;
         }
         else QuantumStrikeTimer -= diff;
 
-        if(EnrageTimer < diff)
+        if (EnrageTimer < diff)
         {
             DoCast(m_creature, SP_ENRAGE, true);
             EnrageTimer = 30000;

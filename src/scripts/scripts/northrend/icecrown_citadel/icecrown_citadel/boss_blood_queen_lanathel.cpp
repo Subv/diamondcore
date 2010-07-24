@@ -75,7 +75,7 @@ struct boss_blood_queen_lanathelAI : public BSWScriptedAI
 
     void Reset()
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         pInstance->SetData(TYPE_LANATHEL, NOT_STARTED);
         stage = 0;
         UpdateTimer = 1000;
@@ -134,7 +134,7 @@ struct boss_blood_queen_lanathelAI : public BSWScriptedAI
 
     void Aggro(Unit *who) 
     {
-        if(!pInstance) return; 
+        if (!pInstance) return; 
         pInstance->SetData(TYPE_LANATHEL, IN_PROGRESS);
 
         doCast(SPELL_SHROUD_OF_SORROW);
@@ -144,7 +144,7 @@ struct boss_blood_queen_lanathelAI : public BSWScriptedAI
 
     void JustDied(Unit *killer)
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         pInstance->SetData(TYPE_LANATHEL, DONE);
         DoScriptText(-1631333,m_creature,killer);
         m_creature->SetUInt32Value(UNIT_FIELD_BYTES_0, 0);
@@ -156,7 +156,7 @@ struct boss_blood_queen_lanathelAI : public BSWScriptedAI
        if (command)
        {
           uint8 num = urand(3,5);
-          for(uint8 i = 0; i <= num; ++i)
+          for (uint8 i = 0; i <= num; ++i)
               if (Unit* pTarget = doSelectRandomPlayer(SPELL_PACT_OF_DARKFALLEN, false, 60.0f))
               {
                   if (doCast(SPELL_PACT_OF_DARKFALLEN,pTarget) == CAST_OK)
@@ -168,15 +168,15 @@ struct boss_blood_queen_lanathelAI : public BSWScriptedAI
        }
        else if (darkfallened > 0)
        {
-          for(uint8 i = 0; i < darkfallened; ++i)
+          for (uint8 i = 0; i < darkfallened; ++i)
               if (Darkfallen[i])
               {
                  if (hasAura(SPELL_PACT_OF_DARKFALLEN,Darkfallen[i]))
                     {
-                    for(uint8 j = 0; j < darkfallened; ++j)
+                    for (uint8 j = 0; j < darkfallened; ++j)
                        if (j != i && Darkfallen[j])
                        {
-                          if(Darkfallen[j])
+                          if (Darkfallen[j])
                           {
                              if (hasAura(SPELL_PACT_OF_DARKFALLEN,Darkfallen[j]))
                                 {
@@ -186,7 +186,7 @@ struct boss_blood_queen_lanathelAI : public BSWScriptedAI
                        }
                     } else Darkfallen[i] = NULL;
               }
-          for(uint8 i = 0; i < darkfallened; ++i)
+          for (uint8 i = 0; i < darkfallened; ++i)
                  if (hasAura(SPELL_PACT_OF_DARKFALLEN,Darkfallen[i]))
                        doRemove(SPELL_PACT_OF_DARKFALLEN, Darkfallen[i]);
           darkfallened = 0;
@@ -281,7 +281,7 @@ struct boss_blood_queen_lanathelAI : public BSWScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        switch(stage)
+        switch (stage)
         {
             case 0: 
 

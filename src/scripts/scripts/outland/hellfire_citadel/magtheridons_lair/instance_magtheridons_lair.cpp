@@ -54,7 +54,7 @@ struct instance_magtheridons_lair : public ScriptedInstance
 
     bool IsEncounterInProgress() const
     {
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
             if (m_auiEncounter[i] == IN_PROGRESS)
                 return true;
 
@@ -63,7 +63,7 @@ struct instance_magtheridons_lair : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_MAGTHERION: m_uiMagtheridonGUID = pCreature->GetGUID(); break;
             case NPC_CHANNELER: ChannelerGUID.insert(pCreature->GetGUID()); break;
@@ -72,7 +72,7 @@ struct instance_magtheridons_lair : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case 181713:
                 pGo->RemoveFlag(GAMEOBJECT_FLAGS, GO_FLAG_UNK1);
@@ -94,7 +94,7 @@ struct instance_magtheridons_lair : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_MAGTHERIDON_EVENT:
                 m_auiEncounter[0] = uiData;
@@ -107,7 +107,7 @@ struct instance_magtheridons_lair : public ScriptedInstance
                 }
                 break;
             case TYPE_CHANNELER_EVENT:
-                switch(uiData)
+                switch (uiData)
                 {
                     case NOT_STARTED:                       // Reset all channelers once one is reset.
                         if (m_auiEncounter[1] != NOT_STARTED)
@@ -120,7 +120,7 @@ struct instance_magtheridons_lair : public ScriptedInstance
                                 break;
                             }
 
-                            for(std::set<uint64>::iterator i = ChannelerGUID.begin(); i != ChannelerGUID.end(); ++i)
+                            for (std::set<uint64>::iterator i = ChannelerGUID.begin(); i != ChannelerGUID.end(); ++i)
                             {
                                 if (Creature* pChanneler = instance->GetCreature(*i))
                                 {
@@ -143,7 +143,7 @@ struct instance_magtheridons_lair : public ScriptedInstance
                             m_auiEncounter[1] = IN_PROGRESS;
 
                             // Let all five channelers aggro.
-                            for(std::set<uint64>::iterator i = ChannelerGUID.begin(); i != ChannelerGUID.end(); ++i)
+                            for (std::set<uint64>::iterator i = ChannelerGUID.begin(); i != ChannelerGUID.end(); ++i)
                             {
                                 Creature* pChanneler = instance->GetCreature(*i);
 
@@ -162,7 +162,7 @@ struct instance_magtheridons_lair : public ScriptedInstance
                         }
                         break;
                     case DONE:                              // Add buff and check if all channelers are dead.
-                        for(std::set<uint64>::iterator i = ChannelerGUID.begin(); i != ChannelerGUID.end(); ++i)
+                        for (std::set<uint64>::iterator i = ChannelerGUID.begin(); i != ChannelerGUID.end(); ++i)
                         {
                             Creature* pChanneler = instance->GetCreature(*i);
 
@@ -180,7 +180,7 @@ struct instance_magtheridons_lair : public ScriptedInstance
                 break;
             case TYPE_HALL_COLLAPSE:
                 // IN_PROGRESS - collapse / NOT_STARTED - reset
-                for(std::set<uint64>::iterator i = ColumnGUID.begin(); i != ColumnGUID.end(); ++i)
+                for (std::set<uint64>::iterator i = ColumnGUID.begin(); i != ColumnGUID.end(); ++i)
                 {
                     DoUseDoorOrButton(*i);
                 }
@@ -213,7 +213,7 @@ struct instance_magtheridons_lair : public ScriptedInstance
         Player* target = NULL;
 
         Map::PlayerList const& players = instance->GetPlayers();
-        for(Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
+        for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
         {
             if (Player* i_pl = itr->getSource())
             {
@@ -254,7 +254,7 @@ struct instance_magtheridons_lair : public ScriptedInstance
         {
             if (m_uiRespawnTimer <= uiDiff)
             {
-                for(std::set<uint64>::iterator i = ChannelerGUID.begin(); i != ChannelerGUID.end(); ++i)
+                for (std::set<uint64>::iterator i = ChannelerGUID.begin(); i != ChannelerGUID.end(); ++i)
                 {
                     if (Creature* pChanneler = instance->GetCreature(*i))
                     {

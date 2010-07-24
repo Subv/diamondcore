@@ -185,7 +185,7 @@ struct npc_air_force_botsAI : public ScriptedAI
             if (!pLastSpawnedGuard)
                 m_uiSpawnedGUID = 0;
 
-            switch(m_pSpawnAssoc->m_SpawnType)
+            switch (m_pSpawnAssoc->m_SpawnType)
             {
                 case SPAWNTYPE_ALARMBOT:
                 {
@@ -552,7 +552,7 @@ struct npc_injured_patientAI : public ScriptedAI
             //stand up
             m_creature->SetStandState(UNIT_STAND_STATE_STAND);
 
-            switch(urand(0, 2))
+            switch (urand(0, 2))
             {
                 case 0: DoScriptText(SAY_DOC1,m_creature); break;
                 case 1: DoScriptText(SAY_DOC2,m_creature); break;
@@ -621,14 +621,14 @@ void npc_doctorAI::BeginEvent(Player* pPlayer)
     PatientDiedCount = 0;
     PatientSavedCount = 0;
 
-    switch(m_creature->GetEntry())
+    switch (m_creature->GetEntry())
     {
         case DOCTOR_ALLIANCE:
-            for(uint8 i = 0; i < ALLIANCE_COORDS; ++i)
+            for (uint8 i = 0; i < ALLIANCE_COORDS; ++i)
                 Coordinates.push_back(&AllianceCoords[i]);
             break;
         case DOCTOR_HORDE:
-            for(uint8 i = 0; i < HORDE_COORDS; ++i)
+            for (uint8 i = 0; i < HORDE_COORDS; ++i)
                 Coordinates.push_back(&HordeCoords[i]);
             break;
     }
@@ -676,7 +676,7 @@ void npc_doctorAI::PatientSaved(Creature* soldier, Player* pPlayer, Location* Po
                 if (!Patients.empty())
                 {
                     std::list<uint64>::iterator itr;
-                    for(itr = Patients.begin(); itr != Patients.end(); ++itr)
+                    for (itr = Patients.begin(); itr != Patients.end(); ++itr)
                     {
                         if (Creature* Patient = ((Creature*)Unit::GetUnit((*m_creature), *itr)))
                             Patient->setDeathState(JUST_DIED);
@@ -718,7 +718,7 @@ void npc_doctorAI::UpdateAI(const uint32 diff)
             std::vector<Location*>::iterator itr = Coordinates.begin()+rand()%Coordinates.size();
             uint32 patientEntry = 0;
 
-            switch(m_creature->GetEntry())
+            switch (m_creature->GetEntry())
             {
                 case DOCTOR_ALLIANCE: patientEntry = AllianceSoldierId[urand(0, 2)]; break;
                 case DOCTOR_HORDE:    patientEntry = HordeSoldierId[urand(0, 2)]; break;
@@ -841,7 +841,7 @@ struct npc_garments_of_questsAI : public npc_escortAI
 
             if (pCaster->GetTypeId() == TYPEID_PLAYER)
             {
-                switch(m_creature->GetEntry())
+                switch (m_creature->GetEntry())
                 {
                     case ENTRY_SHAYA:
                         if (((Player*)pCaster)->GetQuestStatus(QUEST_MOON) == QUEST_STATUS_INCOMPLETE)
@@ -949,7 +949,7 @@ struct npc_garments_of_questsAI : public npc_escortAI
             {
                 if (Unit *pUnit = Unit::GetUnit(*m_creature,caster))
                 {
-                    switch(m_creature->GetEntry())
+                    switch (m_creature->GetEntry())
                     {
                         case ENTRY_SHAYA: DoScriptText(SAY_SHAYA_GOODBYE,m_creature,pUnit); break;
                         case ENTRY_ROBERTS: DoScriptText(SAY_ROBERTS_GOODBYE,m_creature,pUnit); break;
@@ -1063,7 +1063,7 @@ bool GossipHello_npc_innkeeper(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_npc_innkeeper(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->SEND_GOSSIP_MENU(TEXT_ID_WHAT_TO_DO, pCreature->GetGUID());
@@ -1082,7 +1082,7 @@ bool GossipSelect_npc_innkeeper(Player* pPlayer, Creature* pCreature, uint32 uiS
             {
                 uint32 uiTrickSpell = 0;
 
-                switch(urand(0, 9))                             // note that female characters can get male costumes and vice versa
+                switch (urand(0, 9))                             // note that female characters can get male costumes and vice versa
                 {
                     case 0: uiTrickSpell = SPELL_TRICK_NO_ATTACK; break;
                     case 1: uiTrickSpell = SPELL_TRICK_GNOME; break;
@@ -1343,7 +1343,7 @@ bool GossipHello_npc_sayge(Player* pPlayer, Creature* pCreature)
 
 void SendAction_npc_sayge(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Slay the Man",                      GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
@@ -1389,7 +1389,7 @@ void SendAction_npc_sayge(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 
 bool GossipSelect_npc_sayge(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiSender)
+    switch (uiSender)
     {
         case GOSSIP_SENDER_MAIN:
             SendAction_npc_sayge(pPlayer, pCreature, uiAction);
@@ -1560,7 +1560,7 @@ bool GossipHello_npc_tabard_vendor(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_npc_tabard_vendor(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_TRADE:
             pPlayer->SEND_VENDORLIST(pCreature->GetGUID());
@@ -1671,7 +1671,7 @@ bool GossipHello_npc_locksmith(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_npc_locksmith(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->CLOSE_GOSSIP_MENU();
@@ -1760,9 +1760,9 @@ struct npc_mirror_imageAI : public ScriptedAI
             m_creature->GetMotionMaster()->MoveFollow(owner, PET_FOLLOW_DIST + 3.0f, angle);
         }
 
-      if(owner->IsPvP())
+      if (owner->IsPvP())
                  m_creature->SetPvP(true);
-      if(owner->IsFFAPvP())
+      if (owner->IsFFAPvP())
                  m_creature->SetFFAPvP(true);
     }
 

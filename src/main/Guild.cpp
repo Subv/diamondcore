@@ -323,7 +323,7 @@ bool Guild::LoadRanksFromDB(QueryResult *guildRanksResult)
         sLog.outError("Guild %u has broken `guild_rank` data, repairing...", m_Id);
         CharacterDatabase.BeginTransaction();
         CharacterDatabase.PExecute("DELETE FROM guild_rank WHERE guildid='%u'", m_Id);
-        for(size_t i = 0; i < m_Ranks.size(); ++i)
+        for (size_t i = 0; i < m_Ranks.size(); ++i)
         {
             std::string name = m_Ranks[i].Name;
             uint32 rights = m_Ranks[i].Rights;
@@ -553,7 +553,7 @@ void Guild::BroadcastToOfficers(WorldSession *session, const std::string& msg, u
 {
     if (session && session->GetPlayer() && HasRankRight(session->GetPlayer()->GetRank(), GR_RIGHT_OFFCHATSPEAK))
     {
-        for(MemberList::const_iterator itr = members.begin(); itr != members.end(); ++itr)
+        for (MemberList::const_iterator itr = members.begin(); itr != members.end(); ++itr)
         {
             WorldPacket data;
             ChatHandler::FillMessageData(&data, session, CHAT_MSG_OFFICER, language, NULL, 0, msg.c_str(), NULL);
@@ -568,7 +568,7 @@ void Guild::BroadcastToOfficers(WorldSession *session, const std::string& msg, u
 
 void Guild::BroadcastPacket(WorldPacket *packet)
 {
-    for(MemberList::const_iterator itr = members.begin(); itr != members.end(); ++itr)
+    for (MemberList::const_iterator itr = members.begin(); itr != members.end(); ++itr)
     {
         Player *player = ObjectAccessor::FindPlayer(ObjectGuid(HIGHGUID_PLAYER, itr->first));
         if (player)
@@ -578,7 +578,7 @@ void Guild::BroadcastPacket(WorldPacket *packet)
 
 void Guild::BroadcastPacketToRank(WorldPacket *packet, uint32 rankId)
 {
-    for(MemberList::const_iterator itr = members.begin(); itr != members.end(); ++itr)
+    for (MemberList::const_iterator itr = members.begin(); itr != members.end(); ++itr)
     {
         if (itr->second.RankId == rankId)
         {
@@ -1626,9 +1626,9 @@ void Guild::AppendDisplayGuildBankSlot( WorldPacket& data, GuildBankTab const *t
         size_t enchCountPos = data.wpos();
 
         data << uint8(enchCount);                           // number of enchantments
-        for(uint32 i = PERM_ENCHANTMENT_SLOT; i < MAX_ENCHANTMENT_SLOT; ++i)
+        for (uint32 i = PERM_ENCHANTMENT_SLOT; i < MAX_ENCHANTMENT_SLOT; ++i)
         {
-            if(uint32 enchId = pItem->GetEnchantmentId(EnchantmentSlot(i)))
+            if (uint32 enchId = pItem->GetEnchantmentId(EnchantmentSlot(i)))
             {
                 data << uint8(i);
                 data << uint32(enchId);
@@ -2319,7 +2319,7 @@ void Guild::BroadcastEvent(GuildEvents event, uint64 guid, uint8 strCount, std::
     data << uint8(event);
     data << uint8(strCount);
 
-    switch(strCount)
+    switch (strCount)
     {
         case 0:
             break;
@@ -2337,7 +2337,7 @@ void Guild::BroadcastEvent(GuildEvents event, uint64 guid, uint8 strCount, std::
             break;
     }
 
-    if(guid)
+    if (guid)
         data << uint64(guid);
 
     BroadcastPacket(&data);
@@ -2347,7 +2347,7 @@ void Guild::BroadcastEvent(GuildEvents event, uint64 guid, uint8 strCount, std::
 
 bool GuildItemPosCount::isContainedIn(GuildItemPosCountVec const &vec) const
 {
-    for(GuildItemPosCountVec::const_iterator itr = vec.begin(); itr != vec.end(); ++itr)
+    for (GuildItemPosCountVec::const_iterator itr = vec.begin(); itr != vec.end(); ++itr)
         if (itr->Slot == this->Slot)
             return true;
 

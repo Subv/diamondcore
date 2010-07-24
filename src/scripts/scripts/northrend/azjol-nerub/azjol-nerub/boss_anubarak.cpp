@@ -116,9 +116,9 @@ struct boss_anubarakAI : public ScriptedAI
 
     void AttackStart(Unit* who)
     {
-       if(!who) return;
+       if (!who) return;
 
-       if(uiPhase > 0) return;
+       if (uiPhase > 0) return;
 
        ScriptedAI::AttackStart(who);
     }
@@ -129,7 +129,7 @@ struct boss_anubarakAI : public ScriptedAI
         GetCreatureListWithEntryInGrid(m_pGuard, m_creature, NPC_GUARDIAN, DEFAULT_VISIBILITY_INSTANCE);
 
         if (!m_pGuard.empty())
-            for(std::list<Creature*>::iterator itr = m_pGuard.begin(); itr != m_pGuard.end(); ++itr)
+            for (std::list<Creature*>::iterator itr = m_pGuard.begin(); itr != m_pGuard.end(); ++itr)
             {
                 (*itr)->ForcedDespawn();
             }
@@ -138,7 +138,7 @@ struct boss_anubarakAI : public ScriptedAI
         GetCreatureListWithEntryInGrid(m_pVen, m_creature, NPC_VENOMANCER, DEFAULT_VISIBILITY_INSTANCE);
 
         if (!m_pVen.empty())
-            for(std::list<Creature*>::iterator iter = m_pVen.begin(); iter != m_pVen.end(); ++iter)
+            for (std::list<Creature*>::iterator iter = m_pVen.begin(); iter != m_pVen.end(); ++iter)
             {
                 (*iter)->ForcedDespawn();
             }
@@ -147,7 +147,7 @@ struct boss_anubarakAI : public ScriptedAI
         GetCreatureListWithEntryInGrid(m_pDat, m_creature, NPC_DATTER, DEFAULT_VISIBILITY_INSTANCE);
 
         if (!m_pDat.empty())
-            for(std::list<Creature*>::iterator iter = m_pDat.begin(); iter != m_pDat.end(); ++iter)
+            for (std::list<Creature*>::iterator iter = m_pDat.begin(); iter != m_pDat.end(); ++iter)
             {
                 (*iter)->ForcedDespawn();
             }
@@ -198,7 +198,7 @@ struct boss_anubarakAI : public ScriptedAI
         {
             if (uiImpaleTimer <= diff)
             {
-                if(m_creature->HasAura(SPELL_SUBMERGE))
+                if (m_creature->HasAura(SPELL_SUBMERGE))
                 {
                    m_creature->RemoveAurasDueToSpell(SPELL_SUBMERGE);
                    m_creature->SetDisplayId(11686);       
@@ -306,13 +306,13 @@ struct boss_anubarakAI : public ScriptedAI
             DoMeleeAttackIfReady();
         }
 
-        if(uiPhaseTimer == 0 && m_creature->GetHealthPercent() < 75.0f)
+        if (uiPhaseTimer == 0 && m_creature->GetHealthPercent() < 75.0f)
             NextPhase();
 
-        if(uiPhaseTimer == 1 && m_creature->GetHealthPercent() < 50.0f)
+        if (uiPhaseTimer == 1 && m_creature->GetHealthPercent() < 50.0f)
             NextPhase();
 
-        if(uiPhaseTimer == 2 && m_creature->GetHealthPercent() < 25.0f)
+        if (uiPhaseTimer == 2 && m_creature->GetHealthPercent() < 25.0f)
             NextPhase();
     }
 

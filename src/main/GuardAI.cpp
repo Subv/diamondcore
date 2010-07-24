@@ -25,7 +25,7 @@
 
 int GuardAI::Permissible(const Creature *creature)
 {
-    if( creature->isGuard())
+    if ( creature->isGuard())
         return PERMIT_BASE_SPECIAL;
 
     return PERMIT_BASE_NO;
@@ -43,7 +43,7 @@ void GuardAI::MoveInLineOfSight(Unit *u)
 
     if (!m_creature->getVictim() && u->isTargetableForAttack() &&
         ( u->IsHostileToPlayers() || m_creature->IsHostileTo(u) /*|| u->getVictim() && m_creature->IsFriendlyTo(u->getVictim())*/ ) &&
-        u->isInAccessablePlaceFor(m_creature))
+        u->isInAccessablePlacefor (m_creature))
     {
         float attackRadius = m_creature->GetAttackDistance(u);
         if (m_creature->IsWithinDistInMap(u,attackRadius))
@@ -131,10 +131,10 @@ bool GuardAI::IsVisible(Unit *pl) const
 
 void GuardAI::AttackStart(Unit *u)
 {
-    if( !u )
+    if ( !u )
         return;
 
-    if(m_creature->Attack(u,true))
+    if (m_creature->Attack(u,true))
     {
         i_victimGuid = u->GetGUID();
         m_creature->AddThreat(u);
@@ -147,6 +147,6 @@ void GuardAI::AttackStart(Unit *u)
 
 void GuardAI::JustDied(Unit *killer)
 {
-    if(Player* pkiller = killer->GetCharmerOrOwnerPlayerOrPlayerItself())
+    if (Player* pkiller = killer->GetCharmerOrOwnerPlayerOrPlayerItself())
         m_creature->SendZoneUnderAttackMessage(pkiller);
 }

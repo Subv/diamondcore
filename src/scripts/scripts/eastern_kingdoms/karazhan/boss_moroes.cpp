@@ -119,7 +119,7 @@ struct boss_moroesAI : public ScriptedAI
 
     void KilledUnit(Unit* pVictim)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_KILL_1, m_creature); break;
             case 1: DoScriptText(SAY_KILL_2, m_creature); break;
@@ -157,14 +157,14 @@ struct boss_moroesAI : public ScriptedAI
         {
             std::vector<uint32> vAddList;
 
-            for(uint8 i = 0; i < 6; ++i)
+            for (uint8 i = 0; i < 6; ++i)
                 vAddList.push_back(auiAdds[i]);
 
             while(vAddList.size() > 4)
                 vAddList.erase((vAddList.begin())+(rand()%vAddList.size()));
 
             uint8 i = 0;
-            for(std::vector<uint32>::iterator itr = vAddList.begin(); itr != vAddList.end(); ++itr, ++i)
+            for (std::vector<uint32>::iterator itr = vAddList.begin(); itr != vAddList.end(); ++itr, ++i)
             {
                 if (Creature* pCreature = m_creature->SummonCreature(*itr, afLocations[i][0], afLocations[i][1], afLocations[i][2], afLocations[i][3], TEMPSUMMON_CORPSE_TIMED_DESPAWN, 10000))
                 {
@@ -177,7 +177,7 @@ struct boss_moroesAI : public ScriptedAI
         }
         else
         {
-            for(uint8 i = 0; i < 4; ++i)
+            for (uint8 i = 0; i < 4; ++i)
             {
                 if (Creature* pCreature = (Creature*)Unit::GetUnit((*m_creature), m_auiAddGUID[i]))
                 {
@@ -202,7 +202,7 @@ struct boss_moroesAI : public ScriptedAI
 
     void AddsAttack()
     {
-        for(uint8 i = 0; i < 4; ++i)
+        for (uint8 i = 0; i < 4; ++i)
         {
             if (m_auiAddGUID[i])
             {
@@ -353,7 +353,7 @@ struct boss_moroes_guestAI : public ScriptedAI
 
         if (Creature* pMoroes = (Creature*)Unit::GetUnit((*m_creature), m_auiGuestGUID[0]))
         {
-            for(uint8 i = 0; i < 3; ++i)
+            for (uint8 i = 0; i < 3; ++i)
             {
                 uint64 uiGUID = ((boss_moroesAI*)pMoroes->AI())->m_auiAddGUID[i];
                 if (uiGUID && uiGUID != m_creature->GetGUID())

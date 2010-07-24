@@ -63,9 +63,9 @@ class QueryNamedResult
 
         uint32 GetField_idx(const std::string &name) const
         {
-            for(size_t idx = 0; idx < mFieldNames.size(); ++idx)
+            for (size_t idx = 0; idx < mFieldNames.size(); ++idx)
             {
-                if(mFieldNames[idx] == name)
+                if (mFieldNames[idx] == name)
                     return idx;
             }
             ASSERT(false && "unknown field name");

@@ -106,7 +106,7 @@ struct instance_karazhan : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case 183932: m_uiCurtainGUID        = pGo->GetGUID(); break;
             case 184278:
@@ -134,7 +134,7 @@ struct instance_karazhan : public ScriptedInstance
             case 185119: m_uiDustCoveredChest = pGo->GetGUID(); break;
         }
 
-        switch(m_uiOperaEvent)
+        switch (m_uiOperaEvent)
         {
             //TODO: Set DoRespawnGameObject for Opera based on performance
             case EVENT_OZ:
@@ -148,7 +148,7 @@ struct instance_karazhan : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_ATTUMEN:              m_auiEncounter[0] = uiData; break;
             case TYPE_MOROES:
@@ -274,7 +274,7 @@ struct instance_karazhan : public ScriptedInstance
             >> m_auiEncounter[4] >> m_auiEncounter[5] >> m_auiEncounter[6] >> m_auiEncounter[7]
             >> m_auiEncounter[8] >> m_auiEncounter[9] >> m_auiEncounter[10] >> m_auiEncounter[11];
 
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
             if (m_auiEncounter[i] == IN_PROGRESS)           // Do not load an encounter as "In Progress" - reset it instead.
                 m_auiEncounter[i] = NOT_STARTED;
 

@@ -97,7 +97,7 @@ struct boss_gormokAI : public BSWScriptedAI
 
     void Reset() {
 
-        if(!m_pInstance) return;
+        if (!m_pInstance) return;
         SetEquipmentSlots(false, EQUIP_MAIN, EQUIP_OFFHAND, EQUIP_RANGED);
         m_creature->SetRespawnDelay(7*DAY);
         m_creature->SetInCombatWithZone();
@@ -449,7 +449,7 @@ struct mob_slime_poolAI : public BSWScriptedAI
 
     void Reset()
     {
-        if(!m_pInstance) return;
+        if (!m_pInstance) return;
         m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
         m_creature->SetInCombatWithZone();
         m_creature->SetSpeedRate(MOVE_RUN, 0.05f);
@@ -503,7 +503,7 @@ struct boss_icehowlAI : public BSWScriptedAI
     Unit* pTarget;
 
     void Reset() {
-        if(!m_pInstance) return;
+        if (!m_pInstance) return;
         m_creature->SetRespawnDelay(7*DAY);
         MovementStarted = false;
         stage = 0;
@@ -517,9 +517,9 @@ struct boss_icehowlAI : public BSWScriptedAI
 
     void MovementInform(uint32 type, uint32 id)
     {
-        if(!m_pInstance) return;
-        if(type != POINT_MOTION_TYPE) return;
-        if(id != 1 && MovementStarted) 
+        if (!m_pInstance) return;
+        if (type != POINT_MOTION_TYPE) return;
+        if (id != 1 && MovementStarted) 
         {
              m_creature->GetMotionMaster()->MovePoint(1, fPosX, fPosY, fPosZ);
         }
@@ -605,7 +605,7 @@ struct boss_icehowlAI : public BSWScriptedAI
                 if (MovementStarted)
                     {
                     Map::PlayerList const &lPlayers = pMap->GetPlayers();
-                    for(Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
+                    for (Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
                     {
                         Unit* pPlayer = itr->getSource();
                         if (!pPlayer) continue;

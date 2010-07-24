@@ -102,7 +102,7 @@ struct boss_shahrazAI : public ScriptedAI
 
     void Reset()
     {
-        for(uint8 i = 0; i<3; ++i)
+        for (uint8 i = 0; i<3; ++i)
             TargetGUID[i] = 0;
 
         BeamTimer = 60000;                                  // Timers may be incorrect
@@ -155,7 +155,7 @@ struct boss_shahrazAI : public ScriptedAI
         float Y = TeleportPoint[random].y;
         float Z = TeleportPoint[random].z;
 
-        for(uint8 i = 0; i < 3; ++i)
+        for (uint8 i = 0; i < 3; ++i)
         {
             Unit* pUnit = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 1);
             if (pUnit && pUnit->isAlive() && (pUnit->GetTypeId() == TYPEID_PLAYER))
@@ -188,7 +188,7 @@ struct boss_shahrazAI : public ScriptedAI
 
             BeamTimer = 9000;
 
-            switch(CurrentBeam)
+            switch (CurrentBeam)
             {
                 case 0:
                     DoCastSpellIfCan(target, SPELL_BEAM_SINISTER);
@@ -239,7 +239,7 @@ struct boss_shahrazAI : public ScriptedAI
             // Just make them explode three times... they're supposed to keep exploding while they are in range, but it'll take too much code. I'll try to think of an efficient way for it later.
             if (ExplosionCount < 3)
             {
-                for(uint8 i = 0; i < 3; ++i)
+                for (uint8 i = 0; i < 3; ++i)
                 {
                     Unit* pUnit = NULL;
                     if (TargetGUID[i])
@@ -280,7 +280,7 @@ struct boss_shahrazAI : public ScriptedAI
         //Random taunts
         if (RandomYellTimer < diff)
         {
-            switch(urand(0, 2))
+            switch (urand(0, 2))
             {
                 case 0: DoScriptText(SAY_TAUNT1, m_creature); break;
                 case 1: DoScriptText(SAY_TAUNT2, m_creature); break;

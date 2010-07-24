@@ -145,7 +145,7 @@ struct boss_ichoronAI : public ScriptedAI
         if (m_lWaterElementsGUIDList.empty())
             return;
 
-        for(std::list<uint64>::iterator itr = m_lWaterElementsGUIDList.begin(); itr != m_lWaterElementsGUIDList.end(); ++itr)
+        for (std::list<uint64>::iterator itr = m_lWaterElementsGUIDList.begin(); itr != m_lWaterElementsGUIDList.end(); ++itr)
         {
             if (Creature* pTemp = (Creature*)Unit::GetUnit(*m_creature, *itr))
             {
@@ -203,7 +203,7 @@ struct boss_ichoronAI : public ScriptedAI
                         m_uiShowup_Counter = 0;
                         DoCast(m_creature, SPELL_PROTECTIVE_BUBBLE);
                         m_creature->AttackStop();
-                        for(uint8 i = 0; i < 10; i++)
+                        for (uint8 i = 0; i < 10; i++)
                         {
                             int tmp = urand(0, 5);
                             m_creature->SummonCreature(NPC_ICHOR_GLOBULE, PortalLoc[tmp].x, PortalLoc[tmp].y, PortalLoc[tmp].z, 0, TEMPSUMMON_CORPSE_DESPAWN, 0);
@@ -217,7 +217,7 @@ struct boss_ichoronAI : public ScriptedAI
                     ++m_uiShowup_Counter;
                     if (!m_lWaterElementsGUIDList.empty())
                     {
-                        for(std::list<uint64>::iterator itr = m_lWaterElementsGUIDList.begin(); itr != m_lWaterElementsGUIDList.end(); ++itr)
+                        for (std::list<uint64>::iterator itr = m_lWaterElementsGUIDList.begin(); itr != m_lWaterElementsGUIDList.end(); ++itr)
                             if (Creature* pTemp = (Creature*)Unit::GetUnit(*m_creature, *itr))
                                 if (pTemp->isAlive())
                                     bIsWaterElementsAlive = true;
@@ -264,7 +264,7 @@ struct boss_ichoronAI : public ScriptedAI
 
     void KilledUnit(Unit* pVictim)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_SLAY_1, m_creature);break;
             case 1: DoScriptText(SAY_SLAY_2, m_creature);break;

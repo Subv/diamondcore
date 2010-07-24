@@ -117,7 +117,7 @@ void BattleGroundBE::HandleAreaTrigger(Player *Source, uint32 Trigger)
 
     //uint32 SpellId = 0;
     //uint64 buff_guid = 0;
-    switch(Trigger)
+    switch (Trigger)
     {
         case 4538:                                          // buff trigger?
             //buff_guid = m_BgObjects[BG_BE_OBJECT_BUFF_1];
@@ -157,7 +157,7 @@ void BattleGroundBE::UpdatePlayerScore(Player* Source, uint32 type, uint32 value
 {
 
     BattleGroundScoreMap::iterator itr = m_PlayerScores.find(Source->GetGUID());
-    if(itr == m_PlayerScores.end())                         // player not found...
+    if (itr == m_PlayerScores.end())                         // player not found...
         return;
 
     //there is nothing special in this score

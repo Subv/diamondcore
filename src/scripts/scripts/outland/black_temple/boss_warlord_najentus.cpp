@@ -147,7 +147,7 @@ struct boss_najentusAI : public ScriptedAI
         // Needle
         if (m_uiNeedleSpineTimer < diff)
         {
-            for(uint8 i = 0; i < 3; ++i)
+            for (uint8 i = 0; i < 3; ++i)
             {
                 Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 1);
 

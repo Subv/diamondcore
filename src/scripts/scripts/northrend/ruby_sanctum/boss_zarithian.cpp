@@ -56,7 +56,7 @@ struct boss_zarithianAI : public BSWScriptedAI
 
     void Reset()
     {
-        if(!pInstance)
+        if (!pInstance)
             return;
 
         pInstance->SetData(TYPE_ZARITHIAN, NOT_STARTED);
@@ -97,7 +97,7 @@ struct boss_zarithianAI : public BSWScriptedAI
 
     void Aggro(Unit *who) 
     {
-        if(pInstance)
+        if (pInstance)
             pInstance->SetData(TYPE_ZARITHIAN, IN_PROGRESS);
 
         DoScriptText(-1666200,m_creature);
@@ -106,7 +106,7 @@ struct boss_zarithianAI : public BSWScriptedAI
 
     void JustDied(Unit *killer)
     {
-        if(pInstance)
+        if (pInstance)
             pInstance->SetData(TYPE_ZARITHIAN, DONE);
 
         DoScriptText(-1666203,m_creature);

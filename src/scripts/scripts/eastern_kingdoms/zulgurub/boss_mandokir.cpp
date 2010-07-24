@@ -138,7 +138,7 @@ struct boss_mandokirAI : public ScriptedAI
 
         if (!lSpirits.empty())
         {
-            for(std::list<Creature*>::iterator iter = lSpirits.begin(); iter != lSpirits.end(); ++iter)
+            for (std::list<Creature*>::iterator iter = lSpirits.begin(); iter != lSpirits.end(); ++iter)
             {
                 if ((*iter) && (*iter)->isAlive())
                     (*iter)->ForcedDespawn();
@@ -182,7 +182,7 @@ struct boss_mandokirAI : public ScriptedAI
 
         uint32 uiCount = sizeof(aSpirits)/sizeof(SpawnLocations);
 
-        for(uint8 i = 0; i < uiCount; ++i)
+        for (uint8 i = 0; i < uiCount; ++i)
             m_creature->SummonCreature(NPC_CHAINED_SPIRIT, aSpirits[i].fX, aSpirits[i].fY, aSpirits[i].fZ, aSpirits[i].fAng, TEMPSUMMON_CORPSE_DESPAWN, 0);
 
         //At combat start Mandokir is mounted so we must unmount it first, and set his flags for attackable

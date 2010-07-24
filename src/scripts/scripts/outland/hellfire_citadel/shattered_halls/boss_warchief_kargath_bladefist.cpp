@@ -95,7 +95,7 @@ struct boss_warchief_kargath_bladefistAI : public ScriptedAI
 
     void Aggro(Unit *who)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_AGGRO1, m_creature); break;
             case 1: DoScriptText(SAY_AGGRO2, m_creature); break;
@@ -105,7 +105,7 @@ struct boss_warchief_kargath_bladefistAI : public ScriptedAI
 
     void JustSummoned(Creature *summoned)
     {
-        switch(summoned->GetEntry())
+        switch (summoned->GetEntry())
         {
             case MOB_HEARTHEN_GUARD:
             case MOB_SHARPSHOOTER_GUARD:
@@ -155,7 +155,7 @@ struct boss_warchief_kargath_bladefistAI : public ScriptedAI
         if (!m_pInstance)
             return;
 
-        for(std::vector<uint64>::iterator itr = adds.begin(); itr!= adds.end(); ++itr)
+        for (std::vector<uint64>::iterator itr = adds.begin(); itr!= adds.end(); ++itr)
         {
             if (Creature* pTemp = m_pInstance->instance->GetCreature(*itr))
                 pTemp->ForcedDespawn();
@@ -163,7 +163,7 @@ struct boss_warchief_kargath_bladefistAI : public ScriptedAI
 
         adds.clear();
 
-        for(std::vector<uint64>::iterator itr = assassins.begin(); itr!= assassins.end(); ++itr)
+        for (std::vector<uint64>::iterator itr = assassins.begin(); itr!= assassins.end(); ++itr)
         {
             if (Creature* pTemp = m_pInstance->instance->GetCreature(*itr))
                 pTemp->ForcedDespawn();
@@ -245,9 +245,9 @@ struct boss_warchief_kargath_bladefistAI : public ScriptedAI
             {
                 Unit* target = NULL;
 
-                for(uint32 i = 0; i < summoned; ++i)
+                for (uint32 i = 0; i < summoned; ++i)
                 {
-                    switch(urand(0, 2))
+                    switch (urand(0, 2))
                     {
                         case 0: m_creature->SummonCreature(MOB_HEARTHEN_GUARD, AddsEntrance[0], AddsEntrance[1], AddsEntrance[2], 0.0f, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT,30000); break;
                         case 1: m_creature->SummonCreature(MOB_SHARPSHOOTER_GUARD, AddsEntrance[0], AddsEntrance[1], AddsEntrance[2], 0.0f, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT,30000); break;

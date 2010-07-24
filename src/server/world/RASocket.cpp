@@ -80,7 +80,7 @@ int RASocket::open(void* )
 
 int RASocket::close(int)
 {
-    if(closing_)
+    if (closing_)
         return -1;
     DEBUG_LOG("RASocket::close");
     shutdown();
@@ -93,7 +93,7 @@ int RASocket::close(int)
 
 int RASocket::handle_close (ACE_HANDLE h, ACE_Reactor_Mask)
 {
-    if(closing_)
+    if (closing_)
         return -1;
     DEBUG_LOG("RASocket::handle_close");
     ACE_GUARD_RETURN (ACE_Thread_Mutex, Guard, outBufferLock, -1);
@@ -110,12 +110,12 @@ int RASocket::handle_output (ACE_HANDLE)
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, Guard, outBufferLock, -1);
 
-    if(closing_)
+    if (closing_)
         return -1;
 
     if (!outputBufferLen)
     {
-        if(reactor()->cancel_wakeup(this, ACE_Event_Handler::WRITE_MASK) == -1)
+        if (reactor()->cancel_wakeup(this, ACE_Event_Handler::WRITE_MASK) == -1)
         {
             sLog.outError ("RASocket::handle_output: error while cancel_wakeup");
             return -1;
@@ -129,7 +129,7 @@ int RASocket::handle_output (ACE_HANDLE)
     ssize_t n = peer ().send (outputBuffer, outputBufferLen);
 #endif // MSG_NOSIGNAL
 
-    if(n<=0)
+    if (n<=0)
         return -1;
 
     ACE_OS::memmove(outputBuffer, outputBuffer+n, outputBufferLen-n);
@@ -143,7 +143,7 @@ int RASocket::handle_output (ACE_HANDLE)
 int RASocket::handle_input(ACE_HANDLE)
 {
     DEBUG_LOG("RASocket::handle_input");
-    if(closing_)
+    if (closing_)
     {
         sLog.outError("Called RASocket::handle_input with closing_ = true");
         return -1;
@@ -151,7 +151,7 @@ int RASocket::handle_input(ACE_HANDLE)
 
     size_t readBytes = peer().recv(inputBuffer+inputBufferLen, RA_BUFF_SIZE-inputBufferLen-1);
 
-    if(readBytes <= 0)
+    if (readBytes <= 0)
     {
         DEBUG_LOG("read %u bytes in RASocket::handle_input", readBytes);
         return -1;
@@ -159,7 +159,7 @@ int RASocket::handle_input(ACE_HANDLE)
 
     ///- Discard data after line break or line feed
     bool gotenter=false;
-    for(; readBytes > 0 ; --readBytes)
+    for (; readBytes > 0 ; --readBytes)
     {
         char c = inputBuffer[inputBufferLen];
         if (c=='\r'|| c=='\n')
@@ -174,7 +174,7 @@ int RASocket::handle_input(ACE_HANDLE)
     {
         inputBuffer[inputBufferLen]=0;
         inputBufferLen=0;
-        switch(stage)
+        switch (stage)
         {
             /// <ul> <li> If the input is '<username>'
             case NONE:
@@ -184,11 +184,11 @@ int RASocket::handle_input(ACE_HANDLE)
                 accId = sAccountMgr.GetId(szLogin);
 
                 ///- If the user is not found, deny access
-                if(!accId)
+                if (!accId)
                 {
                     sendf("-No such user.\r\n");
                     sLog.outRALog("User %s does not exist.",szLogin.c_str());
-                    if(bSecure)
+                    if (bSecure)
                     {
                         handle_output();
                         return -1;
@@ -205,7 +205,7 @@ int RASocket::handle_input(ACE_HANDLE)
                 {
                     sendf("-Not enough privileges.\r\n");
                     sLog.outRALog("User %s has no privilege.",szLogin.c_str());
-                    if(bSecure)
+                    if (bSecure)
                     {
                         handle_output();
                         return -1;
@@ -241,7 +241,7 @@ int RASocket::handle_input(ACE_HANDLE)
                     ///- Else deny access
                     sendf("-Wrong pass.\r\n");
                     sLog.outRALog("User account %u has failed to log in.", accId);
-                    if(bSecure)
+                    if (bSecure)
                     {
                         handle_output();
                         return -1;
@@ -279,7 +279,7 @@ int RASocket::handle_input(ACE_HANDLE)
 /// Output function
 void RASocket::zprint(void* callbackArg, const char * szText )
 {
-    if( !szText )
+    if ( !szText )
         return;
 
     ((RASocket*)callbackArg)->sendf(szText);
@@ -296,18 +296,18 @@ int RASocket::sendf(const char* msg)
 {
     ACE_GUARD_RETURN (ACE_Thread_Mutex, Guard, outBufferLock, -1);
 
-    if(closing_)
+    if (closing_)
         return -1;
 
     int msgLen = strlen(msg);
 
-    if(msgLen+outputBufferLen > RA_BUFF_SIZE)
+    if (msgLen+outputBufferLen > RA_BUFF_SIZE)
         return -1;
 
     ACE_OS::memcpy(outputBuffer+outputBufferLen, msg, msgLen);
     outputBufferLen += msgLen;
 
-    if(!outActive)
+    if (!outActive)
     {
         if (reactor ()->schedule_wakeup
             (this, ACE_Event_Handler::WRITE_MASK) == -1)

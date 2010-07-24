@@ -304,7 +304,7 @@ struct mob_zealot_lorkhanAI : public ScriptedAI
                 Unit *pThekal = Unit::GetUnit((*m_creature), m_pInstance->GetData64(DATA_THEKAL));
                 Unit *pZath = Unit::GetUnit((*m_creature), m_pInstance->GetData64(DATA_ZATH));
 
-                switch(urand(0, 1))
+                switch (urand(0, 1))
                 {
                     case 0:
                         if (pThekal && m_creature->IsWithinDistInMap(pThekal, ATTACK_DISTANCE))

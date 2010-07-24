@@ -29,7 +29,7 @@ void SQLStorageLoaderBase<T>::convert(uint32 /*field_pos*/, S src, D &dst)
 template<class T>
 void SQLStorageLoaderBase<T>::convert_str_to_str(uint32 /*field_pos*/, char *src, char *&dst)
 {
-    if(!src)
+    if (!src)
     {
         dst = new char[1];
         *dst = 0;
@@ -62,7 +62,7 @@ template<class V>
 void SQLStorageLoaderBase<T>::storeValue(V value, SQLStorage &store, char *p, int x, uint32 &offset)
 {
     T * subclass = (static_cast<T*>(this));
-    switch(store.dst_format[x])
+    switch (store.dst_format[x])
     {
         case FT_LOGIC:
             subclass->convert(x, value, *((bool*)(&p[offset])) );
@@ -91,7 +91,7 @@ template<class T>
 void SQLStorageLoaderBase<T>::storeValue(char * value, SQLStorage &store, char *p, int x, uint32 &offset)
 {
     T * subclass = (static_cast<T*>(this));
-    switch(store.dst_format[x])
+    switch (store.dst_format[x])
     {
         case FT_LOGIC:
             subclass->convert_from_str(x, value, *((bool*)(&p[offset])) );
@@ -122,7 +122,7 @@ void SQLStorageLoaderBase<T>::Load(SQLStorage &store)
     uint32 maxi;
     Field *fields;
     QueryResult *result  = WorldDatabase.PQuery("SELECT MAX(%s) FROM %s", store.entry_field, store.table);
-    if(!result)
+    if (!result)
     {
         sLog.outError("Error loading %s table (not exist?)\n", store.table);
         Log::WaitBeforeContinueIfNeed();
@@ -133,7 +133,7 @@ void SQLStorageLoaderBase<T>::Load(SQLStorage &store)
     delete result;
 
     result = WorldDatabase.PQuery("SELECT COUNT(*) FROM %s", store.table);
-    if(result)
+    if (result)
     {
         fields = result->Fetch();
         store.RecordCount = fields[0].GetUInt32();
@@ -144,7 +144,7 @@ void SQLStorageLoaderBase<T>::Load(SQLStorage &store)
 
     result = WorldDatabase.PQuery("SELECT * FROM %s", store.table);
 
-    if(!result)
+    if (!result)
     {
         sLog.outError("%s table is empty!\n", store.table);
         store.RecordCount = 0;
@@ -154,7 +154,7 @@ void SQLStorageLoaderBase<T>::Load(SQLStorage &store)
     uint32 recordsize = 0;
     uint32 offset = 0;
 
-    if(store.iNumFields != result->GetFieldCount())
+    if (store.iNumFields != result->GetFieldCount())
     {
         store.RecordCount = 0;
         sLog.outError("Error in %s table, probably sql file format was updated (there should be %d fields in sql).\n", store.table, store.iNumFields);
@@ -167,8 +167,8 @@ void SQLStorageLoaderBase<T>::Load(SQLStorage &store)
     uint32 sc=0;
     uint32 bo=0;
     uint32 bb=0;
-    for(uint32 x=0; x< store.iNumFields; x++)
-        if(store.dst_format[x]==FT_STRING)
+    for (uint32 x=0; x< store.iNumFields; x++)
+        if (store.dst_format[x]==FT_STRING)
             ++sc;
         else if (store.dst_format[x]==FT_LOGIC)
             ++bo;
@@ -190,8 +190,8 @@ void SQLStorageLoaderBase<T>::Load(SQLStorage &store)
         newIndex[fields[0].GetUInt32()]=p;
 
         offset=0;
-        for(uint32 x = 0; x < store.iNumFields; x++)
-            switch(store.src_format[x])
+        for (uint32 x = 0; x < store.iNumFields; x++)
+            switch (store.src_format[x])
             {
                 case FT_LOGIC:
                     storeValue((bool)(fields[x].GetUInt32() > 0), store, p, x, offset); break;

@@ -828,12 +828,12 @@ struct FactionTemplateEntry
     // helpers
     bool IsFriendlyTo(FactionTemplateEntry const& entry) const
     {
-        if(entry.faction)
+        if (entry.faction)
         {
-            for(int i = 0; i < 4; ++i)
+            for (int i = 0; i < 4; ++i)
                 if (enemyFaction[i]  == entry.faction)
                     return false;
-            for(int i = 0; i < 4; ++i)
+            for (int i = 0; i < 4; ++i)
                 if (friendFaction[i] == entry.faction)
                     return true;
         }
@@ -841,12 +841,12 @@ struct FactionTemplateEntry
     }
     bool IsHostileTo(FactionTemplateEntry const& entry) const
     {
-        if(entry.faction)
+        if (entry.faction)
         {
-            for(int i = 0; i < 4; ++i)
+            for (int i = 0; i < 4; ++i)
                 if (enemyFaction[i]  == entry.faction)
                     return true;
-            for(int i = 0; i < 4; ++i)
+            for (int i = 0; i < 4; ++i)
                 if (friendFaction[i] == entry.faction)
                     return false;
         }
@@ -855,7 +855,7 @@ struct FactionTemplateEntry
     bool IsHostileToPlayers() const { return (hostileMask & FACTION_MASK_PLAYER) !=0; }
     bool IsNeutralToAll() const
     {
-        for(int i = 0; i < 4; ++i)
+        for (int i = 0; i < 4; ++i)
             if (enemyFaction[i] != 0)
                 return false;
         return hostileMask == 0 && friendlyMask == 0;
@@ -1255,12 +1255,12 @@ struct ScalingStatValuesEntry
     {
         if (mask & 0x4001F)
         {
-            if(mask & 0x00000001) return ssdMultiplier[0];
-            if(mask & 0x00000002) return ssdMultiplier[1];
-            if(mask & 0x00000004) return ssdMultiplier[2];
-            if(mask & 0x00000008) return ssdMultiplier2;
-            if(mask & 0x00000010) return ssdMultiplier[3];
-            if(mask & 0x00040000) return ssdMultiplier3;
+            if (mask & 0x00000001) return ssdMultiplier[0];
+            if (mask & 0x00000002) return ssdMultiplier[1];
+            if (mask & 0x00000004) return ssdMultiplier[2];
+            if (mask & 0x00000008) return ssdMultiplier2;
+            if (mask & 0x00000010) return ssdMultiplier[3];
+            if (mask & 0x00040000) return ssdMultiplier3;
         }
         return 0;
     }
@@ -1269,15 +1269,15 @@ struct ScalingStatValuesEntry
     {
         if (mask & 0x00F001E0)
         {
-            if(mask & 0x00000020) return armorMod[0];
-            if(mask & 0x00000040) return armorMod[1];
-            if(mask & 0x00000080) return armorMod[2];
-            if(mask & 0x00000100) return armorMod[3];
+            if (mask & 0x00000020) return armorMod[0];
+            if (mask & 0x00000040) return armorMod[1];
+            if (mask & 0x00000080) return armorMod[2];
+            if (mask & 0x00000100) return armorMod[3];
 
-            if(mask & 0x00100000) return armorMod2[0];      // cloth
-            if(mask & 0x00200000) return armorMod2[1];      // leather
-            if(mask & 0x00400000) return armorMod2[2];      // mail
-            if(mask & 0x00800000) return armorMod2[3];      // plate
+            if (mask & 0x00100000) return armorMod2[0];      // cloth
+            if (mask & 0x00200000) return armorMod2[1];      // leather
+            if (mask & 0x00400000) return armorMod2[2];      // mail
+            if (mask & 0x00800000) return armorMod2[3];      // plate
         }
         return 0;
     }
@@ -1286,12 +1286,12 @@ struct ScalingStatValuesEntry
     {
         if (mask & 0x7E00)
         {
-            if(mask & 0x00000200) return dpsMod[0];
-            if(mask & 0x00000400) return dpsMod[1];
-            if(mask & 0x00000800) return dpsMod[2];
-            if(mask & 0x00001000) return dpsMod[3];
-            if(mask & 0x00002000) return dpsMod[4];
-            if(mask & 0x00004000) return dpsMod[5];         // not used?
+            if (mask & 0x00000200) return dpsMod[0];
+            if (mask & 0x00000400) return dpsMod[1];
+            if (mask & 0x00000800) return dpsMod[2];
+            if (mask & 0x00001000) return dpsMod[3];
+            if (mask & 0x00002000) return dpsMod[4];
+            if (mask & 0x00004000) return dpsMod[5];         // not used?
         }
         return 0;
     }

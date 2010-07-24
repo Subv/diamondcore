@@ -52,7 +52,7 @@ struct instance_ahnkahet : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_ELDER_NADOX:         m_uiElderNadoxGUID = pCreature->GetGUID();         break;
             case NPC_JEDOGA_SHADOWSEEKER: m_uiJedogaShadowseekerGUID = pCreature->GetGUID(); break;
@@ -62,7 +62,7 @@ struct instance_ahnkahet : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_DOOR_TALDARAM:
                 m_uiTaldaramDoorGUID = pGo->GetGUID();
@@ -89,7 +89,7 @@ struct instance_ahnkahet : public ScriptedInstance
     {
         debug_log("SD2: Instance Ahn'Kahet: SetData received for type %u with data %u",uiType,uiData);
 
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_NADOX:
                 m_auiEncounter[0] = uiData;
@@ -159,7 +159,7 @@ struct instance_ahnkahet : public ScriptedInstance
         std::istringstream loadStream(chrIn);
         loadStream >> m_auiEncounter[0] >> m_auiEncounter[1] >> m_auiEncounter[2] >> m_auiEncounter[3] >> m_auiEncounter[4];
 
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
         {
             if (m_auiEncounter[i] == IN_PROGRESS)
                 m_auiEncounter[i] = NOT_STARTED;
@@ -170,7 +170,7 @@ struct instance_ahnkahet : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_NADOX:
                 return m_auiEncounter[0];
@@ -188,7 +188,7 @@ struct instance_ahnkahet : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case NPC_ELDER_NADOX:
                 return m_uiElderNadoxGUID;

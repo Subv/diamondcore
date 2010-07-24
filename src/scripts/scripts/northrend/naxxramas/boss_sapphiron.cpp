@@ -110,7 +110,7 @@ struct boss_sapphironAI : public ScriptedAI
 
     void SpellHitTarget(Unit *target, const SpellEntry *spell)
     {
-        if(spell->Id == SPELL_ICEBOLT)
+        if (spell->Id == SPELL_ICEBOLT)
         {
             if (target->isAlive() && target->HasAura(SPELL_ICEBOLT))
             {
@@ -118,7 +118,7 @@ struct boss_sapphironAI : public ScriptedAI
                 target->ApplySpellImmune(0, IMMUNITY_SCHOOL, SPELL_SCHOOL_MASK_FROST, true);
             }
 
-/*            for(std::vector<Unit*>::iterator itr = targets.begin(); itr!= targets.end(); ++itr)
+/*            for (std::vector<Unit*>::iterator itr = targets.begin(); itr!= targets.end(); ++itr)
             {
                 if (*itr)
                 {
@@ -133,7 +133,7 @@ struct boss_sapphironAI : public ScriptedAI
             return;
         }
 
-        if(spell->Id == SPELL_FROST_BREATH || spell->Id == SPELL_FROST_BREATH_H)
+        if (spell->Id == SPELL_FROST_BREATH || spell->Id == SPELL_FROST_BREATH_H)
         {
             if (target->GetTypeId() != TYPEID_PLAYER)
                 return;
@@ -253,11 +253,11 @@ struct boss_sapphironAI : public ScriptedAI
                         {
                             if (!pUnit->HasAura(SPELL_ICEBOLT))
                             {
-                                for(std::vector<Unit*>::iterator itr = targets.begin(); itr!= targets.end(); ++itr)
+                                for (std::vector<Unit*>::iterator itr = targets.begin(); itr!= targets.end(); ++itr)
                                 {
                                     if (*itr)
                                     {
-                                        if(!(*itr)->isAlive())
+                                        if (!(*itr)->isAlive())
                                             return;
                                         if (pUnit->GetDistance2d(*itr) <= 5 && (*itr)->HasAura(SPELL_ICEBOLT))
                                             pUnit->ApplySpellImmune(0, IMMUNITY_SCHOOL, SPELL_SCHOOL_MASK_FROST, true);
@@ -300,9 +300,9 @@ struct boss_sapphironAI : public ScriptedAI
                 }else land_Timer -= diff;
             }
         }
-        if(phase == 1 && isAtGround == false)
+        if (phase == 1 && isAtGround == false)
         {
-            if(land_time < diff)
+            if (land_time < diff)
             {
                 isAtGround = true;
                 DoStartMovement(m_creature->getVictim());

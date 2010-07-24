@@ -51,17 +51,17 @@ struct boss_razorscaleAI : public ScriptedAI
         FuseArmorTimer = 10000+rand()%5000; //every 10 seconds
         FireballTimer = 5000 + rand()%5000;
 
-        if(pInstance) pInstance->SetData(TYPE_RAZORSCALE, NOT_STARTED);
+        if (pInstance) pInstance->SetData(TYPE_RAZORSCALE, NOT_STARTED);
     }
 
     void Aggro(Unit* who) 
     {
-        if(pInstance) pInstance->SetData(TYPE_RAZORSCALE, IN_PROGRESS);
+        if (pInstance) pInstance->SetData(TYPE_RAZORSCALE, IN_PROGRESS);
     }
 
     void JustDied(Unit *killer)
     {
-        if(pInstance) pInstance->SetData(TYPE_RAZORSCALE, DONE);
+        if (pInstance) pInstance->SetData(TYPE_RAZORSCALE, DONE);
     }
 
     void UpdateAI(const uint32 diff)
@@ -86,7 +86,7 @@ struct boss_razorscaleAI : public ScriptedAI
         if (DevouringFlameTimer < diff)
         {
             Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-            if(target && target->isAlive())
+            if (target && target->isAlive())
                 DoCast(target, Regular ? SP_DEVOURING_FLAME : H_SP_DEVOURING_FLAME);
             DevouringFlameTimer = 9000+rand()%3000;
         }
@@ -109,7 +109,7 @@ struct boss_razorscaleAI : public ScriptedAI
         if (FireballTimer < diff)
         {
             Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-            if(target && target->isAlive())
+            if (target && target->isAlive())
                 DoCast(target, Regular ? SP_FIREBALL : H_SP_FIREBALL);
             FireballTimer = 4000 + rand()%4000;
         }

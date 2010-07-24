@@ -146,10 +146,10 @@ struct boss_maexxnaAI : public ScriptedAI
    void DoCastWebWrap()
     {
         Unit* pWrapped = NULL;
-        for(uint8 i = 0; i < 1; ++i)
+        for (uint8 i = 0; i < 1; ++i)
         {
             float LocX, LocY, LocZ;
-            switch(rand()%3)
+            switch (rand()%3)
             {
                 case 0:
                     LocX = LOC_X1 + rand()%5; LocY = LOC_Y1 + rand()%5; LocZ = LOC_Z1 + 1;
@@ -179,12 +179,12 @@ struct boss_maexxnaAI : public ScriptedAI
     {
         uint8 number = 9;
         float x,y,z;
-        for(uint8 i = 0; number >= i; i++)
+        for (uint8 i = 0; number >= i; i++)
         {
             if (Unit* pTarget =  m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
             {
                 m_creature->GetRandomPoint(m_creature->GetPositionX(),m_creature->GetPositionY(),m_creature->GetPositionZ(),7.0f,x,y,z);
-                if(Creature* spiderling = m_creature->SummonCreature(NPC_SPIDERLING, x, y, z,0, TEMPSUMMON_DEAD_DESPAWN, 0))
+                if (Creature* spiderling = m_creature->SummonCreature(NPC_SPIDERLING, x, y, z,0, TEMPSUMMON_DEAD_DESPAWN, 0))
                 {
                     spiderling->AddThreat(pTarget, 0.0f);
                     spiderling->AI()->AttackStart(pTarget);
@@ -202,7 +202,7 @@ struct boss_maexxnaAI : public ScriptedAI
         if (m_uiWebWrapTimer < uiDiff)
         {
             DoCastWebWrap();
-            if(!m_bIsRegularMode)
+            if (!m_bIsRegularMode)
                 DoCastWebWrap();
             m_uiWebWrapTimer = 40000;
         }

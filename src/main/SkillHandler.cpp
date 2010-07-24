@@ -43,7 +43,7 @@ void WorldSession::HandleLearnPreviewTalents(WorldPacket& recvPacket)
 
     uint32 talentId, talentRank;
 
-    for(uint32 i = 0; i < talentsCount; ++i)
+    for (uint32 i = 0; i < talentsCount; ++i)
     {
         recvPacket >> talentId >> talentRank;
 
@@ -67,10 +67,10 @@ void WorldSession::HandleTalentWipeConfirmOpcode( WorldPacket & recv_data )
     }
 
     // remove fake death
-    if(GetPlayer()->hasUnitState(UNIT_STAT_DIED))
+    if (GetPlayer()->hasUnitState(UNIT_STAT_DIED))
         GetPlayer()->RemoveSpellsCausingAura(SPELL_AURA_FEIGN_DEATH);
 
-    if(!(_player->resetTalents()))
+    if (!(_player->resetTalents()))
     {
         WorldPacket data( MSG_TALENT_WIPE_CONFIRM, 8+4);    //you have not any talent
         data << uint64(0);

@@ -66,7 +66,7 @@ struct boss_festergutAI : public BSWScriptedAI
 
     void Reset()
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         resetTimers();
         pInstance->SetData(TYPE_FESTERGUT, NOT_STARTED);
         stage = 0;
@@ -79,7 +79,7 @@ struct boss_festergutAI : public BSWScriptedAI
     void MoveInLineOfSight(Unit* pWho) 
     {
         ScriptedAI::MoveInLineOfSight(pWho);
-        if(!pInstance || intro) return;
+        if (!pInstance || intro) return;
         if (pWho->GetTypeId() != TYPEID_PLAYER) return;
 
         pInstance->SetData(TYPE_EVENT, 500);
@@ -106,14 +106,14 @@ struct boss_festergutAI : public BSWScriptedAI
 
     void Aggro(Unit *who)
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         pInstance->SetData(TYPE_FESTERGUT, IN_PROGRESS);
         DoScriptText(-1631203,m_creature,who);
     }
 
     void JustDied(Unit *killer)
     {
-        if(pInstance) pInstance->SetData(TYPE_FESTERGUT, DONE);
+        if (pInstance) pInstance->SetData(TYPE_FESTERGUT, DONE);
         pInstance->SetData(TYPE_EVENT, 550);
         doRemove(SPELL_PUNGENT_BLIGHT);
         doRemove(SPELL_PUNGENT_BLIGHT_1);
@@ -123,7 +123,7 @@ struct boss_festergutAI : public BSWScriptedAI
 
     void doTriggerUnoculated()
     {
-         for(uint8 i = 0; i < MAX_SPORE_TARGETS; ++i)
+         for (uint8 i = 0; i < MAX_SPORE_TARGETS; ++i)
              if (spored[i])
                 if (!hasAura(SPELL_SPORE_AURA_1,spored[i]))
                 {
@@ -140,7 +140,7 @@ struct boss_festergutAI : public BSWScriptedAI
 
          bool exist = false;
 
-         for(uint8 i = 0; i < MAX_SPORE_TARGETS; ++i)
+         for (uint8 i = 0; i < MAX_SPORE_TARGETS; ++i)
              if (spored[i])
                 if (spored[i] = searched)
                 {
@@ -150,7 +150,7 @@ struct boss_festergutAI : public BSWScriptedAI
 
          if (exist) return;
 
-         for(uint8 i = 0; i < MAX_SPORE_TARGETS; ++i)
+         for (uint8 i = 0; i < MAX_SPORE_TARGETS; ++i)
              if (!spored[i])
              {
                  spored[i] = searched;
@@ -161,7 +161,7 @@ struct boss_festergutAI : public BSWScriptedAI
     void UpdateAI(const uint32 diff)
     {
 
-        if(!pInstance) return;
+        if (!pInstance) return;
 
         if (!pet) {
                   if (Creature* pGuard = (Creature*)Unit::GetUnit((*m_creature),pInstance->GetData64(NPC_STINKY)))
@@ -174,7 +174,7 @@ struct boss_festergutAI : public BSWScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        switch(stage)
+        switch (stage)
         {
             case 0: 
                     if (timedQuery(SPELL_GASEOUS_BLIGHT, diff))

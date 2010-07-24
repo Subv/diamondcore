@@ -181,7 +181,7 @@ struct npc_grimstoneAI : public npc_escortAI
 
     void WaypointReached(uint32 uiPointId)
     {
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 0:
                 DoScriptText(-1000000, m_creature);//2
@@ -238,7 +238,7 @@ struct npc_grimstoneAI : public npc_escortAI
                     return;
                 }
 
-                for(uint8 i = 0; i < MAX_MOB_AMOUNT; ++i)
+                for (uint8 i = 0; i < MAX_MOB_AMOUNT; ++i)
                 {
                     Creature* pMob = (Creature*)Unit::GetUnit(*m_creature, m_auiRingMobGUID[i]);
                     if (pMob && !pMob->isAlive() && pMob->isDead())
@@ -263,7 +263,7 @@ struct npc_grimstoneAI : public npc_escortAI
         {
             if (m_uiEventTimer <= uiDiff)
             {
-                switch(m_uiEventPhase)
+                switch (m_uiEventPhase)
                 {
                     case 0:
                         DoScriptText(-1000000, m_creature);
@@ -451,7 +451,7 @@ bool GossipHello_npc_kharan_mighthammer(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_npc_kharan_mighthammer(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_KHARAN_3, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
@@ -599,7 +599,7 @@ struct npc_rocknotAI : public npc_escortAI
         if (!m_pInstance)
             return;
 
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 1:
                 m_creature->HandleEmoteCommand(EMOTE_ONESHOT_KICK);

@@ -31,10 +31,10 @@ OutdoorPvPNA::OutdoorPvPNA()
 
 void OutdoorPvPNA::HandleKillImpl(Player *plr, Unit * killed)
 {
-    if(killed->GetTypeId() == TYPEID_PLAYER && plr->GetTeam() != ((Player*)killed)->GetTeam())
+    if (killed->GetTypeId() == TYPEID_PLAYER && plr->GetTeam() != ((Player*)killed)->GetTeam())
     {
         plr->KilledMonsterCredit(NA_CREDIT_MARKER,0); // 0 guid, btw it isn't even used in killedmonster function :S
-        if(plr->GetTeam() == ALLIANCE)
+        if (plr->GetTeam() == ALLIANCE)
             plr->CastSpell(plr,NA_KILL_TOKEN_ALLIANCE,true);
         else
             plr->CastSpell(plr,NA_KILL_TOKEN_HORDE,true);
@@ -46,7 +46,7 @@ uint32 OPvPCapturePointNA::GetAliveGuardsCount()
     uint32 cnt = 0;
     for (std::map<uint32, uint64>::iterator itr = m_Creatures.begin(); itr != m_Creatures.end(); ++itr)
     {
-        switch(itr->first)
+        switch (itr->first)
         {
         case NA_NPC_GUARD_01:
         case NA_NPC_GUARD_02:
@@ -64,14 +64,14 @@ uint32 OPvPCapturePointNA::GetAliveGuardsCount()
         case NA_NPC_GUARD_14:
         case NA_NPC_GUARD_15:
             {
-                if(Creature * cr = ObjectAccessor::GetCreatureInWorld(itr->second))
+                if (Creature * cr = ObjectAccessor::GetCreatureInWorld(itr->second))
                 {
-                    if(cr->isAlive())
+                    if (cr->isAlive())
                         ++cnt;
                 }
                 else if (CreatureData const * cd = sObjectMgr.GetCreatureData(GUID_LOPART(itr->second)))
                 {
-                    if(!cd->is_dead)
+                    if (!cd->is_dead)
                         ++cnt;
                 }
             }
@@ -86,9 +86,9 @@ uint32 OPvPCapturePointNA::GetAliveGuardsCount()
 void OPvPCapturePointNA::SpawnNPCsForTeam(uint32 team)
 {
     const creature_type * creatures = NULL;
-    if(team == ALLIANCE)
+    if (team == ALLIANCE)
         creatures=AllianceControlNPCs;
-    else if(team == HORDE)
+    else if (team == HORDE)
         creatures=HordeControlNPCs;
     else
         return;
@@ -105,15 +105,15 @@ void OPvPCapturePointNA::DeSpawnNPCs()
 void OPvPCapturePointNA::SpawnGOsForTeam(uint32 team)
 {
     const go_type * gos = NULL;
-    if(team == ALLIANCE)
+    if (team == ALLIANCE)
         gos=AllianceControlGOs;
-    else if(team == HORDE)
+    else if (team == HORDE)
         gos=HordeControlGOs;
     else
         return;
     for (int i = 0; i < NA_CONTROL_GO_NUM; ++i)
     {
-        if( i == NA_ROOST_S ||
+        if ( i == NA_ROOST_S ||
             i == NA_ROOST_W ||
             i == NA_ROOST_N ||
             i == NA_ROOST_E ||
@@ -136,15 +136,15 @@ void OPvPCapturePointNA::DeSpawnGOs()
 
 void OPvPCapturePointNA::FactionTakeOver(uint32 team)
 {
-    if(m_ControllingFaction)
+    if (m_ControllingFaction)
         sObjectMgr.RemoveGraveYardLink(NA_HALAA_GRAVEYARD,NA_HALAA_GRAVEYARD_ZONE,m_ControllingFaction,false);
-    if(m_ControllingFaction == ALLIANCE)
+    if (m_ControllingFaction == ALLIANCE)
         sWorld.SendZoneText(NA_HALAA_GRAVEYARD_ZONE,sObjectMgr.GetStringForDBCLocale(LANG_OPVP_NA_LOOSE_A));
-    else if(m_ControllingFaction == HORDE)
+    else if (m_ControllingFaction == HORDE)
         sWorld.SendZoneText(NA_HALAA_GRAVEYARD_ZONE,sObjectMgr.GetStringForDBCLocale(LANG_OPVP_NA_LOOSE_H));
 
     m_ControllingFaction = team;
-    if(m_ControllingFaction)
+    if (m_ControllingFaction)
         sObjectMgr.AddGraveYardLink(NA_HALAA_GRAVEYARD,NA_HALAA_GRAVEYARD_ZONE,m_ControllingFaction,false);
     DeSpawnGOs();
     DeSpawnNPCs();
@@ -153,7 +153,7 @@ void OPvPCapturePointNA::FactionTakeOver(uint32 team)
     m_GuardsAlive = NA_GUARDS_MAX;
     m_capturable = false;
     this->UpdateHalaaWorldState();
-    if(team == ALLIANCE)
+    if (team == ALLIANCE)
     {
         m_WyvernStateSouth = WYVERN_NEU_HORDE;
         m_WyvernStateNorth = WYVERN_NEU_HORDE;
@@ -185,7 +185,7 @@ void OPvPCapturePointNA::FactionTakeOver(uint32 team)
 
 bool OPvPCapturePointNA::HandlePlayerEnter(Player *plr)
 {
-    if(OPvPCapturePoint::HandlePlayerEnter(plr))
+    if (OPvPCapturePoint::HandlePlayerEnter(plr))
     {
         plr->SendUpdateWorldState(NA_UI_TOWER_SLIDER_DISPLAY, 1);
         uint32 phase = (uint32)ceil(( m_value + m_maxValue) / ( 2 * m_maxValue ) * 100.0f);
@@ -218,7 +218,7 @@ bool OutdoorPvPNA::SetupOutdoorPvP()
 
     // halaa
     m_obj = new OPvPCapturePointNA(this);
-    if(!m_obj)
+    if (!m_obj)
         return false;
     AddCapturePoint(m_obj);
 
@@ -228,7 +228,7 @@ bool OutdoorPvPNA::SetupOutdoorPvP()
 void OutdoorPvPNA::HandlePlayerEnterZone(Player * plr, uint32 zone)
 {
     // add buffs
-    if(plr->GetTeam() == m_obj->m_ControllingFaction)
+    if (plr->GetTeam() == m_obj->m_ControllingFaction)
         plr->CastSpell(plr,NA_CAPTURE_BUFF,true);
     OutdoorPvP::HandlePlayerEnterZone(plr,zone);
 }
@@ -247,12 +247,12 @@ void OutdoorPvPNA::FillInitialWorldStates(WorldPacket& data, uint32& count)
 
 void OPvPCapturePointNA::FillInitialWorldStates(WorldPacket& data, uint32& count)
 {
-    if(m_ControllingFaction == ALLIANCE)
+    if (m_ControllingFaction == ALLIANCE)
     {
         FillInitialWorldState(data, count, NA_UI_HORDE_GUARDS_SHOW,      0);
         FillInitialWorldState(data, count, NA_UI_ALLIANCE_GUARDS_SHOW,   1);
     }
-    else if(m_ControllingFaction == HORDE)
+    else if (m_ControllingFaction == HORDE)
     {
         FillInitialWorldState(data, count, NA_UI_HORDE_GUARDS_SHOW,      1);
         FillInitialWorldState(data, count, NA_UI_ALLIANCE_GUARDS_SHOW,   0);
@@ -341,7 +341,7 @@ bool OPvPCapturePointNA::HandleCustomSpell(Player * plr, uint32 spellId, GameObj
     std::vector<uint32> nodes;
     nodes.resize(2);
     bool retval = false;
-    switch(spellId)
+    switch (spellId)
     {
     case NA_SPELL_FLY_NORTH:
         nodes[0] = FlightPathStartNodes[NA_ROOST_N];
@@ -379,7 +379,7 @@ bool OPvPCapturePointNA::HandleCustomSpell(Player * plr, uint32 spellId, GameObj
         break;
     }
 
-    if(retval)
+    if (retval)
     {
         //Adding items
         uint32 noSpaceForCount = 0;
@@ -391,17 +391,17 @@ bool OPvPCapturePointNA::HandleCustomSpell(Player * plr, uint32 spellId, GameObj
         uint32 itemid = 24538;
                                                                 // bomb id count
         uint8 msg = plr->CanStoreNewItem( NULL_BAG, NULL_SLOT, dest, itemid, count, &noSpaceForCount );
-        if( msg != EQUIP_ERR_OK )                               // convert to possible store amount
+        if ( msg != EQUIP_ERR_OK )                               // convert to possible store amount
             count -= noSpaceForCount;
 
-        if( count == 0 || dest.empty())                         // can't add any
+        if ( count == 0 || dest.empty())                         // can't add any
         {
             return true;
         }
 
         Item* item = plr->StoreNewItem( dest, itemid, true);
 
-        if(count > 0 && item)
+        if (count > 0 && item)
         {
             plr->SendNewItem(item,count,true,false);
         }
@@ -414,12 +414,12 @@ bool OPvPCapturePointNA::HandleCustomSpell(Player * plr, uint32 spellId, GameObj
 int32 OPvPCapturePointNA::HandleOpenGo(Player *plr, uint64 guid)
 {
     uint32 retval = OPvPCapturePoint::HandleOpenGo(plr, guid);
-    if(retval>=0)
+    if (retval>=0)
     {
         const go_type * gos = NULL;
-        if(m_ControllingFaction == ALLIANCE)
+        if (m_ControllingFaction == ALLIANCE)
             gos=AllianceControlGOs;
-        else if(m_ControllingFaction == HORDE)
+        else if (m_ControllingFaction == HORDE)
             gos=HordeControlGOs;
         else
             return -1;
@@ -429,13 +429,13 @@ int32 OPvPCapturePointNA::HandleOpenGo(Player *plr, uint64 guid)
         int32 add = -1;
         int32 add2 = -1;
 
-        switch(retval)
+        switch (retval)
         {
         case NA_DESTROYED_ROOST_S:
             del = NA_DESTROYED_ROOST_S;
             add = NA_ROOST_S;
             add2 = NA_BOMB_WAGON_S;
-            if(m_ControllingFaction == HORDE)
+            if (m_ControllingFaction == HORDE)
                 m_WyvernStateSouth = WYVERN_ALLIANCE;
             else
                 m_WyvernStateSouth = WYVERN_HORDE;
@@ -445,7 +445,7 @@ int32 OPvPCapturePointNA::HandleOpenGo(Player *plr, uint64 guid)
             del = NA_DESTROYED_ROOST_N;
             add = NA_ROOST_N;
             add2 = NA_BOMB_WAGON_N;
-            if(m_ControllingFaction == HORDE)
+            if (m_ControllingFaction == HORDE)
                 m_WyvernStateNorth = WYVERN_ALLIANCE;
             else
                 m_WyvernStateNorth = WYVERN_HORDE;
@@ -455,7 +455,7 @@ int32 OPvPCapturePointNA::HandleOpenGo(Player *plr, uint64 guid)
             del = NA_DESTROYED_ROOST_W;
             add = NA_ROOST_W;
             add2 = NA_BOMB_WAGON_W;
-            if(m_ControllingFaction == HORDE)
+            if (m_ControllingFaction == HORDE)
                 m_WyvernStateWest = WYVERN_ALLIANCE;
             else
                 m_WyvernStateWest = WYVERN_HORDE;
@@ -465,7 +465,7 @@ int32 OPvPCapturePointNA::HandleOpenGo(Player *plr, uint64 guid)
             del = NA_DESTROYED_ROOST_E;
             add = NA_ROOST_E;
             add2 = NA_BOMB_WAGON_E;
-            if(m_ControllingFaction == HORDE)
+            if (m_ControllingFaction == HORDE)
                 m_WyvernStateEast = WYVERN_ALLIANCE;
             else
                 m_WyvernStateEast = WYVERN_HORDE;
@@ -475,7 +475,7 @@ int32 OPvPCapturePointNA::HandleOpenGo(Player *plr, uint64 guid)
             del = NA_BOMB_WAGON_S;
             del2 = NA_ROOST_S;
             add = NA_DESTROYED_ROOST_S;
-            if(m_ControllingFaction == HORDE)
+            if (m_ControllingFaction == HORDE)
                 m_WyvernStateSouth = WYVERN_NEU_ALLIANCE;
             else
                 m_WyvernStateSouth = WYVERN_NEU_HORDE;
@@ -485,7 +485,7 @@ int32 OPvPCapturePointNA::HandleOpenGo(Player *plr, uint64 guid)
             del = NA_BOMB_WAGON_N;
             del2 = NA_ROOST_N;
             add = NA_DESTROYED_ROOST_N;
-            if(m_ControllingFaction == HORDE)
+            if (m_ControllingFaction == HORDE)
                 m_WyvernStateNorth = WYVERN_NEU_ALLIANCE;
             else
                 m_WyvernStateNorth = WYVERN_NEU_HORDE;
@@ -495,7 +495,7 @@ int32 OPvPCapturePointNA::HandleOpenGo(Player *plr, uint64 guid)
             del = NA_BOMB_WAGON_W;
             del2 = NA_ROOST_W;
             add = NA_DESTROYED_ROOST_W;
-            if(m_ControllingFaction == HORDE)
+            if (m_ControllingFaction == HORDE)
                 m_WyvernStateWest = WYVERN_NEU_ALLIANCE;
             else
                 m_WyvernStateWest = WYVERN_NEU_HORDE;
@@ -505,7 +505,7 @@ int32 OPvPCapturePointNA::HandleOpenGo(Player *plr, uint64 guid)
             del = NA_BOMB_WAGON_E;
             del2 = NA_ROOST_E;
             add = NA_DESTROYED_ROOST_E;
-            if(m_ControllingFaction == HORDE)
+            if (m_ControllingFaction == HORDE)
                 m_WyvernStateEast = WYVERN_NEU_ALLIANCE;
             else
                 m_WyvernStateEast = WYVERN_NEU_HORDE;
@@ -516,16 +516,16 @@ int32 OPvPCapturePointNA::HandleOpenGo(Player *plr, uint64 guid)
             break;
         }
 
-        if(del>-1)
+        if (del>-1)
             DelObject(del);
 
-        if(del2>-1)
+        if (del2>-1)
             DelObject(del2);
 
-        if(add>-1)
+        if (add>-1)
             AddObject(add,gos[add].entry,gos[add].map,gos[add].x,gos[add].y,gos[add].z,gos[add].o,gos[add].rot0,gos[add].rot1,gos[add].rot2,gos[add].rot3);
 
-        if(add2>-1)
+        if (add2>-1)
             AddObject(add2,gos[add2].entry,gos[add2].map,gos[add2].x,gos[add2].y,gos[add2].z,gos[add2].o,gos[add2].rot0,gos[add2].rot1,gos[add2].rot2,gos[add2].rot3);
 
         return retval;
@@ -537,32 +537,32 @@ bool OPvPCapturePointNA::Update(uint32 diff)
 {
     // let the controlling faction advance in phase
     bool capturable = false;
-    if(m_ControllingFaction == ALLIANCE && m_activePlayers[0].size() > m_activePlayers[1].size())
+    if (m_ControllingFaction == ALLIANCE && m_activePlayers[0].size() > m_activePlayers[1].size())
         capturable = true;
-    else if(m_ControllingFaction == HORDE && m_activePlayers[0].size() < m_activePlayers[1].size())
+    else if (m_ControllingFaction == HORDE && m_activePlayers[0].size() < m_activePlayers[1].size())
         capturable = true;
 
-    if(m_GuardCheckTimer < diff)
+    if (m_GuardCheckTimer < diff)
     {
         m_GuardCheckTimer = NA_GUARD_CHECK_TIME;
         uint32 cnt = GetAliveGuardsCount();
-        if(cnt != m_GuardsAlive)
+        if (cnt != m_GuardsAlive)
         {
             m_GuardsAlive = cnt;
-            if(m_GuardsAlive == 0)
+            if (m_GuardsAlive == 0)
                 m_capturable = true;
             // update the guard count for the players in zone
             m_PvP->SendUpdateWorldState(NA_UI_GUARDS_LEFT,m_GuardsAlive);
         }
     } else m_GuardCheckTimer -= diff;
 
-    if(m_capturable || capturable)
+    if (m_capturable || capturable)
     {
-        if(m_RespawnTimer < diff)
+        if (m_RespawnTimer < diff)
         {
             // if the guards have been killed, then the challenger has one hour to take over halaa.
             // in case they fail to do it, the guards are respawned, and they have to start again.
-            if(m_ControllingFaction)
+            if (m_ControllingFaction)
                 FactionTakeOver(m_ControllingFaction);
             m_RespawnTimer = NA_RESPAWN_TIME;
         } else m_RespawnTimer -= diff;
@@ -575,7 +575,7 @@ bool OPvPCapturePointNA::Update(uint32 diff)
 void OPvPCapturePointNA::ChangeState()
 {
     uint32 artkit = 21;
-    switch(m_State)
+    switch (m_State)
     {
         case OBJECTIVESTATE_NEUTRAL:
             m_HalaaState = HALAA_N;
@@ -607,7 +607,7 @@ void OPvPCapturePointNA::ChangeState()
     }
 
     GameObject * flag = ObjectAccessor::GetGameObjectInWorld(m_capturePointGUID);
-    if(flag)
+    if (flag)
     {
         flag->SetGoArtKit(artkit);
     }
@@ -636,7 +636,7 @@ void OPvPCapturePointNA::UpdateHalaaWorldState()
 
 void OPvPCapturePointNA::UpdateWyvernRoostWorldState(uint32 roost)
 {
-    switch(roost)
+    switch (roost)
     {
     case NA_ROOST_S:
         m_PvP->SendUpdateWorldState(NA_MAP_WYVERN_SOUTH_NEU_H,uint32(bool(m_WyvernStateSouth & WYVERN_NEU_HORDE)));

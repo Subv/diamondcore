@@ -26,7 +26,7 @@ CreatureAI::~CreatureAI()
 
 void CreatureAI::AttackedBy( Unit* attacker )
 {
-    if(!m_creature->getVictim())
+    if (!m_creature->getVictim())
         AttackStart(attacker);
 }
 

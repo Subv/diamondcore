@@ -157,7 +157,7 @@ struct npc_custodian_of_timeAI : public npc_escortAI
         if (!pPlayer)
             return;
 
-        switch(i)
+        switch (i)
         {
             case 0: DoScriptText(WHISPER_CUSTODIAN_1, m_creature, pPlayer); break;
             case 1: DoScriptText(WHISPER_CUSTODIAN_2, m_creature, pPlayer); break;
@@ -299,7 +299,7 @@ struct npc_oox17tnAI : public npc_escortAI
     void Aggro(Unit* who)
     {
         //For an small probability he say something when it aggros
-        switch(urand(0, 9))
+        switch (urand(0, 9))
         {
            case 0: DoScriptText(SAY_OOX_AGGRO1, m_creature); break;
            case 1: DoScriptText(SAY_OOX_AGGRO2, m_creature); break;
@@ -401,7 +401,7 @@ bool GossipHello_npc_stone_watcher_of_norgannon(Player* pPlayer, Creature* pCrea
 
 bool GossipSelect_npc_stone_watcher_of_norgannon(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF:
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_NORGANNON_2, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
@@ -522,7 +522,7 @@ struct npc_toogaAI : public FollowerAI
                         return;
                     }
 
-                    switch(m_uiPhasePostEvent)
+                    switch (m_uiPhasePostEvent)
                     {
                         case 1:
                             DoScriptText(SAY_TOOG_POST_1, m_creature);
@@ -557,7 +557,7 @@ struct npc_toogaAI : public FollowerAI
                 {
                     m_uiCheckSpeechTimer = 5000;
 
-                    switch(urand(0, 50))
+                    switch (urand(0, 50))
                     {
                         case 10: DoScriptText(SAY_TOOG_THIRST, m_creature); break;
                         case 25: DoScriptText(SAY_TOOG_WORRIED, m_creature); break;

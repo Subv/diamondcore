@@ -80,7 +80,7 @@ struct instance_stratholme : public ScriptedInstance
     {
         memset(&m_auiEncounter, 0, sizeof(m_auiEncounter));
 
-        for(uint8 i = 0; i < 5; ++i)
+        for (uint8 i = 0; i < 5; ++i)
             IsSilverHandDead[i] = false;
 
         m_uiBaronRun_Timer = 0;
@@ -106,7 +106,7 @@ struct instance_stratholme : public ScriptedInstance
 
     bool IsEncounterInProgress() const
     {
-        for(uint8 i = 0; i < MAX_ENCOUNTER; i++)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; i++)
             if (m_auiEncounter[i] == IN_PROGRESS)
                 return true;
         return false;
@@ -143,7 +143,7 @@ struct instance_stratholme : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_BARON:           m_uiBaronGUID = pCreature->GetGUID(); break;
             case NPC_YSIDA_TRIGGER:   m_uiYsidaTriggerGUID = pCreature->GetGUID(); break;
@@ -155,7 +155,7 @@ struct instance_stratholme : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_SERVICE_ENTRANCE:   m_uiServiceEntranceGUID = pGo->GetGUID(); break;
             case GO_GAUNTLET_GATE1:
@@ -176,10 +176,10 @@ struct instance_stratholme : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_BARON_RUN:
-                switch(uiData)
+                switch (uiData)
                 {
                     case IN_PROGRESS:
                         if (m_auiEncounter[0] == IN_PROGRESS || m_auiEncounter[0] == FAIL)
@@ -229,7 +229,7 @@ struct instance_stratholme : public ScriptedInstance
                         UpdateGoState(m_uiPortGauntletGUID,GO_STATE_READY,false);
 
                     uint32 uiCount = abomnationGUID.size();
-                    for(std::set<uint64>::iterator i = abomnationGUID.begin(); i != abomnationGUID.end(); ++i)
+                    for (std::set<uint64>::iterator i = abomnationGUID.begin(); i != abomnationGUID.end(); ++i)
                     {
                         if (Creature* pAbom = instance->GetCreature(*i))
                         {
@@ -267,7 +267,7 @@ struct instance_stratholme : public ScriptedInstance
 
                         if (!players.isEmpty())
                         {
-                            for(Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
+                            for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
                             {
                                 if (Player* pPlayer = itr->getSource())
                                 {
@@ -306,7 +306,7 @@ struct instance_stratholme : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_SH_QUEST:
                 if (IsSilverHandDead[0] && IsSilverHandDead[1] && IsSilverHandDead[2] && IsSilverHandDead[3] && IsSilverHandDead[4])
@@ -330,7 +330,7 @@ struct instance_stratholme : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_BARON:
                 return m_uiBaronGUID;
@@ -362,7 +362,7 @@ struct instance_stratholme : public ScriptedInstance
             {
                 if (Creature* pBaron = instance->GetCreature(m_uiBaronGUID))
                 {
-                    for(uint8 i = 0; i < 4; ++i)
+                    for (uint8 i = 0; i < 4; ++i)
                         pBaron->SummonCreature(NPC_BLACK_GUARD, 4032.84f, -3390.24f, 119.73f, 4.71f, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN,1800000);
 
                     UpdateGoState(m_uiZiggurat4GUID,GO_STATE_ACTIVE,false);

@@ -115,7 +115,7 @@ struct boss_devourer_of_soulsAI : public ScriptedAI
 
     void Reset()
     {
-      if(!m_pInstance) return;
+      if (!m_pInstance) return;
       m_pInstance->SetData(TYPE_DEVOURER, NOT_STARTED);
       DespawnAllSummons();
       Summon = false;
@@ -130,7 +130,7 @@ struct boss_devourer_of_soulsAI : public ScriptedAI
 
     void Aggro(Unit *who)
     {
-       if(!m_pInstance) return;
+       if (!m_pInstance) return;
        m_pInstance->SetData(TYPE_DEVOURER, IN_PROGRESS);
        m_creature->PlayDirectSound(Battle01);
        BattleMusicTimer = 48000;
@@ -143,7 +143,7 @@ struct boss_devourer_of_soulsAI : public ScriptedAI
         GetCreatureListWithEntryInGrid(m_pSouls, m_creature, NPC_UNLEASHED_SOUL, DEFAULT_VISIBILITY_INSTANCE);
 
         if (!m_pSouls.empty())
-            for(std::list<Creature*>::iterator itr = m_pSouls.begin(); itr != m_pSouls.end(); ++itr)
+            for (std::list<Creature*>::iterator itr = m_pSouls.begin(); itr != m_pSouls.end(); ++itr)
             {
                 (*itr)->ForcedDespawn();
             }
@@ -152,7 +152,7 @@ struct boss_devourer_of_soulsAI : public ScriptedAI
         GetCreatureListWithEntryInGrid(m_pWells, m_creature, NPC_WELL_OF_SOUL, DEFAULT_VISIBILITY_INSTANCE);
 
         if (!m_pWells.empty())
-            for(std::list<Creature*>::iterator iter = m_pWells.begin(); iter != m_pWells.end(); ++iter)
+            for (std::list<Creature*>::iterator iter = m_pWells.begin(); iter != m_pWells.end(); ++iter)
             {
                 (*iter)->ForcedDespawn();
             }
@@ -189,14 +189,14 @@ struct boss_devourer_of_soulsAI : public ScriptedAI
 
     void JustDied(Unit* pKiller)
     {
-       if(!m_pInstance) return;
+       if (!m_pInstance) return;
        m_pInstance->SetData(TYPE_DEVOURER, DONE);
        DoScriptText(SAY_DEVOURER_DEATH_MALE_01, m_creature);
        DespawnAllSummons();
 
        Player* player = (Player*)pKiller;
 
-       if(player->GetTeam() == ALLIANCE)
+       if (player->GetTeam() == ALLIANCE)
        {
             m_pInstance->SetData64(DATA_LIDER,0);
             SpawnOutro(npc_jaina_extro);
@@ -234,7 +234,7 @@ struct boss_devourer_of_soulsAI : public ScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-      if(Summon != true)
+      if (Summon != true)
       {
         if (PhantomBlastTimer < diff)
         {
@@ -293,11 +293,11 @@ struct boss_devourer_of_soulsAI : public ScriptedAI
 
       }
 
-      if(Summon == true)
+      if (Summon == true)
       {
         if (StepTimer < diff)
         {
-           switch(Step)
+           switch (Step)
            {
              case 0:
                StepTimer = 900;
@@ -363,9 +363,9 @@ uint32 DeathTimer;
 
    void UpdateAI(const uint32 diff)
     {
-      if(!m_pInstance) return;
+      if (!m_pInstance) return;
 
-      if(m_pInstance && m_pInstance->GetData(TYPE_DEVOURER) != IN_PROGRESS)
+      if (m_pInstance && m_pInstance->GetData(TYPE_DEVOURER) != IN_PROGRESS)
           m_creature->ForcedDespawn();
 
       if (DeathTimer < diff)
@@ -406,9 +406,9 @@ struct npc_unleashed_soulAI : public ScriptedAI
 
    void UpdateAI(const uint32 diff)
     {
-     if(!m_pInstance) return;
+     if (!m_pInstance) return;
 
-     if(m_pInstance && m_pInstance->GetData(TYPE_DEVOURER) != IN_PROGRESS)
+     if (m_pInstance && m_pInstance->GetData(TYPE_DEVOURER) != IN_PROGRESS)
           m_creature->ForcedDespawn();
 
      if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())

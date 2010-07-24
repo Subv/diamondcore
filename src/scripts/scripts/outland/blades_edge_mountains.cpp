@@ -161,7 +161,7 @@ struct mobs_nether_drakeAI : public ScriptedAI
         {
             if (NihilSpeech_Timer <= diff)
             {
-                switch(NihilSpeech_Phase)
+                switch (NihilSpeech_Phase)
                 {
                     case 0:
                         DoScriptText(SAY_NIHIL_1, m_creature);
@@ -305,7 +305,7 @@ bool GossipHello_npc_saikkal_the_elder(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_npc_saikkal_the_elder(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "Yes elder. Tell me more of the book.", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);

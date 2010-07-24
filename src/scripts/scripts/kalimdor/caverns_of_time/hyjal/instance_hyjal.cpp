@@ -72,7 +72,7 @@ struct instance_mount_hyjal : public ScriptedInstance
 
     bool IsEncounterInProgress() const
     {
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
             if (m_auiEncounter[i] == IN_PROGRESS) return true;
 
         return false;
@@ -80,7 +80,7 @@ struct instance_mount_hyjal : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_WINTERCHILL: m_uiRageWinterchill = pCreature->GetGUID(); break;
             case NPC_ANETHERON: m_uiAnetheron = pCreature->GetGUID(); break;
@@ -101,7 +101,7 @@ struct instance_mount_hyjal : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_RAGEWINTERCHILL: return m_uiRageWinterchill;
             case DATA_ANETHERON: return m_uiAnetheron;
@@ -118,7 +118,7 @@ struct instance_mount_hyjal : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_WINTERCHILL:
                 if (m_auiEncounter[0] == DONE)
@@ -162,7 +162,7 @@ struct instance_mount_hyjal : public ScriptedInstance
                 {
                     if (!lAncientGemGUIDList.empty())
                     {
-                        for(std::list<uint64>::iterator itr = lAncientGemGUIDList.begin(); itr != lAncientGemGUIDList.end(); ++itr)
+                        for (std::list<uint64>::iterator itr = lAncientGemGUIDList.begin(); itr != lAncientGemGUIDList.end(); ++itr)
                         {
                             //don't know how long it expected
                             DoRespawnGameObject(*itr,DAY);
@@ -191,7 +191,7 @@ struct instance_mount_hyjal : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_WINTERCHILL:  return m_auiEncounter[0];
             case TYPE_ANETHERON:    return m_auiEncounter[1];
@@ -221,7 +221,7 @@ struct instance_mount_hyjal : public ScriptedInstance
         std::istringstream loadStream(in);
         loadStream >> m_auiEncounter[0] >> m_auiEncounter[1] >> m_auiEncounter[2] >> m_auiEncounter[3] >> m_auiEncounter[4];
 
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
             if (m_auiEncounter[i] == IN_PROGRESS)                // Do not load an encounter as IN_PROGRESS - reset it instead.
                 m_auiEncounter[i] = NOT_STARTED;
 

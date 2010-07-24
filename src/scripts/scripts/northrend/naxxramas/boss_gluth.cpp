@@ -157,7 +157,7 @@ struct boss_gluthAI : public ScriptedAI
         GetCreatureListWithEntryInGrid(pZombies, m_creature, NPC_ZOMBIE_CHOW, DEFAULT_VISIBILITY_INSTANCE);
 
         if (!pZombies.empty())
-            for(std::list<Creature*>::iterator itr = pZombies.begin(); itr != pZombies.end(); ++itr)
+            for (std::list<Creature*>::iterator itr = pZombies.begin(); itr != pZombies.end(); ++itr)
             {
                 (*itr)->ForcedDespawn();
             }
@@ -206,7 +206,7 @@ struct boss_gluthAI : public ScriptedAI
                 //begin + 1 , so we don't target the one with the highest threat
                 std::list<HostileReference*>::iterator itr = t_list.begin();
                 std::advance(itr, 1);
-                for(; itr!= t_list.end(); ++itr)
+                for (; itr!= t_list.end(); ++itr)
                 {
                     Unit *target = Unit::GetUnit(*m_creature, (*itr)->getUnitGuid());
                     if (target && target->isAlive() && target->GetTypeId() == TYPEID_PLAYER &&
@@ -217,7 +217,7 @@ struct boss_gluthAI : public ScriptedAI
             // Move Zombies
             if (!m_lZombieGUIDList.empty())
             {
-                for(std::list<uint64>::iterator itr = m_lZombieGUIDList.begin(); itr != m_lZombieGUIDList.end(); ++itr)
+                for (std::list<uint64>::iterator itr = m_lZombieGUIDList.begin(); itr != m_lZombieGUIDList.end(); ++itr)
                     if (Creature* pTemp = (Creature*)Unit::GetUnit(*m_creature, *itr))
                         if (pTemp->isAlive())
                         {
@@ -242,7 +242,7 @@ struct boss_gluthAI : public ScriptedAI
         {
             if (!m_lZombieGUIDList.empty())
             {
-                for(std::list<uint64>::iterator itr = m_lZombieGUIDList.begin(); itr != m_lZombieGUIDList.end(); ++itr)
+                for (std::list<uint64>::iterator itr = m_lZombieGUIDList.begin(); itr != m_lZombieGUIDList.end(); ++itr)
                     if (Creature* pTemp = (Creature*)Unit::GetUnit(*m_creature, *itr))
                         if (pTemp->isAlive() && m_creature->IsWithinDistInMap(pTemp, ATTACK_DISTANCE))
                         {
@@ -257,7 +257,7 @@ struct boss_gluthAI : public ScriptedAI
         //Summon_Timer
         if (Summon_Timer < uiDiff)
         {
-            for(uint8 i = 0; i < (m_bIsRegularMode ? 1 : 2); i++)
+            for (uint8 i = 0; i < (m_bIsRegularMode ? 1 : 2); i++)
             {
                 if (Creature* pZombie = m_creature->SummonCreature(NPC_ZOMBIE_CHOW,ADD_1X,ADD_1Y,ADD_1Z,0,TEMPSUMMON_TIMED_OR_DEAD_DESPAWN,80000))
                 {

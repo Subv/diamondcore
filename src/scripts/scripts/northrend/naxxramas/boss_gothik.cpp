@@ -186,7 +186,7 @@ struct boss_gothikAI : public Scripted_NoMovementAI
 
     void KilledUnit(Unit* victim)
     {
-        if(!(rand()%5))
+        if (!(rand()%5))
             DoScriptText(SAY_KILL, m_creature);
     }
 
@@ -242,9 +242,9 @@ struct boss_gothikAI : public Scripted_NoMovementAI
         {
             if (Summon_Timer < diff)
             {
-                if(waves[waveCount].entry)
+                if (waves[waveCount].entry)
                 {
-                    for(uint32 i = 0; i < waves[waveCount].number; ++i)
+                    for (uint32 i = 0; i < waves[waveCount].number; ++i)
                     {
                         uint8 SummonLoc = rand()%POS_LIVE;
                         if (Creature* pTemp = m_creature->SummonCreature(waves[waveCount].entry, PosSummonLive[SummonLoc][0], PosSummonLive[SummonLoc][1], PosSummonLive[SummonLoc][2], 0, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 30000))
@@ -269,7 +269,7 @@ struct boss_gothikAI : public Scripted_NoMovementAI
         {
             if (!SummonsList.empty())
             {
-                for(std::list<uint64>::iterator itr = SummonsList.begin(); itr != SummonsList.end(); ++itr)
+                for (std::list<uint64>::iterator itr = SummonsList.begin(); itr != SummonsList.end(); ++itr)
                 {
                     if (Creature* pTemp = ((Creature*)Unit::GetUnit(*m_creature, *itr)))
                     {

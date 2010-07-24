@@ -162,7 +162,7 @@ void ChatLog::ChatMsg(Player *player, std::string &msg, uint32 type)
 {
     if (!_ChatCommon(CHAT_LOG_CHAT, player, msg)) return;
 
-    CheckDateSwitch();
+    CheckDateswitch ();
 
     std::string log_str = "";
 
@@ -198,7 +198,7 @@ void ChatLog::PartyMsg(Player *player, std::string &msg)
 {
     if (!_ChatCommon(CHAT_LOG_PARTY, player, msg)) return;
 
-    CheckDateSwitch();
+    CheckDateswitch ();
 
     std::string log_str = "";
 
@@ -263,7 +263,7 @@ void ChatLog::GuildMsg(Player *player, std::string &msg, bool officer)
 {
     if (!_ChatCommon(CHAT_LOG_GUILD, player, msg)) return;
 
-    CheckDateSwitch();
+    CheckDateswitch ();
 
     std::string log_str = "";
 
@@ -308,7 +308,7 @@ void ChatLog::WhisperMsg(Player *player, std::string &to, std::string &msg)
 {
     if (!_ChatCommon(CHAT_LOG_WHISPER, player, msg)) return;
 
-    CheckDateSwitch();
+    CheckDateswitch ();
 
     std::string log_str = "";
 
@@ -345,7 +345,7 @@ void ChatLog::ChannelMsg(Player *player, std::string &channel, std::string &msg)
 {
     if (!_ChatCommon(CHAT_LOG_CHANNEL, player, msg)) return;
 
-    CheckDateSwitch();
+    CheckDateswitch ();
 
     std::string log_str = "";
 
@@ -381,7 +381,7 @@ void ChatLog::RaidMsg(Player *player, std::string &msg, uint32 type)
 {
     if (!_ChatCommon(CHAT_LOG_RAID, player, msg)) return;
 
-    CheckDateSwitch();
+    CheckDateswitch ();
 
     std::string log_str = "";
 
@@ -463,7 +463,7 @@ void ChatLog::BattleGroundMsg(Player *player, std::string &msg, uint32 type)
 {
     if (!_ChatCommon(CHAT_LOG_BATTLEGROUND, player, msg)) return;
 
-    CheckDateSwitch();
+    CheckDateswitch ();
 
     std::string log_str = "";
 
@@ -626,7 +626,7 @@ void ChatLog::CloseAllFiles()
     }
 }
 
-void ChatLog::CheckDateSwitch()
+void ChatLog::CheckDateswitch ()
 {
     if (ChatLogDateSplit)
     {

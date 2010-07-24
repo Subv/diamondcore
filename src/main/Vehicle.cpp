@@ -261,7 +261,7 @@ Vehicle::~Vehicle()
 void Vehicle::AddToWorld()
 {
     ///- Register the vehicle for guid lookup
-    if(!IsInWorld())
+    if (!IsInWorld())
         GetMap()->GetObjectsStore().insert<Vehicle>(GetGUID(), (Vehicle*)this);
 
     Unit::AddToWorld();
@@ -270,7 +270,7 @@ void Vehicle::AddToWorld()
 void Vehicle::RemoveFromWorld()
 {
     ///- Remove the vehicle from the accessor
-    if(IsInWorld())
+    if (IsInWorld())
         GetMap()->GetObjectsStore().erase<Vehicle>(GetGUID(), (Vehicle*)NULL);
 
     ///- Don't call the function for Creature, normal mobs + totems go in a different storage
@@ -293,7 +293,7 @@ bool Vehicle::Create(uint32 guidlow, Map *map, uint32 Entry, uint32 vehicleId, u
 
     Object::_Create(guidlow, Entry, HIGHGUID_VEHICLE);
 
-    if(!InitEntry(Entry, team))
+    if (!InitEntry(Entry, team))
         return false;
 
     m_defaultMovementType = IDLE_MOTION_TYPE;

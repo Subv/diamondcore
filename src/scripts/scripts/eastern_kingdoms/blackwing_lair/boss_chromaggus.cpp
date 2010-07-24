@@ -66,7 +66,7 @@ struct boss_chromaggusAI : public ScriptedAI
         //This way we don't end up casting 2 of the same breath
         //TL TL would be stupid
         srand(time(NULL));
-        switch(urand(0, 19))
+        switch (urand(0, 19))
         {
             //B1 - Incin
             case 0:
@@ -200,7 +200,7 @@ struct boss_chromaggusAI : public ScriptedAI
 
             //Cast new random vurlnabilty on self
             uint32 spell;
-            switch(urand(0, 4))
+            switch (urand(0, 4))
             {
                 case 0: spell = SPELL_FIRE_VURNALBILTY; break;
                 case 1: spell = SPELL_FROST_VURNALBILTY; break;
@@ -237,7 +237,7 @@ struct boss_chromaggusAI : public ScriptedAI
         {
             uint32 SpellAfflict = 0;
 
-            switch(urand(0, 4))
+            switch (urand(0, 4))
             {
                 case 0: SpellAfflict = SPELL_BROODAF_BLUE; break;
                 case 1: SpellAfflict = SPELL_BROODAF_BLACK; break;

@@ -150,7 +150,7 @@ bool GOHello_go_ethereum_prison(Player* pPlayer, GameObject* pGo)
 
             if (FactionTemplateEntry const* pFaction = pCreature->getFactionTemplateEntry())
             {
-                switch(pFaction->faction)
+                switch (pFaction->faction)
                 {
                     case 1011: uiSpell = SPELL_REP_LC; break;
                     case 935: uiSpell = SPELL_REP_SHAT; break;
@@ -309,7 +309,7 @@ bool GOHello_go_shrine_of_the_birds(Player* pPlayer, GameObject* pGo)
     float fX,fY,fZ;
     pGo->GetClosePoint(fX, fY, fZ, pGo->GetObjectBoundingRadius(), INTERACTION_DISTANCE);
 
-    switch(pGo->GetEntry())
+    switch (pGo->GetEntry())
     {
         case GO_SHRINE_HAWK:
             uiBirdEntry = NPC_HAWK_GUARD;

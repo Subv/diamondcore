@@ -192,7 +192,7 @@ void BattleGroundAB::RemovePlayer(Player * /*plr*/, uint64 /*guid*/)
 
 void BattleGroundAB::HandleAreaTrigger(Player *Source, uint32 Trigger)
 {
-    switch(Trigger)
+    switch (Trigger)
     {
         case 3948:                                          // Arathi Basin Alliance Exit.
             if (Source->GetTeam() != ALLIANCE)
@@ -540,10 +540,10 @@ WorldSafeLocsEntry const* BattleGroundAB::GetClosestGraveYard(Player* player)
 void BattleGroundAB::UpdatePlayerScore(Player *Source, uint32 type, uint32 value)
 {
     BattleGroundScoreMap::iterator itr = m_PlayerScores.find(Source->GetGUID());
-    if( itr == m_PlayerScores.end() )                         // player not found...
+    if ( itr == m_PlayerScores.end() )                         // player not found...
         return;
 
-    switch(type)
+    switch (type)
     {
         case SCORE_BASES_ASSAULTED:
             ((BattleGroundABScore*)itr->second)->BasesAssaulted += value;

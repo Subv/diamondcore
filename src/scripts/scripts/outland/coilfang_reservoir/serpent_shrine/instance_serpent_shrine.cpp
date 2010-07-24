@@ -65,7 +65,7 @@ struct instance_serpentshrine_cavern : public ScriptedInstance
 
     bool IsEncounterInProgress() const
     {
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
             if (m_auiEncounter[i] == IN_PROGRESS)
                 return true;
 
@@ -74,7 +74,7 @@ struct instance_serpentshrine_cavern : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case 21212: m_uiLadyVashj  = pCreature->GetGUID(); break;
             case 21214: m_uiKarathress = pCreature->GetGUID(); break;
@@ -92,7 +92,7 @@ struct instance_serpentshrine_cavern : public ScriptedInstance
 
     uint64 GetData64(uint32 uiIdentifier)
     {
-        switch(uiIdentifier)
+        switch (uiIdentifier)
         {
             case DATA_SHARKKIS:
                 return m_uiSharkkis;
@@ -112,7 +112,7 @@ struct instance_serpentshrine_cavern : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_HYDROSS_EVENT:
                 m_auiEncounter[0] = uiData;
@@ -151,7 +151,7 @@ struct instance_serpentshrine_cavern : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_HYDROSS_EVENT:
                 return m_auiEncounter[0];
@@ -184,7 +184,7 @@ struct instance_serpentshrine_cavern : public ScriptedInstance
                 return m_auiShieldGenerator[3];
 
             case TYPE_VASHJ_PHASE3_CHECK:
-                for(uint8 i = 0; i < MAX_GENERATOR; ++i)
+                for (uint8 i = 0; i < MAX_GENERATOR; ++i)
                 {
                     if (m_auiShieldGenerator[i] != DONE)
                         return NOT_STARTED;

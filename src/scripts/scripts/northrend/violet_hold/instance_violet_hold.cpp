@@ -75,7 +75,7 @@ struct instance_violet_hold : public ScriptedInstance
     void Initialize()
     {
 //        memset(&m_auiEncounter, 0, sizeof(m_auiEncounter));
-	    for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
             m_auiEncounter[i] = NOT_STARTED;
 
         m_uiSinclariGUID = 0;
@@ -121,7 +121,7 @@ struct instance_violet_hold : public ScriptedInstance
 
     void OnPlayerEnter(Player* pPlayer)
     {
-        if(m_auiEncounter[0] != NOT_STARTED)
+        if (m_auiEncounter[0] != NOT_STARTED)
             pPlayer->SendUpdateWorldState(WORLD_STATE_VH,1);
     }
     
@@ -136,7 +136,7 @@ struct instance_violet_hold : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_SINCLARI:
                 m_uiSinclariGUID = pCreature->GetGUID();
@@ -167,7 +167,7 @@ struct instance_violet_hold : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_DOOR_SEAL:
                 m_uiSealDoorGUID = pGo->GetGUID();
@@ -201,7 +201,7 @@ struct instance_violet_hold : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_EVENT:
                 if (uiData == IN_PROGRESS)
@@ -248,7 +248,7 @@ struct instance_violet_hold : public ScriptedInstance
                 if (uiData == SPECIAL)
                 {
                     m_uiShieldPercent = m_uiShieldPercent - 5;
-                    if(m_uiShieldPercent > 0)
+                    if (m_uiShieldPercent > 0)
                         DoUpdateWorldState(WORLD_STATE_VH_PRISON, m_uiShieldPercent);
                     else
                     {   DoUpdateWorldState(WORLD_STATE_VH, 0);
@@ -273,7 +273,7 @@ struct instance_violet_hold : public ScriptedInstance
 
             std::ostringstream saveStream;
 
-            for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+            for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
                 saveStream << m_auiEncounter[i] << " ";
 
             m_strInstData = saveStream.str();
@@ -286,7 +286,7 @@ struct instance_violet_hold : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_EVENT:
                 return m_auiEncounter[0];
@@ -339,7 +339,7 @@ struct instance_violet_hold : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_EREKEM:
                 return m_uiErekemGUID;
@@ -396,7 +396,7 @@ void Load(const char* strIn)
 
         std::istringstream loadStream(strIn);
 
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
         {
             loadStream >> m_auiEncounter[i];
 

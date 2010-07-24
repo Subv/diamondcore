@@ -45,7 +45,7 @@ enum
 
 bool GossipHello_npc_chromi_start(Player* pPlayer, Creature* pCreature)
 {
-    if(pCreature->isQuestGiver())
+    if (pCreature->isQuestGiver())
         pPlayer->PrepareQuestMenu(pCreature->GetGUID());
 
     ScriptedInstance* pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
@@ -169,7 +169,7 @@ struct npc_mikeAI : public ScriptedAI
 
     void Reset()
     {
-       if(m_uiPhase != 2)
+       if (m_uiPhase != 2)
        {
           m_uiStep = 0;
           m_uiStepTimer = 100;
@@ -182,7 +182,7 @@ struct npc_mikeAI : public ScriptedAI
       if (!who)
           return;
 
-      if(!m_pInstance) return;
+      if (!m_pInstance) return;
 
            if (who->GetTypeId() == TYPEID_PLAYER && m_creature->GetDistance2d(who) <= 15 && who->GetPositionZ() > 99.50f && m_uiPhase == 0)
            {
@@ -193,7 +193,7 @@ struct npc_mikeAI : public ScriptedAI
 
     void TavernEvent()
     {
-        switch(m_uiStep)
+        switch (m_uiStep)
         {
            case 0:
               DoScriptText(SAY_MIKE01, m_creature);
@@ -205,24 +205,24 @@ struct npc_mikeAI : public ScriptedAI
               break;
            case 2:
               m_uiForesterGUID = m_pInstance->GetData64(NPC_FORRESTER);
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiForesterGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiForesterGUID))
                  DoScriptText(SAY_FORRESTER02, pTemp);
               m_uiStepTimer = 6000;
               break;
            case 3:
               m_uiJamesGUID = m_pInstance->GetData64(NPC_JAMES);
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiJamesGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiJamesGUID))
                  DoScriptText(SAY_JAMES03, pTemp);
               m_uiStepTimer = 5000;
               break;
            case 4:
               m_uiSiabiGUID = m_pInstance->GetData64(NPC_FRAS_FRASIABI);
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiSiabiGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiSiabiGUID))
                  DoScriptText(SAY_SIABI04, pTemp);
               m_uiStepTimer = 2000;
               break;
            case 5:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiSiabiGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiSiabiGUID))
                  pTemp->HandleEmoteCommand(EMOTE_SHOT);
               m_uiStepTimer = 5000;
               break;
@@ -231,7 +231,7 @@ struct npc_mikeAI : public ScriptedAI
               m_uiStepTimer = 3000;
               break;
            case 7:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiSiabiGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiSiabiGUID))
                  pTemp->HandleEmoteCommand(EMOTE_LAUGH);
               m_uiStepTimer = 3000;
               break;
@@ -245,36 +245,36 @@ struct npc_mikeAI : public ScriptedAI
               break;
            case 10:
               m_uiCorricksGUID = m_pInstance->GetData64(NPC_MAL_CORICS);
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiCorricksGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiCorricksGUID))
                  DoScriptText(SAY_CORICKS06, pTemp);
               m_uiStepTimer = 4000;
               break;
            case 11:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiCorricksGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiCorricksGUID))
                  pTemp->HandleEmoteCommand(EMOTE_TALK);
               m_uiGryanGUID = m_pInstance->GetData64(NPC_GRIAN_STONE);
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiGryanGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiGryanGUID))
                  DoScriptText(SAY_GRIAN07, pTemp);
               m_uiStepTimer = 11000;
               break;
            case 12:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiCorricksGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiCorricksGUID))
                  DoScriptText(SAY_CORICKS08, pTemp);
               m_creature->GetMotionMaster()->MovePoint(0, 1549.609f, 575.544f, 100.052f);
               m_uiStepTimer = 2000;
               break;
            case 13:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiJamesGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiJamesGUID))
                  DoScriptText(SAY_JAMES09, pTemp);
               m_uiStepTimer = 2000;
               break;
            case 14:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiJamesGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiJamesGUID))
                  pTemp->HandleEmoteCommand(EMOTE_TALK);
               m_uiStepTimer = 5000;
               break;
            case 15:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiForesterGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiForesterGUID))
                  DoScriptText(SAY_FORRESTER10, pTemp);
               m_uiPhase = 2;
               break;
@@ -283,9 +283,9 @@ struct npc_mikeAI : public ScriptedAI
 
     void UpdateAI(const uint32 uiDiff)
     {
-       if(m_uiPhase == 1)
+       if (m_uiPhase == 1)
        {
-            if(m_uiStepTimer < uiDiff)
+            if (m_uiStepTimer < uiDiff)
             {
                TavernEvent();
                m_uiStep++;
@@ -326,7 +326,7 @@ struct npc_rogerAI : public ScriptedAI
 
     void Reset()
     {
-       if(m_uiPhase != 2)
+       if (m_uiPhase != 2)
        {
           m_creature->SetStandState(UNIT_STAND_STATE_KNEEL);
           m_uiStep = 0;
@@ -342,7 +342,7 @@ struct npc_rogerAI : public ScriptedAI
 
     void FirstCrateEvent()
     {
-        switch(m_uiStep)
+        switch (m_uiStep)
         {
            case 0:
               m_creature->SetStandState(UNIT_STAND_STATE_STAND);
@@ -420,9 +420,9 @@ struct npc_rogerAI : public ScriptedAI
 
     void UpdateAI(const uint32 uiDiff)
     {
-       if(m_uiPhase == 1)
+       if (m_uiPhase == 1)
        {
-            if(m_uiStepTimer < uiDiff)
+            if (m_uiStepTimer < uiDiff)
             {
                FirstCrateEvent();
                m_uiStep++;
@@ -467,7 +467,7 @@ struct npc_moriganAI : public ScriptedAI
 
     void Reset()
     {
-       if(m_uiPhase != 2)
+       if (m_uiPhase != 2)
        {
           m_uiStep = 0;
           m_uiStepTimer = 100;
@@ -482,7 +482,7 @@ struct npc_moriganAI : public ScriptedAI
 
     void SecondCrateEvent()
     {
-        switch(m_uiStep)
+        switch (m_uiStep)
         {
            case 0:
               DoScriptText(SAY_MORIGAN01, m_creature);
@@ -490,7 +490,7 @@ struct npc_moriganAI : public ScriptedAI
               break;
            case 1:
               m_uiPerelliGUID = m_pInstance->GetData64(NPC_PERELLI);
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiPerelliGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiPerelliGUID))
                  DoScriptText(SAY_PERELLI02, pTemp);
               m_uiStepTimer = 2000;
               break;
@@ -517,7 +517,7 @@ struct npc_moriganAI : public ScriptedAI
               break;
            case 7:
               m_creature->SetStandState(UNIT_STAND_STATE_STAND);
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiPerelliGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiPerelliGUID))
               {
                  m_creature->SetUInt64Value(UNIT_FIELD_TARGET, pTemp->GetGUID());
                  pTemp->SetUInt64Value(UNIT_FIELD_TARGET, m_creature->GetGUID());
@@ -525,7 +525,7 @@ struct npc_moriganAI : public ScriptedAI
               m_uiStepTimer = 3000;
               break;
            case 8:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiPerelliGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiPerelliGUID))
                  DoScriptText(SAY_PERELLI04, pTemp);
               m_uiStepTimer = 3000;
               break;
@@ -534,7 +534,7 @@ struct npc_moriganAI : public ScriptedAI
               m_uiStepTimer = 9000;
               break;
            case 10:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiPerelliGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiPerelliGUID))
                  DoScriptText(SAY_PERELLI06, pTemp);
               m_uiStepTimer = 6000;
               break;
@@ -544,7 +544,7 @@ struct npc_moriganAI : public ScriptedAI
               break;
            case 12:
               m_creature->SetUInt64Value(UNIT_FIELD_TARGET, 0);
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiPerelliGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiPerelliGUID))
                  pTemp->SetUInt64Value(UNIT_FIELD_TARGET, 0);
               MoveToPoint(m_creature, 1576.119f, 657.675f, 102.09f, 5000);
               m_uiStepTimer = 4900;
@@ -572,9 +572,9 @@ struct npc_moriganAI : public ScriptedAI
 
     void UpdateAI(const uint32 uiDiff)
     {
-       if(m_uiPhase == 1)
+       if (m_uiPhase == 1)
        {
-            if(m_uiStepTimer < uiDiff)
+            if (m_uiStepTimer < uiDiff)
             {
                SecondCrateEvent();
                m_uiStep++;
@@ -618,7 +618,7 @@ struct npc_jenaAI : public ScriptedAI
 
     void Reset()
     {
-       if(m_uiPhase != 2)
+       if (m_uiPhase != 2)
        {
           m_uiStep = 0;
           m_uiStepTimer = 100;
@@ -633,7 +633,7 @@ struct npc_jenaAI : public ScriptedAI
 
     void ThirdCrateEvent()
     {
-        switch(m_uiStep)
+        switch (m_uiStep)
         {
            case 0:
               m_creature->GetMotionMaster()->MovementExpired(false);
@@ -657,13 +657,13 @@ struct npc_jenaAI : public ScriptedAI
               break;
            case 4:
               m_uiMarthaGUID = m_pInstance->GetData64(NPC_MARTHA);
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiMarthaGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiMarthaGUID))
                  m_creature->SetUInt64Value(UNIT_FIELD_TARGET, pTemp->GetGUID());
               DoScriptText(SAY_JENA01, m_creature);
               m_uiStepTimer = 3000;
               break;
            case 5:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiMarthaGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiMarthaGUID))
               {
                  pTemp->RemoveAurasDueToSpell(58925);
                  pTemp->GetMotionMaster()->MovePoint(0, 1635.918f, 724.357f, 113.561f);
@@ -671,7 +671,7 @@ struct npc_jenaAI : public ScriptedAI
               m_uiStepTimer = 1000;
               break;
            case 6:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiMarthaGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiMarthaGUID))
               {
                  pTemp->GetMotionMaster()->MovementExpired(false);
                  pTemp->GetMotionMaster()->MovePoint(0, 1636.721f, 725.88f, 113.561f);
@@ -680,7 +680,7 @@ struct npc_jenaAI : public ScriptedAI
               m_uiStepTimer = 1000;
               break;
            case 7:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiMarthaGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiMarthaGUID))
                  DoScriptText(SAY_MARTHA02, pTemp);
               m_uiStepTimer = 4000;
               break;
@@ -694,7 +694,7 @@ struct npc_jenaAI : public ScriptedAI
               m_uiStepTimer = 1500;
               break;
            case 10:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiMarthaGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiMarthaGUID))
               {
                  pTemp->SetUInt64Value(UNIT_FIELD_TARGET, 0);
                  pTemp->GetMap()->CreatureRelocation(pTemp, 1640.089f, 725.766f, 113.561f, 4.77f);
@@ -705,12 +705,12 @@ struct npc_jenaAI : public ScriptedAI
               m_uiStepTimer = 1000;
               break;
            case 11:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiMarthaGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiMarthaGUID))
                  pTemp->GetMotionMaster()->MovePoint(0, 1640.103f, 725.522f, 113.561f);
               m_uiStepTimer = 500;
               break;
            case 12:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiMarthaGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiMarthaGUID))
                  pTemp->CastSpell(pTemp, 58925, false);
               m_creature->SetStandState(UNIT_STAND_STATE_KNEEL);
               m_uiStepTimer = 1500;
@@ -720,13 +720,13 @@ struct npc_jenaAI : public ScriptedAI
               m_uiStepTimer = 1000;
               break;
            case 14:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiMarthaGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiMarthaGUID))
                  m_creature->SetUInt64Value(UNIT_FIELD_TARGET, pTemp->GetGUID());
               DoScriptText(SAY_JENA04, m_creature);
               m_uiStepTimer = 3000;
               break;
            case 15:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiMarthaGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiMarthaGUID))
               {
                  pTemp->RemoveAurasDueToSpell(58925);
                  DoScriptText(SAY_MARTHA05, pTemp);
@@ -759,9 +759,9 @@ struct npc_jenaAI : public ScriptedAI
 
     void UpdateAI(const uint32 uiDiff)
     {
-       if(m_uiPhase == 1)
+       if (m_uiPhase == 1)
        {
-            if(m_uiStepTimer < uiDiff)
+            if (m_uiStepTimer < uiDiff)
             {
                ThirdCrateEvent();
                m_uiStep++;
@@ -807,7 +807,7 @@ struct npc_malcolmAI : public ScriptedAI
 
     void Reset()
     {
-       if(m_uiPhase != 2)
+       if (m_uiPhase != 2)
        {
           m_uiStep = 0;
           m_uiStepTimer = 100;
@@ -822,52 +822,52 @@ struct npc_malcolmAI : public ScriptedAI
 
     void FourCrateEvent()
     {
-        switch(m_uiStep)
+        switch (m_uiStep)
         {
            case 0:
               MoveToPoint(m_creature, 1614.066f, 796.722f, 121.739f, 5500);
               m_uiDogGUID = m_pInstance->GetData64(NPC_DOG);
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
                  MoveToPoint(pTemp, 1611.459f, 793.274f, 121.928f, 5500);
               m_uiStepTimer = 5400;
               break;
            case 1:
               DoScriptText(SAY_MALCOLM01, m_creature);
               MoveToPoint(m_creature, 1622.820f, 798.816f, 120.570f, 3500);
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
                  MoveToPoint(pTemp, 1621.467f, 794.323f, 120.323f, 3500);
               m_uiStepTimer = 3400;
               break;
            case 2:
               MoveToPoint(m_creature, 1626.574f, 806.781f, 120.270f, 3500);
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
                  MoveToPoint(pTemp, 1629.232f, 803.629f, 120.011f, 3500);
               m_uiStepTimer = 3400;
               break;
            case 3:
               MoveToPoint(m_creature, 1622.782f, 808.533f, 121.249f, 1500);
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
                  MoveToPoint(pTemp, 1629.265f, 805.245f, 120.070f, 300);
               m_uiStepTimer = 300;
               break;
            case 4:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
                  pTemp->PlayDirectSound(SOUND_ID_DOG_GROWL);
               m_uiStepTimer = 500;
               break;
            case 5:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
                  m_creature->SetUInt64Value(UNIT_FIELD_TARGET, pTemp->GetGUID());
               DoScriptText(SAY_MALCOLM02, m_creature);
               m_uiStepTimer = 2000;
               break;
            case 6:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
                  MoveToPoint(pTemp, 1629.163f, 809.738f, 120.369f, 1500);
               m_uiStepTimer = 2000;
               break;
            case 7:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
               {
                  pTemp->HandleEmoteCommand(EMOTE_DOG_HOWL);
                  pTemp->PlayDirectSound(SOUND_ID_DOG_HOWL);
@@ -894,18 +894,18 @@ struct npc_malcolmAI : public ScriptedAI
               break;
            case 12:
               m_creature->SetStandState(UNIT_STAND_STATE_STAND);
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
                  m_creature->SetUInt64Value(UNIT_FIELD_TARGET, pTemp->GetGUID());
               DoScriptText(SAY_MALCOLM04, m_creature);
               m_uiStepTimer = 7000;
               break;
            case 13:
-              if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
+              if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
                  MoveToPoint(pTemp, 1630.692f, 808.011f, 120.083f, 400);
               m_uiStepTimer = 600;
               break;
            case 14:
-             if(Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
+             if (Creature* pTemp = m_pInstance->instance->GetCreature(m_uiDogGUID))
                 pTemp->SetStandState(UNIT_STAND_STATE_SIT);
               m_creature->SetUInt64Value(UNIT_FIELD_TARGET, 0);
               MoveToPoint(m_creature, 1641.452f, 812.600f, 119.948f, 4000);
@@ -950,9 +950,9 @@ struct npc_malcolmAI : public ScriptedAI
 
     void UpdateAI(const uint32 uiDiff)
     {
-       if(m_uiPhase == 1)
+       if (m_uiPhase == 1)
        {
-            if(m_uiStepTimer < uiDiff)
+            if (m_uiStepTimer < uiDiff)
             {
                FourCrateEvent();
                m_uiStep++;
@@ -994,7 +994,7 @@ struct npc_bartleby_csAI : public ScriptedAI
 
     void Reset()
     {
-       if(m_uiPhase != 4)
+       if (m_uiPhase != 4)
        {
           m_uiStep = 0;
           m_uiStepTimer = 100;
@@ -1007,7 +1007,7 @@ struct npc_bartleby_csAI : public ScriptedAI
       if (!who)
           return;
 
-      if(!m_pInstance) return;
+      if (!m_pInstance) return;
 
            if (who->GetTypeId() == TYPEID_PLAYER && m_creature->GetDistance2d(who) <= 20 && m_uiPhase == 0)
            {
@@ -1022,7 +1022,7 @@ struct npc_bartleby_csAI : public ScriptedAI
 
     void FifthCrateEvent()
     {
-        switch(m_uiStep)
+        switch (m_uiStep)
         {
            case 0:
               DoScriptText(SAY_BARTLEBY03, m_creature);
@@ -1075,7 +1075,7 @@ struct npc_bartleby_csAI : public ScriptedAI
 
     void SpeechEvent()
     {
-        switch(m_uiStep)
+        switch (m_uiStep)
         {
            case 0:
               DoScriptText(SAY_BARTLEBY01, m_creature);
@@ -1083,7 +1083,7 @@ struct npc_bartleby_csAI : public ScriptedAI
               break;
            case 1:
               DoScriptText(SAY_BARTLEBY02, m_creature);
-              if(m_uiPhase == 1)
+              if (m_uiPhase == 1)
                  m_uiPhase = 2;
               break;
         }
@@ -1097,9 +1097,9 @@ struct npc_bartleby_csAI : public ScriptedAI
 
     void UpdateAI(const uint32 uiDiff)
     {
-       if(m_uiPhase == 3)
+       if (m_uiPhase == 3)
        {
-            if(m_uiStepTimer < uiDiff)
+            if (m_uiStepTimer < uiDiff)
             {
                FifthCrateEvent();
                m_uiStep++;
@@ -1107,9 +1107,9 @@ struct npc_bartleby_csAI : public ScriptedAI
             else m_uiStepTimer -= uiDiff;
        }
 
-       if(m_uiPhase == 1)
+       if (m_uiPhase == 1)
        {
-            if(m_uiStepTimer < uiDiff)
+            if (m_uiStepTimer < uiDiff)
             {
                SpeechEvent();
                m_uiStep++;
@@ -1149,52 +1149,52 @@ struct npc_stratholme_cratesAI : public ScriptedAI
 
     void UpdateAI(const uint32 uiDiff)
     {
-       if(!m_pInstance) return;
+       if (!m_pInstance) return;
 
-       if(m_creature->HasAura(SPELL_LIGHT) && Active != true)
+       if (m_creature->HasAura(SPELL_LIGHT) && Active != true)
        {
-            if(Creature* pRoger = m_pInstance->instance->GetCreature(m_pInstance->GetData64(NPC_ROGER)))
+            if (Creature* pRoger = m_pInstance->instance->GetCreature(m_pInstance->GetData64(NPC_ROGER)))
             {
-               if(m_creature->GetDistance2d(pRoger->GetPositionX(), pRoger->GetPositionY()) < 50.0f)
+               if (m_creature->GetDistance2d(pRoger->GetPositionX(), pRoger->GetPositionY()) < 50.0f)
                {
                    ((npc_rogerAI*)pRoger->AI())->StartRoger();
                }
             }
 
-            if(Creature* pMorigan = m_pInstance->instance->GetCreature(m_pInstance->GetData64(NPC_MORIGAN)))
+            if (Creature* pMorigan = m_pInstance->instance->GetCreature(m_pInstance->GetData64(NPC_MORIGAN)))
             { 
-               if(m_creature->GetDistance2d(pMorigan->GetPositionX(), pMorigan->GetPositionY()) < 50.0f)
+               if (m_creature->GetDistance2d(pMorigan->GetPositionX(), pMorigan->GetPositionY()) < 50.0f)
                {
                   ((npc_moriganAI*)pMorigan->AI())->StartMorigan();
                }
             }
 
-            if(Creature* pJena = m_pInstance->instance->GetCreature(m_pInstance->GetData64(NPC_JENA)))
+            if (Creature* pJena = m_pInstance->instance->GetCreature(m_pInstance->GetData64(NPC_JENA)))
             { 
-               if(m_creature->GetDistance2d(pJena->GetPositionX(), pJena->GetPositionY()) < 50.0f)
+               if (m_creature->GetDistance2d(pJena->GetPositionX(), pJena->GetPositionY()) < 50.0f)
                {
                    ((npc_jenaAI*)pJena->AI())->StartJena();
                }
             }
 
-            if(Creature* pMalcolm = m_pInstance->instance->GetCreature(m_pInstance->GetData64(NPC_MALCOLM)))
+            if (Creature* pMalcolm = m_pInstance->instance->GetCreature(m_pInstance->GetData64(NPC_MALCOLM)))
             { 
-               if(m_creature->GetDistance2d(pMalcolm->GetPositionX(), pMalcolm->GetPositionY()) < 50.0f)
+               if (m_creature->GetDistance2d(pMalcolm->GetPositionX(), pMalcolm->GetPositionY()) < 50.0f)
                {
                    ((npc_malcolmAI*)pMalcolm->AI())->StartMalcolm();
                }
             }
 
-            if(Creature* pBartleby = m_pInstance->instance->GetCreature(m_pInstance->GetData64(NPC_BARTLEBY)))
+            if (Creature* pBartleby = m_pInstance->instance->GetCreature(m_pInstance->GetData64(NPC_BARTLEBY)))
             { 
-               if(m_creature->GetDistance2d(pBartleby->GetPositionX(), pBartleby->GetPositionY()) < 50.0f)
+               if (m_creature->GetDistance2d(pBartleby->GetPositionX(), pBartleby->GetPositionY()) < 50.0f)
                {
                    ((npc_bartleby_csAI*)pBartleby->AI())->StartBartleby();
                }
             }
 
             m_pInstance->SetData(TYPE_CRATES_COUNT, 1);
-            if(GameObject* pLight = GetClosestGameObjectWithEntry(m_creature, GO_CRATE_LIGHT, 5.0f))
+            if (GameObject* pLight = GetClosestGameObjectWithEntry(m_creature, GO_CRATE_LIGHT, 5.0f))
                pLight->SetPhaseMask(0, true);
             //m_creature->SetPhaseMask(0, true);
             Active = true;

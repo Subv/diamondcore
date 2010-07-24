@@ -190,20 +190,20 @@ CanCastResult BSWScriptedAI::_BSWSpellSelector(uint8 m_uiSpellIdx, Unit* pTarget
 
             case SUMMON_NORMAL:
                    pSummon = _doSummon(m_uiSpellIdx, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 5000);
-                   if(pSummon) return CAST_OK;
+                   if (pSummon) return CAST_OK;
                           else return CAST_FAIL_OTHER;
                    break;
 
             case SUMMON_TEMP:
                    pSummon = _doSummon(m_uiSpellIdx, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN,
                                         urand(pSpell->m_uiSpellTimerMin[currentDifficulty],pSpell->m_uiSpellTimerMax[currentDifficulty]));
-                   if(pSummon) return CAST_OK;
+                   if (pSummon) return CAST_OK;
                           else return CAST_FAIL_OTHER;
                    break;
 
             case SUMMON_INSTANT:
                    pSummon = _doSummon(m_uiSpellIdx, TEMPSUMMON_MANUAL_DESPAWN,0);
-                   if(pSummon) return CAST_OK;
+                   if (pSummon) return CAST_OK;
                           else return CAST_FAIL_OTHER;
                    break;
 
@@ -348,7 +348,7 @@ uint8 BSWScriptedAI::_auraCount(uint8 m_uiSpellIdx, Unit* pTarget, SpellEffectIn
 uint8 BSWScriptedAI::_findSpellIDX(uint32 SpellID)
 {
     if (bossSpellCount() >= 0)
-        for(uint8 i = 0; i < bossSpellCount(); ++i)
+        for (uint8 i = 0; i < bossSpellCount(); ++i)
             if (m_BossSpell[i].m_uiSpellEntry[RAID_DIFFICULTY_10MAN_NORMAL] == SpellID) return i;
 
     error_log("BSW: spell %u not found  in m_creature %u spelltable. Memory or database error?", SpellID, m_creature->GetEntry());
@@ -549,7 +549,7 @@ bool BSWScriptedAI::_doAura(uint8 m_uiSpellIdx, Unit* pTarget, SpellEffectIndex 
 
             int32 basepoint = pSpell->varData ?  pSpell->varData - 1 : spell->EffectBasePoints[index] + 1;
 
-            if( IsAreaAuraEffect(spell->Effect[index]) ||
+            if ( IsAreaAuraEffect(spell->Effect[index]) ||
                 spell->Effect[index] == SPELL_EFFECT_APPLY_AURA  ||
                 spell->Effect[index] == SPELL_EFFECT_PERSISTENT_AREA_AURA )
                 {
@@ -695,7 +695,7 @@ Unit* BSWScriptedAI::_doSelect(uint32 SpellID, bool spellsearchtype, float range
 
     memset(&_list, 0, sizeof(_list));
 
-          for(Map::PlayerList::const_iterator i = pList.begin(); i != pList.end(); ++i)
+          for (Map::PlayerList::const_iterator i = pList.begin(); i != pList.end(); ++i)
           {
               if (Player* player = i->getSource())
               {

@@ -922,8 +922,7 @@ bool ChatHandler::HandleLookupFactionCommand(const char* args)
 
             if (!Utf8FitTo(name, wnamepart))
             {
-                loc = 0;
-                for(; loc < MAX_LOCALE; ++loc)
+                for (loc = 0; loc < MAX_LOCALE; ++loc)
                 {
                     if (loc == GetSessionDbcLocale())
                         continue;
@@ -3356,7 +3355,7 @@ bool ChatHandler::HandleWpShowCommand(const char* args)
             uint32 emote            = fields[3].GetUInt32();
             uint32 spell            = fields[4].GetUInt32();
             uint32 textid[MAX_WAYPOINT_TEXT];
-            for(int i = 0;  i < MAX_WAYPOINT_TEXT; ++i)
+            for (int i = 0;  i < MAX_WAYPOINT_TEXT; ++i)
                 textid[i]           = fields[5+i].GetUInt32();
             uint32 model1           = fields[10].GetUInt32();
             uint32 model2           = fields[11].GetUInt32();
@@ -3370,7 +3369,7 @@ bool ChatHandler::HandleWpShowCommand(const char* args)
             PSendSysMessage(LANG_WAYPOINT_INFO_MODEL, 2, model2);
             PSendSysMessage(LANG_WAYPOINT_INFO_EMOTE, emote);
             PSendSysMessage(LANG_WAYPOINT_INFO_SPELL, spell);
-            for(int i = 0;  i < MAX_WAYPOINT_TEXT; ++i)
+            for (int i = 0;  i < MAX_WAYPOINT_TEXT; ++i)
                 PSendSysMessage(LANG_WAYPOINT_INFO_TEXT, i+1, textid[i], (textid[i] ? GetString(textid[i]) : ""));
 
         } while (result->NextRow());
@@ -3846,7 +3845,7 @@ bool ChatHandler::HandleCharacterReputationCommand(const char* args)
     LocaleConstant loc = GetSessionDbcLocale();
 
     FactionStateList const& targetFSL = target->GetReputationMgr().GetStateList();
-    for(FactionStateList::const_iterator itr = targetFSL.begin(); itr != targetFSL.end(); ++itr)
+    for (FactionStateList::const_iterator itr = targetFSL.begin(); itr != targetFSL.end(); ++itr)
     {
         FactionEntry const *factionEntry = sFactionStore.LookupEntry(itr->second.ID);
         char const* factionName = factionEntry ? factionEntry->name[loc] : "#Not found#";
@@ -3971,7 +3970,7 @@ bool ChatHandler::HandleLookupEventCommand(const char* args)
     GameEventMgr::GameEventDataMap const& events = sGameEventMgr.GetEventMap();
     GameEventMgr::ActiveEvents const& activeEvents = sGameEventMgr.GetActiveEventList();
 
-    for(uint32 id = 0; id < events.size(); ++id)
+    for (uint32 id = 0; id < events.size(); ++id)
     {
         GameEventData const& eventData = events[id];
 
@@ -4286,8 +4285,7 @@ bool ChatHandler::HandleLearnAllRecipesCommand(const char* args)
 
         if (!Utf8FitTo(name, wnamepart))
         {
-            loc = 0;
-            for(; loc < MAX_LOCALE; ++loc)
+            for (loc = 0; loc < MAX_LOCALE; ++loc)
             {
                 if (loc==GetSessionDbcLocale())
                     continue;
@@ -4624,8 +4622,7 @@ bool ChatHandler::HandleLookupTitleCommand(const char* args)
 
             if (!Utf8FitTo(name, wnamepart))
             {
-                loc = 0;
-                for(; loc < MAX_LOCALE; ++loc)
+                for (loc = 0; loc < MAX_LOCALE; ++loc)
                 {
                     if (loc == GetSessionDbcLocale())
                         continue;
@@ -4805,7 +4802,7 @@ bool ChatHandler::HandleTitlesSetMaskCommand(const char* args)
 
     uint64 titles2 = titles;
 
-    for(uint32 i = 1; i < sCharTitlesStore.GetNumRows(); ++i)
+    for (uint32 i = 1; i < sCharTitlesStore.GetNumRows(); ++i)
         if (CharTitlesEntry const* tEntry = sCharTitlesStore.LookupEntry(i))
             titles2 &= ~(uint64(1) << tEntry->bit_index);
 

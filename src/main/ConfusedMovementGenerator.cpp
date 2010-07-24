@@ -39,7 +39,7 @@ ConfusedMovementGenerator<T>::Initialize(T &unit)
     bool is_water_ok, is_land_ok;
     _InitSpecific(unit, is_water_ok, is_land_ok);
 
-    for(unsigned int idx=0; idx < MAX_CONF_WAYPOINTS+1; ++idx)
+    for (unsigned int idx=0; idx < MAX_CONF_WAYPOINTS+1; ++idx)
     {
         const float wanderX=wander_distance*rand_norm_f() - wander_distance/2;
         const float wanderY=wander_distance*rand_norm_f() - wander_distance/2;
@@ -105,7 +105,7 @@ void ConfusedMovementGenerator<T>::Reset(T &unit)
 template<class T>
 bool ConfusedMovementGenerator<T>::Update(T &unit, const uint32 &diff)
 {
-    if(!&unit)
+    if (!&unit)
         return true;
 
     // ignore in case other no reaction state
@@ -136,7 +136,7 @@ bool ConfusedMovementGenerator<T>::Update(T &unit, const uint32 &diff)
     {
         // waiting for next move
         i_nextMoveTime.Update(diff);
-        if( i_nextMoveTime.Passed() )
+        if ( i_nextMoveTime.Passed() )
         {
             // start moving
             unit.addUnitState(UNIT_STAT_CONFUSED_MOVE);

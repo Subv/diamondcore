@@ -53,19 +53,19 @@ struct boss_infinite_corruptorAI : public ScriptedAI
 
    void Aggro(Unit* who)
    {
-      if(m_pInstance)
+      if (m_pInstance)
          m_pInstance->SetData(TYPE_BONUS, SPECIAL);
    }
 
    void JustDied(Unit *killer)
    {
-       if(m_pInstance)
+       if (m_pInstance)
          m_pInstance->SetData(TYPE_BONUS, DONE);
    }
 
     void KilledUnit(Unit* pVictim)
     {
-        //switch(rand()%3)
+        //switch (rand()%3)
        // {
          //   case 0: DoScriptText(SAY_EPOCH_SLAY01, m_creature); break;
       //      case 1: DoScriptText(SAY_EPOCH_SLAY02, m_creature); break;
@@ -75,16 +75,16 @@ struct boss_infinite_corruptorAI : public ScriptedAI
 
     void EnterEvadeMode()
     {
-       if(!m_pInstance) return;
+       if (!m_pInstance) return;
 
        m_creature->RemoveAllAuras();
        m_creature->DeleteThreatList();
        m_creature->CombatStop(true);
        m_creature->LoadCreaturesAddon();
-       if(m_pInstance)
+       if (m_pInstance)
          m_pInstance->SetData(TYPE_BONUS, IN_PROGRESS);
 
-       if(m_creature->isAlive())
+       if (m_creature->isAlive())
           m_creature->GetMotionMaster()->MoveTargetedHome();
 
        m_creature->SetLootRecipient(NULL);

@@ -173,7 +173,7 @@ struct npc_tempest_minionAI : public ScriptedAI
         {
             m_uiOverchargedStacksCheckTimer = 2000;
             Aura* pAuraOvercharged = m_creature->GetAura(SPELL_OVERCHARGED, EFFECT_INDEX_0);
-            if(pAuraOvercharged && pAuraOvercharged->GetStackAmount() >= 10)
+            if (pAuraOvercharged && pAuraOvercharged->GetStackAmount() >= 10)
             {
                 DoCastSpellIfCan(m_creature, SPELL_OVERCHARGED_BLAST);
                 m_bTimeToDie = true;
@@ -294,7 +294,7 @@ struct boss_emalonAI : public ScriptedAI
         if (m_uiOverchargeTimer < uiDiff)
         {
             Creature* pMinion = (Creature*)Unit::GetUnit((*m_creature), m_auiTempestMinionGUID[rand()%4]);
-            if(pMinion && pMinion->isAlive())
+            if (pMinion && pMinion->isAlive())
             {
                 m_creature->MonsterTextEmote("%s overcharges Tempest Minion!", 0, true);
                 pMinion->SetHealth(pMinion->GetMaxHealth());
@@ -386,7 +386,7 @@ struct npc_tempest_warderAI : public ScriptedAI
             {
                 m_uiOverchargedStacksCheckTimer = 2000;
                 Aura* pAuraOvercharged = m_creature->GetAura(SPELL_OVERCHARGED, EFFECT_INDEX_0);
-                if(pAuraOvercharged && pAuraOvercharged->GetStackAmount() >= 10)
+                if (pAuraOvercharged && pAuraOvercharged->GetStackAmount() >= 10)
                 {
                     DoCastSpellIfCan(m_creature, SPELL_OVERCHARGED_BLAST);
                     m_bTimeToDie = true;

@@ -260,7 +260,7 @@ class AchievementMgr
         void SendAchievementEarned(AchievementEntry const* achievement);
         void SendCriteriaUpdate(uint32 id, CriteriaProgress const* progress);
         void SetCriteriaProgress(AchievementCriteriaEntry const* entry, uint32 changeValue, ProgressType ptype = PROGRESS_SET);
-        void CompletedCriteriaFor(AchievementEntry const* achievement);
+        void CompletedCriteriafor (AchievementEntry const* achievement);
         bool IsCompletedCriteria(AchievementCriteriaEntry const* criteria, AchievementEntry const* achievement);
         bool IsCompletedAchievement(AchievementEntry const* entry);
         void CompleteAchievementsWithRefs(AchievementEntry const* entry);
@@ -292,7 +292,7 @@ class AchievementGlobalMgr
             AchievementRewards::const_iterator iter_low = m_achievementRewards.lower_bound(achievement->ID);
             AchievementRewards::const_iterator iter_up  = m_achievementRewards.upper_bound(achievement->ID);
             for (AchievementRewards::const_iterator iter = iter_low; iter != iter_up; ++iter)
-                if(iter->second.gender == GENDER_NONE || uint8(iter->second.gender) == gender)
+                if (iter->second.gender == GENDER_NONE || uint8(iter->second.gender) == gender)
                     return &iter->second;
 
             return NULL;
@@ -303,7 +303,7 @@ class AchievementGlobalMgr
             AchievementRewardLocales::const_iterator iter_low = m_achievementRewardLocales.lower_bound(achievement->ID);
             AchievementRewardLocales::const_iterator iter_up  = m_achievementRewardLocales.upper_bound(achievement->ID);
             for (AchievementRewardLocales::const_iterator iter = iter_low; iter != iter_up; ++iter)
-                if(iter->second.gender == GENDER_NONE || uint8(iter->second.gender) == gender)
+                if (iter->second.gender == GENDER_NONE || uint8(iter->second.gender) == gender)
                     return &iter->second;
 
             return NULL;

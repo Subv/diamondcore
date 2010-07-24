@@ -98,7 +98,7 @@ struct npc_giltharesAI : public npc_escortAI
         if (!pPlayer)
             return;
 
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 16:
                 DoScriptText(SAY_GIL_AT_LAST, m_creature, pPlayer);
@@ -132,7 +132,7 @@ struct npc_giltharesAI : public npc_escortAI
         if (pWho->GetTypeId() != TYPEID_PLAYER && m_creature->GetAreaId() == AREA_MERCHANT_COAST)
         {
             //appears to be pretty much random (possible only if escorter not in combat with pWho yet?)
-            switch(urand(0, 3))
+            switch (urand(0, 3))
             {
                 case 0: DoScriptText(SAY_GIL_AGGRO_1, m_creature, pWho); break;
                 case 1: DoScriptText(SAY_GIL_AGGRO_2, m_creature, pWho); break;
@@ -333,7 +333,7 @@ struct npc_twiggy_flatheadAI : public ScriptedAI
         PlayerGUID = 0;
         BigWillGUID = 0;
 
-        for(uint8 i = 0; i < 6; ++i)
+        for (uint8 i = 0; i < 6; ++i)
             AffrayChallenger[i] = 0;
     }
 
@@ -353,7 +353,7 @@ struct npc_twiggy_flatheadAI : public ScriptedAI
 
     void SetChallengers()
     {
-        for(uint8 i = 0; i < 6; ++i)
+        for (uint8 i = 0; i < 6; ++i)
         {
             Creature* pCreature = m_creature->SummonCreature(NPC_AFFRAY_CHALLENGER, AffrayChallengerLoc[i][0], AffrayChallengerLoc[i][1], AffrayChallengerLoc[i][2], AffrayChallengerLoc[i][3], TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 600000);
             if (!pCreature)
@@ -386,7 +386,7 @@ struct npc_twiggy_flatheadAI : public ScriptedAI
         {
             if (ChallengerDeath_Timer <= diff)
             {
-                for(uint8 i = 0; i < 6; ++i)
+                for (uint8 i = 0; i < 6; ++i)
                 {
                     Creature *challenger = (Creature*)Unit::GetUnit(*m_creature,AffrayChallenger[i]);
                     if (challenger && !challenger->isAlive() && challenger->isDead())
@@ -408,7 +408,7 @@ struct npc_twiggy_flatheadAI : public ScriptedAI
             if (!pPlayer || pPlayer->isDead())
                 Reset();
 
-            switch(Step)
+            switch (Step)
             {
                 case 0:
                     SetChallengers();
@@ -539,7 +539,7 @@ struct npc_wizzlecranks_shredderAI : public npc_escortAI
 
     void WaypointReached(uint32 uiPointId)
     {
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 0:
                 if (Player* pPlayer = GetPlayerForEscort())
@@ -563,7 +563,7 @@ struct npc_wizzlecranks_shredderAI : public npc_escortAI
 
     void WaypointStart(uint32 uiPointId)
     {
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 9:
                 if (Player* pPlayer = GetPlayerForEscort())
@@ -594,7 +594,7 @@ struct npc_wizzlecranks_shredderAI : public npc_escortAI
             {
                 if (m_uiPostEventTimer < uiDiff)
                 {
-                    switch(m_uiPostEventCount)
+                    switch (m_uiPostEventCount)
                     {
                         case 0:
                             DoScriptText(SAY_PROGRESS_2, m_creature);

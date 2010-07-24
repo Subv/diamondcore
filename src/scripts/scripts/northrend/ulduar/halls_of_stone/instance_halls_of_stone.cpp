@@ -64,21 +64,21 @@ struct instance_halls_of_stone : public ScriptedInstance
 
     void OpenDoor(uint64 guid)
     {
-        if(!guid) return;
+        if (!guid) return;
         GameObject* pGo = instance->GetGameObject(guid);
-        if(pGo) pGo->SetGoState(GO_STATE_ACTIVE);
+        if (pGo) pGo->SetGoState(GO_STATE_ACTIVE);
     }
 
     void CloseDoor(uint64 guid)
     {
-        if(!guid) return;
+        if (!guid) return;
         GameObject* pGo = instance->GetGameObject(guid);
-        if(pGo) pGo->SetGoState(GO_STATE_READY);
+        if (pGo) pGo->SetGoState(GO_STATE_READY);
     }
 
     void Initialize()
     {
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
                    m_auiEncounter[i]=NOT_STARTED;
 
         m_uiKrystallusGUID       = 0;
@@ -104,7 +104,7 @@ struct instance_halls_of_stone : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_KRYSTALLUS:
                 m_uiKrystallusGUID = pCreature->GetGUID();
@@ -132,7 +132,7 @@ struct instance_halls_of_stone : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_GRIEF_DOOR:
                 m_uiGriefDoorGUID = pGo->GetGUID();
@@ -191,7 +191,7 @@ struct instance_halls_of_stone : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_KRYSTALLUS:
                 if (uiData == DONE)
@@ -222,7 +222,7 @@ struct instance_halls_of_stone : public ScriptedInstance
 
             std::ostringstream saveStream;
 
-            for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+            for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
                 saveStream << m_auiEncounter[i] << " ";
 
             strSaveData = saveStream.str();
@@ -235,7 +235,7 @@ struct instance_halls_of_stone : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_KRYSTALLUS:
                 return m_auiEncounter[0];
@@ -251,7 +251,7 @@ struct instance_halls_of_stone : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_KRYSTALLUS:
                 return m_uiKrystallusGUID;
@@ -298,7 +298,7 @@ struct instance_halls_of_stone : public ScriptedInstance
 
         std::istringstream loadStream(chrIn);
 
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
         {
             loadStream >> m_auiEncounter[i];
 

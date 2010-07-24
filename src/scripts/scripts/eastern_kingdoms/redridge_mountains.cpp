@@ -72,7 +72,7 @@ struct npc_corporal_keeshan_escortAI : public npc_escortAI
         }
     }
     
-	void WaypointReached(uint32 uiWP)
+    void WaypointReached(uint32 uiWP)
     {
         switch (uiWP)
         {

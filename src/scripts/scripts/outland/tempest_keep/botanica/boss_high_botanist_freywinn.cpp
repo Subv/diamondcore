@@ -77,7 +77,7 @@ struct boss_high_botanist_freywinnAI : public ScriptedAI
 
     void DoSummonSeedling()
     {
-        switch(urand(0, 3))
+        switch (urand(0, 3))
         {
             case 0: DoCastSpellIfCan(m_creature,SPELL_PLANT_WHITE); break;
             case 1: DoCastSpellIfCan(m_creature,SPELL_PLANT_GREEN); break;
@@ -126,7 +126,7 @@ struct boss_high_botanist_freywinnAI : public ScriptedAI
             {
                 if (!Adds_List.empty())
                 {
-                    for(std::list<uint64>::iterator itr = Adds_List.begin(); itr != Adds_List.end(); ++itr)
+                    for (std::list<uint64>::iterator itr = Adds_List.begin(); itr != Adds_List.end(); ++itr)
                     {
                         if (Unit *temp = Unit::GetUnit(*m_creature,*itr))
                         {

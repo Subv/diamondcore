@@ -84,7 +84,7 @@ struct instance_zulaman : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case 23574: m_uiAkilzonGUID     = pCreature->GetGUID(); break;
             case 23576: m_uiNalorakkGUID    = pCreature->GetGUID(); break;
@@ -103,7 +103,7 @@ struct instance_zulaman : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case 187359:
                 m_uiStrangeGongGUID = pGo->GetGUID();
@@ -123,7 +123,7 @@ struct instance_zulaman : public ScriptedInstance
     {
         debug_log("SD2: Instance Zulaman: SetData received for type %u with data %u",uiType,uiData);
 
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_EVENT_RUN:
                 if (uiData == SPECIAL)
@@ -170,7 +170,7 @@ struct instance_zulaman : public ScriptedInstance
 
                     if (!m_lEggsGUIDList.empty())
                     {
-                        for(std::list<uint64>::iterator itr = m_lEggsGUIDList.begin(); itr != m_lEggsGUIDList.end(); ++itr)
+                        for (std::list<uint64>::iterator itr = m_lEggsGUIDList.begin(); itr != m_lEggsGUIDList.end(); ++itr)
                         {
                             if (Creature* pEgg = instance->GetCreature(*itr))
                             {
@@ -253,7 +253,7 @@ struct instance_zulaman : public ScriptedInstance
             >> m_auiEncounter[4] >> m_auiEncounter[5] >> m_auiEncounter[6];
 
         //not changing m_uiEncounter[0], TYPE_EVENT_RUN must not reset to NOT_STARTED
-        for(uint8 i = 1; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 1; i < MAX_ENCOUNTER; ++i)
         {
             if (m_auiEncounter[i] == IN_PROGRESS)
                 m_auiEncounter[i] = NOT_STARTED;
@@ -264,7 +264,7 @@ struct instance_zulaman : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_EVENT_RUN:
                 return m_auiEncounter[0];
@@ -296,7 +296,7 @@ struct instance_zulaman : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_AKILZON:
                 return m_uiAkilzonGUID;

@@ -109,7 +109,7 @@ struct mob_blood_elf_council_voice_triggerAI : public ScriptedAI
 {
     mob_blood_elf_council_voice_triggerAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
-        for(uint8 i = 0; i < 4; ++i)
+        for (uint8 i = 0; i < 4; ++i)
             Council[i] = 0;
         Reset();
     }
@@ -193,7 +193,7 @@ struct mob_illidari_councilAI : public ScriptedAI
     {
         m_pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
 
-        for(uint8 i = 0; i < 4; ++i)
+        for (uint8 i = 0; i < 4; ++i)
             Council[i] = 0;
 
         Reset();
@@ -218,7 +218,7 @@ struct mob_illidari_councilAI : public ScriptedAI
         DeathCount = 0;
 
         Creature* pMember = NULL;
-        for(uint8 i = 0; i < 4; ++i)
+        for (uint8 i = 0; i < 4; ++i)
         {
             if (pMember = ((Creature*)Unit::GetUnit((*m_creature), Council[i])))
             {
@@ -272,7 +272,7 @@ struct mob_illidari_councilAI : public ScriptedAI
                 ((mob_blood_elf_council_voice_triggerAI*)VoiceTrigger->AI())->EventStarted = true;
             }
 
-            for(uint8 i = 0; i < 4; ++i)
+            for (uint8 i = 0; i < 4; ++i)
             {
                 Unit* Member = NULL;
                 if (Council[i])
@@ -325,7 +325,7 @@ struct mob_illidari_councilAI : public ScriptedAI
             if (CheckTimer <= diff)
             {
                 uint8 EvadeCheck = 0;
-                for(uint8 i = 0; i < 4; ++i)
+                for (uint8 i = 0; i < 4; ++i)
                 {
                     if (Council[i])
                     {
@@ -359,7 +359,7 @@ struct boss_illidari_councilAI : public ScriptedAI
     {
         m_pInstance = (ScriptedInstance*)pCreature->GetInstanceData();
 
-        for(uint8 i = 0; i < 4; ++i)
+        for (uint8 i = 0; i < 4; ++i)
             Council[i] = 0;
 
         LoadedGUIDs = false;
@@ -401,7 +401,7 @@ struct boss_illidari_councilAI : public ScriptedAI
             return;
 
         damage /= 4;
-        for(uint8 i = 0; i < 4; ++i)
+        for (uint8 i = 0; i < 4; ++i)
         {
             if (Unit* pUnit = Unit::GetUnit(*m_creature, Council[i]))
                 if (pUnit != m_creature && damage < pUnit->GetHealth())
@@ -472,12 +472,12 @@ struct boss_gathios_the_shattererAI : public boss_illidari_councilAI
     void CastAuraOnCouncil()
     {
         uint32 spellid = 0;
-        switch(urand(0, 1))
+        switch (urand(0, 1))
         {
             case 0: spellid = SPELL_DEVOTION_AURA;   break;
             case 1: spellid = SPELL_CHROMATIC_AURA;  break;
         }
-        for(uint8 i = 0; i < 4; ++i)
+        for (uint8 i = 0; i < 4; ++i)
         {
             Unit* pUnit = Unit::GetUnit((*m_creature), Council[i]);
             if (pUnit)

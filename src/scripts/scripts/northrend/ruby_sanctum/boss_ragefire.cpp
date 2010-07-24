@@ -48,7 +48,7 @@ struct boss_ragefireAI : public BSWScriptedAI
 
     void Reset()
     {
-        if(!pInstance)
+        if (!pInstance)
             return;
 
         pInstance->SetData(TYPE_RAGEFIRE, NOT_STARTED);
@@ -90,7 +90,7 @@ struct boss_ragefireAI : public BSWScriptedAI
 
     void Aggro(Unit *who) 
     {
-        if(pInstance)
+        if (pInstance)
             pInstance->SetData(TYPE_RAGEFIRE, IN_PROGRESS);
 
         m_creature->SetInCombatWithZone();
@@ -100,7 +100,7 @@ struct boss_ragefireAI : public BSWScriptedAI
 
     void JustDied(Unit *killer)
     {
-        if(pInstance)
+        if (pInstance)
             pInstance->SetData(TYPE_RAGEFIRE, DONE);
 
         DoScriptText(-1666403,m_creature);

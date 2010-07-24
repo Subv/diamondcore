@@ -31,7 +31,7 @@
 
 bool ChatHandler::HandleHelpCommand(const char* args)
 {
-    if(!*args)
+    if (!*args)
     {
         ShowHelpForCommand(getCommandTable(), "help");
         ShowHelpForCommand(getCommandTable(), "");
@@ -66,14 +66,14 @@ bool ChatHandler::HandleStartCommand(const char* /*args*/)
 {
     Player *chr = m_session->GetPlayer();
 
-    if(chr->IsTaxiFlying())
+    if (chr->IsTaxiFlying())
     {
         SendSysMessage(LANG_YOU_IN_FLIGHT);
         SetSentErrorMessage(true);
         return false;
     }
 
-    if(chr->isInCombat())
+    if (chr->isInCombat())
     {
         SendSysMessage(LANG_YOU_IN_COMBAT);
         SetSentErrorMessage(true);
@@ -116,7 +116,7 @@ bool ChatHandler::HandleDismountCommand(const char* /*args*/)
         return false;
     }
 
-    if(m_session->GetPlayer( )->IsTaxiFlying())
+    if (m_session->GetPlayer( )->IsTaxiFlying())
     {
         SendSysMessage(LANG_YOU_IN_FLIGHT);
         SetSentErrorMessage(true);
@@ -133,7 +133,7 @@ bool ChatHandler::HandleSaveCommand(const char* /*args*/)
     Player *player=m_session->GetPlayer();
 
     // save GM account without delay and output message (testing, etc)
-    if(GetAccessLevel() > SEC_PLAYER)
+    if (GetAccessLevel() > SEC_PLAYER)
     {
         player->SaveToDB();
         SendSysMessage(LANG_PLAYER_SAVED);
@@ -155,11 +155,11 @@ bool ChatHandler::HandleGMListIngameCommand(const char* /*args*/)
     {
         HashMapHolder<Player>::ReadGuard g(HashMapHolder<Player>::GetLock());
         HashMapHolder<Player>::MapType &m = sObjectAccessor.GetPlayers();
-        for(HashMapHolder<Player>::MapType::const_iterator itr = m.begin(); itr != m.end(); ++itr)
+        for (HashMapHolder<Player>::MapType::const_iterator itr = m.begin(); itr != m.end(); ++itr)
         {
             AccountTypes itr_sec = itr->second->GetSession()->GetSecurity();
             if ((itr->second->isGameMaster() || (itr_sec > SEC_PLAYER && itr_sec <= (AccountTypes)sWorld.getConfig(CONFIG_UINT32_GM_LEVEL_IN_GM_LIST))) &&
-                (!m_session || itr->second->IsVisibleGloballyFor(m_session->GetPlayer())))
+                (!m_session || itr->second->IsVisibleGloballyfor (m_session->GetPlayer())))
                 names.push_back(std::make_pair<std::string, bool>(GetNameLink(itr->second), itr->second->isAcceptWhispers()));
         }
     }
@@ -170,7 +170,7 @@ bool ChatHandler::HandleGMListIngameCommand(const char* /*args*/)
 
         char const* accepts = GetString(LANG_GM_ACCEPTS_WHISPER);
         char const* not_accept = GetString(LANG_GM_NO_WHISPER);
-        for(std::list<std::pair< std::string, bool> >::const_iterator iter = names.begin(); iter != names.end(); ++iter)
+        for (std::list<std::pair< std::string, bool> >::const_iterator iter = names.begin(); iter != names.end(); ++iter)
             PSendSysMessage("%s - %s", iter->first.c_str(), iter->second ? accepts : not_accept);
     }
     else
@@ -189,7 +189,7 @@ bool ChatHandler::HandleAccountPasswordCommand(const char* args)
         return false;
     }
 
-    if(!*args)
+    if (!*args)
         return false;
 
     char *old_pass = strtok ((char*)args, " ");
@@ -219,7 +219,7 @@ bool ChatHandler::HandleAccountPasswordCommand(const char* args)
 
     AccountOpResult result = sAccountMgr.ChangePassword(GetAccountId(), password_new);
 
-    switch(result)
+    switch (result)
     {
         case AOR_OK:
             SendSysMessage(LANG_COMMAND_PASSWORD);

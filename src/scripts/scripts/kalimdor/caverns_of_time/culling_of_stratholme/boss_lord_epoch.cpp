@@ -76,7 +76,7 @@ struct boss_lord_epochAI : public ScriptedAI
 
     void KilledUnit(Unit* pVictim)
     {
-        switch(rand()%3)
+        switch (rand()%3)
         {
             case 0: DoScriptText(SAY_EPOCH_SLAY01, m_creature); break;
             case 1: DoScriptText(SAY_EPOCH_SLAY02, m_creature); break;
@@ -119,7 +119,7 @@ struct boss_lord_epochAI : public ScriptedAI
         {
              if (Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
                 DoCast(target, SPELL_TIME_WARP);
-        switch(rand()%3)
+        switch (rand()%3)
         {
             case 0: DoScriptText(SAY_EPOCH_WARP01, m_creature); break;
             case 1: DoScriptText(SAY_EPOCH_WARP02, m_creature); break;

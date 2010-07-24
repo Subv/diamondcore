@@ -241,7 +241,7 @@ struct boss_kelesethAI : public ScriptedAI
         GetCreatureListWithEntryInGrid(lAddsList, m_creature, NPC_VRYKUL_SKELETON, 100.0f);
 
         if (!lAddsList.empty())
-            for(std::list<Creature*>::iterator itr = lAddsList.begin(); itr != lAddsList.end(); ++itr)
+            for (std::list<Creature*>::iterator itr = lAddsList.begin(); itr != lAddsList.end(); ++itr)
                 (*itr)->ForcedDespawn();
     }
 

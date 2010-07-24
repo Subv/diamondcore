@@ -88,12 +88,12 @@ struct boss_marwynAI : public ScriptedAI
     {
          m_uiLocNo = 14;
 
-         for(uint8 i = 0; i < 14; i++)
+         for (uint8 i = 0; i < 14; i++)
          {
-            switch(urand(0,3))
+            switch (urand(0,3))
             {
                case 0:
-                   switch(urand(1, 3))
+                   switch (urand(1, 3))
                    {
                      case 1: pSummon = NPC_DARK_1; break;
                      case 2: pSummon = NPC_DARK_3; break;
@@ -101,7 +101,7 @@ struct boss_marwynAI : public ScriptedAI
                    }
                    break;
                case 1: 
-                   switch(urand(1, 3))
+                   switch (urand(1, 3))
                    {
                      case 1: pSummon = NPC_DARK_2; break;
                      case 2: pSummon = NPC_DARK_3; break;
@@ -109,7 +109,7 @@ struct boss_marwynAI : public ScriptedAI
                    }
                    break;
                case 2: 
-                   switch(urand(1, 3))
+                   switch (urand(1, 3))
                    {
                      case 1: pSummon = NPC_DARK_2; break;
                      case 2: pSummon = NPC_DARK_5; break;
@@ -117,7 +117,7 @@ struct boss_marwynAI : public ScriptedAI
                    }
                    break;
                case 3: 
-                   switch(urand(1, 3))
+                   switch (urand(1, 3))
                    {
                      case 1: pSummon = NPC_DARK_1; break;
                      case 2: pSummon = NPC_DARK_5; break;
@@ -128,7 +128,7 @@ struct boss_marwynAI : public ScriptedAI
 
              m_uiCheckSummon = 0;
 
-             if(Creature* Summon = m_creature->SummonCreature(pSummon, SpawnLoc[m_uiLocNo].x, SpawnLoc[m_uiLocNo].y, SpawnLoc[m_uiLocNo].z, SpawnLoc[m_uiLocNo].o, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 30000))
+             if (Creature* Summon = m_creature->SummonCreature(pSummon, SpawnLoc[m_uiLocNo].x, SpawnLoc[m_uiLocNo].y, SpawnLoc[m_uiLocNo].z, SpawnLoc[m_uiLocNo].o, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 30000))
              {
                 m_uiSummonGUID[i] = Summon->GetGUID();
                 Summon->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
@@ -140,9 +140,9 @@ struct boss_marwynAI : public ScriptedAI
 
     void CallFallSoldier()
     {
-         for(uint8 i = 0; i < 4; i++)
+         for (uint8 i = 0; i < 4; i++)
          {
-            if(Creature* Summon = m_pInstance->instance->GetCreature(m_uiSummonGUID[m_uiCheckSummon]))
+            if (Creature* Summon = m_pInstance->instance->GetCreature(m_uiSummonGUID[m_uiCheckSummon]))
             {
                Summon->setFaction(14);
                Summon->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
@@ -154,7 +154,7 @@ struct boss_marwynAI : public ScriptedAI
 
     void JustDied(Unit* pKiller)
     {
-      if(m_pInstance)
+      if (m_pInstance)
       {
          m_pInstance->SetData(TYPE_MARWYN, DONE);
          m_pInstance->SetData(TYPE_PHASE, 3);
@@ -165,7 +165,7 @@ struct boss_marwynAI : public ScriptedAI
 
     void KilledUnit(Unit* pVictim)
     {
-        switch(urand(0,1))
+        switch (urand(0,1))
         {
             case 0: DoScriptText(SAY_MARWYN_SLAY01, m_creature); break;
             case 1: DoScriptText(SAY_MARWYN_SLAY02, m_creature); break;
@@ -191,26 +191,26 @@ struct boss_marwynAI : public ScriptedAI
 
    void UpdateAI(const uint32 uiDiff)
     {
-        if(!m_pInstance) return;
+        if (!m_pInstance) return;
 
         if (m_pInstance->GetData(TYPE_FALRIC) == SPECIAL) 
         {
-            if(!m_bIsCall) 
+            if (!m_bIsCall) 
             {
                m_bIsCall = true;
                Summon();
             }
         }
 
-        if(m_pInstance->GetData(TYPE_MARWYN) == SPECIAL) 
+        if (m_pInstance->GetData(TYPE_MARWYN) == SPECIAL) 
         {
-           if(m_uiSummonTimer < uiDiff) 
+           if (m_uiSummonTimer < uiDiff) 
            {
                    ++SummonCount;
-                   if(SummonCount == 1)
+                   if (SummonCount == 1)
                       DoScriptText(SAY_MARWYN_INTRO, m_creature);
 
-                   if(SummonCount > 4) 
+                   if (SummonCount > 4) 
                    {
                         m_pInstance->SetData(TYPE_MARWYN, IN_PROGRESS);
                         m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
@@ -222,10 +222,10 @@ struct boss_marwynAI : public ScriptedAI
            } else m_uiSummonTimer -= uiDiff;
         }
 
-        if(!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+        if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        if(m_uiObliterateTimer < uiDiff)
+        if (m_uiObliterateTimer < uiDiff)
         {
             DoCast(m_creature->getVictim(), SPELL_OBLITERATE);
                 m_uiObliterateTimer = urand(8000, 12000);
@@ -234,14 +234,14 @@ struct boss_marwynAI : public ScriptedAI
         if (m_uiWellTimer < uiDiff) 
         {
             DoScriptText(SAY_MARWYN_SP02, m_creature);
-//            if(Unit *pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
+//            if (Unit *pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
 //               DoCast(pTarget, SPELL_WELL_OF_CORRUPTION);
             m_uiWellTimer= urand(25000, 30000);
         } else m_uiWellTimer -= uiDiff;
 
         if (m_uiSharedSufferingTimer < uiDiff) 
         {
-            if(Unit *pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
+            if (Unit *pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                DoCast(pTarget, SPELL_SHARED_SUFFERING);
             m_uiSharedSufferingTimer = urand(15000, 20000);
         } else m_uiSharedSufferingTimer -= uiDiff;
@@ -249,12 +249,12 @@ struct boss_marwynAI : public ScriptedAI
         if (m_uiFleshTimer < uiDiff) 
         {
             DoScriptText(SAY_MARWYN_SP01, m_creature);
-            if(Unit *pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
+            if (Unit *pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                 DoCast(pTarget, SPELL_CORRUPTED_FLESH);
             m_uiFleshTimer = urand(10000, 16000);
         } else m_uiFleshTimer -= uiDiff;
 
-        if(m_uiBerserkTimer < uiDiff)
+        if (m_uiBerserkTimer < uiDiff)
         {
             DoCast(m_creature, SPELL_BERSERK);
             m_uiBerserkTimer = 180000;

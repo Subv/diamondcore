@@ -131,7 +131,7 @@ struct npc_millhouse_manastormAI : public ScriptedAI
             {
                 if (Phase < 8)
                 {
-                    switch(Phase)
+                    switch (Phase)
                     {
                         case 1:
                             DoScriptText(SAY_INTRO_1, m_creature);
@@ -279,7 +279,7 @@ struct npc_warden_mellicharAI : public ScriptedAI
         if (IsRunning)
             return;
 
-        if (!m_creature->getVictim() && who->isTargetableForAttack() && (m_creature->IsHostileTo(who)) && who->isInAccessablePlaceFor(m_creature))
+        if (!m_creature->getVictim() && who->isTargetableForAttack() && (m_creature->IsHostileTo(who)) && who->isInAccessablePlacefor (m_creature))
         {
             if (!m_creature->canFly() && m_creature->GetDistanceZ(who) > CREATURE_Z_ATTACK_RANGE)
                 return;
@@ -340,7 +340,7 @@ struct npc_warden_mellicharAI : public ScriptedAI
             m_creature->InterruptNonMeleeSpells(true);
             m_creature->RemoveSpellsCausingAura(SPELL_AURA_DUMMY);
 
-            switch(Phase)
+            switch (Phase)
             {
                 case 2:
                     DoCastSpellIfCan(m_creature,SPELL_TARGET_ALPHA);
@@ -385,10 +385,10 @@ struct npc_warden_mellicharAI : public ScriptedAI
                 if (Phase != 7)
                     DoCastSpellIfCan(m_creature,SPELL_TARGET_OMEGA);
 
-                switch(Phase)
+                switch (Phase)
                 {
                     case 2:
-                        switch(urand(0, 1))
+                        switch (urand(0, 1))
                         {
                             case 0: m_creature->SummonCreature(ENTRY_TRICKSTER, 478.326f, -148.505f, 42.56f, 3.19f, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN,600000); break;
                             case 1: m_creature->SummonCreature(ENTRY_PH_HUNTER, 478.326f, -148.505f, 42.56f, 3.19f, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN,600000); break;
@@ -401,14 +401,14 @@ struct npc_warden_mellicharAI : public ScriptedAI
                         DoScriptText(YELL_RELEASE2B, m_creature);
                         break;
                     case 5:
-                        switch(urand(0, 1))
+                        switch (urand(0, 1))
                         {
                             case 0: m_creature->SummonCreature(ENTRY_AKKIRIS, 420.179f, -174.396f, 42.58f, 0.02f, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN,600000); break;
                             case 1: m_creature->SummonCreature(ENTRY_SULFURON, 420.179f, -174.396f, 42.58f, 0.02f, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN,600000); break;
                         }
                         break;
                     case 6:
-                        switch(urand(0, 1))
+                        switch (urand(0, 1))
                         {
                             case 0: m_creature->SummonCreature(ENTRY_TW_DRAK, 471.795f, -174.58f, 42.58f, 3.06f, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN,600000); break;
                             case 1: m_creature->SummonCreature(ENTRY_BL_DRAK, 471.795f, -174.58f, 42.58f, 3.06f, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN,600000); break;
@@ -424,7 +424,7 @@ struct npc_warden_mellicharAI : public ScriptedAI
             }
             if (CanProgress())
             {
-                switch(Phase)
+                switch (Phase)
                 {
                     case 1:
                         DoScriptText(YELL_INTRO2, m_creature);

@@ -59,17 +59,17 @@ struct boss_krickAI : public ScriptedAI
 
     void Reset()
     {
-        if(pInstance) pInstance->SetData(TYPE_KRICK, NOT_STARTED);
+        if (pInstance) pInstance->SetData(TYPE_KRICK, NOT_STARTED);
     }
 
     void Aggro(Unit *who) 
     {
-        if(pInstance) pInstance->SetData(TYPE_KRICK, IN_PROGRESS);
+        if (pInstance) pInstance->SetData(TYPE_KRICK, IN_PROGRESS);
     }
 
     void JustDied(Unit *killer)
     {
-        if(pInstance) pInstance->SetData(TYPE_KRICK, DONE);
+        if (pInstance) pInstance->SetData(TYPE_KRICK, DONE);
     }
 
     void UpdateAI(const uint32 diff)
@@ -95,17 +95,17 @@ struct boss_ickAI : public ScriptedAI
 
     void Reset()
     {
-        if(pInstance) pInstance->SetData(TYPE_ICK, NOT_STARTED);
+        if (pInstance) pInstance->SetData(TYPE_ICK, NOT_STARTED);
     }
 
     void Aggro(Unit *who) 
     {
-        if(pInstance) pInstance->SetData(TYPE_ICK, IN_PROGRESS);
+        if (pInstance) pInstance->SetData(TYPE_ICK, IN_PROGRESS);
     }
 
     void JustDied(Unit *killer)
     {
-        if(pInstance) pInstance->SetData(TYPE_ICK, DONE);
+        if (pInstance) pInstance->SetData(TYPE_ICK, DONE);
     }
 
     void UpdateAI(const uint32 diff)
@@ -151,7 +151,7 @@ struct mob_exploding_orbAI : public ScriptedAI
 
     void UpdateAI(const uint32 diff)
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
 
         if (ExplodeTimer < diff)
         {

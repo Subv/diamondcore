@@ -60,7 +60,7 @@ struct instance_blackfathom_deeps : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_PORTAL_DOOR:
                 if (m_auiEncounter[1] == DONE)
@@ -109,7 +109,7 @@ struct instance_blackfathom_deeps : public ScriptedInstance
             float fX_resp, fY_resp, fZ_resp;
             pKelris->GetRespawnCoord(fX_resp, fY_resp, fZ_resp);
 
-            for(uint8 i = 0; i < 5 ; ++i)
+            for (uint8 i = 0; i < 5 ; ++i)
             {
                 // this part gets a random position at circumference point in a circle
                 // fRadius is how far from center to calculate.
@@ -132,7 +132,7 @@ struct instance_blackfathom_deeps : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_KELRIS:                               // eventAI must set instance data (1,3) at his death
                 if (m_auiEncounter[0] != DONE && uiData == DONE)
@@ -140,7 +140,7 @@ struct instance_blackfathom_deeps : public ScriptedInstance
                 break;
             case TYPE_SHRINE:
             {
-                switch(uiData)
+                switch (uiData)
                 {
                     case GO_SHRINE_1:
                         m_auiEncounter[2] = DONE;
@@ -171,7 +171,7 @@ struct instance_blackfathom_deeps : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_KELRIS:
                 return m_auiEncounter[0];
@@ -184,7 +184,7 @@ struct instance_blackfathom_deeps : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_TWILIGHT_LORD_KELRIS:
                 return m_uiKelrisGUID;

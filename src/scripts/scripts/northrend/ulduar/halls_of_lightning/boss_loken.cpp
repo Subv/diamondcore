@@ -108,7 +108,7 @@ struct boss_lokenAI : public ScriptedAI
 
     void KilledUnit(Unit* pVictim)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_SLAY_1, m_creature);break;
             case 1: DoScriptText(SAY_SLAY_2, m_creature);break;
@@ -179,7 +179,7 @@ struct boss_lokenAI : public ScriptedAI
 
         if (m_uiLightningNova_Timer < uiDiff)
         {
-            switch(urand(0, 2))
+            switch (urand(0, 2))
             {
                 case 0: DoScriptText(SAY_NOVA_1, m_creature);break;
                 case 1: DoScriptText(SAY_NOVA_2, m_creature);break;
@@ -198,7 +198,7 @@ struct boss_lokenAI : public ScriptedAI
         // Health check
         if (m_creature->GetHealthPercent() < float(100 - 25*m_uiHealthAmountModifier))
         {
-            switch(m_uiHealthAmountModifier)
+            switch (m_uiHealthAmountModifier)
             {
                 case 1: DoScriptText(SAY_75HEALTH, m_creature); break;
                 case 2: DoScriptText(SAY_50HEALTH, m_creature); break;

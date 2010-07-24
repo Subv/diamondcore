@@ -1157,7 +1157,7 @@ class Unit : public WorldObject
         void _addAttacker(Unit *pAttacker)                  // must be called only from Unit::Attack(Unit*)
         {
             AttackerSet::const_iterator itr = m_attackers.find(pAttacker);
-            if(itr == m_attackers.end())
+            if (itr == m_attackers.end())
                 m_attackers.insert(pAttacker);
         }
         void _removeAttacker(Unit *pAttacker)               // must be called only from Unit::AttackStop()
@@ -1251,7 +1251,7 @@ class Unit : public WorldObject
         bool IsNeutralToAll() const;
         bool IsContestedGuard() const
         {
-            if(FactionTemplateEntry const* entry = getFactionTemplateEntry())
+            if (FactionTemplateEntry const* entry = getFactionTemplateEntry())
                 return entry->IsContestedGuardFaction();
 
             return false;
@@ -1286,7 +1286,7 @@ class Unit : public WorldObject
         int32 DealHeal(Unit *pVictim, uint32 addhealth, SpellEntry const *spellProto, bool critical = false);
 
         void ProcDamageAndSpell(Unit *pVictim, uint32 procAttacker, uint32 procVictim, uint32 procEx, uint32 amount, WeaponAttackType attType = BASE_ATTACK, SpellEntry const *procSpell = NULL);
-        void ProcDamageAndSpellFor( bool isVictim, Unit * pTarget, uint32 procFlag, uint32 procExtra, WeaponAttackType attType, SpellEntry const * procSpell, uint32 damage );
+        void ProcDamageAndSpellfor ( bool isVictim, Unit * pTarget, uint32 procFlag, uint32 procExtra, WeaponAttackType attType, SpellEntry const * procSpell, uint32 damage );
 
         void HandleEmote(uint32 anim_id);                   // auto-select command/state
         void HandleEmoteCommand(uint32 anim_id);
@@ -1400,7 +1400,7 @@ class Unit : public WorldObject
 
         virtual bool IsInWater() const;
         virtual bool IsUnderWater() const;
-        bool isInAccessablePlaceFor(Creature const* c) const;
+        bool isInAccessablePlacefor (Creature const* c) const;
 
         void SendHealSpellLog(Unit *pVictim, uint32 SpellID, uint32 Damage, uint32 OverHeal, bool critical = false);
         void SendEnergizeSpellLog(Unit *pVictim, uint32 SpellID, uint32 Damage,Powers powertype);
@@ -1473,7 +1473,7 @@ class Unit : public WorldObject
         uint64 GetCharmerOrOwnerGUID() const { return GetCharmerGUID() ? GetCharmerGUID() : GetOwnerGUID(); }
         uint64 GetCharmerOrOwnerOrOwnGUID() const
         {
-            if(uint64 guid = GetCharmerOrOwnerGUID())
+            if (uint64 guid = GetCharmerOrOwnerGUID())
                 return guid;
             return GetGUID();
         }
@@ -1489,7 +1489,7 @@ class Unit : public WorldObject
         Unit* GetCharmerOrOwner() const { return GetCharmerGUID() ? GetCharmer() : GetOwner(); }
         Unit* GetCharmerOrOwnerOrSelf()
         {
-            if(Unit* u = GetCharmerOrOwner())
+            if (Unit* u = GetCharmerOrOwner())
                 return u;
 
             return this;
@@ -1570,8 +1570,8 @@ class Unit : public WorldObject
         void ApplyResistanceBuffModsPercentMod(SpellSchools school, bool positive, float val, bool apply) { ApplyPercentModFloatValue(positive ? UNIT_FIELD_RESISTANCEBUFFMODSPOSITIVE+school : UNIT_FIELD_RESISTANCEBUFFMODSNEGATIVE+school, val, apply); }
         void InitStatBuffMods()
         {
-            for(int i = STAT_STRENGTH; i < MAX_STATS; ++i) SetFloatValue(UNIT_FIELD_POSSTAT0+i, 0);
-            for(int i = STAT_STRENGTH; i < MAX_STATS; ++i) SetFloatValue(UNIT_FIELD_NEGSTAT0+i, 0);
+            for (int i = STAT_STRENGTH; i < MAX_STATS; ++i) SetFloatValue(UNIT_FIELD_POSSTAT0+i, 0);
+            for (int i = STAT_STRENGTH; i < MAX_STATS; ++i) SetFloatValue(UNIT_FIELD_NEGSTAT0+i, 0);
         }
         void ApplyStatBuffMod(Stats stat, float val, bool apply) { ApplyModSignedFloatValue((val > 0 ? UNIT_FIELD_POSSTAT0+stat : UNIT_FIELD_NEGSTAT0+stat), val, apply); }
         void ApplyStatPercentBuffMod(Stats stat, float val, bool apply)
@@ -1692,13 +1692,13 @@ class Unit : public WorldObject
         uint32 GetVisibleAura(uint8 slot)
         {
             VisibleAuraMap::const_iterator itr = m_visibleAuras.find(slot);
-            if(itr != m_visibleAuras.end())
+            if (itr != m_visibleAuras.end())
                 return itr->second;
             return 0;
         }
         void SetVisibleAura(uint8 slot, uint32 spellid)
         {
-            if(spellid == 0)
+            if (spellid == 0)
                 m_visibleAuras.erase(slot);
             else
                 m_visibleAuras[slot] = spellid;
@@ -2008,13 +2008,13 @@ class Unit : public WorldObject
 template<typename Func>
 void Unit::CallForAllControlledUnits(Func const& func, bool withTotems, bool withGuardians, bool withCharms)
 {
-    if(Pet* pet = GetPet())
+    if (Pet* pet = GetPet())
         func(pet);
 
     if (withGuardians)
     {
-        for(GuardianPetList::const_iterator itr = m_guardianPets.begin(); itr != m_guardianPets.end(); ++itr)
-            if(Unit* guardian = Unit::GetUnit(*this,*itr))
+        for (GuardianPetList::const_iterator itr = m_guardianPets.begin(); itr != m_guardianPets.end(); ++itr)
+            if (Unit* guardian = Unit::GetUnit(*this,*itr))
                 func(guardian);
     }
 
@@ -2026,7 +2026,7 @@ void Unit::CallForAllControlledUnits(Func const& func, bool withTotems, bool wit
     }
 
     if (withCharms)
-        if(Unit* charm = GetCharm())
+        if (Unit* charm = GetCharm())
             func(charm);
 }
 
@@ -2040,7 +2040,7 @@ bool Unit::CheckAllControlledUnits(Func const& func, bool withTotems, bool withG
 
     if (withGuardians)
     {
-        for(GuardianPetList::const_iterator itr = m_guardianPets.begin(); itr != m_guardianPets.end(); ++itr)
+        for (GuardianPetList::const_iterator itr = m_guardianPets.begin(); itr != m_guardianPets.end(); ++itr)
             if (Unit const* guardian = Unit::GetUnit(*this,*itr))
                 if (func(guardian))
                     return true;
@@ -2056,7 +2056,7 @@ bool Unit::CheckAllControlledUnits(Func const& func, bool withTotems, bool withG
     }
 
     if (withCharms)
-        if(Unit const* charm = GetCharm())
+        if (Unit const* charm = GetCharm())
             if (func(charm))
                 return true;
 
@@ -2082,7 +2082,7 @@ inline void Unit::SendMonsterMoveByPath(Path<Elem,Node> const& path, uint32 star
     data << uint32(traveltime);
     data << uint32(pathSize);
 
-    for(uint32 i = start; i < end; ++i)
+    for (uint32 i = start; i < end; ++i)
     {
         data << float(path[i].x);
         data << float(path[i].y);

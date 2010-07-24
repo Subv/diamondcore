@@ -71,7 +71,7 @@ static bool findtoknth(std::string &str, int n, std::string::size_type &s, std::
 {
     int i; s = e = 0;
     std::string::size_type size = str.size();
-    for(i = 1; s < size && i < n; s++) if(str[s] == ' ') ++i;
+    for (i = 1; s < size && i < n; s++) if (str[s] == ' ') ++i;
     if (i < n)
         return false;
 
@@ -102,7 +102,7 @@ bool findnth(std::string &str, int n, std::string::size_type &s, std::string::si
             return false;
     } while(str[e-1] == '\\');
 
-    for(int i = 1; i < n; ++i)
+    for (int i = 1; i < n; ++i)
     {
         do
         {
@@ -210,7 +210,7 @@ std::string CreateDumpString(char const* tableName, QueryResult *result)
     std::ostringstream ss;
     ss << "INSERT INTO "<< _TABLE_SIM_ << tableName << _TABLE_SIM_ << " VALUES (";
     Field *fields = result->Fetch();
-    for(uint32 i = 0; i < result->GetFieldCount(); ++i)
+    for (uint32 i = 0; i < result->GetFieldCount(); ++i)
     {
         if (i != 0)
             ss << ", ";
@@ -240,7 +240,7 @@ std::string PlayerDumpWriter::GenerateWhereStr(char const* field, GUIDs const& g
 {
     std::ostringstream wherestr;
     wherestr << field << " IN ('";
-    for(; itr != guids.end(); ++itr)
+    for (; itr != guids.end(); ++itr)
     {
         wherestr << *itr;
 
@@ -348,7 +348,7 @@ std::string PlayerDumpWriter::GetDump(uint32 guid)
     dump += "IMPORTANT NOTE: This sql queries not created for apply directly, use '.pdump load' command in console or client chat instead.\n";
     dump += "IMPORTANT NOTE: NOT APPLY ITS DIRECTLY to character DB or you will DAMAGE and CORRUPT character DB\n\n";
 
-    for(DumpTable* itr = &dumpTables[0]; itr->isValid(); ++itr)
+    for (DumpTable* itr = &dumpTables[0]; itr->isValid(); ++itr)
         DumpTableContent(dump, guid, itr->name, itr->name, itr->type);
 
     // TODO: Add instance/group..
@@ -442,7 +442,7 @@ DumpReturn PlayerDumpReader::LoadDump(const std::string& file, uint32 account, s
     {
         if (!fgets(buf, 32000, fin))
         {
-            if(feof(fin)) break;
+            if (feof(fin)) break;
             ROLLBACK(DUMP_FILE_BROKEN);
         }
 
@@ -467,7 +467,7 @@ DumpReturn PlayerDumpReader::LoadDump(const std::string& file, uint32 account, s
 
         DumpTableType type = DTT_CHARACTER;                 //Fixed: Using uninitialized memory 'type'
         DumpTable* dTable = &dumpTables[0];
-        for(; dTable->isValid(); ++dTable)
+        for (; dTable->isValid(); ++dTable)
         {
             if (tn == dTable->name)
             {
@@ -485,7 +485,7 @@ DumpReturn PlayerDumpReader::LoadDump(const std::string& file, uint32 account, s
         bool execute_ok = true;                             // false, if need skip soem query
 
         // change the data to server values
-        switch(type)
+        switch (type)
         {
             case DTT_CHAR_TABLE:
                 if (!changenth(line, 1, newguid))           // character_*.guid update
@@ -658,8 +658,8 @@ DumpReturn PlayerDumpReader::LoadDump(const std::string& file, uint32 account, s
                     ROLLBACK(DUMP_FILE_BROKEN);
                 if (!changeGuid(line, 2, eqsets, sObjectMgr.m_EquipmentSetIds.GetNextAfterMaxUsed()))
                     ROLLBACK(DUMP_FILE_BROKEN);             // character_equipmentsets.setguid
-                for(int i = 0; i < 19; ++i)                 // character_equipmentsets.item0..item18
-                    if(!changeGuid(line, 6+i, items, sObjectMgr.m_ItemGuids.GetNextAfterMaxUsed()))
+                for (int i = 0; i < 19; ++i)                 // character_equipmentsets.item0..item18
+                    if (!changeGuid(line, 6+i, items, sObjectMgr.m_ItemGuids.GetNextAfterMaxUsed()))
                         ROLLBACK(DUMP_FILE_BROKEN);
                 break;
 

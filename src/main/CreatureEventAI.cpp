@@ -47,7 +47,7 @@ bool CreatureEventAIHolder::UpdateRepeatTimer( Creature* creature, uint32 repeat
 
 int CreatureEventAI::Permissible(const Creature *creature)
 {
-    if( creature->GetAIName() == "EventAI" )
+    if ( creature->GetAIName() == "EventAI" )
         return PERMIT_BASE_SPECIAL;
     return PERMIT_BASE_NO;
 }
@@ -306,7 +306,7 @@ bool CreatureEventAI::ProcessEvent(CreatureEventAIHolder& pHolder, Unit* pAction
                 return false;
 
             SpellAuraHolder* holder = pActionInvoker->GetSpellAuraHolder(event.buffed.spellId);
-            if(!holder || holder->GetStackAmount() < event.buffed.amount)
+            if (!holder || holder->GetStackAmount() < event.buffed.amount)
                 return false;
 
             //Repeat Timers
@@ -451,10 +451,10 @@ void CreatureEventAI::ProcessAction(CreatureEventAI_Action const& action, uint32
             bool canCast = !caster->IsNonMeleeSpellCasted(false) || (action.cast.castFlags & (CAST_TRIGGERED | CAST_INTERRUPT_PREVIOUS));
 
             // If cast flag CAST_AURA_NOT_PRESENT is active, check if target already has aura on them
-            if(action.cast.castFlags & CAST_AURA_NOT_PRESENT)
+            if (action.cast.castFlags & CAST_AURA_NOT_PRESENT)
             {
-                for(int i = 0; i < MAX_EFFECT_INDEX; ++i)
-                    if(target->HasAura(action.cast.spellId, SpellEffectIndex(i)))
+                for (int i = 0; i < MAX_EFFECT_INDEX; ++i)
+                    if (target->HasAura(action.cast.spellId, SpellEffectIndex(i)))
                         return;
             }
 
@@ -472,7 +472,7 @@ void CreatureEventAI::ProcessAction(CreatureEventAI_Action const& action, uint32
                         //Melee current victim if flag not set
                         if (!(action.cast.castFlags & CAST_NO_MELEE_IF_OOM))
                         {
-                            switch(m_creature->GetMotionMaster()->GetCurrentMovementGeneratorType())
+                            switch (m_creature->GetMotionMaster()->GetCurrentMovementGeneratorType())
                             {
                                 case CHASE_MOTION_TYPE:
                                 case FOLLOW_MOTION_TYPE:
@@ -526,7 +526,7 @@ void CreatureEventAI::ProcessAction(CreatureEventAI_Action const& action, uint32
         {
             ThreatList const& threatList = m_creature->getThreatManager().getThreatList();
             for (ThreatList::const_iterator i = threatList.begin(); i != threatList.end(); ++i)
-                if(Unit* Temp = Unit::GetUnit(*m_creature,(*i)->getUnitGuid()))
+                if (Unit* Temp = Unit::GetUnit(*m_creature,(*i)->getUnitGuid()))
                     m_creature->getThreatManager().modifyThreatPercent(Temp, action.threat_all_pct.percent);
             break;
         }
@@ -566,7 +566,7 @@ void CreatureEventAI::ProcessAction(CreatureEventAI_Action const& action, uint32
             break;
         case ACTION_T_COMBAT_MOVEMENT:
             // ignore no affect case
-            if(CombatMovementEnabled==(action.combat_movement.state!=0))
+            if (CombatMovementEnabled==(action.combat_movement.state!=0))
                 return;
 
             CombatMovementEnabled = action.combat_movement.state != 0;
@@ -574,8 +574,8 @@ void CreatureEventAI::ProcessAction(CreatureEventAI_Action const& action, uint32
             //Allow movement (create new targeted movement gen only if idle)
             if (CombatMovementEnabled)
             {
-                if(action.combat_movement.melee && m_creature->isInCombat())
-                    if(Unit* victim = m_creature->getVictim())
+                if (action.combat_movement.melee && m_creature->isInCombat())
+                    if (Unit* victim = m_creature->getVictim())
                         m_creature->SendMeleeAttackStart(victim);
 
                 if (m_creature->GetMotionMaster()->GetCurrentMovementGeneratorType() == IDLE_MOTION_TYPE)
@@ -586,8 +586,8 @@ void CreatureEventAI::ProcessAction(CreatureEventAI_Action const& action, uint32
             }
             else
             {
-                if(action.combat_movement.melee && m_creature->isInCombat())
-                    if(Unit* victim = m_creature->getVictim())
+                if (action.combat_movement.melee && m_creature->isInCombat())
+                    if (Unit* victim = m_creature->getVictim())
                         m_creature->SendMeleeAttackStop(victim);
 
                 if (m_creature->GetMotionMaster()->GetCurrentMovementGeneratorType() == CHASE_MOTION_TYPE)
@@ -777,7 +777,7 @@ void CreatureEventAI::ProcessAction(CreatureEventAI_Action const& action, uint32
         }
         case ACTION_T_SET_INVINCIBILITY_HP_LEVEL:
         {
-            if(action.invincibility_hp_level.is_percent)
+            if (action.invincibility_hp_level.is_percent)
                 InvinceabilityHpLevel = m_creature->GetMaxHealth()*action.invincibility_hp_level.hp_level/100;
             else
                 InvinceabilityHpLevel = action.invincibility_hp_level.hp_level;
@@ -1027,7 +1027,7 @@ void CreatureEventAI::MoveInLineOfSight(Unit *who)
         return;
 
     if (m_creature->CanInitiateAttack() && who->isTargetableForAttack() &&
-        m_creature->IsHostileTo(who) && who->isInAccessablePlaceFor(m_creature))
+        m_creature->IsHostileTo(who) && who->isInAccessablePlacefor (m_creature))
     {
         if (!m_creature->canFly() && m_creature->GetDistanceZ(who) > CREATURE_Z_ATTACK_RANGE)
             return;
@@ -1245,7 +1245,7 @@ void CreatureEventAI::DoScriptText(int32 textEntry, WorldObject* pSource, Unit* 
 
     DEBUG_FILTER_LOG(LOG_FILTER_AI_AND_MOVEGENSS, "CreatureEventAI: DoScriptText: text entry=%i, Sound=%u, Type=%u, Language=%u, Emote=%u",textEntry,(*i).second.SoundId,(*i).second.Type,(*i).second.Language,(*i).second.Emote);
 
-    if((*i).second.SoundId)
+    if ((*i).second.SoundId)
     {
         if (GetSoundEntriesStore()->LookupEntry((*i).second.SoundId))
             pSource->PlayDirectSound((*i).second.SoundId);
@@ -1253,7 +1253,7 @@ void CreatureEventAI::DoScriptText(int32 textEntry, WorldObject* pSource, Unit* 
             sLog.outErrorDb("CreatureEventAI: DoScriptText entry %i tried to process invalid sound id %u.",textEntry,(*i).second.SoundId);
     }
 
-    if((*i).second.Emote)
+    if ((*i).second.Emote)
     {
         if (pSource->GetTypeId() == TYPEID_UNIT || pSource->GetTypeId() == TYPEID_PLAYER)
         {
@@ -1263,7 +1263,7 @@ void CreatureEventAI::DoScriptText(int32 textEntry, WorldObject* pSource, Unit* 
             sLog.outErrorDb("CreatureEventAI: DoScriptText entry %i tried to process emote for invalid TypeId (%u).",textEntry,pSource->GetTypeId());
     }
 
-    switch((*i).second.Type)
+    switch ((*i).second.Type)
     {
         case CHAT_TYPE_SAY:
             pSource->MonsterSay(textEntry, (*i).second.Language, target ? target->GetGUID() : 0);
@@ -1363,9 +1363,9 @@ void CreatureEventAI::ReceiveEmote(Player* pPlayer, uint32 text_emote)
 
 void CreatureEventAI::DamageTaken( Unit* /*done_by*/, uint32& damage )
 {
-    if(InvinceabilityHpLevel > 0 && m_creature->GetHealth() < InvinceabilityHpLevel+damage)
+    if (InvinceabilityHpLevel > 0 && m_creature->GetHealth() < InvinceabilityHpLevel+damage)
     {
-        if(m_creature->GetHealth() <= InvinceabilityHpLevel)
+        if (m_creature->GetHealth() <= InvinceabilityHpLevel)
             damage = 0;
         else
             damage = m_creature->GetHealth() - InvinceabilityHpLevel;
@@ -1374,7 +1374,7 @@ void CreatureEventAI::DamageTaken( Unit* /*done_by*/, uint32& damage )
 
 bool CreatureEventAI::SpawnedEventConditionsCheck(CreatureEventAI_Event const& event)
 {
-    if(event.event_type != EVENT_T_SPAWNED)
+    if (event.event_type != EVENT_T_SPAWNED)
         return false;
 
     switch (event.spawned.condition)

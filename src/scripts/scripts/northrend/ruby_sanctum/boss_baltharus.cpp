@@ -52,7 +52,7 @@ struct boss_baltharusAI : public BSWScriptedAI
 
     void Reset()
     {
-        if(!pInstance)
+        if (!pInstance)
             return;
 
         pInstance->SetData(TYPE_BALTHARUS, NOT_STARTED);
@@ -121,7 +121,7 @@ struct boss_baltharusAI : public BSWScriptedAI
         if (!m_creature || !m_creature->isAlive())
             return;
 
-        if(pDoneBy->GetGUID() == m_creature->GetGUID()) 
+        if (pDoneBy->GetGUID() == m_creature->GetGUID()) 
           return;
 
         pInstance->SetData(DATA_HEALTH_BALTHARUS, m_creature->GetHealth() >= uiDamage ? m_creature->GetHealth() - uiDamage : 0);
@@ -176,7 +176,7 @@ struct mob_baltharus_cloneAI : public BSWScriptedAI
 
     void Reset()
     {
-        if(!pInstance)
+        if (!pInstance)
             return;
 
         pInstance->SetData(TYPE_BALTHARUS, NOT_STARTED);
@@ -244,7 +244,7 @@ struct mob_baltharus_cloneAI : public BSWScriptedAI
         if (!m_creature || !m_creature->isAlive())
             return;
 
-        if(pDoneBy->GetGUID() == m_creature->GetGUID()) 
+        if (pDoneBy->GetGUID() == m_creature->GetGUID()) 
             return;
 
         pInstance->SetData(DATA_HEALTH_CLONE, m_creature->GetHealth() >= uiDamage ? m_creature->GetHealth() - uiDamage : 0);

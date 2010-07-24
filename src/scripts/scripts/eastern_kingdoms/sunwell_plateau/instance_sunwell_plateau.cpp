@@ -94,7 +94,7 @@ struct instance_sunwell_plateau : public ScriptedInstance
 
     bool IsEncounterInProgress() const
     {
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
             if (m_auiEncounter[i] == IN_PROGRESS)
                 return true;
 
@@ -103,7 +103,7 @@ struct instance_sunwell_plateau : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case 24850: m_uiKalecgos_DragonGUID     = pCreature->GetGUID(); break;
             case 24891: m_uiKalecgos_HumanGUID      = pCreature->GetGUID(); break;
@@ -122,7 +122,7 @@ struct instance_sunwell_plateau : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case 188421:
                 m_uiForceFieldGUID = pGo->GetGUID();
@@ -169,7 +169,7 @@ struct instance_sunwell_plateau : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_KALECGOS:     return m_auiEncounter[0];
             case TYPE_BRUTALLUS:    return m_auiEncounter[1];
@@ -184,7 +184,7 @@ struct instance_sunwell_plateau : public ScriptedInstance
 
     uint64 GetData64(uint32 id)
     {
-        switch(id)
+        switch (id)
         {
             case DATA_KALECGOS_DRAGON:      return m_uiKalecgos_DragonGUID;
             case DATA_KALECGOS_HUMAN:       return m_uiKalecgos_HumanGUID;
@@ -205,7 +205,7 @@ struct instance_sunwell_plateau : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_KALECGOS:
                 if (uiData == IN_PROGRESS)
@@ -309,7 +309,7 @@ struct instance_sunwell_plateau : public ScriptedInstance
 
         Map::PlayerList const& players = instance->GetPlayers();
 
-        for(Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
+        for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
         {
             Player* plr = itr->getSource();
 
@@ -352,7 +352,7 @@ struct instance_sunwell_plateau : public ScriptedInstance
         loadStream >> m_auiEncounter[0] >> m_auiEncounter[1] >> m_auiEncounter[2] >>
             m_auiEncounter[3] >> m_auiEncounter[4] >> m_auiEncounter[5];
 
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
         {
             if (m_auiEncounter[i] == IN_PROGRESS)
                 m_auiEncounter[i] = NOT_STARTED;

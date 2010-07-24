@@ -98,7 +98,7 @@ bool GossipHello_guard_azuremyst(Player* pPlayer, Creature* pCreature)
 
 void SendDefaultMenu_guard_azuremyst(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Bank
             pPlayer->SEND_POI(-3918.95f, -11544.7f, 7, 6, 0, "Bank");
@@ -151,7 +151,7 @@ void SendDefaultMenu_guard_azuremyst(Player* pPlayer, Creature* pCreature, uint3
 
 void SendClassTrainerMenu_guard_azuremyst(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Druid
             pPlayer->SEND_POI(-4274.81f, -11495.3f, 7, 6, 0, "Shalannius");
@@ -186,7 +186,7 @@ void SendClassTrainerMenu_guard_azuremyst(Player* pPlayer, Creature* pCreature, 
 
 void SendProfTrainerMenu_guard_azuremyst(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Alchemy
             pPlayer->SEND_POI(-4191.15f, -12470.0f, 7, 6, 0, "Daedal");
@@ -285,7 +285,7 @@ bool GossipHello_guard_bluffwatcher(Player* pPlayer, Creature* pCreature)
 
 void SendDefaultMenu_guard_bluffwatcher(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Bank
             pPlayer->SEND_POI(-1257.8f, 24.14f, 7, 6, 0, "Thunder Bluff Bank");
@@ -353,7 +353,7 @@ void SendDefaultMenu_guard_bluffwatcher(Player* pPlayer, Creature* pCreature, ui
 
 void SendBattleMasterMenu_guard_bluffwatcher(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //AV
             pPlayer->SEND_POI(-1387.82f, -97.55f, 7, 6, 0, "Taim Ragetotem");
@@ -372,7 +372,7 @@ void SendBattleMasterMenu_guard_bluffwatcher(Player* pPlayer, Creature* pCreatur
 
 void SendClassTrainerMenu_guard_bluffwatcher(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Druid
             pPlayer->SEND_POI(-1054.47f, -285.0f, 7, 6, 0, "Hall of Elders");
@@ -403,7 +403,7 @@ void SendClassTrainerMenu_guard_bluffwatcher(Player* pPlayer, Creature* pCreatur
 
 void SendProfTrainerMenu_guard_bluffwatcher(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Alchemy
             pPlayer->SEND_POI(-1085.56f, 27.29f, 7, 6, 0, "Bena's Alchemy");
@@ -509,7 +509,7 @@ bool GossipHello_guard_darnassus(Player* pPlayer, Creature* pCreature)
 
 void SendDefaultMenu_guard_darnassus(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Auction house
             pPlayer->SEND_POI(9861.23f, 2334.55f, 7, 6, 0, "Darnassus Auction House");
@@ -574,7 +574,7 @@ void SendDefaultMenu_guard_darnassus(Player* pPlayer, Creature* pCreature, uint3
 
 void SendBattleMasterMenu_guard_darnassus(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //AV
             pPlayer->SEND_POI(9923.61f, 2327.43f, 7, 6, 0, "Brogun Stoneshield");
@@ -593,7 +593,7 @@ void SendBattleMasterMenu_guard_darnassus(Player* pPlayer, Creature* pCreature, 
 
 void SendClassTrainerMenu_guard_darnassus(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Druid
             pPlayer->SEND_POI(10186.0f, 2570.46f, 7, 6, 0, "Darnassus Druid Trainer");
@@ -620,7 +620,7 @@ void SendClassTrainerMenu_guard_darnassus(Player* pPlayer, Creature* pCreature, 
 
 void SendProfTrainerMenu_guard_darnassus(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Alchemy
             pPlayer->SEND_POI(10075.90f, 2356.76f, 7, 6, 0, "Darnassus Alchemy Trainer");
@@ -702,7 +702,7 @@ bool GossipHello_guard_dunmorogh(Player* pPlayer, Creature* pCreature)
 
 void SendDefaultMenu_guard_dunmorogh(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Bank
             pPlayer->SEND_GOSSIP_MENU(4288, pCreature->GetGUID());
@@ -751,7 +751,7 @@ void SendDefaultMenu_guard_dunmorogh(Player* pPlayer, Creature* pCreature, uint3
 
 void SendClassTrainerMenu_guard_dunmorogh(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Hunter
             pPlayer->SEND_POI(-5618.29f, -454.25f, 7, 6, 0, "Grif Wildheart");
@@ -786,7 +786,7 @@ void SendClassTrainerMenu_guard_dunmorogh(Player* pPlayer, Creature* pCreature, 
 
 void SendProfTrainerMenu_guard_dunmorogh(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Alchemy
             pPlayer->SEND_GOSSIP_MENU(4301, pCreature->GetGUID());
@@ -871,7 +871,7 @@ bool GossipHello_guard_durotar(Player* pPlayer, Creature* pCreature)
 
 void SendDefaultMenu_guard_durotar(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Bank
             pPlayer->SEND_GOSSIP_MENU(4032, pCreature->GetGUID());
@@ -917,7 +917,7 @@ void SendDefaultMenu_guard_durotar(Player* pPlayer, Creature* pCreature, uint32 
 
 void SendClassTrainerMenu_guard_durotar(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Hunter
             pPlayer->SEND_POI(276.0f, -4706.72f, 7, 6, 0, "Thotar");
@@ -952,7 +952,7 @@ void SendClassTrainerMenu_guard_durotar(Player* pPlayer, Creature* pCreature, ui
 
 void SendProfTrainerMenu_guard_durotar(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Alchemy
             pPlayer->SEND_POI(-800.25f, -4894.33f, 7, 6, 0, "Miao'zan");
@@ -1039,7 +1039,7 @@ bool GossipHello_guard_elwynnforest(Player* pPlayer, Creature* pCreature)
 
 void SendDefaultMenu_guard_elwynnforest(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Bank
             pPlayer->SEND_GOSSIP_MENU(4260, pCreature->GetGUID());
@@ -1089,7 +1089,7 @@ void SendDefaultMenu_guard_elwynnforest(Player* pPlayer, Creature* pCreature, ui
 
 void SendClassTrainerMenu_guard_elwynnforest(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Druid
             pPlayer->SEND_GOSSIP_MENU(4265, pCreature->GetGUID());
@@ -1126,7 +1126,7 @@ void SendClassTrainerMenu_guard_elwynnforest(Player* pPlayer, Creature* pCreatur
 
 void SendProfTrainerMenu_guard_elwynnforest(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Alchemy
             pPlayer->SEND_POI(-9057.04f, 153.63f, 7, 6, 0, "Alchemist Mallory");
@@ -1214,7 +1214,7 @@ bool GossipHello_guard_eversong(Player* pPlayer, Creature* pCreature)
 
 void SendDefaultMenu_guard_eversong(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Bat Handler
             pPlayer->SEND_POI(9371.93f, -7164.80f, 7, 6, 0, "Skymistress Gloaming");
@@ -1261,7 +1261,7 @@ void SendDefaultMenu_guard_eversong(Player* pPlayer, Creature* pCreature, uint32
 
 void SendClassTrainerMenu_guard_eversong(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Druid
             pPlayer->SEND_GOSSIP_MENU(10185, pCreature->GetGUID());
@@ -1295,7 +1295,7 @@ void SendClassTrainerMenu_guard_eversong(Player* pPlayer, Creature* pCreature, u
 
 void SendProfTrainerMenu_guard_eversong(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Alchemy
             pPlayer->SEND_POI(8659.90f, -6368.12f, 7, 6, 0, "Arcanist Sheynathren");
@@ -1388,7 +1388,7 @@ bool GossipHello_guard_exodar(Player* pPlayer, Creature* pCreature)
 
 void SendDefaultMenu_guard_exodar(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Auction house
             pPlayer->SEND_POI(-4023.6f, -11739.3f, 7, 6, 0, "Exodar Auction House");
@@ -1461,7 +1461,7 @@ void SendDefaultMenu_guard_exodar(Player* pPlayer, Creature* pCreature, uint32 u
 
 void SendBattleMasterMenu_guard_exodar(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //AV
             pPlayer->SEND_POI(-3978.1f, -11357.0f, 7, 6, 0, "Alterac Valley Battlemaster");
@@ -1488,7 +1488,7 @@ void SendBattleMasterMenu_guard_exodar(Player* pPlayer, Creature* pCreature, uin
 
 void SendClassTrainerMenu_guard_exodar(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Druid
             pPlayer->SEND_POI(-4276.0f, -11495.0f, 7, 6, 0, "Exodar Druid Trainer");
@@ -1523,7 +1523,7 @@ void SendClassTrainerMenu_guard_exodar(Player* pPlayer, Creature* pCreature, uin
 
 void SendProfTrainerMenu_guard_exodar(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Alchemy
             pPlayer->SEND_POI(-4040.6f, -11364.5f, 7, 6, 0, "Exodar Alchemy Trainer");
@@ -1625,7 +1625,7 @@ bool GossipHello_guard_ironforge(Player* pPlayer, Creature* pCreature)
 
 void SendDefaultMenu_guard_ironforge(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Auction House
             pPlayer->SEND_POI(-4957.39f, -911.6f, 7, 6, 0, "Ironforge Auction House");
@@ -1700,7 +1700,7 @@ void SendDefaultMenu_guard_ironforge(Player* pPlayer, Creature* pCreature, uint3
 
 void SendBattleMasterMenu_guard_ironforge(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //AV
             pPlayer->SEND_POI(-5047.87f, -1263.77f, 7, 6, 0, "Glordrum Steelbeard");
@@ -1719,7 +1719,7 @@ void SendBattleMasterMenu_guard_ironforge(Player* pPlayer, Creature* pCreature, 
 
 void SendClassTrainerMenu_guard_ironforge(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Hunter
             pPlayer->SEND_POI(-5023.0f, -1253.68f, 7, 6, 0, "Hall of Arms");
@@ -1759,7 +1759,7 @@ void SendClassTrainerMenu_guard_ironforge(Player* pPlayer, Creature* pCreature, 
 
 void SendProfTrainerMenu_guard_ironforge(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Alchemy
             pPlayer->SEND_POI(-4858.5f, -1241.83f, 7, 6, 0, "Berryfizz's Potions and Mixed Drinks");
@@ -1851,7 +1851,7 @@ bool GossipHello_guard_mulgore(Player* pPlayer, Creature* pCreature)
 
 void SendDefaultMenu_guard_mulgore(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Bank
             pPlayer->SEND_GOSSIP_MENU(4051, pCreature->GetGUID());
@@ -1893,7 +1893,7 @@ void SendDefaultMenu_guard_mulgore(Player* pPlayer, Creature* pCreature, uint32 
 
 void SendClassTrainerMenu_guard_mulgore(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Druid
             pPlayer->SEND_POI(-2312.15f, -443.69f, 7, 6, 0, "Gennia Runetotem");
@@ -1916,7 +1916,7 @@ void SendClassTrainerMenu_guard_mulgore(Player* pPlayer, Creature* pCreature, ui
 
 void SendProfTrainerMenu_guard_mulgore(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Alchemy
             pPlayer->SEND_GOSSIP_MENU(4058, pCreature->GetGUID());
@@ -2005,7 +2005,7 @@ bool GossipHello_guard_orgrimmar(Player* pPlayer, Creature* pCreature)
 
 void SendDefaultMenu_guard_orgrimmar(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Bank
             pPlayer->SEND_POI(1631.51f, -4375.33f, 7, 6, 0, "Bank of Orgrimmar");
@@ -2084,7 +2084,7 @@ void SendDefaultMenu_guard_orgrimmar(Player* pPlayer, Creature* pCreature, uint3
 
 void SendBattleMasterMenu_guard_orgrimmar(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //AV
             pPlayer->SEND_POI(1983.92f, -4794.2f, 7, 6, 0, "Hall of the Brave");
@@ -2103,7 +2103,7 @@ void SendBattleMasterMenu_guard_orgrimmar(Player* pPlayer, Creature* pCreature, 
 
 void SendClassTrainerMenu_guard_orgrimmar(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Hunter
             pPlayer->SEND_POI(2114.84f, -4625.31f, 7, 6, 0, "Orgrimmar Hunter's Hall");
@@ -2142,7 +2142,7 @@ void SendClassTrainerMenu_guard_orgrimmar(Player* pPlayer, Creature* pCreature, 
 
 void SendProfTrainerMenu_guard_orgrimmar(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Alchemy
             pPlayer->SEND_POI(1955.17f, -4475.79f, 7, 6, 0, "Yelmak's Alchemy and Potions");
@@ -2240,7 +2240,7 @@ bool GossipHello_guard_shattrath(Player* pPlayer, Creature* pCreature)
 
 void SendDefaultMenu_guard_shattrath(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Tavern
             pPlayer->SEND_POI(-1759.5f, 5165.0f, 7, 6, 0, "Worlds End Tavern");
@@ -2335,7 +2335,7 @@ void SendInnMenu_guard_shattrath(Player* pPlayer, Creature* pCreature, uint32 ui
 
 void SendMailboxMenu_guard_shattrath(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:
             pPlayer->SEND_POI(-1730.5f, 5496.0f, 7, 6, 0, "Aldor Bank");
@@ -2372,7 +2372,7 @@ void SendStableMasterMenu_guard_shattrath(Player* pPlayer, Creature* pCreature, 
 
 void SendBattleMasterMenu_guard_shattrath(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:
             pPlayer->SEND_POI(-1774.0f, 5251.0f, 7, 6, 0, "Alliance Battlemasters");
@@ -2391,7 +2391,7 @@ void SendBattleMasterMenu_guard_shattrath(Player* pPlayer, Creature* pCreature, 
 
 void SendProfTrainerMenu_guard_shattrath(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Alchemy
             pPlayer->SEND_POI(-1648.5f, 5534.0f, 7, 6, 0, "Lorokeem");
@@ -2548,7 +2548,7 @@ bool GossipHello_guard_shattrath_aldor(Player* pPlayer, Creature* pCreature)
 
 void SendDefaultMenu_guard_shattrath_aldor(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Tavern
             pPlayer->SEND_POI(-1759.5f, 5165.0f, 7, 6, 0, "Worlds End Tavern");
@@ -2609,7 +2609,7 @@ void SendDefaultMenu_guard_shattrath_aldor(Player* pPlayer, Creature* pCreature,
 
 void SendProfTrainerMenu_guard_shattrath_aldor(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Alchemy
             pPlayer->SEND_POI(-1648.5f, 5534.0f, 7, 6, 0, "Lorokeem");
@@ -2742,7 +2742,7 @@ bool GossipHello_guard_shattrath_scryer(Player* pPlayer, Creature* pCreature)
 
 void SendDefaultMenu_guard_shattrath_scryer(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Tavern
             pPlayer->SEND_POI(-1759.5f, 5165.0f, 7, 6, 0, "Worlds End Tavern");
@@ -2802,7 +2802,7 @@ void SendDefaultMenu_guard_shattrath_scryer(Player* pPlayer, Creature* pCreature
 
 void SendProfTrainerMenu_guard_shattrath_scryer(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Alchemy
             pPlayer->SEND_POI(-1648.5f, 5534.0f, 7, 6, 0, "Lorokeem");
@@ -2882,7 +2882,7 @@ bool GossipHello_guard_silvermoon(Player* pPlayer, Creature* pCreature)
 
 void SendDefaultMenu_guard_silvermoon(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Auction house
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_TEXT_AH_SILVERMOON_1 , GOSSIP_SENDER_SEC_AUCTIONHOUSE, GOSSIP_ACTION_INFO_DEF + 1);
@@ -2985,7 +2985,7 @@ void SendInnMenu_guard_silvermoon(Player* pPlayer, Creature* pCreature, uint32 u
 
 void SendBattleMasterMenu_guard_silvermoon(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //AV
             pPlayer->SEND_POI(9850.49f, -7572.26f, 7, 6, 0, "Gurak");
@@ -3012,7 +3012,7 @@ void SendBattleMasterMenu_guard_silvermoon(Player* pPlayer, Creature* pCreature,
 
 void SendClassTrainerMenu_guard_silvermoon(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Druid
             pPlayer->SEND_POI(9700.55f, -7262.57f, 7, 6, 0, "Harene Plainwalker");
@@ -3047,7 +3047,7 @@ void SendClassTrainerMenu_guard_silvermoon(Player* pPlayer, Creature* pCreature,
 
 void SendProfTrainerMenu_guard_silvermoon(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Alchemy
             pPlayer->SEND_POI(9998.09f, -7214.36f, 7, 6, 0, "Silvermoon Alchemy Trainer");
@@ -3152,7 +3152,7 @@ bool GossipHello_guard_stormwind(Player* pPlayer, Creature* pCreature)
 
 void SendDefaultMenu_guard_stormwind(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Auction House
             pPlayer->SEND_POI(-8811.46f, 667.46f, 7, 6, 0, "Stormwind Auction House");
@@ -3232,7 +3232,7 @@ void SendDefaultMenu_guard_stormwind(Player* pPlayer, Creature* pCreature, uint3
 
 void SendBattleMasterMenu_guard_stormwind(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //AV
             pPlayer->SEND_POI(-8443.88f, 335.99f, 7, 6, 0, "Thelman Slatefist");
@@ -3251,7 +3251,7 @@ void SendBattleMasterMenu_guard_stormwind(Player* pPlayer, Creature* pCreature, 
 
 void SendClassTrainerMenu_guard_stormwind(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Mage
             pPlayer->SEND_POI(-9012.0f, 867.6f, 7, 6, 0, "Wizard`s Sanctum");
@@ -3295,7 +3295,7 @@ void SendClassTrainerMenu_guard_stormwind(Player* pPlayer, Creature* pCreature, 
 
 void SendProfTrainerMenu_guard_stormwind(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Alchemy
             pPlayer->SEND_POI(-8988.0f, 759.60f, 7, 6, 0, "Alchemy Needs");
@@ -3388,7 +3388,7 @@ bool GossipHello_guard_teldrassil(Player* pPlayer, Creature* pCreature)
 
 void SendDefaultMenu_guard_teldrassil(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Bank
             pPlayer->SEND_GOSSIP_MENU(4317, pCreature->GetGUID());
@@ -3432,7 +3432,7 @@ void SendDefaultMenu_guard_teldrassil(Player* pPlayer, Creature* pCreature, uint
 
 void SendClassTrainerMenu_guard_teldrassil(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Druid
             pPlayer->SEND_POI(9741.58f, 963.7f, 7, 6, 0, "Kal");
@@ -3459,7 +3459,7 @@ void SendClassTrainerMenu_guard_teldrassil(Player* pPlayer, Creature* pCreature,
 
 void SendProfTrainerMenu_guard_teldrassil(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Alchemy
             pPlayer->SEND_POI(9767.59f, 878.81f, 7, 6, 0, "Cyndra Kindwhisper");
@@ -3536,7 +3536,7 @@ bool GossipHello_guard_tirisfal(Player* pPlayer, Creature* pCreature)
 
 void SendDefaultMenu_guard_tirisfal(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Bank
             pPlayer->SEND_GOSSIP_MENU(4074, pCreature->GetGUID());
@@ -3580,7 +3580,7 @@ void SendDefaultMenu_guard_tirisfal(Player* pPlayer, Creature* pCreature, uint32
 
 void SendClassTrainerMenu_guard_tirisfal(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Mage
             pPlayer->SEND_POI(2259.18f, 240.93f, 7, 6, 0, "Cain Firesong");
@@ -3607,7 +3607,7 @@ void SendClassTrainerMenu_guard_tirisfal(Player* pPlayer, Creature* pCreature, u
 
 void SendProfTrainerMenu_guard_tirisfal(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Alchemy
             pPlayer->SEND_POI(2263.25f, 344.23f, 7, 6, 0, "Carolai Anise");
@@ -3700,7 +3700,7 @@ bool GossipHello_guard_undercity(Player* pPlayer, Creature* pCreature)
 
 void SendDefaultMenu_guard_undercity(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Bank
             pPlayer->SEND_POI(1595.64f, 232.45f, 7, 6, 0, "Undercity Bank");
@@ -3772,7 +3772,7 @@ void SendDefaultMenu_guard_undercity(Player* pPlayer, Creature* pCreature, uint3
 
 void SendBattleMasterMenu_guard_undercity(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //AV
             pPlayer->SEND_POI(1329.0f, 333.92f, 7, 6, 0, "Grizzle Halfmane");
@@ -3791,7 +3791,7 @@ void SendBattleMasterMenu_guard_undercity(Player* pPlayer, Creature* pCreature, 
 
 void SendClassTrainerMenu_guard_undercity(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Mage
             pPlayer->SEND_POI(1781.0f, 53.0f, 7, 6, 0, "Undercity Mage Trainers");
@@ -3818,7 +3818,7 @@ void SendClassTrainerMenu_guard_undercity(Player* pPlayer, Creature* pCreature, 
 
 void SendProfTrainerMenu_guard_undercity(Player* pPlayer, Creature* pCreature, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:                    //Alchemy
             pPlayer->SEND_POI(1419.82f, 417.19f, 7, 6, 0, "The Apothecarium");

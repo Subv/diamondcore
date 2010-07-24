@@ -164,7 +164,7 @@ class ObjectAccessor : public Diamond::Singleton<ObjectAccessor, Diamond::ClassL
 
 inline Unit* ObjectAccessor::GetUnitInWorld(WorldObject const& obj, ObjectGuid guid)
 {
-    if(guid.IsEmpty())
+    if (guid.IsEmpty())
         return NULL;
 
     if (guid.IsPlayer())

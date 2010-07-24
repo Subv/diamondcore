@@ -100,7 +100,7 @@ uint32 GetItemEnchantMod(uint32 entry)
     double dRoll = rand_chance();
     float fCount = 0;
 
-    for(EnchStoreList::const_iterator ench_iter = tab->second.begin(); ench_iter != tab->second.end(); ++ench_iter)
+    for (EnchStoreList::const_iterator ench_iter = tab->second.begin(); ench_iter != tab->second.end(); ++ench_iter)
     {
         fCount += ench_iter->chance;
 
@@ -111,7 +111,7 @@ uint32 GetItemEnchantMod(uint32 entry)
     dRoll =  (irand(0, (int)floor(fCount * 100) + 1)) / 100;
     fCount = 0;
 
-    for(EnchStoreList::const_iterator ench_iter = tab->second.begin(); ench_iter != tab->second.end(); ++ench_iter)
+    for (EnchStoreList::const_iterator ench_iter = tab->second.begin(); ench_iter != tab->second.end(); ++ench_iter)
     {
         fCount += ench_iter->chance;
 
@@ -125,17 +125,17 @@ uint32 GenerateEnchSuffixFactor(uint32 item_id)
 {
     ItemPrototype const *itemProto = ObjectMgr::GetItemPrototype(item_id);
 
-    if(!itemProto)
+    if (!itemProto)
         return 0;
-    if(!itemProto->RandomSuffix)
+    if (!itemProto->RandomSuffix)
         return 0;
 
     RandomPropertiesPointsEntry const *randomProperty = sRandomPropertiesPointsStore.LookupEntry(itemProto->ItemLevel);
-    if(!randomProperty)
+    if (!randomProperty)
         return 0;
 
     uint32 suffixFactor;
-    switch(itemProto->InventoryType)
+    switch (itemProto->InventoryType)
     {
         // Items of that type don`t have points
         case INVTYPE_NON_EQUIP:

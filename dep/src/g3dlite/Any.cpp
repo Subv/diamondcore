@@ -1220,7 +1220,7 @@ void Any::verifySize(int s) const {
 
 
 std::string Any::toString(Type t) {
-    switch(t) {
+    switch (t) {
     case NONE:    return "NONE";
     case BOOLEAN: return "BOOLEAN";
     case NUMBER:  return "NUMBER";

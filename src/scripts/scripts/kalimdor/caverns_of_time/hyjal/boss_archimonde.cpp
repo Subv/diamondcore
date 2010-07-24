@@ -246,7 +246,7 @@ struct boss_archimondeAI : public ScriptedAI
 
     void KilledUnit(Unit* pVictim)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_SLAY1, m_creature); break;
             case 1: DoScriptText(SAY_SLAY2, m_creature); break;
@@ -256,7 +256,7 @@ struct boss_archimondeAI : public ScriptedAI
         if (pVictim->GetTypeId() != TYPEID_PLAYER)
             return;
 
-        switch(pVictim->getClass())
+        switch (pVictim->getClass())
         {
             case CLASS_PRIEST:
             case CLASS_PALADIN:

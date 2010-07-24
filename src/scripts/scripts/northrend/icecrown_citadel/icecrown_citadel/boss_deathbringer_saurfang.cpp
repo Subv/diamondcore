@@ -61,7 +61,7 @@ struct boss_deathbringer_saurfangAI : public BSWScriptedAI
 
     void Reset()
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         pInstance->SetData(TYPE_SAURFANG, NOT_STARTED);
         stage = 0;
         beasts = 0;
@@ -70,7 +70,7 @@ struct boss_deathbringer_saurfangAI : public BSWScriptedAI
 
     void Aggro(Unit *who) 
     {
-        if(pInstance) pInstance->SetData(TYPE_SAURFANG, IN_PROGRESS);
+        if (pInstance) pInstance->SetData(TYPE_SAURFANG, IN_PROGRESS);
         DoScriptText(-1631100,m_creature);
         doCast(SPELL_BLOOD_LINK);
     }
@@ -96,7 +96,7 @@ struct boss_deathbringer_saurfangAI : public BSWScriptedAI
 
     void JustSummoned(Creature* summoned)
     {
-        if(!pInstance || !summoned) return;
+        if (!pInstance || !summoned) return;
 
         if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0) ) {
             summoned->AddThreat(pTarget, 100.0f);
@@ -106,7 +106,7 @@ struct boss_deathbringer_saurfangAI : public BSWScriptedAI
 
     void JustDied(Unit *killer)
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         pInstance->SetData(TYPE_SAURFANG, DONE);
         DoScriptText(-1631106,m_creature);
 
@@ -133,7 +133,7 @@ struct boss_deathbringer_saurfangAI : public BSWScriptedAI
         if (!m_creature->HasAura(SPELL_BLOOD_POWER))
             doCast(SPELL_BLOOD_POWER);
 
-        switch(stage)
+        switch (stage)
         {
             case 0:
                     if (m_creature->GetHealthPercent() <= 30.0f) stage = 1;

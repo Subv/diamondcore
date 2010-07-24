@@ -124,7 +124,7 @@ struct boss_high_astromancer_solarianAI : public ScriptedAI
 
     void KilledUnit(Unit *victim)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_KILL1, m_creature); break;
             case 1: DoScriptText(SAY_KILL2, m_creature); break;
@@ -174,7 +174,7 @@ struct boss_high_astromancer_solarianAI : public ScriptedAI
     {
         float z = 0.0f;
 
-        switch(urand(0, 1))
+        switch (urand(0, 1))
         {
             case 0: z = 1; break;
             case 1: z = -1; break;
@@ -260,7 +260,7 @@ struct boss_high_astromancer_solarianAI : public ScriptedAI
                 m_creature->GetMotionMaster()->Clear();
                 m_creature->GetMap()->CreatureRelocation(m_creature, CENTER_X, CENTER_Y, CENTER_Z, CENTER_O);
 
-                for(int i = 0; i <= 2; ++i)
+                for (int i = 0; i <= 2; ++i)
                 {
                     if (!i)
                     {
@@ -415,7 +415,7 @@ struct mob_solarium_priestAI : public ScriptedAI
         {
             Unit* target = NULL;
 
-            switch(urand(0, 1))
+            switch (urand(0, 1))
             {
                 case 0:
                     if (m_pInstance)

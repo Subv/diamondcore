@@ -135,7 +135,7 @@ struct boss_the_lich_king_iccAI : public BSWScriptedAI
 
     void Reset()
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         resetTimers();
         stage = 0;
         nextEvent = 0;
@@ -218,13 +218,13 @@ struct boss_the_lich_king_iccAI : public BSWScriptedAI
 
     void Aggro(Unit *who) 
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         pInstance->SetData(TYPE_LICH_KING, IN_PROGRESS);
     }
 
     void JustDied(Unit *killer)
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         pInstance->SetData(TYPE_LICH_KING, DONE);
         DoScriptText(-1631528,m_creature,killer);
 
@@ -235,7 +235,7 @@ struct boss_the_lich_king_iccAI : public BSWScriptedAI
     void UpdateAI(const uint32 diff)
     {
 
-        if(!pInstance) return;
+        if (!pInstance) return;
 
         if (pInstance->GetData(TYPE_EVENT_NPC) == NPC_LICH_KING)
         {
@@ -399,7 +399,7 @@ struct boss_the_lich_king_iccAI : public BSWScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        switch(stage)
+        switch (stage)
         {
             case 0:           // Phase 1
 //                    timedCast(SPELL_SHOCKWAVE, diff);
@@ -623,7 +623,7 @@ struct boss_tirion_iccAI : public ScriptedAI
 
     void Reset()
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         movementstarted = false;
         m_creature->RemoveAurasDueToSpell(SPELL_ICEBLOCK_TRIGGER);
     }
@@ -982,13 +982,13 @@ struct mob_defiler_iccAI : public ScriptedAI
         for (Map::PlayerList::const_iterator i = pList.begin(); i != pList.end(); ++i)
              if (Player* pPlayer = i->getSource())
                  if (pPlayer && pPlayer->isAlive() && pPlayer->IsInMap(m_creature))
-                     if(m_creature->IsWithinDistInMap(pPlayer, m_Size * 6.0f)) return true;
+                     if (m_creature->IsWithinDistInMap(pPlayer, m_Size * 6.0f)) return true;
         return false;
     }
 
     void UpdateAI(const uint32 uiDiff)
     {
-        if(m_pInstance && m_pInstance->GetData(TYPE_LICH_KING) != IN_PROGRESS)
+        if (m_pInstance && m_pInstance->GetData(TYPE_LICH_KING) != IN_PROGRESS)
             m_creature->ForcedDespawn();
 
         if (life_timer <= uiDiff)

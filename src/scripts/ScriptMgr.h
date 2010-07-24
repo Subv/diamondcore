@@ -49,7 +49,7 @@ struct Script
     bool (*pGOGossipSelect          )(Player*, GameObject*, uint32, uint32);
     bool (*pGossipSelectWithCode    )(Player*, Creature*, uint32, uint32, const char*);
     bool (*pGOGossipSelectWithCode  )(Player*, GameObject*, uint32, uint32, const char*);
-	bool (*pGOSelect)(Player*, GameObject*, uint32 , uint32);
+    bool (*pGOSelect)(Player*, GameObject*, uint32 , uint32);
     bool (*pGOSelectWithCode)(Player*, GameObject*, uint32 , uint32 , const char*);
     bool (*pQuestSelect             )(Player*, Creature*, const Quest*);
     bool (*pQuestComplete           )(Player*, Creature*, const Quest*);
@@ -80,7 +80,7 @@ class ScriptMgr
         ScriptMgr();
         ~ScriptMgr();
 
-		void ScriptsInit();
+        void ScriptsInit();
         void LoadDatabase();
 
         bool GossipHello(Player *player, Creature *_Creature);

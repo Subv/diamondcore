@@ -95,7 +95,7 @@ struct npc_kayaAI : public npc_escortAI
 
     void WaypointReached(uint32 uiPointId)
     {
-        switch(uiPointId)
+        switch (uiPointId)
         {
             //Ambush
             case 16:

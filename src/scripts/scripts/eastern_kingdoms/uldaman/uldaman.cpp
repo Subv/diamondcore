@@ -96,7 +96,7 @@ bool GossipHello_npc_lore_keeper_of_norgannon(Player* pPlayer, Creature* pCreatu
 
 bool GossipSelect_npc_lore_keeper_of_norgannon(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "What is a \"subterranean being matrix\"?", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
@@ -187,7 +187,7 @@ bool GOHello_go_altar_of_keepers(Player* pPlayer, GameObject* pGo)
 
     if (!lStoneKeepers.empty())
     {
-        for(std::list<Creature*>::iterator itr = lStoneKeepers.begin(); itr != lStoneKeepers.end(); ++itr)
+        for (std::list<Creature*>::iterator itr = lStoneKeepers.begin(); itr != lStoneKeepers.end(); ++itr)
         {
             if (*itr && (*itr)->isAlive())
             {

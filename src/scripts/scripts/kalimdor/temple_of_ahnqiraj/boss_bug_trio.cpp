@@ -226,7 +226,7 @@ struct boss_yaujAI : public ScriptedAI
             m_pInstance->SetData(DATA_BUG_TRIO_DEATH, 1);
         }
 
-        for(int i = 0; i < 10; ++i)
+        for (int i = 0; i < 10; ++i)
         {
             Unit* target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0);
             Creature* Summoned = m_creature->SummonCreature(15621,m_creature->GetPositionX(), m_creature->GetPositionY(), m_creature->GetPositionZ(),0,TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN,90000);
@@ -257,7 +257,7 @@ struct boss_yaujAI : public ScriptedAI
                 Unit *pKri = Unit::GetUnit((*m_creature), m_pInstance->GetData64(DATA_KRI));
                 Unit *pVem = Unit::GetUnit((*m_creature), m_pInstance->GetData64(DATA_VEM));
 
-                switch(urand(0, 2))
+                switch (urand(0, 2))
                 {
                     case 0:
                         if (pKri)

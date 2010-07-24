@@ -88,7 +88,7 @@ struct npc_kalecgosAI : public ScriptedAI
 
         SpellEntry const* pSpell = GetSpellStore()->LookupEntry(SPELL_ORB_KILL_CREDIT);
 
-        for(Map::PlayerList::const_iterator i = lList.begin(); i != lList.end(); ++i)
+        for (Map::PlayerList::const_iterator i = lList.begin(); i != lList.end(); ++i)
         {
             if (Player* pPlayer = i->getSource())
             {
@@ -135,7 +135,7 @@ bool GossipHello_npc_kalecgos(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_npc_kalecgos(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF:
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_KAEL_2, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);

@@ -55,7 +55,7 @@ struct instance_scholomance : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_GATE_KIRTONOS: m_uiGateKirtonosGUID = pGo->GetGUID(); break;
             case GO_GATE_GANDLING: m_uiGateGandlingGUID = pGo->GetGUID(); break;
@@ -70,7 +70,7 @@ struct instance_scholomance : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_GANDLING:
                 m_auiEncounter[0] = uiData;

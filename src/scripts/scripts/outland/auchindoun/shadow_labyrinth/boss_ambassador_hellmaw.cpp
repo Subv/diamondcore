@@ -120,7 +120,7 @@ struct boss_ambassador_hellmawAI : public npc_escortAI
 
     void Aggro(Unit *who)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_AGGRO1, m_creature); break;
             case 1: DoScriptText(SAY_AGGRO2, m_creature); break;

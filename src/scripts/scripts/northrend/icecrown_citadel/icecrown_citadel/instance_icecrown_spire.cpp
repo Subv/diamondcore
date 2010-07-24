@@ -39,16 +39,16 @@ static Locations SpawnLoc[]=
 
     void instance_icecrown_spire::OpenDoor(uint64 guid)
     {
-        if(!guid) return;
+        if (!guid) return;
         GameObject* pGo = instance->GetGameObject(guid);
-        if(pGo) pGo->SetGoState(GO_STATE_ACTIVE_ALTERNATIVE);
+        if (pGo) pGo->SetGoState(GO_STATE_ACTIVE_ALTERNATIVE);
     }
 
     void instance_icecrown_spire::CloseDoor(uint64 guid)
     {
-        if(!guid) return;
+        if (!guid) return;
         GameObject* pGo = instance->GetGameObject(guid);
-        if(pGo) pGo->SetGoState(GO_STATE_READY);
+        if (pGo) pGo->SetGoState(GO_STATE_READY);
     }
 
     void instance_icecrown_spire::OpenAllDoors()
@@ -128,7 +128,7 @@ static Locations SpawnLoc[]=
 
     bool instance_icecrown_spire::IsEncounterInProgress() const
     {
-        for(uint8 i = 1; i < MAX_ENCOUNTERS-2 ; ++i)
+        for (uint8 i = 1; i < MAX_ENCOUNTERS-2 ; ++i)
             if (m_auiEncounter[i] == IN_PROGRESS) return true;
 
         return false;
@@ -167,7 +167,7 @@ static Locations SpawnLoc[]=
 
     void instance_icecrown_spire::OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_LORD_MARROWGAR: 
                          m_uiMarrogwarGUID = pCreature->GetGUID();
@@ -229,7 +229,7 @@ static Locations SpawnLoc[]=
 
     void instance_icecrown_spire::OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_ICEWALL_1: 
                          m_uiIcewall1GUID = pGo->GetGUID();
@@ -304,67 +304,67 @@ static Locations SpawnLoc[]=
                          m_uiSindragosaDoor2GUID = pGo->GetGUID();
                          break;
             case GO_SAURFANG_CACHE_10:
-                                  if(Difficulty == RAID_DIFFICULTY_10MAN_NORMAL)
+                                  if (Difficulty == RAID_DIFFICULTY_10MAN_NORMAL)
                                   m_uiSaurfangCacheGUID = pGo->GetGUID(); 
                                   break;
             case GO_SAURFANG_CACHE_25:
-                                  if(Difficulty == RAID_DIFFICULTY_25MAN_NORMAL)
+                                  if (Difficulty == RAID_DIFFICULTY_25MAN_NORMAL)
                                   m_uiSaurfangCacheGUID = pGo->GetGUID();
                                   break;
             case GO_SAURFANG_CACHE_10_H:
-                                  if(Difficulty == RAID_DIFFICULTY_10MAN_HEROIC)
+                                  if (Difficulty == RAID_DIFFICULTY_10MAN_HEROIC)
                                   m_uiSaurfangCacheGUID = pGo->GetGUID();
                                   break;
             case GO_SAURFANG_CACHE_25_H:
-                                  if(Difficulty == RAID_DIFFICULTY_25MAN_HEROIC)
+                                  if (Difficulty == RAID_DIFFICULTY_25MAN_HEROIC)
                                   m_uiSaurfangCacheGUID = pGo->GetGUID();
                                   break;
             case GO_GUNSHIP_ARMORY_A_10:
-                                  if(Difficulty == RAID_DIFFICULTY_10MAN_NORMAL)
+                                  if (Difficulty == RAID_DIFFICULTY_10MAN_NORMAL)
                                   m_uiGunshipArmoryAGUID = pGo->GetGUID(); 
                                   break;
             case GO_GUNSHIP_ARMORY_A_25:
-                                  if(Difficulty == RAID_DIFFICULTY_25MAN_NORMAL)
+                                  if (Difficulty == RAID_DIFFICULTY_25MAN_NORMAL)
                                   m_uiGunshipArmoryAGUID = pGo->GetGUID(); 
                                   break;
             case GO_GUNSHIP_ARMORY_A_10H:
-                                  if(Difficulty == RAID_DIFFICULTY_10MAN_HEROIC)
+                                  if (Difficulty == RAID_DIFFICULTY_10MAN_HEROIC)
                                   m_uiGunshipArmoryAGUID = pGo->GetGUID(); 
                                   break;
             case GO_GUNSHIP_ARMORY_A_25H:
-                                  if(Difficulty == RAID_DIFFICULTY_25MAN_HEROIC)
+                                  if (Difficulty == RAID_DIFFICULTY_25MAN_HEROIC)
                                   m_uiGunshipArmoryAGUID = pGo->GetGUID(); 
                                   break;
             case GO_GUNSHIP_ARMORY_H_10:
-                                  if(Difficulty == RAID_DIFFICULTY_10MAN_NORMAL)
+                                  if (Difficulty == RAID_DIFFICULTY_10MAN_NORMAL)
                                   m_uiGunshipArmoryHGUID = pGo->GetGUID(); 
                                   break;
             case GO_GUNSHIP_ARMORY_H_25:
-                                  if(Difficulty == RAID_DIFFICULTY_25MAN_NORMAL)
+                                  if (Difficulty == RAID_DIFFICULTY_25MAN_NORMAL)
                                   m_uiGunshipArmoryHGUID = pGo->GetGUID(); 
                                   break;
             case GO_GUNSHIP_ARMORY_H_10H:
-                                  if(Difficulty == RAID_DIFFICULTY_10MAN_HEROIC)
+                                  if (Difficulty == RAID_DIFFICULTY_10MAN_HEROIC)
                                   m_uiGunshipArmoryHGUID = pGo->GetGUID(); 
                                   break;
             case GO_GUNSHIP_ARMORY_H_25H:
-                                  if(Difficulty == RAID_DIFFICULTY_25MAN_HEROIC)
+                                  if (Difficulty == RAID_DIFFICULTY_25MAN_HEROIC)
                                   m_uiGunshipArmoryHGUID = pGo->GetGUID(); 
                                   break;
             case GO_DREAMWALKER_CACHE_10:
-                                  if(Difficulty == RAID_DIFFICULTY_10MAN_NORMAL)
+                                  if (Difficulty == RAID_DIFFICULTY_10MAN_NORMAL)
                                   m_uiValitriaCacheGUID = pGo->GetGUID(); 
                                   break;
             case GO_DREAMWALKER_CACHE_25:
-                                  if(Difficulty == RAID_DIFFICULTY_25MAN_NORMAL)
+                                  if (Difficulty == RAID_DIFFICULTY_25MAN_NORMAL)
                                   m_uiValitriaCacheGUID = pGo->GetGUID();
                                   break;
             case GO_DREAMWALKER_CACHE_10_H:
-                                  if(Difficulty == RAID_DIFFICULTY_10MAN_HEROIC)
+                                  if (Difficulty == RAID_DIFFICULTY_10MAN_HEROIC)
                                   m_uiValitriaCacheGUID = pGo->GetGUID();
                                   break;
             case GO_DREAMWALKER_CACHE_25_H:
-                                  if(Difficulty == RAID_DIFFICULTY_25MAN_HEROIC)
+                                  if (Difficulty == RAID_DIFFICULTY_25MAN_HEROIC)
                                   m_uiValitriaCacheGUID = pGo->GetGUID();
                                   break;
             case GO_ICESHARD_1: 
@@ -398,7 +398,7 @@ static Locations SpawnLoc[]=
     void instance_icecrown_spire::SetData(uint32 uiType, uint32 uiData)
     {
         if (uiType > m_auiEncounter[0] && uiData == DONE) m_auiEncounter[0] = uiType;
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_TELEPORT:
                 break;
@@ -518,7 +518,7 @@ static Locations SpawnLoc[]=
 
             std::ostringstream saveStream;
 
-            for(uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
+            for (uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
                 saveStream << m_auiEncounter[i] << " ";
 
             strSaveData = saveStream.str();
@@ -530,7 +530,7 @@ static Locations SpawnLoc[]=
 
     uint32 instance_icecrown_spire::GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
              case TYPE_DIFFICULTY:    return Difficulty;
              case TYPE_TELEPORT:      return m_auiEncounter[0];
@@ -642,7 +642,7 @@ static Locations SpawnLoc[]=
 
     uint64 instance_icecrown_spire::GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case NPC_LORD_MARROWGAR:          return m_uiMarrogwarGUID;
             case NPC_LADY_DEATHWHISPER:       return m_uiDeathWhisperGUID;
@@ -696,7 +696,7 @@ static Locations SpawnLoc[]=
 
         std::istringstream loadStream(chrIn);
 
-        for(uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
         {
             loadStream >> m_auiEncounter[i];
 

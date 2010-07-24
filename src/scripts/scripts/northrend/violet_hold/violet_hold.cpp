@@ -133,12 +133,12 @@ struct mob_vh_dragonsAI : public ScriptedAI
     }
     void StartMovement()
     {
-        if(!WayPointList.empty() || MovementStarted)
+        if (!WayPointList.empty() || MovementStarted)
             return;
 
         uint8 start = 0;
         uint8 end = 0;
-        switch(portalLoc)
+        switch (portalLoc)
         {
             case -1:
                 return;
@@ -175,7 +175,7 @@ struct mob_vh_dragonsAI : public ScriptedAI
                 break;
         }
         uint8 wpId = 0;
-        for(uint8 i = start; i <= end; ++i){
+        for (uint8 i = start; i <= end; ++i){
             debug_log("AddWP: %u", i);
             AddWaypoint(wpId, DragonsWP[i].x, DragonsWP[i].y, DragonsWP[i].z);
             wpId++;
@@ -193,17 +193,17 @@ struct mob_vh_dragonsAI : public ScriptedAI
     }
     void MovementInform(uint32 uiType, uint32 uiPointId)
     {
-        if(uiType != POINT_MOTION_TYPE || creatureEntry == NPC_GUARDIAN || creatureEntry == NPC_KEEPER)
+        if (uiType != POINT_MOTION_TYPE || creatureEntry == NPC_GUARDIAN || creatureEntry == NPC_KEEPER)
             return;
 
-        if(WayPoint->id != uiPointId)
+        if (WayPoint->id != uiPointId)
             return;
 
         ++WayPoint;
         WalkTimer = 200;
     }
     void UpdateAI(const uint32 uiDiff){
-        if(portalLoc != -1)
+        if (portalLoc != -1)
             StartMovement();
 
         if (IsWalking && WalkTimer)
@@ -219,8 +219,8 @@ struct mob_vh_dragonsAI : public ScriptedAI
         }
 
         //Corrupt Seal
-        if(pDoorSeal && !IsInCombat){
-            if(m_creature->IsWithinDist(pDoorSeal, 27.0f, false))
+        if (pDoorSeal && !IsInCombat){
+            if (m_creature->IsWithinDist(pDoorSeal, 27.0f, false))
             {
                 IsWalking = false;
                 WayPointList.clear();
@@ -230,7 +230,7 @@ struct mob_vh_dragonsAI : public ScriptedAI
                 m_pInstance->SetData(TYPE_DOOR,SPECIAL);
             }
         }
-        if(!IsWalking && !IsInCombat) {
+        if (!IsWalking && !IsInCombat) {
                 if (Unit* m_uEmbraceTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
                 m_creature->GetMotionMaster()->MoveChase(m_uEmbraceTarget);
                 m_creature->SetInCombatWithZone();
@@ -242,10 +242,10 @@ struct mob_vh_dragonsAI : public ScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        if(m_creature->getVictim())
-            if(m_creature->getVictim()->GetEntry() == NPC_DOOR_SEAL)
+        if (m_creature->getVictim())
+            if (m_creature->getVictim()->GetEntry() == NPC_DOOR_SEAL)
                 return;
-        switch(creatureEntry)
+        switch (creatureEntry)
         {
             case NPC_AZURE_CAPTAIN:
                 AzureCaptain_UpdateAI(uiDiff);
@@ -380,7 +380,7 @@ struct npc_violet_portalAI : public ScriptedAI
     uint32 SelectRandSummon()
     {
         uint32 entry = 0;
-        if(portalType == 1)
+        if (portalType == 1)
         {
             switch (urand(0, 3))
             {
@@ -402,14 +402,14 @@ struct npc_violet_portalAI : public ScriptedAI
     }
     void SpawnGroup()
     {
-        if(portalType == 0)
+        if (portalType == 0)
             return;
 
         uint8 uiSpawnCount = (m_pInstance->GetData(TYPE_RIFT) < 12) ? 3 : 4;
-        for(uint8 i = 0; i < uiSpawnCount; i++)
+        for (uint8 i = 0; i < uiSpawnCount; i++)
         {
             uint32 uiSpawnEntry = SelectRandSummon();
-            if(Creature* pSummoned = m_creature->SummonCreature(uiSpawnEntry, m_creature->GetPositionX()-5+rand()%10, m_creature->GetPositionY()-5+rand()%10, m_creature->GetPositionZ(), 0, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 300000))
+            if (Creature* pSummoned = m_creature->SummonCreature(uiSpawnEntry, m_creature->GetPositionX()-5+rand()%10, m_creature->GetPositionY()-5+rand()%10, m_creature->GetPositionZ(), 0, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 300000))
             {
                 debug_log("Spawn NPC %u, motherPortalID %u, portalLoc %u", uiSpawnEntry, portalID, portalLoc);
                 ((mob_vh_dragonsAI*)pSummoned->AI())->motherPortalID = portalID;
@@ -420,27 +420,27 @@ struct npc_violet_portalAI : public ScriptedAI
     bool IsThereNearElite(float range)
     {
         //Azure captain
-        if(Creature* pTemp = GetClosestCreatureWithEntry(m_creature, NPC_AZURE_CAPTAIN, range))
+        if (Creature* pTemp = GetClosestCreatureWithEntry(m_creature, NPC_AZURE_CAPTAIN, range))
         {
-            if(((mob_vh_dragonsAI*)pTemp->AI())->motherPortalID == portalID)
+            if (((mob_vh_dragonsAI*)pTemp->AI())->motherPortalID == portalID)
                 return true;
         }
         //Azure raider
-        else if(Creature* pTemp = GetClosestCreatureWithEntry(m_creature, NPC_AZURE_RAIDER, range))
+        else if (Creature* pTemp = GetClosestCreatureWithEntry(m_creature, NPC_AZURE_RAIDER, range))
         {
-            if(((mob_vh_dragonsAI*)pTemp->AI())->motherPortalID == portalID)
+            if (((mob_vh_dragonsAI*)pTemp->AI())->motherPortalID == portalID)
                 return true;
         }
         //Azure sorceror
-        else if(Creature* pTemp = GetClosestCreatureWithEntry(m_creature, NPC_AZURE_SORCEROR, range))
+        else if (Creature* pTemp = GetClosestCreatureWithEntry(m_creature, NPC_AZURE_SORCEROR, range))
         {
-            if(((mob_vh_dragonsAI*)pTemp->AI())->motherPortalID == portalID)
+            if (((mob_vh_dragonsAI*)pTemp->AI())->motherPortalID == portalID)
                 return true;
         }
         //Azure Stalker
-        else if(Creature* pTemp = GetClosestCreatureWithEntry(m_creature, NPC_AZURE_STALKER, range))
+        else if (Creature* pTemp = GetClosestCreatureWithEntry(m_creature, NPC_AZURE_STALKER, range))
         {
-            if(((mob_vh_dragonsAI*)pTemp->AI())->motherPortalID == portalID)
+            if (((mob_vh_dragonsAI*)pTemp->AI())->motherPortalID == portalID)
                 return true;
         }
         return false;
@@ -451,10 +451,10 @@ struct npc_violet_portalAI : public ScriptedAI
         if (!m_pInstance)
             return;
 
-        if(m_pInstance->GetData(TYPE_EVENT) != IN_PROGRESS)
+        if (m_pInstance->GetData(TYPE_EVENT) != IN_PROGRESS)
             return;
 
-        switch(portalType)
+        switch (portalType)
         {
             case 0:
                 return;
@@ -474,14 +474,14 @@ struct npc_violet_portalAI : public ScriptedAI
                 }
                 break;
             case 2:
-                if(!m_uiGroupSpawned)
+                if (!m_uiGroupSpawned)
                 {
                     SpawnGroup();
                     m_uiGroupSpawned = true;
                 }
                 if (Check_Timer < diff)
                 {
-                    if(!IsThereNearElite(150.0f))
+                    if (!IsThereNearElite(150.0f))
                     {
                         m_uiNextPortal_Timer = 5000;
                         debug_log("SD2: npc_time_rift: No elite, i need to die.");
@@ -545,7 +545,7 @@ struct npc_sinclariAI : public ScriptedAI
             ((npc_violet_portalAI*)pTemp->AI())->portalID = portalID;
             ((npc_violet_portalAI*)pTemp->AI())->portalLoc = tmp;
 
-            if(portalType == 1)
+            if (portalType == 1)
             {
                 uint32 entry = urand(0, 1) ? NPC_GUARDIAN : NPC_KEEPER;
                 if (Creature* pSummoned = pTemp->SummonCreature(entry, PortalLoc[tmp].x, PortalLoc[tmp].y, PortalLoc[tmp].z, pTemp->GetOrientation(), TEMPSUMMON_CORPSE_TIMED_DESPAWN, 300000))
@@ -560,7 +560,7 @@ struct npc_sinclariAI : public ScriptedAI
 
     void UpdateAI(const uint32 uiDiff)
     {
-        if(m_pInstance->GetData(TYPE_EVENT) != IN_PROGRESS)
+        if (m_pInstance->GetData(TYPE_EVENT) != IN_PROGRESS)
             return;
 
         if (m_uiNextPortal_Timer && m_pInstance->GetData(TYPE_RIFT) != DONE)
@@ -647,7 +647,7 @@ bool GossipHello_npc_sinclari(Player* pPlayer, Creature* pCreature)
     if (pCreature->isQuestGiver())
         pPlayer->PrepareQuestMenu( pCreature->GetGUID() );
 
-    if(m_pInstance->GetData(TYPE_EVENT) == NOT_STARTED){
+    if (m_pInstance->GetData(TYPE_EVENT) == NOT_STARTED){
         pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_START_EVENT, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+1);
     }else{
         pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_TELE_IN, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);
@@ -810,10 +810,10 @@ struct npc_azure_saboteurAI : public ScriptedAI
 
     void MovementInform(uint32 uiType, uint32 uiPointId)
     {
-        if(uiType != POINT_MOTION_TYPE)
+        if (uiType != POINT_MOTION_TYPE)
                 return;
 
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 0:
                 m_bIsActiving = true;

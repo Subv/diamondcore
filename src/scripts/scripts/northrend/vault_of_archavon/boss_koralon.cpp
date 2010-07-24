@@ -45,19 +45,19 @@ struct boss_koralonAI : public ScriptedAI
 
         BB = false;
 
-        if(pInstance) pInstance->SetData(TYPE_KORALON, NOT_STARTED);
+        if (pInstance) pInstance->SetData(TYPE_KORALON, NOT_STARTED);
     }
 
     void Aggro(Unit *who)
     {
         DoCastSpellIfCan(m_creature, SP_BURNING_FURY_AURA);
 
-        if(pInstance) pInstance->SetData(TYPE_KORALON, IN_PROGRESS);
+        if (pInstance) pInstance->SetData(TYPE_KORALON, IN_PROGRESS);
     };
 
     void JustDied(Unit *killer)
     {
-        if(pInstance) pInstance->SetData(TYPE_KORALON, DONE);
+        if (pInstance) pInstance->SetData(TYPE_KORALON, DONE);
     };
 
     void UpdateAI(const uint32 diff)
@@ -65,7 +65,7 @@ struct boss_koralonAI : public ScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        if(BurningBreathTimer < diff)
+        if (BurningBreathTimer < diff)
         {
             DoCastSpellIfCan(m_creature, Regular ? SP_BURNING_BREATH : H_SP_BURNING_BREATH);
             BurningBreathTimer = 45000;
@@ -76,32 +76,32 @@ struct boss_koralonAI : public ScriptedAI
         }
         else BurningBreathTimer -= diff;
 
-        if(BB)
+        if (BB)
         {
-            if(BBTickTimer < diff)
+            if (BBTickTimer < diff)
             {
                 DoCastSpellIfCan(NULL, Regular ? SP_BB_EFFECT : H_SP_BB_EFFECT, true);
                 BBTickTimer = 1000;
                 ++BBTicks;
-                if(BBTicks > 2) BB = false;
+                if (BBTicks > 2) BB = false;
             }
             else BBTickTimer -= diff;
         }
 
-        if(FlamesTimer < diff)
+        if (FlamesTimer < diff)
         {
             int flames = Regular ? 3 : 5;
             int i;
-            for(i=0; i< flames; ++i)
+            for (i=0; i< flames; ++i)
             {
                 Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-                if(target) DoCastSpellIfCan(target, Regular ? SP_CINDER : H_SP_CINDER);
+                if (target) DoCastSpellIfCan(target, Regular ? SP_CINDER : H_SP_CINDER);
             }
             FlamesTimer = 20000;
         }
         else FlamesTimer -= diff;
 
-        if(MeteorFistsTimer < diff)
+        if (MeteorFistsTimer < diff)
         {
             DoCastSpellIfCan(m_creature->getVictim(), SP_METEOR_FISTS_EFF);
             MeteorFistsTimer = 45000;

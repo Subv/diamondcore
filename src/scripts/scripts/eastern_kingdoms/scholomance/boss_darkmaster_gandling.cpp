@@ -118,7 +118,7 @@ struct boss_darkmaster_gandlingAI : public ScriptedAI
                     if (m_creature->getThreatManager().getThreat(target))
                         m_creature->getThreatManager().modifyThreatPercent(target, -100);
 
-                    switch(urand(0, 5))
+                    switch (urand(0, 5))
                     {
                         case 0:
                             DoTeleportPlayer(target, 250.0696f, 0.3921f, 84.8408f, 3.149f);

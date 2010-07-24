@@ -115,7 +115,7 @@ struct boss_akilzonAI : public ScriptedAI
 
     void DoSummonEagles()
     {
-        for(uint32 i = 0; i < MAX_EAGLE_COUNT; ++i)
+        for (uint32 i = 0; i < MAX_EAGLE_COUNT; ++i)
         {
             float fX, fY, fZ;
             m_creature->GetRandomPoint(m_creature->GetPositionX(), m_creature->GetPositionY(), m_creature->GetPositionZ()+15.0f, 30.0f, fX, fY, fZ);

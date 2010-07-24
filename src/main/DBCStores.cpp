@@ -188,8 +188,8 @@ typedef std::list<std::string> StoreProblemList;
 bool IsAcceptableClientBuild(uint32 build)
 {
     int accepted_versions[] = EXPECTED_CLIENT_BUILD;
-    for(int i = 0; accepted_versions[i]; ++i)
-        if(build == accepted_versions[i])
+    for (int i = 0; accepted_versions[i]; ++i)
+        if (build == accepted_versions[i])
             return true;
 
     return false;
@@ -199,7 +199,7 @@ std::string AcceptableClientBuildsListStr()
 {
     std::ostringstream data;
     int accepted_versions[] = EXPECTED_CLIENT_BUILD;
-    for(int i = 0; accepted_versions[i]; ++i)
+    for (int i = 0; accepted_versions[i]; ++i)
         data << accepted_versions[i] << " ";
     return data.str();
 }
@@ -208,7 +208,7 @@ static bool ReadDBCBuildFileText(const std::string& dbc_path, char const* locale
 {
     std::string filename  = dbc_path + "component.wow-" + localeName + ".txt";
 
-    if(FILE* file = fopen(filename.c_str(),"rb"))
+    if (FILE* file = fopen(filename.c_str(),"rb"))
     {
         char buf[100];
         fread(buf,1,100-1,file);
@@ -227,7 +227,7 @@ static uint32 ReadDBCBuild(const std::string& dbc_path, LocaleNameStr const* loc
 
     if (!localeNameStr)
     {
-        for(LocaleNameStr const* itr = &fullLocaleNameList[0]; itr->name; ++itr)
+        for (LocaleNameStr const* itr = &fullLocaleNameList[0]; itr->name; ++itr)
         {
             if (ReadDBCBuildFileText(dbc_path,itr->name,text))
             {
@@ -290,10 +290,10 @@ inline void LoadDBC(LocalData& localeData, StoreProblemList& errlist, DBCStorage
     if (custom_entries)
         sql = new SqlDbc(&filename,custom_entries,idname,storage.GetFormat());
 
-    if(storage.Load(dbc_filename.c_str(),sql))
+    if (storage.Load(dbc_filename.c_str(),sql))
     {
         //bar.step();
-        for(uint8 i = 0; fullLocaleNameList[i].name; ++i)
+        for (uint8 i = 0; fullLocaleNameList[i].name; ++i)
         {
             if (!(localeData.availableDbcLocales & (1 << i)))
                 continue;
@@ -308,7 +308,7 @@ inline void LoadDBC(LocalData& localeData, StoreProblemList& errlist, DBCStorage
 
 
                 uint32 build_loc = ReadDBCBuild(dbc_dir_loc,localStr);
-                if(localeData.main_build != build_loc)
+                if (localeData.main_build != build_loc)
                 {
                     localeData.availableDbcLocales &= ~(1<<i);  // mark as not available for speedup next checks
 
@@ -326,7 +326,7 @@ inline void LoadDBC(LocalData& localeData, StoreProblemList& errlist, DBCStorage
             }
 
             std::string dbc_filename_loc = dbc_path + localStr->name + "/" + filename;
-            if(!storage.LoadStringsFrom(dbc_filename_loc.c_str()))
+            if (!storage.LoadStringsFrom(dbc_filename_loc.c_str()))
                 localeData.availableDbcLocales &= ~(1<<i);  // mark as not available for speedup next checks
         }
     }
@@ -334,7 +334,7 @@ inline void LoadDBC(LocalData& localeData, StoreProblemList& errlist, DBCStorage
     {
         // sort problematic dbc to (1) non compatible and (2) non-existed
         FILE * f=fopen(dbc_filename.c_str(),"rb");
-        if(f)
+        if (f)
         {
             char buf[100];
             snprintf(buf,100," (exist, but have %d fields instead " SIZEFMTD ") Wrong client version DBC file?",storage.GetFieldCount(),strlen(storage.GetFormat()));
@@ -377,15 +377,15 @@ void LoadDBCStores(const std::string& dataPath)
     LoadDBC(availableDbcLocales,bad_dbc_files,sAreaStore,                dbcPath,"AreaTable.dbc");
 
     // must be after sAreaStore loading
-    for(uint32 i = 0; i < sAreaStore.GetNumRows(); ++i)           // areaflag numbered from 0
+    for (uint32 i = 0; i < sAreaStore.GetNumRows(); ++i)           // areaflag numbered from 0
     {
-        if(AreaTableEntry const* area = sAreaStore.LookupEntry(i))
+        if (AreaTableEntry const* area = sAreaStore.LookupEntry(i))
         {
             // fill AreaId->DBC records
             sAreaFlagByAreaID.insert(AreaFlagByAreaID::value_type(uint16(area->ID),area->exploreFlag));
 
             // fill MapId->DBC records ( skip sub zones and continents )
-            if(area->zone==0 && area->mapid != 0 && area->mapid != 1 && area->mapid != 530 && area->mapid != 571 )
+            if (area->zone==0 && area->mapid != 0 && area->mapid != 1 && area->mapid != 530 && area->mapid != 571 )
                 sAreaFlagByMapID.insert(AreaFlagByMapID::value_type(area->mapid,area->exploreFlag));
         }
     }
@@ -460,8 +460,8 @@ void LoadDBCStores(const std::string& dataPath)
 
     LoadDBC(availableDbcLocales,bad_dbc_files,sMapDifficultyStore,       dbcPath,"MapDifficulty.dbc");
     // fill data
-    for(uint32 i = 1; i < sMapDifficultyStore.GetNumRows(); ++i)
-        if(MapDifficultyEntry const* entry = sMapDifficultyStore.LookupEntry(i))
+    for (uint32 i = 1; i < sMapDifficultyStore.GetNumRows(); ++i)
+        if (MapDifficultyEntry const* entry = sMapDifficultyStore.LookupEntry(i))
             sMapDifficultyMap[MAKE_PAIR32(entry->MapId,entry->Difficulty)] = MapDifficulty(entry->resetTime,entry->maxPlayers);
     sMapDifficultyStore.Clear();
 
@@ -470,7 +470,7 @@ void LoadDBCStores(const std::string& dataPath)
     LoadDBC(availableDbcLocales,bad_dbc_files,sQuestSortStore,           dbcPath,"QuestSort.dbc");
     LoadDBC(availableDbcLocales,bad_dbc_files,sQuestXPLevelStore,        dbcPath,"QuestXP.dbc");
     LoadDBC(availableDbcLocales,bad_dbc_files,sPvPDifficultyStore,       dbcPath,"PvpDifficulty.dbc");
-    for(uint32 i = 0; i < sPvPDifficultyStore.GetNumRows(); ++i)
+    for (uint32 i = 0; i < sPvPDifficultyStore.GetNumRows(); ++i)
         if (PvPDifficultyEntry const* entry = sPvPDifficultyStore.LookupEntry(i))
             if (entry->bracketId > MAX_BATTLEGROUND_BRACKETS)
                 ASSERT(false && "Need update MAX_BATTLEGROUND_BRACKETS by DBC data");
@@ -482,10 +482,10 @@ void LoadDBCStores(const std::string& dataPath)
     LoadDBC(availableDbcLocales,bad_dbc_files,sSkillLineAbilityStore,    dbcPath,"SkillLineAbility.dbc");
     LoadDBC(availableDbcLocales,bad_dbc_files,sSoundEntriesStore,        dbcPath,"SoundEntries.dbc");
     LoadDBC(availableDbcLocales,bad_dbc_files,sSpellStore,               dbcPath,"Spell.dbc", &CustomSpellEntryfmt, &CustomSpellEntryIndex);
-    for(uint32 i = 1; i < sSpellStore.GetNumRows(); ++i)
+    for (uint32 i = 1; i < sSpellStore.GetNumRows(); ++i)
     {
         SpellEntry const * spell = sSpellStore.LookupEntry(i);
-        if(spell && spell->Category)
+        if (spell && spell->Category)
             sSpellCategoryStore[spell->Category].insert(i);
 
         // DBC not support uint64 fields but SpellEntry have SpellFamilyFlags mapped at 2 uint32 fields
@@ -499,20 +499,20 @@ void LoadDBCStores(const std::string& dataPath)
     {
         SkillLineAbilityEntry const *skillLine = sSkillLineAbilityStore.LookupEntry(j);
 
-        if(!skillLine)
+        if (!skillLine)
             continue;
 
         SpellEntry const* spellInfo = sSpellStore.LookupEntry(skillLine->spellId);
 
-        if(spellInfo && (spellInfo->Attributes & 0x1D0) == 0x1D0)
+        if (spellInfo && (spellInfo->Attributes & 0x1D0) == 0x1D0)
         {
             for (unsigned int i = 1; i < sCreatureFamilyStore.GetNumRows(); ++i)
             {
                 CreatureFamilyEntry const* cFamily = sCreatureFamilyStore.LookupEntry(i);
-                if(!cFamily)
+                if (!cFamily)
                     continue;
 
-                if(skillLine->skillId != cFamily->skillLine[0] && skillLine->skillId != cFamily->skillLine[1])
+                if (skillLine->skillId != cFamily->skillLine[0] && skillLine->skillId != cFamily->skillLine[1])
                     continue;
 
                 sPetFamilySpellsStore[i].insert(spellInfo->Id);
@@ -540,7 +540,7 @@ void LoadDBCStores(const std::string& dataPath)
         TalentEntry const *talentInfo = sTalentStore.LookupEntry(i);
         if (!talentInfo) continue;
         for (int j = 0; j < MAX_TALENT_RANK; j++)
-            if(talentInfo->RankID[j])
+            if (talentInfo->RankID[j])
                 sTalentSpellPosMap[talentInfo->RankID[j]] = TalentSpellPos(i,j);
     }
 
@@ -549,10 +549,10 @@ void LoadDBCStores(const std::string& dataPath)
     // prepare fast data access to bit pos of talent ranks for use at inspecting
     {
         // now have all max ranks (and then bit amount used for store talent ranks in inspect)
-        for(uint32 talentTabId = 1; talentTabId < sTalentTabStore.GetNumRows(); ++talentTabId)
+        for (uint32 talentTabId = 1; talentTabId < sTalentTabStore.GetNumRows(); ++talentTabId)
         {
             TalentTabEntry const *talentTabInfo = sTalentTabStore.LookupEntry( talentTabId );
-            if(!talentTabInfo)
+            if (!talentTabInfo)
                 continue;
 
             // prevent memory corruption; otherwise cls will become 12 below
@@ -561,7 +561,7 @@ void LoadDBCStores(const std::string& dataPath)
 
             // store class talent tab pages
             uint32 cls = 1;
-            for(uint32 m=1;!(m & talentTabInfo->ClassMask) && cls < MAX_CLASSES;m <<=1, ++cls) {}
+            for (uint32 m=1;!(m & talentTabInfo->ClassMask) && cls < MAX_CLASSES;m <<=1, ++cls) {}
 
             sTalentTabPages[cls][talentTabInfo->tabpage]=talentTabId;
         }
@@ -570,8 +570,8 @@ void LoadDBCStores(const std::string& dataPath)
     LoadDBC(availableDbcLocales,bad_dbc_files,sTaxiNodesStore,           dbcPath,"TaxiNodes.dbc");
 
     LoadDBC(availableDbcLocales,bad_dbc_files,sTaxiPathStore,            dbcPath,"TaxiPath.dbc");
-    for(uint32 i = 1; i < sTaxiPathStore.GetNumRows(); ++i)
-        if(TaxiPathEntry const* entry = sTaxiPathStore.LookupEntry(i))
+    for (uint32 i = 1; i < sTaxiPathStore.GetNumRows(); ++i)
+        if (TaxiPathEntry const* entry = sTaxiPathStore.LookupEntry(i))
             sTaxiPathSetBySource[entry->from][entry->to] = TaxiPathBySourceAndDestination(entry->ID,entry->price);
     uint32 pathCount = sTaxiPathStore.GetNumRows();
 
@@ -580,54 +580,54 @@ void LoadDBCStores(const std::string& dataPath)
     // Calculate path nodes count
     std::vector<uint32> pathLength;
     pathLength.resize(pathCount);                           // 0 and some other indexes not used
-    for(uint32 i = 1; i < sTaxiPathNodeStore.GetNumRows(); ++i)
-        if(TaxiPathNodeEntry const* entry = sTaxiPathNodeStore.LookupEntry(i))
+    for (uint32 i = 1; i < sTaxiPathNodeStore.GetNumRows(); ++i)
+        if (TaxiPathNodeEntry const* entry = sTaxiPathNodeStore.LookupEntry(i))
         {
             if (pathLength[entry->path] < entry->index + 1)
                 pathLength[entry->path] = entry->index + 1;
         }
     // Set path length
     sTaxiPathNodesByPath.resize(pathCount);                 // 0 and some other indexes not used
-    for(uint32 i = 1; i < sTaxiPathNodesByPath.size(); ++i)
+    for (uint32 i = 1; i < sTaxiPathNodesByPath.size(); ++i)
         sTaxiPathNodesByPath[i].resize(pathLength[i]);
     // fill data (pointers to sTaxiPathNodeStore elements
-    for(uint32 i = 1; i < sTaxiPathNodeStore.GetNumRows(); ++i)
-        if(TaxiPathNodeEntry const* entry = sTaxiPathNodeStore.LookupEntry(i))
+    for (uint32 i = 1; i < sTaxiPathNodeStore.GetNumRows(); ++i)
+        if (TaxiPathNodeEntry const* entry = sTaxiPathNodeStore.LookupEntry(i))
             sTaxiPathNodesByPath[entry->path].set(entry->index, entry);
 
     // Initialize global taxinodes mask
     // include existed nodes that have at least single not spell base (scripted) path
     {
         std::set<uint32> spellPaths;
-        for(uint32 i = 1; i < sSpellStore.GetNumRows (); ++i)
-            if(SpellEntry const* sInfo = sSpellStore.LookupEntry (i))
-                for(int j=0; j < MAX_EFFECT_INDEX; ++j)
-                    if(sInfo->Effect[j]==123 /*SPELL_EFFECT_SEND_TAXI*/)
+        for (uint32 i = 1; i < sSpellStore.GetNumRows (); ++i)
+            if (SpellEntry const* sInfo = sSpellStore.LookupEntry (i))
+                for (int j=0; j < MAX_EFFECT_INDEX; ++j)
+                    if (sInfo->Effect[j]==123 /*SPELL_EFFECT_SEND_TAXI*/)
                         spellPaths.insert(sInfo->EffectMiscValue[j]);
 
         memset(sTaxiNodesMask,0,sizeof(sTaxiNodesMask));
         memset(sOldContinentsNodesMask,0,sizeof(sTaxiNodesMask));
-        for(uint32 i = 1; i < sTaxiNodesStore.GetNumRows(); ++i)
+        for (uint32 i = 1; i < sTaxiNodesStore.GetNumRows(); ++i)
         {
             TaxiNodesEntry const* node = sTaxiNodesStore.LookupEntry(i);
-            if(!node)
+            if (!node)
                 continue;
 
             TaxiPathSetBySource::const_iterator src_i = sTaxiPathSetBySource.find(i);
-            if(src_i!=sTaxiPathSetBySource.end() && !src_i->second.empty())
+            if (src_i!=sTaxiPathSetBySource.end() && !src_i->second.empty())
             {
                 bool ok = false;
-                for(TaxiPathSetForSource::const_iterator dest_i = src_i->second.begin();dest_i != src_i->second.end(); ++dest_i)
+                for (TaxiPathSetForSource::const_iterator dest_i = src_i->second.begin();dest_i != src_i->second.end(); ++dest_i)
                 {
                     // not spell path
-                    if(spellPaths.find(dest_i->second.ID)==spellPaths.end())
+                    if (spellPaths.find(dest_i->second.ID)==spellPaths.end())
                     {
                         ok = true;
                         break;
                     }
                 }
 
-                if(!ok)
+                if (!ok)
                     continue;
             }
 
@@ -647,9 +647,9 @@ void LoadDBCStores(const std::string& dataPath)
     LoadDBC(availableDbcLocales,bad_dbc_files,sVehicleSeatStore,         dbcPath,"VehicleSeat.dbc");
     LoadDBC(availableDbcLocales,bad_dbc_files,sWorldMapAreaStore,        dbcPath,"WorldMapArea.dbc");
     LoadDBC(availableDbcLocales,bad_dbc_files,sWMOAreaTableStore,        dbcPath,"WMOAreaTable.dbc");
-    for(uint32 i = 0; i < sWMOAreaTableStore.GetNumRows(); ++i)
+    for (uint32 i = 0; i < sWMOAreaTableStore.GetNumRows(); ++i)
     {
-        if(WMOAreaTableEntry const* entry = sWMOAreaTableStore.LookupEntry(i))
+        if (WMOAreaTableEntry const* entry = sWMOAreaTableStore.LookupEntry(i))
         {
             sWMOAreaInfoByTripple.insert(WMOAreaInfoByTripple::value_type(WMOAreaTableTripple(entry->rootId, entry->adtId, entry->groupId), entry));
         }
@@ -667,7 +667,7 @@ void LoadDBCStores(const std::string& dataPath)
     else if (!bad_dbc_files.empty() )
     {
         std::string str;
-        for(std::list<std::string>::iterator i = bad_dbc_files.begin(); i != bad_dbc_files.end(); ++i)
+        for (std::list<std::string>::iterator i = bad_dbc_files.begin(); i != bad_dbc_files.end(); ++i)
             str += *i + "\n";
 
         sLog.outError("\nSome required *.dbc files (%u from %d) not found or not compatible:\n%s",(uint32)bad_dbc_files.size(),DBCFilesCount,str.c_str());
@@ -696,17 +696,17 @@ void LoadDBCStores(const std::string& dataPath)
 SimpleFactionsList const* GetFactionTeamList(uint32 faction)
 {
     FactionTeamMap::const_iterator itr = sFactionTeamMap.find(faction);
-    if(itr==sFactionTeamMap.end())
+    if (itr==sFactionTeamMap.end())
         return NULL;
     return &itr->second;
 }
 
 char const* GetPetName(uint32 petfamily, uint32 dbclang)
 {
-    if(!petfamily)
+    if (!petfamily)
         return NULL;
     CreatureFamilyEntry const *pet_family = sCreatureFamilyStore.LookupEntry(petfamily);
-    if(!pet_family)
+    if (!pet_family)
         return NULL;
     return pet_family->Name[dbclang]?pet_family->Name[dbclang]:NULL;
 }
@@ -714,7 +714,7 @@ char const* GetPetName(uint32 petfamily, uint32 dbclang)
 TalentSpellPos const* GetTalentSpellPos(uint32 spellId)
 {
     TalentSpellPosMap::const_iterator itr = sTalentSpellPosMap.find(spellId);
-    if(itr==sTalentSpellPosMap.end())
+    if (itr==sTalentSpellPosMap.end())
         return NULL;
 
     return &itr->second;
@@ -736,7 +736,7 @@ uint32 GetTalentSpellCost(uint32 spellId)
 int32 GetAreaFlagByAreaID(uint32 area_id)
 {
     AreaFlagByAreaID::iterator i = sAreaFlagByAreaID.find(area_id);
-    if(i == sAreaFlagByAreaID.end())
+    if (i == sAreaFlagByAreaID.end())
         return -1;
 
     return i->second;
@@ -745,7 +745,7 @@ int32 GetAreaFlagByAreaID(uint32 area_id)
 WMOAreaTableEntry const* GetWMOAreaTableEntryByTripple(int32 rootid, int32 adtid, int32 groupid)
 {
         WMOAreaInfoByTripple::iterator i = sWMOAreaInfoByTripple.find(WMOAreaTableTripple(rootid, adtid, groupid));
-            if(i == sWMOAreaInfoByTripple.end())
+            if (i == sWMOAreaInfoByTripple.end())
                         return NULL;
                 return i->second;
 
@@ -754,7 +754,7 @@ WMOAreaTableEntry const* GetWMOAreaTableEntryByTripple(int32 rootid, int32 adtid
 AreaTableEntry const* GetAreaEntryByAreaID(uint32 area_id)
 {
     int32 areaflag = GetAreaFlagByAreaID(area_id);
-    if(areaflag < 0)
+    if (areaflag < 0)
         return NULL;
 
     return sAreaStore.LookupEntry(areaflag );
@@ -762,10 +762,10 @@ AreaTableEntry const* GetAreaEntryByAreaID(uint32 area_id)
 
 AreaTableEntry const* GetAreaEntryByAreaFlagAndMap(uint32 area_flag,uint32 map_id)
 {
-    if(area_flag)
+    if (area_flag)
         return sAreaStore.LookupEntry(area_flag);
 
-    if(MapEntry const* mapEntry = sMapStore.LookupEntry(map_id))
+    if (MapEntry const* mapEntry = sMapStore.LookupEntry(map_id))
         return GetAreaEntryByAreaID(mapEntry->linked_zone);
 
     return NULL;
@@ -774,7 +774,7 @@ AreaTableEntry const* GetAreaEntryByAreaFlagAndMap(uint32 area_flag,uint32 map_i
 uint32 GetAreaFlagByMapId(uint32 mapid)
 {
     AreaFlagByMapID::iterator i = sAreaFlagByMapID.find(mapid);
-    if(i == sAreaFlagByMapID.end())
+    if (i == sAreaFlagByMapID.end())
         return 0;
     else
         return i->second;
@@ -782,10 +782,10 @@ uint32 GetAreaFlagByMapId(uint32 mapid)
 
 uint32 GetVirtualMapForMapAndZone(uint32 mapid, uint32 zoneId)
 {
-    if(mapid != 530 && mapid != 571)                        // speed for most cases
+    if (mapid != 530 && mapid != 571)                        // speed for most cases
         return mapid;
 
-    if(WorldMapAreaEntry const* wma = sWorldMapAreaStore.LookupEntry(zoneId))
+    if (WorldMapAreaEntry const* wma = sWorldMapAreaStore.LookupEntry(zoneId))
         return wma->virtual_map_id >= 0 ? wma->virtual_map_id : wma->map_id;
 
     return mapid;
@@ -794,14 +794,14 @@ uint32 GetVirtualMapForMapAndZone(uint32 mapid, uint32 zoneId)
 ContentLevels GetContentLevelsForMapAndZone(uint32 mapid, uint32 zoneId)
 {
     mapid = GetVirtualMapForMapAndZone(mapid,zoneId);
-    if(mapid < 2)
+    if (mapid < 2)
         return CONTENT_1_60;
 
     MapEntry const* mapEntry = sMapStore.LookupEntry(mapid);
-    if(!mapEntry)
+    if (!mapEntry)
         return CONTENT_1_60;
 
-    switch(mapEntry->Expansion())
+    switch (mapEntry->Expansion())
     {
         default: return CONTENT_1_60;
         case 1:  return CONTENT_61_70;
@@ -809,13 +809,13 @@ ContentLevels GetContentLevelsForMapAndZone(uint32 mapid, uint32 zoneId)
     }
 }
 
-ChatChannelsEntry const* GetChannelEntryFor(uint32 channel_id)
+ChatChannelsEntry const* GetChannelEntryfor (uint32 channel_id)
 {
     // not sorted, numbering index from 0
-    for(uint32 i = 0; i < sChatChannelsStore.GetNumRows(); ++i)
+    for (uint32 i = 0; i < sChatChannelsStore.GetNumRows(); ++i)
     {
         ChatChannelsEntry const* ch = sChatChannelsStore.LookupEntry(i);
-        if(ch && ch->ChannelID == channel_id)
+        if (ch && ch->ChannelID == channel_id)
             return ch;
     }
     return NULL;
@@ -823,19 +823,19 @@ ChatChannelsEntry const* GetChannelEntryFor(uint32 channel_id)
 
 bool IsTotemCategoryCompatiableWith(uint32 itemTotemCategoryId, uint32 requiredTotemCategoryId)
 {
-    if(requiredTotemCategoryId==0)
+    if (requiredTotemCategoryId==0)
         return true;
-    if(itemTotemCategoryId==0)
+    if (itemTotemCategoryId==0)
         return false;
 
     TotemCategoryEntry const* itemEntry = sTotemCategoryStore.LookupEntry(itemTotemCategoryId);
-    if(!itemEntry)
+    if (!itemEntry)
         return false;
     TotemCategoryEntry const* reqEntry = sTotemCategoryStore.LookupEntry(requiredTotemCategoryId);
-    if(!reqEntry)
+    if (!reqEntry)
         return false;
 
-    if(itemEntry->categoryType!=reqEntry->categoryType)
+    if (itemEntry->categoryType!=reqEntry->categoryType)
         return false;
 
     return (itemEntry->categoryMask & reqEntry->categoryMask)==reqEntry->categoryMask;
@@ -883,7 +883,7 @@ PvPDifficultyEntry const* GetBattlegroundBracketByLevel( uint32 mapid, uint32 le
     if (level > DEFAULT_MAX_LEVEL)
         level = DEFAULT_MAX_LEVEL;
 
-    for(uint32 i = 0; i < sPvPDifficultyStore.GetNumRows(); ++i)
+    for (uint32 i = 0; i < sPvPDifficultyStore.GetNumRows(); ++i)
         if (PvPDifficultyEntry const* entry = sPvPDifficultyStore.LookupEntry(i))
             if (entry->mapId == mapid && entry->minLevel <= level && entry->maxLevel >= level)
                 return entry;
@@ -893,7 +893,7 @@ PvPDifficultyEntry const* GetBattlegroundBracketByLevel( uint32 mapid, uint32 le
 
 PvPDifficultyEntry const* GetBattlegroundBracketById(uint32 mapid, BattleGroundBracketId id)
 {
-    for(uint32 i = 0; i < sPvPDifficultyStore.GetNumRows(); ++i)
+    for (uint32 i = 0; i < sPvPDifficultyStore.GetNumRows(); ++i)
         if (PvPDifficultyEntry const* entry = sPvPDifficultyStore.LookupEntry(i))
             if (entry->mapId == mapid && entry->GetBracketId() == id)
                 return entry;
@@ -915,7 +915,7 @@ bool IsPointInAreaTriggerZone(AreaTriggerEntry const* atEntry, uint32 mapid, flo
     {
         // if we have radius check it
         float dist2 = (x-atEntry->x)*(x-atEntry->x) + (y-atEntry->y)*(y-atEntry->y) + (z-atEntry->z)*(z-atEntry->z);
-        if(dist2 > (atEntry->radius + delta)*(atEntry->radius + delta))
+        if (dist2 > (atEntry->radius + delta)*(atEntry->radius + delta))
             return false;
     }
     else
@@ -940,7 +940,7 @@ bool IsPointInAreaTriggerZone(AreaTriggerEntry const* atEntry, uint32 mapid, flo
         float dz = z - atEntry->z;
         float dx = rotPlayerX - atEntry->x;
         float dy = rotPlayerY - atEntry->y;
-        if( (fabs(dx) > atEntry->box_x/2 + delta) ||
+        if ( (fabs(dx) > atEntry->box_x/2 + delta) ||
             (fabs(dy) > atEntry->box_y/2 + delta) ||
             (fabs(dz) > atEntry->box_z/2 + delta) )
         {

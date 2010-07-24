@@ -63,7 +63,7 @@ struct boss_bronjahmAI : public BSWScriptedAI
 
     void Reset()
     {
-        if(pInstance) pInstance->SetData(TYPE_BRONJAHM, NOT_STARTED);
+        if (pInstance) pInstance->SetData(TYPE_BRONJAHM, NOT_STARTED);
         resetTimers();
         stage = 0;
     }
@@ -71,7 +71,7 @@ struct boss_bronjahmAI : public BSWScriptedAI
     void Aggro(Unit *who) 
     {
        Music = (urand(0, 2));
-       switch(Music)
+       switch (Music)
        {
          case 0:
             m_creature->PlayDirectSound(Battle01);
@@ -87,14 +87,14 @@ struct boss_bronjahmAI : public BSWScriptedAI
             break; 
         }
 
-        if(pInstance) pInstance->SetData(TYPE_BRONJAHM, IN_PROGRESS);
+        if (pInstance) pInstance->SetData(TYPE_BRONJAHM, IN_PROGRESS);
             DoScriptText(-1632001,m_creature,who);
             SetCombatMovement(true);
     }
 
     void JustDied(Unit *killer)
     {
-        if(pInstance) pInstance->SetData(TYPE_BRONJAHM, DONE);
+        if (pInstance) pInstance->SetData(TYPE_BRONJAHM, DONE);
         doRemove(SPELL_SOULSTORM);
                DoScriptText(-1632004,m_creature,killer);
     }
@@ -116,7 +116,7 @@ struct boss_bronjahmAI : public BSWScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        switch(stage)
+        switch (stage)
         {
             case 0: 
                     if  (timedQuery(SPELL_CORRUPT_SOUL, diff))
@@ -158,7 +158,7 @@ struct boss_bronjahmAI : public BSWScriptedAI
 
         if (BattleMusicTimer < diff && m_creature->isAlive())
         {
-           switch(Music)
+           switch (Music)
            {
              case 0:
                 m_creature->PlayDirectSound(Battle01);

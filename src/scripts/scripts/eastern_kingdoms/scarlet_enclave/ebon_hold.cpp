@@ -113,7 +113,7 @@ struct npc_a_special_surpriseAI : public ScriptedAI
 
     bool MeetQuestCondition(Unit* pPlayer)
     {
-        switch(m_creature->GetEntry())
+        switch (m_creature->GetEntry())
         {
             case 29061:                                     // Ellen Stanbridge
                 if (((Player*)pPlayer)->GetQuestStatus(12742) == QUEST_STATUS_INCOMPLETE)
@@ -185,10 +185,10 @@ struct npc_a_special_surpriseAI : public ScriptedAI
 
                 //TODO: simplify text's selection
 
-                switch(pPlayer->getRace())
+                switch (pPlayer->getRace())
                 {
                     case RACE_HUMAN:
-                        switch(m_uiExecuteSpeech_Counter)
+                        switch (m_uiExecuteSpeech_Counter)
                         {
                             case 0: DoScriptText(SAY_EXEC_START_1, m_creature, pPlayer); break;
                             case 1: m_creature->SetStandState(UNIT_STAND_STATE_STAND); break;
@@ -216,7 +216,7 @@ struct npc_a_special_surpriseAI : public ScriptedAI
                         }
                         break;
                     case RACE_ORC:
-                        switch(m_uiExecuteSpeech_Counter)
+                        switch (m_uiExecuteSpeech_Counter)
                         {
                             case 0: DoScriptText(SAY_EXEC_START_1, m_creature, pPlayer); break;
                             case 1: m_creature->SetStandState(UNIT_STAND_STATE_STAND); break;
@@ -244,7 +244,7 @@ struct npc_a_special_surpriseAI : public ScriptedAI
                         }
                         break;
                     case RACE_DWARF:
-                        switch(m_uiExecuteSpeech_Counter)
+                        switch (m_uiExecuteSpeech_Counter)
                         {
                             case 0: DoScriptText(SAY_EXEC_START_2, m_creature, pPlayer); break;
                             case 1: m_creature->SetStandState(UNIT_STAND_STATE_STAND); break;
@@ -272,7 +272,7 @@ struct npc_a_special_surpriseAI : public ScriptedAI
                         }
                         break;
                     case RACE_NIGHTELF:
-                        switch(m_uiExecuteSpeech_Counter)
+                        switch (m_uiExecuteSpeech_Counter)
                         {
                             case 0: DoScriptText(SAY_EXEC_START_1, m_creature, pPlayer); break;
                             case 1: m_creature->SetStandState(UNIT_STAND_STATE_STAND); break;
@@ -300,7 +300,7 @@ struct npc_a_special_surpriseAI : public ScriptedAI
                         }
                         break;
                     case RACE_UNDEAD_PLAYER:
-                        switch(m_uiExecuteSpeech_Counter)
+                        switch (m_uiExecuteSpeech_Counter)
                         {
                             case 0: DoScriptText(SAY_EXEC_START_1, m_creature, pPlayer); break;
                             case 1: m_creature->SetStandState(UNIT_STAND_STATE_STAND); break;
@@ -328,7 +328,7 @@ struct npc_a_special_surpriseAI : public ScriptedAI
                         }
                         break;
                     case RACE_TAUREN:
-                        switch(m_uiExecuteSpeech_Counter)
+                        switch (m_uiExecuteSpeech_Counter)
                         {
                             case 0: DoScriptText(SAY_EXEC_START_1, m_creature, pPlayer); break;
                             case 1: m_creature->SetStandState(UNIT_STAND_STATE_STAND); break;
@@ -356,7 +356,7 @@ struct npc_a_special_surpriseAI : public ScriptedAI
                         }
                         break;
                     case RACE_GNOME:
-                        switch(m_uiExecuteSpeech_Counter)
+                        switch (m_uiExecuteSpeech_Counter)
                         {
                             case 0: DoScriptText(SAY_EXEC_START_1, m_creature, pPlayer); break;
                             case 1: m_creature->SetStandState(UNIT_STAND_STATE_STAND); break;
@@ -384,7 +384,7 @@ struct npc_a_special_surpriseAI : public ScriptedAI
                         }
                         break;
                     case RACE_TROLL:
-                        switch(m_uiExecuteSpeech_Counter)
+                        switch (m_uiExecuteSpeech_Counter)
                         {
                             case 0: DoScriptText(SAY_EXEC_START_3, m_creature, pPlayer); break;
                             case 1: m_creature->SetStandState(UNIT_STAND_STATE_STAND); break;
@@ -412,7 +412,7 @@ struct npc_a_special_surpriseAI : public ScriptedAI
                         }
                         break;
                     case RACE_BLOODELF:
-                        switch(m_uiExecuteSpeech_Counter)
+                        switch (m_uiExecuteSpeech_Counter)
                         {
                             case 0: DoScriptText(SAY_EXEC_START_1, m_creature, pPlayer); break;
                             case 1: m_creature->SetStandState(UNIT_STAND_STATE_STAND); break;
@@ -440,7 +440,7 @@ struct npc_a_special_surpriseAI : public ScriptedAI
                         }
                         break;
                     case RACE_DRAENEI:
-                        switch(m_uiExecuteSpeech_Counter)
+                        switch (m_uiExecuteSpeech_Counter)
                         {
                             case 0: DoScriptText(SAY_EXEC_START_1, m_creature, pPlayer); break;
                             case 1: m_creature->SetStandState(UNIT_STAND_STATE_STAND); break;
@@ -688,7 +688,7 @@ struct npc_koltira_deathweaverAI : public npc_escortAI
 
     void WaypointReached(uint32 uiPointId)
     {
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 0:
                 DoScriptText(SAY_BREAKOUT1, m_creature);
@@ -733,7 +733,7 @@ struct npc_koltira_deathweaverAI : public npc_escortAI
 
     void SummonAcolyte(uint32 uiAmount)
     {
-        for(uint32 i = 0; i < uiAmount; ++i)
+        for (uint32 i = 0; i < uiAmount; ++i)
             m_creature->SummonCreature(NPC_CRIMSON_ACOLYTE, 1642.329f, -6045.818f, 127.583f, 0.0f, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 5000);
     }
 
@@ -743,7 +743,7 @@ struct npc_koltira_deathweaverAI : public npc_escortAI
         {
             if (m_uiWave_Timer < uiDiff)
             {
-                switch(m_uiWave)
+                switch (m_uiWave)
                 {
                     case 0:
                         DoScriptText(SAY_BREAKOUT3, m_creature);

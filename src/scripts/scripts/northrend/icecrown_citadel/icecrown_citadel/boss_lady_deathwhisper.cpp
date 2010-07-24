@@ -90,7 +90,7 @@ struct boss_lady_deathwhisperAI : public BSWScriptedAI
 
     void Reset()
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         pInstance->SetData(TYPE_DEATHWHISPER, NOT_STARTED);
         stage = 0;
         MovementStarted = false;
@@ -101,7 +101,7 @@ struct boss_lady_deathwhisperAI : public BSWScriptedAI
     void MoveInLineOfSight(Unit* pWho) 
     {
         if (m_creature->CanInitiateAttack() && pWho->isTargetableForAttack() &&
-        m_creature->IsHostileTo(pWho) && pWho->isInAccessablePlaceFor(m_creature))
+        m_creature->IsHostileTo(pWho) && pWho->isInAccessablePlacefor (m_creature))
         {
         if (m_creature->IsWithinDistInMap(pWho, m_creature->GetAttackDistance(pWho)) && m_creature->IsWithinLOSInMap(pWho))
         {
@@ -140,9 +140,9 @@ struct boss_lady_deathwhisperAI : public BSWScriptedAI
 
     void MovementInform(uint32 type, uint32 id)
     {
-        if(!pInstance) return;
-        if(type != POINT_MOTION_TYPE) return;
-        if(MovementStarted && id != 1)
+        if (!pInstance) return;
+        if (type != POINT_MOTION_TYPE) return;
+        if (MovementStarted && id != 1)
         {
              m_creature->GetMotionMaster()->MovePoint(1, SpawnLoc[0].x, SpawnLoc[0].y, SpawnLoc[0].z);
         }
@@ -155,7 +155,7 @@ struct boss_lady_deathwhisperAI : public BSWScriptedAI
 
     void Aggro(Unit *who) 
     {
-        if(pInstance) pInstance->SetData(TYPE_DEATHWHISPER, IN_PROGRESS);
+        if (pInstance) pInstance->SetData(TYPE_DEATHWHISPER, IN_PROGRESS);
         doCast(SPELL_MANA_BARRIER );
         MovementStarted = true;
         SetCombatMovement(false);
@@ -165,13 +165,13 @@ struct boss_lady_deathwhisperAI : public BSWScriptedAI
 
     void JustDied(Unit *killer)
     {
-        if(pInstance) pInstance->SetData(TYPE_DEATHWHISPER, DONE);
+        if (pInstance) pInstance->SetData(TYPE_DEATHWHISPER, DONE);
         DoScriptText(-1631032,m_creature,killer);
     }
 
     void JustSummoned(Creature* summoned)
     {
-        if(!pInstance || !summoned) return;
+        if (!pInstance || !summoned) return;
 
         if (Unit* pTarget= m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0) ) {
             summoned->AddThreat(pTarget, 100.0f);
@@ -226,7 +226,7 @@ struct boss_lady_deathwhisperAI : public BSWScriptedAI
                                    }
 
         if (hasAura(SPELL_MANA_BARRIER, m_creature)) {
-             if(m_creature->GetHealth() <= m_creature->GetMaxHealth()) {
+             if (m_creature->GetHealth() <= m_creature->GetMaxHealth()) {
                   if (m_creature->GetPower(POWER_MANA) > (m_creature->GetMaxHealth() - m_creature->GetHealth()))
                         {
                          m_creature->SetPower(POWER_MANA,m_creature->GetPower(POWER_MANA)-(m_creature->GetMaxHealth() - m_creature->GetHealth()));
@@ -241,7 +241,7 @@ struct boss_lady_deathwhisperAI : public BSWScriptedAI
 
         if (MovementStarted) return;
 
-        switch(stage)
+        switch (stage)
         {
             case 3: {
                     if (IsCombatMovement())
@@ -280,14 +280,14 @@ struct boss_lady_deathwhisperAI : public BSWScriptedAI
                     { 
                     switch (urand(0,1)) {
                             case 0:
-                                  if(Creature *pGuard = GetClosestCreatureWithEntry(m_creature, NPC_FANATIC, 100.0f))
+                                  if (Creature *pGuard = GetClosestCreatureWithEntry(m_creature, NPC_FANATIC, 100.0f))
                                   {
                                       doCast(SPELL_DARK_EMPOWERMENT, pGuard);
                                       DoScriptText(-1631026,m_creature);
                                   };
                                   break;
                             case 1:
-                                  if(Creature *pGuard = GetClosestCreatureWithEntry(m_creature, NPC_ADHERENT, 100.0f))
+                                  if (Creature *pGuard = GetClosestCreatureWithEntry(m_creature, NPC_ADHERENT, 100.0f))
                                   {
                                       doCast(SPELL_DARK_EMPOWERMENT, pGuard);
                                       DoScriptText(-1631027,m_creature);
@@ -381,7 +381,7 @@ struct mob_vengeful_shadeAI : public BSWScriptedAI
 
     void UpdateAI(const uint32 uiDiff)
     {
-        if(m_pInstance && m_pInstance->GetData(TYPE_DEATHWHISPER) != IN_PROGRESS)
+        if (m_pInstance && m_pInstance->GetData(TYPE_DEATHWHISPER) != IN_PROGRESS)
             m_creature->ForcedDespawn();
 
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())

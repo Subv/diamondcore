@@ -62,7 +62,7 @@ struct instance_the_eye : public ScriptedInstance
 
     bool IsEncounterInProgress() const
     {
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
             if (m_auiEncounter[i] == IN_PROGRESS) return true;
 
         return false;
@@ -70,7 +70,7 @@ struct instance_the_eye : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case 20064: m_uiThaladredGUID = pCreature->GetGUID(); break;
             case 20063: m_uiTelonicusGUID = pCreature->GetGUID(); break;
@@ -83,7 +83,7 @@ struct instance_the_eye : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_ALAR:
                 m_auiEncounter[0] = uiData;
@@ -106,7 +106,7 @@ struct instance_the_eye : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_ALAR:
                 return m_auiEncounter[0];
@@ -126,7 +126,7 @@ struct instance_the_eye : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_THALADRED:
                 return m_uiThaladredGUID;

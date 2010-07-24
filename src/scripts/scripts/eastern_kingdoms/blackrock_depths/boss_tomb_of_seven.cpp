@@ -61,7 +61,7 @@ bool GossipHello_boss_gloomrel(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_boss_gloomrel(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_TEACH_2, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 11);
@@ -151,7 +151,7 @@ struct boss_doomrelAI : public ScriptedAI
 
     Creature* GetDwarfForPhase(uint8 uiPhase)
     {
-        switch(uiPhase)
+        switch (uiPhase)
         {
             case 0:
                 return m_pInstance->instance->GetCreature(m_pInstance->GetData64(DATA_ANGERREL));
@@ -292,7 +292,7 @@ bool GossipHello_boss_doomrel(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_boss_doomrel(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->CLOSE_GOSSIP_MENU();

@@ -136,7 +136,7 @@ struct boss_bjarngrimAI : public ScriptedAI
         m_uiMortalStrike_Timer = 8000;
         m_uiSlam_Timer = 10000;
 
-        for(uint8 i = 0; i < 2; ++i)
+        for (uint8 i = 0; i < 2; ++i)
         {
             if (Creature* pStormforgedLieutenant = ((Creature*)Unit::GetUnit((*m_creature), m_auiStormforgedLieutenantGUID[i])))
             {
@@ -171,7 +171,7 @@ struct boss_bjarngrimAI : public ScriptedAI
 
     void KilledUnit(Unit* pVictim)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_SLAY_1, m_creature); break;
             case 1: DoScriptText(SAY_SLAY_2, m_creature); break;
@@ -190,7 +190,7 @@ struct boss_bjarngrimAI : public ScriptedAI
     //TODO: remove when removal is done by DiamondCore
     void DoRemoveStanceAura(uint8 uiStance)
     {
-        switch(uiStance)
+        switch (uiStance)
         {
             case STANCE_DEFENSIVE:
                 m_creature->RemoveAurasDueToSpell(SPELL_DEFENSIVE_STANCE);
@@ -226,7 +226,7 @@ struct boss_bjarngrimAI : public ScriptedAI
 
             m_uiStance = uiTempStance;
 
-            switch(m_uiStance)
+            switch (m_uiStance)
             {
                 case STANCE_DEFENSIVE:
                     DoScriptText(SAY_DEFENSIVE_STANCE, m_creature);
@@ -254,7 +254,7 @@ struct boss_bjarngrimAI : public ScriptedAI
         else
             m_uiChangeStance_Timer -= uiDiff;
 
-        switch(m_uiStance)
+        switch (m_uiStance)
         {
             case STANCE_DEFENSIVE:
             {

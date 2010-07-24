@@ -31,7 +31,7 @@
 template<class T>
 inline void Diamond::VisibleNotifier::Visit(GridRefManager<T> &m)
 {
-    for(typename GridRefManager<T>::iterator iter = m.begin(); iter != m.end(); ++iter)
+    for (typename GridRefManager<T>::iterator iter = m.begin(); iter != m.end(); ++iter)
     {
         i_camera.UpdateVisibilityOf(iter->getSource(), i_data, i_visibleNow);
         i_clientGUIDs.erase(iter->getSource()->GetGUID());
@@ -40,13 +40,13 @@ inline void Diamond::VisibleNotifier::Visit(GridRefManager<T> &m)
 
 inline void Diamond::ObjectUpdater::Visit(CreatureMapType &m)
 {
-    for(CreatureMapType::iterator iter = m.begin(); iter != m.end(); ++iter)
+    for (CreatureMapType::iterator iter = m.begin(); iter != m.end(); ++iter)
         iter->getSource()->Update(i_timeDiff);
 }
 
 inline void Diamond::PlayerRelocationNotifier::Visit(PlayerMapType &m)
 {
-    for(PlayerMapType::iterator iter = m.begin(); iter != m.end(); ++iter)
+    for (PlayerMapType::iterator iter = m.begin(); iter != m.end(); ++iter)
     {
         if (&i_player==iter->getSource())
             continue;
@@ -96,7 +96,7 @@ inline void Diamond::PlayerRelocationNotifier::Visit(CreatureMapType &m)
 
     WorldObject const* viewPoint = i_player.GetCamera().GetBody();
 
-    for(CreatureMapType::iterator iter = m.begin(); iter != m.end(); ++iter)
+    for (CreatureMapType::iterator iter = m.begin(); iter != m.end(); ++iter)
         if (iter->getSource()->isAlive())
             PlayerCreatureRelocationWorker(&i_player, viewPoint, iter->getSource());
 }
@@ -107,7 +107,7 @@ inline void Diamond::CreatureRelocationNotifier::Visit(PlayerMapType &m)
     if (!i_creature.isAlive())
         return;
 
-    for(PlayerMapType::iterator iter=m.begin(); iter != m.end(); ++iter)
+    for (PlayerMapType::iterator iter=m.begin(); iter != m.end(); ++iter)
         if (Player* player = iter->getSource())
             if (player->isAlive() && !player->IsTaxiFlying())
                 PlayerCreatureRelocationWorker(player, player->GetCamera().GetBody(), &i_creature);
@@ -119,7 +119,7 @@ inline void Diamond::CreatureRelocationNotifier::Visit(CreatureMapType &m)
     if (!i_creature.isAlive())
         return;
 
-    for(CreatureMapType::iterator iter = m.begin(); iter != m.end(); ++iter)
+    for (CreatureMapType::iterator iter = m.begin(); iter != m.end(); ++iter)
     {
         Creature* c = iter->getSource();
         if (c != &i_creature && c->isAlive())
@@ -201,14 +201,14 @@ inline void Diamond::DynamicObjectUpdater::VisitHelper(Unit* target)
 template<>
 inline void Diamond::DynamicObjectUpdater::Visit(CreatureMapType  &m)
 {
-    for(CreatureMapType::iterator itr=m.begin(); itr != m.end(); ++itr)
+    for (CreatureMapType::iterator itr=m.begin(); itr != m.end(); ++itr)
         VisitHelper(itr->getSource());
 }
 
 template<>
 inline void Diamond::DynamicObjectUpdater::Visit(PlayerMapType  &m)
 {
-    for(PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
         VisitHelper(itr->getSource());
 }
 
@@ -223,7 +223,7 @@ void Diamond::WorldObjectSearcher<Check>::Visit(GameObjectMapType &m)
     if (i_object)
         return;
 
-    for(GameObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (GameObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
         if (!itr->getSource()->InSamePhase(i_phaseMask))
             continue;
@@ -243,7 +243,7 @@ void Diamond::WorldObjectSearcher<Check>::Visit(PlayerMapType &m)
     if (i_object)
         return;
 
-    for(PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
         if (!itr->getSource()->InSamePhase(i_phaseMask))
             continue;
@@ -263,7 +263,7 @@ void Diamond::WorldObjectSearcher<Check>::Visit(CreatureMapType &m)
     if (i_object)
         return;
 
-    for(CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
         if (!itr->getSource()->InSamePhase(i_phaseMask))
             continue;
@@ -283,7 +283,7 @@ void Diamond::WorldObjectSearcher<Check>::Visit(CorpseMapType &m)
     if (i_object)
         return;
 
-    for(CorpseMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (CorpseMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
         if (!itr->getSource()->InSamePhase(i_phaseMask))
             continue;
@@ -303,7 +303,7 @@ void Diamond::WorldObjectSearcher<Check>::Visit(DynamicObjectMapType &m)
     if (i_object)
         return;
 
-    for(DynamicObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (DynamicObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
         if (!itr->getSource()->InSamePhase(i_phaseMask))
             continue;
@@ -319,7 +319,7 @@ void Diamond::WorldObjectSearcher<Check>::Visit(DynamicObjectMapType &m)
 template<class Check>
 void Diamond::WorldObjectListSearcher<Check>::Visit(PlayerMapType &m)
 {
-    for(PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
         if (itr->getSource()->InSamePhase(i_phaseMask))
             if (i_check(itr->getSource()))
                 i_objects.push_back(itr->getSource());
@@ -328,7 +328,7 @@ void Diamond::WorldObjectListSearcher<Check>::Visit(PlayerMapType &m)
 template<class Check>
 void Diamond::WorldObjectListSearcher<Check>::Visit(CreatureMapType &m)
 {
-    for(CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
         if (itr->getSource()->InSamePhase(i_phaseMask))
             if (i_check(itr->getSource()))
                 i_objects.push_back(itr->getSource());
@@ -337,7 +337,7 @@ void Diamond::WorldObjectListSearcher<Check>::Visit(CreatureMapType &m)
 template<class Check>
 void Diamond::WorldObjectListSearcher<Check>::Visit(CorpseMapType &m)
 {
-    for(CorpseMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (CorpseMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
         if (itr->getSource()->InSamePhase(i_phaseMask))
             if (i_check(itr->getSource()))
                 i_objects.push_back(itr->getSource());
@@ -346,7 +346,7 @@ void Diamond::WorldObjectListSearcher<Check>::Visit(CorpseMapType &m)
 template<class Check>
 void Diamond::WorldObjectListSearcher<Check>::Visit(GameObjectMapType &m)
 {
-    for(GameObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (GameObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
         if (itr->getSource()->InSamePhase(i_phaseMask))
             if (i_check(itr->getSource()))
                 i_objects.push_back(itr->getSource());
@@ -355,7 +355,7 @@ void Diamond::WorldObjectListSearcher<Check>::Visit(GameObjectMapType &m)
 template<class Check>
 void Diamond::WorldObjectListSearcher<Check>::Visit(DynamicObjectMapType &m)
 {
-    for(DynamicObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (DynamicObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
         if (itr->getSource()->InSamePhase(i_phaseMask))
             if (i_check(itr->getSource()))
                 i_objects.push_back(itr->getSource());
@@ -370,7 +370,7 @@ void Diamond::GameObjectSearcher<Check>::Visit(GameObjectMapType &m)
     if (i_object)
         return;
 
-    for(GameObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (GameObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
         if (!itr->getSource()->InSamePhase(i_phaseMask))
             continue;
@@ -386,7 +386,7 @@ void Diamond::GameObjectSearcher<Check>::Visit(GameObjectMapType &m)
 template<class Check>
 void Diamond::GameObjectLastSearcher<Check>::Visit(GameObjectMapType &m)
 {
-    for(GameObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (GameObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
         if (!itr->getSource()->InSamePhase(i_phaseMask))
             continue;
@@ -399,7 +399,7 @@ void Diamond::GameObjectLastSearcher<Check>::Visit(GameObjectMapType &m)
 template<class Check>
 void Diamond::GameObjectListSearcher<Check>::Visit(GameObjectMapType &m)
 {
-    for(GameObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (GameObjectMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
         if (itr->getSource()->InSamePhase(i_phaseMask))
             if (i_check(itr->getSource()))
                 i_objects.push_back(itr->getSource());
@@ -414,7 +414,7 @@ void Diamond::UnitSearcher<Check>::Visit(CreatureMapType &m)
     if (i_object)
         return;
 
-    for(CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
         if (!itr->getSource()->InSamePhase(i_phaseMask))
             continue;
@@ -434,7 +434,7 @@ void Diamond::UnitSearcher<Check>::Visit(PlayerMapType &m)
     if (i_object)
         return;
 
-    for(PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
         if (!itr->getSource()->InSamePhase(i_phaseMask))
             continue;
@@ -450,7 +450,7 @@ void Diamond::UnitSearcher<Check>::Visit(PlayerMapType &m)
 template<class Check>
 void Diamond::UnitLastSearcher<Check>::Visit(CreatureMapType &m)
 {
-    for(CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
         if (!itr->getSource()->InSamePhase(i_phaseMask))
             continue;
@@ -463,7 +463,7 @@ void Diamond::UnitLastSearcher<Check>::Visit(CreatureMapType &m)
 template<class Check>
 void Diamond::UnitLastSearcher<Check>::Visit(PlayerMapType &m)
 {
-    for(PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
         if (!itr->getSource()->InSamePhase(i_phaseMask))
             continue;
@@ -476,7 +476,7 @@ void Diamond::UnitLastSearcher<Check>::Visit(PlayerMapType &m)
 template<class Check>
 void Diamond::UnitListSearcher<Check>::Visit(PlayerMapType &m)
 {
-    for(PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
         if (itr->getSource()->InSamePhase(i_phaseMask))
             if (i_check(itr->getSource()))
                 i_objects.push_back(itr->getSource());
@@ -485,7 +485,7 @@ void Diamond::UnitListSearcher<Check>::Visit(PlayerMapType &m)
 template<class Check>
 void Diamond::UnitListSearcher<Check>::Visit(CreatureMapType &m)
 {
-    for(CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
         if (itr->getSource()->InSamePhase(i_phaseMask))
             if (i_check(itr->getSource()))
                 i_objects.push_back(itr->getSource());
@@ -500,7 +500,7 @@ void Diamond::CreatureSearcher<Check>::Visit(CreatureMapType &m)
     if (i_object)
         return;
 
-    for(CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
         if (!itr->getSource()->InSamePhase(i_phaseMask))
             continue;
@@ -516,7 +516,7 @@ void Diamond::CreatureSearcher<Check>::Visit(CreatureMapType &m)
 template<class Check>
 void Diamond::CreatureLastSearcher<Check>::Visit(CreatureMapType &m)
 {
-    for(CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
         if (!itr->getSource()->InSamePhase(i_phaseMask))
             continue;
@@ -529,7 +529,7 @@ void Diamond::CreatureLastSearcher<Check>::Visit(CreatureMapType &m)
 template<class Check>
 void Diamond::CreatureListSearcher<Check>::Visit(CreatureMapType &m)
 {
-    for(CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (CreatureMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
         if (itr->getSource()->InSamePhase(i_phaseMask))
             if (i_check(itr->getSource()))
                 i_objects.push_back(itr->getSource());
@@ -542,7 +542,7 @@ void Diamond::PlayerSearcher<Check>::Visit(PlayerMapType &m)
     if (i_object)
         return;
 
-    for(PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
+    for (PlayerMapType::iterator itr = m.begin(); itr != m.end(); ++itr)
     {
         if (!itr->getSource()->InSamePhase(i_phaseMask))
             continue;
@@ -600,7 +600,7 @@ void Diamond::LocalizedPacketListDo<Builder>::operator()( Player* p )
     else
         data_list = &i_data_cache[cache_idx];
 
-    for(size_t i = 0; i < data_list->size(); ++i)
+    for (size_t i = 0; i < data_list->size(); ++i)
         p->SendDirectMessage((*data_list)[i]);
 }
 

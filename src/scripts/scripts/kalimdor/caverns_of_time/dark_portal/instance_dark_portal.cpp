@@ -126,7 +126,7 @@ struct instance_dark_portal : public ScriptedInstance
 
     uint8 GetRiftWaveId()
     {
-        switch(m_uiRiftPortalCount)
+        switch (m_uiRiftPortalCount)
         {
             case 6:
                 m_uiRiftWaveId = 2;
@@ -143,7 +143,7 @@ struct instance_dark_portal : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_MEDIVH:
                 if (uiData == SPECIAL && m_auiEncounter[0] == IN_PROGRESS)
@@ -184,7 +184,7 @@ struct instance_dark_portal : public ScriptedInstance
 
                         if (!players.isEmpty())
                         {
-                            for(Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
+                            for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
                             {
                                 if (Player* pPlayer = itr->getSource())
                                 {
@@ -215,7 +215,7 @@ struct instance_dark_portal : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_MEDIVH:
                 return m_auiEncounter[0];

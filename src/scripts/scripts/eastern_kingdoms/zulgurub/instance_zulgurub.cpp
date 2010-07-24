@@ -71,7 +71,7 @@ struct instance_zulgurub : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_LORKHAN:
                 m_uiLorKhanGUID = pCreature->GetGUID();
@@ -87,7 +87,7 @@ struct instance_zulgurub : public ScriptedInstance
                 break;
             case NPC_HAKKAR:
                 m_uiHakkarGUID = pCreature->GetGUID();
-                for(uint8 i = 0; i < 5; ++i)
+                for (uint8 i = 0; i < 5; ++i)
                 {
                     if (m_auiEncounter[i] == DONE)
                         LowerHakkarHitPoints();
@@ -98,7 +98,7 @@ struct instance_zulgurub : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_ARLOKK:
                 m_auiEncounter[0] = uiData;
@@ -175,7 +175,7 @@ struct instance_zulgurub : public ScriptedInstance
             >> m_auiEncounter[4] >> m_auiEncounter[5] >> m_auiEncounter[6] >> m_auiEncounter[7]
             >> m_auiEncounter[8];
 
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
         {
             if (m_auiEncounter[i] == IN_PROGRESS)
                 m_auiEncounter[i] = NOT_STARTED;
@@ -186,7 +186,7 @@ struct instance_zulgurub : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_ARLOKK:
                 return m_auiEncounter[0];
@@ -212,7 +212,7 @@ struct instance_zulgurub : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_LORKHAN:
                 return m_uiLorKhanGUID;

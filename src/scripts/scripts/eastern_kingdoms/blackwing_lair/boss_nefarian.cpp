@@ -96,7 +96,7 @@ struct boss_nefarianAI : public ScriptedAI
 
     void Aggro(Unit* pWho)
     {
-        switch(urand(0, 3))
+        switch (urand(0, 3))
         {
             case 0: DoScriptText(SAY_XHEALTH, m_creature); break;
             case 1: DoScriptText(SAY_AGGRO, m_creature); break;
@@ -157,7 +157,7 @@ struct boss_nefarianAI : public ScriptedAI
             //On official it is based on what classes are currently on the hostil list
             //but we can't do that yet so just randomly call one
 
-            switch(urand(0, 8))
+            switch (urand(0, 8))
             {
                 case 0:
                     DoScriptText(SAY_MAGE, m_creature);

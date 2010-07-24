@@ -157,7 +157,7 @@ struct npc_restless_apparitionAI : public ScriptedAI
 
         if (m_uiTalk_Timer <= uiDiff)
         {
-            switch(urand(0, 7))
+            switch (urand(0, 7))
             {
                 case 0: DoScriptText(SAY_RAND_1, m_creature); break;
                 case 1: DoScriptText(SAY_RAND_2, m_creature); break;
@@ -283,7 +283,7 @@ struct npc_morokkAI : public npc_escortAI
 
     void WaypointReached(uint32 uiPointId)
     {
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 0:
                 SetEscortPaused(true);
@@ -495,7 +495,7 @@ struct npc_ogronAI : public npc_escortAI
     {
         if (!lCreatureList.empty())
         {
-            for(std::list<Creature*>::iterator itr = lCreatureList.begin(); itr != lCreatureList.end(); ++itr)
+            for (std::list<Creature*>::iterator itr = lCreatureList.begin(); itr != lCreatureList.end(); ++itr)
             {
                 if ((*itr)->GetEntry() == uiCreatureEntry && (*itr)->isAlive())
                     return (*itr);
@@ -507,7 +507,7 @@ struct npc_ogronAI : public npc_escortAI
 
     void WaypointReached(uint32 uiPointId)
     {
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 9:
                 DoScriptText(SAY_OGR_SPOT, m_creature);
@@ -545,7 +545,7 @@ struct npc_ogronAI : public npc_escortAI
     {
         if (!lCreatureList.empty())
         {
-            for(std::list<Creature*>::iterator itr = lCreatureList.begin(); itr != lCreatureList.end(); ++itr)
+            for (std::list<Creature*>::iterator itr = lCreatureList.begin(); itr != lCreatureList.end(); ++itr)
             {
                 if ((*itr)->GetEntry() == NPC_REETHE)
                     continue;
@@ -569,11 +569,11 @@ struct npc_ogronAI : public npc_escortAI
                 {
                     m_uiGlobalTimer = 5000;
 
-                    switch(m_uiPhase)
+                    switch (m_uiPhase)
                     {
                         case PHASE_INTRO:
                         {
-                            switch(m_uiPhaseCounter)
+                            switch (m_uiPhaseCounter)
                             {
                                 case 0:
                                     if (Creature* pReethe = GetCreature(NPC_REETHE))
@@ -611,7 +611,7 @@ struct npc_ogronAI : public npc_escortAI
                         }
                         case PHASE_GUESTS:
                         {
-                            switch(m_uiPhaseCounter)
+                            switch (m_uiPhaseCounter)
                             {
                                 case 6:
                                     if (Creature* pCaldwell = GetCreature(NPC_CALDWELL))
@@ -652,7 +652,7 @@ struct npc_ogronAI : public npc_escortAI
                         }
                         case PHASE_COMPLETE:
                         {
-                            switch(m_uiPhaseCounter)
+                            switch (m_uiPhaseCounter)
                             {
                                 case 12:
                                     if (Player* pPlayer = GetPlayerForEscort())

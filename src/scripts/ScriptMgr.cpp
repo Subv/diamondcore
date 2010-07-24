@@ -59,7 +59,7 @@ void ScriptMgr::ScriptsInit()
 
     outstring_log("DS: Loading Scripts");
 
-    for(int i=0; i<MAX_SCRIPTS; ++i)
+    for (int i=0; i<MAX_SCRIPTS; ++i)
         m_scripts[i]=NULL;
 
     FillSpellSummary();
@@ -117,7 +117,7 @@ void DoScriptText(int32 iTextEntry, WorldObject* pSource, Unit* pTarget)
             error_log("DS: DoScriptText entry %i tried to process emote for invalid TypeId (%u).", iTextEntry, pSource->GetTypeId());
     }
 
-    switch(pData->uiType)
+    switch (pData->uiType)
     {
         case CHAT_TYPE_SAY:
             pSource->MonsterSay(iTextEntry, pData->uiLanguage, pTarget ? pTarget->GetGUID() : 0);

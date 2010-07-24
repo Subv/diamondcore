@@ -160,11 +160,11 @@ struct boss_gurtogg_bloodboilAI : public ScriptedAI
         /*SpellEntry const *spellInfo = GetSpellStore()->LookupEntry(SPELL_BLOODBOIL);
         if (spellInfo)
         {
-            for(std::list<Unit *>::iterator itr = targets.begin(); itr != targets.end(); ++itr)
+            for (std::list<Unit *>::iterator itr = targets.begin(); itr != targets.end(); ++itr)
             {
                 Unit* target = *itr;
                 if (!target) return;
-                for(uint32 i = 0;i<3; ++i)
+                for (uint32 i = 0;i<3; ++i)
                 {
                     uint8 eff = spellInfo->Effect[i];
                     if (eff>=TOTAL_SPELL_EFFECTS)

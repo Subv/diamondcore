@@ -203,7 +203,7 @@ bool GossipHello_npc_elder_kuruti(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_npc_elder_kuruti(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF:
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_KUR2, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 1);
@@ -255,7 +255,7 @@ struct npc_kayra_longmaneAI : public npc_escortAI
         if (!pPlayer)
             return;
 
-        switch(i)
+        switch (i)
         {
             case 4:
                 DoScriptText(SAY_AMBUSH1, m_creature, pPlayer);
@@ -350,7 +350,7 @@ bool GossipHello_npc_timothy_daniels(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_npc_timothy_daniels(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->SEND_GOSSIP_MENU(GOSSIP_TEXTID_TIMOTHY_DANIELS1, pCreature->GetGUID());

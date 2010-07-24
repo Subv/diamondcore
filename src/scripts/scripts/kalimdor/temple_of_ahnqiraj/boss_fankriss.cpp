@@ -59,14 +59,14 @@ struct boss_fankrissAI : public ScriptedAI
     void SummonSpawn(Unit* pVictim)
     {
         Rand = 10 + (rand()%10);
-        switch(urand(0, 1))
+        switch (urand(0, 1))
         {
             case 0: RandX = 0 - Rand; break;
             case 1: RandX = 0 + Rand; break;
         }
         Rand = 0;
         Rand =  10 + (rand()%10);
-        switch(urand(0, 1))
+        switch (urand(0, 1))
         {
             case 0: RandY = 0 - Rand; break;
             case 1: RandY = 0 + Rand; break;
@@ -93,7 +93,7 @@ struct boss_fankrissAI : public ScriptedAI
         //Summon 1-3 Spawns of Fankriss at random time.
         if (SpawnSpawns_Timer < diff)
         {
-            switch(urand(0, 2))
+            switch (urand(0, 2))
             {
                 case 0:
                     SummonSpawn(m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0));
@@ -126,7 +126,7 @@ struct boss_fankrissAI : public ScriptedAI
                     if (m_creature->getThreatManager().getThreat(target))
                         m_creature->getThreatManager().modifyThreatPercent(target, -100);
 
-                    switch(urand(0, 2))
+                    switch (urand(0, 2))
                     {
                         case 0:
                             DoTeleportPlayer(target, -8106.0142f, 1289.2900f, -74.419533f, 5.112f);

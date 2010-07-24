@@ -126,12 +126,12 @@ struct boss_tharonjaAI : public ScriptedAI
  
                 Map* pMap = m_creature->GetMap();
 /*                AchievementEntry const *AchieDraktharon = GetAchievementStore()->LookupEntry(m_bIsRegularMode ? ACHIEVEMENT_NORMAL : ACHIEVEMENT_HEROIC);
-                if(AchieDraktharon && pMap)
+                if (AchieDraktharon && pMap)
                 {
                         Map::PlayerList const &lPlayers = pMap->GetPlayers();
                         if (!lPlayers.isEmpty())
                         {
-                                for(Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
+                                for (Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
                                 {
                                         if (Player* pPlayer = itr->getSource())
                                                 pPlayer->GetAchievementMgr().CompletedAchievement(AchieDraktharon);
@@ -155,7 +155,7 @@ struct boss_tharonjaAI : public ScriptedAI
 
             if (SkeletonSpells_Timer < uiDiff)
             {     
-                switch(urand(0, 1))
+                switch (urand(0, 1))
                 {
                     case 0: 
                         DoCast(m_creature->getVictim(),  m_bIsRegularMode ? SPELL_SHADOW_VOLLEY : H_SPELL_SHADOW_VOLLEY);
@@ -205,7 +205,7 @@ struct boss_tharonjaAI : public ScriptedAI
 
             if (FleshSpells_Timer < uiDiff)
             {     
-                switch(urand(0, 3))
+                switch (urand(0, 3))
                 {
                     case 0:
                     case 1:

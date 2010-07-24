@@ -104,7 +104,7 @@ struct instance_deadmines : public ScriptedInstance
             {
                 if (Creature* pMrSmite = instance->GetCreature(m_uiSmiteGUID))
                 {
-                    switch(m_uiDoor_Step)
+                    switch (m_uiDoor_Step)
                     {
                         case 0:
                             DoScriptText(INST_SAY_ALARM1,pMrSmite);

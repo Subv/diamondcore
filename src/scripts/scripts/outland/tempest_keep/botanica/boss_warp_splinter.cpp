@@ -110,7 +110,7 @@ struct boss_warp_splinterAI : public ScriptedAI
         CheckTreantLOS_Timer = 1000;
         TreantLife_Timer = 999999;
 
-        for(int i = 0; i < 6; ++i)
+        for (int i = 0; i < 6; ++i)
             Treant_GUIDs[i] = 0;
 
         m_creature->SetSpeedRate(MOVE_RUN, 0.7f);
@@ -133,7 +133,7 @@ struct boss_warp_splinterAI : public ScriptedAI
 
     void SummonTreants()
     {
-        for(int i = 0; i < 6; ++i)
+        for (int i = 0; i < 6; ++i)
         {
             float angle = (M_PI / 3) * i;
 
@@ -159,7 +159,7 @@ struct boss_warp_splinterAI : public ScriptedAI
     // Warp Splinter eat treants if they are near him
     void EatTreant()
     {
-        for(int i=0; i<6; ++i)
+        for (int i=0; i<6; ++i)
         {
             Unit *pTreant = Unit::GetUnit(*m_creature, Treant_GUIDs[i]);
 

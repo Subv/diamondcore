@@ -37,16 +37,16 @@ struct instance_forge_of_souls : public ScriptedInstance
 
     void OpenDoor(uint64 guid)
     {
-        if(!guid) return;
+        if (!guid) return;
         GameObject* pGo = instance->GetGameObject(guid);
-        if(pGo) pGo->SetGoState(GO_STATE_ACTIVE);
+        if (pGo) pGo->SetGoState(GO_STATE_ACTIVE);
     }
 
     void CloseDoor(uint64 guid)
     {
-        if(!guid) return;
+        if (!guid) return;
         GameObject* pGo = instance->GetGameObject(guid);
-        if(pGo) pGo->SetGoState(GO_STATE_READY);
+        if (pGo) pGo->SetGoState(GO_STATE_READY);
     }
 
     void Initialize()
@@ -59,7 +59,7 @@ struct instance_forge_of_souls : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_DEVOURER: 
                          m_uiDevourerGUID = pCreature->GetGUID();
@@ -72,13 +72,13 @@ struct instance_forge_of_souls : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        //switch(pGo->GetEntry())
+        //switch (pGo->GetEntry())
         //{
         //}
     }
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_INTRO:    m_auiEncounter[0] = uiData; break;
             case TYPE_BRONJAHM: m_auiEncounter[1] = uiData; break;
@@ -91,7 +91,7 @@ struct instance_forge_of_souls : public ScriptedInstance
 
             std::ostringstream saveStream;
 
-            for(uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
+            for (uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
                 saveStream << m_auiEncounter[i] << " ";
 
             strSaveData = saveStream.str();
@@ -108,7 +108,7 @@ struct instance_forge_of_souls : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
              case TYPE_INTRO:        return m_auiEncounter[0];
              case TYPE_BRONJAHM:     return m_auiEncounter[1];
@@ -119,7 +119,7 @@ struct instance_forge_of_souls : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case NPC_BRONJAHM: return m_uiBronjahmGUID;
             case NPC_DEVOURER: return m_uiDevourerGUID;
@@ -130,7 +130,7 @@ struct instance_forge_of_souls : public ScriptedInstance
 
     void SetData64(uint32 uiData, uint64 uiGuid)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_LIDER: m_uiLiderGUID = uiGuid;
         }
@@ -148,7 +148,7 @@ struct instance_forge_of_souls : public ScriptedInstance
 
         std::istringstream loadStream(chrIn);
 
-        for(uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
         {
             loadStream >> m_auiEncounter[i];
 

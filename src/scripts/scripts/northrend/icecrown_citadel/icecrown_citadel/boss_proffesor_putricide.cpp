@@ -171,7 +171,7 @@ struct boss_proffesor_putricideAI : public BSWScriptedAI
 
     void JustSummoned(Creature* summoned)
     {
-        if(!pInstance || !summoned) return;
+        if (!pInstance || !summoned) return;
 
         if ( summoned->GetEntry() == NPC_VOLATILE_OOZE
              || summoned->GetEntry() == NPC_GAS_CLOUD)
@@ -194,7 +194,7 @@ struct boss_proffesor_putricideAI : public BSWScriptedAI
     void CallOoze()
     {
          if (doCast(SPELL_UNSTABLE_EXPERIMENT) == CAST_OK)
-             switch(slimetype)
+             switch (slimetype)
              {
                  case 0:
                      doSummon(NPC_VOLATILE_OOZE);
@@ -273,7 +273,7 @@ struct boss_proffesor_putricideAI : public BSWScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        switch(stage)
+        switch (stage)
         {
             case 0: 
 
@@ -322,7 +322,7 @@ struct boss_proffesor_putricideAI : public BSWScriptedAI
                         CallOoze();
 
                     if (timedQuery(SPELL_THROW_BOTTLE_1, diff))
-                        switch(urand(0,2))
+                        switch (urand(0,2))
                           {
                           case 0:
                                  doCast(SPELL_THROW_BOTTLE_1);
@@ -462,7 +462,7 @@ struct mob_icc_gas_cloudAI : public BSWScriptedAI
 
         if (!m_pInstance ) return;
 
-        if(m_pInstance->GetData(TYPE_PUTRICIDE) != IN_PROGRESS)
+        if (m_pInstance->GetData(TYPE_PUTRICIDE) != IN_PROGRESS)
             m_creature->ForcedDespawn();
 
         if (expunded) m_creature->ForcedDespawn();
@@ -676,7 +676,7 @@ struct mob_ooze_puddleAI : public ScriptedAI
 
     void Reset()
     {
-        if(!m_pInstance) return;
+        if (!m_pInstance) return;
         m_creature->SetRespawnDelay(7*DAY);
         m_creature->SetDisplayId(11686);
         m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);

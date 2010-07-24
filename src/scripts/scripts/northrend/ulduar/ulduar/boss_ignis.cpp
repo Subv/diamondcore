@@ -38,17 +38,17 @@ struct boss_ignisAI : public ScriptedAI
         FlameJetsTimer = 20000;
         SummonTimer = 40000 + rand()%20000;
 
-        if(pInstance) pInstance->SetData(TYPE_IGNIS, NOT_STARTED);
+        if (pInstance) pInstance->SetData(TYPE_IGNIS, NOT_STARTED);
     }
 
     void Aggro(Unit* who) 
     {
-        if(pInstance) pInstance->SetData(TYPE_IGNIS, IN_PROGRESS);
+        if (pInstance) pInstance->SetData(TYPE_IGNIS, IN_PROGRESS);
     }
 
     void JustDied(Unit *killer)
     {
-        if(pInstance) pInstance->SetData(TYPE_IGNIS, DONE);
+        if (pInstance) pInstance->SetData(TYPE_IGNIS, DONE);
     }
 
     void UpdateAI(const uint32 diff)
@@ -73,7 +73,7 @@ struct boss_ignisAI : public ScriptedAI
         if (SlagPotTimer < diff)
         {
             Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-            if(target && target->isAlive())
+            if (target && target->isAlive())
                 DoCast(target, Regular ? SP_SLAG_POT : H_SP_SLAG_POT);
             SlagPotTimer = 15000;
         }
@@ -84,7 +84,7 @@ struct boss_ignisAI : public ScriptedAI
             Creature *construct;
             construct = DoSpawnCreature(CR_CONSTRUCT, 0, 0, 0, 0, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 10000);
             Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-            if(construct && target && target->isAlive())
+            if (construct && target && target->isAlive())
             {
                 construct->AddThreat(target, 1.0f);
             }

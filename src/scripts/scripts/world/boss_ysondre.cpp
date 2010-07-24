@@ -134,7 +134,7 @@ struct boss_ysondreAI : public ScriptedAI
         {
             DoScriptText(SAY_SUMMONDRUIDS, m_creature);
 
-            for(int i = 0; i < 10; ++i)
+            for (int i = 0; i < 10; ++i)
                 DoCastSpellIfCan(m_creature, SPELL_SUMMONDRUIDS, CAST_TRIGGERED);
 
             ++m_uiSummonDruidModifier;

@@ -47,7 +47,7 @@ struct instance_scarlet_monastery : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case 3976: m_uiMograineGUID = pCreature->GetGUID(); break;
             case 3977: m_uiWhitemaneGUID = pCreature->GetGUID(); break;
@@ -63,7 +63,7 @@ struct instance_scarlet_monastery : public ScriptedInstance
 
     uint64 GetData64(uint32 data)
     {
-        switch(data)
+        switch (data)
         {
             case DATA_MOGRAINE:
                 return m_uiMograineGUID;

@@ -85,7 +85,7 @@ struct boss_sindragosaAI : public BSWScriptedAI
 
     void Reset()
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         resetTimers();
         stage = 0;
         memset(&marked, 0, sizeof(marked));
@@ -136,14 +136,14 @@ struct boss_sindragosaAI : public BSWScriptedAI
 
     void Aggro(Unit *who) 
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
            DoScriptText(-1631420,m_creature,who);
         doCast(SPELL_FROST_AURA_1);
     }
 
     void JustDied(Unit *killer)
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         pInstance->SetData(TYPE_SINDRAGOSA, DONE);
         DoScriptText(-1631423,m_creature,killer);
     }
@@ -203,7 +203,7 @@ struct boss_sindragosaAI : public BSWScriptedAI
 /*        Map::PlayerList const &pList = pMap->GetPlayers();
                  if (pList.isEmpty()) return;
 
-        for(Map::PlayerList::const_iterator i = pList.begin(); i != pList.end(); ++i)
+        for (Map::PlayerList::const_iterator i = pList.begin(); i != pList.end(); ++i)
           {
               if (Player* player = i->getSource())
                  {
@@ -223,7 +223,7 @@ struct boss_sindragosaAI : public BSWScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        switch(stage)
+        switch (stage)
         {
             case 0: 
                     timedCast(SPELL_CLEAVE_1, diff);
@@ -377,7 +377,7 @@ struct mob_ice_tombAI : public BSWScriptedAI
 
     void UpdateAI(const uint32 uiDiff)
     {
-        if(m_pInstance && m_pInstance->GetData(TYPE_SINDRAGOSA) != IN_PROGRESS)
+        if (m_pInstance && m_pInstance->GetData(TYPE_SINDRAGOSA) != IN_PROGRESS)
         {
         if (pVictim) doRemove(SPELL_ICY_TOMB,pVictim);
             m_creature->ForcedDespawn();
@@ -424,7 +424,7 @@ struct mob_frost_bombAI : public ScriptedAI
 
     void UpdateAI(const uint32 uiDiff)
     {
-        if(m_pInstance && m_pInstance->GetData(TYPE_SINDRAGOSA) != IN_PROGRESS)
+        if (m_pInstance && m_pInstance->GetData(TYPE_SINDRAGOSA) != IN_PROGRESS)
             m_creature->ForcedDespawn();
 
         if (finita)
@@ -467,7 +467,7 @@ struct mob_rimefangAI : public BSWScriptedAI
 
     void Reset()
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         if (pInstance->GetData(TYPE_SINDRAGOSA) != DONE)
             pInstance->SetData(TYPE_SINDRAGOSA, NOT_STARTED);
         resetTimers();
@@ -483,7 +483,7 @@ struct mob_rimefangAI : public BSWScriptedAI
 
     void Aggro(Unit *who) 
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         if (pInstance->GetData(TYPE_SINDRAGOSA) != DONE) pInstance->SetData(TYPE_SINDRAGOSA, IN_PROGRESS);
         pBrother = (Creature*)Unit::GetUnit((*m_creature),pInstance->GetData64(NPC_SPINESTALKER));
         if (pBrother && !pBrother->isAlive()) pBrother->Respawn();
@@ -493,7 +493,7 @@ struct mob_rimefangAI : public BSWScriptedAI
 
     void JustDied(Unit *killer)
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         if (pInstance->GetData(TYPE_SINDRAGOSA) == DONE) return;
         if (pBrother && !pBrother->isAlive())
                  m_creature->SummonCreature(NPC_SINDRAGOSA, SpawnLoc[0].x, SpawnLoc[0].y, SpawnLoc[0].z, 3.17f, TEMPSUMMON_MANUAL_DESPAWN, DESPAWN_TIME);
@@ -538,7 +538,7 @@ struct mob_spinestalkerAI : public BSWScriptedAI
 
     void Reset()
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         if (pInstance->GetData(TYPE_SINDRAGOSA) != DONE)
             pInstance->SetData(TYPE_SINDRAGOSA, NOT_STARTED);
         resetTimers();
@@ -554,7 +554,7 @@ struct mob_spinestalkerAI : public BSWScriptedAI
 
     void Aggro(Unit *who) 
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         if (pInstance->GetData(TYPE_SINDRAGOSA) != DONE) pInstance->SetData(TYPE_SINDRAGOSA, IN_PROGRESS);
         pBrother = (Creature*)Unit::GetUnit((*m_creature),pInstance->GetData64(NPC_RIMEFANG));
         if (pBrother && !pBrother->isAlive()) pBrother->Respawn();

@@ -342,7 +342,7 @@ struct boss_twinemperorsAI : public ScriptedAI
         if (!who || m_creature->getVictim())
             return;
 
-        if (who->isTargetableForAttack() && who->isInAccessablePlaceFor(m_creature) && m_creature->IsHostileTo(who))
+        if (who->isTargetableForAttack() && who->isInAccessablePlacefor (m_creature) && m_creature->IsHostileTo(who))
         {
             float attackRadius = m_creature->GetAttackDistance(who);
             if (attackRadius < PULL_RANGE)
@@ -367,7 +367,7 @@ struct boss_twinemperorsAI : public ScriptedAI
 
         Creature *nearb = NULL;
 
-        for(std::list<Creature*>::iterator iter = lUnitList.begin(); iter != lUnitList.end(); ++iter)
+        for (std::list<Creature*>::iterator iter = lUnitList.begin(); iter != lUnitList.end(); ++iter)
         {
             Creature *c = (Creature *)(*iter);
             if (c->isDead())

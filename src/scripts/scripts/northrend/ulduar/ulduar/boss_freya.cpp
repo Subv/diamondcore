@@ -27,7 +27,7 @@ struct boss_freyaAI : public ScriptedAI
         Regular = pCreature->GetMap()->IsRegularDifficulty();
 /*        sp = (SpellEntry *)GetSpellStore()->LookupEntry(SP_ATTUNED_TO_NATURE);
         bp = 8;
-        if(!pCreature->HasAura(SP_ATTUNED_TO_NATURE, EFFECT_INDEX_0))
+        if (!pCreature->HasAura(SP_ATTUNED_TO_NATURE, EFFECT_INDEX_0))
             pCreature->AddAura(new AttunedToNatureAura(sp, EFFECT_INDEX_0, &bp, pCreature, pCreature));
         pCreature->GetAura(SP_ATTUNED_TO_NATURE, EFFECT_INDEX_0)->SetStackAmount(150);
 */
@@ -55,40 +55,40 @@ struct boss_freyaAI : public ScriptedAI
         SunbeamTimer = rand()%10000;
         EnrageTimer = 600000; //10 minutes
 
-/*        if(!m_creature->HasAura(SP_ATTUNED_TO_NATURE, EFFECT_INDEX_0))
+/*        if (!m_creature->HasAura(SP_ATTUNED_TO_NATURE, EFFECT_INDEX_0))
             m_creature->AddAura(new AttunedToNatureAura(sp, EFFECT_INDEX_0, &bp, m_creature, m_creature));
         m_creature->GetAura(SP_ATTUNED_TO_NATURE, EFFECT_INDEX_0)->SetStackAmount(150);
 */
-        if(pInstance) pInstance->SetData(TYPE_FREYA, NOT_STARTED);
+        if (pInstance) pInstance->SetData(TYPE_FREYA, NOT_STARTED);
     }
 
     void Aggro(Unit *who) 
     {
-/*        if(!m_creature->HasAura(SP_ATTUNED_TO_NATURE, EFFECT_INDEX_0))
+/*        if (!m_creature->HasAura(SP_ATTUNED_TO_NATURE, EFFECT_INDEX_0))
             m_creature->AddAura(new AttunedToNatureAura(sp, EFFECT_INDEX_0, &bp, m_creature, m_creature));
         m_creature->GetAura(SP_ATTUNED_TO_NATURE, EFFECT_INDEX_0)->SetStackAmount(150);
 */
         DoCast(m_creature, Regular ? SP_TOUCH_OF_EONAR : H_SP_TOUCH_OF_EONAR);
 
-        if(pInstance) pInstance->SetData(TYPE_FREYA, IN_PROGRESS);
+        if (pInstance) pInstance->SetData(TYPE_FREYA, IN_PROGRESS);
     }
 
     void JustDied(Unit *killer)
     {
-        if(pInstance) pInstance->SetData(TYPE_FREYA, DONE);
+        if (pInstance) pInstance->SetData(TYPE_FREYA, DONE);
     }
 
     void SummonLashers()
     {
         int i;
         float x,y;
-        for(i=0; i<10; ++i)
+        for (i=0; i<10; ++i)
         {
             x = (rand_norm() * 30.0f) - 15.0f;
             y = (rand_norm() * 30.0f) - 15.0f;
             Creature *lasher = DoSpawnCreature(CR_DETONATING_LASHER, x, y, 0, 0, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 2000);
             Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-            if(lasher && target)
+            if (lasher && target)
                 lasher->AddThreat(target, 1.0f);
         }
     }
@@ -99,7 +99,7 @@ struct boss_freyaAI : public ScriptedAI
         float y = (rand_norm() * 30.0f) - 15.0f;
         Creature *add = DoSpawnCreature(CR_ANCIENT_CONSERVATOR, x, y, 0, 0, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 2000);
         Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-        if(add && target)
+        if (add && target)
             add->AddThreat(target, 1.0f);
     }
 
@@ -109,38 +109,38 @@ struct boss_freyaAI : public ScriptedAI
         Unit *target;
         add = DoSpawnCreature(CR_WATER_SPIRIT, 0, 0, 0, 0, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 2000);
         target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-        if(add && target)
+        if (add && target)
             add->AddThreat(target, 1.0f);
 
         add = DoSpawnCreature(CR_STORM_LASHER, 0, 0, 0, 0, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 2000);
         target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-        if(add && target)
+        if (add && target)
             add->AddThreat(target, 1.0f);
 
         add = DoSpawnCreature(CR_SNAPLASHER, 0, 0, 0, 0, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 2000);
         target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-        if(add && target)
+        if (add && target)
             add->AddThreat(target, 1.0f);
     }
 
     void SummonedCreatureDespawn(Creature* mob)
     {
-        if(!m_creature->HasAura(SP_ATTUNED_TO_NATURE)) return;
+        if (!m_creature->HasAura(SP_ATTUNED_TO_NATURE)) return;
 
-        switch(mob->GetEntry())
+        switch (mob->GetEntry())
         {
             case CR_DETONATING_LASHER:
-/*                if(m_creature->GetAura(SP_ATTUNED_TO_NATURE, EFFECT_INDEX_0)->modStackAmount(-2))
+/*                if (m_creature->GetAura(SP_ATTUNED_TO_NATURE, EFFECT_INDEX_0)->modStackAmount(-2))
                     m_creature->RemoveAurasDueToSpell(SP_ATTUNED_TO_NATURE);*/
                 break;
             case CR_ANCIENT_CONSERVATOR:
-/*                if(m_creature->GetAura(SP_ATTUNED_TO_NATURE, EFFECT_INDEX_0)->modStackAmount(-25))
+/*                if (m_creature->GetAura(SP_ATTUNED_TO_NATURE, EFFECT_INDEX_0)->modStackAmount(-25))
                     m_creature->RemoveAurasDueToSpell(SP_ATTUNED_TO_NATURE);*/
                 break;
             case CR_SNAPLASHER:
             case CR_STORM_LASHER:
             case CR_WATER_SPIRIT:
-/*                if(m_creature->GetAura(SP_ATTUNED_TO_NATURE, EFFECT_INDEX_0)->modStackAmount(-10))
+/*                if (m_creature->GetAura(SP_ATTUNED_TO_NATURE, EFFECT_INDEX_0)->modStackAmount(-10))
                     m_creature->RemoveAurasDueToSpell(SP_ATTUNED_TO_NATURE);*/
                break;
         }
@@ -152,11 +152,11 @@ struct boss_freyaAI : public ScriptedAI
             return;
 
         //Phase 1, waves of adds
-        if(WaveNumber < 6)
+        if (WaveNumber < 6)
         {
-            if(SummonTimer < diff)
+            if (SummonTimer < diff)
             {
-                switch(WaveType)
+                switch (WaveType)
                 {
                     case 0: SummonLashers(); break;
                     case 1: SummonConservator(); break;
@@ -171,15 +171,15 @@ struct boss_freyaAI : public ScriptedAI
 
 
         //All phases
-        if(SunbeamTimer < diff)
+        if (SunbeamTimer < diff)
         {
-            if( Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
+            if ( Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                 DoCast(target, Regular ? SP_SUNBEAM : H_SP_SUNBEAM);
             SunbeamTimer = 6000 + rand()%10000;
         }
         else SunbeamTimer -= diff;
 
-        if(EnrageTimer < diff)
+        if (EnrageTimer < diff)
         {
             DoCast(m_creature, SP_BERSERK);
             EnrageTimer = 30000;

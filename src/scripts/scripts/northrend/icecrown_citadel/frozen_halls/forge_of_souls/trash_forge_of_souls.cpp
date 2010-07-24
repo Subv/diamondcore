@@ -99,7 +99,7 @@ uint32 ShieldTimer;
 
    void UpdateAI(const uint32 diff)
     {
-      if(!m_pInstance) return;
+      if (!m_pInstance) return;
 
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
@@ -143,7 +143,7 @@ uint32 AdeptHealTimer;
 
    void UpdateAI(const uint32 diff)
     {
-      if(!m_pInstance) return;
+      if (!m_pInstance) return;
 
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
@@ -166,13 +166,13 @@ uint32 AdeptHealTimer;
         else
             IceNovaTimer -= diff;
 
-       if(m_creature->GetHealth()*100 < m_creature->GetMaxHealth()*45)
+       if (m_creature->GetHealth()*100 < m_creature->GetMaxHealth()*45)
        {
         if (AdeptHealTimer < diff)
         {
                 if (Creature* pAdept = GetClosestCreatureWithEntry(m_creature, NPC_SOULGUARD_ADEPT, 25.0f))
                 {
-                  if(pAdept->GetHealth()*100 > pAdept->GetMaxHealth()*45)
+                  if (pAdept->GetHealth()*100 > pAdept->GetMaxHealth()*45)
                   {
                      pAdept->InterruptNonMeleeSpells(false);
                      pAdept->CastSpell(m_creature, m_bIsRegularMode ? SPELL_SHADOW_MEND_N : SPELL_SHADOW_MEND_H, false);
@@ -222,7 +222,7 @@ uint32 Say;
 
    void UpdateAI(const uint32 diff)
     {
-      if(!m_pInstance) return;
+      if (!m_pInstance) return;
 
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
@@ -236,7 +236,7 @@ uint32 Say;
         else
             ShadowBoltTimer -= diff;
 
-       if(m_creature->GetHealth()*100 < m_creature->GetMaxHealth()*45)
+       if (m_creature->GetHealth()*100 < m_creature->GetMaxHealth()*45)
        {
         if (ShadowMendTimer < diff)
         {
@@ -248,7 +248,7 @@ uint32 Say;
             ShadowMendTimer -= diff;
        }
 
-       if(m_creature->GetHealth()*100 < m_creature->GetMaxHealth()*75)
+       if (m_creature->GetHealth()*100 < m_creature->GetMaxHealth()*75)
        {
         if (DrainLifeTimer < diff)
         {
@@ -260,13 +260,13 @@ uint32 Say;
             DrainLifeTimer -= diff;
        }
 
-       if(Summon != true)
+       if (Summon != true)
        {
         if (SummonTimer < diff)
         {
                 Summon = true;
                 Say = (urand(0, 3));
-                switch(Say)
+                switch (Say)
                 {
                   case 0:
                     m_creature->MonsterSay("Wake up deads!",LANG_UNIVERSAL,NULL);
@@ -316,7 +316,7 @@ uint32 ShieldTimer;
 
    void UpdateAI(const uint32 diff)
     {
-      if(!m_pInstance) return;
+      if (!m_pInstance) return;
 
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
@@ -371,7 +371,7 @@ uint32 AdeptHealTimer;
 
    void UpdateAI(const uint32 diff)
     {
-      if(!m_pInstance) return;
+      if (!m_pInstance) return;
 
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
@@ -402,13 +402,13 @@ uint32 AdeptHealTimer;
         else
             SoulSiphTimer -= diff;
 
-       if(m_creature->GetHealth()*100 < m_creature->GetMaxHealth()*45)
+       if (m_creature->GetHealth()*100 < m_creature->GetMaxHealth()*45)
        {
         if (AdeptHealTimer < diff)
         {
                 if (Creature* pAdept = GetClosestCreatureWithEntry(m_creature, NPC_SOULGUARD_ADEPT, 25.0f))
                 {
-                  if(pAdept->GetHealth()*100 > pAdept->GetMaxHealth()*45)
+                  if (pAdept->GetHealth()*100 > pAdept->GetMaxHealth()*45)
                   {
                      pAdept->InterruptNonMeleeSpells(false);
                      pAdept->CastSpell(m_creature, m_bIsRegularMode ? SPELL_SHADOW_MEND_N : SPELL_SHADOW_MEND_H, false);
@@ -448,7 +448,7 @@ uint32 SoulStrikeTimer;
 
    void UpdateAI(const uint32 diff)
     {
-      if(!m_pInstance) return;
+      if (!m_pInstance) return;
 
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
@@ -491,7 +491,7 @@ uint32 SoulsTimer;
 
    void UpdateAI(const uint32 diff)
     {
-      if(!m_pInstance) return;
+      if (!m_pInstance) return;
 
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;

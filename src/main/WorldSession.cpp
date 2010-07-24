@@ -108,7 +108,7 @@ void WorldSession::SendPacket(WorldPacket const* packet)
 
     time_t cur_time = time(NULL);
 
-    if((cur_time - lastTime) < 60)
+    if ((cur_time - lastTime) < 60)
     {
         sendPacketCount+=1;
         sendPacketBytes+=packet->size();
@@ -178,19 +178,19 @@ bool WorldSession::Update(uint32 /*diff*/)
             switch (opHandle.status)
             {
                 case STATUS_LOGGEDIN:
-                    if(!_player)
+                    if (!_player)
                     {
                         // skip STATUS_LOGGEDIN opcode unexpected errors if player logout sometime ago - this can be network lag delayed packets
-                        if(!m_playerRecentlyLogout)
+                        if (!m_playerRecentlyLogout)
                             LogUnexpectedOpcode(packet, "the player has not logged in yet");
                     }
-                    else if(_player->IsInWorld())
+                    else if (_player->IsInWorld())
                         ExecuteOpcode(opHandle, packet);
 
                     // lag can cause STATUS_LOGGEDIN opcodes to arrive after the player started a transfer
                     break;
                 case STATUS_LOGGEDIN_OR_RECENTLY_LOGGEDOUT:
-                    if(!_player && !m_playerRecentlyLogout)
+                    if (!_player && !m_playerRecentlyLogout)
                     {
                         LogUnexpectedOpcode(packet, "the player has not logged in yet and not recently logout");
                     }
@@ -199,16 +199,16 @@ bool WorldSession::Update(uint32 /*diff*/)
                         ExecuteOpcode(opHandle, packet);
                     break;
                 case STATUS_TRANSFER:
-                    if(!_player)
+                    if (!_player)
                         LogUnexpectedOpcode(packet, "the player has not logged in yet");
-                    else if(_player->IsInWorld())
+                    else if (_player->IsInWorld())
                         LogUnexpectedOpcode(packet, "the player is still in world");
                     else
                         ExecuteOpcode(opHandle, packet);
                     break;
                 case STATUS_AUTHED:
                     // prevent cheating with skip queue wait
-                    if(m_inQueue)
+                    if (m_inQueue)
                     {
                         LogUnexpectedOpcode(packet, "the player not pass queue yet");
                         break;
@@ -316,16 +316,16 @@ void WorldSession::LogoutPlayer(bool Save)
 
             // build set of player who attack _player or who have pet attacking of _player
             std::set<Player*> aset;
-            for(Unit::AttackerSet::const_iterator itr = _player->getAttackers().begin(); itr != _player->getAttackers().end(); ++itr)
+            for (Unit::AttackerSet::const_iterator itr = _player->getAttackers().begin(); itr != _player->getAttackers().end(); ++itr)
             {
                 Unit* owner = (*itr)->GetOwner();           // including player controlled case
-                if(owner)
+                if (owner)
                 {
-                    if(owner->GetTypeId()==TYPEID_PLAYER)
+                    if (owner->GetTypeId()==TYPEID_PLAYER)
                         aset.insert((Player*)owner);
                 }
                 else
-                if((*itr)->GetTypeId()==TYPEID_PLAYER)
+                if ((*itr)->GetTypeId()==TYPEID_PLAYER)
                     aset.insert((Player*)(*itr));
             }
 
@@ -335,16 +335,16 @@ void WorldSession::LogoutPlayer(bool Save)
             _player->RepopAtGraveyard();
 
             // give honor to all attackers from set like group case
-            for(std::set<Player*>::const_iterator itr = aset.begin(); itr != aset.end(); ++itr)
+            for (std::set<Player*>::const_iterator itr = aset.begin(); itr != aset.end(); ++itr)
                 (*itr)->RewardHonor(_player,aset.size());
 
             // give bg rewards and update counters like kill by first from attackers
             // this can't be called for all attackers.
-            if(!aset.empty())
-                if(BattleGround *bg = _player->GetBattleGround())
+            if (!aset.empty())
+                if (BattleGround *bg = _player->GetBattleGround())
                     bg->HandleKillPlayer(_player,*aset.begin());
         }
-        else if(_player->HasAuraType(SPELL_AURA_SPIRIT_OF_REDEMPTION))
+        else if (_player->HasAuraType(SPELL_AURA_SPIRIT_OF_REDEMPTION))
         {
             // this will kill character by SPELL_AURA_SPIRIT_OF_REDEMPTION
             _player->RemoveSpellsCausingAura(SPELL_AURA_MOD_SHAPESHIFT);
@@ -354,11 +354,11 @@ void WorldSession::LogoutPlayer(bool Save)
             _player->RepopAtGraveyard();
         }
         //drop a flag if player is carrying it
-        if(BattleGround *bg = _player->GetBattleGround())
+        if (BattleGround *bg = _player->GetBattleGround())
             bg->EventPlayerLoggedOut(_player);
 
         ///- Teleport to home if the player is in an invalid instance
-        if(!_player->m_InstanceValid && !_player->isGameMaster())
+        if (!_player->m_InstanceValid && !_player->isGameMaster())
         {
             _player->TeleportToHomebind();
             //this is a bad place to call for far teleport because we need player to be in world for successful logout
@@ -372,7 +372,7 @@ void WorldSession::LogoutPlayer(bool Save)
 
         for (int i=0; i < PLAYER_MAX_BATTLEGROUND_QUEUES; ++i)
         {
-            if(BattleGroundQueueTypeId bgQueueTypeId = _player->GetBattleGroundQueueTypeId(i))
+            if (BattleGroundQueueTypeId bgQueueTypeId = _player->GetBattleGroundQueueTypeId(i))
             {
                 _player->RemoveBattleGroundQueueId(bgQueueTypeId);
                 sBattleGroundMgr.m_BattleGroundQueues[ bgQueueTypeId ].RemovePlayer(_player->GetGUID(), true);
@@ -386,7 +386,7 @@ void WorldSession::LogoutPlayer(bool Save)
 
         ///- If the player is in a guild, update the guild roster and broadcast a logout message to other guild members
         Guild *guild = sObjectMgr.GetGuildById(_player->GetGuildId());
-        if(guild)
+        if (guild)
         {
             guild->SetMemberStats(_player->GetGUID());
             guild->UpdateLogoutTime(_player->GetGUID());
@@ -400,10 +400,10 @@ void WorldSession::LogoutPlayer(bool Save)
 
         ///- empty buyback items and save the player in the database
         // some save parts only correctly work in case player present in map/player_lists (pets, etc)
-        if(Save)
+        if (Save)
         {
             uint32 eslot;
-            for(int j = BUYBACK_SLOT_START; j < BUYBACK_SLOT_END; ++j)
+            for (int j = BUYBACK_SLOT_START; j < BUYBACK_SLOT_END; ++j)
             {
                 eslot = j - BUYBACK_SLOT_START;
                 _player->SetUInt64Value(PLAYER_FIELD_VENDORBUYBACK_SLOT_1 + (eslot * 2), 0);
@@ -421,11 +421,11 @@ void WorldSession::LogoutPlayer(bool Save)
 
         // remove player from the group if he is:
         // a) in group; b) not in raid group; c) logging out normally (not being kicked or disconnected)
-        if(_player->GetGroup() && !_player->GetGroup()->isRaidGroup() && m_Socket)
+        if (_player->GetGroup() && !_player->GetGroup()->isRaidGroup() && m_Socket)
             _player->RemoveFromGroup();
 
         ///- Send update to group
-        if(_player->GetGroup())
+        if (_player->GetGroup())
             _player->GetGroup()->SendUpdate();
 
         ///- Broadcast a logout message to the player's friends
@@ -485,7 +485,7 @@ void WorldSession::SendAreaTriggerMessage(const char* Text, ...)
 
 void WorldSession::SendNotification(const char *format,...)
 {
-    if(format)
+    if (format)
     {
         va_list ap;
         char szStr [1024];
@@ -503,7 +503,7 @@ void WorldSession::SendNotification(const char *format,...)
 void WorldSession::SendNotification(int32 string_id,...)
 {
     char const* format = GetString(string_id);
-    if(format)
+    if (format)
     {
         va_list ap;
         char szStr [1024];
@@ -560,7 +560,7 @@ void WorldSession::Handle_Deprecated( WorldPacket& recvPacket )
 
 void WorldSession::SendAuthWaitQue(uint32 position)
 {
-    if(position == 0)
+    if (position == 0)
     {
         WorldPacket packet( SMSG_AUTH_RESPONSE, 1 );
         packet << uint8( AUTH_OK );
@@ -590,7 +590,7 @@ void WorldSession::LoadAccountData(QueryResult* result, uint32 mask)
         if (mask & (1 << i))
             m_accountData[i] = AccountData();
 
-    if(!result)
+    if (!result)
         return;
 
     do
@@ -636,7 +636,7 @@ void WorldSession::SetAccountData(AccountDataType type, time_t time_, std::strin
     else
     {
         // _player can be NULL and packet received after logout but m_GUID still store correct guid
-        if(!m_GUIDLow)
+        if (!m_GUIDLow)
             return;
 
         CharacterDatabase.BeginTransaction ();
@@ -657,8 +657,8 @@ void WorldSession::SendAccountDataTimes(uint32 mask)
     data << uint32(time(NULL));                             // unix time of something
     data << uint8(1);
     data << uint32(mask);                                   // type mask
-    for(uint32 i = 0; i < NUM_ACCOUNT_DATA_TYPES; ++i)
-        if(mask & (1 << i))
+    for (uint32 i = 0; i < NUM_ACCOUNT_DATA_TYPES; ++i)
+        if (mask & (1 << i))
             data << uint32(GetAccountData(AccountDataType(i))->Time);// also unix time
     SendPacket(&data);
 }
@@ -670,7 +670,7 @@ void WorldSession::LoadTutorialsData()
 
     QueryResult *result = CharacterDatabase.PQuery("SELECT tut0,tut1,tut2,tut3,tut4,tut5,tut6,tut7 FROM character_tutorial WHERE account = '%u'", GetAccountId());
 
-    if(!result)
+    if (!result)
     {
         m_tutorialState = TUTORIALDATA_NEW;
         return;
@@ -693,14 +693,14 @@ void WorldSession::LoadTutorialsData()
 void WorldSession::SendTutorialsData()
 {
     WorldPacket data(SMSG_TUTORIAL_FLAGS, 4*8);
-    for(uint32 i = 0; i < 8; ++i)
+    for (uint32 i = 0; i < 8; ++i)
         data << m_Tutorials[i];
     SendPacket(&data);
 }
 
 void WorldSession::SaveTutorialsData()
 {
-    switch(m_tutorialState)
+    switch (m_tutorialState)
     {
         case TUTORIALDATA_CHANGED:
             CharacterDatabase.PExecute("UPDATE character_tutorial SET tut0='%u', tut1='%u', tut2='%u', tut3='%u', tut4='%u', tut5='%u', tut6='%u', tut7='%u' WHERE account = '%u'",
@@ -722,10 +722,10 @@ void WorldSession::ReadAddonsInfo(WorldPacket &data)
     uint32 size;
     data >> size;
 
-    if(!size)
+    if (!size)
         return;
 
-    if(size > 0xFFFFF)
+    if (size > 0xFFFFF)
     {
         sLog.outError("WorldSession::ReadAddonsInfo addon info too big, size %u", size);
         return;
@@ -743,14 +743,14 @@ void WorldSession::ReadAddonsInfo(WorldPacket &data)
         uint32 addonsCount;
         addonInfo >> addonsCount;                         // addons count
 
-        for(uint32 i = 0; i < addonsCount; ++i)
+        for (uint32 i = 0; i < addonsCount; ++i)
         {
             std::string addonName;
             uint8 enabled;
             uint32 crc, unk1;
 
             // check next addon data format correctness
-            if(addonInfo.rpos()+1 > addonInfo.size())
+            if (addonInfo.rpos()+1 > addonInfo.size())
                 return;
 
             addonInfo >> addonName;
@@ -765,7 +765,7 @@ void WorldSession::ReadAddonsInfo(WorldPacket &data)
         uint32 unk2;
         addonInfo >> unk2;
 
-        if(addonInfo.rpos() != addonInfo.size())
+        if (addonInfo.rpos() != addonInfo.size())
             DEBUG_LOG("packet under read!");
     }
     else
@@ -796,7 +796,7 @@ void WorldSession::SendAddonsInfo()
 
     WorldPacket data(SMSG_ADDON_INFO, 4);
 
-    for(AddonsList::iterator itr = m_addonsList.begin(); itr != m_addonsList.end(); ++itr)
+    for (AddonsList::iterator itr = m_addonsList.begin(); itr != m_addonsList.end(); ++itr)
     {
         uint8 state = 2;                                    // 2 is sent here
         data << uint8(state);
@@ -826,7 +826,7 @@ void WorldSession::SendAddonsInfo()
 
     uint32 count = 0;
     data << uint32(count);                                  // BannedAddons count
-    /*for(uint32 i = 0; i < count; ++i)
+    /*for (uint32 i = 0; i < count; ++i)
     {
         uint32
         string (16 bytes)
@@ -844,7 +844,7 @@ void WorldSession::SetPlayer( Player *plr )
     _player = plr;
 
     // set m_GUID that can be used while player loggined and later until m_playerRecentlyLogout not reset
-    if(_player)
+    if (_player)
         m_GUIDLow = _player->GetGUIDLow();
 }
 

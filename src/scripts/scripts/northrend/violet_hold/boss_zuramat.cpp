@@ -122,7 +122,7 @@ struct boss_zuramatAI : public ScriptedAI
         if (m_lSentryGUIDList.empty())
             return;
 
-        for(std::list<uint64>::iterator itr = m_lSentryGUIDList.begin(); itr != m_lSentryGUIDList.end(); ++itr)
+        for (std::list<uint64>::iterator itr = m_lSentryGUIDList.begin(); itr != m_lSentryGUIDList.end(); ++itr)
         {
             if (Creature* pTemp = (Creature*)Unit::GetUnit(*m_creature, *itr))
             {
@@ -202,7 +202,7 @@ struct boss_zuramatAI : public ScriptedAI
 
     void KilledUnit(Unit* pVictim)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_SLAY_1, m_creature);break;
             case 1: DoScriptText(SAY_SLAY_2, m_creature);break;

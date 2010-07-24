@@ -55,7 +55,7 @@ bool GossipHello_npcs_dithers_and_arbington(Player* pPlayer, Creature* pCreature
 
 bool GossipSelect_npcs_dithers_and_arbington(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_TRADE:
             pPlayer->SEND_VENDORLIST(pCreature->GetGUID());
@@ -152,7 +152,7 @@ struct npc_the_scourge_cauldronAI : public ScriptedAI
 
         if (who->GetTypeId() == TYPEID_PLAYER)
         {
-            switch(m_creature->GetAreaId())
+            switch (m_creature->GetAreaId())
             {
                 case 199:                                   //felstone
                     if (((Player*)who)->GetQuestStatus(5216) == QUEST_STATUS_INCOMPLETE ||

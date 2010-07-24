@@ -101,7 +101,7 @@ struct boss_sjonnirAI : public ScriptedAI
 
         DespawnDwarf();
 
-        if(m_pInstance)
+        if (m_pInstance)
             m_pInstance->SetData(TYPE_GRIEF, NOT_STARTED);
     }
 
@@ -109,7 +109,7 @@ struct boss_sjonnirAI : public ScriptedAI
     {
         DoScriptText(SAY_AGGRO, m_creature);
 
-        if(m_pInstance)
+        if (m_pInstance)
             m_pInstance->SetData(TYPE_GRIEF, IN_PROGRESS);
 //            pSummoned->RemoveSplineFlag(SPLINEFLAG_WALKMODE);
 //            pSummoned->GetMotionMaster()->MovePoint(0, fX, fY, fZ);
@@ -117,7 +117,7 @@ struct boss_sjonnirAI : public ScriptedAI
 
     void KilledUnit(Unit* pVictim)
     {
-        switch(rand()%3)
+        switch (rand()%3)
         {
             case 0: DoScriptText(SAY_SLAY_1, m_creature); break;
             case 1: DoScriptText(SAY_SLAY_2, m_creature); break;
@@ -138,7 +138,7 @@ struct boss_sjonnirAI : public ScriptedAI
         if (m_lDwarfGUIDList.empty())
             return;
 
-        for(std::list<uint64>::iterator itr = m_lDwarfGUIDList.begin(); itr != m_lDwarfGUIDList.end(); ++itr)
+        for (std::list<uint64>::iterator itr = m_lDwarfGUIDList.begin(); itr != m_lDwarfGUIDList.end(); ++itr)
         {
             if (Creature* pTemp = (Creature*)Unit::GetUnit(*m_creature, *itr))
             {
@@ -205,7 +205,7 @@ struct boss_sjonnirAI : public ScriptedAI
         {
             uint32 SummonPipe = rand()%2;
             uint32 SummonEntry = 0;
-            switch(rand()%3)
+            switch (rand()%3)
             {
                 case 0: SummonEntry = NPC_FORGED_IRON_TROGG; break;
                 case 1: SummonEntry = NPC_MALFORMED_OOZE;    break;

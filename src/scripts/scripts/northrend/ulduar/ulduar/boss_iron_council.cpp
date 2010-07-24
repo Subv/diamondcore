@@ -42,7 +42,7 @@ struct iron_councilAI : public ScriptedAI
 
     void Reset()
     {
-        if(pInstance)
+        if (pInstance)
         {
             RespawnFriends();
             CouncilAlive = 3;
@@ -52,26 +52,26 @@ struct iron_councilAI : public ScriptedAI
 
     void EnterCombat(Unit *who)
     {
-        if(!who) return;
-        if(!pInstance) return;
+        if (!who) return;
+        if (!pInstance) return;
 
         uint32 entry = m_creature->GetEntry();
         Creature *council;
 
-        if(entry!=CR_STEELBREAKER)
+        if (entry!=CR_STEELBREAKER)
         {
             council = pInstance->instance->GetCreature(pInstance->GetData64(NPC_STEELBREAKER));
-            if(council && !council->getVictim()) council->AddThreat(who, 0.0f);
+            if (council && !council->getVictim()) council->AddThreat(who, 0.0f);
         };
-        if(entry!=CR_BRUNDIR)
+        if (entry!=CR_BRUNDIR)
         {
             council = pInstance->instance->GetCreature(pInstance->GetData64(NPC_BRUNDIR));
-            if(council && !council->getVictim()) council->AddThreat(who, 0.0f);
+            if (council && !council->getVictim()) council->AddThreat(who, 0.0f);
         };
-        if(entry!=CR_MOLGEIM)
+        if (entry!=CR_MOLGEIM)
         {
             council = pInstance->instance->GetCreature(pInstance->GetData64(NPC_MOLGEIM));
-            if(council && !council->getVictim()) council->AddThreat(who, 0.0f);
+            if (council && !council->getVictim()) council->AddThreat(who, 0.0f);
         };
         
         pInstance->SetData(TYPE_IRON_COUNCIL, IN_PROGRESS);
@@ -81,23 +81,23 @@ struct iron_councilAI : public ScriptedAI
     
     void JustDied(Unit *killer)
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
 
         --CouncilAlive;
-        if(CouncilAlive <= 0) pInstance->SetData(TYPE_IRON_COUNCIL, DONE);
+        if (CouncilAlive <= 0) pInstance->SetData(TYPE_IRON_COUNCIL, DONE);
     }
     
     void RespawnFriends()
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         
         Creature *council;
         council = pInstance->instance->GetCreature(pInstance->GetData64(NPC_STEELBREAKER));
-        if(council && council->isDead()) council->Respawn();
+        if (council && council->isDead()) council->Respawn();
         council = pInstance->instance->GetCreature(pInstance->GetData64(NPC_BRUNDIR));
-        if(council && council->isDead()) council->Respawn();
+        if (council && council->isDead()) council->Respawn();
         council = pInstance->instance->GetCreature(pInstance->GetData64(NPC_MOLGEIM));
-        if(council && council->isDead()) council->Respawn();
+        if (council && council->isDead()) council->Respawn();
     }
 };
 
@@ -130,7 +130,7 @@ struct boss_steelbreakerAI : public iron_councilAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        if(PunchTimer < diff)
+        if (PunchTimer < diff)
         {
             DoCast(m_creature->getVictim(), Regular ? SP_FUSION_PUNCH : H_SP_FUSION_PUNCH);
             PunchTimer = 30000;
@@ -170,17 +170,17 @@ struct boss_brundirAI : public iron_councilAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        if(OverloadTimer < diff)
+        if (OverloadTimer < diff)
         {
             DoCast(m_creature->getVictim(), Regular ? SP_OVERLOAD : H_SP_OVERLOAD);
             OverloadTimer = 60000;
         }
         else OverloadTimer -= diff;
 
-        if(LightningTimer < diff)
+        if (LightningTimer < diff)
         {
             Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-            if(target && target->isAlive())
+            if (target && target->isAlive())
                 DoCast(target, Regular ? SP_CHAIN_LIGHTNING : H_SP_CHAIN_LIGHTNING);
             LightningTimer = 5000 + rand()%5000;
         }
@@ -220,22 +220,22 @@ struct boss_molgeimAI : public iron_councilAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        /*if(ElementalTimer < diff)
+        /*if (ElementalTimer < diff)
         {
             Creature *elem = DoSpawnCreature(CR_LIGHTNING_ELEMENTAL, 0,0,0,0, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 10000);
             Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-            if(elem && target && target->isAlive())
+            if (elem && target && target->isAlive())
                 elem->AddThreat(target, 1.0f);
             ElementalTimer = 15000 + rand()%10000;
         }
         else ElementalTimer -= diff;*/
 
-        if(CouncilAlive < 3)
+        if (CouncilAlive < 3)
         {
-            if(DeathRuneTimer < diff)
+            if (DeathRuneTimer < diff)
             {
                 Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-                if(target) DoCast(target, Regular ? SP_RUNE_OF_DEATH : H_SP_RUNE_OF_DEATH);
+                if (target) DoCast(target, Regular ? SP_RUNE_OF_DEATH : H_SP_RUNE_OF_DEATH);
             }
         }
 

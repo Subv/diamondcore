@@ -38,19 +38,19 @@ struct boss_flame_leviathan : public ScriptedAI
         FlameVentsTimer = 20000 + rand()%10000;
         RocketTimer = 1000;
 
-        if(pInstance) pInstance->SetData(TYPE_FLAME_LEVIATHAN, NOT_STARTED);
+        if (pInstance) pInstance->SetData(TYPE_FLAME_LEVIATHAN, NOT_STARTED);
     }
 
     void Aggro(Unit *who) 
     {
-        if(pInstance) pInstance->SetData(TYPE_FLAME_LEVIATHAN, IN_PROGRESS);
+        if (pInstance) pInstance->SetData(TYPE_FLAME_LEVIATHAN, IN_PROGRESS);
 
         DoScriptText(SAY_AGGRO, m_creature);
     }
 
     void JustDied(Unit *killer)
     {
-        if(pInstance) pInstance->SetData(TYPE_FLAME_LEVIATHAN, DONE);
+        if (pInstance) pInstance->SetData(TYPE_FLAME_LEVIATHAN, DONE);
 
         DoScriptText(SAY_DEATH, m_creature);
     }
@@ -71,25 +71,25 @@ struct boss_flame_leviathan : public ScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        if(FlameVentsTimer < diff)
+        if (FlameVentsTimer < diff)
         {
             DoCast(m_creature->getVictim(), SP_FLAME_VENTS);
             FlameVentsTimer = 30000 + rand()%20000;
         }
         else FlameVentsTimer -= diff;
 
-        if(BatteringRamTimer < diff)
+        if (BatteringRamTimer < diff)
         {
             DoCast(m_creature->getVictim(), SP_BATTERING_RAM);
             BatteringRamTimer = 25000 + rand()%15000;
         }
         else BatteringRamTimer -= diff;
 
-        if(RocketTimer < diff)
+        if (RocketTimer < diff)
         {
             Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
             int32 dmg = Regular ? (3000 + rand()%2000) : (2000 + rand()%1200);
-            if(target && target->isAlive())
+            if (target && target->isAlive())
                 m_creature->CastCustomSpell(target, SP_ROCKET, &dmg, 0, 0, false);
             RocketTimer = 3000 + rand()%2000;
         }

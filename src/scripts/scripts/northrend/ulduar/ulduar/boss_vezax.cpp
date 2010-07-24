@@ -33,18 +33,18 @@ struct boss_vezaxAI : public ScriptedAI
     {
         EnrageTimer = 600000; //10 minutes
         //FlamesTimer = 10000 + rand()%10000;
-        if(pInstance) pInstance->SetData(TYPE_VEZAX, NOT_STARTED);
+        if (pInstance) pInstance->SetData(TYPE_VEZAX, NOT_STARTED);
     }
 
     void Aggro(Unit *who) 
     {
-        if(pInstance) pInstance->SetData(TYPE_VEZAX, IN_PROGRESS);
+        if (pInstance) pInstance->SetData(TYPE_VEZAX, IN_PROGRESS);
         DoCast(NULL, SP_AURA_OF_DESPAIR, true);
     }
 
     void JustDied(Unit *killer)
     {
-        if(pInstance) pInstance->SetData(TYPE_VEZAX, DONE);
+        if (pInstance) pInstance->SetData(TYPE_VEZAX, DONE);
     }
 
     void UpdateAI(const uint32 diff)
@@ -52,14 +52,14 @@ struct boss_vezaxAI : public ScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        /*if(FlamesTimer < diff)
+        /*if (FlamesTimer < diff)
         {
             DoCast(m_creature->getVictim(), SP_SEARING_FLAMES);
             FlamesTimer = 10000 + rand()%10000;
         }
         else FlamesTimer -= diff; */
 
-        if(EnrageTimer < diff)
+        if (EnrageTimer < diff)
         {
             DoCast(m_creature, SP_BERSERK);
             EnrageTimer = 30000;

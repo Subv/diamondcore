@@ -86,7 +86,7 @@ struct mob_unkor_the_ruthlessAI : public ScriptedAI
         {
             if (Group* pGroup = ((Player*)done_by)->GetGroup())
             {
-                for(GroupReference *itr = pGroup->GetFirstMember(); itr != NULL; itr = itr->next())
+                for (GroupReference *itr = pGroup->GetFirstMember(); itr != NULL; itr = itr->next())
                 {
                     Player *pGroupie = itr->getSource();
                     if (pGroupie &&
@@ -275,7 +275,7 @@ struct npc_akunoAI : public npc_escortAI
 
     void WaypointReached(uint32 uiPointId)
     {
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 5:
                 DoScriptText(SAY_AKU_AMBUSH_A, m_creature);
@@ -532,7 +532,7 @@ struct npc_letollAI : public npc_escortAI
     {
         uint32 uiCount = 0;
 
-        for(std::list<Creature*>::iterator itr = m_lResearchersList.begin(); itr != m_lResearchersList.end(); ++itr)
+        for (std::list<Creature*>::iterator itr = m_lResearchersList.begin(); itr != m_lResearchersList.end(); ++itr)
         {
             float fAngle = uiCount < MAX_RESEARCHER ? M_PI/MAX_RESEARCHER - (uiCount*2*M_PI/MAX_RESEARCHER) : 0.0f;
 
@@ -549,7 +549,7 @@ struct npc_letollAI : public npc_escortAI
         {
             uint8 uiNum = 1;
 
-            for(std::list<Creature*>::iterator itr = m_lResearchersList.begin(); itr != m_lResearchersList.end(); ++itr)
+            for (std::list<Creature*>::iterator itr = m_lResearchersList.begin(); itr != m_lResearchersList.end(); ++itr)
             {
                 if (uiListNum && uiListNum != uiNum)
                 {
@@ -580,7 +580,7 @@ struct npc_letollAI : public npc_escortAI
 
     void WaypointReached(uint32 uiPointId)
     {
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 0:
                 if (Player* pPlayer = GetPlayerForEscort())
@@ -628,7 +628,7 @@ struct npc_letollAI : public npc_escortAI
                 {
                     m_uiEventTimer = 7000;
 
-                    switch(m_uiEventCount)
+                    switch (m_uiEventCount)
                     {
                         case 0:
                             DoScriptText(SAY_LE_ALMOST, m_creature);
@@ -785,7 +785,7 @@ struct npc_mana_bomb_exp_triggerAI : public ScriptedAI
             if (m_uiEventCounter < 10)
                 m_creature->CastSpell(m_creature, SPELL_MANA_BOMB_LIGHTNING, false);
 
-            switch(m_uiEventCounter)
+            switch (m_uiEventCounter)
             {
                 case 5:
                     if (pManaBomb)

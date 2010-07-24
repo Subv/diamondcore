@@ -72,7 +72,7 @@ struct boss_valanar_iccAI : public BSWScriptedAI
 
     void Reset() 
     {
-        if(!m_pInstance) return;
+        if (!m_pInstance) return;
         m_pInstance->SetData(DATA_BLOOD_COUNCIL_HEALTH, m_creature->GetMaxHealth()*3);
         stage = 0;
         intro = false;
@@ -82,7 +82,7 @@ struct boss_valanar_iccAI : public BSWScriptedAI
     void MoveInLineOfSight(Unit* pWho) 
     {
         ScriptedAI::MoveInLineOfSight(pWho);
-        if(!m_pInstance || intro) return;
+        if (!m_pInstance || intro) return;
         if (pWho->GetTypeId() != TYPEID_PLAYER) return;
         m_pInstance->SetData(TYPE_EVENT, 800);
         debug_log("EventMGR: creature %u send signal %u ",m_creature->GetEntry(),m_pInstance->GetData(TYPE_EVENT));
@@ -142,7 +142,7 @@ struct boss_valanar_iccAI : public BSWScriptedAI
         if (!m_creature || !m_creature->isAlive())
             return;
 
-        if(pDoneBy->GetGUID() == m_creature->GetGUID()) return;
+        if (pDoneBy->GetGUID() == m_creature->GetGUID()) return;
 
         m_pInstance->SetData(DATA_BLOOD_COUNCIL_HEALTH, m_creature->GetHealth() >= uiDamage ? m_pInstance->GetData(DATA_BLOOD_COUNCIL_HEALTH) - uiDamage : 0);
 
@@ -204,7 +204,7 @@ struct boss_taldaram_iccAI : public BSWScriptedAI
 
 
     void Reset() {
-        if(!m_pInstance) return;
+        if (!m_pInstance) return;
         m_pInstance->SetData(DATA_BLOOD_COUNCIL_HEALTH, m_creature->GetMaxHealth()*3);
         stage = 0;
         resetTimers();
@@ -255,7 +255,7 @@ struct boss_taldaram_iccAI : public BSWScriptedAI
         if (!m_creature || !m_creature->isAlive())
             return;
 
-        if(pDoneBy->GetGUID() == m_creature->GetGUID()) return;
+        if (pDoneBy->GetGUID() == m_creature->GetGUID()) return;
 
         m_pInstance->SetData(DATA_BLOOD_COUNCIL_HEALTH, m_creature->GetHealth() >= uiDamage ? m_pInstance->GetData(DATA_BLOOD_COUNCIL_HEALTH) - uiDamage : 0);
 
@@ -318,7 +318,7 @@ struct boss_keleseth_iccAI : public BSWScriptedAI
     Creature* pBrother2;
 
     void Reset() {
-        if(!m_pInstance) return;
+        if (!m_pInstance) return;
         m_pInstance->SetData(DATA_BLOOD_COUNCIL_HEALTH, m_creature->GetMaxHealth()*3);
         stage = 0;
         resetTimers();
@@ -369,7 +369,7 @@ struct boss_keleseth_iccAI : public BSWScriptedAI
         if (!m_creature || !m_creature->isAlive())
             return;
 
-        if(pDoneBy->GetGUID() == m_creature->GetGUID()) return;
+        if (pDoneBy->GetGUID() == m_creature->GetGUID()) return;
 
         m_pInstance->SetData(DATA_BLOOD_COUNCIL_HEALTH, m_creature->GetHealth() >= uiDamage ? m_pInstance->GetData(DATA_BLOOD_COUNCIL_HEALTH) - uiDamage : 0);
 

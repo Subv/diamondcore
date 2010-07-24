@@ -50,7 +50,7 @@ struct instance_uldaman : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_TEMPLE_DOOR1:
                 m_uiTempleDoor1GUID = pGo->GetGUID();
@@ -66,7 +66,7 @@ struct instance_uldaman : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_ALTAR_EVENT:
                 if (uiData == SPECIAL)
@@ -89,7 +89,7 @@ struct instance_uldaman : public ScriptedInstance
 
     void SetData64(uint32 uiData, uint64 uiGuid)
     {
-       switch(uiData)
+       switch (uiData)
        {
             case DATA_EVENT_STARTER:
                 m_uiPlayerGUID = uiGuid;
@@ -99,7 +99,7 @@ struct instance_uldaman : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_ARCHAEDAS_EVENT:
                 return m_uiEncounter[1];
@@ -109,7 +109,7 @@ struct instance_uldaman : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_EVENT_STARTER:
                 return m_uiPlayerGUID;

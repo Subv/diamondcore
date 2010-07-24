@@ -224,7 +224,7 @@ struct npc_thrall_old_hillsbradAI : public npc_escortAI
         if (!m_pInstance)
             return;
 
-        switch(i)
+        switch (i)
         {
             case 8:
                 SetRun(false);
@@ -362,7 +362,7 @@ struct npc_thrall_old_hillsbradAI : public npc_escortAI
                 Map::PlayerList const& players = map->GetPlayers();
                 if (!players.isEmpty() && map->IsDungeon())
                 {
-                    for(Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
+                    for (Map::PlayerList::const_iterator itr = players.begin(); itr != players.end(); ++itr)
                     {
                         if (Player* pPlayer = itr->getSource())
                             pPlayer->KilledMonsterCredit(NPC_THRALL_QUEST_TRIGGER, m_creature->GetGUID());
@@ -392,7 +392,7 @@ struct npc_thrall_old_hillsbradAI : public npc_escortAI
 
         if (HasEscortState(STATE_ESCORT_ESCORTING))
         {
-            switch(urand(0, 2))
+            switch (urand(0, 2))
             {
                 case 0: DoScriptText(SAY_TH_LEAVE_COMBAT1, m_creature); break;
                 case 1: DoScriptText(SAY_TH_LEAVE_COMBAT2, m_creature); break;
@@ -421,7 +421,7 @@ struct npc_thrall_old_hillsbradAI : public npc_escortAI
 
     void Aggro(Unit* who)
     {
-        switch(urand(0, 3))
+        switch (urand(0, 3))
         {
             case 0: DoScriptText(SAY_TH_RANDOM_AGGRO1, m_creature); break;
             case 1: DoScriptText(SAY_TH_RANDOM_AGGRO2, m_creature); break;
@@ -438,7 +438,7 @@ struct npc_thrall_old_hillsbradAI : public npc_escortAI
 
     void JustSummoned(Creature* summoned)
     {
-        switch(summoned->GetEntry())
+        switch (summoned->GetEntry())
         {
             //TODO: make Scarloc start into event instead, and not start attack directly
             case MOB_ENTRY_BARN_GUARDSMAN:
@@ -455,7 +455,7 @@ struct npc_thrall_old_hillsbradAI : public npc_escortAI
 
     void KilledUnit(Unit *victim)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_TH_RANDOM_KILL1, m_creature); break;
             case 1: DoScriptText(SAY_TH_RANDOM_KILL2, m_creature); break;
@@ -534,7 +534,7 @@ bool GossipSelect_npc_thrall_old_hillsbrad(Player* pPlayer, Creature* pCreature,
 {
     ScriptedInstance* pInstance = ((ScriptedInstance*)pCreature->GetInstanceData());
 
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->CLOSE_GOSSIP_MENU();
@@ -593,7 +593,7 @@ struct npc_tarethaAI : public npc_escortAI
 
     void WaypointReached(uint32 i)
     {
-        switch(i)
+        switch (i)
         {
             case 6:
                 DoScriptText(SAY_TA_FREE, m_creature);

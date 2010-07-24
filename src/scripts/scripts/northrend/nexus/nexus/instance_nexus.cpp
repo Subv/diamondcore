@@ -31,7 +31,7 @@ bool GOHello_go_containment_sphere(Player* pPlayer, GameObject* pGo)
     if (!pInstance)
         return false;
 
-    switch(pGo->GetEntry())
+    switch (pGo->GetEntry())
     {
         case GO_CONTAINMENT_SPHERE_TELESTRA: pInstance->SetData(TYPE_TELESTRA, SPECIAL); break;
         case GO_CONTAINMENT_SPHERE_ANOMALUS: pInstance->SetData(TYPE_ANOMALUS, SPECIAL); break;
@@ -70,7 +70,7 @@ struct instance_nexus : public ScriptedInstance
 
     bool IsEncounterInProgress() const
     {
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
         {
             if (m_auiEncounter[i] == IN_PROGRESS)
                 return true;
@@ -81,7 +81,7 @@ struct instance_nexus : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_CONTAINMENT_SPHERE_TELESTRA:
                 m_uiTelestrasContainmentSphereGUID = pGo->GetGUID();
@@ -103,7 +103,7 @@ struct instance_nexus : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_ANOMALUS:
                 m_uiAnomalusGUID = pCreature->GetGUID();
@@ -116,7 +116,7 @@ struct instance_nexus : public ScriptedInstance
 
     uint64 GetData64(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case NPC_ANOMALUS:
                 return m_uiAnomalusGUID;
@@ -127,7 +127,7 @@ struct instance_nexus : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_TELESTRA:
                 return m_auiEncounter[0];
@@ -146,7 +146,7 @@ struct instance_nexus : public ScriptedInstance
     {
         debug_log("SD2: Instance Nexus: SetData received for type %u with data %u", uiType, uiData);
 
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_TELESTRA:
                 m_auiEncounter[0] = uiData;
@@ -224,7 +224,7 @@ struct instance_nexus : public ScriptedInstance
         std::istringstream loadStream(chrIn);
         loadStream >> m_auiEncounter[0] >> m_auiEncounter[1] >> m_auiEncounter[2] >> m_auiEncounter[3];
 
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
         {
             if (m_auiEncounter[i] == IN_PROGRESS)
                 m_auiEncounter[i] = NOT_STARTED;

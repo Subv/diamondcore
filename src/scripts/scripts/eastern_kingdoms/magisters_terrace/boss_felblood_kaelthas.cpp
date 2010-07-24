@@ -260,7 +260,7 @@ struct boss_felblood_kaelthasAI : public ScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        switch(Phase)
+        switch (Phase)
         {
             case 0:
             {
@@ -337,7 +337,7 @@ struct boss_felblood_kaelthasAI : public ScriptedAI
             {
                 if (GravityLapseTimer < diff)
                 {
-                    switch(GravityLapsePhase)
+                    switch (GravityLapsePhase)
                     {
                         case 0:
                             if (FirstGravityLapse)          // Different yells at 50%, and at every following Gravity Lapse
@@ -382,7 +382,7 @@ struct boss_felblood_kaelthasAI : public ScriptedAI
                             GravityLapsePhase = 4;
 
 
-                            for(uint8 i = 0; i < 3; ++i)
+                            for (uint8 i = 0; i < 3; ++i)
                             {
                                 if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
                                 {

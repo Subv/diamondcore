@@ -33,7 +33,7 @@ bool GameEventMgr::CheckOneGameEvent(uint16 entry) const
 {
     // Get the event information
     time_t currenttime = time(NULL);
-    if( mGameEvent[entry].start < currenttime && currenttime < mGameEvent[entry].end &&
+    if ( mGameEvent[entry].start < currenttime && currenttime < mGameEvent[entry].end &&
         ((currenttime - mGameEvent[entry].start) % (mGameEvent[entry].occurence * MINUTE)) < (mGameEvent[entry].length * MINUTE) )
         return true;
     else
@@ -70,10 +70,10 @@ void GameEventMgr::StartEvent( uint16 event_id, bool overwrite )
 {
     AddActiveEvent(event_id);
     ApplyNewEvent(event_id);
-    if(overwrite)
+    if (overwrite)
     {
         mGameEvent[event_id].start = time(NULL);
-        if(mGameEvent[event_id].end <= mGameEvent[event_id].start)
+        if (mGameEvent[event_id].end <= mGameEvent[event_id].start)
             mGameEvent[event_id].end = mGameEvent[event_id].start+mGameEvent[event_id].length;
     }
 }
@@ -82,10 +82,10 @@ void GameEventMgr::StopEvent( uint16 event_id, bool overwrite )
 {
     RemoveActiveEvent(event_id);
     UnApplyEvent(event_id);
-    if(overwrite)
+    if (overwrite)
     {
         mGameEvent[event_id].start = time(NULL) - mGameEvent[event_id].length * MINUTE;
-        if(mGameEvent[event_id].end <= mGameEvent[event_id].start)
+        if (mGameEvent[event_id].end <= mGameEvent[event_id].start)
             mGameEvent[event_id].end = mGameEvent[event_id].start+mGameEvent[event_id].length;
     }
 }
@@ -94,7 +94,7 @@ void GameEventMgr::LoadFromDB()
 {
     {
         QueryResult *result = WorldDatabase.Query("SELECT MAX(entry) FROM game_event");
-        if( !result )
+        if ( !result )
         {
             sLog.outString(">> Table game_event is empty.");
             sLog.outString();
@@ -110,7 +110,7 @@ void GameEventMgr::LoadFromDB()
     }
 
     QueryResult *result = WorldDatabase.Query("SELECT entry,UNIX_TIMESTAMP(start_time),UNIX_TIMESTAMP(end_time),occurence,length,holiday,description FROM game_event");
-    if( !result )
+    if ( !result )
     {
         mGameEvent.clear();
         sLog.outString(">> Table game_event is empty!");
@@ -130,7 +130,7 @@ void GameEventMgr::LoadFromDB()
             //bar.step();
 
             uint16 event_id = fields[0].GetUInt16();
-            if(event_id==0)
+            if (event_id==0)
             {
                 sLog.outErrorDb("`game_event` game event id (%i) is reserved and can't be used.",event_id);
                 continue;
@@ -146,15 +146,15 @@ void GameEventMgr::LoadFromDB()
             pGameEvent.holiday_id   = HolidayIds(fields[5].GetUInt32());
 
 
-            if(pGameEvent.length==0)                            // length>0 is validity check
+            if (pGameEvent.length==0)                            // length>0 is validity check
             {
                 sLog.outErrorDb("`game_event` game event id (%i) have length 0 and can't be used.",event_id);
                 continue;
             }
 
-            if(pGameEvent.holiday_id != HOLIDAY_NONE)
+            if (pGameEvent.holiday_id != HOLIDAY_NONE)
             {
-                if(!sHolidaysStore.LookupEntry(pGameEvent.holiday_id))
+                if (!sHolidaysStore.LookupEntry(pGameEvent.holiday_id))
                 {
                     sLog.outErrorDb("`game_event` game event id (%i) have not existed holiday id %u.",event_id,pGameEvent.holiday_id);
                     pGameEvent.holiday_id = HOLIDAY_NONE;
@@ -183,7 +183,7 @@ void GameEventMgr::LoadFromDB()
         "FROM creature_spawns JOIN game_event_creature ON creature_spawns.guid = game_event_creature.guid");
 
     count = 0;
-    if( !result )
+    if ( !result )
     {
         ////barGoLink bar(1);
         //bar.step();
@@ -212,7 +212,7 @@ void GameEventMgr::LoadFromDB()
 
             int32 internal_event_id = mGameEvent.size() + event_id - 1;
 
-            if(internal_event_id < 0 || (size_t)internal_event_id >= mGameEventCreatureGuids.size())
+            if (internal_event_id < 0 || (size_t)internal_event_id >= mGameEventCreatureGuids.size())
             {
                 sLog.outErrorDb("`game_event_creature` game event id (%i) is out of range compared to max event id in `game_event`",event_id);
                 continue;
@@ -261,7 +261,7 @@ void GameEventMgr::LoadFromDB()
         "FROM gameobject_spawns JOIN game_event_gameobject ON gameobject_spawns.guid=game_event_gameobject.guid");
 
     count = 0;
-    if( !result )
+    if ( !result )
     {
         ////barGoLink bar(1);
         //bar.step();
@@ -290,7 +290,7 @@ void GameEventMgr::LoadFromDB()
 
             int32 internal_event_id = mGameEvent.size() + event_id - 1;
 
-            if(internal_event_id < 0 || (size_t)internal_event_id >= mGameEventGameobjectGuids.size())
+            if (internal_event_id < 0 || (size_t)internal_event_id >= mGameEventGameobjectGuids.size())
             {
                 sLog.outErrorDb("`game_event_gameobject` game event id (%i) is out of range compared to max event id in `game_event`",event_id);
                 continue;
@@ -334,7 +334,7 @@ void GameEventMgr::LoadFromDB()
     }
 
     // now recheck that all eventPools linked with events after our skip pools with parents
-    for(std::map<uint16,int16>::const_iterator itr = pool2event.begin(); itr != pool2event.end();  ++itr)
+    for (std::map<uint16,int16>::const_iterator itr = pool2event.begin(); itr != pool2event.end();  ++itr)
     {
         uint16 pool_id = itr->first;
         int16 event_id = itr->second;
@@ -350,7 +350,7 @@ void GameEventMgr::LoadFromDB()
         "FROM creature_spawns JOIN game_event_model_equip ON creature_spawns.guid=game_event_model_equip.guid");
 
     count = 0;
-    if( !result )
+    if ( !result )
     {
         ////barGoLink bar(1);
         //bar.step();
@@ -370,7 +370,7 @@ void GameEventMgr::LoadFromDB()
             uint32 guid     = fields[0].GetUInt32();
             uint16 event_id = fields[1].GetUInt16();
 
-            if(event_id >= mGameEventModelEquip.size())
+            if (event_id >= mGameEventModelEquip.size())
             {
                 sLog.outErrorDb("`game_event_model_equip` game event id (%u) is out of range compared to max event id in `game_event`",event_id);
                 continue;
@@ -384,9 +384,9 @@ void GameEventMgr::LoadFromDB()
             newModelEquipSet.equipement_id_prev = 0;
             newModelEquipSet.modelid_prev = 0;
 
-            if(newModelEquipSet.equipment_id > 0)
+            if (newModelEquipSet.equipment_id > 0)
             {
-                if(!sObjectMgr.GetEquipmentInfo(newModelEquipSet.equipment_id))
+                if (!sObjectMgr.GetEquipmentInfo(newModelEquipSet.equipment_id))
                 {
                     sLog.outErrorDb("Table `game_event_model_equip` have creature (Guid: %u) with equipment_id %u not found in table `creature_equip_template`, set to no equipment.", guid, newModelEquipSet.equipment_id);
                     continue;
@@ -407,7 +407,7 @@ void GameEventMgr::LoadFromDB()
     result = WorldDatabase.Query("SELECT id, quest, event FROM game_event_creature_quest");
 
     count = 0;
-    if( !result )
+    if ( !result )
     {
         ////barGoLink bar(1);
         //bar.step();
@@ -428,7 +428,7 @@ void GameEventMgr::LoadFromDB()
             uint32 quest    = fields[1].GetUInt32();
             uint16 event_id = fields[2].GetUInt16();
 
-            if(event_id >= mGameEventQuests.size())
+            if (event_id >= mGameEventQuests.size())
             {
                 sLog.outErrorDb("`game_event_creature_quest` game event id (%u) is out of range compared to max event id in `game_event`",event_id);
                 continue;
@@ -561,7 +561,7 @@ void GameEventMgr::GameEventSpawn(int16 event_id)
             // Spawn if necessary (loaded grids only)
             Map* map = const_cast<Map*>(sMapMgr.CreateBaseMap(data->mapid));
             // We use spawn coords to spawn
-            if(!map->Instanceable() && map->IsLoaded(data->posX,data->posY))
+            if (!map->Instanceable() && map->IsLoaded(data->posX,data->posY))
             {
                 Creature* pCreature = new Creature;
                 //DEBUG_LOG("Spawning creature %u",*itr);
@@ -607,7 +607,7 @@ void GameEventMgr::GameEventSpawn(int16 event_id)
             // this base map checked as non-instanced and then only existed
             Map* map = const_cast<Map*>(sMapMgr.CreateBaseMap(data->mapid));
             // We use current coords to unspawn, not spawn coords since creature can have changed grid
-            if(!map->Instanceable() && map->IsLoaded(data->posX, data->posY))
+            if (!map->Instanceable() && map->IsLoaded(data->posX, data->posY))
             {
                 GameObject* pGameobject = new GameObject;
                 //DEBUG_LOG("Spawning gameobject %u", *itr);
@@ -617,7 +617,7 @@ void GameEventMgr::GameEventSpawn(int16 event_id)
                 }
                 else
                 {
-                    if(pGameobject->isSpawnedByDefault())
+                    if (pGameobject->isSpawnedByDefault())
                         map->Add(pGameobject);
                 }
             }
@@ -626,7 +626,7 @@ void GameEventMgr::GameEventSpawn(int16 event_id)
 
     if (event_id > 0)
     {
-        if((size_t)event_id >= mGameEventSpawnPoolIds.size())
+        if ((size_t)event_id >= mGameEventSpawnPoolIds.size())
         {
             sLog.outError("GameEventMgr::GameEventSpawn attempt access to out of range mGameEventSpawnPoolIds element %i (size: " SIZEFMTD ")", event_id, mGameEventSpawnPoolIds.size());
             return;
@@ -650,7 +650,7 @@ void GameEventMgr::GameEventUnspawn(int16 event_id)
     for (GuidList::iterator itr = mGameEventCreatureGuids[internal_event_id].begin();itr != mGameEventCreatureGuids[internal_event_id].end();++itr)
     {
         // Remove the creature from grid
-        if( CreatureData const* data = sObjectMgr.GetCreatureData(*itr) )
+        if ( CreatureData const* data = sObjectMgr.GetCreatureData(*itr) )
         {
             // negative event id for pool element meaning unspawn in pool and exclude for next spawns
             if (event_id < 0)
@@ -679,7 +679,7 @@ void GameEventMgr::GameEventUnspawn(int16 event_id)
     for (GuidList::iterator itr = mGameEventGameobjectGuids[internal_event_id].begin();itr != mGameEventGameobjectGuids[internal_event_id].end();++itr)
     {
         // Remove the gameobject from grid
-        if(GameObjectData const* data = sObjectMgr.GetGOData(*itr))
+        if (GameObjectData const* data = sObjectMgr.GetGOData(*itr))
         {
             // negative event id for pool element meaning unspawn in pool and exclude for next spawns
             if (event_id < 0)
@@ -694,7 +694,7 @@ void GameEventMgr::GameEventUnspawn(int16 event_id)
 
             sObjectMgr.RemoveGameobjectFromGrid(*itr, data);
 
-            if( GameObject* pGameobject = ObjectAccessor::GetGameObjectInWorld(ObjectGuid(HIGHGUID_GAMEOBJECT, data->id, *itr)) )
+            if ( GameObject* pGameobject = ObjectAccessor::GetGameObjectInWorld(ObjectGuid(HIGHGUID_GAMEOBJECT, data->id, *itr)) )
                 pGameobject->AddObjectToRemoveList();
         }
     }
@@ -716,11 +716,11 @@ void GameEventMgr::GameEventUnspawn(int16 event_id)
 
 void GameEventMgr::ChangeEquipOrModel(int16 event_id, bool activate)
 {
-    for(ModelEquipList::iterator itr = mGameEventModelEquip[event_id].begin();itr != mGameEventModelEquip[event_id].end();++itr)
+    for (ModelEquipList::iterator itr = mGameEventModelEquip[event_id].begin();itr != mGameEventModelEquip[event_id].end();++itr)
     {
         // Remove the creature from grid
         CreatureData const* data = sObjectMgr.GetCreatureData(itr->first);
-        if(!data)
+        if (!data)
             continue;
 
         // Update if spawned
@@ -880,7 +880,7 @@ bool IsHolidayActive( HolidayIds id )
     GameEventMgr::GameEventDataMap const& events = sGameEventMgr.GetEventMap();
     GameEventMgr::ActiveEvents const& ae = sGameEventMgr.GetActiveEventList();
 
-    for(GameEventMgr::ActiveEvents::const_iterator itr = ae.begin(); itr != ae.end(); ++itr)
+    for (GameEventMgr::ActiveEvents::const_iterator itr = ae.begin(); itr != ae.end(); ++itr)
         if (events[*itr].holiday_id == id)
             return true;
 

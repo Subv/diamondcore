@@ -37,7 +37,7 @@ struct instance_mechanar : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_SEPETHREA:
                 m_auiEncounter[0] = uiData;

@@ -68,9 +68,9 @@ struct npc_toc_announcerAI : public ScriptedAI
     pInstance->SetData(TYPE_STAGE,0);
     DelayTimer = 0;
     m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
-    if(Creature *pAlly = GetClosestCreatureWithEntry(m_creature, NPC_THRALL, 300.0f))
+    if (Creature *pAlly = GetClosestCreatureWithEntry(m_creature, NPC_THRALL, 300.0f))
                       pAlly->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
-    if(Creature *pAlly = GetClosestCreatureWithEntry(m_creature, NPC_PROUDMOORE, 300.0f))
+    if (Creature *pAlly = GetClosestCreatureWithEntry(m_creature, NPC_PROUDMOORE, 300.0f))
                       pAlly->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
     m_creature->SetRespawnDelay(DAY);
     }
@@ -85,7 +85,7 @@ struct npc_toc_announcerAI : public ScriptedAI
     {
         if (!pInstance) return;
 
-    if(DelayTimer < diff) {
+    if (DelayTimer < diff) {
         switch (pInstance->GetData(TYPE_STAGE)) {
         case 0: break;
         case 1: {
@@ -200,7 +200,7 @@ bool GossipHello_npc_toc_announcer(Player* pPlayer, Creature* pCreature)
 
     if (!pInstance) return false;
 
-    if( !pPlayer->getAttackers().empty() ||
+    if ( !pPlayer->getAttackers().empty() ||
         pInstance->IsEncounterInProgress() ||
         pInstance->GetData(TYPE_EVENT)) 
            return true;
@@ -225,7 +225,7 @@ bool GossipHello_npc_toc_announcer(Player* pPlayer, Creature* pCreature)
                       break;
     };
 
-    for(i = 0; i < NUM_MESSAGES; i++) {
+    for (i = 0; i < NUM_MESSAGES; i++) {
     if (!_GossipMessage[i].state && (pInstance->GetData(_GossipMessage[i].encounter) != DONE )) {
         pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, _message, GOSSIP_SENDER_MAIN,_GossipMessage[i].id);
         break;
@@ -249,7 +249,7 @@ bool GossipSelect_npc_toc_announcer(Player* pPlayer, Creature* pCreature, uint32
 
 pPlayer->CLOSE_GOSSIP_MENU();
 
-switch(uiAction) {
+switch (uiAction) {
     case GOSSIP_ACTION_INFO_DEF+1: {
     if (pInstance->GetData(TYPE_BEASTS) != DONE) {
            pInstance->SetData(TYPE_EVENT,110);
@@ -345,7 +345,7 @@ struct boss_lich_king_tocAI : public ScriptedAI
         pPortal->SetRespawnDelay(DAY);
         pPortal->CastSpell(pPortal, 51807, false);
         pPortal->SetDisplayId(17612);
-        if(pInstance) pInstance->SetData(TYPE_LICH_KING,IN_PROGRESS);
+        if (pInstance) pInstance->SetData(TYPE_LICH_KING,IN_PROGRESS);
     }
 
     void AttackStart(Unit *who)
@@ -365,7 +365,7 @@ struct boss_lich_king_tocAI : public ScriptedAI
 
     void StartMovement()
     {
-        if(!WayPointList.empty() || MovementStarted)
+        if (!WayPointList.empty() || MovementStarted)
             return;
 
         AddWaypoint(0, SpawnLoc[2].x, SpawnLoc[2].y, SpawnLoc[2].z);
@@ -389,7 +389,7 @@ struct boss_lich_king_tocAI : public ScriptedAI
     void UpdateAI(const uint32 diff)
     {
 
-    if(!pInstance) return;
+    if (!pInstance) return;
     if (pInstance->GetData(TYPE_EVENT_NPC) != NPC_LICH_KING_1) return;
     if (!MovementStarted) StartMovement();
 
@@ -452,7 +452,7 @@ struct boss_lich_king_tocAI : public ScriptedAI
                    pGoFloor->SetUInt32Value(GAMEOBJECT_BYTES_1,8449);
                    }
                 m_creature->CastSpell(m_creature,69016,false);
-                if(pInstance) pInstance->SetData(TYPE_LICH_KING,DONE);
+                if (pInstance) pInstance->SetData(TYPE_LICH_KING,DONE);
 
                pInstance->SetData(TYPE_ANUBARAK,IN_PROGRESS);
                   m_creature->SummonCreature(NPC_ANUBARAK, SpawnLoc[19].x, SpawnLoc[19].y, SpawnLoc[19].z, 5, TEMPSUMMON_CORPSE_TIMED_DESPAWN, DESPAWN_TIME);
@@ -476,15 +476,15 @@ struct boss_lich_king_tocAI : public ScriptedAI
 
     void MovementInform(uint32 type, uint32 id)
     {
-        if(pInstance)
+        if (pInstance)
         {
-            if(id == 2)
+            if (id == 2)
             {
                 Event = true;
             }
         }
-        if(type != POINT_MOTION_TYPE) return;
-        if(WayPoint->id != id) return;
+        if (type != POINT_MOTION_TYPE) return;
+        if (WayPoint->id != id) return;
         ++WayPoint;
         WalkTimer = 200;
     }
@@ -524,14 +524,14 @@ struct npc_fizzlebang_tocAI : public ScriptedAI
 
     void UpdateAI(const uint32 diff)
     {
-      if(!pInstance) return;
+      if (!pInstance) return;
 
       if (pInstance->GetData(TYPE_EVENT_NPC) != NPC_FIZZLEBANG) return;
 
         UpdateTimer = pInstance->GetData(TYPE_EVENT_TIMER);
-        if(UpdateTimer <= diff)
+        if (UpdateTimer <= diff)
         {
-        switch(pInstance->GetData(TYPE_EVENT))
+        switch (pInstance->GetData(TYPE_EVENT))
               {
                case 1110:
                     pInstance->SetData(TYPE_EVENT, 1120);
@@ -940,7 +940,7 @@ struct npc_tirion_tocAI : public ScriptedAI
                                                  }
 
                               }
-               for(uint8 i = 0; i < crusaderscount; ++i)
+               for (uint8 i = 0; i < crusaderscount; ++i)
                        {
                        m_creature->SummonCreature(crusader[i], SpawnLoc[i+2].x, SpawnLoc[i+2].y, SpawnLoc[i+2].z, 5, TEMPSUMMON_CORPSE_TIMED_DESPAWN, DESPAWN_TIME);
                        if (Creature* pTemp = (Creature*)Unit::GetUnit((*m_creature),pInstance->GetData64(crusader[i]))) {
@@ -1089,7 +1089,7 @@ struct npc_tirion_tocAI : public ScriptedAI
                                                  }
 
                               }
-               for(uint8 i = 0; i < crusaderscount; ++i)
+               for (uint8 i = 0; i < crusaderscount; ++i)
                        {
                        m_creature->SummonCreature(crusader[i], SpawnLoc[i+2].x, SpawnLoc[i+2].y, SpawnLoc[i+2].z, 5, TEMPSUMMON_CORPSE_TIMED_DESPAWN, DESPAWN_TIME);
                        if (Creature* pTemp = (Creature*)Unit::GetUnit((*m_creature),pInstance->GetData64(crusader[i]))) {

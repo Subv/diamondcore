@@ -153,7 +153,7 @@ struct boss_malacrassAI : public ScriptedAI
         if (m_pInstance)
             m_pInstance->SetData(TYPE_MALACRASS, FAIL);
 
-        for(uint8 i = 0; i < MAX_ACTIVE_ADDS; ++i)
+        for (uint8 i = 0; i < MAX_ACTIVE_ADDS; ++i)
         {
             if (Creature* pAdd = (Creature*)Unit::GetUnit(*m_creature, m_auiAddGUIDs[i]))
                 pAdd->AI()->EnterEvadeMode();
@@ -172,11 +172,11 @@ struct boss_malacrassAI : public ScriptedAI
         if (m_lAddsEntryList.empty())
         {
             //fill list with entries from creature array
-            for(uint8 i = 0; i < MAX_ACTIVE_ADDS; ++i)
+            for (uint8 i = 0; i < MAX_ACTIVE_ADDS; ++i)
                 m_lAddsEntryList.push_back(rand()%2 ? m_auiSpawnEntry[i].m_uiCreatureEntry : m_auiSpawnEntry[i].m_uiCreatureEntryAlt);
 
             //summon mobs from the list
-            for(std::list<uint32>::iterator itr = m_lAddsEntryList.begin(); itr != m_lAddsEntryList.end(); ++itr)
+            for (std::list<uint32>::iterator itr = m_lAddsEntryList.begin(); itr != m_lAddsEntryList.end(); ++itr)
             {
                 if (Creature* pAdd = m_creature->SummonCreature((*itr), m_afAddPosX[j], ADD_POS_Y, ADD_POS_Z, ADD_ORIENT, TEMPSUMMON_CORPSE_DESPAWN, 0))
                     m_auiAddGUIDs[j] = pAdd->GetGUID();
@@ -186,7 +186,7 @@ struct boss_malacrassAI : public ScriptedAI
         }
         else
         {
-            for(std::list<uint32>::iterator itr = m_lAddsEntryList.begin(); itr != m_lAddsEntryList.end(); ++itr)
+            for (std::list<uint32>::iterator itr = m_lAddsEntryList.begin(); itr != m_lAddsEntryList.end(); ++itr)
             {
                 Unit* pAdd = Unit::GetUnit(*m_creature, m_auiAddGUIDs[j]);
 
@@ -216,7 +216,7 @@ struct boss_malacrassAI : public ScriptedAI
 
     void AddsAttack(Unit* pWho)
     {
-        for(uint8 i = 0; i < MAX_ACTIVE_ADDS; ++i)
+        for (uint8 i = 0; i < MAX_ACTIVE_ADDS; ++i)
         {
             if (Creature* pAdd = (Creature*)Unit::GetUnit(*m_creature, m_auiAddGUIDs[i]))
             {
@@ -247,7 +247,7 @@ struct boss_malacrassAI : public ScriptedAI
 
     void CleanAdds()
     {
-        for(uint8 i = 0; i < MAX_ACTIVE_ADDS; ++i)
+        for (uint8 i = 0; i < MAX_ACTIVE_ADDS; ++i)
         {
             if (Creature* pAdd = (Creature*)Unit::GetUnit(*m_creature, m_auiAddGUIDs[i]))
             {
@@ -312,7 +312,7 @@ struct boss_malacrass_addAI : public ScriptedAI
 
         if (Unit* pMalacrass = Unit::GetUnit(*m_creature, m_pInstance->GetData64(DATA_MALACRASS)))
         {
-            switch(urand(0, 2))
+            switch (urand(0, 2))
             {
                 case 0: DoScriptText(SAY_ADD_DIED1, pMalacrass); break;
                 case 1: DoScriptText(SAY_ADD_DIED2, pMalacrass); break;

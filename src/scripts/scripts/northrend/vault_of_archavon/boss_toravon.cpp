@@ -46,7 +46,7 @@ struct boss_toravonAI : public ScriptedAI
         OrbsTimer = 15000;
         FreezeTimer = 20000 + rand()%5000;
 
-        if(pInstance)
+        if (pInstance)
             pInstance->SetData(TYPE_TORAVON, NOT_STARTED);
     }
 
@@ -54,13 +54,13 @@ struct boss_toravonAI : public ScriptedAI
     {
         DoCastSpellIfCan(m_creature, SP_FROZEN_MALLET);
 
-        if(pInstance)
+        if (pInstance)
             pInstance->SetData(TYPE_TORAVON, IN_PROGRESS);
     }
 
     void JustDied(Unit *killer)
     {
-        if(pInstance)
+        if (pInstance)
             pInstance->SetData(TYPE_TORAVON, DONE);
     }
 
@@ -75,7 +75,7 @@ struct boss_toravonAI : public ScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        if(WhiteoutTimer < diff)
+        if (WhiteoutTimer < diff)
         {
             DoCastSpellIfCan(m_creature, m_bIsRegularMode ? SP_WHITEOUT : H_SP_WHITEOUT);
             WhiteoutTimer = 40000;
@@ -83,11 +83,11 @@ struct boss_toravonAI : public ScriptedAI
         else
             WhiteoutTimer -= diff;
 
-        if(OrbsTimer < diff)
+        if (OrbsTimer < diff)
         {
-            for(int i=0; i<orbsNum; ++i)
+            for (int i=0; i<orbsNum; ++i)
             {
-                if(Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
+                if (Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                     m_creature->SummonCreature(CR_FROZEN_ORB, target->GetPositionX(), target->GetPositionY(), target->GetPositionZ(), 0, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 3000);
             }
             OrbsTimer = 40000;
@@ -95,7 +95,7 @@ struct boss_toravonAI : public ScriptedAI
         else
             OrbsTimer -= diff;
 
-        if(FreezeTimer < diff)
+        if (FreezeTimer < diff)
         {
             DoCastSpellIfCan(m_creature, SP_FREEZING_GROUND);
             FreezeTimer = 20000 + rand()%5000;

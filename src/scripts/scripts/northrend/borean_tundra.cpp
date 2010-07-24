@@ -69,7 +69,7 @@ bool GossipHello_npc_fizzcrank_fullthrottle(Player* pPlayer, Creature* pCreature
 
 bool GossipSelect_npc_fizzcrank_fullthrottle(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_GO_ON, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 2);
@@ -170,7 +170,7 @@ bool GossipHello_npc_kara_thricestar(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_npc_kara_thricestar(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:
             pPlayer->GetSession()->SendTaxiMenu(pCreature);
@@ -302,7 +302,7 @@ struct npc_lurgglbrAI : public npc_escortAI
 
     void WaypointStart(uint32 uiPointId)
     {
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 1:
                 if (Player* pPlayer = GetPlayerForEscort())
@@ -316,7 +316,7 @@ struct npc_lurgglbrAI : public npc_escortAI
 
     void WaypointReached(uint32 uiPointId)
     {
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 0:
                 if (Player* pPlayer = GetPlayerForEscort())
@@ -353,7 +353,7 @@ struct npc_lurgglbrAI : public npc_escortAI
 
                     m_creature->SetFacingToObject(pPlayer);
 
-                    switch(m_uiSpeech)
+                    switch (m_uiSpeech)
                     {
                         case 0:
                             DoScriptText(SAY_END_2, m_creature, pPlayer);

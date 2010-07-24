@@ -73,7 +73,7 @@ struct boss_nethermancer_sepethreaAI : public ScriptedAI
 
         //Summon two guards, three in heroic
         uint8 am = (m_bIsRegularMode ? 2 : 1);
-        for(int i = 0; i < am; ++i)
+        for (int i = 0; i < am; ++i)
         {
             DoCastSpellIfCan(who,SPELL_SUMMON_RAGIN_FLAMES);
         }

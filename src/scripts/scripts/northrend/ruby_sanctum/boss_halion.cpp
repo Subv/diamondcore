@@ -151,7 +151,7 @@ struct boss_halion_realAI : public BSWScriptedAI
 
     void Reset()
     {
-        if(!pInstance)
+        if (!pInstance)
             return;
 
         p_phase = 0;
@@ -317,7 +317,7 @@ struct boss_halion_twilightAI : public BSWScriptedAI
 
     void Reset() 
     {
-        if(!pInstance)
+        if (!pInstance)
             return;
 
         t_phase = 0;
@@ -374,7 +374,7 @@ struct boss_halion_twilightAI : public BSWScriptedAI
             return;
         if (!m_creature || !m_creature->isAlive())
             return;
-        if(pDoneBy->GetGUID() == m_creature->GetGUID())
+        if (pDoneBy->GetGUID() == m_creature->GetGUID())
             return;
 
         pInstance->SetData(DATA_HEALTH_HALION_T, m_creature->GetHealth() >= uiDamage ? m_creature->GetHealth() - uiDamage : 0);

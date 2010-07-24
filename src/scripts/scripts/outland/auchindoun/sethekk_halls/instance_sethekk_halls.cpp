@@ -45,7 +45,7 @@ struct instance_sethekk_halls : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case DATA_IKISSDOOREVENT:
                 if (uiData == DONE)

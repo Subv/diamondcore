@@ -115,7 +115,7 @@ struct boss_nothAI : public ScriptedAI
         m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NOT_SELECTABLE);
         m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
 
-        if(m_pInstance)
+        if (m_pInstance)
             m_pInstance->SetData(TYPE_NOTH, NOT_STARTED);
     }
 
@@ -131,10 +131,10 @@ struct boss_nothAI : public ScriptedAI
         if (!who || m_creature->getVictim())
             return;
 
-        if (who->isTargetableForAttack() && who->isInAccessablePlaceFor(m_creature) && m_creature->IsHostileTo(who))
+        if (who->isTargetableForAttack() && who->isInAccessablePlacefor (m_creature) && m_creature->IsHostileTo(who))
             AttackStart(who);
 
-        if(m_pInstance)
+        if (m_pInstance)
             m_pInstance->SetData(TYPE_NOTH, IN_PROGRESS);
     }
 
@@ -175,7 +175,7 @@ struct boss_nothAI : public ScriptedAI
     {
         DoScriptText(SAY_DEATH, m_creature);
 
-        if(m_pInstance)
+        if (m_pInstance)
             m_pInstance->SetData(TYPE_NOTH, DONE);
     }
 
@@ -201,14 +201,14 @@ struct boss_nothAI : public ScriptedAI
                 switch (SecondPhaseCounter)
                 {
                     case 0:
-                        for(uint8 i = 0; i < (m_bIsRegularMode ? 2 : 4); i++)
+                        for (uint8 i = 0; i < (m_bIsRegularMode ? 2 : 4); i++)
                             m_creature->SummonCreature(NPC_PLAGUED_CHAMPIONS,2684.804,-3502.517,261.313,0,TEMPSUMMON_TIMED_OR_DEAD_DESPAWN,80000);
                         break;
                     case 1:
                     case 2:
-                        for(uint8 i = 0; i < (m_bIsRegularMode ? 2 : 4) - (m_bIsRegularMode ? 2 : 1); i++)
+                        for (uint8 i = 0; i < (m_bIsRegularMode ? 2 : 4) - (m_bIsRegularMode ? 2 : 1); i++)
                             m_creature->SummonCreature(NPC_PLAGUED_CHAMPIONS,2684.804,-3502.517,261.313,0,TEMPSUMMON_TIMED_OR_DEAD_DESPAWN,80000);
-                        for(uint8 i = 0; i < (m_bIsRegularMode ? 1 : 2); i++)
+                        for (uint8 i = 0; i < (m_bIsRegularMode ? 1 : 2); i++)
                             m_creature->SummonCreature(NPC_PLAGUED_GUARDIANS,2684.804,-3502.517,261.313,0,TEMPSUMMON_TIMED_OR_DEAD_DESPAWN,80000);
                         break;
                 }
@@ -245,7 +245,7 @@ struct boss_nothAI : public ScriptedAI
         {
             DoScriptText(SAY_SUMMON, m_creature);
 
-            for(uint8 i = 0; i < (m_bIsRegularMode ? 2 : 3); ++i)
+            for (uint8 i = 0; i < (m_bIsRegularMode ? 2 : 3); ++i)
                 m_creature->SummonCreature(NPC_PLAGUED_WARRIOR, 2672.804 + rand()%15,-3509.517 + rand()%15, 261.313, 0, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN, 80000);
 
             Summon_Timer = 30000;

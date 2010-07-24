@@ -279,7 +279,7 @@ struct boss_magtheridonAI : public ScriptedAI
 
         // now checking if every clicker has debuff from manticron
         // if not - apply mind exhaustion and delete from clicker's list
-        for(CubeMap::iterator i = Cube.begin(); i != Cube.end(); ++i)
+        for (CubeMap::iterator i = Cube.begin(); i != Cube.end(); ++i)
         {
             Unit *clicker = Unit::GetUnit(*m_creature, (*i).second);
             if (!clicker || !clicker->HasAura(SPELL_SHADOW_GRASP, EFFECT_INDEX_1))
@@ -456,7 +456,7 @@ struct boss_magtheridonAI : public ScriptedAI
         {
             if (m_uiPhase3_Timer < uiDiff)
             {
-                switch(m_uiPhase3_Count)
+                switch (m_uiPhase3_Count)
                 {
                     case 0:
                         m_creature->CastSpell(m_creature, SPELL_CAMERA_SHAKE, true);

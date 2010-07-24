@@ -125,7 +125,7 @@ struct boss_high_king_maulgarAI : public ScriptedAI
 
     void KilledUnit()
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_SLAY1, m_creature); break;
             case 1: DoScriptText(SAY_SLAY2, m_creature); break;
@@ -173,7 +173,7 @@ struct boss_high_king_maulgarAI : public ScriptedAI
 
     void EventCouncilDeath()
     {
-        switch(++m_uiCouncilDeathCount)
+        switch (++m_uiCouncilDeathCount)
         {
             case 1: DoScriptText(SAY_OGRE_DEATH1, m_creature); break;
             case 2: DoScriptText(SAY_OGRE_DEATH2, m_creature); break;

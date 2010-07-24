@@ -66,7 +66,7 @@ struct boss_hazzarahAI : public ScriptedAI
         {
             //We will summon 3 illusions that will spawn on a random gamer and attack this gamer
             //We will just use one model for the beginning
-            for(int i = 0; i < 3; ++i)
+            for (int i = 0; i < 3; ++i)
             {
                 if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
                 {

@@ -59,7 +59,7 @@ void WaypointMovementGenerator<Creature>::LoadPath(Creature &c)
     uint32 node_count = i_path->size();
     i_hasDone.resize(node_count);
 
-    for(uint32 i = 0; i < node_count-1; ++i)
+    for (uint32 i = 0; i < node_count-1; ++i)
         i_hasDone[i] = false;
 
     // to prevent a misbehavior inside "update"
@@ -148,7 +148,7 @@ bool WaypointMovementGenerator<Creature>::Update(Creature &creature, const uint3
             i_destinationHolder.SetDestination(traveller, node.x, node.y, node.z);
             i_nextMoveTime.Reset(i_destinationHolder.GetTotalTravelTime());
         }
-        else // if( !i_nextMoveTime.Passed())
+        else // if ( !i_nextMoveTime.Passed())
         {
             // unexpected end of timer && creature stopped && not at end of segment
             if (!IsStoppedByPlayer())
@@ -200,7 +200,7 @@ bool WaypointMovementGenerator<Creature>::Update(Creature &creature, const uint3
                     {
                         // Select one from max 5 texts (0 and 1 already checked)
                         int i = 2;
-                        for(; i < MAX_WAYPOINT_TEXT; ++i)
+                        for (; i < MAX_WAYPOINT_TEXT; ++i)
                         {
                             if (!behavior->textid[i])
                                 break;
@@ -293,7 +293,7 @@ uint32 FlightPathMovementGenerator::GetPathAtMapEnd() const
 
     uint32 curMapId = (*i_path)[i_currentNode].mapid;
 
-    for(uint32 i = i_currentNode; i < i_path->size(); ++i)
+    for (uint32 i = i_currentNode; i < i_path->size(); ++i)
     {
         if ((*i_path)[i].mapid != curMapId)
             return i;
@@ -320,10 +320,10 @@ void FlightPathMovementGenerator::Finalize(Player & player)
     player.Unmount();
     player.RemoveFlag(UNIT_FIELD_FLAGS,UNIT_FLAG_DISABLE_MOVE | UNIT_FLAG_TAXI_FLIGHT);
 
-    if(player.m_taxi.empty())
+    if (player.m_taxi.empty())
     {
         player.getHostileRefManager().setOnlineOfflineState(true);
-        if(player.pvpInfo.inHostileArea)
+        if (player.pvpInfo.inHostileArea)
             player.CastSpell(&player, 2479, true);
 
         // update z position to ground and orientation for landing point
@@ -355,7 +355,7 @@ bool FlightPathMovementGenerator::Update(Player &player, const uint32 &diff)
     if (MovementInProgress())
     {
         Traveller<Player> traveller(player);
-        if( i_destinationHolder.UpdateTraveller(traveller, diff, false) )
+        if ( i_destinationHolder.UpdateTraveller(traveller, diff, false) )
         {
             if (!IsActive(player))                          // force stop processing (movement can move out active zone with cleanup movegens list)
                 return true;                                // not expire now, but already lost

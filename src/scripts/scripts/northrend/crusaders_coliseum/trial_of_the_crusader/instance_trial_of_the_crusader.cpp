@@ -149,7 +149,7 @@ struct instance_trial_of_the_crusader : public ScriptedInstance
 
     bool IsEncounterInProgress() const
     {
-        for(uint8 i = 1; i < MAX_ENCOUNTERS-2 ; ++i)
+        for (uint8 i = 1; i < MAX_ENCOUNTERS-2 ; ++i)
             if (m_auiEncounter[i] == IN_PROGRESS) return true;
 
         return false;
@@ -170,9 +170,9 @@ struct instance_trial_of_the_crusader : public ScriptedInstance
 
        for (Map::PlayerList::const_iterator i = players.begin(); i != players.end(); ++i)
               {
-              if(Player* pPlayer = i->getSource())
+              if (Player* pPlayer = i->getSource())
                     {
-                    if(pPlayer->isAlive())
+                    if (pPlayer->isAlive())
                     return false;
                     }
                }
@@ -181,21 +181,21 @@ struct instance_trial_of_the_crusader : public ScriptedInstance
 
     void OpenDoor(uint64 guid)
     {
-        if(!guid) return;
+        if (!guid) return;
         GameObject* pGo = instance->GetGameObject(guid);
-        if(pGo) pGo->SetGoState(GO_STATE_ACTIVE_ALTERNATIVE);
+        if (pGo) pGo->SetGoState(GO_STATE_ACTIVE_ALTERNATIVE);
     }
 
     void CloseDoor(uint64 guid)
     {
-        if(!guid) return;
+        if (!guid) return;
         GameObject* pGo = instance->GetGameObject(guid);
-        if(pGo) pGo->SetGoState(GO_STATE_READY);
+        if (pGo) pGo->SetGoState(GO_STATE_READY);
     }
 
      void OnCreatureCreate(Creature* pCreature)
      {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
          case NPC_BARRENT:  m_uiBarrentGUID = pCreature->GetGUID(); break;
          case NPC_TIRION:      m_uiTirionGUID = pCreature->GetGUID(); break;
@@ -251,22 +251,22 @@ struct instance_trial_of_the_crusader : public ScriptedInstance
 
     void OnObjectCreate(GameObject *pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
         case GO_CRUSADERS_CACHE_10:
-                                  if(Difficulty == RAID_DIFFICULTY_10MAN_NORMAL)
+                                  if (Difficulty == RAID_DIFFICULTY_10MAN_NORMAL)
                                   m_uiCrusadersCacheGUID = pGo->GetGUID(); 
                                   break;
         case GO_CRUSADERS_CACHE_25:
-                                  if(Difficulty == RAID_DIFFICULTY_25MAN_NORMAL)
+                                  if (Difficulty == RAID_DIFFICULTY_25MAN_NORMAL)
                                   m_uiCrusadersCacheGUID = pGo->GetGUID(); 
                                   break;
         case GO_CRUSADERS_CACHE_10_H:
-                                  if(Difficulty == RAID_DIFFICULTY_10MAN_HEROIC)
+                                  if (Difficulty == RAID_DIFFICULTY_10MAN_HEROIC)
                                   m_uiCrusadersCacheGUID = pGo->GetGUID(); 
                                   break;
         case GO_CRUSADERS_CACHE_25_H:
-                                  if(Difficulty == RAID_DIFFICULTY_25MAN_HEROIC)
+                                  if (Difficulty == RAID_DIFFICULTY_25MAN_HEROIC)
                                   m_uiCrusadersCacheGUID = pGo->GetGUID(); 
                                   break;
         case GO_ARGENT_COLISEUM_FLOOR: 
@@ -292,7 +292,7 @@ struct instance_trial_of_the_crusader : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
         case TYPE_STAGE:     m_auiEncounter[0] = uiData; break;
         case TYPE_BEASTS:    m_auiEncounter[1] = uiData; break;
@@ -314,13 +314,13 @@ struct instance_trial_of_the_crusader : public ScriptedInstance
         case TYPE_LICH_KING: m_auiEncounter[5] = uiData; break;
         case TYPE_ANUBARAK:  m_auiEncounter[6] = uiData; 
                             if (uiData == DONE) {
-                            if(Difficulty == RAID_DIFFICULTY_10MAN_HEROIC){
+                            if (Difficulty == RAID_DIFFICULTY_10MAN_HEROIC){
                                 if ( m_auiEncounter[7] >= 25) m_uiTributeChest1GUID = m_uiTC10h25GUID;
                                 if ( m_auiEncounter[7] >= 45) m_uiTributeChest2GUID = m_uiTC10h45GUID;
                                 if ( m_auiEncounter[7] >= 49) m_uiTributeChest3GUID = m_uiTC10h50GUID;
                                 m_uiTributeChest4GUID = m_uiTC10h99GUID;
                             }
-                            if(Difficulty == RAID_DIFFICULTY_25MAN_HEROIC){
+                            if (Difficulty == RAID_DIFFICULTY_25MAN_HEROIC){
                                 if ( m_auiEncounter[7] >= 25) m_uiTributeChest1GUID = m_uiTC25h25GUID;
                                 if ( m_auiEncounter[7] >= 45) m_uiTributeChest2GUID = m_uiTC25h45GUID;
                                 if ( m_auiEncounter[7] >= 49) m_uiTributeChest3GUID = m_uiTC25h50GUID;
@@ -381,7 +381,7 @@ struct instance_trial_of_the_crusader : public ScriptedInstance
 
             std::ostringstream saveStream;
 
-            for(uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
+            for (uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
                 saveStream << m_auiEncounter[i] << " ";
 
             m_strInstData = saveStream.str();
@@ -394,7 +394,7 @@ struct instance_trial_of_the_crusader : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
          case NPC_BARRENT:  return m_uiBarrentGUID;
          case NPC_TIRION:   return m_uiTirionGUID;
@@ -459,7 +459,7 @@ struct instance_trial_of_the_crusader : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_STAGE:     return m_auiEncounter[0];
             case TYPE_BEASTS:    return m_auiEncounter[1];
@@ -589,7 +589,7 @@ struct instance_trial_of_the_crusader : public ScriptedInstance
 
         std::istringstream loadStream(strIn);
 
-        for(uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
         {
             loadStream >> m_auiEncounter[i];
 

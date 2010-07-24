@@ -49,7 +49,7 @@ struct instance_shattered_halls : public ScriptedInstance
 
     bool IsEncounterInProgress() const
     {
-        for(uint8 i = 0; i < MAX_ENCOUNTER; i++)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; i++)
             if (m_auiEncounter[i] == IN_PROGRESS)
                 return true;
         return false;
@@ -69,7 +69,7 @@ struct instance_shattered_halls : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_NETHEKURSE:
                 m_auiEncounter[0] = uiData;
@@ -82,7 +82,7 @@ struct instance_shattered_halls : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_NETHEKURSE:
                 return m_auiEncounter[0];
@@ -94,7 +94,7 @@ struct instance_shattered_halls : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_NETHEKURSE:
                 return m_uiNethekurseGUID;

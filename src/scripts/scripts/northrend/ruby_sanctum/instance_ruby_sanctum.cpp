@@ -53,21 +53,21 @@ struct instance_ruby_sanctum : public ScriptedInstance
 
     void OpenDoor(uint64 guid)
     {
-        if(!guid)
+        if (!guid)
             return;
 
         GameObject* pGo = instance->GetGameObject(guid);
-        if(pGo)
+        if (pGo)
             pGo->SetGoState(GO_STATE_ACTIVE_ALTERNATIVE);
     }
 
     void CloseDoor(uint64 guid)
     {
-        if(!guid)
+        if (!guid)
             return;
 
         GameObject* pGo = instance->GetGameObject(guid);
-        if(pGo)
+        if (pGo)
             pGo->SetGoState(GO_STATE_READY);
     }
 
@@ -93,7 +93,7 @@ struct instance_ruby_sanctum : public ScriptedInstance
 
     bool IsEncounterInProgress() const
     {
-        for(uint8 i = 1; i < MAX_ENCOUNTERS-3 ; ++i)
+        for (uint8 i = 1; i < MAX_ENCOUNTERS-3 ; ++i)
             if (m_auiEncounter[i] == IN_PROGRESS)
                 return true;
 
@@ -102,7 +102,7 @@ struct instance_ruby_sanctum : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_HALION_P: 
                 m_uiHalion_pGUID = pCreature->GetGUID();
@@ -127,7 +127,7 @@ struct instance_ruby_sanctum : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_HALION_FIRE_RING:
                 m_uiHalionFireRingGUID = pGo->GetGUID();
@@ -149,7 +149,7 @@ struct instance_ruby_sanctum : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_BALTHARUS: 
                  m_auiEncounter[0] = uiData;
@@ -178,7 +178,7 @@ struct instance_ruby_sanctum : public ScriptedInstance
 
             std::ostringstream saveStream;
 
-            for(uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
+            for (uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
                 saveStream << m_auiEncounter[i] << " ";
 
             strSaveData = saveStream.str();
@@ -195,7 +195,7 @@ struct instance_ruby_sanctum : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_BALTHARUS:     return m_auiEncounter[0];
             case TYPE_ZARITHIAN:     return m_auiEncounter[1];
@@ -207,7 +207,7 @@ struct instance_ruby_sanctum : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case NPC_BALTHARUS:  return m_uiBaltharusGUID;
             case NPC_CLONE:      return m_uiCloneGUID;
@@ -231,7 +231,7 @@ struct instance_ruby_sanctum : public ScriptedInstance
 
         std::istringstream loadStream(chrIn);
 
-        for(uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
         {
             loadStream >> m_auiEncounter[i];
 

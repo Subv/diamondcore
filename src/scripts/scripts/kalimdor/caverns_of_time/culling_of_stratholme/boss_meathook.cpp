@@ -72,13 +72,13 @@ struct boss_meathookAI : public ScriptedAI
    void JustDied(Unit *killer)
    {
        DoScriptText(SAY_MEATHOOK_DEATH, m_creature);
-       if(m_pInstance)
+       if (m_pInstance)
           m_pInstance->SetData(TYPE_PHASE, 3);
    }
 
     void KilledUnit(Unit* pVictim)
     {
-        switch(rand()%3)
+        switch (rand()%3)
         {
             case 0: DoScriptText(SAY_MEATHOOK_SLAY01, m_creature); break;
             case 1: DoScriptText(SAY_MEATHOOK_SLAY02, m_creature); break;

@@ -91,7 +91,7 @@ namespace Diamond
             {
                 char const* text = sObjectMgr.GetString(i_textId,loc_idx);
 
-                if(i_args)
+                if (i_args)
                 {
                     // we need copy va_list before use or original va_list will corrupted
                     va_list ap;
@@ -201,7 +201,7 @@ namespace Diamond
 template<class Do>
 void BattleGround::BroadcastWorker(Do& _do)
 {
-    for(BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
+    for (BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
         if (Player *plr = ObjectAccessor::FindPlayer(ObjectGuid(HIGHGUID_PLAYER, itr->first)))
             _do(plr);
 }
@@ -284,7 +284,7 @@ BattleGround::~BattleGround()
     // (this is done automatically in mapmanager update, when the instance is reset after the reset time)
 
     int size = m_BgObjects.size();
-    for(int i = 0; i < size; ++i)
+    for (int i = 0; i < size; ++i)
         DelObject(i);
 
     if (GetInstanceID())                                    // not spam by useless queries in case BG templates
@@ -308,7 +308,7 @@ BattleGround::~BattleGround()
     // remove from bg free slot queue
     this->RemoveFromBGFreeSlotQueue();
 
-    for(BattleGroundScoreMap::const_iterator itr = m_PlayerScores.begin(); itr != m_PlayerScores.end(); ++itr)
+    for (BattleGroundScoreMap::const_iterator itr = m_PlayerScores.begin(); itr != m_PlayerScores.end(); ++itr)
         delete itr->second;
 }
 
@@ -459,7 +459,7 @@ void BattleGround::Update(uint32 diff)
             {
                 //TODO : add arena sound PlaySoundToAll(SOUND_ARENA_START);
 
-                for(BattleGroundPlayerMap::const_iterator itr = GetPlayers().begin(); itr != GetPlayers().end(); ++itr)
+                for (BattleGroundPlayerMap::const_iterator itr = GetPlayers().begin(); itr != GetPlayers().end(); ++itr)
                     if (Player *plr = sObjectMgr.GetPlayer(itr->first))
                         plr->RemoveAurasDueToSpell(SPELL_ARENA_PREPARATION);
 
@@ -470,7 +470,7 @@ void BattleGround::Update(uint32 diff)
 
                 PlaySoundToAll(SOUND_BG_START);
 
-                for(BattleGroundPlayerMap::const_iterator itr = GetPlayers().begin(); itr != GetPlayers().end(); ++itr)
+                for (BattleGroundPlayerMap::const_iterator itr = GetPlayers().begin(); itr != GetPlayers().end(); ++itr)
                     if (Player* plr = sObjectMgr.GetPlayer(itr->first))
                         plr->RemoveAurasDueToSpell(SPELL_PREPARATION);
                 //Announce BG starting
@@ -494,7 +494,7 @@ void BattleGround::Update(uint32 diff)
         {
             m_EndTime = 0;
             BattleGroundPlayerMap::iterator itr, next;
-            for(itr = m_Players.begin(); itr != m_Players.end(); itr = next)
+            for (itr = m_Players.begin(); itr != m_Players.end(); itr = next)
             {
                 next = itr;
                 ++next;
@@ -520,7 +520,7 @@ void BattleGround::SetTeamStartLoc(uint32 TeamID, float X, float Y, float Z, flo
 
 void BattleGround::SendPacketToAll(WorldPacket *packet)
 {
-    for(BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
+    for (BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
     {
         if (itr->second.OfflineRemoveTime)
             continue;
@@ -534,7 +534,7 @@ void BattleGround::SendPacketToAll(WorldPacket *packet)
 
 void BattleGround::SendPacketToTeam(uint32 TeamID, WorldPacket *packet, Player *sender, bool self)
 {
-    for(BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
+    for (BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
     {
         if (itr->second.OfflineRemoveTime)
             continue;
@@ -549,7 +549,7 @@ void BattleGround::SendPacketToTeam(uint32 TeamID, WorldPacket *packet, Player *
             continue;
 
         uint32 team = itr->second.Team;
-        if(!team) team = plr->GetTeam();
+        if (!team) team = plr->GetTeam();
 
         if (team == TeamID)
             plr->GetSession()->SendPacket(packet);
@@ -567,7 +567,7 @@ void BattleGround::PlaySoundToTeam(uint32 SoundID, uint32 TeamID)
 {
     WorldPacket data;
 
-    for(BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
+    for (BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
     {
         if (itr->second.OfflineRemoveTime)
             continue;
@@ -580,7 +580,7 @@ void BattleGround::PlaySoundToTeam(uint32 SoundID, uint32 TeamID)
         }
 
         uint32 team = itr->second.Team;
-        if(!team) team = plr->GetTeam();
+        if (!team) team = plr->GetTeam();
 
         if (team == TeamID)
         {
@@ -592,7 +592,7 @@ void BattleGround::PlaySoundToTeam(uint32 SoundID, uint32 TeamID)
 
 void BattleGround::CastSpellOnTeam(uint32 SpellID, uint32 TeamID)
 {
-    for(BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
+    for (BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
     {
         if (itr->second.OfflineRemoveTime)
             continue;
@@ -605,7 +605,7 @@ void BattleGround::CastSpellOnTeam(uint32 SpellID, uint32 TeamID)
         }
 
         uint32 team = itr->second.Team;
-        if(!team) team = plr->GetTeam();
+        if (!team) team = plr->GetTeam();
 
         if (team == TeamID)
             plr->CastSpell(plr, SpellID, true);
@@ -614,7 +614,7 @@ void BattleGround::CastSpellOnTeam(uint32 SpellID, uint32 TeamID)
 
 void BattleGround::RewardHonorToTeam(uint32 Honor, uint32 TeamID)
 {
-    for(BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
+    for (BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
     {
         if (itr->second.OfflineRemoveTime)
             continue;
@@ -627,7 +627,7 @@ void BattleGround::RewardHonorToTeam(uint32 Honor, uint32 TeamID)
         }
 
         uint32 team = itr->second.Team;
-        if(!team) team = plr->GetTeam();
+        if (!team) team = plr->GetTeam();
 
         if (team == TeamID)
             UpdatePlayerScore(plr, SCORE_BONUS_HONOR, Honor);
@@ -641,7 +641,7 @@ void BattleGround::RewardReputationToTeam(uint32 faction_id, uint32 Reputation, 
     if (!factionEntry)
         return;
 
-    for(BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
+    for (BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
     {
         if (itr->second.OfflineRemoveTime)
             continue;
@@ -654,7 +654,7 @@ void BattleGround::RewardReputationToTeam(uint32 faction_id, uint32 Reputation, 
         }
 
         uint32 team = itr->second.Team;
-        if(!team) team = plr->GetTeam();
+        if (!team) team = plr->GetTeam();
 
         if (team == TeamID)
             plr->GetReputationMgr().ModifyReputation(factionEntry, Reputation);
@@ -733,7 +733,7 @@ void BattleGround::EndBattleGround(uint32 winner)
         }
     }
 
-    for(BattleGroundPlayerMap::iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
+    for (BattleGroundPlayerMap::iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
     {
         uint32 team = itr->second.Team;
 
@@ -773,7 +773,7 @@ void BattleGround::EndBattleGround(uint32 winner)
         }
 
         //this line is obsolete - team is set ALWAYS
-        //if(!team) team = plr->GetTeam();
+        //if (!team) team = plr->GetTeam();
 
         // per player calculation
         if (isArena() && isRated() && winner_arena_team && loser_arena_team)
@@ -805,11 +805,11 @@ void BattleGround::EndBattleGround(uint32 winner)
             RewardMark(plr,ITEM_WINNER_COUNT);
             RewardQuestComplete(plr);
 
-            if(IsRandom())
+            if (IsRandom())
             {
                 UpdatePlayerScore(plr, SCORE_BONUS_HONOR, GetBonusHonorFromKill(win_kills*4));
                 plr->ModifyArenaPoints(win_arena);
-                if(!plr->GetRandomWinner())
+                if (!plr->GetRandomWinner())
                     plr->SetRandomWinner(true);
             }
 
@@ -818,7 +818,7 @@ void BattleGround::EndBattleGround(uint32 winner)
         else
         {
             RewardMark(plr,ITEM_LOSER_COUNT);
-            if(IsRandom())
+            if (IsRandom())
                 UpdatePlayerScore(plr, SCORE_BONUS_HONOR, GetBonusHonorFromKill(loos_kills*4));
         }
 
@@ -861,7 +861,7 @@ uint32 BattleGround::GetBonusHonorFromKill(uint32 kills) const
 
 uint32 BattleGround::GetBattlemasterEntry() const
 {
-    switch(GetTypeID(true))
+    switch (GetTypeID(true))
     {
         case BATTLEGROUND_AV: return 15972;
         case BATTLEGROUND_WS: return 14623;
@@ -876,7 +876,7 @@ void BattleGround::RewardMark(Player *plr,uint32 count)
 {
     BattleGroundMarks mark;
     bool IsSpell = 0;
-    switch(GetTypeID(true))
+    switch (GetTypeID(true))
     {
         case BATTLEGROUND_AV:
             if (count == ITEM_WINNER_COUNT)
@@ -909,7 +909,7 @@ void BattleGround::RewardSpellCast(Player *plr, uint32 spell_id)
         return;
 
     SpellEntry const *spellInfo = sSpellStore.LookupEntry(spell_id);
-    if(!spellInfo)
+    if (!spellInfo)
     {
         sLog.outError("Battleground reward casting spell %u not exist.",spell_id);
         return;
@@ -928,16 +928,16 @@ void BattleGround::RewardItem(Player *plr, uint32 item_id, uint32 count)
     uint32 no_space_count = 0;
     uint8 msg = plr->CanStoreNewItem( NULL_BAG, NULL_SLOT, dest, item_id, count, &no_space_count );
 
-    if( msg == EQUIP_ERR_ITEM_NOT_FOUND)
+    if ( msg == EQUIP_ERR_ITEM_NOT_FOUND)
     {
         sLog.outErrorDb("Battleground reward item (Entry %u) not exist in `item_template`.",item_id);
         return;
     }
 
-    if( msg != EQUIP_ERR_OK )                               // convert to possible store amount
+    if ( msg != EQUIP_ERR_OK )                               // convert to possible store amount
         count -= no_space_count;
 
-    if( count != 0 && !dest.empty())                        // can add some
+    if ( count != 0 && !dest.empty())                        // can add some
         if (Item* item = plr->StoreNewItem( dest, item_id, true, 0))
             plr->SendNewItem(item,count,true,false);
 
@@ -982,7 +982,7 @@ void BattleGround::SendRewardMarkByMail(Player *plr,uint32 mark, uint32 count)
 void BattleGround::RewardQuestComplete(Player *plr)
 {
     uint32 quest;
-    switch(GetTypeID(true))
+    switch (GetTypeID(true))
     {
         case BATTLEGROUND_AV:
             quest = SPELL_AV_QUEST_REWARD;
@@ -1035,7 +1035,7 @@ void BattleGround::RemovePlayerAtLeave(uint64 guid, bool Transport, bool SendPac
     if (plr && plr->HasAuraType(SPELL_AURA_SPIRIT_OF_REDEMPTION))
         plr->RemoveSpellsCausingAura(SPELL_AURA_MOD_SHAPESHIFT);
 
-    if(plr && !plr->isAlive())                              // resurrect on exit
+    if (plr && !plr->isAlive())                              // resurrect on exit
     {
         plr->ResurrectPlayer(1.0f);
         plr->SpawnCorpseBones();
@@ -1043,7 +1043,7 @@ void BattleGround::RemovePlayerAtLeave(uint64 guid, bool Transport, bool SendPac
 
     RemovePlayer(plr, guid);                                // BG subclass specific code
 
-    if(participant) // if the player was a match participant, remove auras, calc rating, update queue
+    if (participant) // if the player was a match participant, remove auras, calc rating, update queue
     {
         BattleGroundTypeId bgTypeId = GetTypeID();
         BattleGroundQueueTypeId bgQueueTypeId = BattleGroundMgr::BGQueueTypeId(GetTypeID(), GetArenaType());
@@ -1051,7 +1051,7 @@ void BattleGround::RemovePlayerAtLeave(uint64 guid, bool Transport, bool SendPac
         {
             plr->ClearAfkReports();
 
-            if(!team) team = plr->GetTeam();
+            if (!team) team = plr->GetTeam();
 
             // if arena, remove the specific arena auras
             if (isArena())
@@ -1098,7 +1098,7 @@ void BattleGround::RemovePlayerAtLeave(uint64 guid, bool Transport, bool SendPac
         // remove from raid group if player is member
         if (Group *group = GetBgRaid(team))
         {
-            if( !group->RemoveMember(guid, 0) )             // group was disbanded
+            if ( !group->RemoveMember(guid, 0) )             // group was disbanded
             {
                 SetBgRaid(team, NULL);
                 delete group;
@@ -1164,7 +1164,7 @@ void BattleGround::Reset()
 
     m_Players.clear();
 
-    for(BattleGroundScoreMap::const_iterator itr = m_PlayerScores.begin(); itr != m_PlayerScores.end(); ++itr)
+    for (BattleGroundScoreMap::const_iterator itr = m_PlayerScores.begin(); itr != m_PlayerScores.end(); ++itr)
         delete itr->second;
     m_PlayerScores.clear();
 }
@@ -1212,7 +1212,7 @@ void BattleGround::AddPlayer(Player *plr)
         plr->RemoveArenaSpellCooldowns();
         plr->RemoveArenaAuras();
         plr->RemoveAllEnchantments(TEMP_ENCHANTMENT_SLOT);
-        if(team == ALLIANCE)                                // gold
+        if (team == ALLIANCE)                                // gold
         {
             if (plr->GetTeam() == HORDE)
                 plr->CastSpell(plr, SPELL_HORDE_GOLD_FLAG,true);
@@ -1230,7 +1230,7 @@ void BattleGround::AddPlayer(Player *plr)
         plr->DestroyConjuredItems(true);
         plr->UnsummonPetTemporaryIfAny();
 
-        if(GetStatus() == STATUS_WAIT_JOIN)                 // not started yet
+        if (GetStatus() == STATUS_WAIT_JOIN)                 // not started yet
         {
             plr->CastSpell(plr, SPELL_ARENA_PREPARATION, true);
 
@@ -1240,7 +1240,7 @@ void BattleGround::AddPlayer(Player *plr)
     }
     else
     {
-        if(GetStatus() == STATUS_WAIT_JOIN)                 // not started yet
+        if (GetStatus() == STATUS_WAIT_JOIN)                 // not started yet
             plr->CastSpell(plr, SPELL_PREPARATION, true);   // reduces all mana cost of spells.
     }
 
@@ -1259,7 +1259,7 @@ void BattleGround::AddPlayer(Player *plr)
 void BattleGround::AddOrSetPlayerToCorrectBgGroup(Player *plr, uint64 plr_guid, uint32 team)
 {
     Group* group = GetBgRaid(team);
-    if(!group)                                      // first player joined
+    if (!group)                                      // first player joined
     {
         group = new Group;
         SetBgRaid(team, group);
@@ -1286,7 +1286,7 @@ void BattleGround::AddOrSetPlayerToCorrectBgGroup(Player *plr, uint64 plr_guid, 
 void BattleGround::EventPlayerLoggedIn(Player* player, uint64 plr_guid)
 {
     // player is correct pointer
-    for(std::deque<uint64>::iterator itr = m_OfflineQueue.begin(); itr != m_OfflineQueue.end(); ++itr)
+    for (std::deque<uint64>::iterator itr = m_OfflineQueue.begin(); itr != m_OfflineQueue.end(); ++itr)
     {
         if (*itr == plr_guid)
         {
@@ -1365,10 +1365,10 @@ void BattleGround::UpdatePlayerScore(Player *Source, uint32 type, uint32 value)
     //this procedure is called from virtual function implemented in bg subclass
     BattleGroundScoreMap::const_iterator itr = m_PlayerScores.find(Source->GetGUID());
 
-    if(itr == m_PlayerScores.end())                         // player not found...
+    if (itr == m_PlayerScores.end())                         // player not found...
         return;
 
-    switch(type)
+    switch (type)
     {
         case SCORE_KILLING_BLOWS:                           // Killing blows
             itr->second->KillingBlows += value;
@@ -1407,7 +1407,7 @@ bool BattleGround::AddObject(uint32 type, uint32 entry, float x, float y, float 
     // and when loading it (in go::LoadFromDB()), a new guid would be assigned to the object, and a new object would be created
     // so we must create it specific for this instance
     GameObject * go = new GameObject;
-    if(!go->Create(sObjectMgr.GenerateLowGuid(HIGHGUID_GAMEOBJECT),entry, GetBgMap(),
+    if (!go->Create(sObjectMgr.GenerateLowGuid(HIGHGUID_GAMEOBJECT),entry, GetBgMap(),
         PHASEMASK_NORMAL, x,y,z,o,rotation0,rotation1,rotation2,rotation3,100,GO_STATE_READY))
     {
         sLog.outErrorDb("Gameobject template %u not found in database! BattleGround not created!", entry);
@@ -1542,7 +1542,7 @@ void BattleGround::OpenDoorEvent(uint8 event1, uint8 event2 /*=0*/)
         return;
     }
     BGObjects::const_iterator itr = m_EventObjects[MAKE_PAIR32(event1, event2)].gameobjects.begin();
-    for(; itr != m_EventObjects[MAKE_PAIR32(event1, event2)].gameobjects.end(); ++itr)
+    for (; itr != m_EventObjects[MAKE_PAIR32(event1, event2)].gameobjects.end(); ++itr)
         DoorOpen(*itr);
 }
 
@@ -1564,10 +1564,10 @@ void BattleGround::SpawnEvent(uint8 event1, uint8 event2, bool spawn)
         m_ActiveEvents[event1] = BG_EVENT_NONE;             // no event active if event2 gets despawned
 
     BGCreatures::const_iterator itr = m_EventObjects[MAKE_PAIR32(event1, event2)].creatures.begin();
-    for(; itr != m_EventObjects[MAKE_PAIR32(event1, event2)].creatures.end(); ++itr)
+    for (; itr != m_EventObjects[MAKE_PAIR32(event1, event2)].creatures.end(); ++itr)
         SpawnBGCreature(*itr, (spawn) ? RESPAWN_IMMEDIATELY : RESPAWN_ONE_DAY);
     BGObjects::const_iterator itr2 = m_EventObjects[MAKE_PAIR32(event1, event2)].gameobjects.begin();
-    for(; itr2 != m_EventObjects[MAKE_PAIR32(event1, event2)].gameobjects.end(); ++itr2)
+    for (; itr2 != m_EventObjects[MAKE_PAIR32(event1, event2)].gameobjects.end(); ++itr2)
         SpawnBGObject(*itr2, (spawn) ? RESPAWN_IMMEDIATELY : RESPAWN_ONE_DAY);
 }
 
@@ -1576,7 +1576,7 @@ void BattleGround::SpawnBGObject(uint64 const& guid, uint32 respawntime)
     Map* map = GetBgMap();
 
     GameObject *obj = map->GetGameObject(guid);
-    if(!obj)
+    if (!obj)
         return;
     if (respawntime == 0)
     {
@@ -1643,7 +1643,7 @@ void BattleGround::SendMessageToAll(int32 entry, ChatMsg type, Player const* sou
 void BattleGround::SendYellToAll(int32 entry, uint32 language, uint64 const& guid)
 {
     Creature* source = GetBgMap()->GetCreature(guid);
-    if(!source)
+    if (!source)
         return;
     Diamond::BattleGroundYellBuilder bg_builder(language, entry, source);
     Diamond::LocalizedPacketDo<Diamond::BattleGroundYellBuilder> bg_do(bg_builder);
@@ -1672,7 +1672,7 @@ void BattleGround::SendMessage2ToAll(int32 entry, ChatMsg type, Player const* so
 void BattleGround::SendYell2ToAll(int32 entry, uint32 language, uint64 const& guid, int32 arg1, int32 arg2)
 {
     Creature* source = GetBgMap()->GetCreature(guid);
-    if(!source)
+    if (!source)
         return;
     Diamond::BattleGround2YellBuilder bg_builder(language, entry, source, arg1, arg2);
     Diamond::LocalizedPacketDo<Diamond::BattleGround2YellBuilder> bg_do(bg_builder);
@@ -1748,7 +1748,7 @@ void BattleGround::HandleKillPlayer( Player *player, Player *killer )
         UpdatePlayerScore(killer, SCORE_HONORABLE_KILLS, 1);
         UpdatePlayerScore(killer, SCORE_KILLING_BLOWS, 1);
 
-        for(BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
+        for (BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
         {
             Player *plr = sObjectMgr.GetPlayer(itr->first);
 
@@ -1803,7 +1803,7 @@ void BattleGround::PlayerAddedToBGCheckIfBGIsRunning(Player* plr)
 uint32 BattleGround::GetAlivePlayersCountByTeam(uint32 Team) const
 {
     int count = 0;
-    for(BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
+    for (BattleGroundPlayerMap::const_iterator itr = m_Players.begin(); itr != m_Players.end(); ++itr)
     {
         if (itr->second.Team == Team)
         {
@@ -1826,8 +1826,8 @@ void BattleGround::CheckArenaWinConditions()
 void BattleGround::SetBgRaid( uint32 TeamID, Group *bg_raid )
 {
     Group* &old_raid = TeamID == ALLIANCE ? m_BgRaids[BG_TEAM_ALLIANCE] : m_BgRaids[BG_TEAM_HORDE];
-    if(old_raid) old_raid->SetBattlegroundGroup(NULL);
-    if(bg_raid) bg_raid->SetBattlegroundGroup(this);
+    if (old_raid) old_raid->SetBattlegroundGroup(NULL);
+    if (bg_raid) bg_raid->SetBattlegroundGroup(this);
     old_raid = bg_raid;
 }
 

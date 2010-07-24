@@ -28,7 +28,7 @@ Creature(CREATURE_SUBTYPE_TEMPORARY_SUMMON), m_type(TEMPSUMMON_TIMED_OR_CORPSE_D
 
 void TemporarySummon::Update( uint32 diff )
 {
-    switch(m_type)
+    switch (m_type)
     {
         case TEMPSUMMON_MANUAL_DESPAWN:
             break;
@@ -156,7 +156,7 @@ void TemporarySummon::UnSummon()
     CombatStop();
 
     if (GetSummonerGuid().IsCreature())
-        if(Creature* sum = GetMap()->GetCreature(GetSummonerGuid()))
+        if (Creature* sum = GetMap()->GetCreature(GetSummonerGuid()))
             if (sum->AI())
                 sum->AI()->SummonedCreatureDespawn(this);
 

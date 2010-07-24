@@ -84,9 +84,9 @@ bool GossipHello_npc_toc5_announcer(Player* pPlayer, Creature* pCreature)
 
     if (!m_pInstance) return false;
 
-    if(!pPlayer->getAttackers().empty()) return true;
+    if (!pPlayer->getAttackers().empty()) return true;
 
-    for(uint8 i = 0; i < MAX_ENCOUNTER+1; i++) {
+    for (uint8 i = 0; i < MAX_ENCOUNTER+1; i++) {
     if (!_GossipMessage[i].state && (m_pInstance->GetData(_GossipMessage[i].encounter) == NOT_STARTED || m_pInstance->GetData(_GossipMessage[i].encounter) == IN_PROGRESS))
         {pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, _GossipMessage[i].name, GOSSIP_SENDER_MAIN,_GossipMessage[i].id);
         break;
@@ -106,7 +106,7 @@ bool GossipSelect_npc_toc5_announcer(Player* pPlayer, Creature* pCreature, uint3
 
 pPlayer->CLOSE_GOSSIP_MENU();
 
-switch(uiAction) {
+switch (uiAction) {
     case GOSSIP_ACTION_INFO_DEF+1: {
     if (m_pInstance->GetData(DATA_TOC5_ANNOUNCER) == 0) {
                m_pInstance->SetData(DATA_TOC5_ANNOUNCER, pCreature->GetGUID());
@@ -114,7 +114,7 @@ switch(uiAction) {
            if (m_pInstance->GetData(DATA_TOC5_ANNOUNCER) == m_pInstance->GetData(DATA_ARELAS))
                {
                m_pInstance->SetData(DATA_BLACK_KNIGHT_MINION, 35564);
-               switch(urand(0, 4))
+               switch (urand(0, 4))
                      {
                      case 0: m_pInstance->SetData(DATA_CHAMPIONID_1, 35572); break;
                      case 1: m_pInstance->SetData(DATA_CHAMPIONID_1, 35569); break;
@@ -123,7 +123,7 @@ switch(uiAction) {
                      case 4: m_pInstance->SetData(DATA_CHAMPIONID_1, 35617); break;
                      };
                do{
-                     switch(urand(0, 4))
+                     switch (urand(0, 4))
                      {
                      case 0: m_pInstance->SetData(DATA_CHAMPIONID_2, 35572); break;
                      case 1: m_pInstance->SetData(DATA_CHAMPIONID_2, 35569); break;
@@ -133,7 +133,7 @@ switch(uiAction) {
                      }
                  } while(m_pInstance->GetData(DATA_CHAMPIONID_1) == m_pInstance->GetData(DATA_CHAMPIONID_2));
                do{
-                     switch(urand(0, 4))
+                     switch (urand(0, 4))
                      {
                      case 0: m_pInstance->SetData(DATA_CHAMPIONID_3, 35572); break;
                      case 1: m_pInstance->SetData(DATA_CHAMPIONID_3, 35569); break;
@@ -148,7 +148,7 @@ switch(uiAction) {
                {
                m_pInstance->SetData(DATA_BLACK_KNIGHT_MINION, 123);
 
-               switch(urand(0, 4))
+               switch (urand(0, 4))
                {
                      case 0: m_pInstance->SetData(DATA_CHAMPIONID_1, 34705); break;
                      case 1: m_pInstance->SetData(DATA_CHAMPIONID_1, 34702); break;
@@ -157,7 +157,7 @@ switch(uiAction) {
                      case 4: m_pInstance->SetData(DATA_CHAMPIONID_1, 34703); break;
                }
                do{
-                     switch(urand(0, 4))
+                     switch (urand(0, 4))
                      {
                      case 0: m_pInstance->SetData(DATA_CHAMPIONID_2, 34705); break;
                      case 1: m_pInstance->SetData(DATA_CHAMPIONID_2, 34702); break;
@@ -167,7 +167,7 @@ switch(uiAction) {
                      }
                  } while(m_pInstance->GetData(DATA_CHAMPIONID_1) == m_pInstance->GetData(DATA_CHAMPIONID_2));
                do{
-                     switch(urand(0, 4))
+                     switch (urand(0, 4))
                      {
                      case 0: m_pInstance->SetData(DATA_CHAMPIONID_3, 34705); break;
                      case 1: m_pInstance->SetData(DATA_CHAMPIONID_3, 34702); break;
@@ -179,7 +179,7 @@ switch(uiAction) {
 
              };
 
-            switch(urand(0, 1))
+            switch (urand(0, 1))
             {
                 case 0: m_pInstance->SetData(DATA_ARGENT_CHALLENGER, 35119); break;
                 case 1: m_pInstance->SetData(DATA_ARGENT_CHALLENGER, 34928); break;

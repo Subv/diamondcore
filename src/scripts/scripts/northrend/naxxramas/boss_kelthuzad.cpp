@@ -198,7 +198,7 @@ struct boss_kelthuzadAI : public ScriptedAI
             m_creature->AddThreat(who, 0.0f);
             m_creature->SetInCombatWith(who);
 
-            for(uint8 i = 0; i <= 80; ++i)
+            for (uint8 i = 0; i <= 80; ++i)
             {
                 if (i == 5 || i == 15 || i == 25 || i == 35 || i == 45 || i == 55 || i == 65 || i == 75)
                     DoSpawnAdds(NPC_SOUL_WEAVERS);
@@ -218,7 +218,7 @@ struct boss_kelthuzadAI : public ScriptedAI
 
     void Aggro(Unit* who)
     {
-        switch(rand()%3)
+        switch (rand()%3)
         {
             case 0: DoScriptText(SAY_AGGRO1, m_creature); break;
             case 1: DoScriptText(SAY_AGGRO2, m_creature); break;
@@ -257,7 +257,7 @@ struct boss_kelthuzadAI : public ScriptedAI
         if (m_lSummonsGUIDList.empty())
             return;
 
-        for(std::list<uint64>::iterator itr = m_lSummonsGUIDList.begin(); itr != m_lSummonsGUIDList.end(); ++itr)
+        for (std::list<uint64>::iterator itr = m_lSummonsGUIDList.begin(); itr != m_lSummonsGUIDList.end(); ++itr)
         {
             if (Creature* pTemp = (Creature*)Unit::GetUnit(*m_creature, *itr))
                 if (pTemp->isAlive())
@@ -270,7 +270,7 @@ struct boss_kelthuzadAI : public ScriptedAI
         GetCreatureListWithEntryInGrid(m_pGuardian, m_creature, NPC_GUARDIAN, DEFAULT_VISIBILITY_INSTANCE);
 
         if (!m_pGuardian.empty())
-            for(std::list<Creature*>::iterator itr = m_pGuardian.begin(); itr != m_pGuardian.end(); ++itr)
+            for (std::list<Creature*>::iterator itr = m_pGuardian.begin(); itr != m_pGuardian.end(); ++itr)
             {
                 (*itr)->ForcedDespawn();
             }
@@ -326,7 +326,7 @@ struct boss_kelthuzadAI : public ScriptedAI
             return;
 
         //Spell casting for second and third Phase
-        if(Phase2)
+        if (Phase2)
         {
             //start phase 3 when we are 40% health
             if (!PhaseGuardian && (m_creature->GetHealth()*100 / m_creature->GetMaxHealth()) < 40)
@@ -376,7 +376,7 @@ struct boss_kelthuzadAI : public ScriptedAI
                 Map* pMap = m_creature->GetMap();
                 Map::PlayerList const &lPlayers = pMap->GetPlayers();
                 if (!lPlayers.isEmpty())
-                    for(Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
+                    for (Map::PlayerList::const_iterator itr = lPlayers.begin(); itr != lPlayers.end(); ++itr)
                     {
                         if (Player* pPlayer = itr->getSource())
                         {
@@ -454,7 +454,7 @@ struct boss_kelthuzadAI : public ScriptedAI
             if (GuardiansOfIcecrown_Timer < diff)
             {
                 int8 Pos = rand()%6;
-                if( Creature* pGuardian = m_creature->SummonCreature(NPC_GUARDIAN, AddPos[Pos][0], AddPos[Pos][1], AddPos[Pos][2], AddPos[Pos][3], TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN, 300000))
+                if ( Creature* pGuardian = m_creature->SummonCreature(NPC_GUARDIAN, AddPos[Pos][0], AddPos[Pos][1], AddPos[Pos][2], AddPos[Pos][3], TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN, 300000))
                 {
                     pGuardian->Attack(m_creature->getVictim(),true);
                     pGuardian->GetMotionMaster()->MoveChase(m_creature->getVictim());

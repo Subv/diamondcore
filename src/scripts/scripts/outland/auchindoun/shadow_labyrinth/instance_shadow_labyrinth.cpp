@@ -57,7 +57,7 @@ struct instance_shadow_labyrinth : public ScriptedInstance
 
     bool IsEncounterInProgress() const
     {
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
             if (m_auiEncounter[i] == IN_PROGRESS) return true;
 
         return false;
@@ -65,7 +65,7 @@ struct instance_shadow_labyrinth : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_REFECTORY_DOOR:
                 m_uiRefectoryDoorGUID = pGo->GetGUID();
@@ -82,7 +82,7 @@ struct instance_shadow_labyrinth : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case 18732:
                 m_uiGrandmasterVorpil = pCreature->GetGUID();
@@ -99,7 +99,7 @@ struct instance_shadow_labyrinth : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_HELLMAW:
                 m_auiEncounter[0] = uiData;
@@ -162,7 +162,7 @@ struct instance_shadow_labyrinth : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_HELLMAW:
                 return m_auiEncounter[0];
@@ -190,7 +190,7 @@ struct instance_shadow_labyrinth : public ScriptedInstance
         std::istringstream loadStream(in);
         loadStream >> m_auiEncounter[0] >> m_auiEncounter[1] >> m_auiEncounter[2] >> m_auiEncounter[3] >> m_auiEncounter[4];
 
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
             if (m_auiEncounter[i] == IN_PROGRESS)
                 m_auiEncounter[i] = NOT_STARTED;
 

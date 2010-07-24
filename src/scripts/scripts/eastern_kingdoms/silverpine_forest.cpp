@@ -66,7 +66,7 @@ bool GossipHello_npc_astor_hadren(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_npc_astor_hadren(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF + 1:
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, "You've got something I need, Astor. And I'll be taking it now.", GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF + 2);
@@ -145,7 +145,7 @@ struct npc_deathstalker_erlandAI : public npc_escortAI
         if (!pPlayer)
             return;
 
-        switch(i)
+        switch (i)
         {
             case 0:
                 DoScriptText(SAY_START_2, m_creature, pPlayer);
@@ -188,7 +188,7 @@ struct npc_deathstalker_erlandAI : public npc_escortAI
 
     void Aggro(Unit* who)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_AGGRO_1, m_creature, who); break;
             case 1: DoScriptText(SAY_AGGRO_2, m_creature, who); break;
@@ -337,7 +337,7 @@ struct npc_deathstalker_faerleiaAI : public ScriptedAI
         {
             if (m_uiWaveTimer < uiDiff)
             {
-                switch(m_uiWaveCount)
+                switch (m_uiWaveCount)
                 {
                     case 0:
                         m_creature->SummonCreature(NPC_COUNCILMAN_SMITHERS,  SpawnPoints[1].fX, SpawnPoints[1].fY, SpawnPoints[1].fZ, SpawnPoints[1].fO, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 20000);

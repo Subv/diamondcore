@@ -143,7 +143,7 @@ struct instance_blackrock_depths : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_EMPEROR: m_uiEmperorGUID = pCreature->GetGUID(); break;
             case NPC_PRINCESS: m_uiPrincessGUID = pCreature->GetGUID(); break;
@@ -160,7 +160,7 @@ struct instance_blackrock_depths : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_ARENA1: m_uiGoArena1GUID = pGo->GetGUID(); break;
             case GO_ARENA2: m_uiGoArena2GUID = pGo->GetGUID(); break;
@@ -188,7 +188,7 @@ struct instance_blackrock_depths : public ScriptedInstance
     {
         debug_log("SD2: Instance Blackrock Depths: SetData update (Type: %u Data %u)", uiType, uiData);
 
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_RING_OF_LAW:
                 m_auiEncounter[0] = uiData;
@@ -203,7 +203,7 @@ struct instance_blackrock_depths : public ScriptedInstance
                     m_auiEncounter[2] = uiData;
                 break;
             case TYPE_TOMB_OF_SEVEN:
-                switch(uiData)
+                switch (uiData)
                 {
                     case IN_PROGRESS:
                         DoUseDoorOrButton(m_uiGoTombEnterGUID);
@@ -229,7 +229,7 @@ struct instance_blackrock_depths : public ScriptedInstance
                 m_auiEncounter[4] = uiData;
                 break;
             case TYPE_IRON_HALL:
-                switch(uiData)
+                switch (uiData)
                 {
                     case IN_PROGRESS:
                         DoUseDoorOrButton(m_uiGoGolemNGUID);
@@ -266,7 +266,7 @@ struct instance_blackrock_depths : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_RING_OF_LAW:
                 return m_auiEncounter[0];
@@ -289,7 +289,7 @@ struct instance_blackrock_depths : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_EMPEROR:
                 return m_uiEmperorGUID;
@@ -354,7 +354,7 @@ struct instance_blackrock_depths : public ScriptedInstance
         loadStream >> m_auiEncounter[0] >> m_auiEncounter[1] >> m_auiEncounter[2] >> m_auiEncounter[3]
             >> m_auiEncounter[4] >> m_auiEncounter[5];
 
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
             if (m_auiEncounter[i] == IN_PROGRESS)
                 m_auiEncounter[i] = NOT_STARTED;
 

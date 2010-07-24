@@ -46,9 +46,9 @@ class ObjectRegistry
         bool InsertItem(T *obj, Key key, bool override = false)
         {
             typename RegistryMapType::iterator iter = i_registeredObjects.find(key);
-            if( iter != i_registeredObjects.end() )
+            if ( iter != i_registeredObjects.end() )
             {
-                if( !override )
+                if ( !override )
                     return false;
                 delete iter->second;
                 i_registeredObjects.erase(iter);
@@ -62,9 +62,9 @@ class ObjectRegistry
         void RemoveItem(Key key, bool delete_object = true)
         {
             typename RegistryMapType::iterator iter = i_registeredObjects.find(key);
-            if( iter != i_registeredObjects.end() )
+            if ( iter != i_registeredObjects.end() )
             {
-                if( delete_object )
+                if ( delete_object )
                     delete iter->second;
                 i_registeredObjects.erase(iter);
             }
@@ -81,7 +81,7 @@ class ObjectRegistry
         {
             unsigned int sz = l.size();
             l.resize(sz + i_registeredObjects.size());
-            for(typename RegistryMapType::const_iterator iter = i_registeredObjects.begin(); iter != i_registeredObjects.end(); ++iter)
+            for (typename RegistryMapType::const_iterator iter = i_registeredObjects.begin(); iter != i_registeredObjects.end(); ++iter)
                 l[sz++] = iter->first;
             return i_registeredObjects.size();
         }
@@ -100,7 +100,7 @@ class ObjectRegistry
         ObjectRegistry() {}
         ~ObjectRegistry()
         {
-            for(typename RegistryMapType::iterator iter=i_registeredObjects.begin(); iter != i_registeredObjects.end(); ++iter)
+            for (typename RegistryMapType::iterator iter=i_registeredObjects.begin(); iter != i_registeredObjects.end(); ++iter)
                 delete iter->second;
             i_registeredObjects.clear();
         }

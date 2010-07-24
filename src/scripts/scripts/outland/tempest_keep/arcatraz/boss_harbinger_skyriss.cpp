@@ -147,7 +147,7 @@ struct boss_harbinger_skyrissAI : public ScriptedAI
 
             if (Intro_Timer < diff)
             {
-                switch(Intro_Phase)
+                switch (Intro_Phase)
                 {
                     case 1:
                         DoScriptText(SAY_INTRO, m_creature);

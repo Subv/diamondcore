@@ -84,14 +84,14 @@ bool OutdoorPvPHP::SetupOutdoorPvP()
 void OutdoorPvPHP::HandlePlayerEnterZone(Player * plr, uint32 zone)
 {
     // add buffs
-    if(plr->GetTeam() == ALLIANCE)
+    if (plr->GetTeam() == ALLIANCE)
     {
-        if(m_AllianceTowersControlled >=3)
+        if (m_AllianceTowersControlled >=3)
             plr->CastSpell(plr,AllianceBuff,true);
     }
     else
     {
-        if(m_HordeTowersControlled >=3)
+        if (m_HordeTowersControlled >=3)
             plr->CastSpell(plr,HordeBuff,true);
     }
     OutdoorPvP::HandlePlayerEnterZone(plr,zone);
@@ -100,7 +100,7 @@ void OutdoorPvPHP::HandlePlayerEnterZone(Player * plr, uint32 zone)
 void OutdoorPvPHP::HandlePlayerLeaveZone(Player * plr, uint32 zone)
 {
     // remove buffs
-    if(plr->GetTeam() == ALLIANCE)
+    if (plr->GetTeam() == ALLIANCE)
     {
         plr->RemoveAurasDueToSpell(AllianceBuff);
     }
@@ -114,11 +114,11 @@ void OutdoorPvPHP::HandlePlayerLeaveZone(Player * plr, uint32 zone)
 bool OutdoorPvPHP::Update(uint32 diff)
 {
     bool changed = false;
-    if(changed = OutdoorPvP::Update(diff))
+    if (changed = OutdoorPvP::Update(diff))
     {
-        if(m_AllianceTowersControlled == 3)
+        if (m_AllianceTowersControlled == 3)
             TeamApplyBuff(TEAM_ALLIANCE, AllianceBuff, HordeBuff);
-        else if(m_HordeTowersControlled == 3)
+        else if (m_HordeTowersControlled == 3)
             TeamApplyBuff(TEAM_HORDE, HordeBuff, AllianceBuff);
         else
         {
@@ -166,20 +166,20 @@ void OutdoorPvPHP::FillInitialWorldStates(WorldPacket& data, uint32& count)
 void OPvPCapturePointHP::ChangeState()
 {
     uint32 field = 0;
-    switch(m_OldState)
+    switch (m_OldState)
     {
     case OBJECTIVESTATE_NEUTRAL:
         field = HP_MAP_N[m_TowerType];
         break;
     case OBJECTIVESTATE_ALLIANCE:
         field = HP_MAP_A[m_TowerType];
-        if(((OutdoorPvPHP*)m_PvP)->m_AllianceTowersControlled)
+        if (((OutdoorPvPHP*)m_PvP)->m_AllianceTowersControlled)
             ((OutdoorPvPHP*)m_PvP)->m_AllianceTowersControlled--;
         sWorld.SendZoneText(OutdoorPvPHPBuffZones[0],sObjectMgr.GetStringForDBCLocale(HP_LANG_LOOSE_A[m_TowerType]));
         break;
     case OBJECTIVESTATE_HORDE:
         field = HP_MAP_H[m_TowerType];
-        if(((OutdoorPvPHP*)m_PvP)->m_HordeTowersControlled)
+        if (((OutdoorPvPHP*)m_PvP)->m_HordeTowersControlled)
             ((OutdoorPvPHP*)m_PvP)->m_HordeTowersControlled--;
         sWorld.SendZoneText(OutdoorPvPHPBuffZones[0],sObjectMgr.GetStringForDBCLocale(HP_LANG_LOOSE_H[m_TowerType]));
         break;
@@ -198,14 +198,14 @@ void OPvPCapturePointHP::ChangeState()
     }
 
     // send world state update
-    if(field)
+    if (field)
     {
         m_PvP->SendUpdateWorldState(field, 0);
         field = 0;
     }
     uint32 artkit = 21;
     uint32 artkit2 = HP_TowerArtKit_N[m_TowerType];
-    switch(m_State)
+    switch (m_State)
     {
     case OBJECTIVESTATE_NEUTRAL:
         field = HP_MAP_N[m_TowerType];
@@ -214,7 +214,7 @@ void OPvPCapturePointHP::ChangeState()
         field = HP_MAP_A[m_TowerType];
         artkit = 2;
         artkit2 = HP_TowerArtKit_A[m_TowerType];
-        if(((OutdoorPvPHP*)m_PvP)->m_AllianceTowersControlled<3)
+        if (((OutdoorPvPHP*)m_PvP)->m_AllianceTowersControlled<3)
             ((OutdoorPvPHP*)m_PvP)->m_AllianceTowersControlled++;
         sWorld.SendZoneText(OutdoorPvPHPBuffZones[0],sObjectMgr.GetStringForDBCLocale(HP_LANG_CAPTURE_A[m_TowerType]));
         break;
@@ -222,7 +222,7 @@ void OPvPCapturePointHP::ChangeState()
         field = HP_MAP_H[m_TowerType];
         artkit = 1;
         artkit2 = HP_TowerArtKit_H[m_TowerType];
-        if(((OutdoorPvPHP*)m_PvP)->m_HordeTowersControlled<3)
+        if (((OutdoorPvPHP*)m_PvP)->m_HordeTowersControlled<3)
             ((OutdoorPvPHP*)m_PvP)->m_HordeTowersControlled++;
         sWorld.SendZoneText(OutdoorPvPHPBuffZones[0],sObjectMgr.GetStringForDBCLocale(HP_LANG_CAPTURE_H[m_TowerType]));
         break;
@@ -246,21 +246,21 @@ void OPvPCapturePointHP::ChangeState()
 
     GameObject * flag = ObjectAccessor::GetGameObjectInWorld(m_capturePointGUID);
     GameObject * flag2 = ObjectAccessor::GetGameObjectInWorld(m_Objects[m_TowerType]);
-    if(flag)
+    if (flag)
     {
         flag->SetGoArtKit(artkit);
     }
-    if(flag2)
+    if (flag2)
     {
         flag2->SetGoArtKit(artkit2);
     }
 
     // send world state update
-    if(field)
+    if (field)
         m_PvP->SendUpdateWorldState(field, 1);
 
     // complete quest objective
-    if(m_State == OBJECTIVESTATE_ALLIANCE || m_State == OBJECTIVESTATE_HORDE)
+    if (m_State == OBJECTIVESTATE_ALLIANCE || m_State == OBJECTIVESTATE_HORDE)
         SendObjectiveComplete(HP_CREDITMARKER[m_TowerType], 0);
 }
 
@@ -276,7 +276,7 @@ void OPvPCapturePointHP::SendChangePhase()
 
 void OPvPCapturePointHP::FillInitialWorldStates(WorldPacket& data, uint32& count)
 {
-    switch(m_State)
+    switch (m_State)
     {
         case OBJECTIVESTATE_ALLIANCE:
         case OBJECTIVESTATE_ALLIANCE_HORDE_CHALLENGE:
@@ -303,7 +303,7 @@ void OPvPCapturePointHP::FillInitialWorldStates(WorldPacket& data, uint32& count
 
 bool OPvPCapturePointHP::HandlePlayerEnter(Player *plr)
 {
-    if(OPvPCapturePoint::HandlePlayerEnter(plr))
+    if (OPvPCapturePoint::HandlePlayerEnter(plr))
     {
         plr->SendUpdateWorldState(HP_UI_TOWER_SLIDER_DISPLAY, 1);
         uint32 phase = (uint32)ceil(( m_value + m_maxValue) / ( 2 * m_maxValue ) * 100.0f);
@@ -322,11 +322,11 @@ void OPvPCapturePointHP::HandlePlayerLeave(Player *plr)
 
 void OutdoorPvPHP::HandleKillImpl(Player *plr, Unit * killed)
 {
-    if(killed->GetTypeId() != TYPEID_PLAYER)
+    if (killed->GetTypeId() != TYPEID_PLAYER)
         return;
 
-    if(plr->GetTeam() == ALLIANCE && ((Player*)killed)->GetTeam() != ALLIANCE)
+    if (plr->GetTeam() == ALLIANCE && ((Player*)killed)->GetTeam() != ALLIANCE)
         plr->CastSpell(plr,AlliancePlayerKillReward,true);
-    else if(plr->GetTeam() == HORDE && ((Player*)killed)->GetTeam() != HORDE)
+    else if (plr->GetTeam() == HORDE && ((Player*)killed)->GetTeam() != HORDE)
         plr->CastSpell(plr,HordePlayerKillReward,true);
 }

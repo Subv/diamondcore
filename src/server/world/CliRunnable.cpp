@@ -36,7 +36,7 @@ void utf8print(void* arg, const char* str)
 #if PLATFORM == PLATFORM_WINDOWS
     wchar_t wtemp_buf[6000];
     size_t wtemp_len = 6000-1;
-    if(!Utf8toWStr(str,strlen(str),wtemp_buf,wtemp_len))
+    if (!Utf8toWStr(str,strlen(str),wtemp_buf,wtemp_len))
         return;
 
     char temp_buf[6000];
@@ -68,11 +68,11 @@ bool ChatHandler::HandleAccountDeleteCommand(const char* args)
     /// Commands not recommended call from chat, but support anyway
     /// can delete only for account with less security
     /// This is also reject self apply in fact
-    if(HasLowerSecurityAccount (NULL,account_id,true))
+    if (HasLowerSecurityAccount (NULL,account_id,true))
         return false;
 
     AccountOpResult result = sAccountMgr.DeleteAccount(account_id);
-    switch(result)
+    switch (result)
     {
         case AOR_OK:
             PSendSysMessage(LANG_ACCOUNT_DELETED,account_name.c_str());
@@ -112,7 +112,7 @@ bool ChatHandler::GetDeletedCharacterInfoList(DeletedInfoList& foundList, std::s
         // search by name
         else
         {
-            if(!normalizePlayerName(searchString))
+            if (!normalizePlayerName(searchString))
                 return false;
 
             resultChar = CharacterDatabase.PQuery("SELECT guid, deleteInfos_Name, deleteInfos_Account, deleteDate FROM characters WHERE deleteDate IS NOT NULL AND deleteInfos_Name " _LIKE_ " " _CONCAT3_("'%%'", "'%s'", "'%%'"), searchString.c_str());
@@ -158,7 +158,7 @@ std::string ChatHandler::GenerateDeletedCharacterGUIDsWhereStr(DeletedInfoList::
 {
     std::ostringstream wherestr;
     wherestr << "guid IN ('";
-    for(; itr != itr_end; ++itr)
+    for (; itr != itr_end; ++itr)
     {
         wherestr << itr->lowguid;
 
@@ -169,7 +169,7 @@ std::string ChatHandler::GenerateDeletedCharacterGUIDsWhereStr(DeletedInfoList::
         }
 
         DeletedInfoList::const_iterator itr2 = itr;
-        if(++itr2 != itr_end)
+        if (++itr2 != itr_end)
             wherestr << "','";
     }
     wherestr << "')";
@@ -372,7 +372,7 @@ bool ChatHandler::HandleCharacterDeletedDeleteCommand(const char* args)
     HandleCharacterDeletedListHelper(foundList);
 
     // Call the appropriate function to delete them (current account for deleted characters is 0)
-    for(DeletedInfoList::const_iterator itr = foundList.begin(); itr != foundList.end(); ++itr)
+    for (DeletedInfoList::const_iterator itr = foundList.begin(); itr != foundList.end(); ++itr)
         Player::DeleteFromDB(itr->lowguid, 0, false, true);
 
     return true;
@@ -413,22 +413,22 @@ bool ChatHandler::HandleCharacterDeletedOldCommand(const char* args)
 
 bool ChatHandler::HandleCharacterEraseCommand(const char* args)
 {
-    if(!*args)
+    if (!*args)
         return false;
 
     char *character_name_str = strtok((char*)args," ");
-    if(!character_name_str)
+    if (!character_name_str)
         return false;
 
     std::string character_name = character_name_str;
-    if(!normalizePlayerName(character_name))
+    if (!normalizePlayerName(character_name))
         return false;
 
     uint64 character_guid;
     uint32 account_id;
 
     Player *player = sObjectMgr.GetPlayer(character_name.c_str());
-    if(player)
+    if (player)
     {
         character_guid = player->GetGUID();
         account_id = player->GetSession()->GetAccountId();
@@ -437,7 +437,7 @@ bool ChatHandler::HandleCharacterEraseCommand(const char* args)
     else
     {
         character_guid = sObjectMgr.GetPlayerGUIDByName(character_name);
-        if(!character_guid)
+        if (!character_guid)
         {
             PSendSysMessage(LANG_NO_PLAYER,character_name.c_str());
             SetSentErrorMessage(true);
@@ -487,13 +487,13 @@ bool ChatHandler::HandleAccountOnlineListCommand(const char* args)
 /// Create an account
 bool ChatHandler::HandleAccountCreateCommand(const char* args)
 {
-    if(!*args)
+    if (!*args)
         return false;
 
     ///- %Parse the command line arguments
     char *szAcc = strtok((char*)args, " ");
     char *szPassword = strtok(NULL, " ");
-    if(!szAcc || !szPassword)
+    if (!szAcc || !szPassword)
         return false;
 
     // normalized in accmgr.CreateAccount
@@ -501,7 +501,7 @@ bool ChatHandler::HandleAccountCreateCommand(const char* args)
     std::string password = szPassword;
 
     AccountOpResult result = sAccountMgr.CreateAccount(account_name, password);
-    switch(result)
+    switch (result)
     {
         case AOR_OK:
             PSendSysMessage(LANG_ACCOUNT_CREATED,account_name.c_str());
@@ -530,12 +530,12 @@ bool ChatHandler::HandleAccountCreateCommand(const char* args)
 /// Set the filters of logging
 bool ChatHandler::HandleServerLogFilterCommand(const char* args)
 {
-    if(!*args)
+    if (!*args)
     {
         uint32 logfiler = sLog.getLogFilter();
 
         SendSysMessage(LANG_LOG_FILTERS_STATE_HEADER);
-        for(int i = 0; i < LOG_FILTER_COUNT; ++i)
+        for (int i = 0; i < LOG_FILTER_COUNT; ++i)
             if (*logFilterData[i].name)
                 PSendSysMessage("  %-20s = %s",logFilterData[i].name,(logfiler & (1 << i)) !=0 ? GetString(LANG_ON) : GetString(LANG_OFF));
         return true;
@@ -568,7 +568,7 @@ bool ChatHandler::HandleServerLogFilterCommand(const char* args)
         return true;
     }
 
-    for(int i = 0; i < LOG_FILTER_COUNT; ++i)
+    for (int i = 0; i < LOG_FILTER_COUNT; ++i)
     {
         if (!*logFilterData[i].name)
             continue;
@@ -587,7 +587,7 @@ bool ChatHandler::HandleServerLogFilterCommand(const char* args)
 /// Set the level of logging
 bool ChatHandler::HandleServerLogLevelCommand(const char *args)
 {
-    if(!*args)
+    if (!*args)
     {
         PSendSysMessage("Log level: %u", sLog.GetLogLevel());
         return true;
@@ -646,22 +646,22 @@ void CliRunnable::run()
         char *command_str = fgets(commandbuf,sizeof(commandbuf),stdin);
         if (command_str != NULL)
         {
-            for(int x=0;command_str[x];x++)
-                if(command_str[x]=='\r'||command_str[x]=='\n')
+            for (int x=0;command_str[x];x++)
+                if (command_str[x]=='\r'||command_str[x]=='\n')
             {
                 command_str[x]=0;
                 break;
             }
 
 
-            if(!*command_str)
+            if (!*command_str)
             {
                 printf("DiamondCore>");
                 continue;
             }
 
             std::string command;
-            if(!consoleToUtf8(command_str,command))         // convert from console encoding to utf8
+            if (!consoleToUtf8(command_str,command))         // convert from console encoding to utf8
             {
                 printf("DiamondCore>");
                 continue;

@@ -122,7 +122,7 @@ struct npc_oox22feAI : public npc_escortAI
     void Aggro(Unit* who)
     {
         //For an small probability the npc says something when he get aggro
-        switch(urand(0, 9))
+        switch (urand(0, 9))
         {
            case 0: DoScriptText(SAY_OOX_AGGRO1, m_creature); break;
            case 1: DoScriptText(SAY_OOX_AGGRO2, m_creature); break;

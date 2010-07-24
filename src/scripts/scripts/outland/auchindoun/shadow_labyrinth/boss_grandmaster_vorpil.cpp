@@ -101,7 +101,7 @@ struct boss_grandmaster_vorpilAI : public ScriptedAI
 
     void Aggro(Unit *who)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_AGGRO1, m_creature); break;
             case 1: DoScriptText(SAY_AGGRO2, m_creature); break;
@@ -191,7 +191,7 @@ struct boss_grandmaster_vorpilAI : public ScriptedAI
         {
             DoScriptText(SAY_HELP, m_creature);
 
-            switch(urand(0, 4))
+            switch (urand(0, 4))
             {
                 case 0: DoCastSpellIfCan(m_creature, SPELL_SUMMON_VOIDWALKER_A, CAST_TRIGGERED); break;
                 case 1: DoCastSpellIfCan(m_creature, SPELL_SUMMON_VOIDWALKER_B, CAST_TRIGGERED); break;

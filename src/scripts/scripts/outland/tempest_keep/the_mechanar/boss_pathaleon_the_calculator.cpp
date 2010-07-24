@@ -102,7 +102,7 @@ struct boss_pathaleon_the_calculatorAI : public ScriptedAI
 
         if (Summon_Timer < diff)
         {
-            for(int i = 0; i < 3; ++i)
+            for (int i = 0; i < 3; ++i)
             {
                 Unit* target = NULL;
                 target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0);

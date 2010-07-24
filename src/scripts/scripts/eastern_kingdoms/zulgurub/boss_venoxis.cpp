@@ -101,7 +101,7 @@ struct boss_venoxisAI : public ScriptedAI
             debug_log("SD2: boss_venoxis, no Cobras with the entry %u were found", NPC_RAZZASHI_COBRA);
         else
         {
-            for(std::list<Creature*>::iterator iter = m_lCobras.begin(); iter != m_lCobras.end(); ++iter)
+            for (std::list<Creature*>::iterator iter = m_lCobras.begin(); iter != m_lCobras.end(); ++iter)
             {
                 if ((*iter) && !(*iter)->isAlive())
                     (*iter)->Respawn();
@@ -177,7 +177,7 @@ struct boss_venoxisAI : public ScriptedAI
             if (m_uiHolyNova_Timer < uiDiff)
             {
                 m_uiTargetsInRangeCount = 0;
-                for(uint8 i = 0; i < 10; ++i)
+                for (uint8 i = 0; i < 10; ++i)
                 {
                     if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_TOPAGGRO,i))
                         if (m_creature->IsWithinDistInMap(pTarget, ATTACK_DISTANCE))

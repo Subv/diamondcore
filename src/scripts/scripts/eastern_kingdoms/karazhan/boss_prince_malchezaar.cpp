@@ -158,7 +158,7 @@ struct boss_malchezaarAI : public ScriptedAI
 {
     boss_malchezaarAI(Creature* pCreature) : ScriptedAI(pCreature)
     {
-        for(uint8 i =0; i < 2; ++i)
+        for (uint8 i =0; i < 2; ++i)
             axes[i] = 0;
 
         Reset();
@@ -191,13 +191,13 @@ struct boss_malchezaarAI : public ScriptedAI
         InfernalCleanup();
         positions.clear();
 
-        for(int i =0; i < 5; ++i)
+        for (int i =0; i < 5; ++i)
         {
             enfeeble_targets[i] = 0;
             enfeeble_health[i] = 0;
         }
 
-        for(int i = 0; i < TOTAL_INFERNAL_POINTS; ++i)
+        for (int i = 0; i < TOTAL_INFERNAL_POINTS; ++i)
             positions.push_back(&InfernalPoints[i]);
 
         EnfeebleTimer = 30000;
@@ -215,7 +215,7 @@ struct boss_malchezaarAI : public ScriptedAI
 
     void KilledUnit(Unit *victim)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_SLAY1, m_creature); break;
             case 1: DoScriptText(SAY_SLAY2, m_creature); break;
@@ -232,7 +232,7 @@ struct boss_malchezaarAI : public ScriptedAI
         InfernalCleanup();
         positions.clear();
 
-        for(int i = 0; i < TOTAL_INFERNAL_POINTS; ++i)
+        for (int i = 0; i < TOTAL_INFERNAL_POINTS; ++i)
             positions.push_back(&InfernalPoints[i]);
     }
 
@@ -244,7 +244,7 @@ struct boss_malchezaarAI : public ScriptedAI
     void InfernalCleanup()
     {
         //Infernal Cleanup
-        for(std::vector<uint64>::iterator itr = infernals.begin(); itr!= infernals.end(); ++itr)
+        for (std::vector<uint64>::iterator itr = infernals.begin(); itr!= infernals.end(); ++itr)
         {
             Unit *pInfernal = Unit::GetUnit(*m_creature, *itr);
             if (pInfernal && pInfernal->isAlive())
@@ -258,7 +258,7 @@ struct boss_malchezaarAI : public ScriptedAI
 
     void AxesCleanup()
     {
-        for(int i=0; i<2;++i)
+        for (int i=0; i<2;++i)
         {
             Unit *axe = Unit::GetUnit(*m_creature, axes[i]);
             if (axe && axe->isAlive())
@@ -293,7 +293,7 @@ struct boss_malchezaarAI : public ScriptedAI
         //begin + 1 , so we don't target the one with the highest threat
         ThreatList::const_iterator itr = tList.begin();
         std::advance(itr, 1);
-        for(; itr!= tList.end(); ++itr)                    //store the threat list in a different container
+        for (; itr!= tList.end(); ++itr)                    //store the threat list in a different container
         {
             Unit *target = Unit::GetUnit(*m_creature, (*itr)->getUnitGuid());
                                                             //only on alive players
@@ -306,7 +306,7 @@ struct boss_malchezaarAI : public ScriptedAI
             targets.erase(targets.begin()+rand()%targets.size());
 
         int i = 0;
-        for(std::vector<Unit *>::iterator iter = targets.begin(); iter!= targets.end(); ++iter, ++i)
+        for (std::vector<Unit *>::iterator iter = targets.begin(); iter!= targets.end(); ++iter, ++i)
         {
             Unit *target = *iter;
             if (target)
@@ -323,7 +323,7 @@ struct boss_malchezaarAI : public ScriptedAI
 
     void EnfeebleResetHealth()
     {
-        for(int i = 0; i < 5; ++i)
+        for (int i = 0; i < 5; ++i)
         {
             Unit *target = Unit::GetUnit(*m_creature, enfeeble_targets[i]);
             if (target && target->isAlive())
@@ -440,7 +440,7 @@ struct boss_malchezaarAI : public ScriptedAI
                 DoScriptText(SAY_AXE_TOSS2, m_creature);
 
                 Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-                for(uint32 i=0; i<2; ++i)
+                for (uint32 i=0; i<2; ++i)
                 {
                     Creature *axe = m_creature->SummonCreature(MALCHEZARS_AXE, m_creature->GetPositionX(), m_creature->GetPositionY(), m_creature->GetPositionZ(), 0, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 1000);
                     if (axe)
@@ -488,7 +488,7 @@ struct boss_malchezaarAI : public ScriptedAI
                 Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
                 if (target)
                 {
-                    for(int i = 0; i < 2; ++i)
+                    for (int i = 0; i < 2; ++i)
                     {
                         Unit *axe = Unit::GetUnit(*m_creature, axes[i]);
                         if (axe)
@@ -585,7 +585,7 @@ struct boss_malchezaarAI : public ScriptedAI
 
     void Cleanup(Creature *infernal, InfernalPoint *point)
     {
-        for(std::vector<uint64>::iterator itr = infernals.begin(); itr!= infernals.end(); ++itr)
+        for (std::vector<uint64>::iterator itr = infernals.begin(); itr!= infernals.end(); ++itr)
             if (*itr == infernal->GetGUID())
         {
             infernals.erase(itr);

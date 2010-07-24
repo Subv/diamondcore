@@ -139,11 +139,11 @@ class LootStore
         void ReportUnusedIds(LootIdSet const& ids_set) const;
         void ReportNotExistedId(uint32 id) const;
 
-        bool HaveLootFor(uint32 loot_id) const { return m_LootTemplates.find(loot_id) != m_LootTemplates.end(); }
-        bool HaveQuestLootFor(uint32 loot_id) const;
+        bool HaveLootfor (uint32 loot_id) const { return m_LootTemplates.find(loot_id) != m_LootTemplates.end(); }
+        bool HaveQuestLootfor (uint32 loot_id) const;
         bool HaveQuestLootForPlayer(uint32 loot_id,Player* player) const;
 
-        LootTemplate const* GetLootFor(uint32 loot_id) const;
+        LootTemplate const* GetLootfor (uint32 loot_id) const;
 
         char const* GetName() const { return m_name; }
         char const* GetEntryName() const { return m_entryName; }
@@ -275,10 +275,10 @@ struct Loot
     void AddItem(LootStoreItem const & item);
 
     LootItem* LootItemInSlot(uint32 lootslot, Player* player, QuestItem** qitem = NULL, QuestItem** ffaitem = NULL, QuestItem** conditem = NULL);
-    uint32 GetMaxSlotInLootFor(Player* player) const;
+    uint32 GetMaxSlotInLootfor (Player* player) const;
 
     private:
-        void FillNotNormalLootFor(Player* player);
+        void FillNotNormalLootfor (Player* player);
         QuestItemList* FillFFALoot(Player* player);
         QuestItemList* FillQuestLoot(Player* player);
         QuestItemList* FillNonQuestNonFFAConditionalLoot(Player* player);

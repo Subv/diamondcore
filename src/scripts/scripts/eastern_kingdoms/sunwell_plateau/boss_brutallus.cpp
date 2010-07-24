@@ -94,7 +94,7 @@ struct boss_brutallusAI : public ScriptedAI
 
     void KilledUnit(Unit* pVictim)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(YELL_KILL1, m_creature); break;
             case 1: DoScriptText(YELL_KILL2, m_creature); break;
@@ -123,7 +123,7 @@ struct boss_brutallusAI : public ScriptedAI
 
         if (m_uiLoveTimer < uiDiff)
         {
-            switch(urand(0, 2))
+            switch (urand(0, 2))
             {
                 case 0: DoScriptText(YELL_LOVE1, m_creature); break;
                 case 1: DoScriptText(YELL_LOVE2, m_creature); break;

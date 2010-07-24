@@ -102,7 +102,7 @@ struct npc_rizzle_sprysprocketAI : public npc_escortAI
 
     void WaypointReached(uint32 uiPointId)
     {
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 0:
                 m_creature->CastSpell(m_creature,SPELL_PERIODIC_CHECK,true);
@@ -147,7 +147,7 @@ struct npc_rizzle_sprysprocketAI : public npc_escortAI
                 return;
             }
 
-            switch(m_uiIntroPhase)
+            switch (m_uiIntroPhase)
             {
                 case 0:
                     DoScriptText(SAY_START, m_creature);
@@ -321,7 +321,7 @@ bool GossipHello_npc_loramus_thalipedes(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_npc_loramus_thalipedes(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->CLOSE_GOSSIP_MENU();

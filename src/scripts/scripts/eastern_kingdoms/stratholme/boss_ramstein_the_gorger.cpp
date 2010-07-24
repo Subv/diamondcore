@@ -50,7 +50,7 @@ struct boss_ramstein_the_gorgerAI : public ScriptedAI
 
     void JustDied(Unit* Killer)
     {
-        for(uint8 i = 0; i < 30; ++i)
+        for (uint8 i = 0; i < 30; ++i)
             m_creature->SummonCreature(C_MINDLESS_UNDEAD, 3969.35f, -3391.87f, 119.11f, 5.91f, TEMPSUMMON_TIMED_OR_DEAD_DESPAWN,1800000);
 
         if (m_pInstance)

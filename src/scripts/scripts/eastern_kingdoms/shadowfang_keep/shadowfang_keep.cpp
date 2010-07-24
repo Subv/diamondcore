@@ -71,7 +71,7 @@ struct npc_shadowfang_prisonerAI : public npc_escortAI
 
     void WaypointReached(uint32 uiPoint)
     {
-        switch(uiPoint)
+        switch (uiPoint)
         {
             case 0:
                 if (m_uiNpcEntry == NPC_ASH)
@@ -235,7 +235,7 @@ struct mob_arugal_voidwalkerAI : public ScriptedAI
             Creature* pNewLeader = NULL;
             uint8 uiHighestPosition = 0;
             GetCreatureListWithEntryInGrid(lVoidwalkerList, m_creature, NPC_VOIDWALKER, 50.0f);
-            for(std::list<Creature*>::iterator itr = lVoidwalkerList.begin(); itr != lVoidwalkerList.end(); ++itr)
+            for (std::list<Creature*>::iterator itr = lVoidwalkerList.begin(); itr != lVoidwalkerList.end(); ++itr)
             {
                 if ((*itr)->isAlive())
                 {
@@ -307,7 +307,7 @@ struct mob_arugal_voidwalkerAI : public ScriptedAI
         if (uiMoveType != POINT_MOTION_TYPE || !m_bIsLeader)
             return;
 
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 1:
                 if (m_bReverse)
@@ -355,7 +355,7 @@ struct mob_arugal_voidwalkerAI : public ScriptedAI
     {
         std::list<Creature*> lVoidwalkerList;
         GetCreatureListWithEntryInGrid(lVoidwalkerList, m_creature, NPC_VOIDWALKER, 50.0f);
-        for(std::list<Creature*>::iterator itr = lVoidwalkerList.begin(); itr != lVoidwalkerList.end(); ++itr)
+        for (std::list<Creature*>::iterator itr = lVoidwalkerList.begin(); itr != lVoidwalkerList.end(); ++itr)
         {
             if ((*itr)->isAlive())
                 if (mob_arugal_voidwalkerAI* pVoidwalkerAI = dynamic_cast<mob_arugal_voidwalkerAI*>((*itr)->AI()))
@@ -488,7 +488,7 @@ struct boss_arugalAI : public ScriptedAI
 
             if (m_uiSpeechTimer < uiDiff)
             {
-                switch(m_uiSpeechStep)
+                switch (m_uiSpeechStep)
                 {
                     case 1:
                         DoScriptText(YELL_FENRUS, m_creature);
@@ -513,7 +513,7 @@ struct boss_arugalAI : public ScriptedAI
                         Creature *pVoidwalker, *pLeader;
                         pVoidwalker = pLeader = NULL;
 
-                        for(uint8 i = 0; i < 4; i++)
+                        for (uint8 i = 0; i < 4; i++)
                         {
                             pVoidwalker = m_creature->SummonCreature(NPC_VOIDWALKER,VWSpawns[i].fX,
                                 VWSpawns[i].fY, VWSpawns[i].fZ, VWSpawns[i].fO, TEMPSUMMON_DEAD_DESPAWN, 1);
@@ -620,7 +620,7 @@ struct boss_arugalAI : public ScriptedAI
             if (m_creature->IsNonMeleeSpellCasted(false))
                 m_creature->InterruptNonMeleeSpells(false);
 
-            switch(posNewPosition)
+            switch (posNewPosition)
             {
                 case POSITION_SPAWN_LEDGE:
                     DoCastSpellIfCan(m_creature, SPELL_SHADOW_PORT_SPAWN_LEDGE, true);
@@ -753,7 +753,7 @@ struct npc_arugalAI : public ScriptedAI
 
         if (m_uiSpeechTimer < uiDiff)
         {
-            switch(m_uiSpeechStep)
+            switch (m_uiSpeechStep)
             {
                 case 1:
                     m_creature->SetVisibility(VISIBILITY_ON);

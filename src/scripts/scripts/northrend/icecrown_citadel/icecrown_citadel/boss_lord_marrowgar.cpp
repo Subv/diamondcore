@@ -58,7 +58,7 @@ struct boss_lord_marrowgarAI : public BSWScriptedAI
 
     void Reset()
     {
-        if(pInstance) pInstance->SetData(TYPE_MARROWGAR, NOT_STARTED);
+        if (pInstance) pInstance->SetData(TYPE_MARROWGAR, NOT_STARTED);
         stage = 0;
         flames = 0;
         resetTimers();
@@ -79,7 +79,7 @@ struct boss_lord_marrowgarAI : public BSWScriptedAI
 
     void Aggro(Unit *who) 
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         pInstance->SetData(TYPE_MARROWGAR, IN_PROGRESS);
         DoScriptText(-1631001,m_creature);
     }
@@ -98,7 +98,7 @@ struct boss_lord_marrowgarAI : public BSWScriptedAI
 
     void JustDied(Unit *killer)
     {
-        if(pInstance) pInstance->SetData(TYPE_MARROWGAR, DONE);
+        if (pInstance) pInstance->SetData(TYPE_MARROWGAR, DONE);
         DoScriptText(-1631009,m_creature);
     }
 
@@ -107,7 +107,7 @@ struct boss_lord_marrowgarAI : public BSWScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        switch(stage)
+        switch (stage)
         {
             case 0: 
                     if (timedQuery(SPELL_BONE_STRIKE, diff))
@@ -206,9 +206,9 @@ struct mob_coldflameAI : public BSWScriptedAI
 
     void MovementInform(uint32 type, uint32 id)
     {
-        if(!m_pInstance) return;
-        if(type != POINT_MOTION_TYPE) return;
-        if(id != 1)
+        if (!m_pInstance) return;
+        if (type != POINT_MOTION_TYPE) return;
+        if (id != 1)
              m_creature->GetMotionMaster()->MovePoint(1, fPosX, fPosY, fPosZ);
              else m_creature->ForcedDespawn();
     }
@@ -272,7 +272,7 @@ struct mob_bone_spikeAI : public BSWScriptedAI
 
     void UpdateAI(const uint32 uiDiff)
     {
-        if(m_pInstance && m_pInstance->GetData(TYPE_MARROWGAR) != IN_PROGRESS)
+        if (m_pInstance && m_pInstance->GetData(TYPE_MARROWGAR) != IN_PROGRESS)
         {
             doRemove(SPELL_BONE_STRIKE_IMPALE,pVictim);
             m_creature->ForcedDespawn();
@@ -280,14 +280,14 @@ struct mob_bone_spikeAI : public BSWScriptedAI
 
         if (!pVictim) return;
 
-        if(pVictim && !pVictim->isAlive())
+        if (pVictim && !pVictim->isAlive())
         {
 //            doRemove(SPELL_BONE_STRIKE_IMPALE,pVictim);
             m_creature->ForcedDespawn();
         }
 
-        if(pVictim && pVictim->IsInWorld())
-            if(m_creature->IsWithinDistInMap(pVictim, 1.0f)
+        if (pVictim && pVictim->IsInWorld())
+            if (m_creature->IsWithinDistInMap(pVictim, 1.0f)
                  && pVictim->isAlive()
                  && !pVictim->HasAura(SPELL_BONE_STRIKE_IMPALE))
         {

@@ -122,7 +122,7 @@ struct boss_razuviousAI : public ScriptedAI
         GetCreatureListWithEntryInGrid(m_pDeathKnight, m_creature, NPC_DEATH_KNIGHT_UNDERSTUDY, 100.0f);
 
         if (!m_pDeathKnight.empty())
-            for(std::list<Creature*>::iterator itr = m_pDeathKnight.begin(); itr != m_pDeathKnight.end(); ++itr)
+            for (std::list<Creature*>::iterator itr = m_pDeathKnight.begin(); itr != m_pDeathKnight.end(); ++itr)
             {
                 (*itr)->CastSpell((*itr), SPELL_HOPELESS, true);
                 (*itr)->SetArmor(0);
@@ -157,7 +157,7 @@ struct boss_razuviousAI : public ScriptedAI
         GetCreatureListWithEntryInGrid(m_pDeathKnight, m_creature, NPC_DEATH_KNIGHT_UNDERSTUDY, DEFAULT_VISIBILITY_INSTANCE);
 
         if (!m_pDeathKnight.empty())
-            for(std::list<Creature*>::iterator itr = m_pDeathKnight.begin(); itr != m_pDeathKnight.end(); ++itr)
+            for (std::list<Creature*>::iterator itr = m_pDeathKnight.begin(); itr != m_pDeathKnight.end(); ++itr)
                 (*itr)->ForcedDespawn();
     }
 
@@ -166,7 +166,7 @@ struct boss_razuviousAI : public ScriptedAI
         m_creature->SummonCreature(NPC_DEATH_KNIGHT_UNDERSTUDY, 2757.48, -3111.52, 267.77, 3.93, TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN, 3000000);
         m_creature->SummonCreature(NPC_DEATH_KNIGHT_UNDERSTUDY, 2762.05, -3084.47, 267.77, 2.13, TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN, 3000000);
         
-        if(!m_bIsRegularMode)
+        if (!m_bIsRegularMode)
         {
             m_creature->SummonCreature(NPC_DEATH_KNIGHT_UNDERSTUDY, 2781.99, -3087.81, 267.68, 0.61, TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN, 3000000);
             m_creature->SummonCreature(NPC_DEATH_KNIGHT_UNDERSTUDY, 2779.13, -3112.39, 267.68, 5.1, TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN, 3000000);

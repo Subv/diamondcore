@@ -89,7 +89,7 @@ struct boss_doomlordkazzakAI : public ScriptedAI
 
         DoCastSpellIfCan(m_creature,SPELL_CAPTURESOUL);
 
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_KILL1, m_creature); break;
             case 1: DoScriptText(SAY_KILL2, m_creature); break;

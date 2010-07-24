@@ -88,7 +88,7 @@ struct boss_falricAI : public ScriptedAI
 
     void KilledUnit(Unit* pVictim)
     {
-        switch(urand(0,1))
+        switch (urand(0,1))
         {
             case 0: DoScriptText(SAY_FALRIC_SLAY01, m_creature); break;
             case 1: DoScriptText(SAY_FALRIC_SLAY02, m_creature); break;
@@ -97,16 +97,16 @@ struct boss_falricAI : public ScriptedAI
 
     void JustDied(Unit* pKiller)
     {
-      if(!m_pInstance) return;
+      if (!m_pInstance) return;
       m_pInstance->SetData(TYPE_MARWYN, SPECIAL);
       DoScriptText(SAY_FALRIC_DEATH, m_creature);
     }
 
     void AttackStart(Unit* who) 
     {
-        if(!m_pInstance) return;
+        if (!m_pInstance) return;
 
-        if(m_pInstance->GetData(TYPE_FALRIC) != IN_PROGRESS)
+        if (m_pInstance->GetData(TYPE_FALRIC) != IN_PROGRESS)
              return;
 
         ScriptedAI::AttackStart(who);
@@ -116,12 +116,12 @@ struct boss_falricAI : public ScriptedAI
     {
          m_uiLocNo = 0;
 
-         for(uint8 i = 0; i < 14; i++)
+         for (uint8 i = 0; i < 14; i++)
          {
-            switch(urand(0,3))
+            switch (urand(0,3))
             {
                case 0:
-                   switch(urand(1, 3))
+                   switch (urand(1, 3))
                    {
                      case 1: pSummon = NPC_DARK_1; break;
                      case 2: pSummon = NPC_DARK_3; break;
@@ -129,7 +129,7 @@ struct boss_falricAI : public ScriptedAI
                    }
                    break;
                case 1: 
-                   switch(urand(1, 3))
+                   switch (urand(1, 3))
                    {
                      case 1: pSummon = NPC_DARK_2; break;
                      case 2: pSummon = NPC_DARK_3; break;
@@ -137,7 +137,7 @@ struct boss_falricAI : public ScriptedAI
                    }
                    break;
                case 2: 
-                   switch(urand(1, 3))
+                   switch (urand(1, 3))
                    {
                      case 1: pSummon = NPC_DARK_2; break;
                      case 2: pSummon = NPC_DARK_5; break;
@@ -145,7 +145,7 @@ struct boss_falricAI : public ScriptedAI
                    }
                    break;
                case 3: 
-                   switch(urand(1, 3))
+                   switch (urand(1, 3))
                    {
                      case 1: pSummon = NPC_DARK_1; break;
                      case 2: pSummon = NPC_DARK_5; break;
@@ -156,7 +156,7 @@ struct boss_falricAI : public ScriptedAI
 
              m_uiCheckSummon = 0;
 
-             if(Creature* Summon = m_creature->SummonCreature(pSummon, SpawnLoc[m_uiLocNo].x, SpawnLoc[m_uiLocNo].y, SpawnLoc[m_uiLocNo].z, SpawnLoc[m_uiLocNo].o, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 30000))
+             if (Creature* Summon = m_creature->SummonCreature(pSummon, SpawnLoc[m_uiLocNo].x, SpawnLoc[m_uiLocNo].y, SpawnLoc[m_uiLocNo].z, SpawnLoc[m_uiLocNo].o, TEMPSUMMON_CORPSE_TIMED_DESPAWN, 30000))
              {
                 m_uiSummonGUID[i] = Summon->GetGUID();
                 Summon->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
@@ -168,9 +168,9 @@ struct boss_falricAI : public ScriptedAI
 
     void CallFallSoldier()
     {
-         for(uint8 i = 0; i < 4; i++)
+         for (uint8 i = 0; i < 4; i++)
          {
-            if(Creature* Summon = m_pInstance->instance->GetCreature(m_uiSummonGUID[m_uiCheckSummon]))
+            if (Creature* Summon = m_pInstance->instance->GetCreature(m_uiSummonGUID[m_uiCheckSummon]))
             {
                Summon->setFaction(14);
                Summon->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
@@ -182,11 +182,11 @@ struct boss_falricAI : public ScriptedAI
 
     void UpdateAI(const uint32 uiDiff)
     {
-        if(!m_pInstance) return;
+        if (!m_pInstance) return;
 
         if (m_pInstance->GetData(TYPE_FALRIC) == SPECIAL)
         {
-            if(!m_bIsCall) 
+            if (!m_bIsCall) 
             {
                m_bIsCall = true;
                Summon();
@@ -195,7 +195,7 @@ struct boss_falricAI : public ScriptedAI
             if (m_uiSummonTimer < uiDiff) 
             {
                     ++SummonCount;
-                    if(SummonCount > 4) 
+                    if (SummonCount > 4) 
                     {
                         m_pInstance->SetData(TYPE_FALRIC, IN_PROGRESS);
                         m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
@@ -209,23 +209,23 @@ struct boss_falricAI : public ScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        if(m_uiStrikeTimer < uiDiff)
+        if (m_uiStrikeTimer < uiDiff)
         {
             DoCast(m_creature->getVictim(), SPELL_QUIVERING_STRIKE);
             m_uiStrikeTimer = (urand(7000, 14000));
         }
         else m_uiStrikeTimer -= uiDiff;
 
-        if(m_uiHorrorTimer < uiDiff)
+        if (m_uiHorrorTimer < uiDiff)
         {
             DoScriptText(SAY_FALRIC_SP01, m_creature);
-            if(Unit *pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
+            if (Unit *pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0))
                DoCast(pTarget, SPELL_IMPENDING_DESPAIR);
             m_uiHorrorTimer = (urand(15000, 25000));
         }
         else m_uiHorrorTimer -= uiDiff;
 
-        if(m_uiGrowlTimer < uiDiff)
+        if (m_uiGrowlTimer < uiDiff)
         {
             DoScriptText(SAY_FALRIC_SP02, m_creature);
             DoCast(m_creature, SPELL_DEFILING_HORROR);

@@ -55,7 +55,7 @@ bool GossipHello_npc_deathstalker_razael(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_npc_deathstalker_razael(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->SEND_GOSSIP_MENU(GOSSIP_TEXTID_DEATHSTALKER_RAZAEL2, pCreature->GetGUID());
@@ -97,7 +97,7 @@ bool GossipHello_npc_dark_ranger_lyana(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_npc_dark_ranger_lyana(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->SEND_GOSSIP_MENU(GOSSIP_TEXTID_DARK_RANGER_LYANA2, pCreature->GetGUID());
@@ -126,7 +126,7 @@ enum
 
 bool GossipHello_npc_mcgoyver(Player* pPlayer, Creature* pCreature)
 {
-    switch(pPlayer->GetQuestStatus(QUEST_WE_CAN_REBUILD_IT))
+    switch (pPlayer->GetQuestStatus(QUEST_WE_CAN_REBUILD_IT))
     {
         case QUEST_STATUS_INCOMPLETE:
             if (!pPlayer->HasItemCount(ITEM_DARK_IRON_INGOTS, 1, true))
@@ -156,7 +156,7 @@ bool GossipHello_npc_mcgoyver(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_npc_mcgoyver(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pCreature->CastSpell(pPlayer, SPELL_MCGOYVER_CREATE_DARK_IRON_INGOTS, true);

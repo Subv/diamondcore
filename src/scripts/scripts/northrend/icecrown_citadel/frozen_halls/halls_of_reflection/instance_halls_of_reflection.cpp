@@ -74,21 +74,21 @@ struct instance_halls_of_reflection : public ScriptedInstance
 
     void OpenDoor(uint64 guid)
     {
-        if(!guid) return;
+        if (!guid) return;
         GameObject* pGo = instance->GetGameObject(guid);
-        if(pGo) pGo->SetGoState(GO_STATE_ACTIVE);
+        if (pGo) pGo->SetGoState(GO_STATE_ACTIVE);
     }
 
     void CloseDoor(uint64 guid)
     {
-        if(!guid) return;
+        if (!guid) return;
         GameObject* pGo = instance->GetGameObject(guid);
-        if(pGo) pGo->SetGoState(GO_STATE_READY);
+        if (pGo) pGo->SetGoState(GO_STATE_READY);
     }
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_FALRIC:
                    m_uiFalricGUID = pCreature->GetGUID();
@@ -135,7 +135,7 @@ struct instance_halls_of_reflection : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_IMPENETRABLE_DOOR: m_uiMainGateGUID = pGo->GetGUID(); break;
             case GO_FROSTMOURNE:       m_uiFrostmourneGUID = pGo->GetGUID(); break;
@@ -165,31 +165,31 @@ struct instance_halls_of_reflection : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_PHASE:                m_auiEncounter[uiType] = uiData; break;
             case TYPE_EVENT:                m_auiEncounter[uiType] = uiData;
                                             uiData = NOT_STARTED;
                 break;
             case TYPE_FALRIC:               m_auiEncounter[uiType] = uiData;
-                                            if(uiData == SPECIAL)
+                                            if (uiData == SPECIAL)
                                                 CloseDoor(m_uiExitGateGUID);
                 break;
             case TYPE_MARWYN:               m_auiEncounter[uiType] = uiData;
-                                            if(uiData == DONE)
+                                            if (uiData == DONE)
                                             {
                                                OpenDoor(m_uiMainGateGUID);
                                                OpenDoor(m_uiExitGateGUID);
                                             }
                 break;
             case TYPE_FROST_GENERAL:        m_auiEncounter[uiType] = uiData; 
-                                            if(uiData == DONE)
+                                            if (uiData == DONE)
                                                OpenDoor(m_uiDoor2GUID);
                 break;
             case TYPE_LICH_KING:            m_auiEncounter[uiType] = uiData;
-                                            if(uiData == IN_PROGRESS)
+                                            if (uiData == IN_PROGRESS)
                                                OpenDoor(m_uiDoor3GUID);
-                                            if(uiData == DONE)
+                                            if (uiData == DONE)
                                             {
                                             if (m_auiLider == 1)
                                             {
@@ -227,7 +227,7 @@ struct instance_halls_of_reflection : public ScriptedInstance
 
             std::ostringstream saveStream;
 
-            for(uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
+            for (uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
                 saveStream << m_auiEncounter[i] << " ";
 
             strSaveData = saveStream.str();
@@ -244,7 +244,7 @@ struct instance_halls_of_reflection : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_PHASE:                return m_auiEncounter[uiType];
             case TYPE_EVENT:                return m_auiEncounter[uiType];
@@ -266,7 +266,7 @@ struct instance_halls_of_reflection : public ScriptedInstance
 
     void SetData64(uint32 uiData, uint64 uiGuid)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_ESCAPE_LIDER:
                    m_uiLiderGUID = uiGuid;
@@ -276,7 +276,7 @@ struct instance_halls_of_reflection : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case GO_IMPENETRABLE_DOOR: return m_uiMainGateGUID;
             case GO_FROSTMOURNE:       return m_uiFrostmourneGUID;
@@ -304,7 +304,7 @@ struct instance_halls_of_reflection : public ScriptedInstance
 
         std::istringstream loadStream(chrIn);
 
-        for(uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTERS; ++i)
         {
             loadStream >> m_auiEncounter[i];
 

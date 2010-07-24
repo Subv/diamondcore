@@ -175,7 +175,7 @@ struct boss_lady_vashjAI : public ScriptedAI
 
     void RemoveAllShieldGenerators()
     {
-        for(uint8 i = 0; i < MAX_SHIELD_GEN; ++i)
+        for (uint8 i = 0; i < MAX_SHIELD_GEN; ++i)
         {
             if (Unit* pTemp = Unit::GetUnit(*m_creature,m_auiShieldGeneratorChannel[i]))
             {
@@ -189,7 +189,7 @@ struct boss_lady_vashjAI : public ScriptedAI
 
     void Aggro(Unit* pWho)
     {
-        switch(urand(0, 3))
+        switch (urand(0, 3))
         {
             case 0: DoScriptText(SAY_AGGRO1, m_creature); break;
             case 1: DoScriptText(SAY_AGGRO2, m_creature); break;
@@ -210,7 +210,7 @@ struct boss_lady_vashjAI : public ScriptedAI
         {
             m_creature->RemoveAllAuras();
 
-            for(uint8 i = 0; i < MAX_SHIELD_GEN; ++i)
+            for (uint8 i = 0; i < MAX_SHIELD_GEN; ++i)
             {
                 if (Creature* pCreature = m_creature->SummonCreature(NPC_SHIELD_GENERATOR, afShieldGeneratorChannelPos[i][0],  afShieldGeneratorChannelPos[i][1],  afShieldGeneratorChannelPos[i][2],  afShieldGeneratorChannelPos[i][3], TEMPSUMMON_CORPSE_DESPAWN, 0))
                     m_auiShieldGeneratorChannel[i] = pCreature->GetGUID();
@@ -253,7 +253,7 @@ struct boss_lady_vashjAI : public ScriptedAI
 
     void KilledUnit(Unit* pVictim)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_SLAY1, m_creature); break;
             case 1: DoScriptText(SAY_SLAY2, m_creature); break;
@@ -697,7 +697,7 @@ bool ItemUse_item_tainted_core(Player* pPlayer, Item* pItem, SpellCastTargets co
         {
             uint32 uiIdentifier;
             uint8 uiChannelIdentifier;
-            switch(sctTargets.getGOTarget()->GetEntry())
+            switch (sctTargets.getGOTarget()->GetEntry())
             {
                 case 185052:
                     uiIdentifier = TYPE_SHIELDGENERATOR1;

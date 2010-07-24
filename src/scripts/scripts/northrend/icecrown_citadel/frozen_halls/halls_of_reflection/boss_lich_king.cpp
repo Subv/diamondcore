@@ -73,7 +73,7 @@ struct boss_lich_king_hrAI : public npc_escortAI
 
    void Reset()
    {
-      if(!m_pInstance) return;
+      if (!m_pInstance) return;
       NonFight    = false;
       StartEscort = false;
       m_creature->SetUInt32Value(UNIT_VIRTUAL_ITEM_SLOT_ID + 0, uint32(36942));
@@ -85,7 +85,7 @@ struct boss_lich_king_hrAI : public npc_escortAI
 
    void WaypointReached(uint32 i)
    {
-        switch(i)
+        switch (i)
         {
             case 20:
                 SetEscortPaused(true);
@@ -93,7 +93,7 @@ struct boss_lich_king_hrAI : public npc_escortAI
                 DoCast(m_creature, SPELL_LICH_KING_CAST);
                 m_pInstance->SetData(TYPE_LICH_KING, SPECIAL);
                 DoScriptText(SAY_LICH_KING_END_DUN, m_creature);
-                if(Creature* pLider = ((Creature*)Unit::GetUnit((*m_creature), m_pInstance->GetData64(DATA_ESCAPE_LIDER))))
+                if (Creature* pLider = ((Creature*)Unit::GetUnit((*m_creature), m_pInstance->GetData64(DATA_ESCAPE_LIDER))))
                 {
                   pLider->CastSpell(pLider, SPELL_SILENCE, false);
                   pLider->AddSplineFlag(SPLINEFLAG_FLYING);
@@ -118,13 +118,13 @@ struct boss_lich_king_hrAI : public npc_escortAI
 
     void SummonedCreatureDespawn(Creature* summoned)
     {
-         if(!m_pInstance || !summoned) return;
+         if (!m_pInstance || !summoned) return;
          m_pInstance->SetData(DATA_SUMMONS, m_pInstance->GetData(DATA_SUMMONS)-1);
     }
 
     void JustSummoned(Creature* summoned)
     {
-         if(!m_pInstance || !summoned) return;
+         if (!m_pInstance || !summoned) return;
 
          summoned->SetPhaseMask(65535, true);
          summoned->SetInCombatWithZone();
@@ -144,7 +144,7 @@ struct boss_lich_king_hrAI : public npc_escortAI
 
    void Wall01()
    {
-      switch(Step)
+      switch (Step)
       {
          case 0:
             SetEscortPaused(true);
@@ -186,7 +186,7 @@ struct boss_lich_king_hrAI : public npc_escortAI
 
    void Wall02()
    {
-      switch(Step)
+      switch (Step)
       {
           case 0:
             SetEscortPaused(true);
@@ -209,7 +209,7 @@ struct boss_lich_king_hrAI : public npc_escortAI
 
    void Wall03()
    {
-      switch(Step)
+      switch (Step)
       {
          case 0:
            SetEscortPaused(true);
@@ -235,7 +235,7 @@ struct boss_lich_king_hrAI : public npc_escortAI
 
    void Wall04()
    {
-      switch(Step)
+      switch (Step)
       {
          case 0:
            SetEscortPaused(true);
@@ -266,9 +266,9 @@ struct boss_lich_king_hrAI : public npc_escortAI
 
    void UpdateEscortAI(const uint32 diff)
     {
-      if(!m_pInstance) return;
+      if (!m_pInstance) return;
 
-      if(m_pInstance->GetData(TYPE_LICH_KING) != IN_PROGRESS)
+      if (m_pInstance->GetData(TYPE_LICH_KING) != IN_PROGRESS)
       {
          if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
               return;
@@ -276,15 +276,15 @@ struct boss_lich_king_hrAI : public npc_escortAI
          DoMeleeAttackIfReady();
       }
 
-      if(m_creature->isInCombat() && m_pInstance->GetData(TYPE_LICH_KING) == IN_PROGRESS)
+      if (m_creature->isInCombat() && m_pInstance->GetData(TYPE_LICH_KING) == IN_PROGRESS)
          npc_escortAI::EnterEvadeMode();
 
-      if(m_pInstance->GetData(TYPE_LICH_KING) == IN_PROGRESS && !StartEscort)
+      if (m_pInstance->GetData(TYPE_LICH_KING) == IN_PROGRESS && !StartEscort)
       {
          StartEscort = true;
-         if(m_creature->HasAura(SPELL_ICE_PRISON))
+         if (m_creature->HasAura(SPELL_ICE_PRISON))
             m_creature->RemoveAurasDueToSpell(SPELL_ICE_PRISON);
-         if(m_creature->HasAura(SPELL_DARK_ARROW))
+         if (m_creature->HasAura(SPELL_DARK_ARROW))
             m_creature->RemoveAurasDueToSpell(SPELL_DARK_ARROW);
 
          m_creature->SetActiveObjectState(true);
@@ -299,30 +299,30 @@ struct boss_lich_king_hrAI : public npc_escortAI
          StepTimer = 100;
       }
 
-      if(m_pInstance->GetData(TYPE_ICE_WALL_01) == IN_PROGRESS)
+      if (m_pInstance->GetData(TYPE_ICE_WALL_01) == IN_PROGRESS)
       {
-         if(StepTimer < diff)
+         if (StepTimer < diff)
             Wall01();
          else StepTimer -= diff;
       }
 
-      if(m_pInstance->GetData(TYPE_ICE_WALL_02) == IN_PROGRESS)
+      if (m_pInstance->GetData(TYPE_ICE_WALL_02) == IN_PROGRESS)
       {
-         if(StepTimer < diff)
+         if (StepTimer < diff)
             Wall02();
          else StepTimer -= diff;
       }
 
-      if(m_pInstance->GetData(TYPE_ICE_WALL_03) == IN_PROGRESS)
+      if (m_pInstance->GetData(TYPE_ICE_WALL_03) == IN_PROGRESS)
       {
-         if(StepTimer < diff)
+         if (StepTimer < diff)
             Wall03();
          else StepTimer -= diff;
       }
 
-      if(m_pInstance->GetData(TYPE_ICE_WALL_04) == IN_PROGRESS)
+      if (m_pInstance->GetData(TYPE_ICE_WALL_04) == IN_PROGRESS)
       {
-         if(StepTimer < diff)
+         if (StepTimer < diff)
             Wall04();
          else StepTimer -= diff;
       }

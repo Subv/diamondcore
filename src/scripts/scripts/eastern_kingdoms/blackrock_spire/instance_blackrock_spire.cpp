@@ -69,7 +69,7 @@ void instance_blackrock_spire::Initialize()
 
 void instance_blackrock_spire::OnObjectCreate(GameObject* pGo)
 {
-    switch(pGo->GetEntry())
+    switch (pGo->GetEntry())
     {
         case GO_EMBERSEER_IN:
             m_uiEmberseerInDoorGUID = pGo->GetGUID();
@@ -110,7 +110,7 @@ void instance_blackrock_spire::OnObjectCreate(GameObject* pGo)
 
 void instance_blackrock_spire::OnCreatureCreate(Creature* pCreature)
 {
-    switch(pCreature->GetEntry())
+    switch (pCreature->GetEntry())
     {
         case NPC_PYROGUARD_EMBERSEER:    m_uiEmberseerGUID = pCreature->GetEntry();  break;
         case NPC_LORD_VICTOR_NEFARIUS:   m_uiNefariusGUID = pCreature->GetGUID();    break;
@@ -125,7 +125,7 @@ void instance_blackrock_spire::OnCreatureCreate(Creature* pCreature)
 
 void instance_blackrock_spire::SetData(uint32 uiType, uint32 uiData)
 {
-    switch(uiType)
+    switch (uiType)
     {
         case TYPE_ROOM_EVENT:
             if (uiData == DONE)
@@ -211,7 +211,7 @@ void instance_blackrock_spire::Load(const char* chrIn)
     std::istringstream loadStream(chrIn);
     loadStream >> m_auiEncounter[0] >> m_auiEncounter[1] >> m_auiEncounter[2] >> m_auiEncounter[3] >> m_auiEncounter[4];
 
-    for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+    for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
     {
         if (m_auiEncounter[i] == IN_PROGRESS)
             m_auiEncounter[i] = NOT_STARTED;
@@ -222,7 +222,7 @@ void instance_blackrock_spire::Load(const char* chrIn)
 
 uint32 instance_blackrock_spire::GetData(uint32 uiType)
 {
-    switch(uiType)
+    switch (uiType)
     {
         case TYPE_ROOM_EVENT:   return m_auiEncounter[0];
         case TYPE_EMBERSEER:    return m_auiEncounter[1];

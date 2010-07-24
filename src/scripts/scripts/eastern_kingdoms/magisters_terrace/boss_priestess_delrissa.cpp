@@ -134,7 +134,7 @@ struct boss_priestess_delrissaAI : public ScriptedAI
     {
         DoScriptText(SAY_AGGRO, m_creature);
 
-        for(uint8 i = 0; i < MAX_ACTIVE_LACKEY; ++i)
+        for (uint8 i = 0; i < MAX_ACTIVE_LACKEY; ++i)
         {
             if (Unit* pAdd = Unit::GetUnit(*m_creature, m_auiLackeyGUID[i]))
             {
@@ -165,7 +165,7 @@ struct boss_priestess_delrissaAI : public ScriptedAI
             LackeyEntryList.resize((sizeof(m_auiAddEntries) / sizeof(uint32)));
 
             //fill vector array with entries from creature array
-            for(uint8 i = 0; i < LackeyEntryList.size(); ++i)
+            for (uint8 i = 0; i < LackeyEntryList.size(); ++i)
                 LackeyEntryList[i] = m_auiAddEntries[i];
 
             //remove random entries
@@ -173,7 +173,7 @@ struct boss_priestess_delrissaAI : public ScriptedAI
                 LackeyEntryList.erase(LackeyEntryList.begin() + rand()%LackeyEntryList.size());
 
             //summon all the remaining in vector
-            for(std::vector<uint32>::iterator itr = LackeyEntryList.begin(); itr != LackeyEntryList.end(); ++itr)
+            for (std::vector<uint32>::iterator itr = LackeyEntryList.begin(); itr != LackeyEntryList.end(); ++itr)
             {
                 if (Creature* pAdd = m_creature->SummonCreature((*itr), LackeyLocations[j][0], LackeyLocations[j][1], fZLocation, fOrientation, TEMPSUMMON_CORPSE_DESPAWN, 0))
                     m_auiLackeyGUID[j] = pAdd->GetGUID();
@@ -183,7 +183,7 @@ struct boss_priestess_delrissaAI : public ScriptedAI
         }
         else
         {
-            for(std::vector<uint32>::iterator itr = LackeyEntryList.begin(); itr != LackeyEntryList.end(); ++itr)
+            for (std::vector<uint32>::iterator itr = LackeyEntryList.begin(); itr != LackeyEntryList.end(); ++itr)
             {
                 Unit* pAdd = Unit::GetUnit(*m_creature, m_auiLackeyGUID[j]);
 
@@ -235,7 +235,7 @@ struct boss_priestess_delrissaAI : public ScriptedAI
             uint32 health = m_creature->GetHealth();
             Unit* target = m_creature;
 
-            for(uint8 i = 0; i < MAX_ACTIVE_LACKEY; ++i)
+            for (uint8 i = 0; i < MAX_ACTIVE_LACKEY; ++i)
             {
                 if (Unit* pAdd = Unit::GetUnit(*m_creature, m_auiLackeyGUID[i]))
                 {
@@ -375,7 +375,7 @@ struct boss_priestess_lackey_commonAI : public ScriptedAI
 
         if (m_pInstance)
         {
-            for(uint8 i = 0; i < MAX_ACTIVE_LACKEY; ++i)
+            for (uint8 i = 0; i < MAX_ACTIVE_LACKEY; ++i)
             {
                 if (Unit* pAdd = Unit::GetUnit(*m_creature, m_auiLackeyGUIDs[i]))
                 {
@@ -448,7 +448,7 @@ struct boss_priestess_lackey_commonAI : public ScriptedAI
 
         if (Creature* pDelrissa = (Creature*)Unit::GetUnit(*m_creature, m_pInstance->GetData64(DATA_DELRISSA)))
         {
-            for(uint8 i = 0; i < MAX_ACTIVE_LACKEY; ++i)
+            for (uint8 i = 0; i < MAX_ACTIVE_LACKEY; ++i)
                 m_auiLackeyGUIDs[i] = ((boss_priestess_delrissaAI*)pDelrissa->AI())->m_auiLackeyGUID[i];
         }
     }
@@ -1106,7 +1106,7 @@ struct boss_apokoAI : public boss_priestess_lackey_commonAI
 
         if (Totem_Timer < diff)
         {
-            switch(urand(0, 2))
+            switch (urand(0, 2))
             {
                 case 0: DoCastSpellIfCan(m_creature, SPELL_WINDFURY_TOTEM); break;
                 case 1: DoCastSpellIfCan(m_creature, SPELL_FIRE_NOVA_TOTEM); break;
@@ -1219,7 +1219,7 @@ struct boss_zelfanAI : public boss_priestess_lackey_commonAI
 
         if (Recombobulate_Timer < diff)
         {
-            for(uint8 i = 0; i < MAX_ACTIVE_LACKEY; ++i)
+            for (uint8 i = 0; i < MAX_ACTIVE_LACKEY; ++i)
             {
                 if (Unit* pAdd = Unit::GetUnit(*m_creature, m_auiLackeyGUIDs[i]))
                 {

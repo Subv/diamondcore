@@ -44,11 +44,11 @@ void WorldSession::HandleCalendarGetCalendar(WorldPacket &/*recv_data*/)
     size_t p_counter = data.wpos();
     data << uint32(counter);                                // instance save count
 
-    for(int i = 0; i < MAX_DIFFICULTY; ++i)
+    for (int i = 0; i < MAX_DIFFICULTY; ++i)
     {
         for (Player::BoundInstancesMap::const_iterator itr = _player->m_boundInstances[i].begin(); itr != _player->m_boundInstances[i].end(); ++itr)
         {
-            if(itr->second.perm)
+            if (itr->second.perm)
             {
                 InstanceSave *save = itr->second.save;
                 data << uint32(save->GetMapId());

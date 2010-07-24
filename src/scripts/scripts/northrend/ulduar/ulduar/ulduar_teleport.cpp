@@ -59,11 +59,11 @@ static t_Locations PortalLoc[]=
 bool GOGossipSelect_go_ulduar_teleporter(Player *pPlayer, GameObject* pGo, uint32 sender, uint32 action)
 {
     int32 damage = 0;
-    if(sender != GOSSIP_SENDER_MAIN) return false;
+    if (sender != GOSSIP_SENDER_MAIN) return false;
 
-    if(!pPlayer->getAttackers().empty()) return false;
+    if (!pPlayer->getAttackers().empty()) return false;
 
-    if(action >= 0 && action <= PORTALS_COUNT)
+    if (action >= 0 && action <= PORTALS_COUNT)
     pPlayer->TeleportTo(PortalLoc[action].map_num, PortalLoc[action].x, PortalLoc[action].y, PortalLoc[action].z, PortalLoc[action].o);
     if (PortalLoc[action].spellID != 0 )
            if (SpellEntry const* spell = (SpellEntry *)GetSpellStore()->LookupEntry(PortalLoc[action].spellID))
@@ -84,7 +84,7 @@ bool GOGossipHello_go_ulduar_teleporter(Player *pPlayer, GameObject* pGo)
     if (!pInstance || !pPlayer) return false;
     if (pPlayer->isInCombat()) return true;
 
-    for(uint8 i = 0; i < PORTALS_COUNT; i++) {
+    for (uint8 i = 0; i < PORTALS_COUNT; i++) {
     if ((PortalLoc[i].active == true && 
         (PortalLoc[i].state == true || 
         pInstance->GetData(PortalLoc[i].encounter) == DONE ||

@@ -122,7 +122,7 @@ struct boss_terestianAI : public ScriptedAI
         if (!m_pInstance)
             return;
 
-        for(uint8 i = 0; i < 2; ++i)
+        for (uint8 i = 0; i < 2; ++i)
         {
             if (m_uiPortalGUID[i])
             {
@@ -164,7 +164,7 @@ struct boss_terestianAI : public ScriptedAI
 
     void JustSummoned(Creature* pSummoned)
     {
-        switch(pSummoned->GetEntry())
+        switch (pSummoned->GetEntry())
         {
             case NPC_PORTAL:
             {
@@ -205,7 +205,7 @@ struct boss_terestianAI : public ScriptedAI
         if (!m_pInstance)
             return;
 
-        for(uint8 i = 0; i < 2; ++i)
+        for (uint8 i = 0; i < 2; ++i)
         {
             if (m_uiPortalGUID[i])
             {

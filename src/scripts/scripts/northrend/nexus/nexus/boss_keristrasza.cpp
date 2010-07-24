@@ -151,7 +151,7 @@ struct boss_keristraszaAI : public ScriptedAI
 
                         if (Group* pGroup = pPlayer->GetGroup())
                         {
-                            for(GroupReference* pRef = pGroup->GetFirstMember(); pRef != NULL; pRef = pRef->next())
+                            for (GroupReference* pRef = pGroup->GetFirstMember(); pRef != NULL; pRef = pRef->next())
                             {
                                 if (Player* pMember = pRef->getSource())
                                 {

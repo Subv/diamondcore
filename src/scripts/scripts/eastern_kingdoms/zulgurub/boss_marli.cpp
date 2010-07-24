@@ -101,7 +101,7 @@ struct boss_marliAI : public ScriptedAI
             debug_log("SD2: boss_marli, no Eggs with the entry %u were found", GO_EGG);
         else
         {
-            for(std::list<GameObject*>::iterator iter = lSpiderEggs.begin(); iter != lSpiderEggs.end(); ++iter)
+            for (std::list<GameObject*>::iterator iter = lSpiderEggs.begin(); iter != lSpiderEggs.end(); ++iter)
             {
                 if ((*iter)->GetGoState() == GO_STATE_ACTIVE)
                     (*iter)->SetGoState(GO_STATE_READY);
@@ -118,7 +118,7 @@ struct boss_marliAI : public ScriptedAI
             DoScriptText(SAY_SPIDER_SPAWN, m_creature);
             DoCastSpellIfCan(m_creature, SPELL_HATCH);
 
-            for(uint8 i = 0; i < 4 ; ++i)
+            for (uint8 i = 0; i < 4 ; ++i)
             {
                 if (GameObject *pEgg = SelectNextEgg())
                 {
@@ -140,7 +140,7 @@ struct boss_marliAI : public ScriptedAI
         else
         {
             lEggs.sort(ObjectDistanceOrder(m_creature));
-            for(std::list<GameObject*>::iterator iter = lEggs.begin(); iter != lEggs.end(); ++iter)
+            for (std::list<GameObject*>::iterator iter = lEggs.begin(); iter != lEggs.end(); ++iter)
             {
                 if ((*iter)->GetGoState() == (GO_STATE_READY))
                     return (*iter);

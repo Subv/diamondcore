@@ -110,7 +110,7 @@ struct boss_midnightAI : public ScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        switch(m_uiPhase)
+        switch (m_uiPhase)
         {
             case 1:
                 if (m_creature->GetHealthPercent() < 95.0f)
@@ -123,7 +123,7 @@ struct boss_midnightAI : public ScriptedAI
                         pAttumen->AI()->AttackStart(m_creature->getVictim());
                         SetMidnight(pAttumen, m_creature->GetGUID());
 
-                        switch(urand(0, 2))
+                        switch (urand(0, 2))
                         {
                             case 0: DoScriptText(SAY_APPEAR1, pAttumen); break;
                             case 1: DoScriptText(SAY_APPEAR2, pAttumen); break;

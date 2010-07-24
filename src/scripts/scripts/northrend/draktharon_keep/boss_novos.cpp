@@ -151,7 +151,7 @@ struct boss_novosAI : public ScriptedAI
             if (SpecialCast_Timer < uiDiff)
             {
                 m_creature->InterruptSpell(CURRENT_GENERIC_SPELL);
-                switch(urand(0, 1))
+                switch (urand(0, 1))
                 {
                     case 0: 
                         DoCast(m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0),  m_bIsRegularMode ? SPELL_WRATH_OF_MISERY : H_SPELL_WRATH_OF_MISERY);
@@ -171,7 +171,7 @@ struct boss_novosAI : public ScriptedAI
             //Summon Minions (Heroic) 
             if (SummonMinion_Timer < uiDiff)
             {    
-                if(m_bIsRegularMode)
+                if (m_bIsRegularMode)
                     return;
 
                 uint8 SummonLoc = rand()%POS;
@@ -201,7 +201,7 @@ struct boss_novosAI : public ScriptedAI
         if (Handler_Spawn < uiDiff && Phase1 == true)
         {    
             Handler_Count ++;
-            if(Handler_Count < 5)
+            if (Handler_Count < 5)
             {
                 uint8 SummonLoc = rand()%POS;
                 m_creature->SummonCreature(NPC_CRYSTAL_HANDLER, PosSummonHandler[SummonLoc][0],PosSummonHandler[SummonLoc][1],PosSummonHandler[SummonLoc][2],0, TEMPSUMMON_TIMED_DESPAWN, 120000);
@@ -215,7 +215,7 @@ struct boss_novosAI : public ScriptedAI
                     pAdd4->AI()->AttackStart(m_creature->getVictim());
                 Handler_Spawn = 17500;
             }
-            if(Handler_Count == 5)
+            if (Handler_Count == 5)
             {            
                 EnterPhase2();
                 if (Creature* pTrigger = GetClosestCreatureWithEntry(m_creature, NPC_CRYSTAL_CHANNEL, 85.0f))

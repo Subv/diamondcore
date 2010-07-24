@@ -90,7 +90,7 @@ struct boss_erekemAI : public ScriptedAI
         std::list<Creature*> lUnitList;
         GetCreatureListWithEntryInGrid(lUnitList, m_creature, NPC_EREKEM_GUARD, 100.0f);
         if (!lUnitList.empty())
-            for(std::list<Creature*>::iterator iter = lUnitList.begin(); iter != lUnitList.end(); ++iter)
+            for (std::list<Creature*>::iterator iter = lUnitList.begin(); iter != lUnitList.end(); ++iter)
                 if ((*iter))
                     if ((*iter)->isDead())
                         (*iter)->Respawn();
@@ -131,7 +131,7 @@ struct boss_erekemAI : public ScriptedAI
             std::list<Creature*> lUnitList;
             GetCreatureListWithEntryInGrid(lUnitList, m_creature, NPC_EREKEM_GUARD, 100.0f);
             if (!lUnitList.empty())
-                for(std::list<Creature*>::iterator iter = lUnitList.begin(); iter != lUnitList.end(); ++iter)
+                for (std::list<Creature*>::iterator iter = lUnitList.begin(); iter != lUnitList.end(); ++iter)
                     if (*iter)
                         if ((*iter)->isAlive())
                         {
@@ -237,7 +237,7 @@ struct boss_erekemAI : public ScriptedAI
 
     void KilledUnit(Unit* pVictim)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_SLAY_1, m_creature);break;
             case 1: DoScriptText(SAY_SLAY_2, m_creature);break;

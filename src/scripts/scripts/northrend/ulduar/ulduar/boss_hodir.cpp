@@ -42,21 +42,21 @@ struct boss_hodirAI : public ScriptedAI
         FrozenBlowsTimer = 60000;
         FreezeTimer = 40000;
 
-        if(pInstance) pInstance->SetData(TYPE_HODIR, NOT_STARTED);
+        if (pInstance) pInstance->SetData(TYPE_HODIR, NOT_STARTED);
     }
 
     void Aggro(Unit *who) 
     {
-        if(pInstance) pInstance->SetData(TYPE_HODIR, IN_PROGRESS);
+        if (pInstance) pInstance->SetData(TYPE_HODIR, IN_PROGRESS);
 
         DoScriptText(SAY_AGGRO, m_creature);
     }
 
     void JustDied(Unit *killer)
     {
-        if(pInstance) 
+        if (pInstance) 
         {
-            if(SpeedKillTimer > 0)
+            if (SpeedKillTimer > 0)
                 pInstance->SetData(TYPE_HODIR_HARD, DONE);
             else
                 pInstance->SetData(TYPE_HODIR, DONE);
@@ -66,7 +66,7 @@ struct boss_hodirAI : public ScriptedAI
 
     void KilledUnit(Unit *who)
     {
-        if(irand(0,1))
+        if (irand(0,1))
             DoScriptText(SAY_SLAY01, m_creature);
         else
             DoScriptText(SAY_SLAY02, m_creature);
@@ -79,14 +79,14 @@ struct boss_hodirAI : public ScriptedAI
 
         SpeedKillTimer -= diff;
 
-        if(FlashFreezeTimer < diff)
+        if (FlashFreezeTimer < diff)
         {
             DoScriptText(SAY_FLASH_FREEZE, m_creature);
             FlashFreezeTimer = 60000;
         }
         else FlashFreezeTimer -= diff;
 
-        if(FrozenBlowsTimer < diff)
+        if (FrozenBlowsTimer < diff)
         {
             DoPlaySoundToSet(m_creature, SOUND_FROZEN_BLOWS);
             DoCast(m_creature, Regular ? SP_FROZEN_BLOWS : H_SP_FROZEN_BLOWS);
@@ -94,15 +94,15 @@ struct boss_hodirAI : public ScriptedAI
         }
         else FrozenBlowsTimer -= diff;
 
-        if(FreezeTimer < diff)
+        if (FreezeTimer < diff)
         {
             Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-            if(target) DoCast(target, SP_FREEZE);
+            if (target) DoCast(target, SP_FREEZE);
             FreezeTimer = 60000;
         }
         else FreezeTimer -= diff;
 
-        if(EnrageTimer < diff)
+        if (EnrageTimer < diff)
         {
             DoCast(m_creature, SP_ENRAGE);
             EnrageTimer = 30000;

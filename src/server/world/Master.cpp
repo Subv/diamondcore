@@ -56,7 +56,7 @@ public:
     void SetDelayTime(uint32 t) { _delaytime = t; }
     void run(void)
     {
-        if(!_delaytime)
+        if (!_delaytime)
             return;
         sLog.outString("Starting up anti-freeze thread (%u seconds max stuck time)...",_delaytime/1000);
         m_loops = 0;
@@ -73,26 +73,26 @@ public:
             // There is no Master anymore
             // TODO: clear the rest of the code
 //            // normal work
-//            if(m_loops != Master::m_masterLoopCounter)
+//            if (m_loops != Master::m_masterLoopCounter)
 //            {
 //                m_lastchange = curtime;
 //                m_loops = Master::m_masterLoopCounter;
 //            }
 //            // possible freeze
-//            else if(getMSTimeDiff(m_lastchange,curtime) > _delaytime)
+//            else if (getMSTimeDiff(m_lastchange,curtime) > _delaytime)
 //            {
 //                sLog.outError("Main/Sockets Thread hangs, kicking out server!");
 //                *((uint32 volatile*)NULL) = 0;                       // bang crash
 //            }
 
             // normal work
-            if(w_loops != World::m_worldLoopCounter)
+            if (w_loops != World::m_worldLoopCounter)
             {
                 w_lastchange = curtime;
                 w_loops = World::m_worldLoopCounter;
             }
             // possible freeze
-            else if(getMSTimeDiff(w_lastchange,curtime) > _delaytime)
+            else if (getMSTimeDiff(w_lastchange,curtime) > _delaytime)
             {
                 sLog.outError("World Thread hangs, kicking out server!");
                 *((uint32 volatile*)NULL) = 0;                       // bang crash
@@ -159,7 +159,7 @@ public:
             if (m_Reactor->run_reactor_event_loop (interval) == -1)
                 break;
 
-            if(World::IsStopped())
+            if (World::IsStopped())
             {
                 m_Acceptor->close();
                 break;
@@ -182,10 +182,10 @@ int Master::Run()
 {
     /// worldd PID file creation
     std::string pidfile = sConfig.GetStringDefault("PidFile", "");
-    if(!pidfile.empty())
+    if (!pidfile.empty())
     {
         uint32 pid = CreatePIDFile(pidfile);
-        if( !pid )
+        if ( !pid )
         {
             sLog.outError( "Cannot create PID file %s.\n", pidfile.c_str() );
             Log::WaitBeforeContinueIfNeed();
@@ -232,7 +232,7 @@ int Master::Run()
     }
 
     ACE_Based::Thread* rar_thread = NULL;
-    if(sConfig.GetBoolDefault ("Ra.Enable", false))
+    if (sConfig.GetBoolDefault ("Ra.Enable", false))
     {
         rar_thread = new ACE_Based::Thread(new RARunnable);
     }
@@ -243,22 +243,22 @@ int Master::Run()
         HANDLE hProcess = GetCurrentProcess();
 
         uint32 Aff = sConfig.GetIntDefault("UseProcessors", 0);
-        if(Aff > 0)
+        if (Aff > 0)
         {
             ULONG_PTR appAff;
             ULONG_PTR sysAff;
 
-            if(GetProcessAffinityMask(hProcess,&appAff,&sysAff))
+            if (GetProcessAffinityMask(hProcess,&appAff,&sysAff))
             {
                 ULONG_PTR curAff = Aff & appAff;            // remove non accessible processors
 
-                if(!curAff )
+                if (!curAff )
                 {
                     sLog.outError("Processors marked in UseProcessors bitmask (hex) %x not accessible for WorldServer. Accessible processors bitmask (hex): %x",Aff,appAff);
                 }
                 else
                 {
-                    if(SetProcessAffinityMask(hProcess,curAff))
+                    if (SetProcessAffinityMask(hProcess,curAff))
                         sLog.outString("Using processors (bitmask, hex): %x", curAff);
                     else
                         sLog.outError("Can't set used processors (hex): %x",curAff);
@@ -269,10 +269,10 @@ int Master::Run()
 
         bool Prio = sConfig.GetBoolDefault("ProcessPriority", false);
 
-//        if(Prio && (m_ServiceStatus == -1)/* need set to default process priority class in service mode*/)
-        if(Prio)
+//        if (Prio && (m_ServiceStatus == -1)/* need set to default process priority class in service mode*/)
+        if (Prio)
         {
-            if(SetPriorityClass(hProcess,HIGH_PRIORITY_CLASS))
+            if (SetPriorityClass(hProcess,HIGH_PRIORITY_CLASS))
                 sLog.outString("WorldServer process priority class set to HIGH");
             else
                 sLog.outError("ERROR: Can't set WorldServer process priority class.");
@@ -289,7 +289,7 @@ int Master::Run()
 
     ///- Start up freeze catcher thread
     ACE_Based::Thread* freeze_thread = NULL;
-    if(uint32 freeze_delay = sConfig.GetIntDefault("MaxCoreStuckTime", 0))
+    if (uint32 freeze_delay = sConfig.GetIntDefault("MaxCoreStuckTime", 0))
     {
         FreezeDetectorRunnable *fdr = new FreezeDetectorRunnable();
         fdr->SetDelayTime(freeze_delay*1000);
@@ -319,7 +319,7 @@ int Master::Run()
     }
 
     ///- Stop soap thread
-    if(soap_thread)
+    if (soap_thread)
     {
         soap_thread->wait();
         soap_thread->destroy();
@@ -336,7 +336,7 @@ int Master::Run()
     // since worldrunnable uses them, it will crash if unloaded after master
     world_thread.wait();
 
-    if(rar_thread)
+    if (rar_thread)
     {
         rar_thread->wait();
         rar_thread->destroy();
@@ -412,7 +412,7 @@ bool Master::_StartDB()
 {
     ///- Get world database info from configuration file
     std::string dbstring = sConfig.GetStringDefault("WorldDatabaseInfo", "");
-    if(dbstring.empty())
+    if (dbstring.empty())
     {
         sLog.outError("Database not specified in configuration file");
         return false;
@@ -420,14 +420,14 @@ bool Master::_StartDB()
     sLog.outString("World Database: %s", dbstring.c_str());
 
     ///- Initialise the world database
-    if(!WorldDatabase.Initialize(dbstring.c_str()))
+    if (!WorldDatabase.Initialize(dbstring.c_str()))
     {
         sLog.outError("Cannot connect to world database %s",dbstring.c_str());
         return false;
     }
 
     dbstring = sConfig.GetStringDefault("CharacterDatabaseInfo", "");
-    if(dbstring.empty())
+    if (dbstring.empty())
     {
         sLog.outError("Character Database not specified in configuration file");
 
@@ -438,7 +438,7 @@ bool Master::_StartDB()
     sLog.outString("Character Database: %s", dbstring.c_str());
 
     ///- Initialise the Character database
-    if(!CharacterDatabase.Initialize(dbstring.c_str()))
+    if (!CharacterDatabase.Initialize(dbstring.c_str()))
     {
         sLog.outError("Cannot connect to Character database %s",dbstring.c_str());
 
@@ -449,7 +449,7 @@ bool Master::_StartDB()
 
     ///- Get login database info from configuration file
     dbstring = sConfig.GetStringDefault("LoginDatabaseInfo", "");
-    if(dbstring.empty())
+    if (dbstring.empty())
     {
         sLog.outError("Login database not specified in configuration file");
 
@@ -461,7 +461,7 @@ bool Master::_StartDB()
 
     ///- Initialise the login database
     sLog.outString("Login Database: %s", dbstring.c_str() );
-    if(!LoginDatabase.Initialize(dbstring.c_str()))
+    if (!LoginDatabase.Initialize(dbstring.c_str()))
     {
         sLog.outError("Cannot connect to login database %s",dbstring.c_str());
 
@@ -473,7 +473,7 @@ bool Master::_StartDB()
 
     ///- Get the realm Id from the configuration file
     realmID = sConfig.GetIntDefault("RealmID", 0);
-    if(!realmID)
+    if (!realmID)
     {
         sLog.outError("Realm ID not defined in configuration file");
 

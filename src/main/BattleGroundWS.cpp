@@ -90,17 +90,17 @@ void BattleGroundWS::Update(uint32 diff)
         {
             if (m_FocusedAssault < BG_WS_FIVE_MINUTES)
             {
-                for(uint8 i = 0; i < BG_TEAMS_COUNT; i++)
+                for (uint8 i = 0; i < BG_TEAMS_COUNT; i++)
                 {
                     Player* carrier = sObjectMgr.GetPlayer(m_FlagKeepers[i]);
-                    if(!carrier)
+                    if (!carrier)
                         continue;
 
-                    if((!carrier->HasAura(BG_WS_SPELL_FOCUSED_ASSAULT) && !carrier->HasAura(BG_WS_SPELL_BRUTAL_ASSAULT)) || 
+                    if ((!carrier->HasAura(BG_WS_SPELL_FOCUSED_ASSAULT) && !carrier->HasAura(BG_WS_SPELL_BRUTAL_ASSAULT)) || 
                         (m_FocusedAssaultExtra && m_FocusedAssault < diff))
                         carrier->CastSpell(carrier, (m_FocusedAssault < diff) ? BG_WS_SPELL_BRUTAL_ASSAULT : BG_WS_SPELL_FOCUSED_ASSAULT, true);
                 }
-                if(m_FocusedAssault < BG_WS_FIVE_MINUTES && m_FocusedAssaultExtra)
+                if (m_FocusedAssault < BG_WS_FIVE_MINUTES && m_FocusedAssaultExtra)
                     m_FocusedAssaultExtra = false;
 
             }else m_FocusedAssault -= diff;
@@ -373,7 +373,7 @@ void BattleGroundWS::EventPlayerClickedOnFlag(Player *Source, GameObject* target
     uint8 event = (sBattleGroundMgr.GetGameObjectEventIndex(target_obj->GetDBTableGUIDLow())).event1;
 
     //alliance flag picked up from base
-    if(Source->GetTeam() == HORDE && GetFlagState(ALLIANCE) == BG_WS_FLAG_STATE_ON_BASE
+    if (Source->GetTeam() == HORDE && GetFlagState(ALLIANCE) == BG_WS_FLAG_STATE_ON_BASE
         && event == WS_EVENT_FLAG_A)
     {
         message_id = LANG_BG_WS_PICKEDUP_AF;
@@ -518,7 +518,7 @@ void BattleGroundWS::HandleAreaTrigger(Player *Source, uint32 Trigger)
 
     //uint32 SpellId = 0;
     //uint64 buff_guid = 0;
-    switch(Trigger)
+    switch (Trigger)
     {
         case 3686:                                          // Alliance elixir of speed spawn. Trigger not working, because located inside other areatrigger, can be replaced by IsWithinDist(object, dist) in BattleGround::Update().
         case 3687:                                          // Horde elixir of speed spawn. Trigger not working, because located inside other areatrigger, can be replaced by IsWithinDist(object, dist) in BattleGround::Update().
@@ -564,7 +564,7 @@ void BattleGroundWS::Reset()
     m_ActiveEvents[WS_EVENT_FLAG_A] = BG_EVENT_NONE;
     m_ActiveEvents[WS_EVENT_FLAG_H] = BG_EVENT_NONE;
 
-    for(uint32 i = 0; i < BG_TEAMS_COUNT; ++i)
+    for (uint32 i = 0; i < BG_TEAMS_COUNT; ++i)
     {
         m_DroppedFlagGUID[i] = 0;
         m_FlagKeepers[i]     = 0;
@@ -611,10 +611,10 @@ void BattleGroundWS::UpdatePlayerScore(Player *Source, uint32 type, uint32 value
 {
 
     BattleGroundScoreMap::iterator itr = m_PlayerScores.find(Source->GetGUID());
-    if(itr == m_PlayerScores.end())                         // player not found
+    if (itr == m_PlayerScores.end())                         // player not found
         return;
 
-    switch(type)
+    switch (type)
     {
         case SCORE_FLAG_CAPTURES:                           // flags captured
             ((BattleGroundWGScore*)itr->second)->FlagCaptures += value;

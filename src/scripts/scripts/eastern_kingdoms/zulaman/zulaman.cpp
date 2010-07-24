@@ -54,7 +54,7 @@ struct npc_forest_frogAI : public ScriptedAI
         if (m_pInstance)
         {
             uint32 cEntry = 0;
-            switch(urand(0, 10))
+            switch (urand(0, 10))
             {
                 case 0: cEntry = 24024; break;              //Kraz
                 case 1: cEntry = 24397; break;              //Mannuth
@@ -131,7 +131,7 @@ struct npc_harrison_jones_zaAI : public npc_escortAI
         if (!m_pInstance)
             return;
 
-        switch(i)
+        switch (i)
         {
             case 1:
                 DoScriptText(SAY_AT_GONG, m_creature);

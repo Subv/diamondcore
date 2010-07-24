@@ -253,10 +253,10 @@ class WorldSession
 
         void SetTutorialInt(uint32 intId, uint32 value)
         {
-            if(m_Tutorials[intId] != value)
+            if (m_Tutorials[intId] != value)
             {
                 m_Tutorials[intId] = value;
-                if(m_tutorialState == TUTORIALDATA_UNCHANGED)
+                if (m_tutorialState == TUTORIALDATA_UNCHANGED)
                     m_tutorialState = TUTORIALDATA_CHANGED;
             }
         }

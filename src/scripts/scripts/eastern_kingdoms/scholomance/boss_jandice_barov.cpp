@@ -54,14 +54,14 @@ struct boss_jandicebarovAI : public ScriptedAI
     void SummonIllusions(Unit* victim)
     {
         Rand = rand()%10;
-        switch(urand(0, 1))
+        switch (urand(0, 1))
         {
         case 0: RandX = 0 - Rand; break;
         case 1: RandX = 0 + Rand; break;
         }
         Rand = 0;
         Rand = rand()%10;
-        switch(urand(0, 1))
+        switch (urand(0, 1))
         {
         case 0: RandY = 0 - Rand; break;
         case 1: RandY = 0 + Rand; break;
@@ -111,7 +111,7 @@ struct boss_jandicebarovAI : public ScriptedAI
 
             //Summon 10 Illusions attacking random gamers
             Unit* target = NULL;
-            for(int i = 0; i < 10; ++i)
+            for (int i = 0; i < 10; ++i)
             {
                 target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0);
                 SummonIllusions(target);

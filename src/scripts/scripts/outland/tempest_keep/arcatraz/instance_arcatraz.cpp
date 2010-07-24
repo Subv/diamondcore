@@ -66,7 +66,7 @@ struct instance_arcatraz : public ScriptedInstance
 
     bool IsEncounterInProgress() const
     {
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
             if (m_auiEncounter[i] == IN_PROGRESS) return true;
 
         return false;
@@ -74,7 +74,7 @@ struct instance_arcatraz : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_CORE_SECURITY_FIELD_ALPHA: m_uiCore_Security_Field_AlphaGUID = pGo->GetGUID(); break;
             case GO_CORE_SECURITY_FIELD_BETA:  m_uiCore_Security_Field_BetaGUID =  pGo->GetGUID(); break;
@@ -95,7 +95,7 @@ struct instance_arcatraz : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_ZEREKETH:
                 m_auiEncounter[0] = uiData;
@@ -159,7 +159,7 @@ struct instance_arcatraz : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_HARBINGERSKYRISS:
                 return m_auiEncounter[3];
@@ -179,7 +179,7 @@ struct instance_arcatraz : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_MELLICHAR:
                 return m_uiMellicharGUID;

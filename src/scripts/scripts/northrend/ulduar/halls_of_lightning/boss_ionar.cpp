@@ -147,7 +147,7 @@ struct boss_ionarAI : public ScriptedAI
 
     void KilledUnit(Unit *victim)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_SLAY_1, m_creature); break;
             case 1: DoScriptText(SAY_SLAY_2, m_creature); break;
@@ -160,7 +160,7 @@ struct boss_ionarAI : public ScriptedAI
         if (m_lSparkGUIDList.empty())
             return;
 
-        for(std::list<uint64>::iterator itr = m_lSparkGUIDList.begin(); itr != m_lSparkGUIDList.end(); ++itr)
+        for (std::list<uint64>::iterator itr = m_lSparkGUIDList.begin(); itr != m_lSparkGUIDList.end(); ++itr)
         {
             if (Creature* pTemp = (Creature*)Unit::GetUnit(*m_creature, *itr))
             {
@@ -179,7 +179,7 @@ struct boss_ionarAI : public ScriptedAI
         if (m_lSparkGUIDList.empty())
             return;
 
-        for(std::list<uint64>::iterator itr = m_lSparkGUIDList.begin(); itr != m_lSparkGUIDList.end(); ++itr)
+        for (std::list<uint64>::iterator itr = m_lSparkGUIDList.begin(); itr != m_lSparkGUIDList.end(); ++itr)
         {
             if (Creature* pSpark = (Creature*)Unit::GetUnit(*m_creature, *itr))
             {
@@ -314,7 +314,7 @@ bool EffectDummyCreature_boss_ionar(Unit* pCaster, uint32 uiSpellId, SpellEffect
         if (pCreatureTarget->GetEntry() != NPC_IONAR)
             return true;
 
-        for(uint8 i = 0; i < MAX_SPARKS; ++i)
+        for (uint8 i = 0; i < MAX_SPARKS; ++i)
             pCreatureTarget->CastSpell(pCreatureTarget, SPELL_SUMMON_SPARK, true);
 
         pCreatureTarget->AttackStop();

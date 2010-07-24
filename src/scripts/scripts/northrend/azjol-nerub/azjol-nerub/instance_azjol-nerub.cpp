@@ -56,7 +56,7 @@ struct instance_azjol_nerub : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_DOOR_KRIKTHIR:
                 m_uiDoor_KrikthirGUID = pGo->GetGUID();
@@ -83,7 +83,7 @@ struct instance_azjol_nerub : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case 28730:    uiWatcherGashra = pCreature->GetGUID();   break;
             case 28731:    uiWatcherSilthik = pCreature->GetGUID();  break;
@@ -93,7 +93,7 @@ struct instance_azjol_nerub : public ScriptedInstance
 
     uint64 GetData64(uint32 identifier)
     {
-        switch(identifier)
+        switch (identifier)
         {
             case DATA_WATCHER_GASHRA:               return uiWatcherGashra;
             case DATA_WATCHER_SILTHIK:              return uiWatcherSilthik;
@@ -105,7 +105,7 @@ struct instance_azjol_nerub : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_KRIKTHIR:
                 m_auiEncounter[0] = uiData;
@@ -171,7 +171,7 @@ struct instance_azjol_nerub : public ScriptedInstance
         std::istringstream loadStream(in);
         loadStream >> m_auiEncounter[0] >> m_auiEncounter[1] >> m_auiEncounter[2];
 
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
         {
             if (m_auiEncounter[i] == IN_PROGRESS)
                 m_auiEncounter[i] = NOT_STARTED;

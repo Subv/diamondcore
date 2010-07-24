@@ -404,7 +404,7 @@ struct GameObjectInfo
     // helpers
     bool IsDespawnAtAction() const
     {
-        switch(type)
+        switch (type)
         {
             case GAMEOBJECT_TYPE_CHEST:  return chest.consumable;
             case GAMEOBJECT_TYPE_GOOBER: return goober.consumable;
@@ -414,7 +414,7 @@ struct GameObjectInfo
 
     uint32 GetLockId() const
     {
-        switch(type)
+        switch (type)
         {
             case GAMEOBJECT_TYPE_DOOR:       return door.lockId;
             case GAMEOBJECT_TYPE_BUTTON:     return button.lockId;
@@ -433,7 +433,7 @@ struct GameObjectInfo
 
     bool GetDespawnPossibility() const                      // despawn at targeting of cast?
     {
-        switch(type)
+        switch (type)
         {
             case GAMEOBJECT_TYPE_DOOR:       return door.noDamageImmune;
             case GAMEOBJECT_TYPE_BUTTON:     return button.noDamageImmune;
@@ -447,7 +447,7 @@ struct GameObjectInfo
 
     uint32 GetCharges() const                               // despawn at uses amount
     {
-        switch(type)
+        switch (type)
         {
             case GAMEOBJECT_TYPE_TRAP:        return trap.charges;
             case GAMEOBJECT_TYPE_GUARDPOST:   return guardpost.charges;
@@ -458,7 +458,7 @@ struct GameObjectInfo
 
     uint32 GetLinkedGameObjectEntry() const
     {
-        switch(type)
+        switch (type)
         {
             case GAMEOBJECT_TYPE_BUTTON:      return button.linkedTrapId;
             case GAMEOBJECT_TYPE_CHEST:       return chest.linkedTrapId;
@@ -471,7 +471,7 @@ struct GameObjectInfo
     uint32 GetAutoCloseTime() const
     {
         uint32 autoCloseTime = 0;
-        switch(type)
+        switch (type)
         {
             case GAMEOBJECT_TYPE_DOOR:          autoCloseTime = door.autoCloseTime; break;
             case GAMEOBJECT_TYPE_BUTTON:        autoCloseTime = button.autoCloseTime; break;
@@ -486,7 +486,7 @@ struct GameObjectInfo
 
     uint32 GetLootId() const
     {
-        switch(type)
+        switch (type)
         {
             case GAMEOBJECT_TYPE_CHEST:       return chest.lootId;
             case GAMEOBJECT_TYPE_FISHINGHOLE: return fishinghole.lootId;
@@ -496,7 +496,7 @@ struct GameObjectInfo
 
     uint32 GetGossipMenuId() const
     {
-        switch(type)
+        switch (type)
         {
             case GAMEOBJECT_TYPE_QUESTGIVER:    return questgiver.gossipID;
             case GAMEOBJECT_TYPE_GOOBER:        return goober.gossipID;
@@ -506,7 +506,7 @@ struct GameObjectInfo
 
     uint32 GetEventScriptId() const
     {
-        switch(type)
+        switch (type)
         {
             case GAMEOBJECT_TYPE_GOOBER:        return goober.eventId;
             case GAMEOBJECT_TYPE_CHEST:         return chest.eventId;
@@ -643,7 +643,7 @@ class GameObject : public WorldObject
         time_t GetRespawnTimeEx() const
         {
             time_t now = time(NULL);
-            if(m_respawnTime > now)
+            if (m_respawnTime > now)
                 return m_respawnTime;
             else
                 return now;

@@ -81,31 +81,31 @@ struct boss_xt002 : public ScriptedAI
         EnrageTimer = 600000;
         GravityTimer = 15000 + rand()%5000;
 
-        if(pInstance) pInstance->SetData(TYPE_XT002, NOT_STARTED);
+        if (pInstance) pInstance->SetData(TYPE_XT002, NOT_STARTED);
     }
 
     void Aggro(Unit *who) 
     {
-        if(pInstance) pInstance->SetData(TYPE_XT002, IN_PROGRESS);
+        if (pInstance) pInstance->SetData(TYPE_XT002, IN_PROGRESS);
 
         DoScriptText(SAY_AGGRO, m_creature);
     }
 
     void DamageTaken(Unit *done_by, uint32 &damage)
     {
-        if(addsPhase) damage += damage;
+        if (addsPhase) damage += damage;
     }
 
     void JustDied(Unit *killer)
     {
-        if(pInstance) pInstance->SetData(TYPE_XT002, DONE);
+        if (pInstance) pInstance->SetData(TYPE_XT002, DONE);
 
         DoScriptText(SAY_DEATH, m_creature);
     }
 
     void KilledUnit(Unit *who)
     {
-        if(irand(0,1))
+        if (irand(0,1))
             DoScriptText(SAY_SLAY_01, m_creature);
         else
             DoScriptText(SAY_SLAY_02, m_creature);
@@ -116,9 +116,9 @@ struct boss_xt002 : public ScriptedAI
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
-        if(addsPhase)
+        if (addsPhase)
         {
-            if(AddsPhaseTimer < diff)
+            if (AddsPhaseTimer < diff)
             {
                 addsPhase = false;
                 //make boss active and attackable
@@ -130,11 +130,11 @@ struct boss_xt002 : public ScriptedAI
             }
             else AddsPhaseTimer -= diff;
 
-            if(NextWaveTimer < diff)
+            if (NextWaveTimer < diff)
             {
                 NextWaveTimer = 15000;
                 int rnd = irand(0,3);
-                /*if( m_creature->GetDistance2d(AddX[rnd], AddY[rnd]) > 220)
+                /*if ( m_creature->GetDistance2d(AddX[rnd], AddY[rnd]) > 220)
                 {
                     EnterEvadeMode();
                     return;
@@ -142,28 +142,28 @@ struct boss_xt002 : public ScriptedAI
                 int i;
                 Creature *add;
                 Unit *target;
-                if(!Regular || (AddsPhaseTimer > 15000))
+                if (!Regular || (AddsPhaseTimer > 15000))
                 {
                     add = m_creature->SummonCreature(CR_PUMMELER, AddX[rnd], AddY[rnd], AddZ[rnd], 0, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 10000);
                     add->SetActiveObjectState(true);
                     target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-                    if(add && target && target->isAlive())
+                    if (add && target && target->isAlive())
                         add->AddThreat(target, 1.0f);
                 }
-                for(i=0; i < ScrapbotCount; i++)
+                for (i=0; i < ScrapbotCount; i++)
                 {
                     add = m_creature->SummonCreature(CR_SCRAPBOT, AddX[rnd], AddY[rnd], AddZ[rnd], 0, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 10000);
                     add->SetActiveObjectState(true);
                     target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-                    if(add && target && target->isAlive())
+                    if (add && target && target->isAlive())
                         add->AddThreat(target, 1.0f);
                 }
-                for(i=0; i < BoombotCount; i++)
+                for (i=0; i < BoombotCount; i++)
                 {
                     add = m_creature->SummonCreature(CR_BOOMBOT, AddX[rnd], AddY[rnd], AddZ[rnd], 0, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 10000);
                     add->SetActiveObjectState(true);
                     target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-                    if(add && target && target->isAlive())
+                    if (add && target && target->isAlive())
                         add->AddThreat(target, 1.0f);
                 }
             }
@@ -186,7 +186,7 @@ struct boss_xt002 : public ScriptedAI
             }
 
             //regular spells
-            if(TantrumTimer < diff)
+            if (TantrumTimer < diff)
             {
                 DoCast(m_creature->getVictim(), SP_TANTRUM);
                 TantrumTimer = 45000;
@@ -194,25 +194,25 @@ struct boss_xt002 : public ScriptedAI
             }
             else TantrumTimer -= diff;
 
-            if(LightTimer < diff)
+            if (LightTimer < diff)
             {
                 Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-                if(target && target->isAlive())
+                if (target && target->isAlive())
                     DoCast(target, Regular ? SP_SEARING_LIGHT : H_SP_SEARING_LIGHT);
                 LightTimer = 10000;
             }
             else LightTimer -= diff;
 
-            if(GravityTimer < diff)
+            if (GravityTimer < diff)
             {
                 Unit *target = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM, 0);
-                if(target && target->isAlive())
+                if (target && target->isAlive())
                     DoCast(target, Regular ? SP_GRAVITY : H_SP_GRAVITY);
                 GravityTimer = 15000 + rand()%5000;
             }
             else GravityTimer -= diff;
 
-            if(EnrageTimer < diff)
+            if (EnrageTimer < diff)
             {
                 DoCast(m_creature, SP_ENRAGE);
                 EnrageTimer = 60000;

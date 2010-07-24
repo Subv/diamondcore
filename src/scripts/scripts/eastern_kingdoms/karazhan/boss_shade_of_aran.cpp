@@ -163,7 +163,7 @@ struct boss_aranAI : public ScriptedAI
 
     void Aggro(Unit* pWho)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_AGGRO1, m_creature); break;
             case 1: DoScriptText(SAY_AGGRO2, m_creature); break;
@@ -196,7 +196,7 @@ struct boss_aranAI : public ScriptedAI
             targets.erase(targets.begin()+rand()%targets.size());
 
         uint32 i = 0;
-        for(std::vector<Unit*>::iterator itr = targets.begin(); itr!= targets.end(); ++itr)
+        for (std::vector<Unit*>::iterator itr = targets.begin(); itr!= targets.end(); ++itr)
         {
             if (*itr)
             {
@@ -335,7 +335,7 @@ struct boss_aranAI : public ScriptedAI
 
         if (m_uiSecondarySpell_Timer < uiDiff)
         {
-            switch(urand(0, 1))
+            switch (urand(0, 1))
             {
                 case 0:
                     DoCastSpellIfCan(m_creature, SPELL_AOE_CS);

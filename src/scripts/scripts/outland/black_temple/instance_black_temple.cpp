@@ -95,7 +95,7 @@ struct instance_black_temple : public ScriptedInstance
 
     bool IsEncounterInProgress() const
     {
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
             if (m_auiEncounter[i] == IN_PROGRESS) return true;
 
         return false;
@@ -103,7 +103,7 @@ struct instance_black_temple : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case 22887: m_uiNajentusGUID                = pCreature->GetGUID(); break;
             case 23089: m_uiAkamaGUID                   = pCreature->GetGUID(); break;
@@ -122,7 +122,7 @@ struct instance_black_temple : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case 185483:                                    // Gate past Naj'entus (at the entrance to Supermoose's courtyards)
                 m_uiNajentusGateGUID = pGo->GetGUID();
@@ -180,7 +180,7 @@ struct instance_black_temple : public ScriptedInstance
     {
         debug_log("SD2: Instance Black Temple: SetData received for type %u with data %u",uiType,uiData);
 
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_NAJENTUS:
                 m_auiEncounter[0] = uiData;
@@ -245,7 +245,7 @@ struct instance_black_temple : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_NAJENTUS:   return m_auiEncounter[0];
             case TYPE_SUPREMUS:   return m_auiEncounter[1];
@@ -263,7 +263,7 @@ struct instance_black_temple : public ScriptedInstance
 
     uint64 GetData64(uint32 uiData)
     {
-        switch(uiData)
+        switch (uiData)
         {
             case DATA_HIGHWARLORDNAJENTUS:       return m_uiNajentusGUID;
             case DATA_AKAMA:                     return m_uiAkamaGUID;
@@ -309,7 +309,7 @@ struct instance_black_temple : public ScriptedInstance
         loadStream >> m_auiEncounter[0] >> m_auiEncounter[1] >> m_auiEncounter[2] >> m_auiEncounter[3]
             >> m_auiEncounter[4] >> m_auiEncounter[5] >> m_auiEncounter[6] >> m_auiEncounter[7] >> m_auiEncounter[8];
 
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
             if (m_auiEncounter[i] == IN_PROGRESS)            // Do not load an encounter as "In Progress" - reset it instead.
                 m_auiEncounter[i] = NOT_STARTED;
 

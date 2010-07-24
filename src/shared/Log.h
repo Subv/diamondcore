@@ -91,11 +91,11 @@ class Log : public Diamond::Singleton<Log, Diamond::ClassLevelLockable<Log, ACE_
 
     ~Log()
     {
-        if( logfile != NULL )
+        if ( logfile != NULL )
             fclose(logfile);
         logfile = NULL;
 
-        if( gmLogfile != NULL )
+        if ( gmLogfile != NULL )
             fclose(gmLogfile);
         gmLogfile = NULL;
 
@@ -103,7 +103,7 @@ class Log : public Diamond::Singleton<Log, Diamond::ClassLevelLockable<Log, ACE_
             fclose(charLogfile);
         charLogfile = NULL;
 
-        if( dberLogfile != NULL )
+        if ( dberLogfile != NULL )
             fclose(dberLogfile);
         dberLogfile = NULL;
 

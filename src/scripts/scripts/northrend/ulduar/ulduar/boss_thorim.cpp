@@ -16,17 +16,17 @@ struct boss_thorimAI : public ScriptedAI
 
     void Reset()
     {
-        if(pInstance) pInstance->SetData(TYPE_THORIM, NOT_STARTED);
+        if (pInstance) pInstance->SetData(TYPE_THORIM, NOT_STARTED);
     }
 
     void Aggro(Unit *who) 
     {
-        if(pInstance) pInstance->SetData(TYPE_THORIM, IN_PROGRESS);
+        if (pInstance) pInstance->SetData(TYPE_THORIM, IN_PROGRESS);
     }
 
     void JustDied(Unit *killer)
     {
-        if(pInstance) pInstance->SetData(TYPE_THORIM, DONE);
+        if (pInstance) pInstance->SetData(TYPE_THORIM, DONE);
     }
 
     void UpdateAI(const uint32 diff)

@@ -31,7 +31,7 @@ bool ScriptedAI::IsVisible(Unit* pWho) const
 void ScriptedAI::MoveInLineOfSight(Unit* pWho)
 {
     if (m_creature->CanInitiateAttack() && pWho->isTargetableForAttack() &&
-        m_creature->IsHostileTo(pWho) && pWho->isInAccessablePlaceFor(m_creature))
+        m_creature->IsHostileTo(pWho) && pWho->isInAccessablePlacefor (m_creature))
     {
         if (!m_creature->canFly() && m_creature->GetDistanceZ(pWho) > CREATURE_Z_ATTACK_RANGE)
             return;
@@ -514,7 +514,7 @@ bool ScriptedAI::EnterEvadeIfOutOfCombatArea(const uint32 uiDiff)
     float fY = m_creature->GetPositionY();
     float fZ = m_creature->GetPositionZ();
 
-    switch(m_creature->GetEntry())
+    switch (m_creature->GetEntry())
     {
         case NPC_BROODLORD:                                 // broodlord (not move down stairs)
             if (fZ > 448.60f)

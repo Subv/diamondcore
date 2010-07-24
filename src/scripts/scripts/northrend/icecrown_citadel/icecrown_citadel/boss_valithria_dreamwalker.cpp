@@ -80,7 +80,7 @@ struct boss_valithria_dreamwalkerAI : public BSWScriptedAI
 
     void Reset()
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
         m_creature->SetHealth(m_creature->GetMaxHealth()/2.0f);
         pInstance->SetData(TYPE_VALITHRIA, NOT_STARTED);
         resetTimers();
@@ -123,7 +123,7 @@ struct boss_valithria_dreamwalkerAI : public BSWScriptedAI
 
     void CallMobs(uint8 door)
     {
-        if(!door) return;
+        if (!door) return;
         uint8 mobs;
         uint32 randommob;
 
@@ -145,7 +145,7 @@ struct boss_valithria_dreamwalkerAI : public BSWScriptedAI
                                        break;
                             }
 
-        for(uint8 i = 0; i <= mobs; ++i)
+        for (uint8 i = 0; i <= mobs; ++i)
                        {
                        switch (urand(0,4)) {
                               case 0: randommob = NPC_RISEN_ARCHMAGE;        break;
@@ -167,8 +167,8 @@ struct boss_valithria_dreamwalkerAI : public BSWScriptedAI
        Map::PlayerList const &players = pMap->GetPlayers();
        for (Map::PlayerList::const_iterator i = players.begin(); i != players.end(); ++i)
               {
-              if(Player* pPlayer = i->getSource())
-                    if(pPlayer->isAlive() && !pPlayer->isGameMaster()
+              if (Player* pPlayer = i->getSource())
+                    if (pPlayer->isAlive() && !pPlayer->isGameMaster()
                     && pPlayer->IsWithinDistInMap(m_creature, 90.0f)) return;
               }
        }
@@ -206,7 +206,7 @@ struct boss_valithria_dreamwalkerAI : public BSWScriptedAI
 
     void KilledUnit(Unit* pVictim)
     {
-        if(!pInstance) return;
+        if (!pInstance) return;
 
         switch (urand(0,1)) {
             case 0:
@@ -220,7 +220,7 @@ struct boss_valithria_dreamwalkerAI : public BSWScriptedAI
 
     void JustSummoned(Creature* summoned)
     {
-        if(!pInstance || !summoned || !battlestarted) return;
+        if (!pInstance || !summoned || !battlestarted) return;
 
         if ( summoned->GetEntry() != NPC_NIGHTMARE_PORTAL ) {
              m_creature->SetInCombatWithZone();
@@ -237,7 +237,7 @@ struct boss_valithria_dreamwalkerAI : public BSWScriptedAI
         if (mobsGUIDList.empty())
             return;
 
-        for(std::list<uint64>::iterator itr = mobsGUIDList.begin(); itr != mobsGUIDList.end(); ++itr)
+        for (std::list<uint64>::iterator itr = mobsGUIDList.begin(); itr != mobsGUIDList.end(); ++itr)
         {
             if (Unit* pTemp = Unit::GetUnit(*m_creature, *itr))
                 if (pTemp->isAlive()) {
@@ -251,7 +251,7 @@ struct boss_valithria_dreamwalkerAI : public BSWScriptedAI
 
     void JustDied(Unit *killer)
     {
-        if(!pInstance) return
+        if (!pInstance) return
         pInstance->SetData(TYPE_VALITHRIA, FAIL);
         DoScriptText(-1631409,m_creature);
         DespawnMobs();
@@ -283,7 +283,7 @@ struct boss_valithria_dreamwalkerAI : public BSWScriptedAI
 
         QueryEvadeMode();
 
-        switch(stage)
+        switch (stage)
         {
             case 0: 
                     if ( m_creature->GetHealthPercent() > 90.0f ) stage = 2;

@@ -89,7 +89,7 @@ struct boss_mekgineer_steamriggerAI : public ScriptedAI
 
     void KilledUnit(Unit* victim)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_SLAY_1, m_creature); break;
             case 1: DoScriptText(SAY_SLAY_2, m_creature); break;
@@ -99,7 +99,7 @@ struct boss_mekgineer_steamriggerAI : public ScriptedAI
 
     void Aggro(Unit *who)
     {
-        switch(urand(0, 2))
+        switch (urand(0, 2))
         {
             case 0: DoScriptText(SAY_AGGRO_1, m_creature); break;
             case 1: DoScriptText(SAY_AGGRO_2, m_creature); break;

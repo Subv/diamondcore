@@ -82,7 +82,7 @@ struct instance_shadowfang_keep : public ScriptedInstance
 
     void OnCreatureCreate(Creature* pCreature)
     {
-        switch(pCreature->GetEntry())
+        switch (pCreature->GetEntry())
         {
             case NPC_ASH: m_uiAshGUID = pCreature->GetGUID(); break;
             case NPC_ADA: m_uiAdaGUID = pCreature->GetGUID(); break;
@@ -98,7 +98,7 @@ struct instance_shadowfang_keep : public ScriptedInstance
 
     void OnObjectCreate(GameObject* pGo)
     {
-        switch(pGo->GetEntry())
+        switch (pGo->GetEntry())
         {
             case GO_COURTYARD_DOOR:
                 m_uiDoorCourtyardGUID = pGo->GetGUID();
@@ -137,7 +137,7 @@ struct instance_shadowfang_keep : public ScriptedInstance
 
     void SetData(uint32 uiType, uint32 uiData)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_FREE_NPC:
                 if (uiData == DONE)
@@ -190,7 +190,7 @@ struct instance_shadowfang_keep : public ScriptedInstance
 
     uint32 GetData(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case TYPE_FREE_NPC:
                 return m_auiEncounter[0];
@@ -208,7 +208,7 @@ struct instance_shadowfang_keep : public ScriptedInstance
 
     uint64 GetData64(uint32 uiType)
     {
-        switch(uiType)
+        switch (uiType)
         {
             case DATA_LIGHTNING:
                 return m_uiArugalFocusGUID;
@@ -235,7 +235,7 @@ struct instance_shadowfang_keep : public ScriptedInstance
         loadStream >> m_auiEncounter[0] >> m_auiEncounter[1] >> m_auiEncounter[2] >> m_auiEncounter[3] 
             >> m_auiEncounter[4] >> m_auiEncounter[5];
 
-        for(uint8 i = 0; i < MAX_ENCOUNTER; ++i)
+        for (uint8 i = 0; i < MAX_ENCOUNTER; ++i)
         {
             if (m_auiEncounter[i] == IN_PROGRESS)
                 m_auiEncounter[i] = NOT_STARTED;

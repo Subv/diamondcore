@@ -205,7 +205,7 @@ struct boss_supremusAI : public ScriptedAI
     {
         float coord = 0;
 
-        switch(urand(0, 1))
+        switch (urand(0, 1))
         {
             case 0: coord = initial + 20 + rand()%20; break;
             case 1: coord = initial - 20 - rand()%20; break;

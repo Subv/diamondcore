@@ -125,7 +125,7 @@ struct npc_kelerun_bloodmournAI : public ScriptedAI
 
     void DoSpawnChallengers()
     {
-        for(uint8 i = 0; i < MAX_CHALLENGER; ++i)
+        for (uint8 i = 0; i < MAX_CHALLENGER; ++i)
         {
             if (Creature* pCreature = m_creature->SummonCreature(uiChallengerId[i],
                 fChallengerLoc[i][0], fChallengerLoc[i][1],
@@ -317,7 +317,7 @@ bool GossipHello_npc_prospector_anvilward(Player* pPlayer, Creature* pCreature)
 
 bool GossipSelect_npc_prospector_anvilward(Player* pPlayer, Creature* pCreature, uint32 uiSender, uint32 uiAction)
 {
-    switch(uiAction)
+    switch (uiAction)
     {
         case GOSSIP_ACTION_INFO_DEF+1:
             pPlayer->ADD_GOSSIP_ITEM(GOSSIP_ICON_CHAT, GOSSIP_ITEM_SHOW, GOSSIP_SENDER_MAIN, GOSSIP_ACTION_INFO_DEF+2);

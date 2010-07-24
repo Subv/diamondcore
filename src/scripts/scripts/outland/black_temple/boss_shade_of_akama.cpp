@@ -224,7 +224,7 @@ struct boss_shade_of_akamaAI : public ScriptedAI
         {
             int iSize = (sizeof(m_auiRandSpawnEntry) / sizeof(uint32));
 
-            for(uint8 i = 0; i < iSize; ++i)
+            for (uint8 i = 0; i < iSize; ++i)
             {
                 if (Creature* pSpawn = m_creature->SummonCreature(m_auiRandSpawnEntry[i],
                     m_afSpawnLoc[uiRand].m_fX, m_afSpawnLoc[uiRand].m_fY, m_afSpawnLoc[uiRand].m_fZ, m_afSpawnLoc[uiRand].m_fO,
@@ -241,7 +241,7 @@ struct boss_shade_of_akamaAI : public ScriptedAI
     {
         if (!m_lSorcerersGUIDList.empty() && m_pInstance)
         {
-            for(std::list<uint64>::iterator itr = m_lSorcerersGUIDList.begin(); itr != m_lSorcerersGUIDList.end(); ++itr)
+            for (std::list<uint64>::iterator itr = m_lSorcerersGUIDList.begin(); itr != m_lSorcerersGUIDList.end(); ++itr)
             {
                 if (Creature* pSorcerer = m_pInstance->instance->GetCreature(*itr))
                 {
@@ -256,7 +256,7 @@ struct boss_shade_of_akamaAI : public ScriptedAI
     {
         if (!m_lChannelersGUIDList.empty() && m_pInstance)
         {
-            for(std::list<uint64>::iterator itr = m_lChannelersGUIDList.begin(); itr != m_lChannelersGUIDList.end(); ++itr)
+            for (std::list<uint64>::iterator itr = m_lChannelersGUIDList.begin(); itr != m_lChannelersGUIDList.end(); ++itr)
             {
                 if (Creature* pChanneler = m_pInstance->instance->GetCreature(*itr))
                 {
@@ -281,7 +281,7 @@ struct boss_shade_of_akamaAI : public ScriptedAI
             //clear this, we want a clean start
             m_lChannelersGUIDList.clear();
 
-            for(std::list<Creature*>::iterator itr = lChannelerList.begin(); itr != lChannelerList.end(); ++itr)
+            for (std::list<Creature*>::iterator itr = lChannelerList.begin(); itr != lChannelerList.end(); ++itr)
             {
                 m_lChannelersGUIDList.push_back((*itr)->GetGUID());
                 debug_log("SD2: boss_shade_of_akamaAI found channeler " UI64FMTD ". Adding to list", (*itr)->GetGUID());
@@ -484,7 +484,7 @@ struct npc_akamaAI : public ScriptedAI
         if (uiMoveType != POINT_MOTION_TYPE || !m_pInstance)
             return;
 
-        switch(uiPointId)
+        switch (uiPointId)
         {
             case 0:
                 ++m_uiWayPointId;
@@ -571,7 +571,7 @@ struct npc_akamaAI : public ScriptedAI
         {
             if (m_uiSummonBrokenTimer <= uiDiff)
             {
-                for(uint8 i = 0; i < 4; ++i)
+                for (uint8 i = 0; i < 4; ++i)
                 {
                     float x = m_afBrokenSpawnLoc[m_uiBrokenSummonIndex].m_fX + (i*5);
                     float y = m_afBrokenSpawnLoc[m_uiBrokenSummonIndex].m_fY + (1*5);
@@ -602,7 +602,7 @@ struct npc_akamaAI : public ScriptedAI
         {
             if (m_uiSoulRetrieveTimer <= uiDiff)
             {
-                switch(m_uiEndingTalkCount)
+                switch (m_uiEndingTalkCount)
                 {
                     case 0:
                         m_creature->HandleEmoteCommand(EMOTE_ONESHOT_ROAR);
@@ -620,7 +620,7 @@ struct npc_akamaAI : public ScriptedAI
                         {
                             bool bYelled = false;
 
-                            for(std::list<uint64>::iterator itr = m_lBrokenGUIDList.begin(); itr != m_lBrokenGUIDList.end(); ++itr)
+                            for (std::list<uint64>::iterator itr = m_lBrokenGUIDList.begin(); itr != m_lBrokenGUIDList.end(); ++itr)
                             {
                                 if (Unit* pUnit = Unit::GetUnit(*m_creature, *itr))
                                 {
@@ -639,7 +639,7 @@ struct npc_akamaAI : public ScriptedAI
                     case 3:
                         if (!m_lBrokenGUIDList.empty())
                         {
-                            for(std::list<uint64>::iterator itr = m_lBrokenGUIDList.begin(); itr != m_lBrokenGUIDList.end(); ++itr)
+                            for (std::list<uint64>::iterator itr = m_lBrokenGUIDList.begin(); itr != m_lBrokenGUIDList.end(); ++itr)
                             {
                                 // This is the incorrect spell, but can't seem to find the right one.
                                 if (Unit* pUnit = Unit::GetUnit(*m_creature, *itr))
@@ -652,7 +652,7 @@ struct npc_akamaAI : public ScriptedAI
                     case 4:
                         if (!m_lBrokenGUIDList.empty())
                         {
-                            for(std::list<uint64>::iterator itr = m_lBrokenGUIDList.begin(); itr != m_lBrokenGUIDList.end(); ++itr)
+                            for (std::list<uint64>::iterator itr = m_lBrokenGUIDList.begin(); itr != m_lBrokenGUIDList.end(); ++itr)
                             {
                                 if (Unit* pUnit = Unit::GetUnit((*m_creature), *itr))
                                     DoScriptText(SAY_BROKEN_FREE_02, pUnit);

@@ -213,7 +213,7 @@ struct boss_ragnarosAI : public ScriptedAI
                 DoScriptText(SAY_REINFORCEMENTS1, m_creature);
 
                 // summon 10 elementals
-                for(int i = 0; i < 9; ++i)
+                for (int i = 0; i < 9; ++i)
                 {
                     if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
                     {
@@ -231,7 +231,7 @@ struct boss_ragnarosAI : public ScriptedAI
             {
                 DoScriptText(SAY_REINFORCEMENTS2, m_creature);
 
-                for(int i = 0; i < 9; ++i)
+                for (int i = 0; i < 9; ++i)
                 {
                     if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_RANDOM,0))
                     {

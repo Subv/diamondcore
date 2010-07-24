@@ -577,7 +577,7 @@ struct cthunAI : public ScriptedAI
 
                 if (!PlayerList.isEmpty())
                 {
-                    for(Map::PlayerList::const_iterator itr = PlayerList.begin(); itr != PlayerList.end(); ++itr)
+                    for (Map::PlayerList::const_iterator itr = PlayerList.begin(); itr != PlayerList.end(); ++itr)
                     {
                         if (Player* pPlr = itr->getSource())
                             pPlr->PlayDirectSound(RANDOM_SOUND_WHISPER,pPlr);

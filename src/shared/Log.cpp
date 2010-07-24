@@ -78,18 +78,18 @@ void Log::InitColors(const std::string& str)
 
     std::istringstream ss(str);
 
-    for(int i = 0; i < LogType_count; ++i)
+    for (int i = 0; i < LogType_count; ++i)
     {
         ss >> color[i];
 
-        if(!ss)
+        if (!ss)
             return;
 
-        if(color[i] < 0 || color[i] >= Color_count)
+        if (color[i] < 0 || color[i] >= Color_count)
             return;
     }
 
-    for(int i = 0; i < LogType_count; ++i)
+    for (int i = 0; i < LogType_count; ++i)
         m_colors[i] = Color(color[i]);
 
     m_colored = true;
@@ -267,7 +267,7 @@ void Log::Initialize()
     InitColors(sConfig.GetStringDefault("LogColors", ""));
 
     m_logFilter = 0;
-    for(int i = 0; i < LOG_FILTER_COUNT; ++i)
+    for (int i = 0; i < LOG_FILTER_COUNT; ++i)
         if (*logFilterData[i].name)
             if (sConfig.GetBoolDefault(logFilterData[i].configName, logFilterData[i].defaultState))
                 m_logFilter |= (1 << i);
@@ -836,7 +836,7 @@ void Log::WaitBeforeContinueIfNeed()
     {
         printf("\nWait %u secs for continue.\n",mode);
         //barGoLink bar(mode);
-        for(int i = 0; i < mode; ++i)
+        for (int i = 0; i < mode; ++i)
         {
             //bar.step();
             ACE_OS::sleep(1);
