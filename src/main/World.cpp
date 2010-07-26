@@ -2250,7 +2250,7 @@ void World::LoadDBVersion()
 
 void World::InsertCoreVersion()
 {
-    WorldDatabase.PExecute("UPDATE `version` SET `core_version` = '%s'", REVISION_NR);
+    WorldDatabase.PExecute("UPDATE `version` SET `core_version` = '%s, %s'", _PACKAGENAME, REVISION_NR);
 }
 
 void World::setConfig(eConfigUInt32Values index, char const* fieldname, uint32 defvalue)
