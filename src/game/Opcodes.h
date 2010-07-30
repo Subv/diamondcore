@@ -363,7 +363,7 @@ enum Opcodes
     SMSG_DAMAGE_DONE_OBSOLETE                       = 0x14C,
     SMSG_UNIT_SPELLCAST_START                       = 0x3ACC,    // 15052 - 4.0.0.12644
     SMSG_CANCEL_COMBAT                              = 0x5A48,    // 23112 - 4.0.0.12644
-    SMSG_SPELLBREAKLOG                              = 0xFA58     // 64088 - 4.0.0.12644
+    SMSG_SPELLBREAKLOG                              = 0xFA58,    // 64088 - 4.0.0.12644
     SMSG_SPELLHEALLOG                               = 0x730A,    // 29450 - 4.0.0.12644
     SMSG_SPELLENERGIZELOG                           = 0xB95E,    // 47454 - 4.0.0.12644
     SMSG_BREAK_TARGET                               = 0x4034,    // 16436 - 4.0.0.12319
