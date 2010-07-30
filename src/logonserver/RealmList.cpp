@@ -33,7 +33,7 @@ extern DatabaseType loginDatabase;
 
 // We support only WoW:Catalysm 4.0.0.12604
 static RealmBuildInfo ExpectedRealmdClientBuilds[] = {
-    {12604, 4, 0, 0, ' '},                                  // Only 12604
+    {12644, 4, 0, 0, ' '},                                  // Only 12644
     {0,     0, 0, 0, ' '}                                   // terminator
 };
 
