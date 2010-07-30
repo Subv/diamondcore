@@ -743,7 +743,7 @@ int WorldSocket::HandleAuthSession (WorldPacket& recvPacket)
 {
     // NOTE: ATM the socket is singlethread, have this in mind ...
     uint8 digest[20];
-    uint32 clientSeed, id, security;
+    uint32 clientSeed, id, security, unk1, unk2, unk3;
     uint16 ClientBuild;
     uint8 expansion = 0;
     LocaleConstant locale;
@@ -753,11 +753,15 @@ int WorldSocket::HandleAuthSession (WorldPacket& recvPacket)
     WorldPacket packet;
 
     // Read the content of the packet
+	recvPacket >> unk1;
+	recvPacket >> unk2;
+	recvPacket >> unk3;
     recvPacket.read(digest, 20);
-    recvPacket.read_skip<uint64>();
-    recvPacket.read_skip<uint32>();
-    recvPacket >> clientSeed;
 	recvPacket >> ClientBuild;
+    recvPacket.read_skip<uint32>();
+    recvPacket.read_skip<uint32>();
+	recvPacket.read_skip<uint32>();
+    recvPacket >> clientSeed;
     recvPacket.read_skip<uint8>();
     recvPacket >> account;
     recvPacket.read_skip<uint32>();                         // addon data size
