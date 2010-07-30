@@ -673,6 +673,8 @@ struct ChrRacesEntry
                                                             // 17-19 unused
     uint32      expansion;                                  // 20 (0 - original race, 1 - tbc addon, ...)
     //uint32                                                // 21 (1 for worgens)
+    //uint32                                                // 22
+    //uint32                                                // 23
 };
 
 /* not used
@@ -1230,6 +1232,7 @@ struct MovieEntry
     uint32      Id;                                         // 0 index
     //char*       filename;                                 // 1
     //uint32      unk2;                                     // 2 always 100
+	//uint32                                                // 3
 };
 
 struct PvPDifficultyEntry
@@ -1480,11 +1483,12 @@ struct SpellCategoriesEntry
 // SpellClassOptions.dbc
 struct SpellClassOptionsEntry
 {
-    //uint32    Id;                                           // 0        m_ID
-    //uint32    modalNextSpell;                             // 50       m_modalNextSpell not used
-    uint64    SpellFamilyFlags;                             // 149-150  m_spellClassMask NOTE: size is 12 bytes!!!
-    uint32    SpellFamilyFlags2;                            // 151      addition to m_spellClassMask
-    uint32    SpellFamilyName;                              // 148      m_spellClassSet
+    //uint32    Id;                                         // 0        m_ID
+    //uint32    modalNextSpell;                             // 1        m_modalNextSpell not used
+    uint64    SpellFamilyFlags;                             // 2-3      m_spellClassMask NOTE: size is 12 bytes!!!
+    uint32    SpellFamilyFlags2;                            // 4        addition to m_spellClassMask
+    uint32    SpellFamilyName;                              // 5        m_spellClassSet
+    //                                                      // 6
 };
 
 // SpellCooldowns.dbc
@@ -1884,6 +1888,7 @@ struct TalentTabEntry
     uint32  tabpage;                                        // 5
     //char* internalname;                                   // 6
 	//char* name                                            // 7
+    //uint32                                                // 8
 };
 
 struct TaxiNodesEntry
