@@ -1,19 +1,19 @@
 /*
- * Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+* Copyright (C) 2010 DiamondCore <http://easy-emu.de/>
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License as published by
+* the Free Software Foundation; either version 2 of the License, or
+* (at your option) any later version.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 /// \addtogroup u2w
@@ -28,7 +28,7 @@
 
 enum Opcodes
 {
-	MSG_NULL_ACTION                                 = 0x000,
+    MSG_NULL_ACTION                                 = 0x000,
     CMSG_BOOTME                                     = 0x001,
     CMSG_DBLOOKUP                                   = 0x002,
     SMSG_DBLOOKUP                                   = 0x003,
@@ -83,13 +83,13 @@ enum Opcodes
     CMSG_AUTH_SRP6_PROOF                            = 0x034,
     CMSG_AUTH_SRP6_RECODE                           = 0x035,
     CMSG_CHAR_CREATE                                = 0x9202,    // 37378 - 4.0.0.12319
-    CMSG_CHAR_ENUM                                  = 0xC636,    // 50742 - 4.0.0.12319
+    CMSG_CHAR_ENUM                                  = 0x114A,    // 4426  - 4.0.0.12604
     CMSG_CHAR_DELETE                                = 0x1048,    // 4168  - 4.0.0.12319
     SMSG_AUTH_SRP6_RESPONSE                         = 0x039,
     SMSG_CHAR_CREATE                                = 0xB1CC,    // 45516 - 4.0.0.12604
     SMSG_CHAR_ENUM                                  = 0xB94E,    // 47438 - 4.0.0.12604
     SMSG_CHAR_DELETE                                = 0x3A9A,    // 15002 - 4.0.0.12604
-    CMSG_PLAYER_LOGIN                               = 0x5066,    // 20582 - 4.0.0.12319
+    CMSG_PLAYER_LOGIN                               = 0xF94C,    // 63820 - 4.0.0.12604
     SMSG_NEW_WORLD                                  = 0x7B5A,    // 31578 - 4.0.0.12604
     SMSG_TRANSFER_PENDING                           = 0xD468,    // 54376 - 4.0.0.12319
     SMSG_TRANSFER_ABORTED                           = 0x4636,    // 17974 - 4.0.0.12319
@@ -343,7 +343,7 @@ enum Opcodes
     SMSG_PET_CAST_FAILED                            = 0x447A,    // 17530 - 4.0.0.12319
     MSG_CHANNEL_START                               = 0x5448,    // 21576 - 4.0.0.12319
     MSG_CHANNEL_UPDATE                              = 0x8622,    // 34338 - 4.0.0.12319
-    CMSG_CANCEL_CHANNELLING                         = 0x0244,    // 580   - 4.0.0.12479
+    CMSG_CANCEL_CHANNELLING                         = 0x1B9C,    // 7068  - 4.0.0.12604
     SMSG_AI_REACTION                                = 0x509C,    // 20636 - 4.0.0.12604
     CMSG_SET_SELECTION                              = 0x13D,
     CMSG_EQUIPMENT_SET_DELETE                       = 0x8420,    // 33824 - 4.0.0.12319
@@ -490,7 +490,7 @@ enum Opcodes
     SMSG_NOTIFICATION                               = 0x1442,    // 5186  - 4.0.0.12479
     CMSG_PLAYED_TIME                                = 0x560E,    // 22030 - 4.0.0.12319
     SMSG_PLAYED_TIME                                = 0x1218,    // 4632  - 4.0.0.12479
-    CMSG_QUERY_TIME                                 = 0xF967,    // 63847 - 4.0.0.12065
+    CMSG_QUERY_TIME                                 = 0x51C8,    // 20936 - 4.0.0.12604
     SMSG_QUERY_TIME_RESPONSE                        = 0x125A,    // 4698  - 4.0.0.12319
     SMSG_LOG_XPGAIN                                 = 0x8FE9,    // 36841 - 4.0.0.12065
     SMSG_AURACASTLOG                                = 0x1D1,
@@ -520,8 +520,8 @@ enum Opcodes
     MSG_GM_SUMMON                                   = 0x1E9,
     SMSG_ITEM_TIME_UPDATE                           = 0x9678,    // 38520 - 4.0.0.12319
     SMSG_ITEM_ENCHANT_TIME_UPDATE                   = 0x5668,    // 22120 - 4.0.0.12319
-	SMSG_AUTH_CHALLENGE                             = 0x8924,    // 35108 - 4.0.0.12319
-    CMSG_AUTH_SESSION                               = 0xA000,    // 40960 - 4.0.0.12319
+    SMSG_AUTH_CHALLENGE                             = 0x8924,    // 35108 - 4.0.0.12319
+    CMSG_AUTH_SESSION                               = 0x0A21,    // 2593  - 4.0.0.12604
     SMSG_AUTH_RESPONSE                              = 0x999A,    // 39322 - 4.0.0.12604
     MSG_GM_SHOWLABEL                                = 0x1EF,
     CMSG_PET_CAST_SPELL                             = 0x965A,    // 38490 - 4.0.0.12319
@@ -734,12 +734,12 @@ enum Opcodes
     CMSG_SET_ACTIONBAR_TOGGLES                      = 0x904E,    // 36942 - 4.0.0.12319
     UMSG_DELETE_GUILD_CHARTER                       = 0x2C0,
     MSG_PETITION_RENAME                             = 0x4078,    // 16504 - 4.0.0.12319
-	SMSG_INIT_WORLD_STATES                          = 0x8406,    // 33798 - 4.0.0.12319
-	SMSG_UPDATE_WORLD_STATE                         = 0x4672,    // 18034 - 4.0.0.12319
+    SMSG_INIT_WORLD_STATES                          = 0x8406,    // 33798 - 4.0.0.12319
+    SMSG_UPDATE_WORLD_STATE                         = 0x4672,    // 18034 - 4.0.0.12319
     CMSG_ITEM_NAME_QUERY                            = 0x0424,    // 1060  - 4.0.0.12479
     SMSG_ITEM_NAME_QUERY_RESPONSE                   = 0x104A,    // 4170  - 4.0.0.12319
     SMSG_PET_ACTION_FEEDBACK                        = 0x5068,    // 20584 - 4.0.0.12319
-    CMSG_CHAR_RENAME                                = 0x2C7,
+    CMSG_CHAR_RENAME                                = 0x599A,    // 22938 - 4.0.0.12604
     SMSG_CHAR_RENAME                                = 0x8210,    // 33296 - 4.0.0.12319
     CMSG_MOVE_SPLINE_DONE                           = 0x2C9,
     CMSG_MOVE_FALL_RESET                            = 0x2CA,
@@ -936,7 +936,7 @@ enum Opcodes
     CMSG_SET_TAXI_BENCHMARK_MODE                    = 0x9242,    // 37442 - 4.0.0.12319
     SMSG_JOINED_BATTLEGROUND_QUEUE                  = 0x38A,
     SMSG_REALM_SPLIT                                = 0x527C,    // 21116 - 4.0.0.12319
-    CMSG_REALM_SPLIT                                = 0x0246,    // 582   - 4.0.0.12479
+    CMSG_REALM_SPLIT                                = 0xD258,    // 53848 - 4.0.0.12604
     CMSG_MOVE_CHNG_TRANSPORT                        = 0x38D,
     MSG_PARTY_ASSIGNMENT                            = 0x4246,    // 16966 - 4.0.0.12319
     SMSG_OFFER_PETITION_ERROR                       = 0x806E,    // 32878 - 4.0.0.12319
@@ -1077,7 +1077,7 @@ enum Opcodes
     CMSG_NO_SPELL_VARIANCE                          = 0x416,
     CMSG_QUESTGIVER_STATUS_MULTIPLE_QUERY           = 0x903E,    // 36926 - 4.0.0.12319
     SMSG_QUESTGIVER_STATUS_MULTIPLE                 = 0x5638,    // 22072 - 4.0.0.12319
-    CMSG_SET_PLAYER_DECLINED_NAMES                  = 0x419,
+    CMSG_SET_PLAYER_DECLINED_NAMES                  = 0x101A,    // 4122  - 4.0.0.12604
     SMSG_SET_PLAYER_DECLINED_NAMES_RESULT           = 0x8276,    // 33398 - 4.0.0.12319
     CMSG_QUERY_SERVER_BUCK_DATA                     = 0x41B,
     CMSG_CLEAR_SERVER_BUCK_DATA                     = 0x41C,
@@ -1167,7 +1167,7 @@ enum Opcodes
     CMSG_SET_CRITERIA_CHEAT                         = 0x470,
     SMSG_CALENDAR_UPDATE_INVITE_LIST3               = 0x0038,    // 56    - 4.0.0.12319
     CMSG_UNITANIMTIER_CHEAT                         = 0x472,
-    CMSG_CHAR_CUSTOMIZE                             = 0x473,
+    CMSG_CHAR_CUSTOMIZE                             = 0xF9CA,    // 63946 - 4.0.0.12604
     SMSG_CHAR_CUSTOMIZE                             = 0xD462,    // 54370 - 4.0.0.12319
     SMSG_PET_RENAMEABLE                             = 0x9656,    // 38486 - 4.0.0.12319
     CMSG_REQUEST_VEHICLE_EXIT                       = 0x476,
@@ -1243,7 +1243,7 @@ enum Opcodes
     SMSG_EQUIPMENT_SET_LIST                         = 0x5000,    // 20480 - 4.0.0.12319, SMSG, equipment manager list?
     CMSG_EQUIPMENT_SET_SAVE                         = 0x527A,    // 21114 - 4.0.0.12319, CMSG, lua: SaveEquipmentSet
     CMSG_UPDATE_PROJECTILE_POSITION                 = 0x4BE,     // CMSG, uint64 caster, uint32 spellId, uint8 castId, vector3 position
-	SMSG_SET_PROJECTILE_POSITION                    = 0x5650,    // 22096 - 4.0.0.12319, SMSG, uint64 caster, uint8 castId, vector3 position
+    SMSG_SET_PROJECTILE_POSITION                    = 0x5650,    // 22096 - 4.0.0.12319, SMSG, uint64 caster, uint8 castId, vector3 position
     SMSG_TALENTS_INFO                               = 0x447E,    // 17534 - 4.0.0.12319, SMSG, talents related
     CMSG_LEARN_PREVIEW_TALENTS                      = 0x9018,    // 36888 - 4.0.0.12319, CMSG, lua: LearnPreviewTalents (for player?)
     CMSG_LEARN_PREVIEW_TALENTS_PET                  = 0x4C2,     // CMSG, lua: LearnPreviewTalents (for pet?)
@@ -1269,7 +1269,7 @@ enum Opcodes
     SMSG_EQUIPMENT_SET_USE_RESULT                   = 0xC236,    // 49718 - 4.0.0.12319, SMSG, UseEquipmentSetResult?
     UMSG_UNKNOWN_1239                               = 0x4D7,     // not found 3.2
     SMSG_UNKNOWN_1240                               = 0x4D8,     // SMSG, uint64, string, doing nothing
-    CMSG_CHAR_FACTION_CHANGE                        = 0x4D9,     // lua: CreateCharacter (PFC client response)
+    CMSG_CHAR_FACTION_CHANGE                        = 0xB358,    // 45912 - 4.0.0.12604, lua: CreateCharacter (PFC client response)
     SMSG_CHAR_FACTION_CHANGE                        = 0xD236,    // 53814 - 4.0.0.12319, response to 1241 (PFC server response)
     UMSG_UNKNOWN_1243                               = 0x4DB,     // not found 3.2
     UMSG_UNKNOWN_1244                               = 0x4DC,     // not found 3.2
@@ -1300,14 +1300,14 @@ enum Opcodes
     UMSG_UNKNOWN_1269                               = 0x4F5,     // not found 3.2
     CMSG_WORLD_STATE_UI_TIMER_UPDATE                = 0xD64E,    // 54862 - 4.0.0.12319
     SMSG_WORLD_STATE_UI_TIMER_UPDATE                = 0x99EA,    // 39402 - 4.0.0.12065
-    CMSG_CHAR_RACE_CHANGE                           = 0x4F8,     // called from lua: CreateCharacter, paid race change
+    CMSG_CHAR_RACE_CHANGE                           = 0x105E,    // 4190  - 4.0.0.12604, called from lua: CreateCharacter, paid race change
     UMSG_UNKNOWN_1273                               = 0x4F9,     // not found 10554
     SMSG_TALENTS_INVOLUNTARILY_RESET                = 0xFBEC,    // 64492 - 4.0.0.12065, uint8 EVENT_TALENTS_INVOLUNTARILY_RESET
     UMSG_UNKNOWN_1275                               = 0x4FB,     // not found 10554
     SMSG_UNKNOWN_1276                               = 0xC214,    // 49684 - 4.0.0.12319
     SMSG_LOOT_SLOT_CHANGED                          = 0xC032,    // 49202 - 4.0.0.12319, EVENT_LOOT_SLOT_CHANGED
     UMSG_UNKNOWN_1278                               = 0x4FE,     // not found 10596
-	CMSG_READY_FOR_ACCOUNT_DATA_TIMES               = 0x0620,    // 1568  - 4.0.0.12479
+    CMSG_READY_FOR_ACCOUNT_DATA_TIMES               = 0x598C,    // 22924 - 4.0.0.12604
     CMSG_QUERY_QUESTS_COMPLETED                     = 0x500,     // lua: QueryQuestsCompleted
     SMSG_QUERY_QUESTS_COMPLETED_RESPONSE            = 0x4646,    // 17990 - 4.0.0.12319, response to CMSG_QUERY_QUESTS_COMPLETED
     CMSG_GM_REPORT_LAG                              = 0x502,     // lua: GMReportLag
@@ -1326,7 +1326,7 @@ enum Opcodes
     SMSG_UNKNOWN_1295                               = 0x50F,     //
     CMSG_UNKNOWN_1296                               = 0x510,     // something with networking
     SMSG_FORCE_SEND_QUEUED_PACKETS                  = 0xD960,    // 55648 - 4.0.0.12065
-	CMSG_REDIRECTION_AUTH_PROOF                     = 0x512,     // something with networking
+    CMSG_REDIRECTION_AUTH_PROOF                     = 0x512,     // something with networking
     UMSG_UNKNOWN_1299                               = 0x513,     // not found
     SMSG_COMBAT_LOG_MULTIPLE                        = 0x9450,    // 37968 - 4.0.0.12319, SMSG, multi combatlog
     SMSG_LFG_OPEN_FROM_GOSSIP                       = 0x803C,    // 32828 - 4.0.0.12319, event EVENT_LFG_OPEN_FROM_GOSSIP (opens dungeon finder, probably for outdoor bosses)
@@ -1364,7 +1364,7 @@ enum Opcodes
     UMSG_UNKNOWN_1333                               = 0x535,     // not found
     UMSG_UNKNOWN_1334                               = 0x536,     // not found
     CMSG_UNKNOWN_8192                               = 0x2000,    // 8192 - 12479
-	NUM_MSG_TYPES                                   = 0xFFFF
+    NUM_MSG_TYPES                                   = 0xFFFF
 };
 
 extern void InitOpcodeTable();
