@@ -520,7 +520,7 @@ enum Opcodes
     MSG_GM_SUMMON                                   = 0x1E9,
     SMSG_ITEM_TIME_UPDATE                           = 0xB25C,    // 45660 - 4.0.0.12644
     SMSG_ITEM_ENCHANT_TIME_UPDATE                   = 0xD9CC,    // 55756 - 4.0.0.12644
-    SMSG_AUTH_CHALLENGE                             = 0x8924,    // 35108 - 4.0.0.12319
+    SMSG_AUTH_CHALLENGE                             = 0x4030,    // 16432 - 4.0.0.12644
     CMSG_AUTH_SESSION                               = 0x0A21,    // 2593  - 4.0.0.12644
     SMSG_AUTH_RESPONSE                              = 0x999A,    // 39322 - 4.0.0.12644
     MSG_GM_SHOWLABEL                                = 0x1EF,
