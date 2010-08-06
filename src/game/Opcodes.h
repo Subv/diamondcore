@@ -36,7 +36,7 @@ enum Opcodes
     SMSG_QUERY_OBJECT_POSITION                      = 0x005,
     CMSG_QUERY_OBJECT_ROTATION                      = 0x006,
     SMSG_QUERY_OBJECT_ROTATION                      = 0x007,
-    CMSG_WORLD_TELEPORT                             = 0x560A,    // 22026 - 4.0.0.12319
+    CMSG_WORLD_TELEPORT                             = 0xB288,    // 45704 - 4.0.0.12644
     CMSG_TELEPORT_TO_UNIT                           = 0xC63A,    // 50746 - 4.0.0.12319
     CMSG_ZONE_MAP                                   = 0x00A,
     SMSG_ZONE_MAP                                   = 0x00B,
@@ -115,7 +115,7 @@ enum Opcodes
     CMSG_GUILD_QUERY                                = 0xD858,    // 55384 - 4.0.0.12644
     SMSG_GUILD_QUERY_RESPONSE                       = 0xD00C,    // 53260 - 4.0.0.12644
     CMSG_ITEM_QUERY_SINGLE                          = 0x11CE,    // 4558  - 4.0.0.12644
-    CMSG_ITEM_QUERY_MULTIPLE                        = 0x966E,    // 38510 - 4.0.0.12319
+    CMSG_ITEM_QUERY_MULTIPLE                        = 0x7ADA,    // 31450 - 4.0.0.12644
     SMSG_ITEM_QUERY_SINGLE_RESPONSE                 = 0x9BDA,    // 39898 - 4.0.0.12644
     SMSG_ITEM_QUERY_MULTIPLE_RESPONSE               = 0x138A,    // 5002  - 4.0.0.12644
     CMSG_PAGE_TEXT_QUERY                            = 0x385A,    // 14426 - 4.0.0.12644
@@ -253,7 +253,7 @@ enum Opcodes
     SMSG_MOVE_WATER_WALK                            = 0xD20A,    // 53770 - 4.0.0.12644
     SMSG_MOVE_LAND_WALK                             = 0x114E,    // 4430  - 4.0.0.12644
     MSG_MOVE_SET_RAW_POSITION_ACK                   = 0x0E0,
-    CMSG_MOVE_SET_RAW_POSITION                      = 0x900C,    // 36876 - 4.0.0.12319
+    CMSG_MOVE_SET_RAW_POSITION                      = 0x7B1E,    // 31518 - 4.0.0.12644
     SMSG_FORCE_RUN_SPEED_CHANGE                     = 0xD25A,    // 53850 - 4.0.0.12644
     CMSG_FORCE_RUN_SPEED_CHANGE_ACK                 = 0xF818,    // 63512 - 4.0.0.12644
     SMSG_FORCE_RUN_BACK_SPEED_CHANGE                = 0x33C8,    // 13256 - 4.0.0.12644
@@ -347,7 +347,7 @@ enum Opcodes
     SMSG_AI_REACTION                                = 0x509C,    // 20636 - 4.0.0.12644
     CMSG_SET_SELECTION                              = 0xB89A,    // 47258 - 4.0.0.12644
     CMSG_EQUIPMENT_SET_DELETE                       = 0x8420,    // 33824 - 4.0.0.12319
-    CMSG_INSTANCE_LOCK_WARNING_RESPONSE             = 0xC618,    // 50712 - 4.0.0.12319
+    CMSG_INSTANCE_LOCK_WARNING_RESPONSE             = 0xD14E,    // 53582 - 4.0.0.12644
     CMSG_UNUSED2                                    = 0x140,
     CMSG_ATTACKSWING                                = 0x141,
     CMSG_ATTACKSTOP                                 = 0xD228,    // 53800 - 4.0.0.12319
@@ -725,8 +725,8 @@ enum Opcodes
     SMSG_SCRIPT_MESSAGE                             = 0x2B6,
     SMSG_DUEL_COUNTDOWN                             = 0x0628,    // 1576  - 4.0.0.12319
     SMSG_AREA_TRIGGER_MESSAGE                       = 0x6DE3,    // 28131 - 4.0.0.12065
-    CMSG_SHOWING_HELM                               = 0xD670,    // 54896 - 4.0.0.12319
-    CMSG_SHOWING_CLOAK                              = 0x0014,    // 20    - 4.0.0.12319
+    CMSG_SHOWING_HELM                               = 0x9A18,    // 39448 - 4.0.0.12644
+    CMSG_SHOWING_CLOAK                              = 0x3BCC,    // 15308 - 4.0.0.12644
     SMSG_LFG_ROLE_CHOSEN                            = 0xF1CC,    // 61900 - 4.0.0.12644
     SMSG_PLAYER_SKINNED                             = 0xD20E,    // 53774 - 4.0.0.12644
     SMSG_DURABILITY_DAMAGE_DEATH                    = 0x2B60,    // 11104 - 4.0.0.12065
@@ -788,7 +788,7 @@ enum Opcodes
     SMSG_PLAY_TIME_WARNING                          = 0xF3D8,    // 62424 - 4.0.0.12644
     SMSG_MINIGAME_SETUP                             = 0xD660,    // 54880 - 4.0.0.12319
     SMSG_MINIGAME_STATE                             = 0x526C,    // 21100 - 4.0.0.12319
-    CMSG_MINIGAME_MOVE                              = 0x802C,    // 32812 - 4.0.0.12319
+    CMSG_MINIGAME_MOVE                              = 0x51DE,    // 20958 - 4.0.0.12644
     SMSG_MINIGAME_MOVE_FAILED                       = 0x2F9,
     SMSG_RAID_INSTANCE_MESSAGE                      = 0xD969,    // 55657 - 4.0.0.12065
     SMSG_COMPRESSED_MOVES                           = 0x3B9C,    // 15260 - 4.0.0.12644
@@ -1059,7 +1059,7 @@ enum Opcodes
     SMSG_SPELL_CHANCE_RESIST_PUSHBACK               = 0x404,
     CMSG_IGNORE_DIMINISHING_RETURNS_CHEAT           = 0x405,
     SMSG_IGNORE_DIMINISHING_RETURNS_CHEAT           = 0x399C,    // 14748 - 4.0.0.12644
-    CMSG_KEEP_ALIVE                                 = 0xC40E,    // 50190 - 4.0.0.12319
+    CMSG_KEEP_ALIVE                                 = 0x1B5E,    // 7006  - 4.0.0.12644
     SMSG_RAID_READY_CHECK_ERROR                     = 0x463E,    // 17982 - 4.0.0.12319
     CMSG_OPT_OUT_OF_LOOT                            = 0x409,
     MSG_QUERY_GUILD_BANK_TEXT                       = 0x7A1A,    // 31258 - 4.0.0.12644
