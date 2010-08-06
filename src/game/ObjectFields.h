@@ -19,7 +19,7 @@
 #ifndef _OBJECT_FIELDS_H_
 #define _OBJECT_FIELDS_H_
 
-// Auto generated for 4.0.0.12644
+// Auto generated for 4.0.0.12694
 
 enum eObjectFields
 {
